@@ -1,0 +1,274 @@
+<div style="padding:10px;">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-3">
+        <mat-form-field>
+          <mat-label>Topic</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let topicsNames of topics" [value]="topicsNames.value">
+              {{topicsNames.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-3">
+        <mat-form-field>
+          <mat-label>Sub Topic</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let subTopicName of subTopics" [value]="subTopicName.value">
+              {{subTopicName.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-3">
+        <mat-form-field>
+          <mat-label>Question Code</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let questionCde of questionCode" [value]="questionCde.value">
+              {{questionCde.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-3">
+        <mat-form-field>
+          <mat-label>Question</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let quest of questions" [value]="quest.value">
+              {{quest.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <mat-form-field>
+          <mat-label>Response</mat-label>
+          <input matInput #responseInput id="responseInput">
+        </mat-form-field>
+      </div>
+      <div class="col-sm-1">
+        <button mat-raised-button (click)="addResponse(responseInput)"><mat-icon>add</mat-icon></button>
+      </div>
+      <div class="col-sm-1">
+        <button mat-raised-button (click)="updateResponse(responseInput.value, responseInput)">Update</button>
+      </div>
+      <div class="col-sm-7" style="text-align: end;">
+        <button mat-raised-button>Save</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <label style="padding: 0;">Selected Values:</label>
+        <div class="selected_values">
+          <ul class="selected_values_list">
+            <li class="selected_value" *ngFor="let value of selectedValues" (click)="editValue(value)">
+              <span class="values_content">{{ value }}</span>
+              <span class="close_mark"><mat-icon class="close" (click)="removeValue(value)">close</mat-icon></span>
+            </li>
+          </ul>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12" style="padding: 15px;">
+
+    <ag-grid-angular style="height: calc(100vh - 375px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
+      [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="rowData">
+    </ag-grid-angular>
+
+  </div>
+</div>
+
+
+<!-- masterScreen -->
+
+<!-- <div style="padding:10px;">
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Topic</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let topicsNames of topics" [value]="topicsNames.value">
+            {{topicsNames.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Sub Topic</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let subTopicName of subTopics" [value]="subTopicName.value">
+            {{subTopicName.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Question Code</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let questionCde of questionCode" [value]="questionCde.value">
+            {{questionCde.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Question</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let quest of questions" [value]="quest.value">
+            {{quest.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+    <mat-form-field>
+      <mat-label>Response</mat-label>
+      <input matInput #responseInput>
+    </mat-form-field>
+  </div>
+  <div class="col-sm-1" >
+    <button mat-raised-button (click)="addResponse(responseInput)"><mat-icon>add</mat-icon></button>
+  </div>
+  <div class="col-sm-8" style="text-align: end;">
+    <button mat-raised-button>Save</button>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <label style="padding: 0;">Selected Values:</label>
+      <div class="selected_values">
+        <ul class="selected_values_list">
+          <li class="selected_value" *ngFor="let value of selectedValues"><span class="values_content">{{value}}</span><span class="close_mark" ><mat-icon class="close" (click)="removeValue(value)">close</mat-icon></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-12" style="padding: 15px;">
+  
+  <ag-grid-angular style="height: calc(100vh - 375px);" class="ag-theme-balham" 
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef" 
+  [gridOptions]="gridOptions"
+  [animateRows]="true" 
+  [suppressMenuHide]="true"
+  [masterDetail]="true" 
+  [embedFullWidthRows]="true"
+  [rowData]="rowData" >
+</ag-grid-angular>
+
+</div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div style="padding:10px;">
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Topic</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let topicsNames of topics" [value]="topicsNames.value">
+            {{topicsNames.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Sub Topic</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let subTopicName of subTopics" [value]="subTopicName.value">
+            {{subTopicName.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Question Code</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let questionCde of questionCode" [value]="questionCde.value">
+            {{questionCde.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field>
+        <mat-label>Question</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let quest of questions" [value]="quest.value">
+            {{quest.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+    <mat-form-field>
+      <mat-label>Response</mat-label>
+      <input matInput #responseInput>
+    </mat-form-field>
+  </div>
+  <div class="col-sm-1" >
+    <button mat-raised-button (click)="addResponse(responseInput)"><mat-icon>add</mat-icon></button>
+  </div>
+  <div class="col-sm-8" style="text-align: end;">
+    <button mat-raised-button>Save</button>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <label style="padding: 0;">Selected Values:</label>
+      <div class="selected_values">
+        <ul class="selected_values_list">
+          <li class="selected_value" *ngFor="let value of selectedValues"><span class="values_content">{{value}}</span><span class="close_mark" ><mat-icon class="close" (click)="removeValue(value)">close</mat-icon></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-12" style="padding: 15px;">
+  
+  <ag-grid-angular style="height: calc(100vh - 375px);" class="ag-theme-balham" 
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef" 
+  [gridOptions]="gridOptions"
+  [animateRows]="true" 
+  [suppressMenuHide]="true"
+  [masterDetail]="true" 
+  [embedFullWidthRows]="true"
+  [rowData]="rowData" >
+</ag-grid-angular>
+
+</div>
+</div> -->

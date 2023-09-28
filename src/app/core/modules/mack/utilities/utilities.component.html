@@ -1,0 +1,109 @@
+<div class="mk-utilities" [class.utilHidden]="!isVisible">
+  <div class="mk-util-collapse"> 
+    <a href="#" alt="Utility menu collapse" (click)="toggleUtility($event)">
+      <span class="material-icons" style="font-size: 2.5em;vertical-align: text-top; color: #fff; margin-top: 5px;">keyboard_arrow_left</span>
+    </a>
+  </div>
+  <ul>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['chat']['isActive']}"
+      [title]="utilities['chat']['title']" 
+      [matTooltip]="utilities['chat']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="toggleWidget('chat')">
+      <img [src]="utilities['chat']['icon']" alt="" *ngIf="utilities['chat']['isActive']"/>
+      <img [src]="utilities['chat']['iconDisabled']" alt="" *ngIf="!utilities['chat']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['tasks']['isActive']}"
+      [title]="utilities['tasks']['title']" 
+      [matTooltip]="utilities['tasks']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities['tasks']['action']">
+      <img [src]="utilities['tasks']['icon']" alt="" *ngIf="utilities['tasks']['isActive']"/>
+      <img [src]="utilities['tasks']['iconDisabled']" alt="" *ngIf="!utilities['tasks']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['taskLog']['isActive']}"
+      [title]="utilities['taskLog']['title']" 
+      [matTooltip]="utilities['taskLog']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities['taskLog']['action']">
+      <img [src]="utilities['taskLog']['icon']" alt="" *ngIf="utilities['taskLog']['isActive']"/>
+      <img [src]="utilities['taskLog']['iconDisabled']" alt="" *ngIf="!utilities['taskLog']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['workflow']['isActive']}"
+      [title]="utilities['workflow']['title']" 
+      [matTooltip]="utilities['workflow']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities.workflow.isActive ? toggleWidget('workflow') : null">
+      <img [src]="utilities['workflow']['icon']" alt="" *ngIf="utilities['workflow']['isActive']"/>
+      <img [src]="utilities['workflow']['iconDisabled']" alt="" *ngIf="!utilities['workflow']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['attachment']['isActive']}"
+      [title]="utilities['attachment']['title']" 
+      [matTooltip]="utilities['attachment']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities['attachment']['action']($event)">
+      <img [src]="utilities['attachment']['icon']" alt="" *ngIf="utilities['attachment']['isActive']"/>
+      <img [src]="utilities['attachment']['iconDisabled']" alt="" *ngIf="!utilities['attachment']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['excel']['isActive']}"
+      [title]="utilities['excel']['title']" 
+      [matTooltip]="utilities['excel']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities['excel']['action']($event, 'xlsx')">
+      <img [src]="utilities['excel']['icon']" alt="" *ngIf="utilities['excel']['isActive']"/>
+      <img [src]="utilities['excel']['iconDisabled']" alt="" *ngIf="!utilities['excel']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['pdf']['isActive']}"
+      [title]="utilities['pdf']['title']" 
+      [matTooltip]="utilities['pdf']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities['pdf']['action']($event, 'pdf','portrait')">
+      <img [src]="utilities['pdf']['icon']" alt="" *ngIf="utilities['pdf']['isActive']"/>
+      <img [src]="utilities['pdf']['iconDisabled']" alt="" *ngIf="!utilities['pdf']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['like']['isActive']}"
+      [title]="utilities['like']['title']" 
+      [matTooltip]="utilities['like']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities['like']['action']">
+      <img [src]="utilities['like']['icon']" alt="" *ngIf="utilities['like']['isActive']"/>
+      <img [src]="utilities['like']['iconDisabled']" alt="" *ngIf="!utilities['like']['isActive']"/>
+    </a>
+    <li>
+      <a 
+      [ngClass]="{'mk-active':utilities['share']['isActive']}"
+      [title]="utilities['share']['title']" 
+      [matTooltip]="utilities['share']['title']" 
+      matTooltipClass="custom-tooltip" 
+      matTooltipPosition="left"
+      (click)="utilities['share']['action']">
+      <img [src]="utilities['share']['icon']" alt="" *ngIf="utilities['share']['isActive']"/>
+      <img [src]="utilities['share']['iconDisabled']" alt="" *ngIf="!utilities['share']['isActive']"/>
+    </a>
+    </li>
+  </ul>
+</div>

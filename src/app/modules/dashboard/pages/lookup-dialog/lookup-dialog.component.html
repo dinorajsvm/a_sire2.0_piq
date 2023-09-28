@@ -1,0 +1,38 @@
+<div mat-dialog-title>
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-11">
+          <h3 class="header">Ship Visit Report</h3>
+          <p class="descHeader">(List of Inspections from Ship Visit Module for last 18 months)</p>
+        </div>
+
+        <div class="col-sm-1 text-right closeIcn">
+          <mat-icon (click)="onDialogClose()">close</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-12">
+          <ag-grid-angular
+            class="ag-theme-balham"
+            style="height: calc(100vh - 270px)"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [rowSelection]="multiRowSelection"
+            [rowMultiSelectWithClick]="true"
+            (gridReady)="onGridReady($event)"
+            [components]="frameworkComponents"
+          >
+          </ag-grid-angular>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="padding: 8px 15px">
+    <!-- (rowSelected)="onRowSelected($event)" [mat-dialog-close]="true"-->
+    <!-- <button mat-button class="showBtn" (click)="ShowSelectedDatas()">Show</button> -->
+  </mat-dialog-actions>
+  

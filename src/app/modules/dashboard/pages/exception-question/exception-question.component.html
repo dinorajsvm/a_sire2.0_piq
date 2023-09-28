@@ -1,0 +1,28 @@
+<div class="col-sm-12" id="exceptionWrapper">
+  <div class="row">
+    <div class="col-sm-12 text-right">
+      <div class="row" style="float: right">
+        <button mat-button class="save" type="submit" (click)="onSubmit()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <ag-grid-angular
+        style="height: calc(100vh - 205px);margin-top: 5px;"
+        class="ag-theme-balham"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [embedFullWidthRows]="true"
+        [rowData]="rowData"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>

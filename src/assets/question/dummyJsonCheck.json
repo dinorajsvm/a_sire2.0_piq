@@ -1,0 +1,230 @@
+{
+  "Status": "200",
+  "response": {
+    "piqcertificatlist": [
+      {
+        "certificatecode": "CC01",
+        "certificatename": "CC01##Safety Equipment Certificate"
+      },
+      {
+        "certificatecode": "CC02",
+        "certificatename": "CC02##Safety Equipment Certificate Record of Equipment (Form E)"
+      },
+      {
+        "certificatecode": "CC03",
+        "certificatename": "CC03##Safety Radio Certificate"
+      },
+      {
+        "certificatecode": "CC04",
+        "certificatename": "CC04##Safety Radio Certificate Record of Equipment (Form R) Safety Construction Certificate"
+      },
+      {
+        "certificatecode": "CC05",
+        "certificatename": "CC05##Safety Construction Certificate"
+      },
+      {
+        "certificatecode": "CC06",
+        "certificatename": "CC06##Load Line Certificate"
+      },
+      {
+        "certificatecode": "CC07",
+        "certificatename": "CC07##International Oil Pollution Prevention Certificate (IOPPC)"
+      },
+      {
+        "certificatecode": "cc09",
+        "certificatename": "cc09##IOPPC Record of Construction and Equipment (Form A or B)"
+      },
+      {
+        "certificatecode": "cc10",
+        "certificatename": "cc10##International Ballast Water Management Certificate (IBWMC)"
+      },
+      {
+        "certificatecode": "cc11",
+        "certificatename": "cc11##IBWMC Statement of Voluntary Compliance"
+      },
+      {
+        "certificatecode": "cc12",
+        "certificatename": "cc12##International Air Pollution Prevention Certificate (IAPPC)"
+      },
+      {
+        "certificatecode": "cc13",
+        "certificatename": "cc13##IAPPC Record of Construction and Equipment"
+      },
+      {
+        "certificatecode": "cc14",
+        "certificatename": "cc14##Safety Management Certificate (SMC)"
+      },
+      {
+        "certificatecode": "cc15",
+        "certificatename": "cc15##Document of Compliance (DOC)"
+      },
+      {
+        "certificatecode": "cc16",
+        "certificatename": "cc16##International Ship Security Certificate (ISSC)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##USCG Certificate of Compliance (COC)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Minimum Safe Manning Document"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Civil Liability Convention 1992 (CLC) Certificate - Oil"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Civil Liability Convention 2001 (CLC) Certificate - Bunker"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##USCG Certificate of Financial Responsibility (COFR)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Certificate of Fitness (Chemicals)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Certificate of Fitness (Gas)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Noxious Liquid Substances (NLS) Certificate"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Certificate of Registry"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Continuous Synopsis Record (CSR)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##P&I Club Certificate of Entry"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Maritime Labour Certificate (MLC)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Class Survey Status Report (CSSR)"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##Condition Assessment Programme (CAP) Certificate"
+      },
+      {
+        "certificatecode": "image15",
+        "certificatename": "image15##USCG Vessel Response Plan (VRP) Approval Letter"
+      }
+    ],
+    "certificatelist": [
+      {
+        "cercode": "CC030",
+        "cername": "CC030##Marine Technology"
+      },
+      {
+        "cercode": "CC031",
+        "cername": "CC031##Safety Risk"
+      },
+      {
+        "cercode": "CC034",
+        "cername": "CC034##Institute of safety"
+      },
+      {
+        "cercode": "CC035",
+        "cername": "CC035##CERTIFICATR"
+      },
+      {
+        "cercode": "CC036",
+        "cername": "CC036##Terminal  ceificate"
+      },
+      {
+        "cercode": "CC037",
+        "cername": "CC037##TRade of Safety marine"
+      },
+      {
+        "cercode": "CC038",
+        "cername": "CC038##T Entry terminal"
+      },
+      {
+        "cercode": "CC039",
+        "cername": "CC039##International ship security"
+      },
+      {
+        "cercode": "CC040",
+        "cername": "CC040##Certificate of the international safety"
+      },
+      {
+        "cercode": "CC041",
+        "cername": "CC041##Certificate of ship"
+      },
+      {
+        "cercode": "CC042",
+        "cername": "CC042##International Security "
+      },
+      {
+        "cercode": "CC043",
+        "cername": "CC043##Enter of Certificate"
+      },
+      {
+        "cercode": "CC044",
+        "cername": "CC044##Terminal Certificate"
+      },
+      {
+        "cercode": "CC045",
+        "cername": "CC045##Safety of Trade and Marine"
+      },
+      {
+        "cercode": "CC046",
+        "cername": "CC046##Trade of Marine Technology"
+      },
+      {
+        "cercode": "CC048",
+        "cername": "CC048##Safety Management"
+      },
+      {
+        "cercode": "CC049",
+        "cername": "CC049##Certificate Ship "
+      },
+      {
+        "cercode": "CC050",
+        "cername": "CC050##Certificate Shore"
+      },
+      {
+        "cercode": "CC052",
+        "cername": "CC052##Certificate A"
+      },
+      {
+        "cercode": "CC053",
+        "cername": "CC053##Certificate B"
+      },
+      {
+        "cercode": "CC054",
+        "cername": "CC054##Medical Fitnes Certificate "
+      },
+      {
+        "cercode": "CC055",
+        "cername": "CC055##International Tonnage Certificate"
+      },
+      {
+        "cercode": "CC056",
+        "cername": "CC056##Compliance and Safety Management Certificate"
+      },
+      {
+        "cercode": "CC054",
+        "cername": "CC054##Medical Fitnes Certificate "
+      },
+      {
+        "cercode": "CC058",
+        "cername": "CC058##Certificate"
+      }
+    ]
+  },
+  "description": "success"
+}

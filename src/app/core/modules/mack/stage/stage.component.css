@@ -1,0 +1,60 @@
+::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+}
+::ng-deep .mat-step-header .mat-step-icon {
+    background-color: rgba(0,0,0,.38);
+    color: #fff;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected, ::ng-deep .mat-step-header .mat-step-icon-state-done, ::ng-deep .mat-step-header .mat-step-icon-state-edit {
+  border: 7px #0cb6aa solid;
+  background: white;
+}
+
+::ng-deep .mat-stepper-horizontal-line{
+  margin: 20px -45px -1px -60px !important;
+  border-top-width: 3px !important;
+}
+
+::ng-deep .mat-horizontal-stepper-header[ng-reflect-state="done"]+.mat-stepper-horizontal-line {
+    border-top-color:  #0cb6aa  !important;
+}
+::ng-deep .mat-horizontal-stepper-header[ng-reflect-state="done"]>.mat-step-label .mat-step-text-label {
+    color:  #e3a40c  !important;
+}
+::ng-deep .mat-horizontal-stepper-header[ng-reflect-state="completed"]>.mat-step-label .mat-step-text-label {
+    color:  #ff7c25  !important;
+}
+::ng-deep .mat-horizontal-stepper-header[ng-reflect-state="inprogress"]>.mat-step-icon
+{
+    margin-left: 21px;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected {  
+  background: #cddc39;
+  border: 7px #0cb6aa solid;
+
+}
+
+::ng-deep .mat-step-icon-content, .mat-step-icon .mat-icon{
+  display: none;
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  box-sizing: border-box;
+  flex-direction: column-reverse !important;
+  height: 44px !important;
+  padding: 24px;
+}
+::ng-deep .mat-horizontal-stepper-header .mat-step-label {
+  padding: 0px 0px 5px !important;
+  font-size: 12px !important;
+}
+.custom-horizontal-stepper {
+  background: rgb(247,248,252);
+  padding: 5px 0 10px;
+  border-radius: 5px;
+}
+::ng-deep .mat-horizontal-content-container {
+  padding: 0 !important;
+}

@@ -1,0 +1,214 @@
+{
+    "response": [
+        {
+            "question": "2.3.3.1 Required frequency of inspection for cargo tanks?",
+            "id": "",
+            "type": "multiSelect",
+            "controlName": "multiSelect1",
+            "answers": [
+                "3",
+                "6",
+                "12",
+                "18",
+                "24",
+                "30",
+                "36",
+                "60"
+            ]
+        },
+        {
+            "question": "2.3.3.2 Required frequency of inspection for ballast tanks?",
+            "id": "",
+            "type": "multiSelect",
+            "controlName": "multiSelect2",
+            "answers": [
+                "3",
+                "6",
+                "12",
+                "18",
+                "24",
+                "30",
+                "36",
+                "60"
+            ]
+        },
+        {
+            "question": "2.3.3.3 Required frequency of inspection for void spaces?",
+            "id": "",
+            "type": "multiSelect",
+            "controlName": "multiSelect3",
+            "answers": [
+                "3",
+                "6",
+                "12",
+                "18",
+                "24",
+                "30",
+                "36",
+                "60"
+            ]
+        },
+        {
+            "question": "3.1.3.4 Additional manning , over and above the company standard complement, for continuous/extended/repeated inter-harbour operations and/or short voyages of less than 24 hours?",
+            "id": "",
+            "type": "select",
+            "controlName": "select1",
+            "answers": [
+                "Yes",
+                "No"
+            ]
+        },
+        {
+            "question": "Additional manning  for continuous/extended/repeated inter-harbour operations and/or short voyages of less than 24 hours",
+            "id": "",
+            "type": "select",
+            "controlName": "select2",
+            "answers": [
+                "Yes",
+                "No"
+            ]
+        },
+        {
+            "question": "3.1.3.5 Additional manning, over and above the company standard complement, for operations requiring implementation of additional security measures?",
+            "id": "",
+            "type": "select",
+            "controlName": "select3",
+            "answers": [
+                "Yes",
+                "No"
+            ]
+        },
+        {
+            "question": "Additional manning, over and above the company standard manning level, for operations requiring implementation of additional security measures?",
+            "id": "",
+            "type": "select",
+            "controlName": "select4",
+            "answers": [
+                "Yes",
+                "No"
+            ]
+        },
+        {
+            "question": "3.1.3.6 Does the SMS include the provision of additional manning provision for any other operations?",
+            "id": "",
+            "type": "select",
+            "controlName": "select5",
+            "answers": [
+                "Yes",
+                "No"
+            ]
+        },
+        {
+            "question": "3.1.3.7 What is the minimum interval required between the relief of the senior officers from the same department Minimal Interval (days)",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text1",
+            "answers": ""
+        },
+        {
+            "question": "3.4.2.3 Max. blood alcohol content in %",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text2",
+            "answers": ""
+        },
+        {
+            "question": "3.5.1 Select company approved primary delivery method ?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text3",
+            "answers": ""
+        },
+        {
+            "question": "3.5.2 Select company approved secondary delivery method?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text4",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2 During open sea passage - state company under keel clearance policy",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text5",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2 During open sea passage - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text6",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   During coastal / restricted waters passage - state company under keel clearance policy ?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text7",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   During coastal / restricted waters passage - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy ?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text8",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   Within port limits - state company under keel clearance policy",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text9",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   Within port limits - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text10",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   While alongside - state company under keel clearance policy",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text11",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   While alongside - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text12",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   While at SBM/CBM berths - state company under keel clearance policy ?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text13",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   While at SBM/CBM berths - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text14",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   At anchor - state company under keel clearance policy",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text15",
+            "answers": ""
+        },
+        {
+            "question": "4.2.2   At anchor - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
+            "id": "",
+            "type": "textArea",
+            "controlName": "text16",
+            "answers": ""
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+<div [ngClass]="leftOpen ? 'sidebar-wrapper-open' : 'sidebar-wrapper-close'">
+<img *ngIf="vesselImage" src="data:image/jpeg;base64,{{vesselImage}}" class="" width="100%" alt="bg"/>
+<img *ngIf="!vesselImage" src="assets/sidebar-bg.jpg" class="" width="100%" alt="bg"/>
+<div class="text-center py-1 bg-danger text-white text-overflow-wrap px-1">{{ isShipUser ? userDetails?.userData?.mdata?.appInfo?.vesselName : userDetails?.userData?.mdata?.appInfo?.companyName }}</div>
+<div class="bg-sidebar">
+    <div class="list-group list-group-flush">
+        <!-- <ul class="navbar-nav mr-auto" style="font-size:11px ;">
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]=""  matTooltip="Change Management Bridge" (click)="navigate('CMB')" class="list-group-item list-group-item-action cursor-pointer">
+                  <img src="assets/images/po-submission.png"  width="18" class="mr-2" alt="">
+                  <span *ngIf="leftOpen">Change Management Bridge</span> </a>
+                   
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]=""  matTooltip="Procurement Dashboard"  (click)="navigate('PCD')" class="list-group-item list-group-item-action cursor-pointer">
+                  <img src="assets/images/po-submission.png" width="18" class="mr-2" alt="">
+                  <span *ngIf="leftOpen">Procurement Dashboard</span></a>
+                  
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="" matTooltip="PMS Overview" (click)="navigate('PHL')" class="list-group-item list-group-item-action cursor-pointer">
+                  <img src="assets/images/po-submission.png" width="18" class="mr-2" alt="">
+                  <span *ngIf="leftOpen">PMS Overview</span></a>
+                  
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" [routerLink]="" matTooltip="Vessel Safety" (click)="navigate('GSO')"  class="list-group-item list-group-item-action cursor-pointer">
+                <img src="assets/images/po-submission.png" width="18" class="mr-2" alt="">
+                <span *ngIf="leftOpen">Vessel Safety</span></a>
+                
+          </li>
+        </ul> -->
+        <!-- <a #procurement="routerLinkActive" routerLinkActive="active" [routerLink]="['/dashboard']" class="list-group-item list-group-item-action cursor-pointer" aria-label="Vendor Reports">
+            <img *ngIf="procurement.isActive" src="assets/dashboard.png" width="18" class="mr-2" alt="" />
+            <img *ngIf="!procurement.isActive" src="assets/dashboard.png" width="18" class="mr-2" alt="" />
+            <span class="tabname" *ngIf="leftOpen">Vendor Reports</span>
+        </a> -->
+    </div>
+    <div class="svmlogo">
+        <img *ngIf="leftOpen" src="assets/svm.svg" class="img-fluid mb-1" width="140" alt="logo" />
+        <img *ngIf="!leftOpen" src="assets/favico.png" class="img-fluid mb-1" width="40" alt="logo" />
+    </div>
+</div>
+</div>

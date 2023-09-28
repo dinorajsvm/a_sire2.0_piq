@@ -1,0 +1,13 @@
+<mat-sidenav-container [hasBackdrop]="false">
+  <mat-sidenav class="mat-sidenav-box" mode="side" position="start" opened="true">
+      <app-sidebar [leftOpen]="leftOpen" style="overflow:hidden"></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content [ngClass]="leftOpen ? 'sidebar-content-open' : 'sidebar-content-close'">
+      <app-navbar (toggleSidebar)="toggleSidebar($event)"></app-navbar>
+
+      <div class="page-content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

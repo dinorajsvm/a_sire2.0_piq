@@ -1,0 +1,67 @@
+<div mat-dialog-title>
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-11">
+        <h5>Photo Repository Dialog</h5>
+      </div>
+      <div class="col-sm-1 text-right closeIcn">
+        <mat-icon (click)="onDialogClose()">close</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-content class="mat-typography">
+  <div class="col-sm-12">
+    <div
+      class="row"
+      *ngIf="
+        getSelectedCheckListID &&
+        getSelectedCheckListID.length > 0 &&
+        rowData &&
+        rowData.length > 0
+      "
+    >
+      <div class="col-sm-12">
+        <div class="selectedChkID">
+          <ul class="selected_ID_list">
+            <li
+              class="selected_ID_value"
+              *ngFor="let selectedChckID of getSelectedCheckListID"
+            >
+              <span class="CheckID">{{ selectedChckID }}</span>
+
+              <span
+                class="close_mark"
+                (click)="onCloseMarkClick(selectedChckID)"
+                ><mat-icon class="close">close</mat-icon></span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <ag-grid-angular
+          class="ag-theme-balham"
+          style="height: calc(100vh - 400px);overflow: auto;"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          [rowSelection]="multiRowSelection"
+          [rowMultiSelectWithClick]="true"
+          (selectionChanged)="onSelectedRowData($event)"
+          (gridReady)="onGridReady($event)"
+        >
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" style="padding: 8px 15px">
+  <!-- (rowSelected)="onRowSelected($event)" [mat-dialog-close]="true"-->
+
+  <button mat-button class="showBtn" (click)="ShowSelectedDatas()">Show</button>
+</mat-dialog-actions>

@@ -1,0 +1,1269 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import "../node_modules/ag-grid-community/dist/styles/ag-grid.css"; */
+/* @import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css"; */
+/* @import "../node_modules/@bryntum/scheduler/scheduler.material.css"; */
+@import "~font-awesome/css/font-awesome.css";
+/* Add this to your styles.css */
+@import "~ag-grid-community/styles/ag-grid.css";
+@import "~ag-grid-community/styles/ag-theme-balham.css";
+/* @import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "../node_modules/@bryntum/scheduler/scheduler.material.css";
+@import '~font-awesome/css/font-awesome.css'; */
+
+/* @import '../node_modules/ag-grid-community/dist/styles/ag-theme-material.css'; */
+
+html,
+html {
+  overflow: hidden;
+}
+
+body {
+  letter-spacing: 0 !important;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif !important;
+  background-color: #ffffff;
+  font-size: 12px;
+  color: #2d3e50;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+h1,
+.h1 {
+  font-size: 2rem;
+}
+
+.h5,
+h5 {
+  font-size: 1.15rem;
+}
+
+.h6,
+h6 {
+  font-size: 0.9rem !important;
+}
+
+.mat-drawer-content {
+  background: #ffffff;
+  overflow: unset !important;
+}
+
+.mat-drawer-side {
+  border-right: 0.1px solid #2d3e51 !important;
+}
+
+.mat-expansion-panel-content,
+.mat-mdc-button,
+.mat-mdc-card {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8rem;
+}
+
+.mat-expansion-panel-header {
+  font-family: "Roboto", sans-serif;
+}
+
+button.mat-mdc-menu-item,
+a.mat-menu-item {
+  line-height: 35px;
+  height: 35px;
+  text-decoration: none;
+}
+
+.page-content-wrapper {
+  position: relative;
+  overflow: auto;
+}
+
+.mat-drawer-container {
+  background-color: #f1f2f5 !important;
+}
+
+.bg-torq {
+  background-color: #40789b;
+}
+
+.form-control {
+  font-size: 0.8rem;
+}
+
+/* .tablinkCont a {
+  color: #b2b2b2;
+  min-width: 100px;
+  text-align: center;
+}
+.tablinkCont a.active {
+  background-color: #40789b;
+  color: #ffffff;
+  border-radius: 3px 3px 0 0;
+} */
+.tablinkCont a:hover {
+  text-decoration: none;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.custom-btn-toggle
+  .mat-button-toggle-appearance-standard
+  .mat-button-toggle-label-content {
+  line-height: 34px;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.custom-btn-toggle
+  .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+  color: rgb(64 120 155);
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.custom-btn-toggle .mat-button-toggle-checked {
+  background-color: #ffffff !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.custom-btn-toggle .mat-button-toggle-appearance-standard {
+  color: rgb(255 255 255);
+  background: transparent;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.app-primary-color {
+  color: #2d3e50;
+}
+
+.app-bg-color {
+  background: #40789b;
+}
+
+.labelBeforeSlide {
+  vertical-align: top;
+  line-height: 24px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.btn {
+  border-radius: 0;
+  min-width: 100px;
+  font-size: 0.8rem;
+}
+
+.btn.no-min-width {
+  min-width: auto;
+  padding: 0 4px;
+}
+
+.btn-form-default {
+  background: #cccccc;
+  color: #181e1e;
+  border-radius: 0px !important;
+  font-weight: normal;
+}
+
+.btn-theme-outline {
+  border: 1px solid #e6313a;
+  color: #e6313a;
+  background: #fff;
+}
+
+.btn-submit {
+  background: #2d3e50;
+  color: #fff;
+  border-radius: 0px !important;
+  font-weight: normal;
+}
+
+.btn-submit:hover {
+  color: #fff;
+}
+
+.btn-torq {
+  background: #40789b;
+  color: #fff;
+  border-radius: 0px !important;
+  font-weight: normal;
+}
+
+.btn-torq:hover {
+  color: #fff;
+}
+
+label {
+  color: #2d3e50;
+  margin-bottom: 0;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+/*--aggrid*/
+.ag-theme-material {
+  font-size: 14px;
+}
+
+.ag-theme-material .ag-header-row {
+  height: 40px !important;
+}
+
+.ag-theme-material .ag-header {
+  background: #ebebeb !important;
+}
+
+.chip {
+  padding: 5px 10px;
+  border: 1px solid #0168a0;
+  border-radius: 15px;
+  color: #0168a0;
+  font-size: 12px;
+  display: inline-block;
+  line-height: 10px;
+  margin-bottom: 5px;
+}
+
+.btn-secondary {
+  background-color: #fff !important;
+  color: #ababab !important;
+  border: 1px solid #ababab;
+}
+
+.rating-strong {
+  font-size: 40px;
+}
+
+.btn-themecolor {
+  background-color: #0168a0;
+  color: #ffffff;
+}
+
+.dragDrop {
+  border: 1px dashed #dddddd;
+  padding: 0;
+  background: #f9fafc;
+  position: relative;
+}
+
+#fileDropRef {
+  position: absolute;
+  opacity: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+}
+
+.excelUploadBody {
+  text-align: center;
+  padding: 30px 10px 20px 10px;
+}
+
+.radio-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid rgb(222 218 218);
+  border-radius: 3px;
+}
+
+.radio-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.radio-container input:checked ~ .checkmark.good {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.radio-container input:checked ~ .checkmark.fair {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.radio-container input:checked ~ .checkmark.not-good {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.radio-container input:checked ~ .checkmark {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+.mat-mdc-chip.mat-mdc-standard-chip.mat-chip-selected.mat-primary {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+/* .mat-form-field-infix{
+  border: none !important;
+} */
+
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radio-container .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.createBtn {
+  z-index: 9;
+  bottom: 80px;
+  right: -5px;
+}
+
+input:-moz-read-only {
+  color: #ababab;
+}
+
+input:read-only {
+  color: #ababab;
+}
+
+/*Export PDF EXCEL template*/
+.export-page {
+  /* width: 220mm; */
+  height: 280mm;
+  padding: 0mm;
+  margin: 10mm auto;
+  /* border: 1px #D3D3D3 solid; */
+  background: white;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+}
+
+.export-content-area {
+  position: relative;
+  /* min-height: 280mm; */
+  margin: 5mm 5mm 3mm;
+}
+
+.export-content-area td {
+  padding: 0.5rem;
+}
+
+.btn-org-submit {
+  background: #f27b0f !important;
+}
+
+/* ag grid override */
+.ag-header-cell {
+  border-right: 1px solid #d4d2d2;
+}
+
+.wh-25 {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.ag-grid-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .sticky {
+    position: unset;
+    z-index: 9999;
+    background: #fff;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .sticky {
+    position: unset;
+    z-index: 9999;
+    background: #fff;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 9999;
+    top: 47px;
+    background: #fff;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 9999;
+    top: 47px;
+    background: #fff;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 9999;
+    top: 47px;
+    background: #fff;
+  }
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
+.custom-toggle-color .mat-slide-toggle-bar {
+  background-color: rgba(64, 120, 155, 0.54) !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
+.custom-toggle-color .mat-slide-toggle-thumb {
+  background-color: #40789b !important;
+}
+
+.width360 {
+  width: 360px;
+}
+
+.fab-left-open > .material-icons {
+  padding: 0 !important;
+}
+
+.grid-container {
+  height: 65vh;
+}
+
+.report-grid-container {
+  height: 50vh;
+}
+
+.area-grid-container {
+  height: 100vh;
+}
+
+.category-grid-container {
+  height: 50vh;
+}
+
+.ck-editor__editable_inline {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.btn-dark-green,
+.btn-dark-green:hover {
+  background: #00a65a;
+  color: #fff;
+}
+
+.btn-light-yellow,
+.btn-light-yellow:hover {
+  background: rgb(248, 181, 11);
+  color: #fff;
+}
+
+.btn-reassign,
+.btn-reassign:hover {
+  background: #0e2350;
+  color: #fff;
+}
+
+.btn-light-green,
+.btn-light-green:hover {
+  background-color: #0dca26;
+  color: #fff;
+}
+
+.btn-teal,
+.btn-teal:hover {
+  background: #38b6cc;
+  color: #fff;
+}
+
+.btn-orange,
+.btn-orange:hover {
+  background: #ff7d20;
+  color: #fff;
+}
+
+.text-overflow-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* notify */
+.notify-wrapper {
+  max-height: 300px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.notifycontent {
+  flex: 1;
+  overflow: auto;
+}
+
+.listitem {
+  padding: 2px 4px;
+  border-bottom: 1px solid #dee2e6;
+  margin-left: 0px;
+}
+
+.listitem:hover {
+  background: #ede9e9;
+}
+
+.listitem p {
+  margin-bottom: 0px !important;
+}
+
+.listitem p:last-child {
+  color: red;
+}
+
+.notifyfooter {
+  margin-bottom: -10px;
+}
+
+.mat-mdc-menu-panel.myMenu {
+  max-width: 600px;
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.total-rec {
+  line-height: 24px;
+}
+
+/* Template PDF style */
+.heading-table img {
+  width: 100px;
+}
+
+.heading-table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.heading-table td:nth-child(1) {
+  width: 20%;
+}
+
+.heading-table td:nth-child(2) {
+  width: 50%;
+}
+
+.heading-table td:nth-child(3) {
+  width: 30%;
+}
+
+.table-custom-bordered td,
+.table-custom-bordered th {
+  border: 1px solid #000;
+}
+
+.info-table tr:first-child td:nth-child(1) {
+  width: 20%;
+}
+
+.info-table tr:first-child td:nth-child(2) {
+  width: 30%;
+}
+
+.eval-table {
+  width: 100%;
+}
+
+.eval-table tr:first-child td:nth-child(1) {
+  width: 30%;
+}
+
+.eval-table tr:first-child td:nth-child(2),
+.eval-table tr:first-child td:nth-child(3) {
+  width: 10%;
+}
+
+.eval-table tr:first-child td:nth-child(4) {
+  width: 13%;
+}
+
+.bg-custom {
+  background-color: #dee2e6;
+}
+
+.office-use-table td {
+  background-color: red;
+  color: #fff;
+  text-align: center;
+}
+
+.report-table {
+  width: 100%;
+}
+
+.report-table img {
+  max-width: 100%;
+}
+
+/** PROC styles **/
+.legend-box {
+  width: 30px;
+  height: 10px;
+  margin: 0 10px;
+  display: inline-block;
+  font-size: 12px;
+}
+
+.legends-wrap {
+  padding: 0 26px;
+}
+
+.page-content {
+  border-bottom: 1px solid #ccc;
+}
+
+.custom-header .mat-mdc-header-cell {
+  font-weight: bold !important;
+}
+
+.overview.fullScreenClass .overview-title {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.fullScreenClass {
+  background: #fff;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-left: 0px;
+  display: block;
+  z-index: 99999;
+  margin-right: 0px;
+}
+
+.tab-header-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 43px;
+  z-index: 9999;
+  background: #fff;
+}
+
+.verify {
+  width: 11px;
+  margin-right: -14px;
+}
+
+.temporary-icon {
+  width: 12px;
+}
+
+.md-drppicker .clear {
+  border: 1px solid #dee2e6 !important;
+  margin-right: 10px;
+}
+
+.md-drppicker .clear svg {
+  margin-top: -12px;
+}
+
+.status-color {
+  font-size: 8px;
+  margin-right: 8px;
+  margin-top: 5px;
+}
+
+.Close {
+  color: #01cf70;
+}
+
+.Open {
+  color: #fcbf00;
+}
+
+.Verification {
+  color: #016fb4;
+}
+
+/* .mat-select-panel .mat-option {
+  font-size: 16px !important;
+} */
+
+.moc-search {
+  width: 400px;
+}
+
+.selected-chip .mat-icon {
+  color: #fff !important;
+  opacity: 0.7 !important;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  /* .margin-bottom-1 {
+    margin-bottom: 10px;
+  } */
+  .tab-header-sticky {
+    position: unset;
+    top: unset;
+  }
+}
+
+.todayDateLine {
+  background: #5a7cfa !important;
+}
+
+.moc-temporary-date {
+  background: rgb(63, 93, 159) !important;
+}
+
+.moc-completion-date {
+  background: #40d48e !important;
+}
+
+.temporary-bar {
+  width: 5px;
+}
+
+.temporary-bar .b-sch-event-content {
+  border: 2px solid #3f5d9f !important;
+  background: #fff !important;
+}
+
+.b-grid-headers .b-sch-current-time {
+  display: none;
+}
+
+.b-timeline-subgrid .b-sch-current-time {
+  border-left-color: transparent !important;
+}
+
+.view {
+  cursor: pointer !important;
+  word-break: break-word;
+}
+
+.tablinkCont a.active {
+  color: #40789b;
+  border-radius: 0px 0px 0 0;
+  border: 1px solid #40789b !important;
+  border-bottom: none !important;
+}
+
+.tablinkCont a {
+  color: #b2b2b2;
+  min-width: 100px;
+  text-align: center;
+  font-weight: 500;
+  border: 0px !important;
+}
+
+/*Mgnt Design CSS*/
+
+.dropdownstyle {
+  border: 0px;
+  font-size: 13px;
+  width: 185px;
+  padding: 7px;
+  margin-left: 20px;
+  padding-left: 10px;
+  /* background: #f8f8f8; */
+  border-bottom: 1px solid #8f8989;
+  /* #ddd; */
+}
+
+.advance-search {
+  background-color: #f8f8f8;
+  padding: 10px 17px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  color: #1d3557;
+  cursor: pointer;
+}
+
+#vessel-wrapper {
+  height: 210px;
+  width: 100%;
+  margin: 0;
+}
+
+.donutleftpanel {
+  width: 84%;
+  float: left;
+  background-color: #f8f8f8;
+}
+
+.donutrightpanel {
+  width: 16%;
+  float: right;
+}
+
+.budget-vessal {
+  color: #457b9d;
+  font-weight: bold;
+  margin-top: -48px;
+}
+
+.budget-vessal .circle {
+  border-left: 2px solid rgba(128, 128, 128, 0.37);
+  padding: 5px 0px 5px 17px;
+  margin-left: -14px;
+}
+
+.tr-light {
+  background: rgba(128, 128, 128, 0.13);
+  border-radius: 50px;
+  padding: 8px 8px 9px 8px;
+}
+
+.inner {
+  background-color: transparent;
+  width: 34px;
+  height: 34px;
+  border-radius: 50px;
+  margin-bottom: 12px;
+  position: relative;
+  cursor: pointer;
+}
+
+.inner.red {
+  background: #e63946 !important;
+  box-shadow: 0 0 1px #ff0015, inset 0 0 1px #ff0015;
+  /* animation: redpulse 2s linear 1s infinite; */
+}
+
+.inner.orange {
+  background: #ffa428 !important;
+  box-shadow: 0 0 1px #ffa428, inset 0 0 1px #ffa428;
+  /* animation: orangepulse 2s linear 1s infinite; */
+}
+
+.inner.green {
+  background: #00ef00 !important;
+  box-shadow: 0 0 1px #00ff00, inset 0 0 1px #00ff00;
+}
+
+.inner-p {
+  display: block;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 100;
+  font-size: 14px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  margin: auto;
+}
+
+.budget-text {
+  font-size: 14px;
+  margin: 18px 0px 26px 12px;
+}
+
+#donutchart {
+  position: relative;
+  background: #ffffff;
+  width: 100%;
+  height: 180px;
+  margin-top: -11px;
+}
+
+.donutchart-list {
+  display: inline-block;
+  padding: 0px 10px;
+  height: 180px;
+  background: #ffffff;
+}
+
+.donutchart-list li {
+  margin: auto;
+  list-style-type: none;
+  float: left;
+}
+
+* {
+  letter-spacing: 0 !important;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.list {
+  background-color: #ffffff !important;
+}
+
+.svg.rect {
+  fill: #ffffff !important;
+}
+
+/* .highcharts-background{
+  fill:#ffffff !important;
+  background-color: #acacac !important;
+} */
+.highcharts-plot-background {
+  height: 100px;
+  background-color: #395571 !important;
+}
+
+.donut-legend {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.donut-legend p {
+  font-size: 13px;
+  font-weight: 600;
+  color: #011627;
+}
+
+.donut-legend p span.fulfill,
+.donut-legend p span.inprogress,
+.donut-legend p span.tools,
+.donut-legend p span.onsite {
+  margin-right: 15px;
+}
+
+.donut-legend p span {
+  position: relative;
+  padding-left: 14px;
+}
+
+.donut-legend select {
+  border: 0px;
+  padding: 2px;
+  font-weight: 600;
+  color: #1d3557;
+  height: fit-content;
+  margin-left: 15px;
+  background: transparent;
+  font-size: 13px;
+  font-family: "Roboto", sans-serif;
+}
+
+.mat-mdc-form-field {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  width: 100% !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.mat-form-field-infix {
+  display: flex !important;
+  border: 0 !important;
+  /* mani change */
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+/* Date Range Picker Custom Css */
+.md-drppicker .ranges ul li button {
+  padding: 7px 0px;
+  width: 100%;
+  background: 0 0;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.md-drppicker .calendar td,
+.md-drppicker .calendar th {
+  padding: 0;
+  white-space: nowrap;
+  text-align: center;
+  min-width: 30px;
+  font-size: 11px;
+}
+
+.md-drppicker .btn {
+  position: relative;
+  overflow: hidden;
+  border-width: 0;
+  outline: 0;
+  padding: 0 6px;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 60%);
+  background-color: #3f51b5;
+  color: #ecf0f1;
+  transition: background-color 0.4s;
+  height: auto;
+  text-transform: uppercase;
+  line-height: 30px;
+  border: none;
+  font-size: 10px;
+}
+
+.md-drppicker .clear svg {
+  color: #eb3232;
+  fill: currentColor;
+  height: 20px;
+  width: 20px;
+}
+
+.md-drppicker .clear svg {
+  margin-top: -10px;
+}
+
+.md-drppicker .btn {
+  line-height: 25px !important;
+}
+
+.md-drppicker.shown {
+  transform: scale(1);
+  transition: 0.1s ease-in-out;
+  transform-origin: 0 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none !important;
+  top: 30px !important;
+}
+
+/* Date Range Picker Custom Css */
+
+/*dropdown */
+.mat-mdc-option {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 48px;
+  height: 30px !important;
+  padding: 0px 13px !important;
+  font-size: 11px;
+  text-align: left;
+  text-decoration: none;
+  max-width: 100%;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*dropdown end*/
+
+/*advance-search-btn -start */
+.mat-mdc-icon-button {
+  padding: 0;
+  min-width: 0;
+  width: 40px;
+  height: 40px !important;
+  flex-shrink: 0;
+  border-radius: 50%;
+  line-height: 30px !important;
+  font-size: 13.5px !important;
+  color: #1d3557 !important;
+  font-weight: 600 !important;
+}
+
+/*advance-search-btn end */
+.ag-tooltip {
+  background-color: #0f1014;
+  color: #ffffff;
+  border-radius: 2px;
+  padding: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #fbfafa;
+}
+
+.mat-mdc-snack-bar-container {
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  right: 0px;
+  position: absolute;
+  margin: 15px;
+  max-width: 33vw;
+  min-width: 344px;
+  padding: 14px 16px;
+  min-height: 48px;
+  transform-origin: center;
+}
+
+.mat-expansion-panel-header {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  padding: 5px 20px !important;
+  border-radius: inherit !important;
+  transition: height 225ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  height: 100% !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 13px !important;
+}
+
+.mat-mdc-progress-spinner circle,
+.mat-mdc-progress-spinner circle {
+  stroke: #03a9f4 !important;
+  stroke-width: 7% !important;
+}
+
+.bg-info {
+  background-color: #0079bd !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.bg-info .mat-button-wrapper {
+  color: white !important;
+}
+
+.bg-danger ::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background-color: #dc3545 !important;
+  padding: 0 !important;
+}
+
+/*SNACKBAR STYLE START*/
+.bg-info.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #0079bd !important;
+  --mat-snack-bar-button-color: white !important;
+  padding: 0 !important;
+  margin: 25px !important;
+}
+
+.bg-danger.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #dc3545 !important;
+  --mat-snack-bar-button-color: white !important;
+  padding: 0 !important;
+  margin: 25px !important;
+}
+
+.mdc-snackbar__surface {
+  padding: 0 !important;
+}
+
+/*SNACKBAR STYLE END*/
+
+/* ::ng-deep .mat-standard-chip:focus::after {
+  opacity: 0.1 !important;
+} */
+/* case colorCodes.SUCCESS:
+        this.className = ""
+        break;
+      case colorCodes.WARNING:
+        this.className = "bg-warning"
+        break;
+      case colorCodes.ERROR:
+        this.className = "bg-danger"
+        break;
+      case colorCodes.INFO:
+        this.className = "bg-info" */
+
+.mat-expansion-indicator {
+  display: flex !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+.mat-card-header-text {
+  margin: 0 !important;
+}
+
+.mat-mdc-card-header {
+  display: block !important;
+}
+
+.mat-mdc-card-header .mat-mdc-card-title {
+  margin-bottom: 0 !important;
+  font-size: 15px !important;
+}
+
+/* mani */
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.mat-form-field-appearance-outline
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-start,
+.mat-form-field-appearance-outline
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-end,
+.mat-form-field-appearance-outline
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-gap {
+  border-width: 1px !important;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: rgb(0 0 0 / 87%) !important;
+}
+
+.page_Title {
+  font-size: 20px;
+  font-weight: 500;
+}

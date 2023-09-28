@@ -1,0 +1,50 @@
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
+      <span class="page_Title"> SIRE Landing Page </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 text-right" style="margin-bottom: 10px">
+      <div>
+        <button mat-button class="new" (click)="navigatePiq()">New</button>
+        <img class="btnImg" src="assets/question/new.svg" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- ship -->
+    <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
+      <ag-grid-angular
+        style="height: calc(100vh - 140px)"
+        class="ag-theme-balham"
+        [columnDefs]="shipColumnDefs"
+        [defaultColDef]="defaultColDef"
+        [gridOptions]="gridOptions"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [embedFullWidthRows]="true"
+        [rowData]="rowData"
+        [components]="frameWorkComponent"
+      >
+      </ag-grid-angular>
+    </div>
+    <!-- shore -->
+    <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
+      <ag-grid-angular
+        style="height: calc(100vh - 100px)"
+        class="ag-theme-balham"
+        [columnDefs]="shoreColumnDefs"
+        [defaultColDef]="defaultColDef"
+        [gridOptions]="gridOptions"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [embedFullWidthRows]="true"
+        [rowData]="rowData"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>

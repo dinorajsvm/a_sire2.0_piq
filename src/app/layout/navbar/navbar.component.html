@@ -1,0 +1,83 @@
+<nav class="navbar navbar-expand-lg navbar-themedark border-bottom sticky-top">
+    <a href="javascript:void(0);" class="mt-2 ml-2 text-white" (click)="toggleLeftSidenav()" aria-label="Menu">
+        <mat-icon>menu</mat-icon>
+    </a>
+    <a href="javascript:void(0);" class="mt-2 ml-2 text-white" (click)="fullscreen()" aria-label="Full screen">
+        <mat-icon>fullscreen</mat-icon>
+    </a>
+    <div class="ml-2">
+       <img *ngIf="userDetails?.toolBarPic" src="data:image/jpeg;base64,{{userDetails?.toolBarPic}}" width="135" height="35" alt="" />
+        <!-- <img  *ngIf="!userDetails.toolBarPic"  src="" width="135" alt="" /> -->
+    </div>
+    <div id="navbarSupportedContent">
+        <!-- <div class="notification-bar d-flex ml-auto align-items-end">
+            <button class="p-2" mat-icon-button>
+                <img width="18" src="assets/notification-bar/download.png" alt="" matTooltip="Download Manager" />
+            </button>
+            <button class="p-2" mat-icon-button>
+                <span class="chatmenu" matBadge="0" matBadgeSize="small" matBadgePosition="above after">
+                    <img width="18" src="assets/notification-bar/chat.png" alt="" matTooltip="Chat_Notify" />
+                </span>
+            </button>
+            <button class="p-2" mat-icon-button>
+                <span class="notification" matBadge="0" matBadgeSize="small"
+                    matBadgePosition="above after">
+                    <img width="16" src="assets/notification-bar/notification.png" alt="" matTooltip="Alerts" />
+                </span>
+            </button>
+            <button class="p-2" mat-icon-button>
+                <span class="email" matBadge="0" matBadgeSize="small"
+                    matBadgePosition="above after">
+                    <img width="18" src="assets/notification-bar/email.png" alt="" matTooltip="Notifications" />
+                </span>
+            </button>
+            <button class="p-2" mat-icon-button>
+                <span class="task" matBadge="0" matBadgeSize="small" matBadgePosition="above after">
+                    <img width="18" src="assets/notification-bar/task-list.png" alt="" matTooltip="Task" />
+                </span>
+            </button>
+            <button [matMenuTriggerFor]="languagemenu" class="p-2" mat-icon-button>
+                <img width="30" src="assets/flags/{{selectedLanguage}}.jpg" alt=""/>
+            </button>
+            <mat-menu #languagemenu="matMenu" xPosition="before">
+                <button mat-menu-item (click)="setLanguage('gb')">
+                    <img width="30" src="assets/flags/gb.jpg" alt=""/> English
+                </button>
+                <button class="border-top" mat-menu-item (click)="setLanguage('jp')">
+                    <img width="30" src="assets/flags/jp.jpg" alt=""/> Japanese
+                </button>
+            </mat-menu>
+        </div> -->
+        <div class="d-flex ml-auto align-items-end">
+            <ul class="navbar-nav mt-2 mt-lg-0 d-flex align-items-end">
+                <li class="nav-item">
+                    <button mat-button [matMenuTriggerFor]="gridmenu" xPosition="before" class="profile-menu pr-1 text-white">
+                        <mat-icon>arrow_drop_down</mat-icon>
+                        {{userDetails?.empName}}<br />
+                        <small class="text-secondary">{{userDetails?.userData?.mdata?.appInfo?.rankName}}</small>
+                    </button>
+                    <mat-menu #gridmenu="matMenu" class="mt-1">
+                        <div class="profile-main-box">
+                            <div class="pt-2 pb-2 text-center profile-box">
+                                <img *ngIf="userDetails?.userPic" class="" width="90" height="90" src="data:image/jpeg;base64,{{userDetails.userPic}}" alt="" />
+                                <img *ngIf="!userDetails?.userPic" class="" width="90" src="assets/user-profile.png" alt="" />
+                                <div>{{userDetails?.empName + ' - ' + userDetails?.userData?.mdata?.appInfo?.rankName}}</div>
+                                <div>{{userDetails?.userData?.mdata?.appInfo?.companyCode + ' - ' + userDetails?.userData?.mdata?.appInfo?.companyName}}</div>
+                                <div><small>Last Login : {{ userDetails?.userData?.mdata?.userInfo?.lastLoginDate | dateTimeUTCFormat}}</small></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="mr-auto p-2"></div>
+                                <div class="p-2"><button class="border" mat-menu-item (click)="logout()">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-menu>
+                </li>
+                <li>
+                    <img *ngIf="userDetails?.userPic" class="mt-1 d-none d-md-block" width="30" height="30" src="data:image/jpeg;base64,{{userDetails.userPic}}" alt="" />
+                    <img *ngIf="!userDetails?.userPic" class="mt-1 d-none d-md-block" width="30" src="assets/user-profile.png" alt="" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

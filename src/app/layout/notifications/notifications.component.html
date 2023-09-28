@@ -1,0 +1,16 @@
+<div class="notify-wrapper">
+    <div class="notifyheader border-bottom font-weight-bold pb-1">Notifications</div>
+    <div *ngIf="notificationData.length===0">
+        <p class="text-secondary text-center">No Data</p>
+    </div>
+    <div class="notifycontent">
+        <div *ngFor="let item of notificationData" class="listitem">
+            <div class="cursor-pointer" (click)="redirectToSummary(item.notifyrefid)">
+                <p>{{item.notifyrefid}}</p>
+                <p>{{item.notifydate}}</p>
+                <p>{{item.notificationdes}}</p>
+            </div>
+        </div>
+    </div>
+    <div (click)="viewAllNotification()" class="notifyfooter text-center pt-2 cursor-pointer">View All</div>
+</div>

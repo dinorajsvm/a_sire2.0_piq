@@ -1,0 +1,27 @@
+<div class="col-sm-12" id="referenceWrapper">
+  <div class="row">
+    <div class="col-sm-12 text-right">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <ag-grid-angular
+        style="height: calc(100vh - 177px)"
+        class="ag-theme-balham"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [gridOptions]="gridOptions"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [embedFullWidthRows]="true"
+        rowSelection="single"
+        [rowData]="rowData"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>

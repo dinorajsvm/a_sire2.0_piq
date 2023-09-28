@@ -1,0 +1,121 @@
+@import "../../../../../piq.css";
+
+
+::ng-deep .fullscreen-dialog-container{
+  max-width: 100vw !important;
+}
+::ng-deep .fullscreen-dialog-container ::ng-deep .mat-mdc-dialog-container {
+  width: 100vw !important;
+  height: 100vh;
+  padding: 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+::ng-deep .fullscreen-dialog-container ::ng-deep .mat-mdc-dialog-content {
+  max-height: none;
+  height: calc(100vh - 120px);
+  padding: 0;
+}
+
+/* .mat-mdc-dialog-title {
+  margin: 0;
+} */
+
+::ng-deep .fullscreen-dialog-container ::ng-deep .mat-mdc-dialog-actions {
+  min-height: 25px !important;
+  padding: 0;
+  justify-content: center !important;
+}
+
+.image-container {
+  transition: transform 0.2s ease;
+  /* Add a smooth transition effect for zooming */
+  max-width: 100%;
+  overflow: hidden;
+  /* Hide the overflow to prevent unwanted scrollbars during zooming */
+}
+
+.zoom-label {
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  display: flex;
+  margin-left: 5px;
+}
+
+.mainHead {
+  font-size: 14px;
+}
+
+.subHead {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.resBtn {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  min-width: 30px;
+  font-size: 20px;
+  border-radius: 20px;
+  margin-left: 5px !important;
+  background: #f1f1f1;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+/* Add this at the end of the CSS file */
+.arrow-btn {
+  position: fixed;
+  top: 50%;
+  background: transparent;
+  color: #e0e0e0;
+  font-size: 50px;
+  cursor: pointer;
+  z-index: 1;
+  height: 40px;
+  border: none;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow-btn i {
+  pointer-events: none;
+}
+.arrow-btn.left:hover{
+  color: black;
+  border:2px solid black
+}
+
+.arrow-btn.left {
+  padding: 0 3px 3px 0px;
+}
+
+.arrow-btn.right {
+  padding: 0 0px 3px 3px;
+}
+
+.arrow-btn.right:hover{
+  color: black;
+  border:2px solid black
+}
+.arrowBtnWrap {
+  display: flex;
+  flex: 0 0 8.333333%;
+  max-width: 3.333333%;
+  padding: 0;
+  justify-content: center;
+
+}
+
+/* .fullScreen_imgWrap {
+  flex: 0 0 93.333333%;
+  max-width: 93.333333%;
+} */

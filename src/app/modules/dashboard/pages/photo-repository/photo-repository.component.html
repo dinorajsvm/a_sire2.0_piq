@@ -1,0 +1,109 @@
+<div class="prContentWrap">
+  <div class="col-sm-12 topBarWrap">
+    <div class="row">
+      <div class="col-sm-2"
+        style="display: flex;align-items: center;white-space: nowrap;justify-content: space-between;max-width: 15%;">
+        <label style="font-size: 12px; font-weight: 500">
+          Checklist Instance ID   {{getVesselType}}
+        </label>
+        <button class="searchTable" mat-raised-button (click)="openDialog()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+      <div class="col-sm-7" style="padding: 7px 15px;">
+        <div class=" instanceIDWrap">
+          <span style="font-weight: 500;">Selected CheckList:</span><span
+            style="padding: 0 5px;">{{selectedInstanceID}}</span>
+        </div>
+      </div>
+
+      <div class="col-sm-3 text-right" style="padding: 7px 15px;white-space: nowrap;">
+        <span class="expColWrap" (click)="toggleAllExpanded()">
+          {{allExpanded ? "Collapse All" : "Expand All"}}
+        </span>
+        <button mat-button class="downloadAllBtn" matTooltip="Download All Images" (click)="downloadAll()">
+          <i class="fa fa-arrow-circle-o-down" style="font-size: 18px;color: white"></i>
+        </button>
+        <img src="assets/question/reset-password.svg" style="height: 25px;width: 25px;margin-left: 5px;"
+          matTooltip="Set Default Name To All Images" (click)="resetAllImageFilenames(listDatas)" />
+        <button mat-button class="save" type="submit" (click)="savePhoto()" [disabled]="invalidImg">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="photoContents">
+  
+    <div class="col-sm-12" (drop)="handleDrop($event)" (dragover)="handleDragOver($event)"
+      (dragleave)="handleDragLeave($event)">
+      <div class="row" *ngFor="let head of listDatas; let i = index">
+        <div class="col-sm-12 topicHeader" (click)="toggleExpand(i)">
+          <div class="row">
+            <div class="col-sm-10 headName">
+              <span>{{ head.topic }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12" *ngIf="allExpanded || expandedSectionIndex === i">
+          <div class="col-sm-12 topicSubHeader" *ngFor="let subHead of head.subTopics; let i = index">
+            <span class="subTopName">
+              <p>{{ subHead.subTopicTitle }}</p>
+            </span>
+            <div class="upDownBtnWrap">
+              <div class="attachBtn" style="margin: 0 3px">
+                <button class="imgUpload" mat-button color="primary" matTooltip="Upload Image"
+                  (click)="selectFile(subHead,selectedInstanceID,head.topic,$event)">
+                  <mat-icon>attach_file</mat-icon>
+                  <input type="file" (change)="onFileSelected($event)" accept=".png, .jpg" style="display: none"
+                    #fileInput />
+                </button>
+              </div>
+              <div style="margin: 0 3px">
+                <button class="downAllBtn" mat-button matTooltip="Download Subtopic Images"
+                  (click)="downloadAllSubTopicImages(subHead.subTopicTitle, subHead.imagelist)">
+                  <i class="fa fa-arrow-circle-o-down" style="font-size: 18px; color: white"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 imgContWrap">
+                <div class="imgContainer" [ngClass]="{'invalidImgContainer': img.sizeinbytes > 100 * 1024 * 1024}"
+                  (mouseenter)="showIcons[imgIndex] = true" (mouseleave)="showIcons[imgIndex] = false"
+                  *ngFor="let img of subHead.imagelist; let imgIndex = index">
+                  <div class="img_icons_container" *ngIf="showIcons[imgIndex]">
+                    <div class="img_icons">
+                      <button class="imgbtns fullscreen" matTooltip="FullScreen"
+                        (click)="openFullscreenDialog(img.filepath,head.topic,subHead.subTopicTitle,getFilenameFromUrl(img.localfilename))">
+                        <mat-icon>fullscreen</mat-icon>
+                      </button>
+                      <button class="imgbtns download" matTooltip="Download Image" (click)="downloadImage(img)">
+                        <mat-icon>file_download</mat-icon>
+                      </button>
+                      <button class="imgbtns closebtn" matTooltip="Delete Image"
+                        (click)="removeImage(subHead.imagelist, imgIndex)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="img">
+                    <img [src]="img.filepath? (dynamicImageURL+  img.filepath): img.url" />
+                  </div>
+                  <div class="img_Size">
+                    <span>Size:{{ convertFileSize(img.sizeinbytes) }}</span>
+                  </div>
+                  <div class="img_name">
+                    <input [(ngModel)]="img.localfilename"
+                      [class.nameHighlight]="img?.localfilename!=img.defaultImageName"
+                      (blur)="updateImageName(subHead, imgIndex)" />
+                    <span>.{{ img.localfilename?.split('.').pop() }}</span>
+                    <img src="assets/question/reset-password.svg" class="defaultNameImg"
+                      (click)="setDefaultName(img, img.defaultImageName)" matTooltip="Set Default Image Name" />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

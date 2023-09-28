@@ -1,0 +1,243 @@
+<div class="col-sm-12" id="summaryWrapper">
+  <!-- <div class="row">
+    <div class="col-sm-6">
+      <span class="page_Title">PIQ Summary </span>
+    </div>
+
+    <div class="col-sm-12 text-right">
+      <div class="row" style="float: right">
+        <button mat-button class="syncBtn" type="submit" (click)="openDialog()">
+          Reuse Past Template
+        </button>
+        <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
+          (click)="onSubmit('syncToStore')">
+          Sync to Shore
+        </button>
+        <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
+          (click)="onSubmit('syncToStore')">
+          Sync to Ship
+        </button>
+        <div>
+          <button mat-button class="sub" [ngClass]="isNotNull ? 'sub' : 'disableSyncBtn'" type="submit"
+            [disabled]="!isNotNull" (click)="onSubmit('submit')">
+            Submit
+          </button>
+          <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
+        </div>
+      </div>
+    </div> 
+  </div>-->
+
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-4 pl-0">
+        <div class="row">
+          <div class="col-sm-6 pr-0 contWrap">
+            <mat-card appearance="outlined" class="summaryCard">
+              <span class="header count-font">Total Questions</span>
+              <mat-card-header>
+                <mat-card-title>
+                  <div class="summaryValWrap">
+                    <div class="imgWrap qa">
+                      <img src="assets/question/qa.svg" class="dataImg" />
+                    </div>
+                    <span class="count-font">{{pendingQuestCount}} /
+                      {{totalQuestCount}}</span>
+                  </div>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <!-- <span class="description-font">The total number of questions and answers.</span> -->
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col-sm-6 pr-0 contWrap">
+            <mat-card appearance="outlined" class="summaryCard">
+              <span class="header count-font-photo">Photo Repository</span>
+              <mat-card-header>
+                <mat-card-title>
+                  <div class="summaryValWrap">
+                    <div class="imgWrap photo">
+                      <img src="assets/question/photo.svg" class="dataImg1" />
+                    </div>
+                    <span class="count-font-photo">10 /
+                      {{photoRepCounts}}</span>
+                  </div>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <!-- <span class="description-font">The total number of photo repository.</span> -->
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 pr-0 contWrap">
+            <mat-card appearance="outlined" class="summaryCard">
+              <span class="header count-font-pending">Exceptions</span>
+              <mat-card-header>
+                <mat-card-title>
+                  <div class="summaryValWrap">
+                    <div class="imgWrap exception">
+                      <img src="assets/question/exception.svg" class="dataImg" />
+                    </div>
+                    <span class="count-font-pending">{{exceptionCounts}}</span>
+                  </div>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <!-- <span class="description-font">The total number of exception questions.</span> -->
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <!-- <div class="col-sm-4 pr-0 contWrap">
+            <mat-card appearance="outlined" class="summaryCard">
+              <span class="header count-font-preset">Preset Questions</span>
+              <mat-card-header>
+                <mat-card-title>
+                  <div class="summaryValWrap">
+                    <div class="imgWrap preset">
+                      <img src="assets/question/preset.svg" class="dataImg1" />
+                    </div>
+                    <span class="count-font-preset">{{presetQuestCounts}}</span>
+                  </div>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <span class="description-font">The total number of preset questions.</span>
+              </mat-card-content>
+            </mat-card>
+          </div> -->
+          <div class="col-sm-6 pr-0 contWrap">
+            <mat-card appearance="outlined" class="summaryCard">
+              <span class="header count-font-certificate">Certificate</span>
+              <mat-card-header>
+                <mat-card-title>
+                  <div class="summaryValWrap">
+                    <div class="imgWrap certificate">
+                      <img src="assets/question/certificate.svg" class="dataImg" />
+                    </div>
+                    <span class="count-font-certificate">{{mappedCertificateCounts}} / {{certificateCounts}}</span>
+                  </div>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <!-- <span class="description-font">The total number of mapped certificate.</span> -->
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8 pr-0">
+        <div class="row">
+          <div class="col-sm-12 contWrap">
+            <div class="row" style="justify-content: flex-end;">
+              <button mat-button class="syncBtn" type="submit" (click)="openDialog()">
+                Reuse Past Template
+              </button>
+              <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
+                (click)="onSubmit('syncToStore')">
+                Sync to Shore
+              </button>
+              <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
+                (click)="onSubmit('syncToStore')">
+                Sync to Ship
+              </button>
+              <div>
+                <button mat-button class="sub" [ngClass]="isNotNull ? 'sub' : 'disableSyncBtn'" type="submit"
+                  [disabled]="!isNotNull" (click)="onSubmit('submit')">
+                  Submit
+                </button>
+                <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <span class="p-float-label">
+              <span class="table-header">Quick notes </span>
+              <textarea id="float-input" autoResize="true" class="w-100" rows="4" cols="30" placeholder="Quick notes"
+                [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
+            </span>
+            <div class="row" style="justify-content: flex-end;">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-7"></div>
+                  <div class="col-sm-3 text-right">
+                    <mat-form-field appearance="outline" class="datePicker">
+                      <input matInput [matDatepicker]="picker" autocomplete="off" name="dateField" />
+                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-2">
+                    <button mat-button class="save float-right" type="submit" (click)="onSubmitQuickNotes()">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-12">
+      <span class="table-header">Chapter Summary </span>
+      <ag-grid-angular style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham"
+        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
+        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="rowData"
+        (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-sm-6">
+      <span class="table-header">Photo Repository Summary </span>
+      <ag-grid-angular style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham"
+        [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
+        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="photoRowData"
+        [suppressHorizontalScroll]="true">
+      </ag-grid-angular>
+    </div>
+    <div class="col-sm-6">
+      <span class="table-header">Last Modified data</span>
+      <ag-grid-angular style="height: calc(100vh - 429px)" class="ag-theme-balham" [columnDefs]="modifiedColumns"
+        [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
+        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="modifiedrowData">
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6" *ngIf="userDetails?.cntrlType === 'CNT001'">
+      <span class="table-header">Last sync to ship summary </span>
+      <ag-grid-angular style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
+        [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
+        [rowData]="expectedRowData">
+      </ag-grid-angular>
+    </div>
+    <div class="col-sm-6" *ngIf="userDetails?.cntrlType === 'CNT002'">
+      <span class="table-header">Last sync to shore summary </span>
+      <ag-grid-angular style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
+        [animateRows]="true" [rowData]="expectedRowData">
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <!-- <div class="col-sm-12 text-right" style="padding: 0">
+    <div style="display: flex; justify-content: end; align-items: center">
+      <button mat-button class=" save float-right" type="submit" (click)="onSubmitQuickNotes()">
+        Save
+      </button>
+    </div>
+  </div> -->
+</div>

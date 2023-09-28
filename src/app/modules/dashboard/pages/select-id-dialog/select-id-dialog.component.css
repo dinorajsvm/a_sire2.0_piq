@@ -1,0 +1,34 @@
+@import "../../../../../piq.css";
+.upload {
+  background-color: aqua;
+}
+/* ::ng-deep .select-dialog-container ::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 15px !important;
+  height: 30px !important;
+} */
+::ng-deep .select-dialog-container ::ng-deep .mat-dialog-container {
+  width: 25vw !important;
+  height: 30px !important;
+  top: 25% !important;
+  left: 25% !important;
+  padding: 0 24px !important;
+}
+
+::ng-deep .select-dialog-container ::ng-deep .mat-dialog-content {
+  max-height: none;
+  height: calc(100vh - 515px);
+  padding: 0 24px;
+  overflow: auto;
+}
+
+::ng-deep .select-dialog-container ::ng-deep .mat-dialog-actions {
+  min-height: 25px !important;
+  padding: 0;
+}
+
+::ng-deep .mat-select-panel {
+  transform: translate(0px, 20px) !important;
+  min-width: calc(100% + -25px) !important;
+}

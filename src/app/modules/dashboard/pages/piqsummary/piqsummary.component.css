@@ -1,0 +1,244 @@
+@import "../../../../../piq.css";
+
+#summaryWrapper {
+  padding: 10px 15px;
+  height: calc(100vh - 160px);
+  overflow: auto;
+}
+#summaryWrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+#summaryWrapper::-webkit-scrollbar-track {
+  border: 1px solid #dee1f0;
+  background-color: white;
+}
+
+#summaryWrapper::-webkit-scrollbar-thumb {
+  background: #dee1e6;
+}
+
+.syncBtn.mat-mdc-button.mat-mdc-button-base {
+  background-color: #19c37d;
+  color: white;
+  height: 26px !important;
+  margin: 0 5px;
+  padding: 0px 10px;
+  font-size: 12px;
+}
+
+.disableSyncBtn.mat-mdc-button.mat-mdc-button-base {
+  background-color: gray !important;
+  border: 1px solid gray !important;
+  color: black;
+  height: 26px !important;
+  padding: 0 20px 0 10px;
+  font-size: 12px;
+  cursor: not-allowed;
+}
+
+/* .save {
+  background-color: #00acf5;
+  color: white;
+  height: 26px !important;
+  padding: 0px 10px;
+  margin: 0 5px;
+  font-size: 12px;
+} */
+
+.table-header {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.dataImg {
+  width: 25px;
+  height: 25px;
+}
+
+.dataImg1{
+  width: 20px;
+  height: 20px;
+}
+
+.btnImg {
+  height: 20px;
+  position: relative;
+  right: 18px;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 5px 15px;
+  width: 100%;
+}
+
+.example-card {
+  margin: 15px;
+  width: 190px;
+  display: inline-block;
+  box-shadow: 2px 1px 5px 0px #4767d1a8;
+  /* text-align: center; */
+}
+
+.summaryCard {
+  display: flex;
+  margin: 0;
+  position: unset;
+  /* width: 16%; */
+  height: inherit;
+  border: 1px solid #c1c1c1;
+  /* box-shadow: 2px 1px 5px 0px #4767d1a8; */
+}
+
+.summaryValWrap {
+  display: flex;
+  padding: 5px 10px;
+}
+
+.imgWrap {
+  display: flex;
+  width: 35px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.qa {
+  background: #a3ffdc;
+  border: 1px solid #a3ffdc;
+}
+
+.preset {
+  background: #f8db98;
+  border: 1px solid #f8db98;
+}
+.exception {
+  background: #f2919a;
+  border: 1px solid #f2919a;
+}
+.photo {
+  background: #88c8fc;
+  border: 1px solid #88c8fc;
+}
+.certificate {
+  background: #dca5ff;
+  border: 1px solid #dca5ff;
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+mat-card-content {
+  margin-top: 0px;
+  padding: 0 10px !important;
+  width: 100%;
+}
+.contWrap{
+  height: 91px;
+  margin-bottom: 8px;
+}
+
+mat-card-header {
+  padding: 0 !important;
+}
+
+.header {
+  padding: 0 10px;
+  width: 100%;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  /* text-decoration: underline; */
+  text-align: left;
+}
+
+.image-bg {
+  border: 1px solid #9ae19a;
+  padding: 4px;
+  border-radius: 14px;
+  background-color: #9ae19a;
+  margin-bottom: 10px;
+  margin-top: 8px;
+}
+
+.image-bg-pending {
+  border: 1px solid #f702028a;
+  padding: 4px;
+  border-radius: 9px;
+  background-color: #f702028a;
+  margin-bottom: 10px;
+  margin-top: 8px;
+}
+
+.image-bg-preset {
+  border: 1px solid #ebb51c8a;
+  padding: 4px;
+  border-radius: 9px;
+  background-color: #ebb51c8a;
+  margin-bottom: 10px;
+  margin-top: 8px;
+}
+
+.image-bg-photo {
+  border: 1px solid #37bba78a;
+  padding: 4px;
+  border-radius: 9px;
+  background-color: #37bba78a;
+  margin-bottom: 10px;
+  margin-top: 8px;
+}
+
+.image-bg-certificate {
+  border: 1px solid #2e0fb38a;
+  padding: 4px;
+  border-radius: 9px;
+  background-color: #2e0fb38a;
+  margin-bottom: 10px;
+  margin-top: 8px;
+}
+.count-font {
+  font-weight: bold;
+  font-size: 20px;
+  color: #4bd09e;
+  padding: 0 10px;
+}
+
+.count-font-pending {
+  font-weight: bold;
+  font-size: 20px;
+  color: #dc3545;
+  padding: 0 10px;
+}
+
+.count-font-preset {
+  font-weight: bold;
+  font-size: 20px;
+  color: #e9a70b;
+  padding: 0 10px;
+}
+
+.count-font-certificate {
+  font-weight: bold;
+  font-size: 20px;
+  color: #9b1fe8;
+  padding: 0 10px;
+}
+
+.count-font-photo {
+  font-weight: bold;
+  font-size: 20px;
+  color: #379df1;
+  padding: 0 10px;
+}
+
+.description-font {
+  font-weight: 500;
+  font-size: 12px;
+  color: gray;
+}

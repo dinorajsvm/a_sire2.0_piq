@@ -1,0 +1,84 @@
+.auth-module {
+    height: 100vh;
+    background-size: 100% 100%;
+}
+.right-side-nav {
+    width: 31.6%;
+    position: fixed;
+    right: 0;
+    height: 100%;
+}
+.auth-main-cont {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 30%;
+}
+.auth-text-cont {
+    position: absolute;
+    left: 20px;
+    bottom:50px
+}
+.auth-footer {
+    position: absolute;
+    bottom:30px;
+    width: 100%;
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .right-side-nav {
+    width: 100%;
+  }
+  .auth-main-cont {
+    margin-top: 15%;
+  }
+  .auth-module {
+    background-image: unset;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 600px) {
+  .right-side-nav {
+    width: 100%;
+  }
+  .auth-main-cont {
+    margin-top: 15%;
+  }
+  .auth-module {
+    background-image: unset;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .right-side-nav {
+    width: 31.6%;
+  }
+  .auth-module {
+    background-image: url('~src/assets/login-bg.png');
+    background-repeat: no-repeat;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .right-side-nav {
+    width: 31.6%;
+  }
+  .auth-module {
+    background-image: url('~src/assets/login-bg.png');
+    background-repeat: no-repeat;
+  }
+}
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .right-side-nav {
+    width: 31.6%;
+  }
+  .auth-module {
+    background-image: url('~src/assets/login-bg.png');
+    background-repeat: no-repeat;
+  }
+}

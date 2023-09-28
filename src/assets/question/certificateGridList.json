@@ -1,0 +1,118 @@
+[
+    {
+        "certificateName": "Safety Equipment Certificate",
+        "selectNode": "image1"
+    },
+    {
+        "certificateName": "Safety Equipment Certificate Record of Equipment (Form E)",
+        "selectNode": "image2"
+    },
+    {
+        "certificateName": "Safety Radio Certificate",
+        "selectNode": ["option1", "option2", "option3"]
+    },
+    {
+        "certificateName": "Safety Radio Certificate Record of Equipment (Form R) Safety Construction Certificate",
+        "selectNode": "image4"
+    },
+    {
+        "certificateName": "Load Line Certificate",
+        "selectNode": "image5"
+    },
+    {
+        "certificateName": "International Oil Pollution Prevention Certificate (IOPPC)",
+        "selectNode": "image6"
+    },
+    {
+        "certificateName": "IOPPC Record of Construction and Equipment (Form A or B)",
+        "selectNode": "image7"
+    },
+    {
+        "certificateName": "International Ballast Water Management Certificate (IBWMC)",
+        "selectNode": "image8"
+    },
+    {
+        "certificateName": "IBWMC Statement of Voluntary Compliance",
+        "selectNode": "image9"
+    },
+    {
+        "certificateName": "International Air Pollution Prevention Certificate (IAPPC)",
+        "selectNode": "image10"
+    },
+    {
+        "certificateName": "IAPPC Record of Construction and Equipment",
+        "selectNode": "image11"
+    },
+    {
+        "certificateName": "Safety Management Certificate (SMC)",
+        "selectNode": "image12"
+    },
+    {
+        "certificateName": "Document of Compliance (DOC)",
+        "selectNode": "image13"
+    },
+    {
+        "certificateName": "International Ship Security Certificate (ISSC)",
+        "selectNode": "image14"
+    },
+    {
+        "certificateName": "USCG Certificate of Compliance (COC)",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Minimum Safe Manning Document",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Civil Liability Convention 1992 (CLC) Certificate - Oil",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Civil Liability Convention 2001 (CLC) Certificate - Bunker",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "USCG Certificate of Financial Responsibility (COFR)",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Certificate of Fitness (Chemicals)",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Certificate of Fitness (Gas)",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Noxious Liquid Substances (NLS) Certificate",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Certificate of Registry",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Continuous Synopsis Record (CSR)",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "P&I Club Certificate of Entry",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Maritime Labour Certificate (MLC)",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Class Survey Status Report (CSSR)",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "Condition Assessment Programme (CAP) Certificate",
+        "selectNode": "image15"
+    },
+    {
+        "certificateName": "USCG Vessel Response Plan (VRP) Approval Letter",
+        "selectNode": "image15"
+    }
+]

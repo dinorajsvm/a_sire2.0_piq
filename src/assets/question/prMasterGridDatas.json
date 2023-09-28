@@ -1,0 +1,59 @@
+{
+  "response": [
+    {
+      "topicName": "Core photograph set",
+      "subTopicName": "Bow area from dead ahead",
+      "imageName":""
+    },
+    {
+        "topicName": "Core photograph set",
+        "subTopicName": "Hull forward end starboard side.",
+        "imageName":""
+      },
+      {
+        "topicName": "Core photograph set",
+        "subTopicName": "Hull forward end port side.",
+        "imageName":""
+      },
+      {
+        "topicName": "Core photograph set",
+        "subTopicName": "Hull aft end starboard side.",
+        "imageName":""
+      },
+      {
+        "topicName": "Core photograph set",
+        "subTopicName": "Hull aft end port side.",
+        "imageName":""
+      },
+      {
+        "topicName": "Core photograph set",
+        "subTopicName": "Forecastle port side looking towards fairleads.",
+        "imageName":""
+      },
+      {
+        "topicName": "Core photograph set",
+        "subTopicName": "Forecastle starboard side looking towards fairleads.",
+        "imageName":""
+      },
+      {
+        "topicName": "Crude / product / chemical tankers / OBO",
+        "subTopicName": "",
+        "imageName":""
+      },
+      {
+        "topicName": "LPG pressurised",
+        "subTopicName": "",
+        "imageName":""
+      },
+      {
+        "topicName": "LPG refrigerated",
+        "subTopicName": "",
+        "imageName":""
+      },
+      {
+        "topicName": "LNG Membrane type",
+        "subTopicName": "",
+        "imageName":""
+      }
+  ]
+}

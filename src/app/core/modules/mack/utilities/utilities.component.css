@@ -1,0 +1,59 @@
+.mk-utilities {
+    position: fixed;
+    width: 4em;
+    top: 20vh;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #cfcfcf;
+    z-index: 9999999;
+    transition: all 600ms ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.mk-utilities li img {
+    padding: 1em 0;
+}
+.mk-utilities ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.mk-utilities .mk-util-collapse {
+    background-color: #0f3057;
+    width: 3em;
+    height: 4em;
+    border: 1px solid transparent;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-top: 5px;
+    margin-left: -3em;
+    position: absolute;
+}
+
+.mk-utilities.utilHidden {
+    right: -4em;
+}
+
+::ng-deep .custom-tooltip {
+    font-size: 1em !important;
+}
+
+::ng-deep .mk-active {
+    cursor: pointer;
+}
+::ng-deep .cdk-overlay-pane{
+    cursor: move;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+    
+    border-bottom: 1px solid #f4f4f4 !important;
+    border-top: 4px solid #f39c12 !important;
+}
+.ui-widget-header{
+    background: #fff !important;
+}

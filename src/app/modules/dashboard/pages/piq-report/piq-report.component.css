@@ -1,0 +1,1051 @@
+@import "../../../../../piq.css";
+.header {
+  font-weight: bolder !important;
+  padding: 5px 10px;
+}
+
+.example-container {
+  height: calc(100vh - 249px);
+  margin: 10px 0;
+  border: 1px solid #000000;
+  overflow: auto;
+}
+
+:host ::ng-deep.mat-drawer {
+  overflow: auto;
+  height: calc(100vh - 230px);
+  width: 245px;
+  transform: none;
+  visibility: visible;
+}
+
+/* Mk style */
+.content_wrapper {
+  border: 1px solid #b1aeae;
+}
+
+.list_wrapper ul {
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.list_wrapper li {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.list_values {
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  padding: 3px 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.head_sign {
+  padding: 10px;
+}
+
+.head_list {
+  padding: 0px 5px;
+  width: 100%;
+  font-size: 12px;
+}
+
+.head {
+  transition: max-width 0.7s ease-in-out;
+}
+
+.headHide {
+  max-width: 0;
+}
+
+.mqAlign {
+  display: flex;
+  align-items: center;
+}
+
+.list_wrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list_wrapper::-webkit-scrollbar-track {
+  border: 1px solid #dee1f0;
+}
+
+.list_wrapper::-webkit-scrollbar-thumb {
+  background: #dee1e6;
+}
+
+.list_wrapper::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+.content_load_wrap::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content_load_wrappen::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content_load_wrappen::-webkit-scrollbar-track {
+  border: 1px solid #dee1f0;
+  background-color: white;
+}
+
+.content_load_wrappen::-webkit-scrollbar-thumb {
+  background: #dee1e6;
+}
+
+.expand-button-wrapper {
+  padding: 2px 7px;
+}
+
+.expand-button {
+  border: 1px solid #c1c1c1;
+  line-height: 25px;
+  padding: 0 10px;
+}
+
+.btn-wrap {
+  padding: 0px 15px;
+  border: 1px solid #b1aeae;
+  border-bottom: none;
+  background: #dee1f0;
+}
+
+.completed_sign {
+  border-radius: 50%;
+  background: #19c37d;
+  text-align: center;
+  height: 16px;
+  width: 16px;
+}
+
+.completedSign ::ng-deep .mat-checkbox-background,
+::ng-deep .mat-checkbox-frame {
+  border-radius: 10px !important;
+}
+
+.completedSign .mat-checkbox-checked {
+  background-color: #0faa64 !important;
+}
+
+.completed_sign ::ng-deep .material-icons {
+  font-size: 14px;
+}
+
+.completed_sign ::ng-deep .mat-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15px;
+  width: 15px;
+  color: white;
+}
+
+.save_btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #dee1f0;
+  padding: 5px 10px;
+}
+
+.resetIcn {
+  font-size: 14px !important;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  height: 14px;
+  display: flex;
+  border: 1px solid #dc3545;
+  border-radius: 50%;
+  width: 14px;
+  margin: 0 5px;
+  color: #dc3545;
+}
+
+.dateWrap {
+  display: flex;
+  align-items: center;
+}
+
+/* .save {
+  background-color: #00acf5;
+  color: white;
+  line-height: 24px;
+  padding: 0px 10px;
+  margin: 0 5px;
+  font-size: 12px;
+} */
+
+/* .draft {
+  background-color: #e3a40c;
+  color: white;
+  line-height: 24px;
+  margin: 0 5px;
+  padding: 0px 10px;
+  font-size: 12px;
+} */
+
+.asdraft {
+  background-color: #39b8b6;
+  color: white;
+  line-height: 24px;
+  padding: 0px 10px;
+  font-size: 12px;
+}
+
+.completed_wrap {
+  display: flex;
+  /* padding: 3px 10px; */
+}
+
+/* .card-contents {
+  padding-bottom: 40px;
+} */
+
+.content_load_wrap::-webkit-scrollbar-track {
+  background-color: white;
+  border: 1px solid #dee1f0;
+}
+
+.content_load_wrap::-webkit-scrollbar-thumb {
+  background: #dee1e6;
+}
+
+:host ::ng-deep .mat-tab-body-content {
+  padding: 10px 10px 2px 10px;
+}
+
+.header_list {
+  padding: 3px 10px;
+  font-size: 12px;
+  /* background-color: #5e6ec9; */
+  border-bottom: 1px solid white;
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.guidLines {
+  background: linear-gradient(to top, #c4c5c7 0%, #dcdddf 5%, #ebebeb 100%);
+  color: black;
+}
+
+.guidLines ::ng-deep .mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  margin-top: 2px;
+}
+
+.guideline-content {
+  position: relative;
+  bottom: 30px;
+  padding: 3px 3px;
+  z-index: -1;
+}
+.guideline-mainQue {
+  padding: 3px 3px;
+  background: #e5dfdf;
+  width: 100%;
+}
+.guideQuestions {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 5px;
+  border-bottom: 1px solid #e1e2e3;
+}
+.guideHighlights {
+  background-color: #ffde90;
+}
+
+.descTitle {
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.list_values:hover {
+  background-color: #dee1f0;
+}
+
+.list_values.selected {
+  background-color: #dee1f0;
+}
+
+.content_header {
+  /* background-color: #5e6ec9;
+  color: white; */
+  background: linear-gradient(to top, #c4c5c7 0%, #dcdddf 5%, #ebebeb 100%);
+  color: black;
+  padding: 1px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.colorAdd {
+  border: 1px solid red;
+  background-color: #dcabab;
+}
+
+.selectOptions {
+  border: none;
+  padding: 7px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  margin: 5px;
+  font-weight: 500;
+  background-color: #e0e0e0;
+}
+
+.exceptionBorder {
+  border: 1px solid orange;
+  border-radius: 50%;
+  height: 11px;
+  width: 12px;
+  margin-right: 3px;
+}
+.exceptionText {
+  font-size: 10px;
+  color: orange;
+  position: relative;
+  bottom: 5px;
+  left: 2px;
+  font-weight: 500;
+}
+
+.selectOptWrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list_wrapper {
+  border-right: 1px solid #b1aeae;
+  height: calc(100vh - 230px);
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.list_val_wrap {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.expColBtn {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  width: fit-content;
+  overflow: hidden;
+  height: 25px;
+  transition: 300ms;
+  white-space: nowrap;
+  color: black;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.expColBtn span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* .expColBtn:hover {
+  width: 100%;
+  transition: 300ms;
+} */
+
+.countBtn {
+  font-size: 12px;
+  padding: 0 5px;
+  border: 1px solid #c1c1c1;
+  margin: 0 5px;
+  line-height: 25px;
+}
+
+.memoBtn {
+  font-size: 12px;
+  padding: 0 5px;
+  font-weight: 500;
+  margin: 0 7px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.quesCountsWrap {
+  padding: 2px 0;
+  border: 1px solid #b1aeae;
+  border-bottom: none !important;
+  background: #00acf5;
+}
+
+.expColWrap {
+  display: inline-flex;
+  color: black;
+  border-radius: 50%;
+  justify-content: center;
+  padding: 0;
+}
+
+.expColWrap .mat-icon {
+  padding: 2px 1px 2px 0px;
+  font-size: 19px;
+}
+
+::ng-deep .highlight {
+  background-color: yellow !important;
+  color: black;
+}
+
+.content_load_wrap {
+  height: calc(100vh - 230px);
+  overflow: auto;
+  /* background: #dee1f0; */
+  background: white;
+  padding: 5px;
+}
+
+.content_load_wrappen {
+  height: calc(100vh - 230px);
+  overflow: auto;
+  background: #dee1f0;
+  padding: 10px;
+  border: 1px solid #b1aeae;
+}
+
+.sub-ques {
+  display: flex;
+  flex-direction: column;
+}
+
+.marg_LR {
+  display: flex;
+  border-right: 1px solid white;
+  height: 10px;
+  align-items: center;
+}
+
+::ng-deep .search.mat-raised-button {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 5px;
+  line-height: 31px;
+  color: white;
+  background: #157eab;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.search ::ng-deep .mat-icon {
+  background-repeat: no-repeat;
+  display: inline-block;
+  fill: currentColor;
+  height: 20px;
+  width: 18px;
+}
+
+.search ::ng-deep .material-icons {
+  font-size: 20px;
+}
+
+.selected_values {
+  border: 1px solid #c1c1c1;
+  padding: 5px;
+  border-radius: 5px;
+  height: calc(100vh - 450px);
+  overflow: auto;
+}
+
+.mat-icon {
+  transition: transform 500ms ease-in-out;
+}
+
+.mat-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.mat-card-content {
+  height: 0;
+  overflow: hidden;
+  transition: height 5000ms ease-in-out;
+}
+
+.mat-card-content.show {
+  height: auto;
+}
+
+.material-icons {
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.mainquest {
+  font-size: 12px;
+  align-items: center;
+  font-weight: 400;
+}
+
+.card_container {
+  padding: 5px 0px;
+}
+
+.card_container ::ng-deep .mat-expansion-panel-body {
+  padding: 0 0px 3px !important;
+  max-height: 210px;
+  overflow: auto;
+  /* border-top: 1px solid #c1c1c1; */
+}
+
+.card_container ::ng-deep .mat-expansion-panel-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card_container ::ng-deep .mat-expansion-panel-body::-webkit-scrollbar-track {
+  background: white;
+  border-left: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.card_container ::ng-deep .mat-expansion-panel-body::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+}
+
+.sub_ques {
+  padding: 2px 5px;
+  font-size: 12px;
+}
+
+::ng-deep .mat-standard-chip {
+  font-size: 12px;
+  padding: 0 5px !important;
+  min-height: 25px !important;
+  /* border: 2px solid #97c6f3 !important; */
+  background-color: #f1f1f1 !important;
+}
+
+.shoreQuest ::ng-deep .mat-standard-chip {
+  font-size: 12px;
+  padding: 0 5px !important;
+  min-height: 25px !important;
+  /* border: 2px solid #97c6f3 !important; */
+  background-color: #e0e0e0 !important;
+}
+
+/* ::ng-deep .mat-chip.mat-standard-chip:hover {
+  background-color: white !important;
+} */
+::ng-deep .mat-standard-chip:focus::after {
+  opacity: 0 !important;
+}
+
+/* .mat-standard-chip {
+  font-size: 12px;
+ 
+  padding: 0 5px !important;
+  min-height: 25px !important;
+} */
+
+/* .chipsVal{
+ font-size: 13px; 
+} */
+.close.material-icons {
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
+}
+
+.close_mark {
+  border-radius: 10px;
+  background: #dee1f0;
+  cursor: pointer;
+}
+
+::ng-deep .mat-select-panel {
+  transform: translate(-14px, 20px) !important;
+  min-width: calc(100% + 20px) !important;
+}
+
+/* ::ng-deep .cdk-overlay-pane {
+    width: 20% !important;
+    position: relative !important;
+    transform: translateX(0) translateY(0) !important;
+    max-width: fit-content !important;
+  } */
+
+::ng-deep .cdk-overlay-pane.mat-datepicker-popup {
+  position: absolute !important;
+}
+
+.selected_values_list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.selected_value {
+  background-color: #4657b8;
+  padding: 3px 5px;
+  margin: 0 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.values_content {
+  background: #dee1f0;
+  padding: 0 5px;
+  margin: 0 5px 0 0;
+  border-radius: 5px;
+}
+
+::ng-deep .datePicker .mat-datepicker-toggle {
+  height: 16px;
+}
+
+::ng-deep .datePicker .mat-icon-button {
+  height: 30px !important;
+  bottom: 5px;
+  left: 10px;
+  /* bottom: 10px; */
+  width: 30px !important;
+}
+
+.selected-chip {
+  background-color: #2196f3 !important;
+  color: #ffffff;
+}
+
+/* Add this to your component's CSS or the global styles.css */
+.no-spinners::-webkit-inner-spin-button,
+.no-spinners::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spinners {
+  appearance: textfield;
+}
+
+.read-only-chip {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.quesCounts {
+  display: flex;
+}
+
+.counts {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0 5px;
+  display: flex;
+  /* color: #0000ee; */
+color: white;
+  text-decoration: underline;
+  cursor: pointer !important;
+}
+
+::ng-deep .datePicker .mat-datepicker-toggle-default-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* ::ng-deep .textArea textarea {
+    height: 16px;
+  } */
+
+.select_wrapper {
+  /* border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12); */
+  border-radius: 5px;
+  padding: 5px 15px;
+  margin-top: 10px;
+}
+
+.mat-expansion-panel {
+  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.input_wrap {
+  padding: 0;
+}
+
+.subqContainer1 {
+  margin: 3px;
+  max-width: 32.7%;
+  border: 1px solid #e1e2e3;
+  border-radius: 5px;
+}
+
+.sub {
+  /* background: #157eab; */
+  border: 1px solid #ff7c25;
+  background-color: #ff7c25;
+  color: white;
+  line-height: 24px;
+  padding: 0px 20px 0 10px;
+  font-size: 12px;
+}
+
+.btnImg {
+  height: 20px;
+  position: relative;
+  right: 18px;
+}
+
+.versPanel {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.versPanel span {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0 3px;
+}
+
+.inner_counts {
+  margin-right: 10px;
+}
+
+.error-message {
+  color: red;
+}
+
+.buttons_wrap ::ng-deep .mat-chip-list {
+  max-height: 60px;
+  overflow: auto;
+  display: block;
+  padding: 5px;
+}
+
+.buttons_wrap {
+  padding: 0 0 0 5px;
+}
+
+.buttons_wrap ::ng-deep .mat-chip-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.buttons_wrap ::ng-deep .mat-chip-list::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+}
+
+.buttons_wrap ::ng-deep .mat-chip-list::-webkit-scrollbar-track {
+  background: white;
+}
+
+.subqContainer {
+  margin: 3px;
+  max-width: 49.2%;
+  border: 1px solid #e1e2e3;
+  border-radius: 5px;
+}
+
+/* Mk style */
+
+/* .tab1{
+    height: 360px !important;
+  
+  } */
+/* styles.css */
+/* .mat-drawer-container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .mat-drawer-container {
+      flex-direction: column;
+    }
+  } */
+
+.vesselParticuler label {
+  font-weight: bold !important;
+  padding-left: 5px;
+  color: white;
+  font-size: 12px;
+}
+
+p {
+  padding-left: 5px;
+  font-weight: lighter !important;
+}
+
+.vesselParticuler {
+  display: flex;
+  border-radius: 5px;
+  padding: 0 5px;
+  height: 25px;
+  align-items: center;
+  color: white;
+  background-color: #4657b8;
+}
+
+.vesselParticuler span {
+  font-weight: unset;
+  padding: 0 5px;
+  font-size: 12px;
+}
+
+.list-header {
+  font-size: 12px;
+  background-color: #dee1f0;
+  color: #4657b8;
+  font-weight: bold;
+}
+
+/* .selected-item , a {
+    background-color: #8fbbf4;
+    color: #fff;
+  
+  }
+  
+  .unselected-item ,a {
+    background-color: #fff;
+    color: #030303 !important;
+  } */
+
+
+
+:host ::ng-deep .mat-horizontal-content-container {
+  overflow: hidden !important;
+  padding: 0 0px 0px 0px !important;
+}
+
+::ng-deep .mat-ink-bar {
+  height: 1px !important;
+}
+/* ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline{
+  border-top-width: 1px !important;
+  border-color:#212121 !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #212121 !important;
+} */
+
+::ng-deep .mat-tab-label {
+  height: 25px !important;
+  font-size: 12px !important;
+}
+/* ::ng-deep .mdc-tab {
+  height: 25px !important;
+  font-size: 12px !important;
+} */
+
+.progress-spinner {
+  position: fixed;
+  z-index: 999;
+  height: 1em;
+  width: 1em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  cursor: pointer;
+}
+
+.shoreQuest {
+  background-color: #e0e0e0;
+  pointer-events: none;
+  cursor: not-allowed;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.presetQuest {
+  background: aliceblue;
+}
+
+.indicators {
+  display: flex;
+  align-items: center;
+}
+
+.indCol {
+  width: 12px;
+  height: 12px;
+  border-radius: 50px;
+  margin: 0 3px;
+}
+
+.indCol.preset {
+  background: aliceblue;
+  border: 1px solid aliceblue;
+}
+
+.indCol.shore {
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0;
+}
+
+.topBarQuestInd {
+  display: flex;
+  justify-content: space-between;
+}
+
+.restoreIcn {
+  font-size: 20px !important;
+  cursor: pointer;
+}
+
+.questIndicator {
+  display: flex;
+  padding: 0 15px;
+}
+
+.presetChanged {
+  background-color: #ffffe0 !important;
+}
+
+.indicators span {
+  font-weight: 500;
+  color: white;
+}
+
+fieldset {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 0 5px;
+  width: 100%;
+}
+
+.memoContent {
+  padding: 0 15px;
+}
+
+legend {
+  width: fit-content;
+  margin: 0 5px;
+  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 0 5px;
+}
+
+.description {
+  height: calc(100vh - 255px);
+  overflow: auto;
+  cursor: pointer;
+  /* box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
+    -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12); */
+}
+
+.guideWrap{
+  box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
+    -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.description::-webkit-scrollbar {
+  width: 10px;
+}
+
+.description::-webkit-scrollbar-track {
+  border: 1px solid #dee1f0;
+  background-color: white;
+}
+
+.description::-webkit-scrollbar-thumb {
+  background: #dee1e6;
+}
+
+.datePicker ::ng-deep input.mat-input-element {
+  height: 20px !important;
+}
+
+.datePicker ::ng-deep .mat-form-field-infix {
+  padding: 7px 0 5px 0 !important;
+}
+
+.input ::ng-deep input.mat-input-element {
+  height: 20px !important;
+}
+
+.completed {
+  border-radius: 50px;
+  width: 10px;
+  height: 10px;
+  background: #2bc48a;
+}
+
+.inProgress {
+  border-radius: 50px;
+  width: 10px;
+  height: 10px;
+  background: #e3a40c;
+}
+
+/* .selected .incomplete{
+  display: block !important;
+} */
+
+.input ::ng-deep .mat-form-field-infix {
+  padding: 7px 0 5px 0 !important;
+}
+
+.alert_circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  margin: 0 2px;
+  background: #2bc48a;
+}
+
+.home {
+  background-color: #193a5e;
+  color: white;
+  height: 24px !important;
+  padding: 0px;
+  margin: 0 5px;
+  font-size: 12px;
+  min-width: 24px;
+}
+
+.home .material-icons {
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
+  position: relative;
+  bottom: 1px;
+  margin: 0;
+}
+
+

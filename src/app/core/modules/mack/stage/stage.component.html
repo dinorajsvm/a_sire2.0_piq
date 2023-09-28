@@ -1,0 +1,10 @@
+<mat-horizontal-stepper #stepper class="custom-horizontal-stepper">
+    <mat-step-header class="bg-light">
+      <ng-container *ngFor="let step of steps">
+        <!-- <mat-step editable="false" [state]="step.status" [completed]="step.completed"> -->
+        <mat-step editable="false" [state]="step.status">
+          <ng-template matStepLabel>{{ step.stagename }}</ng-template>
+        </mat-step>
+      </ng-container>
+    </mat-step-header>
+  </mat-horizontal-stepper>

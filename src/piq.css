@@ -1,0 +1,265 @@
+/* TAB STYLE STARTS */
+::ng-deep .mdc-tab {
+  min-width: 160px !important;
+  height: 25px !important;
+  font-size: 12px !important;
+  padding: 0 24px !important;
+  flex-grow: 0 !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-top-width: 1px !important;
+  border-color: #212121 !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #212121 !important;
+}
+
+::ng-deep .mat-mdc-tab-labels {
+  border-bottom: 1px solid #e2e2e2 !important;
+}
+
+::ng-deep .mat-mdc-tab-body {
+  padding: 0 5px !important;
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+  height: calc(100vh - 160px) !important;
+  overflow: auto !important;
+  transition: none !important;
+}
+/* TAB STYLE ENDS */
+
+/* BUTTON STYLE START */
+.mat-mdc-button.mat-mdc-button-base {
+  height: 30px !important;
+}
+/* BUTTON STYLE END */
+
+/* MACK STANDARD BUTTONS START */
+.save.mat-mdc-button.mat-mdc-button-base {
+  background-color: #00acf5;
+  color: white;
+  height: 26px !important;
+  padding: 0px 10px;
+  margin: 0 5px;
+  font-size: 12px;
+}
+
+.home.mat-mdc-button.mat-mdc-button-base {
+  background-color: #193a5e;
+  color: white;
+  height: 24px !important;
+  padding: 0px;
+  margin: 0 5px;
+  font-size: 12px;
+  min-width: 24px;
+}
+
+.draft.mat-mdc-button.mat-mdc-button-base {
+  background-color: #e3a40c;
+  color: white;
+  height: 26px !important;
+  margin: 0 5px;
+  padding: 0px 10px;
+  font-size: 12px;
+}
+
+.sub.mat-mdc-button.mat-mdc-button-base {
+  border: 1px solid #ff7c25;
+  background-color: #ff7c25;
+  color: white;
+  height: 26px !important;
+  padding: 0px 19px 0 10px;
+  font-size: 12px;
+}
+/* MACK STANDARD BUTTONS END */
+
+/* FORMS START */
+::ng-deep .mdc-text-field--outlined {
+  --mdc-outlined-text-field-outline-width: 1px !important;
+  --mdc-outlined-text-field-focus-outline-width: 1px !important;
+  --mdc-outlined-text-field-container-shape: 5px !important;
+  --mdc-outlined-text-field-caret-color: black !important;
+  --mdc-outlined-text-field-focus-outline-color: black !important;
+  --mdc-outlined-text-field-focus-label-text-color: black !important;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  --mdc-filled-text-field-focus-active-indicator-height: 1px !important;
+  --mdc-filled-text-field-focus-outline-width: 1px !important;
+  --mdc-filled-text-field-container-shape: 0px !important;
+  --mdc-filled-text-field-caret-color: black !important;
+  --mdc-filled-text-field-container-color: white !important;
+  --mdc-filled-text-field-focus-container-color: white !important;
+  --mdc-filled-text-field-focus-active-indicator-color: black !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+.mat-mdc-form-field {
+  padding-bottom: 5px !important;
+}
+/* FORMS END */
+
+/* INPUT FORMS START */
+.input ::ng-deep .mat-mdc-form-field-infix {
+  min-height: unset !important;
+  padding: 0 !important;
+}
+
+.input ::ng-deep .mat-mdc-text-field-wrapper {
+  padding: 0 10px !important;
+}
+
+.input ::ng-deep .mat-mdc-form-field-input-control {
+  height: 20px !important;
+  font-size: 12px !important;
+  margin: 5px 0px !important;
+}
+/* INPUT FORMS END */
+
+/* FILTER FORMS START */
+.filter ::ng-deep .mat-mdc-form-field-infix {
+  min-height: unset !important;
+  padding: 0 !important;
+}
+
+.filter ::ng-deep .mat-mdc-text-field-wrapper {
+  padding: 0 10px !important;
+}
+
+.filter ::ng-deep .mat-mdc-form-field-input-control {
+  height: 20px !important;
+  font-size: 12px !important;
+  margin: 5px 0px !important;
+}
+/* FILTER FORMS END */
+
+/* TEXTAREA FORMS START */
+.textArea ::ng-deep .mat-mdc-form-field-infix {
+  padding: 0 !important;
+}
+
+.textArea ::ng-deep .mat-mdc-text-field-wrapper {
+  padding: 0 10px !important;
+}
+
+.textArea ::ng-deep .mat-mdc-form-field-input-control {
+  font-size: 12px !important;
+  margin: 5px 0px !important;
+}
+/* TEXTAREA FORMS END */
+
+/* DATE FORMS START */
+.datePicker ::ng-deep .mat-mdc-form-field-infix {
+  min-height: unset !important;
+  padding: 0 !important;
+}
+
+.datePicker ::ng-deep .mat-mdc-text-field-wrapper {
+  padding: 0 10px !important;
+}
+
+.datePicker ::ng-deep .mat-mdc-form-field-input-control {
+  height: 20px !important;
+  font-size: 12px !important;
+  margin: 5px 0px !important;
+}
+
+.datePicker ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+  --mdc-icon-button-state-layer-size: 40px !important;
+  width: 25px !important;
+  height: 25px !important;
+  padding: 0px !important;
+}
+/* DATE FORMS END */
+
+/* CHIP STYLE START */
+.mat-mdc-standard-chip {
+  padding: 2px 5px !important;
+  --mdc-chip-elevated-container-color: #f1f1f1 !important;
+  --mdc-chip-label-text-size: 12px !important;
+  --mdc-chip-label-text-weight: 500 !important;
+  --mdc-chip-container-shape-radius: 16px !important;
+  /* font-weight: 500 !important;
+  border-radius: 16px !important;
+  font-size: 12px !important;
+  background-color: #f1f1f1 !important; */
+  height: fit-content !important;
+  width: fit-content !important;
+}
+
+::ng-deep .mdc-evolution-chip__text-label {
+  white-space: unset !important;
+}
+::ng-deep .mdc-evolution-chip__graphic {
+  display: none !important;
+}
+
+::ng-deep .mdc-evolution-chip__action {
+  padding: 0 !important;
+}
+
+.mdc-evolution-chip-set {
+  max-height: 100px;
+  overflow: auto;
+}
+
+.buttons_wrap ::ng-deep .mdc-evolution-chip-set::-webkit-scrollbar {
+  width: 5px;
+}
+
+.buttons_wrap ::ng-deep .mdc-evolution-chip-set::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+}
+
+.buttons_wrap ::ng-deep .mdc-evolution-chip-set::-webkit-scrollbar-track {
+  background: white;
+}
+.mat-mdc-standard-chip.mat-mdc-chip-selected.mat-primary{
+  background-color: #2196F3 !important;
+  color: white !important;
+}
+
+/* ::ng-deep .cdk-focused.cdk-mouse-focused {
+  opacity: 0 !important;
+} */
+
+/* ::ng-deep .mat-mdc-standard-chip.cdk-focused.cdk-mouse-focused {
+  background-color: #f1f1f1 !important;
+} */
+
+/* CHIP STYLE END */
+
+/*SNACKBAR STYLE START*/
+.bg-info.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #0079bd !important;
+  --mat-snack-bar-button-color: white !important;
+  padding: 0 !important;
+  margin: 25px !important;
+}
+
+.bg-danger.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #dc3545 !important;
+  --mat-snack-bar-button-color: white !important;
+  padding: 0 !important;
+  margin: 25px !important;
+}
+
+.mdc-snackbar__surface {
+  padding: 0 !important;
+}
+/*SNACKBAR STYLE END*/
+
+/* DIALOG STYLE START */
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 15px !important;
+  height: 30px !important;
+  margin-top: 10px;
+}
+/* DIALOG STYLE END */

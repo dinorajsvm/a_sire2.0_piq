@@ -1,0 +1,20 @@
+{
+    "response": [
+        {
+            "value": "SMSG",
+            "viewValue": "SMSG"
+        },
+        {
+            "value": "SVMG",
+            "viewValue": "SVMG"
+        },
+        {
+            "value": "SSMG",
+            "viewValue": "SSMG"
+        },
+        {
+            "value": "SVVG",
+            "viewValue": "SVVG"
+        }
+    ]
+}

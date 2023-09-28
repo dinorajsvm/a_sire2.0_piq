@@ -1,0 +1,25 @@
+.mat-icon:hover{
+    cursor: pointer;
+    }
+.mat-mdc-dialog-container {
+    margin-top: 20px;
+    margin-bottom: 20px; 
+}
+.cdk-global-overlay-wrapper {
+    display: flex;
+    position: absolute;
+    z-index: 1000;
+    overflow: auto;
+    pointer-events: auto;  
+}
+.mat-mdc-dialog-container .card-body .content{
+    max-height: 300px; 
+    overflow-y:scroll;
+ }
+.pointer:hover {cursor: pointer}
+.btn-black:hover{
+    color: white;
+}
+.m-minus24 {
+    margin:-24px;
+}

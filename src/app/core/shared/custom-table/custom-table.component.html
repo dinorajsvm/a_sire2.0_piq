@@ -1,0 +1,28 @@
+<div class="table-responsive">
+<mat-table class="table" #table matSort [dataSource]="dataSource">
+    <ng-container *ngFor="let column of columnDef" [matColumnDef]="column.columnDef" [sticky]="isSticky(column)">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <ng-container *ngIf="column.menuItems">
+          <ng-container *ngFor="let menu of column.menuItems">
+            <img class="pr-2 cursor-pointer" (click)="menu.menuAction(row)" src="assets/icon-images/{{menu.icon}}.png" width="20" alt="" />
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!column.menuItems">
+         
+          <ng-container *ngIf="column.isChiplist">
+            <mat-chip-listbox>
+              <mat-chip-option *ngFor="let chipset of column.cell(row).split(',')">{{ chipset }}</mat-chip-option>
+            </mat-chip-listbox>
+        </ng-container> 
+        <ng-container *ngIf="!column.isChiplist">
+          {{ column.cell(row) }}
+      </ng-container>  
+        </ng-container>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+</div>
+<mat-paginator [pageSizeOptions]="rowSize" showFirstLastButtons></mat-paginator>

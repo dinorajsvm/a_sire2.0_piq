@@ -1,0 +1,65 @@
+:host {
+    background-color: #2D3E50;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 100%;
+    height: 100%;
+    overflow: auto;
+    position: fixed;
+}
+.sidebar-wrapper-open {
+    width: 200px;
+}
+.sidebar-wrapper-close {
+    width: 60px;
+}
+#sidebar-wrapper {
+    padding:0;
+}
+.bg-sidebar .list-group-item,
+.bg-sidebar {
+    transition:all 0.5s ease;
+    color:#ffffff;
+    background-color: #2d3e50;
+    font-size: 0.6rem;
+    border:medium none !important;
+}
+.bg-sidebar .list-group-item {
+    padding: 0.5rem 1.25rem;
+}
+/* .bg-sidebar .list-group-item:hover, */
+.bg-sidebar .list-group-item.active,
+.bg-sidebar .mat-expansion-panel:hover  {
+    background: #ffffff !important;
+    color:#2d3e50;
+}
+.bg-sidebar .mat-expansion-panel-body {
+    padding: 0 !important;
+}
+.bg-sidebar .mat-expansion-panel {
+    background: none !important;
+    border-radius: 0 !important;
+}
+.bg-sidebar .mat-expansion-indicator::after, .mat-expansion-panel-header-description {
+    color: #ffffff !important;
+}
+.bg-sidebar .mat-expansion-panel-header-title {
+    color: #ffffff !important;
+    font-size: 0.8rem !important;
+}
+.bg-sidebar .mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none !important;
+}
+.svmlogo {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    text-align: center;
+}
+
+.tabname {
+    color: black;
+    font-weight: 600;
+    font-size: 12px;
+}

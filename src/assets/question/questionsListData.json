@@ -1,0 +1,938 @@
+[
+    {
+        "id": "1",
+        "header": "1. general information",
+        "values": [
+            {
+                "subHeaders": "1. General Information",
+                "question": [
+                    {
+                        "mainQuestion": "1.1 General Information",
+                        "subQuestion": [
+                            {
+                                "id": "subq1.1.1",
+                                "subName": "Vessel Type",
+                                "type": "dropdown"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    
+    {
+        "id": "2",
+        "header": "2. certification and documentation",
+        "values": [
+            {
+                "subHeaders": "2.1 Certification",
+                "question": [
+                    {
+                        "mainQuestion": "2.1.1 What was the date of last visit by a Classification Society surveyor?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.1.1.1",
+                                "subName": "Date of last visit",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq2.1.1.2",
+                                "subName": "Purpose of visit",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.1.1.3",
+                                "subName": "If Other, provide details",
+                                "type": "textarea"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "2.2 Management Oversight",
+                "question": [
+                    {
+                        "mainQuestion": "2.2.1 Has a Technical Superintendent with a senior marine engineer, naval architect or mechanical engineering background attended the vessel and completed a full inspection of the vessel during the preceding eighteen months ?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.2.1.1",
+                                "subName": "Technical Superintendent inspection completed?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.2.1.2",
+                                "subName": "Date from",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq2.2.1.3",
+                                "subName": "Date to",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq2.2.1.4",
+                                "subName": "Number of Days",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq2.2.1.5",
+                                "subName": "Type of Insepction",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.2.2 Has a Marine Superintendent (possessing a senior deck officer's license and having sailed in a senior rank on tankers) attended the vessel and completed a full inspection of the vessel during the preceding eighteen months",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.2.2.1",
+                                "subName": "Marine Superintendent Inspection completed?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.2.2.2",
+                                "subName": "Date from",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq2.2.2.3",
+                                "subName": "Date to",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq2.2.2.4",
+                                "subName": "Number of Days",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq2.2.2.5",
+                                "subName": "Type of Insepction",
+                                "type": "dropdown"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "2.3 Structural Assessment",
+                "question": [
+                    {
+                        "mainQuestion": "2.3.3.1 What is the required frequency of inspection for cargo tanks?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.3.3.1.1",
+                                "subName": "Required frequency of inspection for cargo tanks?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.3.1.2",
+                                "subName": "What is the date of the oldest inspection report for all cargo and sloptanks in the current sequence of tank inspections?",
+                                "type": "date"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.3.3.2 What is the required frequency of inspection for ballast tanks?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.3.3.2.1",
+                                "subName": "Required frequency of inspection for ballast tanks?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.3.2.2",
+                                "subName": "What is the date of the oldest inspection report for all ballast tanks  in the current sequence of tank inspections?",
+                                "type": "date"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.3.3.3 What is the required frequency of inspection for void* spaces?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.3.3.3.1",
+                                "subName": "Required frequency of inspection for void spaces?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.3.3.2",
+                                "subName": "What is the date of the oldest inspection report for all void spaces in the current sequence of void space inspections?",
+                                "type": "date"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.3.5.1 Is the vessel enrolled in a condition assessment programme (CAP)",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.3.5.1.1",
+                                "subName": "Enrolled in a condition assessment programme (CAP)",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.5.1.2",
+                                "subName": "CAP rating for hull structure",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.5.1.3",
+                                "subName": "CAP rating for propulsion and auxiliary systems",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.5.1.4",
+                                "subName": "CAP rating for cargo equipment and systems",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.5.1.5",
+                                "subName": "CAP rating for cargo containment systems (for LPG an LNG Carriers)",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.5.1.6",
+                                "subName": "CAP rating for machinery and cargo systems combined",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.5.1.7",
+                                "subName": "CAP rating for bridge, navigation and radio equipment",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.3.5.1.8",
+                                "subName": "CAP rating - Other, please provide brief details",
+                                "type": "textarea"
+                            },
+                            {
+                                "id": "subq2.3.5.1.9",
+                                "subName": "Overall rating where provided",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.3.5.2 Did the hull structure assessment include a fatigue assessment?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.3.5.2.1",
+                                "subName": "",
+                                "type": "textarea"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.3.5.3 What is the date range for the survey for issue of the CAP ratings?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.3.5.3.1",
+                                "subName": "Date CAP survey commenced",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq2.3.5.3.2",
+                                "subName": "Date CAP survey completed",
+                                "type": "date"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "2.5 Management of Change",
+                "question": [
+                    {
+                        "mainQuestion": "2.5.1.1 Have any structural changes been made to the vessel and/or its fittings during the preceding twelve months?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.5.1.1.1",
+                                "subName": "Have any structural changes been made?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.5.1.1.2",
+                                "subName": "Structural change - brief details",
+                                "type": "textarea"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.5.1.2 Has any equipment been retrofitted to the vessel during the previous twelve months?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.5.1.2.1",
+                                "subName": "Has any equipment been retrofitted?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.5.1.2.2",
+                                "subName": "Retrofitted equipment - brief details",
+                                "type": "textarea"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.5.1.3 Has any equipment listed on Safety Equipment Certificate form E, Safety Radio Certificate form R, IOPP Certificate form A/B been replaced on a non like for like basis during the preceding twelve months?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.5.1.3.1",
+                                "subName": "Equipment replaced?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.5.1.3.2",
+                                "subName": "Equipment replaced - brief detail",
+                                "type": "textarea"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.5.1.4 Has any equipment been decommissioned during the preceding twelve months?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.5.1.4.1",
+                                "subName": "Equipment decommissioned?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.5.1.4.2",
+                                "subName": "Equipment decommissioned - brief details",
+                                "type": "textarea"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "2.6 Statutory Management Plans",
+                "question": [
+                    {
+                        "mainQuestion": "2.6.2 Is the vessel provided with a Volatile Organic Compounds (VOC) Management Plan?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.6.2.1",
+                                "subName": "Volatile Organic Compounds (VOC) Management Plan?",
+                                "type": "dropdown"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "2.7 Safety Management System",
+                "question": [
+                    {
+                        "mainQuestion": "2.7.1.1 In what language(s) is the SMS provided on board?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.7.1.1.1",
+                                "subName": "Primary Language?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.7.1.1.2",
+                                "subName": "Alternate languages",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "2.7.1.2 What is the common working language onboard?",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.7.1.2.1",
+                                "subName": "Common working Language?",
+                                "type": "dropdown"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "2.8 General Information",
+                "question": [
+                    {
+                        "mainQuestion": "2.8.2 Please specify the last three Port State Control (PSC) inspections",
+                        "subQuestion": [
+                            {
+                                "id": "subq2.8.2.1",
+                                "subName": "Has the vessel undergone a PSC inspection?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.8.2.2",
+                                "subName": "What was the date of the PSC inspection?",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq2.8.2.3",
+                                "subName": "In which port did the inspection take place?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.8.2.4",
+                                "subName": "Under which PSC MOU?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.8.2.5",
+                                "subName": "How many deficiencies were recorded?",
+                                "type": "textarea"
+                            },
+                            {
+                                "id": "subq2.8.2.6",
+                                "subName": "Was the vessel detained ?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq2.8.2.7",
+                                "subName": "Has the inspection data been entered in the OCIMF PSC database?",
+                                "type": "dropdown"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "3",
+        "header": "3. crew management",
+        "values": [
+            {
+                "subHeaders": "3.1 Crew Qualification",
+                "question": [
+                    {
+                        "mainQuestion": "3.1.1.1 What is the minimum complement required by the Minimum Safe Manning Document?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.1.1.1.1",
+                                "subName": "Minimum Total complement",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq3.1.1.1.2",
+                                "subName": "Deck officers including the Master?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.1.1.3",
+                                "subName": "Watchkeeping engineer officers including the Chief Engineer when operating in UMS mode?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.1.1.4",
+                                "subName": "Watchkeeping engineer officers including the Chief Engineer whenoperating in manned mode?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.1.1.5",
+                                "subName": "Deck ratings?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.1.1.6",
+                                "subName": "Engine room ratings?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.1.1.7",
+                                "subName": "General purpose ratings, where carried?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.1.1.8",
+                                "subName": "Catering ratings?",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.1.3.2 What is the company standard manning level for the vessel during routine operations?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.1.3.2.1",
+                                "subName": "Standard total complement for the vessel during routine operations?",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq3.1.3.2.2",
+                                "subName": "Deck officers including the Master?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.2.3",
+                                "subName": "Watchkeeping engineer officers including the Chief Engineer?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.2.4",
+                                "subName": "Electricians, ETO's and specialist cargo engineers?",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq3.1.3.2.5",
+                                "subName": "Deck ratings including bosun and pumpman?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.2.6",
+                                "subName": "Engine room ratings including machinists and fitters?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.2.7",
+                                "subName": "General purpose ratings, where carried?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.2.8",
+                                "subName": "Catering ratings?",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.1.3.3 Does the SMS include the provision of additional manning, over and above the company standard complement, for continous/extended/repeated STS operations?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.1.3.3.1",
+                                "subName": "Additional manning, over and above the company standard complement, for continuous/extended/repeated STS operations?",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq3.1.3.3.2",
+                                "subName": "Additional manning level for continuous/extended/repeated STS operations",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq3.1.3.3.3",
+                                "subName": "Additional deck officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.3.4",
+                                "subName": "Additional engineer officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.3.5",
+                                "subName": "Additional deck ratings?",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.1.3.4 Does the SMS include the provision of additional manning, over and above the company standard complement for continuous/extended/repeated inter-harbour operations and/or short voyages of less than 24 hours?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.1.3.4.1",
+                                "subName": "Additional manning , over and above the company standard complement, for continuous/extended/repeated inter-harbour operations and/or short voyages of less than 24 hours?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.4.2",
+                                "subName": "Additional manning  for continuous/extended/repeated inter-harbour operations and/or short voyages of less than 24 hours",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.4.3",
+                                "subName": "Additional deck officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.4.4",
+                                "subName": "Additional engineer officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.4.5",
+                                "subName": "Additional deck ratings",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.1.3.5 Does the SMS inclue the provision of additional manning, over and above company standard manning level, for operations requiring implementation of additional security measures?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.1.3.5.1",
+                                "subName": "Additional manning, over and above the company standard complement, for operations requiring implementation of additional security measures?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.5.2",
+                                "subName": "Additional manning, over and above the company standard manning level, for operations requiring implementation of additional security measures?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.5.3",
+                                "subName": "Additional deck officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.5.4",
+                                "subName": "Additional engineer officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.5.5",
+                                "subName": "Additional deck ratings",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.1.3.6 Does the SMS include the provision for additional manning for any other operations?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.1.3.6.1",
+                                "subName": "Does the SMS include the provision of additional manning provision for any other operations?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.6.2",
+                                "subName": "Please provide details ?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.6.3",
+                                "subName": "Additional deck officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.6.4",
+                                "subName": "Additional engineer officers?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.6.5",
+                                "subName": "Additional deck ratings?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.1.3.6.6",
+                                "subName": "Additional engine room ratings?",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.1.3.7 What is the minimum interval required between the relief of the senior officers from the same department",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.1.3.7.1",
+                                "subName": "Minimal Interval (days)",
+                                "type": "textarea"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "3.2 Crew Evaluation",
+                "question": [
+                    {
+                        "mainQuestion": "3.2.1 Has a static navigational assessment been conducted by a member of the shore staff during the preceding twelve months?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.1.1",
+                                "subName": "Static navigational assessment conducted?",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.2.1.2",
+                                "subName": "Date",
+                                "type": "date"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.2.2 Has a dynamic navigational assessment been conducted by a member of the shore staff during the preceding twenty four months?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.2.1",
+                                "subName": "Dynamic navigational assessment - conducted by shore staff",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.2.2.2",
+                                "subName": "Date from",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.2.3",
+                                "subName": "Date to",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.2.4",
+                                "subName": "Number of Days",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq3.2.2.5",
+                                "subName": "Activities Assessed",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.2.3 Has a dynamic navigational assessment been conducted by a third party contractor during the preceding twelve months?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.3.1",
+                                "subName": "Dynamic navigational assessment - conducted by a third party contractor",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.2.3.2",
+                                "subName": "Date from:",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.3.3",
+                                "subName": "Date to:",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.3.4",
+                                "subName": "Number of Days",
+                                "type": "input"
+                            },
+                            {
+                                "id": "subq3.2.3.5",
+                                "subName": "Activities Assessed",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.2.4 Has an unannounced remote navigational assessment, which included review of VDR & ECDIS data, been conducted by an independent contractor or specialist company representative during the preceding twelve months",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.4.1",
+                                "subName": "Unannounced remote navigational assessment",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.2.4.2",
+                                "subName": "Date",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.4.3",
+                                "subName": "Activities Assessed",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.2.5 Has a comprehensive cargo audit in accordance with TMSA 6.4.2 been conducted by a member of the shore staff during the preceding twelve months? (include all operations observed and evaluated)",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.5.1",
+                                "subName": "Comprehensive cargo audit",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.2.5.2",
+                                "subName": "Date from",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.5.3",
+                                "subName": "Date to",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.5.4",
+                                "subName": "Activities Assessed",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.2.6 Has a comprehensive engineering audit in accordance with TMSA 4.4.5 been conducted by a member of the shore staff during the preceding twelve months? (include all operations observed and evaluated)",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.6.1",
+                                "subName": "Comprehensive engineering audit",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.2.6.2",
+                                "subName": "Date from",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.6.3",
+                                "subName": "Date to",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.6.4",
+                                "subName": "Activities Assessed",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.2.7 Has a comprehensive mooring and anchoring audit in accordance with TMSA 6A.4.3 been conducted by a member of theshore staff during the preceding twelve months? (include all operations observed and evaluated)",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.7.1",
+                                "subName": "Comprehensive mooring and anchoring audit",
+                                "type": "dropdown"
+                            },
+                            {
+                                "id": "subq3.2.7.2",
+                                "subName": "Date from",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.7.3",
+                                "subName": "Date to",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.7.4",
+                                "subName": "Activities Assessed",
+                                "type": "dropdown"
+                            }
+                        ]
+                    },
+                    {
+                        "mainQuestion": "3.2.8 Has a Behavioural Competency Assessment and Verification process (in alignment with the OCIMF / INTERTANKO best practice guidance) been instigated onboard?",
+                        "subQuestion": [
+                            {
+                                "id": "subq3.2.8.1",
+                                "subName": "Behavioural Competency Assessment and Verification process",
+                                "type": "date"
+                            },
+                            {
+                                "id": "subq3.2.8.1",
+                                "subName": "Operational areas assessed",
+                                "type": "date"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "subHeaders": "3.3 Crew Training"
+            },
+            {
+                "subHeaders": "3.4 Crew Compliance"
+            },
+            {
+                "subHeaders": "3.5 Crew Familiarisation"
+            }
+        ]
+    },
+    {
+        "id": "4",
+        "header": "4. navigation and communication",
+        "values": [
+            {
+                "subHeaders": "4.1 Navigational Equipment"
+            },
+            {
+                "subHeaders": "4.2 Navigational Procedures"
+            }
+        ]
+    },
+    {
+        "id": "5",
+        "header": "5. safety management",
+        "values": [
+            {
+                "subHeaders": "5.2 Fixed Fire Protection Systems"
+            },
+            {
+                "subHeaders": "5.6 Fixed and Portable Gas Detecting Systems"
+            },
+            {
+                "subHeaders": "5.7 Safety Management"
+            },
+            {
+                "subHeaders": "5.8 Area Safety Management"
+            },
+            {
+                "subHeaders": "5.10 Safe Access"
+            }
+        ]
+    },
+    {
+        "id": "6",
+        "header": "6. pollution prevention",
+        "values": [
+            {
+                "subHeaders": "6.3 Ballast Operations"
+            }
+        ]
+    },
+    {
+        "id": "7",
+        "header": "7. maritime security",
+        "values": [
+            {
+                "subHeaders": "7.2 Ship Hardening and Access Control"
+            }
+        ]
+    },
+    {
+        "id": "8",
+        "header": "8. cargo and ballast systems",
+        "values": [
+            {
+                "subHeaders": "8.3 Oil and Chemical"
+            },
+            {
+                "subHeaders": "8.6 Gas (Common to all Vessels under IGC Code)"
+            },
+            {
+                "subHeaders": "8.7 Shuttle Tanker Cargo Operations"
+            },
+            {
+                "subHeaders": "8.99 All Types"
+            }
+        ]
+    },
+    {
+        "id": "10",
+        "header": "10. machinery spaces",
+        "values": [
+            {
+                "subHeaders": "10.2 Machinery Status"
+            },
+            {
+                "subHeaders": "10.3 Safety Management"
+            },
+            {
+                "subHeaders": "10.4 Planned Maintenance Systems"
+            },
+            {
+                "subHeaders": "10.5 Conventional Bunkering Management"
+            },
+            {
+                "subHeaders": "10.7 Fire Protection Measures"
+            }
+        ]
+    },
+    {
+        "id": "12",
+        "header": "12. ice operations",
+        "values": [
+            {
+                "subHeaders": "12.1 Ice Operations Training"
+            },
+            {
+                "subHeaders": "12.6 Ice Navigation Procedures"
+            }
+        ]
+    }
+]

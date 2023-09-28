@@ -1,0 +1,85 @@
+.navbar {
+    padding: .2rem 1rem;
+}
+#navbarSupportedContent {
+    display: flex;
+    flex-grow: 1;
+}
+#navbarSupportedContent .mat-mdc-button,
+.mat-mdc-option {
+    font-size: 0.8rem;
+}
+.nav-color {
+    color:#5C5E81;
+}
+.navbar-nav .nav-item a {
+    color:#5C5E81;
+    padding: 0 0.5rem;
+}
+.navbar-nav .nav-item a  mat-icon {
+    width: 20px;
+    height: 20px;
+}
+.notification-bar button {
+    line-height: 20px !important;
+    width:50px;
+    border-right: 1px solid #475361 !important;
+    border-radius: 0% !important;
+}
+
+.chatmenu .mat-badge-content {
+    background: #89a9b7 ;
+}
+.notification .mat-badge-content {
+    background: #0082c0 ;
+}
+.email .mat-badge-content {
+    background: #ff9331 ;
+}
+.task .mat-badge-content {
+    background: #00ae8d ;
+}
+.profile-menu {
+    white-space: nowrap;
+    line-height: 12px;
+    text-align: right;
+}
+.language-flag {
+    font-size: 20px;
+}
+.profile-box {
+    background: #192465;
+    color: #fff;
+    padding: 0 5px;
+}
+.profile-main-box {
+    margin-top: -8px;
+    margin-bottom: -8px;
+    font-size: 12px;
+    min-width: 250px;
+}
+.profile-main-box button.mat-mdc-menu-item {
+    font-size: 12px;
+}
+.flag-icon-gb,.flag-icon-jp {
+    background-size: cover;
+}
+.navbar-themedark {
+    background: #2d3e51;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    padding: .2rem 1rem;
+    justify-content: unset;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .navbar {
+    padding: .2rem 1rem;
+    justify-content: unset;
+  }
+}

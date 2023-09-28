@@ -1,0 +1,35 @@
+<div class="text-right toolbar">
+    <button (click)="toolBarMenu.new.action ? toolBarMenu.new.onMenuAction() : null" mat-icon-button matTooltip="New" type="button">
+        <img [src]="toolBarMenu?.new?.action ? 'assets/tool-bar/new.png' : 'assets/tool-bar/new-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.save.action ? toolBarMenu.save.onMenuAction() : null" mat-icon-button matTooltip="Save" type="button">
+        <img [src]="toolBarMenu?.save?.action ? 'assets/tool-bar/save.png' : 'assets/tool-bar/save-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.edit.action? toolBarMenu.edit.onMenuAction() : null" mat-icon-button matTooltip="Edit" type="button">
+        <img [src]="toolBarMenu?.edit?.action? 'assets/tool-bar/edit.png' : 'assets/tool-bar/edit-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.delete.action? toolBarMenu.delete.onMenuAction() : null" mat-icon-button matTooltip="Delete" type="button">
+        <img [src]="toolBarMenu?.delete?.action? 'assets/tool-bar/delete.png' : 'assets/tool-bar/delete-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.cancel.action? toolBarMenu.cancel.onMenuAction() : null" mat-icon-button matTooltip="Cancel" type="button">
+        <img [src]="toolBarMenu?.cancel?.action? 'assets/tool-bar/close.png' : 'assets/tool-bar/close-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.search.action? toolBarMenu.search.onMenuAction() : null" mat-icon-button matTooltip="Search" type="button">
+        <img [src]="toolBarMenu?.search?.action? 'assets/tool-bar/search.png' : 'assets/tool-bar/search-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.saveas.action? toolBarMenu.saveas.onMenuAction() : null" mat-icon-button matTooltip="Save As" type="button">
+        <img [src]="toolBarMenu?.saveas?.action? 'assets/tool-bar/save-as.png' : 'assets/tool-bar/save-as-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.export.action? toolBarMenu.export.onMenuAction() : null" mat-icon-button matTooltip="Export" type="button">
+        <img [src]="toolBarMenu?.export?.action? 'assets/tool-bar/export.png' : 'assets/tool-bar/export-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.help.action? toolBarMenu.help.onMenuAction() : null" mat-icon-button matTooltip="Help" type="button">
+        <img [src]="toolBarMenu?.help?.action? 'assets/tool-bar/help.png' : 'assets/tool-bar/help-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.textwrap.action? toolBarMenu.textwrap.onMenuAction() : null" mat-icon-button matTooltip="Wrap Text" type="button">
+        <img [src]="toolBarMenu?.textwrap?.action? 'assets/tool-bar/text-wrap.png' : 'assets/tool-bar/text-wrap-disable.png'" alt="" />
+    </button>
+    <button (click)="toolBarMenu.close.action? toolBarMenu.close.onMenuAction() : null" mat-icon-button matTooltip="Close" type="button">
+        <img src="assets/icon-images/close.png" alt=""/>
+    </button>
+</div>

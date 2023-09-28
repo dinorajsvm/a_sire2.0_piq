@@ -1,0 +1,28 @@
+@import "../../../../../piq.css";
+
+/* ::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__title {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+} */
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container {
+  width: 25vw !important;
+  height: 140px !important;
+  padding: 0 24px !important;
+}
+
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content {
+  font-size: 12px;
+}
+
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-content {
+  max-height: none;
+  height: calc(100vh - 549px);
+  padding: 0 24px;
+}
+
+::ng-deep .confirm-dialog-container ::ng-deep .mdc-dialog__actions {
+  padding: 0 5px;
+  min-height: 25px;
+}

@@ -1,0 +1,53 @@
+<div id="imgDialog">
+    <div mat-dialog-title>
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-11" style="padding: 0;">
+                    <span class="mainHead">{{ data.topic }}</span> <span style="font-size: 14px;"> - </span> <span
+                        class="subHead">{{ data.subTopicTitle }}</span>
+                </div>
+                <div class="col-sm-1 text-right">
+                    <mat-icon [mat-dialog-close]="true">close</mat-icon>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <mat-dialog-content class="mat-typography">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12 fullScreen_imgWrap">
+                    <div class="image-container" [style.transform]="'scale(' + (imageScale / 100) + ')'"
+                        [style.transform-origin]="imageScale >= 100 ? 'center' : 'top left'">
+                        <img [src]="dynamicImageURL+data.imageUrl" alt="Fullscreen Image"
+                            style="width: 100%; margin: auto; display: block;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;flex-direction: column;">
+            <button mat-icon-button class="arrow-btn left" (click)="goToPreviousImage()">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </button>
+            <div class="image-container" [style.transform]="'scale(' + (imageScale / 100) + ')'"
+                [style.transform-origin]="imageScale >= 100 ? 'center' : 'top left'">
+                <img [src]="data.imageUrl" alt="Fullscreen Image" style="width: 100%; margin: auto; display: block;">
+            </div>
+            <button mat-icon-button class="arrow-btn right" (click)="goToNextImage()">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </button>
+        </div> -->
+    </mat-dialog-content>
+    <p style="text-align: center;font-size: 14px;font-weight: 500;margin: 0;padding: 5px 0;">{{ data.filename }}</p>
+    <div mat-dialog-actions>
+        <button mat-button class="resBtn" (click)="zoomIn()"><i class="fa fa-search-plus"></i></button>
+        <!-- Zoom In -->
+        <div class="zoom-label">
+            {{ imageScale }}%
+        </div>
+        <button mat-button class="resBtn" (click)="zoomOut()"><i class="fa fa-search-minus"></i></button>
+        <!-- Zoom Out  -->
+        <button mat-button class="resBtn" (click)="resetImage()"><i class="fa fa-repeat"></i></button>
+        <!-- Reset  -->
+    </div>
+</div>

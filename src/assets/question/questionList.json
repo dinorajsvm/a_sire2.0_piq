@@ -1,0 +1,95 @@
+[
+    {
+        "id": "1",
+        "header": "1. general information",
+        "values": [
+            "1. General Information"
+        ]
+    },
+    {
+        "id": "2",
+        "header": "2. certification and documentation",
+        "values": [
+            "2.1 Certification",
+            "2.2 Management Oversight",
+            "2.3 Structural Assessment",
+            "2.5 Management of Change",
+            "2.6 Statutory Management Plans",
+            "2.7 Safety Management System",
+            "2.8 General Information"
+        ]
+    },
+    {
+        "id": "3",
+        "header": "3. crew management",
+        "values": [
+            "3.1 Crew Qualification",
+            "3.2 Crew Evaluation",
+            "3.3 Crew Training",
+            "3.4 Crew Compliance",
+            "3.5 Crew Familiarisation"
+        ]
+    },
+    {
+        "id": "4",
+        "header": "4. navigation and communication",
+        "values": [
+            "4.1 Navigational Equipment",
+            "4.2 Navigational Procedures"
+        ]
+    },
+    {
+        "id": "5",
+        "header": "5. safety management",
+        "values": [
+            "5.2 Fixed Fire Protection Systems",
+            "5.6 Fixed and Portable Gas Detecting Systems",
+            "5.7 Safety Management",
+            "5.8 Area Safety Management",
+            "5.10 Safe Access"
+        ]
+    },
+    {
+        "id": "6",
+        "header": "6. pollution prevention",
+        "values": [
+            "6.3 Ballast Operations"
+        ]
+    },
+    {
+        "id": "7",
+        "header": "7. maritime security",
+        "values": [
+            "7.2 Ship Hardening and Access Control"
+        ]
+    },
+    {
+        "id": "8",
+        "header": "8. cargo and ballast systems",
+        "values": [
+            "8.3 Oil and Chemical",
+            "8.6 Gas (Common to all Vessels under IGC Code)",
+            "8.7 Shuttle Tanker Cargo Operations",
+            "8.99 All Types"
+        ]
+    },
+    {
+        "id": "10",
+        "header": "10. machinery spaces",
+        "values": [
+            "10.2 Machinery Status",
+            "10.3 Safety Management",
+            "10.4 Planned Maintenance Systems",
+            "10.5 Conventional Bunkering Management",
+            "10.7 Fire Protection Measures"
+        ]
+    },
+    {
+        "id": "12",
+        "header": "12. ice operations",
+        "values": [
+            "12.1 Ice Operations Training",
+            "12.6 Ice Navigation Procedures"
+        ]
+    }
+]

@@ -1,0 +1,131 @@
+import { Component, OnInit } from '@angular/core';
+import { BudgetService } from '../../services/budget.service';
+import { GridOptions } from 'ag-grid-community';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
+import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
+import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
+@Component({
+  selector: 'app-reference',
+  templateUrl: './reference.component.html',
+  styleUrls: ['./reference.component.css'],
+})
+export class ReferenceComponent implements OnInit {
+  rowSelection = 'single';
+  columnDefs: any[] = [
+    {
+      field: 'topic',
+      headerName: 'Topic',
+      flex: 1,
+    },
+    {
+      field: 'remark',
+      headerName: 'Remarks',
+      flex: 1,
+    },
+    { field: 'localfilename', headerName: 'File Name', flex: 1 },
+    {
+      field: 'filesize',
+      headerName: 'File Size',
+      flex: 1,
+    },
+    {
+      headerName: 'Download',
+      flex:1,
+      cellRenderer: 'buttonRenderer',
+      cellRendererParams: {
+        onClick: this.onBtnClick1.bind(this),
+      },
+    },
+  ];
+
+  frameworkComponents: any;
+  rowData: any[] = [];
+  userDetails: any;
+  private gridApi: any;
+  private gridColumnApi: any;
+  public defaultColDef: any = {
+    resizable: true,
+    enableRowGroup: true,
+    sortable: true,
+  };
+
+  public gridOptions: GridOptions = {};
+  constructor(
+    private BudgetService: BudgetService,
+    private _storage: StorageService,
+    private http: HttpClient
+  ) {
+    this.frameworkComponents = {
+      buttonRenderer: DownloadBtnRendererComponent,
+    };
+  }
+
+  ngOnInit(): void {
+    this.userDetails = this._storage.getUserDetails();
+    this.getCertificateRepoList();
+  }
+
+  // Helper function to extract the filename from a URL
+
+  extractFilename(url: string): string {
+    const segments = url.split('/');
+    return segments[segments.length - 1];
+  }
+
+  onBtnClick1(event: any) {
+    const fileUrl = event.rowData.filepath;
+    this.fetchImageBlob(fileUrl).then((blob: any) => {
+      const filename = this.getFilenameFromUrl(fileUrl);
+      saveAs(blob, filename);
+    });
+  }
+
+  getFilenameFromUrl(url: string): string {
+    if (!url) {
+      return '';
+    }
+    const urlParts = url.split('/');
+    return urlParts[urlParts.length - 1];
+  }
+
+  fetchImageBlob(fileUrl: string): Promise<Blob> {
+    return fetch(fileUrl).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch image: ${response.statusText}`);
+      }
+      return response.blob();
+    });
+  }
+
+  convertFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const size = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
+    const unit = sizes[i];
+    return size ? `${size} ${unit}` : '0 KB';
+  }
+
+  getCertificateRepoList() {
+    // const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    // const companyCode = this.userDetails.companyCode;
+    this.BudgetService.getReferenceList('VT002', 'NYKSG').subscribe(
+      (res: any) => {
+        res.response.forEach((element: any) => {
+          const output_string = element.filepath.replaceAll(/\\/g, '/');
+          (element.filesize = this.convertFileSize(element.filesize)),
+            (element.filepath =
+              'https://mackdevship.solverminds.net/' + output_string);
+        });
+        this.rowData = res.response;
+      }
+    );
+  }
+
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+  }
+}

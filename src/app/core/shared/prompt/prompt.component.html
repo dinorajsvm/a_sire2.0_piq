@@ -1,0 +1,17 @@
+<div class="card border-0 bg-white m-minus24">
+    <div class="card-header bg-white">
+        <h6 class=" mb-0">{{data.title ? data.title : 'Delete'}}</h6>
+    </div>
+    <div class="card-body my-2">
+        <div class="row">
+            <div class="col-md-12">
+                {{data.content }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer text-right bg-white">
+        <button type="submit" (click)="dialogClose(true)" class="mr-2 btn btn-submit text-white">YES</button>
+        <button type="button" (click)="dialogClose()" class="btn btn-secondary border" >NO</button>
+    </div>
+</div>

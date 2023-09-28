@@ -1,0 +1,25 @@
+{
+    "response": [
+        {
+            "code": "code1",
+            "name": "name1",
+            "description":"code1-name1"
+
+        },
+        {
+            "value": "code2",
+            "viewValue": "name2",
+            "description":"code2-name2"
+        },
+        {
+            "value": "code3",
+            "viewValue": "name3",
+            "description":"code3-name3"
+        },
+        {
+            "value": "code4",
+            "viewValue": "name4",
+            "description":"code4-name4"
+        }
+    ]
+}

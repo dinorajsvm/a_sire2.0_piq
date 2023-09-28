@@ -1,0 +1,25 @@
+  <div id="imgDialog">
+    <div mat-dialog-title>
+      <div class="col-sm-12">
+        <div class="row" >
+          <div style="font-size: 12px;white-space: nowrap;"><span>{{topic}}- </span><span>{{subHeading}}</span></div>
+        </div>
+      </div>
+    </div>
+    <mat-dialog-content class="mat-typography">
+      <div style="padding-top: 15px;">
+      <mat-form-field>
+        <mat-label>Select Instance ID</mat-label>
+        <mat-select [(ngModel)]="selectedInstanceID">
+          <mat-option *ngFor="let idValue of selectedValue" [value]="idValue">
+            {{idValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="upload" mat-button [mat-dialog-close]="true" [disabled]="btnDisable()" (click)="onClose()"
+        cdkFocusInitial>upload</button>
+    </mat-dialog-actions>
+  </div>
