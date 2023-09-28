@@ -20,14 +20,14 @@ import { environment } from 'src/environments/environment';
 
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
-  );
-  @Component({
-    selector: 'app-certificate-repository',
-    templateUrl: './certificate-repository.component.html',
-    styleUrls: ['./certificate-repository.component.css'],
-    providers: [DatePipe],
-  })
-  export class CertificateRepositoryComponent implements OnInit {
+);
+@Component({
+  selector: 'app-certificate-repository',
+  templateUrl: './certificate-repository.component.html',
+  styleUrls: ['./certificate-repository.component.css'],
+  providers: [DatePipe],
+})
+export class CertificateRepositoryComponent implements OnInit {
   dynamicImageURL = `${environment.apiUrl}/`;
   certificateCount: any;
   frameworkComponents: any;
@@ -39,17 +39,22 @@ LicenseManager.setLicenseKey(
     // {
     //   field: 'certificatecode',
     //   headerName: 'Certificate Code',
-      
+
     // },
-    { field: 'certificatetype', headerName: 'Certificate Type',cellRenderer: 'agGroupCellRenderer',flex: 1, },
-    { field: 'certificatename', headerName: 'Certificate Name',flex: 1 },
-    { field: 'certificatenumber', headerName: 'Certificate Number',flex: 1},
+    {
+      field: 'certificatetype',
+      headerName: 'Certificate Type',
+      cellRenderer: 'agGroupCellRenderer',
+      flex: 1,
+    },
+    { field: 'certificatename', headerName: 'Certificate Name', flex: 1 },
+    { field: 'certificatenumber', headerName: 'Certificate Number', flex: 1 },
     // { field: 'mappingcercode', headerName: 'Mapping Code',flex: 1 },
-    { field: 'dateofissue', headerName: 'Issue Date',flex: 1 },
-    { field: 'validfrom', headerName: 'Expiry Date',flex: 1 },
-    { field: 'validto', headerName: 'Last Annual' ,flex: 1},
-    { field: 'validto', headerName: 'Last Intermediate',flex: 1 },
-    { field: 'validto', headerName: 'Date of Endorsement',flex: 1 },
+    { field: 'dateofissue', headerName: 'Issue Date', flex: 1 },
+    { field: 'validfrom', headerName: 'Expiry Date', flex: 1 },
+    { field: 'validto', headerName: 'Last Annual', flex: 1 },
+    { field: 'validto', headerName: 'Last Intermediate', flex: 1 },
+    { field: 'validto', headerName: 'Date of Endorsement', flex: 1 },
   ];
   public defaultColDef: ColDef = {
     flex: 1,
@@ -82,7 +87,7 @@ LicenseManager.setLicenseKey(
     },
   } as IDetailCellRendererParams<any, any>;
   public rowData!: any[];
-    totalCertificateCount: any;
+  totalCertificateCount: any;
   constructor(
     private BudgetService: BudgetService,
     private snackBarService: SnackbarService,
@@ -99,7 +104,6 @@ LicenseManager.setLicenseKey(
 
   onGridReady(params: GridReadyEvent) {
     this.BudgetService.getCertificateList().subscribe((res: any) => {
-      console.log("###",res.response.piqmappinglist)
       if (res && res.response && res.response.piqmappinglist) {
         res.response.piqmappinglist.forEach((data: any) => {
           if (data.grid === null) {
@@ -113,48 +117,58 @@ LicenseManager.setLicenseKey(
                 gridResponse.Response === 'No data'
                   ? []
                   : gridResponse.Response;
+            } else {
+              data.grid = JSON.parse(data.grid);
             }
           }
         });
       }
       res.response.piqmappinglist.forEach((ress: any) => {
-        console.log("%%%%", typeof ress.grid )
-        ress.grid.forEach((response: any, index: any) => {
-          if (index === 0) {
-            (ress.certificatenumber = response.certificatenumber),
-              (ress.certificatename = response.certificatename),
-              (ress.dateofissue = this.datePipe.transform(
-                response.dateofissue,
-                'dd-MMM-yyyy'
-              )),
-              (ress.validfrom = this.datePipe.transform(
-                response.validfrom,
-                'dd-MMM-yyyy'
-              )),
-              (ress.validto = this.datePipe.transform(
-                response.validto,
-                'dd-MMM-yyyy'
-              ));
-          }
-          response.imagelist?.forEach((item: any) => {
-            const output_string = item.filepath.replaceAll(/\\/g, '/');
-            (item.filesize = this.convertFileSize(item.filesize)),
-              (item.filepath =
-                this.dynamicImageURL + output_string);
-            ress.file.push(item);
+        if (!this.isString(ress.grid)) {
+          ress.grid.forEach((response: any, index: any) => {
+            if (index === 0) {
+              (ress.certificatenumber = response.certificatenumber),
+                (ress.certificatename = response.certificatename),
+                (ress.dateofissue = this.datePipe.transform(
+                  response.dateofissue,
+                  'dd-MMM-yyyy'
+                )),
+                (ress.validfrom = this.datePipe.transform(
+                  response.validfrom,
+                  'dd-MMM-yyyy'
+                )),
+                (ress.validto = this.datePipe.transform(
+                  response.validto,
+                  'dd-MMM-yyyy'
+                ));
+            }
+            if (response && response.imagelist && response.imagelist.lenght > 0) {
+              response.imagelist?.forEach((item: any) => {
+                const output_string = item.filepath.replaceAll(/\\/g, '/');
+                (item.filesize = this.convertFileSize(item.filesize)),
+                  (item.filepath = this.dynamicImageURL + output_string);
+                ress.file.push(item);
+              });
+            }
           });
-        });
+        }
       });
       this.rowData = res.response.piqmappinglist;
-      this.totalCertificateCount=this.rowData.length;
-      const mappingCercodeValues = this.rowData.map(item => item.mappingcercode);
-      const filteredMappingCode = mappingCercodeValues.filter(value => value !== null);
-      this.certificateCount=filteredMappingCode.length
+      this.totalCertificateCount = this.rowData.length;
+      const mappingCercodeValues = this.rowData.map(
+        (item) => item.mappingcercode
+      );
+      const filteredMappingCode = mappingCercodeValues.filter(
+        (value) => value !== null
+      );
+      this.certificateCount = filteredMappingCode.length;
       this.BudgetService.setCertificateGridData(this.totalCertificateCount);
       this.BudgetService.setMappedCertificateData(this.certificateCount);
     });
   }
-
+  isString(input: any): input is string {
+    return typeof input === 'string';
+  }
   convertFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -173,7 +187,7 @@ LicenseManager.setLicenseKey(
       },
       (error) => {
         this.snackBarService.loadSnackBar('File Not found.', colorCodes.ERROR);
-      } 
+      }
     );
   }
 

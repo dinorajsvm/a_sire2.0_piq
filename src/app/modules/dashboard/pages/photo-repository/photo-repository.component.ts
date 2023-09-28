@@ -83,6 +83,8 @@ export class PhotoRepositoryComponent implements OnInit {
           (acc, obj) => acc.concat(obj.topiclist),
           []
         );
+        console.log("!!",mergedImg);
+        
         let getNewData: any = [];
         this.getTopicList = mergedImg;
         this.getTopicList.forEach((item: any) => {
@@ -193,6 +195,8 @@ export class PhotoRepositoryComponent implements OnInit {
     this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
       // this.listDatas = JSON.parse(res.response);
       const staticData = JSON.parse(res.response);
+      console.log(staticData,"**");
+      
       staticData.forEach((res: any) => {
         if (
           res.topic === 'Core photograph set' ||

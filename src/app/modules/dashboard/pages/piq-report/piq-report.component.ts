@@ -11,7 +11,6 @@ import { LicenseManager } from 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-import { MatChip } from '@angular/material/chips';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { colorCodes } from 'src/app/core/constants';
@@ -30,7 +29,6 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
-import { findIndex } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
 export const MY_DATE_FORMATS = {
@@ -208,9 +206,11 @@ export class PiqReportComponent implements OnInit {
       this.getGuideQuestID = [];
       this.getGuideLines.forEach((item: any) => {
         this.getGuideQuestID.push(item.qid);
+        // this.showGuideQuestion(item.qid)
       });
     });
   }
+
   ishighlightQuest(guidesId: any): boolean {
     console.log(guidesId,"####");
     console.log(guidesId.qid,"***");
@@ -344,6 +344,9 @@ export class PiqReportComponent implements OnInit {
 
   openDesc(event: Event, questID: any) {
     this.infoMQuestId = questID;
+    setTimeout(() => {
+      this.showGuideQuestion(questID);
+    },1000);
     console.log("idValue",this.infoMQuestId)
     if (this.headerListContainer) {
       this.headerListContainer = false;
@@ -624,6 +627,12 @@ export class PiqReportComponent implements OnInit {
     subQue: any,
     allValues: any
   ): void {
+
+    // console.log('a', value);
+    // console.log('b', ques);
+    // console.log('c', mainQue);
+    // console.log('d', subQue);
+    // console.log('e', allValues);
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
       userType: this.userDetails.userData.mdata.userInfo.userType,
