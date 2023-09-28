@@ -178,8 +178,15 @@ export class PIQSummaryComponent implements OnInit {
     // { field: 'answer', headerName: 'Answer' },
     { field: 'modifiedDateTime', headerName: 'Modified Date / Time' },
   ];
+  certificateColumns: ColDef[] = [
+    { field: '', headerName: '' },
+    { field: '', headerName: '' },
+    { field: '', headerName: '' },
+    { field: '', headerName: '' },
+  ];
 
   rowData: any[] = [];
+  certificateRowData:any[]=[];
   modifiedrowData: any[] = [];
   referenceNumber: any = '';
   userDetails: any;
@@ -216,7 +223,10 @@ export class PIQSummaryComponent implements OnInit {
 
   
   ngOnInit(): void {
-    console
+    if(this.pendingQuestCount==undefined || this.totalQuestCount==undefined){
+      this.pendingQuestCount=0
+      this.totalQuestCount=0
+    }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
@@ -229,7 +239,6 @@ export class PIQSummaryComponent implements OnInit {
     });
     
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
-      console.log("!!!",res);
       this.rowData = [];
       res.forEach((data: any) => {
         let questions: any[] = [];
@@ -266,7 +275,6 @@ export class PIQSummaryComponent implements OnInit {
             });
             this.gridApi!.setRowData(this.rowData);
             this.gridApi.refreshCells();
-            console.log("1111",this.rowData)
           });
         });
 

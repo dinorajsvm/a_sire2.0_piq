@@ -132,23 +132,39 @@
         <div class="row">
           <div class="col-sm-12 contWrap">
             <div class="row" style="justify-content: flex-end;">
-              <button mat-button class="syncBtn" type="submit" (click)="openDialog()">
-                Reuse Past Template
-              </button>
-              <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
-                (click)="onSubmit('syncToStore')">
-                Sync to Shore
-              </button>
-              <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
-                (click)="onSubmit('syncToStore')">
-                Sync to Ship
-              </button>
-              <div>
-                <button mat-button class="sub" [ngClass]="isNotNull ? 'sub' : 'disableSyncBtn'" type="submit"
-                  [disabled]="!isNotNull" (click)="onSubmit('submit')">
-                  Submit
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <span style="font-weight: 500;">Planned submittion Date</span>
+                  </div>
+                  <div class="col-sm-5">
+                    <mat-form-field appearance="outline" class="datePicker">
+                      <input matInput [matDatepicker]="picker" autocomplete="off" name="dateField" />
+                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" style="display: flex;justify-content: flex-end;">
+                <button mat-button class="syncBtn" type="submit" (click)="openDialog()">
+                  Reuse Past Template
                 </button>
-                <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
+                <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
+                  (click)="onSubmit('syncToStore')">
+                  Sync to Shore
+                </button>
+                <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
+                  (click)="onSubmit('syncToStore')">
+                  Sync to Ship
+                </button>
+                <div>
+                  <button mat-button class="sub" [ngClass]="isNotNull ? 'sub' : 'disableSyncBtn'" type="submit"
+                    [disabled]="!isNotNull" (click)="onSubmit('submit')">
+                    Submit
+                  </button>
+                  <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
+                </div>
               </div>
             </div>
           </div>
@@ -161,22 +177,10 @@
                 [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
             </span>
             <div class="row" style="justify-content: flex-end;">
-              <div class="col-sm-12">
-                <div class="row">
-                  <div class="col-sm-7"></div>
-                  <div class="col-sm-3 text-right">
-                    <mat-form-field appearance="outline" class="datePicker">
-                      <input matInput [matDatepicker]="picker" autocomplete="off" name="dateField" />
-                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-sm-2">
-                    <button mat-button class="save float-right" type="submit" (click)="onSubmitQuickNotes()">
-                      Save
-                    </button>
-                  </div>
-                </div>
+              <div class="col-sm-12 text-right">
+                  <button mat-button class="save float-right" type="submit" (click)="onSubmitQuickNotes()">
+                    Save
+                  </button>
               </div>
             </div>
           </div>
@@ -184,7 +188,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="row">
     <div class="col-sm-12">
@@ -216,12 +219,19 @@
   </div>
 
   <div class="row">
+    <div class="col-sm-6">
+      <span class="table-header">Certificate Summary</span>
+      <ag-grid-angular style="height: calc(100vh - 429px)" class="ag-theme-balham" [columnDefs]="certificateColumns"
+        [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
+        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="modifiedrowData">
+      </ag-grid-angular>
+    </div>
     <div class="col-sm-6" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last sync to ship summary </span>
       <ag-grid-angular style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
-        [rowData]="expectedRowData">
+        [rowData]="certificateRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6" *ngIf="userDetails?.cntrlType === 'CNT002'">

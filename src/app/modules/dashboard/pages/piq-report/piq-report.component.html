@@ -52,7 +52,7 @@
 
           <div class="marg_LR">
             <label for="">Date Of Build</label>
-            <span>{{ topbar.built_date }}</span>
+            <span>{{ topbar.built_date | date:'dd-MMM-yyyy HH:mm:ss' }}</span>
           </div>
         </div>
       </div>
@@ -172,7 +172,7 @@
                               <mat-expansion-panel [expanded]="allExpansionPanelsExpanded">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
-                                    <div class="col-sm-12" style="padding: 0">
+                                    <div class="col-sm-12" style="padding: 0" [id]="Mquest.qid">
                                       <div class="row">
                                         <div class="col-sm-10 mqAlign mainquest"
                                           [innerHTML]="highlightSearchText(Mquest.mainQuestion)">

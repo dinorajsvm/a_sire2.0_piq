@@ -106,11 +106,11 @@ export class PiqReportComponent implements OnInit {
   topbarData: any;
   getGuideLines: any;
   getQuestionId: any[] = [];
+  infoMQuestId: any;
   getGuideQuestID: any[] = [];
   presetQuestCount: any;
   lastModifiedData: any[] = [];
   vesselSelection: any;
-  getValues: any = {};
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -195,7 +195,7 @@ export class PiqReportComponent implements OnInit {
 
   getTopBarDatas() {
     this.BudgetService.getTopBarData(this.vesselCode).subscribe((res: any) => {
-      const data = res.response;
+      const data = res.response;      
       this.topbarData = data;
     });
   }
@@ -203,6 +203,7 @@ export class PiqReportComponent implements OnInit {
   getGuideLinesData() {
     this.BudgetService.getGuidelines().subscribe((res: any) => {
       const data = res.response;
+      console.log("res",data)
       this.getGuideLines = data;
       this.getGuideQuestID = [];
       this.getGuideLines.forEach((item: any) => {
@@ -211,9 +212,13 @@ export class PiqReportComponent implements OnInit {
     });
   }
   ishighlightQuest(guidesId: any): boolean {
-    return this.getQuestionId.some((res: any) => {
-      return guidesId.qid === res;
-    });
+    console.log(guidesId,"####");
+    console.log(guidesId.qid,"***");
+    if(guidesId.qid===this.infoMQuestId){
+      return true
+    }else{
+      return false
+    }
   }
 
   showGuideQuestion(questID: any) {
@@ -255,11 +260,15 @@ export class PiqReportComponent implements OnInit {
     };
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
-    this.getValues = [];
     this.getShipPreQuestCounts = [];
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      // console.log("$$$",res);
+      // console.log("$$^^",res.response);
+      
       let object = JSON.parse(res.response);
+      // console.log("!!!",object);
+      
       this.getAllDatas = object;
       if (res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
@@ -267,23 +276,15 @@ export class PiqReportComponent implements OnInit {
         this.BudgetService.setExceptionData(this.exceptionList);
       }
       object.forEach((value1: any) => {
-        // console.log('@@@', value1.values);
         value1.filledCount = 0;
-        // this.getValues.push(value1.values);
         value1.values.forEach((value: any) => {
           value.question.forEach((subHeader: any) => {
             this.getMainQuestCounts.push(subHeader);
-
-            // if (subHeader.entryorgin == 'Office') {
-            //   this.getShipPreQuestCounts.push(subHeader);
-            // }
             this.checkboxBoolean.push(subHeader.selected);
             this.pendingCount = this.checkboxBoolean.filter(
               (value: any) => value === false
             ).length;
             subHeader.subQuestion.forEach((mainQus: any) => {
-              // console.log('1111', mainQus);
-
               if (
                 mainQus.entryorgin === 'Auto or Preset' ||
                 mainQus.entryorgin === 'Preset'
@@ -318,9 +319,9 @@ export class PiqReportComponent implements OnInit {
                 formGroupFields[mainQus.qid] = new FormControl(mainQus.answer);
               }
             });
-            // console.log('????', this.getShipPreQuestCounts);
+            
             this.dynamicForms = new FormGroup(formGroupFields);
-            // console.log('_______', this.getMainQuestCounts);
+            
           });
         });
       });
@@ -335,7 +336,6 @@ export class PiqReportComponent implements OnInit {
         heading.expanded = true;
       });
       this.prTabEnabling(this.getAllDatas);
-      // console.log("_____",this.getValues)
     });
   }
 
@@ -343,10 +343,14 @@ export class PiqReportComponent implements OnInit {
   descriptionContainer: boolean = false;
 
   openDesc(event: Event, questID: any) {
-    const idValue = questID;
+    this.infoMQuestId = questID;
+    console.log("idValue",this.infoMQuestId)
     if (this.headerListContainer) {
       this.headerListContainer = false;
       this.descriptionContainer = true;
+    }else if(this.descriptionContainer==true){
+      this.headerListContainer = true;
+      this.descriptionContainer = false;
     }
     event.preventDefault();
     event.stopPropagation();
@@ -361,11 +365,8 @@ export class PiqReportComponent implements OnInit {
             if (subQues.subName == 'Vessel Type' && subQues.qid == 'Q133') {
               if (this.vesselSelection == '') {
                 this.enablePRTab=true;
-                console.log('empty ah irukku');
               } else {
                 this.enablePRTab=false;
-                
-                console.log('empty ah illa', this.vesselSelection);
               }
               this.BudgetService.setVesselTypeData(this.vesselSelection)
             }
@@ -386,8 +387,6 @@ export class PiqReportComponent implements OnInit {
   onClickGuideLine() {}
 
   selectValue(value: string, allvalues?: any) {
-    // console.log('vvv', this.dynamicForms.value.Q133);
-
     this.selectedValue = value;
     const targetSubHeaders = value;
     const foundObject = this.getAllDatas.find((section: any) => {
@@ -577,11 +576,11 @@ export class PiqReportComponent implements OnInit {
   ) {
     // chip.toggleSelected();
 
-    console.log('a', value);
-    console.log('b', mquest);
-    console.log('c', subq);
-    console.log('d', quest);
-    console.log('e', entryorgin);
+    // console.log('a', value);
+    // console.log('b', mquest);
+    // console.log('c', subq);
+    // console.log('d', quest);
+    // console.log('e', entryorgin);
     if (entryorgin.answer.includes(value)) {
       entryorgin.answer = entryorgin.answer.filter(
         (item: any) => item !== value
@@ -625,7 +624,6 @@ export class PiqReportComponent implements OnInit {
     subQue: any,
     allValues: any
   ): void {
-    console.log('!!!!', ques);
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
       userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -648,7 +646,6 @@ export class PiqReportComponent implements OnInit {
       this.lastModifiedData.splice(5);
     }
     // this.lastModifiedData = [this.lastModifiedData.pop(), ...this.lastModifiedData];
-    console.log(this.lastModifiedData);
     this.BudgetService.setModifiedData(this.lastModifiedData);
     subQue.answer = value;
     this.vesselSelection = subQue.answer;

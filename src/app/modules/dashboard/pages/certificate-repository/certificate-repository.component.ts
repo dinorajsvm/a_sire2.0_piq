@@ -118,6 +118,7 @@ LicenseManager.setLicenseKey(
         });
       }
       res.response.piqmappinglist.forEach((ress: any) => {
+        console.log("%%%%", typeof ress.grid )
         ress.grid.forEach((response: any, index: any) => {
           if (index === 0) {
             (ress.certificatenumber = response.certificatenumber),
@@ -145,7 +146,6 @@ LicenseManager.setLicenseKey(
         });
       });
       this.rowData = res.response.piqmappinglist;
-      console.log("%%%%", this.rowData )
       this.totalCertificateCount=this.rowData.length;
       const mappingCercodeValues = this.rowData.map(item => item.mappingcercode);
       const filteredMappingCode = mappingCercodeValues.filter(value => value !== null);
