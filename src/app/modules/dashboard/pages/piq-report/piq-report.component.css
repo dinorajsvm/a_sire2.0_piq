@@ -38,7 +38,6 @@
   font-size: 12px;
   cursor: pointer;
   display: flex;
-  padding: 3px 10px;
   justify-content: space-between;
   align-items: center;
 }
@@ -339,9 +338,15 @@
   overflow-x: hidden;
 }
 
+.filteredQuest{
+  line-height: 20px;
+  padding: 5px 15px;
+}
+
 .list_val_wrap {
   display: flex;
   width: 100%;
+  padding: 3px 10px;
   align-items: center;
 }
 

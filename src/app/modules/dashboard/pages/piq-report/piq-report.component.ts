@@ -201,7 +201,6 @@ export class PiqReportComponent implements OnInit {
   getGuideLinesData() {
     this.BudgetService.getGuidelines().subscribe((res: any) => {
       const data = res.response;
-      console.log("res",data)
       this.getGuideLines = data;
       this.getGuideQuestID = [];
       this.getGuideLines.forEach((item: any) => {
@@ -212,8 +211,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   ishighlightQuest(guidesId: any): boolean {
-    console.log(guidesId,"####");
-    console.log(guidesId.qid,"***");
     if(guidesId.qid===this.infoMQuestId){
       return true
     }else{
@@ -263,11 +260,8 @@ export class PiqReportComponent implements OnInit {
     this.getShipPreQuestCounts = [];
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      // console.log("$$$",res);
-      // console.log("$$^^",res.response);
-      
+     
       let object = JSON.parse(res.response);
-      // console.log("!!!",object);
       
       this.getAllDatas = object;
       if (res.exceptionlist) {
@@ -327,8 +321,8 @@ export class PiqReportComponent implements OnInit {
       });
       this.presetQuestCount = this.getPresetQuestCounts.length;
       this.selectValue(
-        this.getAllDatas[0].values[0].subHeaders,
-        this.getAllDatas[0].values[0]
+        this.getAllDatas[0]?.values[0]?.subHeaders,
+        this.getAllDatas[0]?.values[0]
       );
       this.BudgetService.setSummaryGridData(this.getAllDatas);
       this.mainQuestCounts = this.getMainQuestCounts.length;
@@ -347,7 +341,6 @@ export class PiqReportComponent implements OnInit {
     setTimeout(() => {
       this.showGuideQuestion(questID);
     },1000);
-    console.log("idValue",this.infoMQuestId)
     if (this.headerListContainer) {
       this.headerListContainer = false;
       this.descriptionContainer = true;

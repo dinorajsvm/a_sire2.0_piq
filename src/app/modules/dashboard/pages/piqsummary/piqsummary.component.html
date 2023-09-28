@@ -133,9 +133,9 @@
           <div class="col-sm-12 contWrap">
             <div class="row" style="justify-content: flex-end;">
               <div class="col-sm-6">
-                <div class="row">
-                  <div class="col-sm-5">
-                    <span style="font-weight: 500;">Planned submittion Date</span>
+                <div class="row" style="flex-direction: column;">
+                  <div class="col-sm-6">
+                    <span style="font-weight: 500;">Planned Submission Date</span>
                   </div>
                   <div class="col-sm-5">
                     <mat-form-field appearance="outline" class="datePicker">
@@ -148,7 +148,7 @@
               </div>
               <div class="col-sm-6" style="display: flex;justify-content: flex-end;">
                 <button mat-button class="syncBtn" type="submit" (click)="openDialog()">
-                  Reuse Past Template
+                  Re-Use Past Template
                 </button>
                 <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
                   (click)="onSubmit('syncToStore')">
@@ -172,15 +172,20 @@
         <div class="row">
           <div class="col-sm-12">
             <span class="p-float-label">
-              <span class="table-header">Quick notes </span>
-              <textarea id="float-input" autoResize="true" class="w-100" rows="4" cols="30" placeholder="Quick notes"
-                [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
+              <span class="table-header">Quick Notes </span>
+              <textarea id="float-input" autoResize="true" class="w-100" rows="4" #textArea cols="30"
+                placeholder="Quick notes" [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
             </span>
+            <div class="text-right">
+            <span style="font-size: 12px;text-align: right;">
+              {{1000 - textArea.value.length}} Characters Remaining
+            </span>
+          </div>
             <div class="row" style="justify-content: flex-end;">
               <div class="col-sm-12 text-right">
-                  <button mat-button class="save float-right" type="submit" (click)="onSubmitQuickNotes()">
-                    Save
-                  </button>
+                <button mat-button class="save float-right" type="submit" (click)="onSubmitQuickNotes()">
+                  Save
+                </button>
               </div>
             </div>
           </div>
@@ -210,7 +215,7 @@
       </ag-grid-angular>
     </div>
     <div class="col-sm-6">
-      <span class="table-header">Last Modified data</span>
+      <span class="table-header">Last Modified Data</span>
       <ag-grid-angular style="height: calc(100vh - 429px)" class="ag-theme-balham" [columnDefs]="modifiedColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
         [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="modifiedrowData">
@@ -218,16 +223,16 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mt-2">
     <div class="col-sm-6">
       <span class="table-header">Certificate Summary</span>
       <ag-grid-angular style="height: calc(100vh - 429px)" class="ag-theme-balham" [columnDefs]="certificateColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
-        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="modifiedrowData">
+        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="certificateRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <span class="table-header">Last sync to ship summary </span>
+      <span class="table-header">Last Sync to Ship Summary </span>
       <ag-grid-angular style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
@@ -235,7 +240,7 @@
       </ag-grid-angular>
     </div>
     <div class="col-sm-6" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <span class="table-header">Last sync to shore summary </span>
+      <span class="table-header">Last Sync to Shore Summary </span>
       <ag-grid-angular style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
         [animateRows]="true" [rowData]="expectedRowData">

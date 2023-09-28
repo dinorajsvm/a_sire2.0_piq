@@ -42,7 +42,7 @@ export class CertificateRepositoryComponent implements OnInit {
 
     // },
     {
-      field: 'certificatetype',
+      field: 'categoryname',
       headerName: 'Certificate Type',
       cellRenderer: 'agGroupCellRenderer',
       flex: 1,

@@ -263,3 +263,9 @@
   margin-top: 10px;
 }
 /* DIALOG STYLE END */
+
+/* CARD STYLE START */
+::ng-deep .mat-mdc-card-header{
+padding: 0 15px !important;
+}
+/* CARD STYLE END */

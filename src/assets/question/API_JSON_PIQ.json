@@ -33,9 +33,9 @@
                 "entryorgin": "Vessel",
                 "responsearry": [
                   "Crude Tanker",
-                  "Crude/Products Tanker",
+                  "Crude / Products Tanker",
                   "Products Tanker",
-                  "Products/Chemical Tanker",
+                  "Products / Chemical Tanker",
                   "Chemical Carrier type 1",
                   "Checmical Carrier type 2",
                   "Chemical Carrier Type 3",
@@ -46,7 +46,7 @@
                   "LNG Membrane",
                   "LNG Type C",
                   "OBO",
-                  "Ore-Oil"
+                  "Ore - Oil"
                 ],
                 "qid": "Q133",
                 "controlname": "select98",

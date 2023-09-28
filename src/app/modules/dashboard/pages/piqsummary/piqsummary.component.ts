@@ -145,7 +145,7 @@ export class PIQSummaryComponent implements OnInit {
   public gridOptions: GridOptions = {
   };
   columnDefs: ColDef[] = [
-    { field: 'serialNumber', headerName: 'S.No', width: 70 },
+    // { field: 'serialNumber', headerName: 'S.No', width: 70 },
     { field: 'topics', headerName: 'Header Topics', width: 300 },
     { field: 'status', headerName: 'Status' },
     { field: 'totalQuestion', headerName: 'Total Questions', width: 160 },
@@ -170,19 +170,18 @@ export class PIQSummaryComponent implements OnInit {
   ];
 
   modifiedColumns: ColDef[] = [
+    { field: 'mainQuestion', headerName: 'Main Question' },
+    { field: 'subQuestion', headerName: 'Sub Question' },
     { field: 'userName', headerName: 'User Name' },
     // { field: 'userType', headerName: 'User Type' },
     // { field: 'header', headerName: 'Topic' },
-    { field: 'mainQuestion', headerName: 'Main Question' },
-    { field: 'subQuestion', headerName: 'Sub Question' },
     // { field: 'answer', headerName: 'Answer' },
     { field: 'modifiedDateTime', headerName: 'Modified Date / Time' },
   ];
   certificateColumns: ColDef[] = [
-    { field: '', headerName: '' },
-    { field: '', headerName: '' },
-    { field: '', headerName: '' },
-    { field: '', headerName: '' },
+    {field: 'categoryname',headerName: 'Certificate Type',},
+    { field: 'certificatename', headerName: 'Certificate Name' },
+    { field: 'certificateAvailable', headerName: 'Certificate Available' },
   ];
 
   rowData: any[] = [];
@@ -237,9 +236,12 @@ export class PIQSummaryComponent implements OnInit {
         this.photoRowData.push(resp);
       });
     });
+
+    
     
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
       this.rowData = [];
+      this.certficateGridDatas()
       res.forEach((data: any) => {
         let questions: any[] = [];
         let questions1: any[] = [];
@@ -295,7 +297,76 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getModifiedData().subscribe((res:any)=>{
       this.modifiedrowData=[];
       this.modifiedrowData = [...this.modifiedrowData, ...res];
+      
     })
+
+    
+  }
+
+  certficateGridDatas(){
+    this.BudgetService.getCertificateList().subscribe((res: any) => {
+      console.log("$$$",res.response.piqmappinglist)
+      this.certificateRowData = res.response.piqmappinglist;
+      // if (res && res.response && res.response.piqmappinglist) {
+      //   res.response.piqmappinglist.forEach((data: any) => {
+      //     if (data.grid === null) {
+      //       data.file = [];
+      //       data.grid = [];
+      //     } else {
+      //       if (data && data.grid) {
+      //         data.file = [];
+      //         let gridResponse = JSON.parse(data.grid);
+      //         data.grid =
+      //           gridResponse.Response === 'No data'
+      //             ? []
+      //             : gridResponse.Response;
+      //       } else {
+      //         data.grid = JSON.parse(data.grid);
+      //       }
+      //     }
+      //   });
+      // }
+      // res.response.piqmappinglist.forEach((ress: any) => {
+      //   if (!this.isString(ress.grid)) {
+      //     ress.grid.forEach((response: any, index: any) => {
+      //       if (index === 0) {
+      //         (ress.certificatenumber = response.certificatenumber),
+      //           (ress.certificatename = response.certificatename),
+      //           (ress.dateofissue = this.datePipe.transform(
+      //             response.dateofissue,
+      //             'dd-MMM-yyyy'
+      //           )),
+      //           (ress.validfrom = this.datePipe.transform(
+      //             response.validfrom,
+      //             'dd-MMM-yyyy'
+      //           )),
+      //           (ress.validto = this.datePipe.transform(
+      //             response.validto,
+      //             'dd-MMM-yyyy'
+      //           ));
+      //       }
+      //       if (response && response.imagelist && response.imagelist.lenght > 0) {
+      //         response.imagelist?.forEach((item: any) => {
+      //           const output_string = item.filepath.replaceAll(/\\/g, '/');
+      //           (item.filesize = this.convertFileSize(item.filesize)),
+      //             (item.filepath = this.dynamicImageURL + output_string);
+      //           ress.file.push(item);
+      //         });
+      //       }
+      //     });
+      //   }
+      // });
+      // this.rowData = res.response.piqmappinglist;
+      // this.totalCertificateCount = this.rowData.length;
+      // const mappingCercodeValues = this.rowData.map(
+      //   (item) => item.mappingcercode
+      // );
+      // const filteredMappingCode = mappingCercodeValues.filter(
+      //   (value) => value !== null
+      // );
+      // this.certificateCount = filteredMappingCode.length;
+
+    });
   }
 
   onGridReady(params: any) {
@@ -394,6 +465,7 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.expectedRowData=[]
     this.expectedRowData=[...this.expectedRowData,...this.syncedData]    
+    console.log("----===",this.expectedRowData)
   }
 
   onSubmitQuickNotes() {

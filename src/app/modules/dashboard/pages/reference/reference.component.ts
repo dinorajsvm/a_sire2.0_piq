@@ -113,7 +113,7 @@ export class ReferenceComponent implements OnInit {
     // const companyCode = this.userDetails.companyCode;
     this.BudgetService.getReferenceList('VT002', 'NYKSG').subscribe(
       (res: any) => {
-        console.log("+++++",res)
+        // console.log("+++++",res)
         res.response.forEach((element: any) => {
           const output_string = element.filepath.replaceAll(/\\/g, '/');
           (element.filesize = this.convertFileSize(element.filesize)),

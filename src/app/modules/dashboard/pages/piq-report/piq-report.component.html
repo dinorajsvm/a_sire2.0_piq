@@ -51,8 +51,8 @@
           </div>
 
           <div class="marg_LR">
-            <label for="">Date Of Build</label>
-            <span>{{ topbar.built_date | date:'dd-MMM-yyyy HH:mm:ss' }}</span>
+            <label for="">Date Of Build :</label>
+            <span>{{ topbar.built_date | date:'dd-MMM-yyyy' }}</span>
           </div>
         </div>
       </div>
@@ -168,7 +168,7 @@
                           </div>
                           <div class="sub-ques" *ngFor="let Mquest of quest.question;let index = index">
                             <mat-accordion class="card_container"
-                              *ngIf="searchText === '' || quest.mainQuestion.toLowerCase().includes(searchText)">
+                              *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)">
                               <mat-expansion-panel [expanded]="allExpansionPanelsExpanded">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
@@ -313,7 +313,7 @@
                                         </mat-form-field>
                                         <div class="text-right">
                                           <span style="font-size: 12px">
-                                            {{100 - textArea.value.length}} characters remaining
+                                            {{100 - textArea.value.length}} Characters Remaining
                                           </span>
                                         </div>
                                       </div>
@@ -444,7 +444,7 @@
                                         </mat-form-field>
                                         <div class="text-right">
                                           <span style="font-size: 12px">
-                                            {{100 - textArea.value.length}} characters remaining
+                                            {{100 - textArea.value.length}} Characters Remaining
                                           </span>
                                         </div>
                                       </div>
@@ -462,8 +462,8 @@
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
-                                          <span style="font-size: 12px">{{100 - textArea.value.length}}characters
-                                            remaining
+                                          <span style="font-size: 12px">{{100 - textArea.value.length}}Characters
+                                            Remaining
                                           </span>
                                         </div>
                                       </div>
@@ -652,7 +652,7 @@
                                               <div class="text-right">
                                                 <span style="font-size: 12px">{{
                                                   100 - textArea.value.length
-                                                  }} characters remaining
+                                                  }} Characters Remaining
                                                 </span>
                                               </div>
                                             </div>
@@ -861,7 +861,7 @@
                                               <div class="text-right">
                                                 <span style="font-size: 12px">{{
                                                   100 - textArea.value.length
-                                                  }} characters remaining
+                                                  }} Characters Remaining
                                                 </span>
                                               </div>
                                             </div>
@@ -931,7 +931,7 @@
                                   <mat-card-title>
                                     <div class="col-sm-12" style="padding: 0">
                                       <div class="row">
-                                        <div class="col-sm-12 mainquest" [innerHTML]="
+                                        <div class="col-sm-12 mainquest filteredQuest" [innerHTML]="
                                             highlightSearchText(
                                               allQuestValues.mainQuestion
                                             )
@@ -942,7 +942,7 @@
                                     </div>
                                   </mat-card-title>
                                 </mat-card-header>
-                                <mat-card-content>
+                                <!-- <mat-card-content>
                                   <div class="sub_ques" *ngFor="let subq of quest.subQuestion">
                                     <div class="col-sm-12" *ngIf="
                                         searchText === '' ||
@@ -959,7 +959,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                </mat-card-content>
+                                </mat-card-content> -->
                               </mat-card>
                             </div>
                           </div>

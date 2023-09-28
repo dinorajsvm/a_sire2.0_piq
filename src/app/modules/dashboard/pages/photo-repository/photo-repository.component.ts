@@ -47,6 +47,8 @@ export class PhotoRepositoryComponent implements OnInit {
   subTopicCounts: any;
   getvslCode: any;
   getTopicList: any;
+  trimmedVslType: any;
+  isVslTypeSame!: boolean;
 
   constructor(
     public dialog: MatDialog,
@@ -60,11 +62,28 @@ export class PhotoRepositoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    this.getPrDataLists();
+    this.getImageName();
+    this.getVesselTypeData();
+    // console.log('^^^', this.selectedInstanceID);
+    // console.log('^^^', typeof this.selectedInstanceID);
+  }
+  getVesselTypeData() {
     this.BudgetService.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
+      // console.log('testing', this.getvslCode);
+      if (this.getvslCode == undefined || this.getvslCode === '') {
+        console.log('No Vessel Type is Selected');
+      } else {
+        this.trimmedVslType = this.getvslCode.split(' ')[0];
+        // console.log('///', this.trimmedVslType);
+        if (this.selectedInstanceID == undefined) {
+          this.getPrDataLists();
+        } else {
+          this.getPRImgLists();
+        }
+      }
     });
-    this.getPrDataLists();
-    // this.getImageName();
   }
 
   getPRImgLists() {
@@ -83,14 +102,20 @@ export class PhotoRepositoryComponent implements OnInit {
           (acc, obj) => acc.concat(obj.topiclist),
           []
         );
-        console.log("!!",mergedImg);
-        
+        console.log('!!', mergedImg);
+
         let getNewData: any = [];
         this.getTopicList = mergedImg;
         this.getTopicList.forEach((item: any) => {
+          if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
+            console.log('no trimmed value');
+          } else {
+            this.isVslTypeSame = item.topic.includes(this.trimmedVslType);
+            console.log('&&', this.isVslTypeSame);
+          }
           if (
-            item.topic === 'Core photograph set' ||
-            item.topic === this.getvslCode
+            item.topic === 'Core photograph set' 
+            || this.isVslTypeSame == true
           ) {
             getNewData.push(item);
           }
@@ -138,6 +163,14 @@ export class PhotoRepositoryComponent implements OnInit {
             res.subTopics.forEach((sub: any, index: any) => {
               if (data.subTopicName === sub.subTopicTitle) {
                 sub.imagelist.forEach((list: any) => {
+                  console.log("+++++",list);
+                  const formattedName=list.localfilename.split('.')[0]
+                  const formattedExtension=list.localfilename.split('.')[1]
+                  const formattedDefName=data.imageName.split('.')[0]
+                  console.log("formattedDefName",formattedDefName);
+                  list['formattedName']=formattedName;
+                  list['formattedExtension']=formattedExtension;
+                  list['formattedDefName']=formattedDefName;
                   list['defaultImageName'] = data.imageName;
                 });
               }
@@ -164,8 +197,9 @@ export class PhotoRepositoryComponent implements OnInit {
 
   createResponse() {}
 
-  setDefaultName(img: any, defaultName: string) {
+  setDefaultName(img: any, defaultName: string,formattedname:any) {
     img.localfilename = defaultName;
+    img.formattedName = formattedname;
   }
 
   resetAllImageFilenames(allListData: any) {
@@ -178,6 +212,7 @@ export class PhotoRepositoryComponent implements OnInit {
           sub.subTopics.forEach((img: any) => {
             img.imagelist.forEach((data: any) => {
               data.localfilename = data.defaultImageName;
+              data.formattedName = data.formattedDefName;
             });
           });
         });
@@ -194,14 +229,18 @@ export class PhotoRepositoryComponent implements OnInit {
   getPrDataLists() {
     this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
       // this.listDatas = JSON.parse(res.response);
+      this.listDatas = [];
       const staticData = JSON.parse(res.response);
-      console.log(staticData,"**");
-      
+      // console.log(staticData, '**');
+
       staticData.forEach((res: any) => {
-        if (
-          res.topic === 'Core photograph set' ||
-          res.topic === this.getvslCode
-        ) {
+        if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
+          console.log('no trimmed value');
+        } else {
+          this.isVslTypeSame = res.topic.includes(this.trimmedVslType);
+          // console.log('&&', this.isVslTypeSame);
+        }
+        if (res.topic === 'Core photograph set' || this.isVslTypeSame == true) {
           this.listDatas.push(res);
         }
       });
