@@ -168,7 +168,7 @@
                           </div>
                           <div class="sub-ques" *ngFor="let Mquest of quest.question;let index = index">
                             <mat-accordion class="card_container"
-                              *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)">
+                              *ngIf="searchText === '' || quest.mainQuestion.toLowerCase().includes(searchText)">
                               <mat-expansion-panel [expanded]="allExpansionPanelsExpanded">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
