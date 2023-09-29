@@ -238,8 +238,12 @@ export class PiqReportComponent implements OnInit {
       answerdata: value.value,
       location: this.locationCode,
       mainQuestCheckbox: pendingResult,
+      lastmodifieddata:JSON.stringify(this.lastModifiedData)
     };
+    console.log("ansPayload",ansPayload)
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
+      console.log(res,"res");
+      
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
     });
   }
@@ -260,9 +264,7 @@ export class PiqReportComponent implements OnInit {
     this.getShipPreQuestCounts = [];
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-     
       let object = JSON.parse(res.response);
-      
       this.getAllDatas = object;
       if (res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
@@ -301,6 +303,7 @@ export class PiqReportComponent implements OnInit {
                 (section: any) =>
                   section.mainQuestion === subHeader.mainQuestion
               );
+              this.subHeaderCount();
               this.getMainQuestCounts[index] = subHeader;
               var booleanCount: any = [];
               this.getMainQuestCounts.forEach((element: any) => {
@@ -319,6 +322,7 @@ export class PiqReportComponent implements OnInit {
           });
         });
       });
+      // this.subHeaderCount();
       this.presetQuestCount = this.getPresetQuestCounts.length;
       this.selectValue(
         this.getAllDatas[0]?.values[0]?.subHeaders,
@@ -330,6 +334,7 @@ export class PiqReportComponent implements OnInit {
         heading.expanded = true;
       });
       this.prTabEnabling(this.getAllDatas);
+      
     });
   }
 
@@ -417,9 +422,24 @@ export class PiqReportComponent implements OnInit {
           if (filterResponse.length === subHeader.subQuestion.length) {
             value.completed = true;
             value.inprogress = false;
+            subHeader.selected = true;
           } else {
             value.completed = false;
             value.inprogress = true;
+            subHeader.selected = false;
+          }
+          if(subHeader.selected == true){
+            const index = this.getMainQuestCounts.findIndex(
+              (section: any) => section.mainQuestion === subHeader.mainQuestion
+            );
+            this.getMainQuestCounts[index] = subHeader;
+            var booleanCount: any = [];
+            this.getMainQuestCounts.forEach((element: any) => {
+              booleanCount.push(element.selected);
+            });
+            this.pendingCount = booleanCount.filter(
+              (value: any) => value === false
+            ).length;
           }
         });
       });
@@ -597,20 +617,20 @@ export class PiqReportComponent implements OnInit {
 
     this.subHeaderCount();
     this.exceptionFn(subq, mquest, quest);
-    if (value != '' && value != undefined) {
-      mquest.selected = true;
-      const index = this.getMainQuestCounts.findIndex(
-        (section: any) => section.mainQuestion === mquest.mainQuestion
-      );
-      this.getMainQuestCounts[index] = mquest;
-      var booleanCount: any = [];
-      this.getMainQuestCounts.forEach((element: any) => {
-        booleanCount.push(element.selected);
-      });
-      this.pendingCount = booleanCount.filter(
-        (value: any) => value === false
-      ).length;
-    }
+    // if (value != '' && value != undefined) {
+    //   mquest.selected = true;
+    //   const index = this.getMainQuestCounts.findIndex(
+    //     (section: any) => section.mainQuestion === mquest.mainQuestion
+    //   );
+    //   this.getMainQuestCounts[index] = mquest;
+    //   var booleanCount: any = [];
+    //   this.getMainQuestCounts.forEach((element: any) => {
+    //     booleanCount.push(element.selected);
+    //   });
+    //   this.pendingCount = booleanCount.filter(
+    //     (value: any) => value === false
+    //   ).length;
+    // }
   }
 
   toggleSingleSelection(
@@ -626,6 +646,7 @@ export class PiqReportComponent implements OnInit {
     // console.log('c', mainQue);
     // console.log('d', subQue);
     // console.log('e', allValues);
+
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
       userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -648,7 +669,7 @@ export class PiqReportComponent implements OnInit {
       this.lastModifiedData.splice(5);
     }
     // this.lastModifiedData = [this.lastModifiedData.pop(), ...this.lastModifiedData];
-    this.BudgetService.setModifiedData(this.lastModifiedData);
+    // this.BudgetService.setModifiedData(this.lastModifiedData);
     subQue.answer = value;
     this.vesselSelection = subQue.answer;
     if (subQue.answer) {
@@ -662,22 +683,26 @@ export class PiqReportComponent implements OnInit {
     this.subHeaderCount();
     this.exceptionFn(ques, mainQue, subQue);
     this.dynamicForms.controls[subQue.qid].setValue(value);
-    if (value != '' && value != undefined) {
-      mainQue.selected = true;
-      const index = this.getMainQuestCounts.findIndex(
-        (section: any) => section.mainQuestion === mainQue.mainQuestion
-      );
-      this.getMainQuestCounts[index] = mainQue;
-      var booleanCount: any = [];
-      this.getMainQuestCounts.forEach((element: any) => {
-        booleanCount.push(element.selected);
-      });
-      this.pendingCount = booleanCount.filter(
-        (value: any) => value === false
-      ).length;
-    } else {
-      mainQue.selected = false;
-    }
+    // if (value != '' && value != undefined) {
+    //   mainQue.selected = true;
+    //   const index = this.getMainQuestCounts.findIndex(
+    //     (section: any) => section.mainQuestion === mainQue.mainQuestion
+    //   );
+    //   this.getMainQuestCounts[index] = mainQue;
+    //   console.log(">>>",this.getMainQuestCounts);
+      
+    //   var booleanCount: any = [];
+    //   this.getMainQuestCounts.forEach((element: any) => {
+    //     booleanCount.push(element.selected);
+    //   });
+    //   console.log("///",booleanCount);
+      
+    //   this.pendingCount = booleanCount.filter(
+    //     (value: any) => value === false
+    //   ).length;
+    // } else {
+    //   mainQue.selected = false;
+    // }
     this.prTabEnabling(allValues);
   }
 
@@ -832,22 +857,22 @@ export class PiqReportComponent implements OnInit {
     this.selectedValue = quest.subHeaders;
     this.subHeaderCount();
     this.exceptionFn(quest, mquest, subq);
-    if (value != '' && value != undefined) {
-      mquest.selected = true;
-      const index = this.getMainQuestCounts.findIndex(
-        (section: any) => section.mainQuestion === mquest.mainQuestion
-      );
-      this.getMainQuestCounts[index] = mquest;
-      var booleanCount: any = [];
-      this.getMainQuestCounts.forEach((element: any) => {
-        booleanCount.push(element.selected);
-      });
-      this.pendingCount = booleanCount.filter(
-        (value: any) => value === false
-      ).length;
-    } else {
-      mquest.selected = false;
-    }
+    // if (value != '' && value != undefined) {
+    //   mquest.selected = true;
+    //   const index = this.getMainQuestCounts.findIndex(
+    //     (section: any) => section.mainQuestion === mquest.mainQuestion
+    //   );
+    //   this.getMainQuestCounts[index] = mquest;
+    //   var booleanCount: any = [];
+    //   this.getMainQuestCounts.forEach((element: any) => {
+    //     booleanCount.push(element.selected);
+    //   });
+    //   this.pendingCount = booleanCount.filter(
+    //     (value: any) => value === false
+    //   ).length;
+    // } else {
+    //   mquest.selected = false;
+    // }
   }
 
   onInputChange(event: Event) {
@@ -877,22 +902,22 @@ export class PiqReportComponent implements OnInit {
 
     this.subHeaderCount();
     this.exceptionFn(subQues, mquest, subq);
-    if (selectedDate != null && selectedDate != undefined) {
-      mquest.selected = true;
-      const index = this.getMainQuestCounts.findIndex(
-        (section: any) => section.mainQuestion === mquest.mainQuestion
-      );
-      this.getMainQuestCounts[index] = mquest;
-      var booleanCount: any = [];
-      this.getMainQuestCounts.forEach((element: any) => {
-        booleanCount.push(element.selected);
-      });
-      this.pendingCount = booleanCount.filter(
-        (value: any) => value === false
-      ).length;
-    } else {
-      mquest.selected = false;
-    }
+    // if (selectedDate != null && selectedDate != undefined) {
+    //   mquest.selected = true;
+    //   const index = this.getMainQuestCounts.findIndex(
+    //     (section: any) => section.mainQuestion === mquest.mainQuestion
+    //   );
+    //   this.getMainQuestCounts[index] = mquest;
+    //   var booleanCount: any = [];
+    //   this.getMainQuestCounts.forEach((element: any) => {
+    //     booleanCount.push(element.selected);
+    //   });
+    //   this.pendingCount = booleanCount.filter(
+    //     (value: any) => value === false
+    //   ).length;
+    // } else {
+    //   mquest.selected = false;
+    // }
   }
 
   onSearchTextChanged(searchValue: string) {

@@ -269,3 +269,15 @@
 padding: 0 15px !important;
 }
 /* CARD STYLE END */
+
+.ellipsis-cell {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ellipsis-cell:hover {
+  white-space: normal;
+  text-overflow: clip;
+  overflow: visible;
+}

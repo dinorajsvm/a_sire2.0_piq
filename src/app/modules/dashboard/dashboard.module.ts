@@ -33,6 +33,7 @@ import { ReferenceComponent } from './pages/reference/reference.component';
 import { CustomCertificateDetailsComponent } from './pages/renderer/custom-certificate-details.component';
 import { NameConfirmationDialogComponent } from './pages/name-confirmation-dialog/name-confirmation-dialog.component';
 import { SelectIdDialogComponent } from './pages/select-id-dialog/select-id-dialog.component';
+// import { agGridTooltipComponent } from './pages/renderer/ag-grid-tooltip.component';
 
 
 @NgModule({
@@ -60,7 +61,9 @@ import { SelectIdDialogComponent } from './pages/select-id-dialog/select-id-dial
     ReferenceComponent,
     CustomCertificateDetailsComponent,
     NameConfirmationDialogComponent,
-    SelectIdDialogComponent
+    SelectIdDialogComponent,
+    // agGridTooltipComponent
+    
   ],
   imports: [
     DashboardRoutingModule,

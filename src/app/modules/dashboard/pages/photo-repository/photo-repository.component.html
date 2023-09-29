@@ -89,22 +89,22 @@
                   <div class="img_Size">
                     <span>Size:{{ convertFileSize(img.sizeinbytes) }}</span>
                   </div>
-                  <!-- <div class="img_name">
+                  <div class="img_name">
                     <input [(ngModel)]="img.formattedName"
                       [class.nameHighlight]="img?.formattedName!=img.formattedDefName"
                       (blur)="updateImageName(subHead, imgIndex)" />
                     <span style="font-size: 10px;font-weight: 600;">.{{img.formattedExtension}}</span>
                     <img src="assets/question/reset-password.svg" class="defaultNameImg"
                       (click)="setDefaultName(img, img.defaultImageName,img.formattedDefName)" matTooltip="Set Default Image Name" />
-                  </div> -->
-                  <div class="img_name">
+                  </div>
+                  <!-- <div class="img_name">
                     <input [(ngModel)]="img.localfilename"
                       [class.nameHighlight]="img?.localfilename!=img.defaultImageName"
                       (blur)="updateImageName(subHead, imgIndex)" />
                     <span>.{{ img.localfilename?.split('.').pop() }}</span>
                     <img src="assets/question/reset-password.svg" class="defaultNameImg"
                       (click)="setDefaultName(img, img.defaultImageName,img.formattedDefName)" matTooltip="Set Default Image Name" />
-                  </div>
+                  </div> -->
                 </div>
                 
 
