@@ -13,6 +13,9 @@
   border: 1px solid #dee1f0;
   background-color: white;
 }
+#float-input{
+  padding: 0 5px;
+}
 
 #summaryWrapper::-webkit-scrollbar-thumb {
   background: #dee1e6;

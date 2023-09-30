@@ -21,115 +21,9 @@ export class PIQSummaryComponent implements OnInit {
   @Input() pendingQuestCount: any;
   @Input() totalQuestCount: any;
   @Input() presetQuestCounts: any;
+  getSelectedDate:any;
   quickNotesInput = '';
-  photoData: any = [
-    {
-      subTopics: [
-        {
-          subID: 'sub1',
-          subTopicTitle: 'Bow area from dead ahead',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-        {
-          subID: 'sub2',
-          subTopicTitle: 'Hull forward end starboard side',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'No',
-        },
-        {
-          subID: 'sub3',
-          subTopicTitle: 'Hull forward end port side',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-        {
-          subID: 'sub4',
-          subTopicTitle: 'Hull aft end starboard side',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-        {
-          subID: 'sub5',
-          subTopicTitle: 'Hull aft end port side',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-        {
-          subID: 'sub6',
-          subTopicTitle: 'Forecastle port side looking towards fairleads',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-        {
-          subID: 'sub7',
-          subTopicTitle: 'Forecastle starboard side looking towards fairleads',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-      ],
-      mID: 'PR1',
-      topic: 'Core Photograph set',
-    },
-    {
-      subTopics: [
-        {
-          subID: 'sub8',
-          subTopicTitle: '',
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-      ],
-      mID: 'PR2',
-      topic: 'Crude/ Product/ Chemical tankers/ OBO',
-    },
-    {
-      subTopics: [
-        {
-          subID: 'sub9',
-          subTopicTitle: '',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-      ],
-      mID: 'PR3',
-      topic: 'LPG Pressurised',
-    },
-    {
-      subTopics: [
-        {
-          subID: 'sub10',
-          subTopicTitle: '',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-      ],
-      mID: 'PR4',
-      topic: 'LPG refrigerated',
-    },
-    {
-      subTopics: [
-        {
-          subID: 'sub11',
-          subTopicTitle: '',
-          relImages: [{}],
-          photoAvailable: 'Yes',
-          isNotMatching: 'Yes',
-        },
-      ],
-      mID: 'PR5',
-      topic: 'LNG Membrane type',
-    },
-  ];
+  photoData: any[] = [];
   instanceId = '';
   checkboxBoolean: any[] = [];
   pendingCount = 0;
@@ -142,7 +36,7 @@ export class PIQSummaryComponent implements OnInit {
     sortable: true,
     filter: 'agTextColumnFilter',
     floatingFilter: true,
-    tooltipComponent: agGridTooltipComponent
+    tooltipComponent: agGridTooltipComponent,
   };
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;
@@ -157,28 +51,85 @@ export class PIQSummaryComponent implements OnInit {
     { field: 'lastModified', headerName: 'Last Modified', width: 160 },
   ];
   photoColumnDefs: ColDef[] = [
-    { field: 'subTopicTitle', headerName: 'Sub Topic Title', },
-    { field: 'photoAvailable', headerName: 'Photo Available' },
-    { field: 'isNotMatching', headerName: 'Is Not Matching' },
+    {
+      field: 'subTopicTitle',
+      headerName: 'Sub Topic Title',
+      tooltipField: 'subTopicTitle',
+    },
+    {
+      field: 'photoAvailable',
+      headerName: 'Photo Available',
+      tooltipField: 'photoAvailable',
+    },
+    {
+      field: 'isNotMatching',
+      headerName: 'Is Not Matching',
+      tooltipField: 'isNotMatching',
+    },
   ];
 
   expectedColumnDefs: ColDef[] = [
-    { field: 'username', headerName: 'User Name' },
-    { field: 'cruser', headerName: 'User Type' },
-    { field: 'crdate', headerName: 'Last Update' },
+    { field: 'username', headerName: 'User Name', tooltipField: 'username' },
+    { field: 'cruser', headerName: 'User Rank', tooltipField: 'cruser' },
+    {
+      field: 'crdate',
+      headerName: 'Last Update',
+      tooltipField: 'crdate',
+      valueGetter: this.dateFormat.bind(this),
+    },
   ];
+  plannedSubDate: any;
+
+  onDateChange() {
+    this.plannedSubDate= this.datePipe.transform(this.getSelectedDate, 'yyyy-MM-dd HH:mm:ss');
+    console.log(this.getSelectedDate,">>>");
+  }
+
+  dateFormat(event: any) {
+    return this.datePipe.transform(event.crdate, 'dd-MMM-yyyy HH:mm:ss');
+  }
+
+  // dateFormat(params: any) {
+  //   const crdate = params.data.crdate;
+  //   return crdate? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss'):"";
+  // }
 
   modifiedColumns: ColDef[] = [
-    { field: 'mainQuestion', headerName: 'Main Question' },
-    { field: 'subQuestion', headerName: 'Sub Question' },
-    { field: 'userName', headerName: 'User Name' },
-    { field: 'modifiedDateTime', headerName: 'Modified Date / Time' },
+    {
+      field: 'mainQuestion',
+      headerName: 'Main Question',
+      tooltipField: 'mainQuestion',
+    },
+    {
+      field: 'subQuestion',
+      headerName: 'Sub Question',
+      tooltipField: 'subQuestion',
+    },
+    { field: 'userName', headerName: 'User Name', tooltipField: 'userName' },
+    {
+      field: 'modifiedDateTime',
+      headerName: 'Modified Date / Time',
+      tooltipField: 'modifiedDateTime',
+    },
   ];
   certificateColumns: ColDef[] = [
-    { field: 'categoryname', headerName: 'Certificate Type' },
-    { field: 'certificatename', headerName: 'Certificate Name',tooltipField:'certificatename', },
-    { field: 'certificateAvailable', headerName: 'Certificate Available',valueGetter: this.customCrUserValueGetter.bind(this) },
-  ];  
+    {
+      field: 'categoryname',
+      headerName: 'Certificate Type',
+      tooltipField: 'categoryname',
+    },
+    {
+      field: 'certificatename',
+      headerName: 'Certificate Name',
+      tooltipField: 'certificatename',
+    },
+    {
+      field: 'certificateAvailable',
+      headerName: 'Certificate Available',
+      tooltipField: 'certificateAvailable',
+      valueGetter: this.customCrUserValueGetter.bind(this),
+    },
+  ];
 
   rowData: any[] = [];
   certificateRowData: any[] = [];
@@ -217,7 +168,7 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getLastModifiedDatas();
-    this.getSSDatas();
+    // this.getSSDatas();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
@@ -281,6 +232,9 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getPhotoRepData().subscribe((res: any) => {
       this.photoRepCounts = res;
     });
+    this.BudgetService.getPrGridData().subscribe((res: any) => {
+      this.photoRowData = res;
+    });
 
     // this.BudgetService.getModifiedData().subscribe((res: any) => {
     //   this.modifiedrowData = [];
@@ -288,14 +242,14 @@ export class PIQSummaryComponent implements OnInit {
     // });
   }
 
-  getLastModifiedDatas(){
+  getLastModifiedDatas() {
     const payload = {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       const data = JSON.parse(res.lastMod);
-      this.modifiedrowData=data
-    })
+      this.modifiedrowData = data;
+    });
   }
 
   certficateGridDatas() {
@@ -430,7 +384,7 @@ export class PIQSummaryComponent implements OnInit {
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
-
+    this.getSSDatas();
     // const modifiedData = {
     //   userName: this.userDetails.userData.mdata.appInfo.userName,
     //   userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -450,22 +404,23 @@ export class PIQSummaryComponent implements OnInit {
     // console.log('----===', this.expectedRowData);
   }
 
-  getSSDatas(){
+  getSSDatas() {
     const payload = {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       const data = JSON.parse(res.datasyncgrid);
-      this.expectedRowData=data
-    })
+      console.log('data', data);
+      this.expectedRowData = data;
+    });
   }
-
 
   onSubmitQuickNotes() {
     const payload = {
       instanceid: this.referenceNumber,
       usercode: this.userDetails?.userCode,
       quicknotes: this.quickNotesInput,
+      plannedSubDate:this.plannedSubDate
     };
     this.BudgetService.saveQuickNotes(payload).subscribe((res) => {});
   }

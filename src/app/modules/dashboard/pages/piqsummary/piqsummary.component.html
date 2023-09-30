@@ -139,7 +139,7 @@
                   </div>
                   <div class="col-sm-5">
                     <mat-form-field appearance="outline" class="datePicker">
-                      <input matInput [matDatepicker]="picker" autocomplete="off" name="dateField" />
+                      <input matInput [matDatepicker]="picker" [(ngModel)]="getSelectedDate" (ngModelChange)="onDateChange()" autocomplete="off" name="dateField" />
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -174,7 +174,7 @@
             <span class="p-float-label">
               <span class="table-header">Quick Notes </span>
               <textarea id="float-input" autoResize="true" class="w-100" rows="4" #textArea cols="30"
-                placeholder="Quick notes" [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
+                placeholder="Quick notes" maxlength="1000" [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
             </span>
             <div class="text-right">
             <span style="font-size: 12px;text-align: right;">

@@ -195,7 +195,6 @@ export class CertificateRepositoryComponent implements OnInit {
   onGridReady(params: GridReadyEvent) {
 
     this.BudgetService.getCertificateList().subscribe((res: any) => {
-
       if (res && res.response && res.response.piqmappinglist) {
 
         res.response.piqmappinglist.forEach((data: any) => {

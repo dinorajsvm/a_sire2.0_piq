@@ -21,6 +21,7 @@ export class BudgetService {
   private getAllPreviousPresetData = new BehaviorSubject<any>(0);
   private getSummaryGridDataList = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
+  private getPhotoRepGridData = new Subject<any>();
   private getCertificateGridDataList =new BehaviorSubject<any>(0);
   private getModifiedDataList = new Subject<any>();
   private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
@@ -191,6 +192,13 @@ export class BudgetService {
 
   getPreviousPresetData() {
     return this.getAllPreviousPresetData.asObservable();
+  }
+  setPrGridData(message: any) {
+    this.getPhotoRepGridData.next(message);
+  }
+
+  getPrGridData() {
+    return this.getPhotoRepGridData.asObservable();
   }
 
   setSummaryGridData(message: any) {

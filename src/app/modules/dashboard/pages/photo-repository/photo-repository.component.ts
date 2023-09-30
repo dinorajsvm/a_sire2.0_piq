@@ -38,6 +38,8 @@ export class PhotoRepositoryComponent implements OnInit {
   value: any;
   imageNames: any;
   uploadedImgDatas: any[] = [];
+  getdetails:any[]=[]
+  getPRGriddetails:any
   getFilteredID: any;
   getFilteredSubHeading: any;
   userDetails: any;
@@ -65,18 +67,14 @@ export class PhotoRepositoryComponent implements OnInit {
     this.getPrDataLists();
     this.getImageName();
     this.getVesselTypeData();
-    // console.log('^^^', this.selectedInstanceID);
-    // console.log('^^^', typeof this.selectedInstanceID);
   }
   getVesselTypeData() {
     this.BudgetService.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
-      // console.log('testing', this.getvslCode);
       if (this.getvslCode == undefined || this.getvslCode === '') {
         console.log('No Vessel Type is Selected');
       } else {
         this.trimmedVslType = this.getvslCode.split(' ')[0];
-        // console.log('///', this.trimmedVslType);
         if (this.selectedInstanceID == undefined) {
           this.getPrDataLists();
         } else {
@@ -102,8 +100,6 @@ export class PhotoRepositoryComponent implements OnInit {
           (acc, obj) => acc.concat(obj.topiclist),
           []
         );
-        console.log('!!', mergedImg);
-
         let getNewData: any = [];
         this.getTopicList = mergedImg;
         this.getTopicList.forEach((item: any) => {
@@ -111,15 +107,14 @@ export class PhotoRepositoryComponent implements OnInit {
             console.log('no trimmed value');
           } else {
             this.isVslTypeSame = item.topic.includes(this.trimmedVslType);
-            console.log('&&', this.isVslTypeSame);
           }
           if (
             item.topic === 'Core photograph set' 
             || this.isVslTypeSame == true
-          ) {
-            getNewData.push(item);
-          }
-        });
+            ) {
+              getNewData.push(item);
+            }
+          });
         var imageCombined: any = [];
         const groupedData: any = {};
         for (const item of getNewData) {
@@ -136,10 +131,13 @@ export class PhotoRepositoryComponent implements OnInit {
           };
           imageCombined.push(mergedObject);
         }
+        
         this.getSubTopicTitle = [];
+       
         imageCombined.forEach((element: any) => {
           element.subTopics.forEach((subtitle: any, index: any) => {
             this.getSubTopicTitle.push(subtitle.subTopicTitle);
+            
             const subheader: any = element.subTopics.find(
               (sub: any) => sub.subTopicTitle === subtitle.subTopicTitle
             );
@@ -160,14 +158,12 @@ export class PhotoRepositoryComponent implements OnInit {
         this.listDatas = imageCombined;
         this.imageNames.forEach((data: any) => {
           this.listDatas.forEach((res: any) => {
-            res.subTopics.forEach((sub: any, index: any) => {
+            res.subTopics.forEach((sub: any, index: any) => {              
               if (data.subTopicName === sub.subTopicTitle) {
                 sub.imagelist.forEach((list: any) => {
-                  console.log("+++++",list);
                   const formattedName=list.localfilename.split('.')[0]
                   const formattedExtension=list.localfilename.split('.')[1]
                   const formattedDefName=data.imageName.split('.')[0]
-                  console.log("formattedDefName",formattedDefName);
                   list['formattedName']=formattedName;
                   list['formattedExtension']=formattedExtension;
                   list['formattedDefName']=formattedDefName;
@@ -177,6 +173,7 @@ export class PhotoRepositoryComponent implements OnInit {
             });
           });
         });
+        this.createPRDetails()
         this.listDatas.forEach((data) => {
           data.subTopics.forEach((data1: any) => {
             const invalidImg = data1.imagelist.find((x: any) => {
@@ -195,7 +192,39 @@ export class PhotoRepositoryComponent implements OnInit {
     this.allExpanded = true;
   }
 
-  createResponse() {}
+  createPRDetails() {
+    this.getdetails=[];
+    const duplicatedList=this.listDatas
+    duplicatedList.forEach((res: any) => {
+      res.subTopics.forEach((sub: any) => {
+        if(sub.imagelist.length==0){
+          sub['imgAvailable']="No"
+          sub['nameMatch']=""
+        }else{
+          sub['imgAvailable']="Yes"
+        }
+        sub.imagelist.forEach((img:any)=>{
+          if(img.localfilename===img.defaultImageName){
+            sub['nameMatch']="Yes"
+          }else{
+            sub['nameMatch']="No"
+          }
+        })
+      })
+    })
+    this.getdetails=duplicatedList
+    this.getPhotoRepDetails()
+  }
+
+  getPhotoRepDetails(){
+    this.getPRGriddetails=[]
+    this.getdetails.forEach((res:any) => {
+      res.subTopics.forEach((item:any)=>{
+        this.getPRGriddetails.push({subTopicTitle:item.subTopicTitle,photoAvailable:item.imgAvailable,isNotMatching:item.nameMatch})
+      })
+    })
+    this.BudgetService.setPrGridData(this.getPRGriddetails);    
+  }
 
   setDefaultName(img: any, defaultName: string,formattedname:any) {
     img.localfilename = defaultName;
@@ -228,17 +257,14 @@ export class PhotoRepositoryComponent implements OnInit {
 
   getPrDataLists() {
     this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
-      // this.listDatas = JSON.parse(res.response);
       this.listDatas = [];
       const staticData = JSON.parse(res.response);
-      // console.log(staticData, '**');
 
       staticData.forEach((res: any) => {
         if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
           console.log('no trimmed value');
         } else {
           this.isVslTypeSame = res.topic.includes(this.trimmedVslType);
-          // console.log('&&', this.isVslTypeSame);
         }
         if (res.topic === 'Core photograph set' || this.isVslTypeSame == true) {
           this.listDatas.push(res);

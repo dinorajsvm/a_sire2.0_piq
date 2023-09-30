@@ -643,7 +643,7 @@ export class PiqReportComponent implements OnInit {
 
     // console.log('a', value);
     // console.log('b', ques);
-    // console.log('c', mainQue);
+    console.log('c', mainQue.mainQuestion);
     // console.log('d', subQue);
     // console.log('e', allValues);
 

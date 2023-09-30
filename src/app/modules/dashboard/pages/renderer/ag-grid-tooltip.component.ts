@@ -11,10 +11,14 @@ import {ITooltipAngularComp} from "ag-grid-angular";
         background-color: white;
         border:1px solid black;
         white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: fit-content;
     }
   </style>
   <div class="custom-tooltip">
-          <p><span style="color:blue">{{ value }}</span></p>
+          <span style="color:blue">{{ value }}</span>
       </div>`,
 })
 export class agGridTooltipComponent implements ITooltipAngularComp{
