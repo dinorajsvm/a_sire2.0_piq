@@ -20,6 +20,7 @@ export class BudgetService {
   apikey: any;
   private getAllPreviousPresetData = new BehaviorSubject<any>(0);
   private getSummaryGridDataList = new Subject<any>();
+  private getViewMode = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
   private getPhotoRepGridData = new Subject<any>();
   private getCertificateGridDataList =new BehaviorSubject<any>(0);
@@ -30,6 +31,16 @@ export class BudgetService {
   private exceptionList = new Subject<any>();
   private exceptionReset = new Subject<any>();
   constructor(private client: HttpClient) {}
+
+  setEnableViewMode(message: any) {
+    this.getViewMode.next(message);
+  }
+
+  getEnableViewMode() {
+    return this.getViewMode.asObservable();
+  }
+
+
   GetBudgetRate(stateData: any) {
     let ob = this.client.post<any>(
       `${this.globalUrl}/PROCWebServices/procapi/getData/budgetrate`,

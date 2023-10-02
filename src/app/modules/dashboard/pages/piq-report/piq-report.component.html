@@ -194,6 +194,7 @@
                                 <div class="sub_ques" *ngIf="Mquest.subQuestion.length <= 1">
                                   <div class="col-sm-12 shoreQuest" [id]="subq.qid"
                                     *ngFor="let subq of Mquest.subQuestion"
+                                    
                                     [class.shoreQuest]="!isQuestionShow(subq.entryorgin)"
                                     [class.presetQuest]="isSpecialClass(subq.entryorgin)"
                                     [class.presetHigh]="ishighlightClass(subq.entryorgin)">
@@ -326,6 +327,7 @@
                                   *ngIf="Mquest.subQuestion.length > 1">
                                   <div class="col-sm-6 shoreQuest subqContainer" [id]="subq.qid"
                                     *ngFor="let subq of Mquest.subQuestion"
+                                    
                                     [class.shoreQuest]="!isQuestionShow(subq.entryorgin)"
                                     [class.presetQuest]="isSpecialClass(subq.entryorgin)"
                                     [class.presetChanged]="subq && subq.presetvalue && (subq.entryorgin === 'Auto or Preset' || subq.entryorgin === 'Preset') && subq.presetvalue !== subq.answer ">

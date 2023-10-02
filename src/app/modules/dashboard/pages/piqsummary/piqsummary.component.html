@@ -138,11 +138,13 @@
                     <span style="font-weight: 500;">Planned Submission Date</span>
                   </div>
                   <div class="col-sm-5">
+                    <form [formGroup]="dateForm">
                     <mat-form-field appearance="outline" class="datePicker">
-                      <input matInput [matDatepicker]="picker" [(ngModel)]="getSelectedDate" (ngModelChange)="onDateChange()" autocomplete="off" name="dateField" />
+                      <input matInput [matDatepicker]="picker" formControlName="dateField"   (dateInput)="onDateChange($event)" autocomplete="off" name="dateField" />
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
+                  </form>
                   </div>
                 </div>
               </div>
@@ -161,6 +163,7 @@
                 <div>
                   <button mat-button class="sub" [ngClass]="isNotNull ? 'sub' : 'disableSyncBtn'" type="submit"
                     [disabled]="!isNotNull" (click)="onSubmit('submit')">
+                    <!-- (click)="onSubmit('submit')" -->
                     Submit
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />

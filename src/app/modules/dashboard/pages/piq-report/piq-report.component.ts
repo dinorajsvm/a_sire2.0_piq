@@ -99,6 +99,7 @@ export class PiqReportComponent implements OnInit {
   inProgress = false;
   completed = false;
   enablePRTab: boolean = true;
+  enableViewMode!: boolean;
   filterResponse: any[] = [];
   vesselCode: any;
   topbarData: any;
@@ -109,6 +110,8 @@ export class PiqReportComponent implements OnInit {
   presetQuestCount: any;
   lastModifiedData: any[] = [];
   vesselSelection: any;
+  getOrigination: any;
+  getStatus: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -129,6 +132,11 @@ export class PiqReportComponent implements OnInit {
       this.getQuestionAnswerDatas();
     this.getTopBarDatas();
     this.getGuideLinesData();
+
+    this.BudgetService.getEnableViewMode().subscribe((res: any) => {
+      console.log('::::', res);
+      this.viewMode = res;
+    });
 
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.viewMode = true;
@@ -193,7 +201,7 @@ export class PiqReportComponent implements OnInit {
 
   getTopBarDatas() {
     this.BudgetService.getTopBarData(this.vesselCode).subscribe((res: any) => {
-      const data = res.response;      
+      const data = res.response;
       this.topbarData = data;
     });
   }
@@ -211,10 +219,10 @@ export class PiqReportComponent implements OnInit {
   }
 
   ishighlightQuest(guidesId: any): boolean {
-    if(guidesId.qid===this.infoMQuestId){
-      return true
-    }else{
-      return false
+    if (guidesId.qid === this.infoMQuestId) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -238,12 +246,12 @@ export class PiqReportComponent implements OnInit {
       answerdata: value.value,
       location: this.locationCode,
       mainQuestCheckbox: pendingResult,
-      lastmodifieddata:JSON.stringify(this.lastModifiedData)
+      lastmodifieddata: JSON.stringify(this.lastModifiedData),
     };
-    console.log("ansPayload",ansPayload)
+    console.log('ansPayload', ansPayload);
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
-      console.log(res,"res");
-      
+      console.log(res, 'res');
+
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
     });
   }
@@ -265,6 +273,15 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       let object = JSON.parse(res.response);
+      res['origination'] = this.userDetails?.cntrlType;
+      // res['origination'] = "CNT002";
+      res['status'] = 'save/draft';
+      console.log('master Response', res);
+      // this.getOrigination = res.origination;
+      this.getOrigination = res.orginator;
+      console.log('origination', this.getOrigination);
+      this.getStatus = res.status;
+      console.log('Status', this.getStatus);
       this.getAllDatas = object;
       if (res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
@@ -316,9 +333,8 @@ export class PiqReportComponent implements OnInit {
                 formGroupFields[mainQus.qid] = new FormControl(mainQus.answer);
               }
             });
-            
+
             this.dynamicForms = new FormGroup(formGroupFields);
-            
           });
         });
       });
@@ -334,7 +350,6 @@ export class PiqReportComponent implements OnInit {
         heading.expanded = true;
       });
       this.prTabEnabling(this.getAllDatas);
-      
     });
   }
 
@@ -345,11 +360,11 @@ export class PiqReportComponent implements OnInit {
     this.infoMQuestId = questID;
     setTimeout(() => {
       this.showGuideQuestion(questID);
-    },1000);
+    }, 1000);
     if (this.headerListContainer) {
       this.headerListContainer = false;
       this.descriptionContainer = true;
-    }else if(this.descriptionContainer==true){
+    } else if (this.descriptionContainer == true) {
       this.headerListContainer = true;
       this.descriptionContainer = false;
     }
@@ -365,17 +380,16 @@ export class PiqReportComponent implements OnInit {
             this.vesselSelection = subQues.answer;
             if (subQues.subName == 'Vessel Type' && subQues.qid == 'Q133') {
               if (this.vesselSelection == '') {
-                this.enablePRTab=true;
+                this.enablePRTab = true;
               } else {
-                this.enablePRTab=false;
+                this.enablePRTab = false;
               }
-              this.BudgetService.setVesselTypeData(this.vesselSelection)
+              this.BudgetService.setVesselTypeData(this.vesselSelection);
             }
           });
         });
       });
     });
-    
   }
 
   closeDesc() {
@@ -428,7 +442,7 @@ export class PiqReportComponent implements OnInit {
             value.inprogress = true;
             subHeader.selected = false;
           }
-          if(subHeader.selected == true){
+          if (subHeader.selected == true) {
             const index = this.getMainQuestCounts.findIndex(
               (section: any) => section.mainQuestion === subHeader.mainQuestion
             );
@@ -640,7 +654,6 @@ export class PiqReportComponent implements OnInit {
     subQue: any,
     allValues: any
   ): void {
-
     // console.log('a', value);
     // console.log('b', ques);
     console.log('c', mainQue.mainQuestion);
@@ -690,13 +703,13 @@ export class PiqReportComponent implements OnInit {
     //   );
     //   this.getMainQuestCounts[index] = mainQue;
     //   console.log(">>>",this.getMainQuestCounts);
-      
+
     //   var booleanCount: any = [];
     //   this.getMainQuestCounts.forEach((element: any) => {
     //     booleanCount.push(element.selected);
     //   });
     //   console.log("///",booleanCount);
-      
+
     //   this.pendingCount = booleanCount.filter(
     //     (value: any) => value === false
     //   ).length;
@@ -944,13 +957,37 @@ export class PiqReportComponent implements OnInit {
     this.toggleContent(mQuestIndex, mQuest);
   }
 
+  questionEnable(entryorgin: any, origination: any): boolean {
+    console.log('getOrigination', origination);
+    flag = true;
+    if (entryorgin) {
+      var flag = entryorgin == 'Office';
+      return flag;
+    }
+    return flag;
+  }
+
   isQuestionShow(entrylogin: any): boolean | undefined {
     if (entrylogin) {
       if (this.userDetails?.cntrlType === 'CNT001') {
-        var flag = true;
         this.locationCode = this.userDetails.companyCode;
         localStorage.setItem('locationCode', this.locationCode);
-        return flag;
+        if (
+          this.getOrigination == 'CNT002' &&
+          this.getStatus == 'save/draft'
+        ) {
+          var flag = entrylogin === 'Office';
+          return flag;
+        }else if (
+          this.getOrigination == 'CNT002' &&
+          this.getStatus == 'submit'
+        ) {
+          var flag = true;
+          return flag;
+        }else{
+          var flag = true;
+          return flag;
+        }
       } else if (this.userDetails?.cntrlType === 'CNT002') {
         var flag =
           entrylogin === 'Vessel' ||

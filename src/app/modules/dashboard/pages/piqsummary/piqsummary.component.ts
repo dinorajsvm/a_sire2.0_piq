@@ -9,19 +9,42 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { DatePipe } from '@angular/common';
 import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: ['l'],
+  },
+  display: {
+    dateInput: 'DD-MMM-YYYY', // Change the date input format
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-piqsummary',
   templateUrl: './piqsummary.component.html',
   styleUrls: ['./piqsummary.component.css'],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+  ],
 })
 export class PIQSummaryComponent implements OnInit {
+  dateForm!:FormGroup;
   @Input() getAllData: any;
   @Input() pendingQuestCount: any;
   @Input() totalQuestCount: any;
   @Input() presetQuestCounts: any;
-  getSelectedDate:any;
+  getSelectedDate:any='';
   quickNotesInput = '';
   photoData: any[] = [];
   instanceId = '';
@@ -79,10 +102,12 @@ export class PIQSummaryComponent implements OnInit {
     },
   ];
   plannedSubDate: any;
+  getDate: any;
 
-  onDateChange() {
-    this.plannedSubDate= this.datePipe.transform(this.getSelectedDate, 'yyyy-MM-dd HH:mm:ss');
-    console.log(this.getSelectedDate,">>>");
+  onDateChange(event:any) {
+    this.plannedSubDate= this.datePipe.transform(event.value, 'yyyy-MM-dd HH:mm:ss');
+    console.log(this.plannedSubDate,">>>");
+    console.log(this.plannedSubDate,typeof">>>");
   }
 
   dateFormat(event: any) {
@@ -155,8 +180,13 @@ export class PIQSummaryComponent implements OnInit {
     private route: ActivatedRoute,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private fb: FormBuilder
+  ) {
+    this.dateForm = this.fb.group({
+      dateField: new FormControl(), // Initialize with an initial or default value
+    });
+  }
 
   ngOnInit(): void {
     if (
@@ -240,6 +270,7 @@ export class PIQSummaryComponent implements OnInit {
     //   this.modifiedrowData = [];
     //   this.modifiedrowData = [...this.modifiedrowData, ...res];
     // });
+    this.getplannedDate()
   }
 
   getLastModifiedDatas() {
@@ -379,11 +410,16 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
 
+  enableViewMode:boolean=true;
+  submit(){
+    this.BudgetService.setEnableViewMode(this.enableViewMode);
+  }
   onSubmit(type: string) {
     this.getQuestionAnswerDatas(type);
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
+    this.BudgetService.setEnableViewMode(this.enableViewMode);
     this.getSSDatas();
     // const modifiedData = {
     //   userName: this.userDetails.userData.mdata.appInfo.userName,
@@ -420,9 +456,26 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       usercode: this.userDetails?.userCode,
       quicknotes: this.quickNotesInput,
-      plannedSubDate:this.plannedSubDate
+      plannedsubdate:this.plannedSubDate
     };
-    this.BudgetService.saveQuickNotes(payload).subscribe((res) => {});
+    this.BudgetService.saveQuickNotes(payload).subscribe((res) => {
+      console.log("quicknotes",res)
+      this.getplannedDate()
+    });
+  }
+
+  getplannedDate(){
+    // this.getSelectedDate=''
+    const payload = {
+      instanceid: this.referenceNumber,
+    };
+    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      // const resDate=this.datePipe.transform(res.plannedsubdate, 'dd-MM-yyyy');
+      const resDate=res.plannedsubdate;
+      this.dateForm.get('dateField')?.setValue(resDate);
+      console.log(resDate,"valeu")
+      console.log(resDate,typeof "valeu")
+    })
   }
 
   getRefnImportDetails(instanceid: any) {

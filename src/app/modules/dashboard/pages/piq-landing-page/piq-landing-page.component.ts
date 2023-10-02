@@ -65,13 +65,14 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Action',
       sortable: false,
       filter: false,
-      cellRendererFramework: AgGridMenuComponent,
+      cellRenderer: 'actionRenderer',
       cellRendererParams: {
+        innerRendererFramework:AgGridMenuComponent,
         menu: [
           {
             name: '',
             image: 'assets/icon-images/view.png',
-            link: '/sire/piq-report/',
+            link: '',
             tooltip: 'View',
             onMenuAction: this.viewForm.bind(this),
           },
