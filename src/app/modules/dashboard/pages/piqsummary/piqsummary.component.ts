@@ -9,8 +9,15 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { DatePipe } from '@angular/common';
 import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export const MY_DATE_FORMATS = {
   parse: {
@@ -23,7 +30,6 @@ export const MY_DATE_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 @Component({
   selector: 'app-piqsummary',
   templateUrl: './piqsummary.component.html',
@@ -39,19 +45,18 @@ export const MY_DATE_FORMATS = {
   ],
 })
 export class PIQSummaryComponent implements OnInit {
-  dateForm!:FormGroup;
+  dateForm!: FormGroup;
   @Input() getAllData: any;
   @Input() pendingQuestCount: any;
   @Input() totalQuestCount: any;
   @Input() presetQuestCounts: any;
-  getSelectedDate:any='';
+  getSelectedDate: any = '';
   quickNotesInput = '';
   photoData: any[] = [];
   instanceId = '';
   checkboxBoolean: any[] = [];
   pendingCount = 0;
   photoRowData: any[] = [];
-
   private gridApi!: GridApi;
   public defaultColDef: any = {
     resizable: true,
@@ -90,7 +95,6 @@ export class PIQSummaryComponent implements OnInit {
       tooltipField: 'isNotMatching',
     },
   ];
-
   expectedColumnDefs: ColDef[] = [
     { field: 'username', headerName: 'User Name', tooltipField: 'username' },
     { field: 'cruser', headerName: 'User Rank', tooltipField: 'cruser' },
@@ -103,22 +107,21 @@ export class PIQSummaryComponent implements OnInit {
   ];
   plannedSubDate: any;
   getDate: any;
-
-  onDateChange(event:any) {
-    this.plannedSubDate= this.datePipe.transform(event.value, 'yyyy-MM-dd HH:mm:ss');
-    console.log(this.plannedSubDate,">>>");
-    console.log(this.plannedSubDate,typeof">>>");
+  onDateChange(event: any) {
+    this.plannedSubDate = this.datePipe.transform(
+      event.value,
+      'yyyy-MM-dd HH:mm:ss'
+    );
+    console.log(this.plannedSubDate, '>>>');
+    console.log(this.plannedSubDate, typeof '>>>');
   }
-
   dateFormat(event: any) {
     return this.datePipe.transform(event.crdate, 'dd-MMM-yyyy HH:mm:ss');
   }
-
   // dateFormat(params: any) {
   //   const crdate = params.data.crdate;
   //   return crdate? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss'):"";
   // }
-
   modifiedColumns: ColDef[] = [
     {
       field: 'mainQuestion',
@@ -155,7 +158,6 @@ export class PIQSummaryComponent implements OnInit {
       valueGetter: this.customCrUserValueGetter.bind(this),
     },
   ];
-
   rowData: any[] = [];
   certificateRowData: any[] = [];
   modifiedrowData: any[] = [];
@@ -173,7 +175,6 @@ export class PIQSummaryComponent implements OnInit {
   lastModifiedData: any;
   syncedData: any[] = [];
   expectedRowData: any[] = [];
-
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -187,7 +188,6 @@ export class PIQSummaryComponent implements OnInit {
       dateField: new FormControl(), // Initialize with an initial or default value
     });
   }
-
   ngOnInit(): void {
     if (
       this.pendingQuestCount == undefined ||
@@ -208,7 +208,6 @@ export class PIQSummaryComponent implements OnInit {
         this.photoRowData.push(resp);
       });
     });
-
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
       this.rowData = [];
       this.certficateGridDatas();
@@ -227,7 +226,6 @@ export class PIQSummaryComponent implements OnInit {
             );
           });
         });
-
         questions.forEach((count: any) => {
           filledQuestionCount = filledQuestionCount + count;
         });
@@ -249,7 +247,6 @@ export class PIQSummaryComponent implements OnInit {
         this.gridApi.refreshCells();
       });
     });
-
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
     });
@@ -263,16 +260,15 @@ export class PIQSummaryComponent implements OnInit {
       this.photoRepCounts = res;
     });
     this.BudgetService.getPrGridData().subscribe((res: any) => {
-      this.photoRowData = res;
+      this.photoRowData = [];
+      this.photoRowData = [...this.photoRowData, ...res];
     });
-
     // this.BudgetService.getModifiedData().subscribe((res: any) => {
     //   this.modifiedrowData = [];
     //   this.modifiedrowData = [...this.modifiedrowData, ...res];
     // });
-    this.getplannedDate()
+    this.getplannedDate();
   }
-
   getLastModifiedDatas() {
     const payload = {
       instanceid: this.referenceNumber,
@@ -282,7 +278,6 @@ export class PIQSummaryComponent implements OnInit {
       this.modifiedrowData = data;
     });
   }
-
   certficateGridDatas() {
     this.BudgetService.getCertificateList().subscribe((res: any) => {
       this.certificateRowData = res.response.piqmappinglist;
@@ -303,7 +298,6 @@ export class PIQSummaryComponent implements OnInit {
           }
         });
       }
-
       res.response.piqmappinglist.forEach((ress: any) => {
         if (!this.isString(ress.grid)) {
           ress.grid.forEach((response: any, index: any) => {
@@ -314,7 +308,6 @@ export class PIQSummaryComponent implements OnInit {
           });
         }
       });
-
       this.certificateRowData = res.response.piqmappinglist;
       // this.totalCertificateCount = this.rowData.length;
       const mappingCercodeValues = this.rowData.map(
@@ -326,16 +319,13 @@ export class PIQSummaryComponent implements OnInit {
       // this.certificateCount = filteredMappingCode.length;
     });
   }
-
   isString(input: any): input is string {
     return typeof input === 'string';
   }
-
   customCrUserValueGetter(params: any) {
     const certificatename = params.data.certificatename;
     return certificatename ? 'Yes' : 'No';
   }
-
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridApi!.setRowData(this.rowData);
@@ -387,14 +377,12 @@ export class PIQSummaryComponent implements OnInit {
       }
     );
   }
-
   getQuestionAnswerDatas(type?: any) {
     const payload = {
       instanceid: this.referenceNumber,
       presettype: 'N',
       // "usercode": this.userDetails.userCode
     };
-
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       let object = JSON.parse(res.response);
@@ -409,9 +397,8 @@ export class PIQSummaryComponent implements OnInit {
       this.getAnswerValue(type);
     });
   }
-
-  enableViewMode:boolean=true;
-  submit(){
+  enableViewMode: boolean = true;
+  submit() {
     this.BudgetService.setEnableViewMode(this.enableViewMode);
   }
   onSubmit(type: string) {
@@ -439,7 +426,6 @@ export class PIQSummaryComponent implements OnInit {
     // this.expectedRowData = [...this.expectedRowData, ...this.syncedData];
     // console.log('----===', this.expectedRowData);
   }
-
   getSSDatas() {
     const payload = {
       instanceid: this.referenceNumber,
@@ -450,34 +436,31 @@ export class PIQSummaryComponent implements OnInit {
       this.expectedRowData = data;
     });
   }
-
   onSubmitQuickNotes() {
     const payload = {
       instanceid: this.referenceNumber,
       usercode: this.userDetails?.userCode,
       quicknotes: this.quickNotesInput,
-      plannedsubdate:this.plannedSubDate
+      plannedsubdate: this.plannedSubDate,
     };
     this.BudgetService.saveQuickNotes(payload).subscribe((res) => {
-      console.log("quicknotes",res)
-      this.getplannedDate()
+      console.log('quicknotes', res);
+      this.getplannedDate();
     });
   }
-
-  getplannedDate(){
+  getplannedDate() {
     // this.getSelectedDate=''
     const payload = {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       // const resDate=this.datePipe.transform(res.plannedsubdate, 'dd-MM-yyyy');
-      const resDate=res.plannedsubdate;
+      const resDate = res.plannedsubdate;
       this.dateForm.get('dateField')?.setValue(resDate);
-      console.log(resDate,"valeu")
-      console.log(resDate,typeof "valeu")
-    })
+      console.log(resDate, 'valeu');
+      console.log(resDate, typeof 'valeu');
+    });
   }
-
   getRefnImportDetails(instanceid: any) {
     let getMainQuestCounts: any[] = [];
     this.BudgetService.getRefnImportAnswer(instanceid).subscribe((data) => {
@@ -492,14 +475,12 @@ export class PIQSummaryComponent implements OnInit {
           });
         });
       });
-
       if (this.pendingCount === getMainQuestCounts.length) {
         this.BudgetService.setPreviousPresetData(data.response);
       } else {
       }
     });
   }
-
   openDialog(): void {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = false;
@@ -509,7 +490,6 @@ export class PIQSummaryComponent implements OnInit {
       ReuseConfirmationDialogComponent,
       dialogConfig
     );
-
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.instanceId = result;
@@ -517,7 +497,6 @@ export class PIQSummaryComponent implements OnInit {
       }
     });
   }
-
   saveMethodCall(ansPayload: any, type?: any) {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore') {

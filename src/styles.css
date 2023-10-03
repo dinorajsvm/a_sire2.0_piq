@@ -854,6 +854,9 @@ input:read-only {
   float: right;
 }
 
+.float-right {
+  float: right;
+}
 .budget-vessal {
   color: #457b9d;
   font-weight: bold;

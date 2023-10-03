@@ -23,13 +23,14 @@ import { LookupDialogComponent } from '../lookup-dialog/lookup-dialog.component'
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
-
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { MocComponent } from '../lookup/moc/moc.component';
+import { PscComponent } from '../lookup/psc/psc.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -77,10 +78,10 @@ export class PiqReportComponent implements OnInit {
   subAnswers: any[] = [];
   completedSign: boolean = false;
   getPresetQuestCounts: string[] = [];
-
+  headerListContainer: boolean = true;
+  descriptionContainer: boolean = false;
   searchText: string = '';
   getAllDatas: any;
-
   isSearchActive = false;
   referenceNumber: any;
   isForm: boolean = true;
@@ -134,7 +135,6 @@ export class PiqReportComponent implements OnInit {
     this.getGuideLinesData();
 
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
-      console.log('::::', res);
       this.viewMode = res;
     });
 
@@ -213,7 +213,6 @@ export class PiqReportComponent implements OnInit {
       this.getGuideQuestID = [];
       this.getGuideLines.forEach((item: any) => {
         this.getGuideQuestID.push(item.qid);
-        // this.showGuideQuestion(item.qid)
       });
     });
   }
@@ -225,7 +224,6 @@ export class PiqReportComponent implements OnInit {
       return false;
     }
   }
-
   showGuideQuestion(questID: any) {
     this.scrollToElement(questID);
   }
@@ -248,10 +246,7 @@ export class PiqReportComponent implements OnInit {
       mainQuestCheckbox: pendingResult,
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
     };
-    console.log('ansPayload', ansPayload);
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
-      console.log(res, 'res');
-
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
     });
   }
@@ -276,12 +271,10 @@ export class PiqReportComponent implements OnInit {
       res['origination'] = this.userDetails?.cntrlType;
       // res['origination'] = "CNT002";
       res['status'] = 'save/draft';
-      console.log('master Response', res);
       // this.getOrigination = res.origination;
       this.getOrigination = res.orginator;
-      console.log('origination', this.getOrigination);
       this.getStatus = res.status;
-      console.log('Status', this.getStatus);
+
       this.getAllDatas = object;
       if (res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
@@ -352,9 +345,6 @@ export class PiqReportComponent implements OnInit {
       this.prTabEnabling(this.getAllDatas);
     });
   }
-
-  headerListContainer: boolean = true;
-  descriptionContainer: boolean = false;
 
   openDesc(event: Event, questID: any) {
     this.infoMQuestId = questID;
@@ -595,7 +585,7 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  multiSelectedValue: string[] = [];
+  // multiSelectedValue: string[] = [];
   toggleMultiSelection(
     controlname: any,
     value: any,
@@ -604,13 +594,6 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
-    // chip.toggleSelected();
-
-    // console.log('a', value);
-    // console.log('b', mquest);
-    // console.log('c', subq);
-    // console.log('d', quest);
-    // console.log('e', entryorgin);
     if (entryorgin.answer.includes(value)) {
       entryorgin.answer = entryorgin.answer.filter(
         (item: any) => item !== value
@@ -631,20 +614,6 @@ export class PiqReportComponent implements OnInit {
 
     this.subHeaderCount();
     this.exceptionFn(subq, mquest, quest);
-    // if (value != '' && value != undefined) {
-    //   mquest.selected = true;
-    //   const index = this.getMainQuestCounts.findIndex(
-    //     (section: any) => section.mainQuestion === mquest.mainQuestion
-    //   );
-    //   this.getMainQuestCounts[index] = mquest;
-    //   var booleanCount: any = [];
-    //   this.getMainQuestCounts.forEach((element: any) => {
-    //     booleanCount.push(element.selected);
-    //   });
-    //   this.pendingCount = booleanCount.filter(
-    //     (value: any) => value === false
-    //   ).length;
-    // }
   }
 
   toggleSingleSelection(
@@ -654,12 +623,6 @@ export class PiqReportComponent implements OnInit {
     subQue: any,
     allValues: any
   ): void {
-    // console.log('a', value);
-    // console.log('b', ques);
-    console.log('c', mainQue.mainQuestion);
-    // console.log('d', subQue);
-    // console.log('e', allValues);
-
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
       userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -677,12 +640,8 @@ export class PiqReportComponent implements OnInit {
     this.lastModifiedData.push(modifiedData);
     this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
     if (this.lastModifiedData.length > 5) {
-      // Remove the oldest item (first item in the array)
-      // this.lastModifiedData.shift();
       this.lastModifiedData.splice(5);
     }
-    // this.lastModifiedData = [this.lastModifiedData.pop(), ...this.lastModifiedData];
-    // this.BudgetService.setModifiedData(this.lastModifiedData);
     subQue.answer = value;
     this.vesselSelection = subQue.answer;
     if (subQue.answer) {
@@ -696,26 +655,6 @@ export class PiqReportComponent implements OnInit {
     this.subHeaderCount();
     this.exceptionFn(ques, mainQue, subQue);
     this.dynamicForms.controls[subQue.qid].setValue(value);
-    // if (value != '' && value != undefined) {
-    //   mainQue.selected = true;
-    //   const index = this.getMainQuestCounts.findIndex(
-    //     (section: any) => section.mainQuestion === mainQue.mainQuestion
-    //   );
-    //   this.getMainQuestCounts[index] = mainQue;
-    //   console.log(">>>",this.getMainQuestCounts);
-
-    //   var booleanCount: any = [];
-    //   this.getMainQuestCounts.forEach((element: any) => {
-    //     booleanCount.push(element.selected);
-    //   });
-    //   console.log("///",booleanCount);
-
-    //   this.pendingCount = booleanCount.filter(
-    //     (value: any) => value === false
-    //   ).length;
-    // } else {
-    //   mainQue.selected = false;
-    // }
     this.prTabEnabling(allValues);
   }
 
@@ -806,46 +745,97 @@ export class PiqReportComponent implements OnInit {
     this.router.navigateByUrl('/path');
   }
 
-  openLookUp(event: any, Mquest: any) {
+  openLookUp(event: any, quest: any) {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = false;
     dialogConfig.disableClose = true;
     dialogConfig.panelClass = 'grid-dialog-container';
-
-    const dialogRef = this.dialog.open(LookupDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((result: any) => {
-      Mquest.subQuestion.forEach((response: any) => {
-        if (Mquest && Mquest.qid === 'MQ6') {
-          if (response && response.type === 'Select') {
-            if (response && response.qid === 'Q7') {
-              this.dynamicForms.controls[response.qid].patchValue(
-                response.isCompleted
-              );
-              response.answer = result.isCompleted;
+    if (quest && quest.subheadid === 'SH29') {
+      const mocDialog = this.dialog.open(MocComponent, dialogConfig);
+      mocDialog.afterClosed().subscribe((result: any) => {
+        quest.question.forEach((Mquest: any) => {
+          Mquest.subQuestion.forEach((response: any) => {
+            if (response && response.type === 'Select') {
+              result.forEach((result: any) => {
+                if (response && response.qid === result.qid) {
+                  this.dynamicForms.controls[response.qid].patchValue(
+                    result.value ? 'Yes' : 'No'
+                  );
+                  response.answer = result.value ? 'Yes' : 'No';
+                }
+              });
             }
-          }
-          if (response && response.qid === 'Q8') {
-            this.dynamicForms.controls[response.qid].patchValue(
-              result.visitfromdate
-            );
-            response.answer = result.visitfromdate;
-          }
-          if (response && response.qid === 'Q9') {
-            this.dynamicForms.controls[response.qid].patchValue(
-              result.visittodate
-            );
-            response.answer = result.visittodate;
-          }
-          if (response.answer) {
-            response.inprogress = false;
-            response.completed = true;
-          } else {
-            response.inprogress = true;
-            response.completed = false;
-          }
-        }
+
+            if (response.answer) {
+              response.inprogress = false;
+              response.completed = true;
+            } else {
+              response.inprogress = true;
+              response.completed = false;
+            }
+            // }
+          });
+        });
       });
-    });
+    } else if (quest && quest.subheadid === 'SH2') {
+      const dialogRef = this.dialog.open(LookupDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe((result: any) => {
+        quest.question.forEach((Mquest: any) => {
+          if (Mquest && Mquest.qid === 'MQ6') {
+            Mquest.subQuestion.forEach((response: any) => {
+              if (response && response.qid === 'Q8') {
+                this.dynamicForms.controls[response.qid].patchValue(
+                  new Date(result.Q8)
+                );
+                response.answer = result.Q8;
+              }
+              if (response && response.qid === 'Q9') {
+                this.dynamicForms.controls[response.qid].patchValue(
+                  new Date(result.Q9)
+                );
+                response.answer = result.Q9;
+              }
+              if (response.answer) {
+                response.inprogress = false;
+                response.completed = true;
+              } else {
+                response.inprogress = true;
+                response.completed = false;
+              }
+            });
+          }
+        });
+      });
+    } else if (quest && quest.subheadid === 'SH32') {
+      const dialogRef = this.dialog.open(PscComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe((result: any) => {
+        quest.question.forEach((Mquest: any) => {
+          if (Mquest && Mquest.qid === 'MQ6') {
+            Mquest.subQuestion.forEach((response: any) => {
+              if (response && response.qid === 'Q8') {
+                this.dynamicForms.controls[response.qid].patchValue(
+                  new Date(result.Q8)
+                );
+                response.answer = result.Q8;
+              }
+              if (response && response.qid === 'Q9') {
+                this.dynamicForms.controls[response.qid].patchValue(
+                  new Date(result.Q9)
+                );
+                response.answer = result.Q9;
+              }
+              if (response.answer) {
+                response.inprogress = false;
+                response.completed = true;
+              } else {
+                response.inprogress = true;
+                response.completed = false;
+              }
+            });
+          }
+        });
+      });
+    }
 
     event.preventDefault();
     event.stopPropagation();
@@ -868,24 +858,6 @@ export class PiqReportComponent implements OnInit {
       subq.completed = false;
     }
     this.selectedValue = quest.subHeaders;
-    this.subHeaderCount();
-    this.exceptionFn(quest, mquest, subq);
-    // if (value != '' && value != undefined) {
-    //   mquest.selected = true;
-    //   const index = this.getMainQuestCounts.findIndex(
-    //     (section: any) => section.mainQuestion === mquest.mainQuestion
-    //   );
-    //   this.getMainQuestCounts[index] = mquest;
-    //   var booleanCount: any = [];
-    //   this.getMainQuestCounts.forEach((element: any) => {
-    //     booleanCount.push(element.selected);
-    //   });
-    //   this.pendingCount = booleanCount.filter(
-    //     (value: any) => value === false
-    //   ).length;
-    // } else {
-    //   mquest.selected = false;
-    // }
   }
 
   onInputChange(event: Event) {
@@ -913,7 +885,7 @@ export class PiqReportComponent implements OnInit {
       subq.completed = false;
     }
 
-    this.subHeaderCount();
+    // this.subHeaderCount();
     this.exceptionFn(subQues, mquest, subq);
     // if (selectedDate != null && selectedDate != undefined) {
     //   mquest.selected = true;
@@ -972,19 +944,16 @@ export class PiqReportComponent implements OnInit {
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.locationCode = this.userDetails.companyCode;
         localStorage.setItem('locationCode', this.locationCode);
-        if (
-          this.getOrigination == 'CNT002' &&
-          this.getStatus == 'save/draft'
-        ) {
+        if (this.getOrigination == 'CNT002' && this.getStatus == 'save/draft') {
           var flag = entrylogin === 'Office';
           return flag;
-        }else if (
+        } else if (
           this.getOrigination == 'CNT002' &&
           this.getStatus == 'submit'
         ) {
           var flag = true;
           return flag;
-        }else{
+        } else {
           var flag = true;
           return flag;
         }

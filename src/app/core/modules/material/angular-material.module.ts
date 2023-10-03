@@ -55,7 +55,6 @@ import {OverlayModule} from '@angular/cdk/overlay';
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
@@ -87,6 +86,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
     PortalModule,
     ScrollingModule,
     OverlayModule,
+    MatCheckboxModule
   ],
   declarations:[],
   exports: [

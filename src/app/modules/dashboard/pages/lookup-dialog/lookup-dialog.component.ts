@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ColDef, GridApi, SelectionChangedEvent } from 'ag-grid-community';
+import { ColDef, GridApi } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
 import { ButtonRendererComponent } from '../renderer/button-renderer.component';
 import { DatePipe } from '@angular/common';
 
@@ -14,10 +13,9 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe],
 })
 export class LookupDialogComponent implements OnInit {
-
   getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
- 
+
   frameworkComponents: any;
   columnDefs: ColDef[] = [
     {
@@ -28,17 +26,36 @@ export class LookupDialogComponent implements OnInit {
         onClick: this.onBtnClick1.bind(this),
       },
     },
-    { field: 'refid', headerName: 'Reference ID', width: 100, resizable: true },
-    { field: 'refid', headerName: 'Serial ID', width: 100, resizable: true },
-    { field: 'visitorname', headerName: 'Visitor Name', width: 100, resizable: true },
+    {
+      field: 'tse_visitid',
+      headerName: 'Reference ID',
+      width: 100,
+      resizable: true,
+    },
+    {
+      field: 'visitorname',
+      headerName: 'Visitor Name',
+      width: 100,
+      resizable: true,
+    },
     {
       field: 'visittypename',
       headerName: 'Visit Type',
       width: 100,
       resizable: true,
     },
-    { field: 'visitfromdate', headerName: 'Visit From Date', width: 100, resizable: true },
-    { field: 'visittodate', headerName: 'Visit To Date', width: 100, resizable: true },
+    {
+      field: 'Q8',
+      headerName: 'Visit From Date',
+      width: 100,
+      resizable: true,
+    },
+    {
+      field: 'Q9',
+      headerName: 'Visit To Date',
+      width: 100,
+      resizable: true,
+    },
     { field: 'rankname', headerName: 'Rank Name', width: 100, resizable: true },
     {
       field: 'plannedfromport',
@@ -53,7 +70,7 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
   ];
-  syncData: any[] = []
+  syncData: any[] = [];
   rowData: any = [];
 
   public singleRowSelection: 'single' | 'multiple' = 'single';
@@ -79,12 +96,8 @@ export class LookupDialogComponent implements OnInit {
   }
 
   onDialogClose(): void {
-
     this.dialogRef.close();
   }
-
-
-
 
   onBtnClick1(e: any) {
     this.syncData = e.rowData;
@@ -102,8 +115,6 @@ export class LookupDialogComponent implements OnInit {
     });
   }
 
-
-
   onGridReady(params: any) {
     this.gridApi = params.api;
   }
@@ -116,17 +127,9 @@ export class LookupDialogComponent implements OnInit {
     const locationCode = localStorage.getItem('locationCode');
     this.BudgetService.getLookupVisitData('SNDC').subscribe((data) => {
       const response = JSON.parse(data.response);
-
       response.forEach((res: any) => {
-        res.isCompleted = 'Yes'
-        res.visitfromdate = this.datePipe.transform( 
-          res.visitfromdate,
-          'dd-MMM-yyyy'
-        );
-        res.visittodate = this.datePipe.transform(
-          res.visittodate,
-          'dd-MMM-yyyy'
-        );
+        res.Q8 = this.datePipe.transform(res.Q8, 'dd-MMM-yyyy');
+        res.Q9 = this.datePipe.transform(res.Q9, 'dd-MMM-yyyy');
       });
       this.rowData = response;
     });

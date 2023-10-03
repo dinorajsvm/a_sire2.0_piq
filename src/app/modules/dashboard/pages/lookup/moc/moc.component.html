@@ -1,0 +1,38 @@
+<div mat-dialog-title>
+  <div class="col-sm-12">
+    <div class="row mt-4">
+      <div class="col-sm-11">
+        <h3 class="header">MOC Report</h3>
+        <p class="descHeader">(List of Moc for last 12 months)</p>
+      </div>
+
+      <div class="col-sm-1 text-right closeIcn">
+        <mat-icon (click)="onDialogClose()">close</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-typography">
+  <div class="col-sm-12">
+    <div class="row mt-5">
+      <div class="col-sm-12">
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham"
+          style="height: calc(100vh - 270px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions align="end" style="padding: 8px 15px">
+  <button mat-button class="showBtn" (click)="applyMocDetails()">Apply</button>
+</div>

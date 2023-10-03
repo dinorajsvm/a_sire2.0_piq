@@ -218,7 +218,7 @@ export class BudgetService {
   getSummaryGridData() {
     return this.getSummaryGridDataList.asObservable();
   }
-  
+
   setCertificateGridData(message: any) {
     this.getCertificateGridDataList.next(message);
   }
@@ -228,7 +228,6 @@ export class BudgetService {
 
   setMappedCertificateData(message: any) {
     this.getMappedCertificateGridDataList.next(message);
-    
   }
   getMappedCertificateData() {
     return this.getMappedCertificateGridDataList.asObservable();
@@ -236,7 +235,6 @@ export class BudgetService {
 
   setModifiedData(message: any) {
     this.getModifiedDataList.next(message);
-    
   }
   getModifiedData() {
     return this.getModifiedDataList.asObservable();
@@ -300,12 +298,6 @@ export class BudgetService {
     );
   }
 
-  getPrMasterGridList() {
-    return this.client
-      .get<any>('assets/question/prMasterGridDatas.json')
-      .pipe(map((res: any) => res));
-  }
-
   getTopBarData(vslCode: any) {
     var payload: any = {
       vesselcode: vslCode,
@@ -324,14 +316,11 @@ export class BudgetService {
       .pipe(map((res: any) => res));
   }
 
-  getDefaultImageTemplate(){
+  getDefaultImageTemplate() {
     let ba = this.client
-      .get<any>(
-        `${this.globalUrl}/PIQ/event/getstaticimagetemplate`
-      )
+      .get<any>(`${this.globalUrl}/PIQ/event/getstaticimagetemplate`)
       .pipe(map((res: any) => res));
     return ba;
-    
   }
 
   getGuidelines() {
@@ -347,17 +336,28 @@ export class BudgetService {
     );
   }
 
-  getUploadData(payload:any){
+  getUploadData(payload: any) {
     return this.client.post<any>(
       `${this.globalUrl}/PIQ/event/getuploaddata`,
       payload
     );
   }
-  savePhotoRep(payload:any){
+  savePhotoRep(payload: any) {
     return this.client.post<any>(
       `${this.globalUrl}/PIQ/event/SavePIQPhotorepo`,
       payload
     );
   }
- 
+
+  getMocDetails() {
+    return this.client
+      .get<any>(`${this.globalUrl}/PIQ/event/getmocdata`)
+      .pipe(map((res: any) => res));
+  }
+
+  getPscDetails() {
+    return this.client
+      .get<any>(`${this.globalUrl}/PIQ/event/getextdata`)
+      .pipe(map((res: any) => res));
+  }
 }
