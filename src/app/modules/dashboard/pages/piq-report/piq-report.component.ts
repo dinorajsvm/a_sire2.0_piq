@@ -133,6 +133,7 @@ export class PiqReportComponent implements OnInit {
       this.getQuestionAnswerDatas();
     this.getTopBarDatas();
     this.getGuideLinesData();
+    this.edit();
 
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
@@ -268,13 +269,13 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       let object = JSON.parse(res.response);
-      res['origination'] = this.userDetails?.cntrlType;
+      // res['origination'] = this.userDetails?.cntrlType;
       // res['origination'] = "CNT002";
-      res['status'] = 'save/draft';
+      // res['status'] = 'save/draft';
       // this.getOrigination = res.origination;
       this.getOrigination = res.orginator;
-      this.getStatus = res.status;
-
+      // this.getStatus = res.status;
+      this.getStatus = res.Formstatus;
       this.getAllDatas = object;
       if (res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
@@ -333,10 +334,10 @@ export class PiqReportComponent implements OnInit {
       });
       // this.subHeaderCount();
       this.presetQuestCount = this.getPresetQuestCounts.length;
-      this.selectValue(
-        this.getAllDatas[0]?.values[0]?.subHeaders,
-        this.getAllDatas[0]?.values[0]
-      );
+      // this.selectValue(
+      //   this.getAllDatas[0]?.values[0]?.subHeaders,
+      //   this.getAllDatas[0]?.values[0]
+      // );
       this.BudgetService.setSummaryGridData(this.getAllDatas);
       this.mainQuestCounts = this.getMainQuestCounts.length;
       this.getAllDatas.forEach((heading: any) => {
@@ -405,7 +406,9 @@ export class PiqReportComponent implements OnInit {
     const subIndex = this.selectedQuestion.findIndex(
       (subSection: any) => subSection.subHeaders == targetSubHeaders
     );
-    this.scrollToElement(subIndex);
+    setTimeout(() => {
+      this.scrollToElement(subIndex);
+    }, 500);
     this.getQuestionId = [];
     this.selectedQuestion.forEach((item: any) => {
       item.question.filter((val: any) => {
@@ -929,22 +932,12 @@ export class PiqReportComponent implements OnInit {
     this.toggleContent(mQuestIndex, mQuest);
   }
 
-  questionEnable(entryorgin: any, origination: any): boolean {
-    console.log('getOrigination', origination);
-    flag = true;
-    if (entryorgin) {
-      var flag = entryorgin == 'Office';
-      return flag;
-    }
-    return flag;
-  }
-
   isQuestionShow(entrylogin: any): boolean | undefined {
     if (entrylogin) {
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.locationCode = this.userDetails.companyCode;
         localStorage.setItem('locationCode', this.locationCode);
-        if (this.getOrigination == 'CNT002' && this.getStatus == 'save/draft') {
+        if (this.getOrigination == 'CNT002' && this.getStatus == 'Inprogress') {
           var flag = entrylogin === 'Office';
           return flag;
         } else if (
@@ -961,7 +954,7 @@ export class PiqReportComponent implements OnInit {
         var flag =
           entrylogin === 'Vessel' ||
           entrylogin === 'Auto or Preset' ||
-          entrylogin === 'Preset';
+          entrylogin === 'Preset' || entrylogin === 'Hybrid';
         this.locationCode = this.userDetails.userData.mdata.appInfo.vesselCode;
         localStorage.setItem('locationCode', this.locationCode);
         return flag;
@@ -984,6 +977,17 @@ export class PiqReportComponent implements OnInit {
 
   home() {
     this.router.navigate(['/sire/piq-landing/']);
+  }
+
+  enableEditMode:boolean=true;
+  edit(){
+    if (this.route.snapshot.paramMap.get('type') == 'view') {
+      this.viewMode = false;
+      this.enableEditMode= false;
+    }
+    else{
+      this.enableEditMode= true;
+    }
   }
 
   showPendingQuest: boolean = false;

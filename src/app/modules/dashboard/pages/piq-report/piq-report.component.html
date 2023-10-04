@@ -14,6 +14,9 @@
         <span>RefID: {{ referenceNumber }} </span>
       </div>
       <div class="col-sm-1 text-right" style="padding: 0">
+        <button matTooltip="Edit" [disabled]="enableEditMode" [class.disabledEdit]="enableEditMode" mat-button class="edit" (click)="edit()">
+          <img src="assets/question/edit.svg"/>
+        </button>
         <button matTooltip="Back To HomePage" mat-button class="home" (click)="home()">
           <mat-icon>home</mat-icon>
         </button>

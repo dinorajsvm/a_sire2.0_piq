@@ -1,0 +1,27 @@
+<div id="vslSelectionWrapper">
+  <div mat-dialog-title>
+    <div class="col-sm-12">
+      <div class="row">
+        <div style="font-size: 12px;white-space: nowrap;">
+          <h5>Select Vessel</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="vesselSelectionForms" (ngSubmit)="onProceed(vesselSelectionForms)">
+    <div mat-dialog-content>
+      <mat-form-field class="selectDropdown">
+        <mat-label>Select Vessel</mat-label>
+        <mat-select [(ngModel)]="selectedValue" formControlName="vessel" name="food">
+          <mat-option *ngFor="let food of foods" [value]="food.value">
+            {{food.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button type="submit" [disabled]="!vesselSelectionForms.valid"
+        [ngClass]="{'disableBtn': !vesselSelectionForms.valid}" class="vslSelect" cdkFocusInitial>Proceed</button>
+    </div>
+  </form>
+</div>

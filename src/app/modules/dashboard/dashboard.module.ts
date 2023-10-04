@@ -35,6 +35,7 @@ import { NameConfirmationDialogComponent } from './pages/name-confirmation-dialo
 import { SelectIdDialogComponent } from './pages/select-id-dialog/select-id-dialog.component';
 import { MocComponent } from './pages/lookup/moc/moc.component';
 import { PscComponent } from './pages/lookup/psc/psc.component';
+import { VesselSelectionDialogComponent } from './pages/vessel-selection-dialog/vessel-selection-dialog.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { PscComponent } from './pages/lookup/psc/psc.component';
     NameConfirmationDialogComponent,
     SelectIdDialogComponent,
     MocComponent,
-    PscComponent
+    PscComponent,
+    VesselSelectionDialogComponent
   ],
   imports: [
     DashboardRoutingModule,

@@ -1,0 +1,47 @@
+@import "../../../../../piq.css";
+
+/* ::ng-deep .vesselSelection-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__title {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+} */
+::ng-deep
+  .vesselSelection-dialog-container
+  ::ng-deep
+  .mat-mdc-dialog-container {
+  width: 35vw !important;
+  height: 175px !important;
+  padding: 0 24px !important;
+}
+
+::ng-deep
+  .vesselSelection-dialog-container
+  ::ng-deep
+  .mat-mdc-dialog-container
+  ::ng-deep
+  .mdc-dialog__content {
+  font-size: 12px;
+}
+
+::ng-deep .vesselSelection-dialog-container ::ng-deep .mat-mdc-dialog-content {
+  max-height: none;
+  height: calc(100vh - 510px);
+  padding: 0 24px;
+}
+
+::ng-deep .vesselSelection-dialog-container ::ng-deep .mdc-dialog__actions {
+  padding: 0 15px;
+  min-height: 25px;
+  justify-content: flex-end !important;
+}
+
+.vslSelect {
+  background-color: #2d3e51;
+  color: white;
+}
+
+.disableBtn{
+    background-color: #c1c1c1 !important;
+    color: black !important;
+}

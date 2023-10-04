@@ -97,7 +97,7 @@ export class PIQSummaryComponent implements OnInit {
   ];
   expectedColumnDefs: ColDef[] = [
     { field: 'username', headerName: 'User Name', tooltipField: 'username' },
-    { field: 'cruser', headerName: 'User Rank', tooltipField: 'cruser' },
+    { field: 'rankname', headerName: 'User Rank', tooltipField: 'cruser' },
     {
       field: 'crdate',
       headerName: 'Last Update',
@@ -112,16 +112,14 @@ export class PIQSummaryComponent implements OnInit {
       event.value,
       'yyyy-MM-dd HH:mm:ss'
     );
-    console.log(this.plannedSubDate, '>>>');
-    console.log(this.plannedSubDate, typeof '>>>');
   }
-  dateFormat(event: any) {
-    return this.datePipe.transform(event.crdate, 'dd-MMM-yyyy HH:mm:ss');
-  }
-  // dateFormat(params: any) {
-  //   const crdate = params.data.crdate;
-  //   return crdate? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss'):"";
+  // dateFormat(event: any) {
+  //   return this.datePipe.transform(event.crdate, 'dd-MMM-yyyy HH:mm:ss');
   // }
+  dateFormat(params: any) {
+    const crdate = params.data.crdate;
+    return crdate? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss'):"";
+  }
   modifiedColumns: ColDef[] = [
     {
       field: 'mainQuestion',
@@ -198,7 +196,10 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getLastModifiedDatas();
-    // this.getSSDatas();
+    this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe((res:any)=>{
+      // this.expectedRowData = data;
+    });
+    this.getSSDatas();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
@@ -260,7 +261,7 @@ export class PIQSummaryComponent implements OnInit {
       this.photoRepCounts = res;
     });
     this.BudgetService.getPrGridData().subscribe((res: any) => {
-      this.photoRowData = [];
+      this.photoRowData=[]
       this.photoRowData = [...this.photoRowData, ...res];
     });
     // this.BudgetService.getModifiedData().subscribe((res: any) => {
@@ -424,7 +425,6 @@ export class PIQSummaryComponent implements OnInit {
     // }
     // this.expectedRowData = [];
     // this.expectedRowData = [...this.expectedRowData, ...this.syncedData];
-    // console.log('----===', this.expectedRowData);
   }
   getSSDatas() {
     const payload = {
@@ -432,7 +432,6 @@ export class PIQSummaryComponent implements OnInit {
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       const data = JSON.parse(res.datasyncgrid);
-      console.log('data', data);
       this.expectedRowData = data;
     });
   }
@@ -444,7 +443,6 @@ export class PIQSummaryComponent implements OnInit {
       plannedsubdate: this.plannedSubDate,
     };
     this.BudgetService.saveQuickNotes(payload).subscribe((res) => {
-      console.log('quicknotes', res);
       this.getplannedDate();
     });
   }
@@ -457,8 +455,6 @@ export class PIQSummaryComponent implements OnInit {
       // const resDate=this.datePipe.transform(res.plannedsubdate, 'dd-MM-yyyy');
       const resDate = res.plannedsubdate;
       this.dateForm.get('dateField')?.setValue(resDate);
-      console.log(resDate, 'valeu');
-      console.log(resDate, typeof 'valeu');
     });
   }
   getRefnImportDetails(instanceid: any) {

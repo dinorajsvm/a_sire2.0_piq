@@ -1,11 +1,9 @@
 <div class="col-sm-12">
-  <div class="row">
-    <div class="col-sm-12">
+  <div class="row" style="padding: 10px 0;">
+    <div class="col-sm-6">
       <span class="page_Title"> SIRE Landing Page </span>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 text-right" style="margin-bottom: 10px">
+    <div class="col-sm-6 text-right " style="padding-right: 0;">
       <div>
         <button mat-button class="new" (click)="navigatePiq()">New</button>
         <img class="btnImg" src="assets/question/new.svg" />
@@ -16,7 +14,7 @@
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <ag-grid-angular
-        style="height: calc(100vh - 140px)"
+        style="height: calc(100vh - 110px)"
         class="ag-theme-balham"
         [columnDefs]="shipColumnDefs"
         [defaultColDef]="defaultColDef"

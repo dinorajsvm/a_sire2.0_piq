@@ -6,6 +6,9 @@ import { BudgetService } from '../../services/budget.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { EFormMode, colorCodes } from 'src/app/core/constants';
+import { MatDialog } from '@angular/material/dialog';
+import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
+import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
 
 @Component({
   selector: 'app-piq-landing-page',
@@ -125,7 +128,7 @@ export class PIQLandingPageComponent implements OnInit {
     private router: Router,
     private BudgetService: BudgetService,
     private _storage: StorageService,
-    private _snackBarService: SnackbarService
+    private _snackBarService: SnackbarService,public dialog: MatDialog,
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameWorkComponent={
@@ -205,6 +208,15 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   navigatePiq() {
-    this.getNewRef();
+    if(this.userDetails.cntrlType ==='CNT001'){
+      this.dialog.open(
+         VesselSelectionDialogComponent,{
+          panelClass: 'vesselSelection-dialog-container',
+        }
+       );
+    }else{
+      this.getNewRef();
+    }
+
   }
 }
