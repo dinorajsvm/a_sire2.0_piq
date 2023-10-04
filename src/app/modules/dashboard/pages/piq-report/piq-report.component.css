@@ -339,7 +339,7 @@
   overflow-x: hidden;
 }
 
-.filteredQuest{
+.filteredQuest {
   line-height: 20px;
   padding: 5px 15px;
 }
@@ -668,7 +668,7 @@
   margin: 0 5px;
   display: flex;
   /* color: #0000ee; */
-color: white;
+  color: white;
   text-decoration: underline;
   cursor: pointer !important;
 }
@@ -835,8 +835,6 @@ p {
     color: #030303 !important;
   } */
 
-
-
 :host ::ng-deep .mat-horizontal-content-container {
   overflow: hidden !important;
   padding: 0 0px 0px 0px !important;
@@ -975,7 +973,7 @@ legend {
     -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12); */
 }
 
-.guideWrap{
+.guideWrap {
   box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
     -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12);
 }
@@ -1063,7 +1061,7 @@ legend {
   min-width: 24px;
 }
 
-.edit img{
+.edit img {
   width: 15px;
   height: 15px;
   margin-bottom: 1px;
@@ -1079,11 +1077,92 @@ legend {
   min-width: 24px;
 }
 
-.disabledEdit img{
-  filter: invert(1)!important;
+.disabledEdit img {
+  filter: invert(1) !important;
   width: 15px;
   height: 15px;
   margin-bottom: 1px;
 }
 
+.workFlowWrapper {
+  /* border: 1px solid black; */
+  display: flex;
+  width: fit-content;
+  position: absolute;
+  background: transparent;
+  z-index: 2;
+  right: 0;
+  top: 65px;
+}
 
+.wrkflToggle {
+  background: #000000;
+  color: #fff;
+  padding: 0 !important;
+  min-width: 30px;
+  display: flex;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.wrkflToggle .wrkflIcon {
+  margin-bottom: 5px !important;
+  margin-right: 5px !important;
+}
+.flowDetails span {
+  font-size: 12px;
+}
+.statusWrapper {
+  background: white;
+  border-radius: 0px 5px 5px 5px;
+  padding: 10px 15px;
+  max-height: 270px;
+  width: 200px;
+  overflow: auto;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.flowCircle {
+  border: 2px solid #379df1;
+  border-radius: 50%;
+  width: 16px;
+  height: 19px;
+}
+
+.flowWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flowPath {
+  background: #b0b0b0;
+  width: 2px;
+  height: -webkit-fill-available;
+}
+.flowContainer {
+  display: flex;
+}
+
+.flowDetails {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.flowPeriod {
+  color: #379df1;
+}
+
+.flowStatus {
+  display: flex;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 0 5px;
+  font-size: 12px;
+}
+
+/* ::ng-deep .mat-vertical-stepper-header{
+
+} */

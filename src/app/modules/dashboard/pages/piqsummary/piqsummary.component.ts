@@ -107,6 +107,10 @@ export class PIQSummaryComponent implements OnInit {
   ];
   plannedSubDate: any;
   getDate: any;
+  getWorkFlowAction: any;
+  getWrkFlowId: any;
+  getWrkFlowRank: any;
+  setFlowAction: any;
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
@@ -199,11 +203,12 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe((res:any)=>{
       // this.expectedRowData = data;
     });
+    this.getworkflowStatus()
     this.getSSDatas();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
-    this.photoRowData = [];
+    this.photoRowData = [];    
     this.photoData.forEach((res: any) => {
       res.subTopics.forEach((resp: any) => {
         this.photoRowData.push(resp);
@@ -270,11 +275,52 @@ export class PIQSummaryComponent implements OnInit {
     // });
     this.getplannedDate();
   }
+
+  onReassign(){
+    this.setFlowAction="RSN";
+    this.saveWorkFlowAction(this.setFlowAction);
+  }
+
+  onAprrove(){
+    this.setFlowAction="APR";
+    this.saveWorkFlowAction(this.setFlowAction);
+  }
+
+  getworkflowStatus(){
+    this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
+      console.log(":::",res);
+      let data = res.workflowmapping;
+      let val = res.workflowmaster;
+      val.forEach((item:any)=>{
+        this.getWrkFlowId=item.wfid;
+        this.getWrkFlowRank=item.submitter;
+      })
+    })
+  }
+
+  saveWorkFlowAction(getFlowAction:any){
+    const payload={
+      wfaction:getFlowAction,
+      wfid:this.getWrkFlowId,
+      instanceid:this.referenceNumber,
+      user:this.userDetails.userCode,
+      rank:this.userDetails.userData.mdata.appInfo.rankCode
+    }
+
+    this.BudgetService.getworkflowaction(payload).subscribe((res:any)=>{
+      console.log("=====",res);
+      console.log("++++",payload);
+    })
+  }
+
   getLastModifiedDatas() {
     const payload = {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      res['workfloaction']="INP";
+      this.getWorkFlowAction =res.workfloaction
+
       const data = JSON.parse(res.lastMod);
       this.modifiedrowData = data;
     });
@@ -350,10 +396,11 @@ export class PIQSummaryComponent implements OnInit {
           });
         });
         if (type === 'syncToStore') {
+          this.getSSDatas();
           ansPayload = {
             instanceid: this.referenceNumber,
             action: 'SS',
-            user: this.userDetails?.userCode,
+            user: this.userDetails.userCode,
             tenantIdentifier: '',
             answerdata: this.answerDetails,
             location: this.locationCode,
@@ -361,15 +408,17 @@ export class PIQSummaryComponent implements OnInit {
           };
         } else {
           if (this.isNotNull && type === 'submit') {
+            this.setFlowAction="SUB";
             ansPayload = {
               instanceid: this.referenceNumber,
               action: 'S',
-              user: this.userDetails?.userCode,
+              user: this.userDetails.userCode,
               tenantIdentifier: '',
               answerdata: this.answerDetails,
               location: this.locationCode,
               mainQuestCheckbox: pendingResult,
             };
+            this.saveWorkFlowAction(this.setFlowAction)
           } else {
             return;
           }
@@ -403,12 +452,13 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.setEnableViewMode(this.enableViewMode);
   }
   onSubmit(type: string) {
+    this.setFlowAction=""
     this.getQuestionAnswerDatas(type);
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
     this.BudgetService.setEnableViewMode(this.enableViewMode);
-    this.getSSDatas();
+    
     // const modifiedData = {
     //   userName: this.userDetails.userData.mdata.appInfo.userName,
     //   userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -438,7 +488,7 @@ export class PIQSummaryComponent implements OnInit {
   onSubmitQuickNotes() {
     const payload = {
       instanceid: this.referenceNumber,
-      usercode: this.userDetails?.userCode,
+      usercode: this.userDetails.userCode,
       quicknotes: this.quickNotesInput,
       plannedsubdate: this.plannedSubDate,
     };

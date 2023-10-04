@@ -269,6 +269,7 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       let object = JSON.parse(res.response);
+      res['workfloaction']="INP";
       // res['origination'] = this.userDetails?.cntrlType;
       // res['origination'] = "CNT002";
       // res['status'] = 'save/draft';
@@ -996,6 +997,16 @@ export class PiqReportComponent implements OnInit {
     // }
   }
 
+  showWorkSpace:boolean=false;
+  workSpace(){
+    this.showWorkSpace=!this.showWorkSpace;
+    const expandIcon = document.getElementById('wrkflIcon');
+    if (!this.showWorkSpace) {
+      this.renderer.setProperty(expandIcon, 'textContent', 'chevron_right');
+    } else {
+      this.renderer.setProperty(expandIcon, 'textContent', 'chevron_left');
+    }
+  }
   onSearchTextChanged(searchValue: string) {
     this.searchText = searchValue;
     this.isSearchActive = searchValue.length > 0;

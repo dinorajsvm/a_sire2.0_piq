@@ -152,6 +152,8 @@ export class BudgetService {
     return ba;
   }
 
+
+
   deleteRow(payload: any) {
     let ba = this.client.post<any>(
       `${this.globalUrl}/PIQ/event/deletePIQ`,
@@ -183,6 +185,17 @@ export class BudgetService {
 
   getRefnImport() {
     return this.client.get<any>(`${this.globalUrl}/PIQ/event/getrefnotoimport`);
+  }
+  getworkFlowStatus() {
+    return this.client.get<any>(`${this.globalUrl}/PIQ/event/getpiqworkflowmaster`);
+  }
+
+  getworkflowaction(payload: any) {
+    let ba = this.client.post<any>(
+      `${this.globalUrl}/PIQ/event/submitworkflowaction`,
+      payload
+    );
+    return ba;
   }
 
   getRefnImportAnswer(refno: any) {

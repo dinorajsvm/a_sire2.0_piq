@@ -25,6 +25,27 @@
     </div>
   </div>
 
+  <div class="workFlowWrapper">
+    <div>
+      <button mat-button class="wrkflToggle" (click)="workSpace()"><mat-icon
+          class="wrkflIcon" id="wrkflIcon">chevron_left</mat-icon></button>
+    </div>
+    <div class="statusWrapper" *ngIf="showWorkSpace">
+      <div class="flowContainer">
+      <div class="flowWrapper">
+        <div class="flowCircle"></div>
+        <div class="flowPath"></div>
+      </div>
+      <div class="flowDetails">
+        <span class="flowPeriod">03/10/2023 10:10</span>
+        <span>Mark Waugh</span>
+        <span>Director</span>
+        <div class="flowStatus">Submitted</div>
+      </div>
+    </div>
+    </div>
+  </div>
+
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-12" style="padding: 0 10px">
@@ -185,14 +206,9 @@
                                           {{ Mquest.mainQuestionEntry }}
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                          <button
-                                            *ngIf="
+                                          <button *ngIf="
                                               Mquest.entrymethod == 'Lookup'
-                                            "
-                                            mat-button
-                                            class="save"
-                                            (click)="openLookUp($event, quest, Mquest)"
-                                          >
+                                            " mat-button class="save" (click)="openLookUp($event, quest, Mquest)">
                                             Look Up
                                           </button>
                                           <img src="assets/question/info.svg" (click)="openDesc($event,Mquest.qid)"
@@ -247,7 +263,17 @@
                                             (input)="onInputChange($event)"
                                             (input)="inputChanges($event,subq,Mquest,subq.entryorgin,quest)" />
                                         </mat-form-field>
-                                        <span style="padding: 0 5px;" *ngIf="subq.unit">{{subq.unit}}</span>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-sm-2 dateWrap"
+                                        *ngIf="subq.type == 'Integer' && subq.response=='Percentage'">
+                                        <mat-form-field appearance="outline" class="input">
+                                          <input matInput percentage name="inputField" [readonly]="viewMode"
+                                            placeholder="0" type="text" autocomplete="off" [formControlName]="subq.qid"
+                                            (input)="inputChanges($event,subq,Mquest,subq.entryorgin,quest)" />
+                                        </mat-form-field>
+                                        <span style="padding: 0 5px;" *ngIf="subq.unit=='%'">{{subq.unit}}</span>
                                       </div>
                                     </div>
                                     <div class="row">
@@ -373,7 +399,8 @@
                                     </div>
 
                                     <div class="row">
-                                      <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Integer' && subq.unit=='%'">
+                                      <div class="col-sm-5 dateWrap"
+                                        *ngIf="subq.type == 'Integer' && subq.response=='Percentage'">
                                         <mat-form-field appearance="outline" class="input">
                                           <input matInput percentage name="inputField" [readonly]="viewMode"
                                             placeholder="0" type="text" autocomplete="off" [formControlName]="subq.qid"
