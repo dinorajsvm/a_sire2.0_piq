@@ -780,7 +780,6 @@ export class PiqReportComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error, 'error');
       }
     );
   }
@@ -923,7 +922,6 @@ export class PiqReportComponent implements OnInit {
                 response.inprogress = true;
                 response.completed = false;
               }
-              console.log(response, 'fine');
             });
           }
         });
