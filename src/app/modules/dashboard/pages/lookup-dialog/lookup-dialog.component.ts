@@ -45,13 +45,13 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
     {
-      field: 'Q8',
+      field: 'visitfromdate',
       headerName: 'Visit From Date',
       width: 100,
       resizable: true,
     },
     {
-      field: 'Q9',
+      field: 'visittodate',
       headerName: 'Visit To Date',
       width: 100,
       resizable: true,
@@ -128,8 +128,8 @@ export class LookupDialogComponent implements OnInit {
     this.BudgetService.getLookupVisitData('SNDC').subscribe((data) => {
       const response = JSON.parse(data.response);
       response.forEach((res: any) => {
-        res.Q8 = this.datePipe.transform(res.Q8, 'dd-MMM-yyyy');
-        res.Q9 = this.datePipe.transform(res.Q9, 'dd-MMM-yyyy');
+        res.visitfromdate = this.datePipe.transform(res.visitfromdate, 'dd-MMM-yyyy');
+        res.visittodate = this.datePipe.transform(res.visittodate, 'dd-MMM-yyyy');
       });
       this.rowData = response;
     });
