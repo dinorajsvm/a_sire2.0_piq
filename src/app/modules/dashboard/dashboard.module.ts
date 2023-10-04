@@ -36,6 +36,7 @@ import { SelectIdDialogComponent } from './pages/select-id-dialog/select-id-dial
 import { MocComponent } from './pages/lookup/moc/moc.component';
 import { PscComponent } from './pages/lookup/psc/psc.component';
 import { VesselSelectionDialogComponent } from './pages/vessel-selection-dialog/vessel-selection-dialog.component';
+import { PercentageDirective } from './pages/directives/percentage.directives';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { VesselSelectionDialogComponent } from './pages/vessel-selection-dialog/
     TwoDigitDecimaNumberDirective,
     OneDigitDecimaNumberDirective,
     DigitDirective,
+    PercentageDirective,
     DropdownCellRendererComponent,
     CertificateRepositoryComponent,
     ReferenceComponent,

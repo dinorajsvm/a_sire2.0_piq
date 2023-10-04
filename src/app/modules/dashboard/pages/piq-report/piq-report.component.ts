@@ -340,10 +340,10 @@ export class PiqReportComponent implements OnInit {
       });
       // this.subHeaderCount();
       this.presetQuestCount = this.getPresetQuestCounts.length;
-      // this.selectValue(
-      //   this.getAllDatas[0]?.values[0]?.subHeaders,
-      //   this.getAllDatas[0]?.values[0]
-      // );
+      this.selectValue(
+        this.getAllDatas[0].values[0].subHeaders,
+        this.getAllDatas[0].values[0]
+      )
       this.BudgetService.setSummaryGridData(this.getAllDatas);
       this.mainQuestCounts = this.getMainQuestCounts.length;
       this.getAllDatas.forEach((heading: any) => {

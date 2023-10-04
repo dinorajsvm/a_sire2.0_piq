@@ -118,9 +118,7 @@ export class PIQSummaryComponent implements OnInit {
   // }
   dateFormat(params: any) {
     const crdate = params.data.crdate;
-    return crdate
-      ? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss')
-      : '';
+    return crdate? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss'):"";
   }
   modifiedColumns: ColDef[] = [
     {
@@ -198,11 +196,9 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getLastModifiedDatas();
-    this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
-      (res: any) => {
-        // this.expectedRowData = data;
-      }
-    );
+    this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe((res:any)=>{
+      // this.expectedRowData = data;
+    });
     this.getSSDatas();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
@@ -279,10 +275,8 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      if (res && res.lastMod !== '') {
-        const data = JSON.parse(res.lastMod);
-        this.modifiedrowData = data;
-      }
+      const data = JSON.parse(res.lastMod);
+      this.modifiedrowData = data;
     });
   }
   certficateGridDatas() {
@@ -437,10 +431,8 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      if (res && res.datasyncgrid !== '') {
-        const data = JSON.parse(res.datasyncgrid);
-        this.expectedRowData = data;
-      }
+      const data = JSON.parse(res.datasyncgrid);
+      this.expectedRowData = data;
     });
   }
   onSubmitQuickNotes() {
