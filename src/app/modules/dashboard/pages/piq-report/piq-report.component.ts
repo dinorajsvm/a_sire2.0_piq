@@ -79,7 +79,8 @@ export class PiqReportComponent implements OnInit {
   completedSign: boolean = false;
   getPresetQuestCounts: string[] = [];
   headerListContainer: boolean = true;
-  descriptionContainer: boolean = false;
+  descriptionContainer = false;
+  lookupContainer = false;
   searchText: string = '';
   getAllDatas: any;
   isSearchActive = false;
@@ -113,12 +114,12 @@ export class PiqReportComponent implements OnInit {
   vesselSelection: any;
   getOrigination: any;
   getStatus: any;
+  manualLookupData: any[] = [];
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private BudgetService: BudgetService,
     private renderer: Renderer2,
-    private elementRef: ElementRef,
     private route: ActivatedRoute,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
@@ -168,10 +169,13 @@ export class PiqReportComponent implements OnInit {
           });
         }
       });
-      this.selectValue(
-        this.getAllDatas[0].values[0].subHeaders,
-        this.getAllDatas[0].values[0]
-      );
+      if (this.getAllDatas) {
+        this.selectValue(
+          this.getAllDatas[0].values[0].subHeaders,
+          this.getAllDatas[0].values[0]
+        );
+      }
+      
       this.BudgetService.setSummaryGridData(this.getAllDatas);
     });
     this.BudgetService.getExceptionResetData().subscribe((resetData) => {
@@ -219,11 +223,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   ishighlightQuest(guidesId: any): boolean {
-    if (guidesId.qid === this.infoMQuestId) {
-      return true;
-    } else {
-      return false;
-    }
+    return guidesId.qid === this.infoMQuestId;
   }
   showGuideQuestion(questID: any) {
     this.scrollToElement(questID);
@@ -277,7 +277,13 @@ export class PiqReportComponent implements OnInit {
       // this.getStatus = res.status;
       this.getStatus = res.Formstatus;
       this.getAllDatas = object;
-      if (res.exceptionlist) {
+      if (this.getAllDatas) {
+        this.selectValue(
+          this.getAllDatas[0].values[0].subHeaders,
+          this.getAllDatas[0].values[0]
+        );
+      }
+      if (res && res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
         this.exceptionList = exceptionListObject.response;
         this.BudgetService.setExceptionData(this.exceptionList);
@@ -384,13 +390,18 @@ export class PiqReportComponent implements OnInit {
   }
 
   closeDesc() {
-    if ((this.descriptionContainer = true)) {
+    if (this.descriptionContainer) {
       this.headerListContainer = true;
       this.descriptionContainer = false;
     }
   }
 
-  onClickGuideLine() {}
+  closeLookup() {
+    if (this.lookupContainer) {
+      this.headerListContainer = true;
+      this.lookupContainer = false;
+    }
+  }
 
   selectValue(value: string, allvalues?: any) {
     this.selectedValue = value;
@@ -499,10 +510,12 @@ export class PiqReportComponent implements OnInit {
   }
 
   getDefaultSelectedValue(): string {
-    if (this.getAllDatas.length > 0 && this.getAllDatas[0].values.length > 0) {
-      return this.getAllDatas[0].values[0];
-    }
-    return '';
+    return this.getAllDatas &&
+      this.getAllDatas.length > 0 &&
+      this.getAllDatas[0].values &&
+      this.getAllDatas[0].values.length > 0
+      ? this.getAllDatas[0].values[0]
+      : '';
   }
 
   toggleContent(index: number, value: any) {
@@ -747,13 +760,45 @@ export class PiqReportComponent implements OnInit {
   navigateToPath() {
     this.router.navigateByUrl('/path');
   }
-
+  getVesselCertificateLookupDetail() {
+    // const locationCode = this.userDetails.companyCode;
+    this.BudgetService.getVesselCertificateLookup('sndc').subscribe(
+      (data) => {
+        if (data && data.response) {
+          const response = JSON.parse(data.response);
+          response.forEach((res: any) => {
+            res.dateofissue = this.datePipe.transform(
+              res.dateofissue,
+              'dd-MMM-yyyy HH:mm:ss'
+            );
+            res.validfrom = this.datePipe.transform(
+              res.validfrom,
+              'dd-MMM-yyyy HH:mm:ss'
+            );
+          });
+          this.manualLookupData = response;
+        }
+      },
+      (error) => {
+        console.log(error, 'error');
+      }
+    );
+  }
   openLookUp(event: any, quest: any) {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = false;
     dialogConfig.disableClose = true;
     dialogConfig.panelClass = 'grid-dialog-container';
-    if (quest && quest.subheadid === 'SH29') {
+    if (quest && quest.subheadid === 'SH1') {
+      this.getVesselCertificateLookupDetail();
+      if (this.headerListContainer) {
+        this.headerListContainer = false;
+        this.lookupContainer = true;
+      } else if (this.lookupContainer) {
+        this.headerListContainer = true;
+        this.lookupContainer = false;
+      }
+    } else if (quest && quest.subheadid === 'SH29') {
       const mocDialog = this.dialog.open(MocComponent, dialogConfig);
       mocDialog.afterClosed().subscribe((result: any) => {
         quest.question.forEach((Mquest: any) => {
@@ -812,20 +857,33 @@ export class PiqReportComponent implements OnInit {
     } else if (quest && quest.subheadid === 'SH32') {
       const dialogRef = this.dialog.open(PscComponent, dialogConfig);
       dialogRef.afterClosed().subscribe((result: any) => {
+        this.dynamicForms.patchValue({
+          Q155: 'Yes',
+          Q156: result.crdate,
+          Q157: 'From Port Master',
+          Q158: result.authoritycode,
+          Q159: '',
+          Q160: result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes',
+          Q161: result.deficiencycount === '1' ? 'Yes' : 'No',
+        });
         quest.question.forEach((Mquest: any) => {
-          if (Mquest && Mquest.qid === 'MQ6') {
+          if (Mquest && Mquest.qid === 'MQ154') {
             Mquest.subQuestion.forEach((response: any) => {
-              if (response && response.qid === 'Q8') {
-                this.dynamicForms.controls[response.qid].patchValue(
-                  new Date(result.Q8)
-                );
-                response.answer = result.Q8;
-              }
-              if (response && response.qid === 'Q9') {
-                this.dynamicForms.controls[response.qid].patchValue(
-                  new Date(result.Q9)
-                );
-                response.answer = result.Q9;
+              if (response && response.qid === 'Q155') {
+                response.answer = 'Yes';
+              } else if (response && response.qid === 'Q156') {
+                response.answer = result.crdate;
+              } else if (response && response.qid === 'Q157') {
+                response.answer = 'From Port Master';
+              } else if (response && response.qid === 'Q158') {
+                response.answer = result.authoritycode;
+              } else if (response && response.qid === 'Q159') {
+                response.answer = '';
+              } else if (response && response.qid === 'Q160') {
+                response.answer =
+                  result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+              } else if (response && response.qid === 'Q161') {
+                response.answer = result.deficiencycount === '1' ? 'Yes' : 'No';
               }
               if (response.answer) {
                 response.inprogress = false;
@@ -834,6 +892,8 @@ export class PiqReportComponent implements OnInit {
                 response.inprogress = true;
                 response.completed = false;
               }
+              console.log(response, 'fine');
+              
             });
           }
         });

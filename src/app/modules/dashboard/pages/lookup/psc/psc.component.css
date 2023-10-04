@@ -72,6 +72,17 @@
     color: #707171;
 }
 
+
+.toggleHeader {
+    font-size: 12px;
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 0px;
+    position: relative;
+    display: inline-block;
+    top: 25px;
+    right: 15px;
+}
 .header {
     margin: 0;
 }

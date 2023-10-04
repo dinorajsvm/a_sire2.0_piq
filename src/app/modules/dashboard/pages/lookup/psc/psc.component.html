@@ -1,12 +1,19 @@
 <div mat-dialog-title>
   <div class="col-sm-12">
     <div class="row mt-3">
-      <div class="col-sm-11">
+      <div class="col-sm-8">
         <h3 class="header">External inspection data</h3>
         <p class="descHeader">(List of inspection data in last 18 months)</p>
       </div>
 
-      <div class="col-sm-1 text-right closeIcn">
+      <div class="col-sm-4 text-right closeIcn">
+        <p class="toggleHeader">Suggested </p>
+        <mat-slide-toggle
+          class="toggleHeader"
+          [(ngModel)]="isChecked"
+          (change)="changeToggle($event)"
+        ></mat-slide-toggle>
+        <p class="toggleHeader"> All Inspection</p>
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
     </div>
@@ -15,14 +22,9 @@
 <div mat-dialog-content class="mat-typography">
   <div class="col-sm-12">
     <div class="row mt-3">
-      <div class="col-sm-12 text-right mt-2">
-        <span>Non-PSC </span>
-        <mat-slide-toggle
-          [(ngModel)]="isChecked"
-          (change)="changeToggle($event)"
-          >PSC</mat-slide-toggle
-        >
-      </div>
+      <!-- <div class="col-sm-12 text-right mt-2">
+        
+      </div> -->
       <div class="col-sm-12 mt-2">
         <ag-grid-angular
           class="ag-theme-balham"

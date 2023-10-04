@@ -23,7 +23,7 @@ export class BudgetService {
   private getViewMode = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
   private getPhotoRepGridData = new Subject<any>();
-  private getCertificateGridDataList =new BehaviorSubject<any>(0);
+  private getCertificateGridDataList = new BehaviorSubject<any>(0);
   private getModifiedDataList = new Subject<any>();
   private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
   private getExceptionGridDataList = new BehaviorSubject<any>(0);
@@ -358,6 +358,12 @@ export class BudgetService {
   getPscDetails() {
     return this.client
       .get<any>(`${this.globalUrl}/PIQ/event/getextdata`)
+      .pipe(map((res: any) => res));
+  }
+
+  getVesselCertificateLookup(location: any) {
+    return this.client
+      .get<any>(`${this.globalUrl}/PIQ/event/getPIQvesselcertificate?location=${location}`)
       .pipe(map((res: any) => res));
   }
 }
