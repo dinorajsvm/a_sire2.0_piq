@@ -163,22 +163,22 @@
                 </button>
                 <div [class.hideFlowBtns]="getWorkFlowAction==='APR'" style="display: flex;">
                 <div *ngIf="getWorkFlowAction=='INP'|| getWorkFlowAction=='RSN'">
-                  <button mat-button class="sub" [ngClass]="isNotNull ? 'sub' : 'disableSyncBtn'" type="submit"
-                    [disabled]="!isNotNull" (click)="onSubmit('submit')">
+                  <button mat-button class="sub" [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'sub' : 'disableSyncBtn'" type="submit"
+                     (click)="onSubmit('submit')">
                     Submit
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                 </div>
                 <div *ngIf="getWorkFlowAction=='SUB'">
-                  <button mat-button class="rsn" (click)="onReassign()"  type="submit"
-                    [disabled]="!isNotNull" >
+                  <button mat-button class="rsn" (click)="onReassign()" [ngClass]="!disableFlowBtn ? 'rsn' : 'disableSyncBtn'"  type="submit"
+                    [disabled]="disableFlowBtn" >
                     Reassign
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
                 </div>
                 <div *ngIf="getWorkFlowAction=='SUB'">
                   <button mat-button class="apr" (click)="onAprrove()" type="submit"
-                    [disabled]="!isNotNull" >
+                    [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'apr' : 'disableSyncBtn'">
                     Approve
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/APR.svg" />
@@ -189,7 +189,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <textarea id="float-input" autoResize="true" class="w-100" rows="2" #textArea cols="30"
-                  placeholder="Add Remarks" maxlength="1000" [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
+                  placeholder="Add Remarks" maxlength="1000" [(ngModel)]="remarks"  pInputTextarea></textarea>
               </div>
             </div>
           </div>

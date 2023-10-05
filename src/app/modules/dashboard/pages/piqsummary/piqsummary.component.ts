@@ -52,6 +52,7 @@ export class PIQSummaryComponent implements OnInit {
   @Input() presetQuestCounts: any;
   getSelectedDate: any = '';
   quickNotesInput = '';
+  remarks = '';
   photoData: any[] = [];
   instanceId = '';
   checkboxBoolean: any[] = [];
@@ -111,6 +112,8 @@ export class PIQSummaryComponent implements OnInit {
   getWrkFlowId: any;
   getWrkFlowRank: any;
   setFlowAction: any;
+  getRank: any;
+  submitData: any;
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
@@ -177,6 +180,7 @@ export class PIQSummaryComponent implements OnInit {
   lastModifiedData: any;
   syncedData: any[] = [];
   expectedRowData: any[] = [];
+  disableFlowBtn:boolean=true
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -208,6 +212,7 @@ export class PIQSummaryComponent implements OnInit {
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
+    this.getRank=this.userDetails.userData.mdata.appInfo.rankCode;
     this.photoRowData = [];    
     this.photoData.forEach((res: any) => {
       res.subTopics.forEach((resp: any) => {
@@ -288,12 +293,21 @@ export class PIQSummaryComponent implements OnInit {
 
   getworkflowStatus(){
     this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
+      console.log("!!!!",res);
+      
       let data = res.workflowmapping;
       let val = res.workflowmaster;
       val.forEach((item:any)=>{
         this.getWrkFlowId=item.wfid;
         this.getWrkFlowRank=item.submitter;
       })
+      console.log("this.getWrkFlowRank",this.getWrkFlowRank);  
+      if(this.getWrkFlowRank==this.getRank){
+        this.disableFlowBtn=false;
+      }
+      else{
+        this.disableFlowBtn=true;
+      }
     })
   }
 
@@ -303,8 +317,8 @@ export class PIQSummaryComponent implements OnInit {
       wfid:this.getWrkFlowId,
       instanceid:this.referenceNumber,
       user:this.userDetails.userCode,
-      rank:this.userDetails.userData.mdata.appInfo.rankCode,
-      remarks:""
+      rank:this.getRank,
+      remarks:this.remarks
     }
 
     this.BudgetService.getworkflowaction(payload).subscribe((res:any)=>{
@@ -316,6 +330,8 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      console.log("master",res);
+      
       res['workfloaction']="INP";
       this.getWorkFlowAction =res.workfloaction
 
@@ -379,6 +395,7 @@ export class PIQSummaryComponent implements OnInit {
   getAnswerValue(type?: any) {
     this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
       (res: any) => {
+        this.submitData=res.response.MergedData
         this.answerDetails = res.response;
         this.quickNotesInput = this.answerDetails.QuickNotes.Value;
         const isNotNull = Object.values(this.answerDetails).every(
@@ -403,20 +420,26 @@ export class PIQSummaryComponent implements OnInit {
             answerdata: this.answerDetails,
             location: this.locationCode,
             mainQuestCheckbox: pendingResult,
+            wfaction:""
           };
         } else {
           if (this.isNotNull && type === 'submit') {
-            this.setFlowAction="SUB";
-            ansPayload = {
-              instanceid: this.referenceNumber,
-              action: 'S',
-              user: this.userDetails.userCode,
-              tenantIdentifier: '',
-              answerdata: this.answerDetails,
-              location: this.locationCode,
-              mainQuestCheckbox: pendingResult,
-            };
-            this.saveWorkFlowAction(this.setFlowAction)
+            if(this.remarks!=""){
+              this.setFlowAction="SUB";
+              ansPayload = {
+                instanceid: this.referenceNumber,
+                action: 'S',
+                user: this.userDetails.userCode,
+                tenantIdentifier: '',
+                answerdata: this.submitData,
+                location: this.locationCode,
+                mainQuestCheckbox: pendingResult,
+                wfaction:"SUB"
+              };
+              this.saveWorkFlowAction(this.setFlowAction) 
+            } else{
+              this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
+            }
           } else {
             return;
           }

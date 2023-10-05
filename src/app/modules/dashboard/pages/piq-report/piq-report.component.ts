@@ -245,6 +245,7 @@ export class PiqReportComponent implements OnInit {
       answerdata: value.value,
       location: this.locationCode,
       mainQuestCheckbox: pendingResult,
+      wfaction:"",
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
     };
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {

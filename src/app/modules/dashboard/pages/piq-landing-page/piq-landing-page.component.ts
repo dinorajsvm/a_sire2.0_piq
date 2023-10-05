@@ -152,26 +152,31 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   getNewRef() {
-    const payload = {
-      locationcode: this.compVslCode,
-      user: this.userDetails?.userCode,
-    };
-    this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
-      if (Object.keys(res).length != 0) {
-        let refNo = res;
-        const getRefNumber = res.response;
-        this.getRefNo = refNo;
-        getRefNumber != ''
-          ? this.router.navigate(['/sire/piq-report/' + getRefNumber + '/new'])
-          : '';
-        localStorage.removeItem('getSelectedCheckListID');
-      } else {
-        this._snackBarService.loadSnackBar(
-          res.error.errorMessage,
-          colorCodes.ERROR
-        );
-      }
-    });
+    if(this.getWrkFlowUser=='anyuser' || this.getWrkFlowUser==this.userDetails.userData.mdata.appInfo.rankCode){
+      const payload = {
+        locationcode: this.compVslCode,
+        user: this.userDetails?.userCode,
+      };
+      this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
+        if (Object.keys(res).length != 0) {
+          let refNo = res;
+          const getRefNumber = res.response;
+          this.getRefNo = refNo;
+          getRefNumber != ''
+            ? this.router.navigate(['/sire/piq-report/' + getRefNumber + '/new'])
+            : '';
+          localStorage.removeItem('getSelectedCheckListID');
+        } else {
+          this._snackBarService.loadSnackBar(
+            res.error.errorMessage,
+            colorCodes.ERROR
+          );
+        }
+      });
+    }else{
+      this._snackBarService.loadSnackBar('This User is Not Allowed to Create this Form', colorCodes.ERROR);
+    }
+    
   }
 
   getCodes() {
@@ -197,6 +202,8 @@ export class PIQLandingPageComponent implements OnInit {
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {
+      console.log("%%%",res);
+      
       let object = res;
       this._snackBarService.loadSnackBar('Form Deleted', colorCodes.INFO);
       this.getLndPgDatas();
@@ -209,6 +216,7 @@ export class PIQLandingPageComponent implements OnInit {
       val.forEach((item:any)=>{
         this.getWrkFlowUser=item.creater;
       })
+    
     })
   }
 
