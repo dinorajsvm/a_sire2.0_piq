@@ -123,6 +123,7 @@ export class PIQLandingPageComponent implements OnInit {
   userDetails: any;
   compVslCode: any;
   showNew: boolean = true;
+  getWrkFlowUser: any;
 
   constructor(
     private router: Router,
@@ -140,6 +141,7 @@ export class PIQLandingPageComponent implements OnInit {
     this.getCodes();
     // this.getNewRef();
     this.getLndPgDatas();
+    this.getworkflowStatus();
   }
 
   viewForm(event: any) {
@@ -153,19 +155,16 @@ export class PIQLandingPageComponent implements OnInit {
     const payload = {
       locationcode: this.compVslCode,
       user: this.userDetails?.userCode,
-      // "user":'USC00107'
     };
     this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
       if (Object.keys(res).length != 0) {
         let refNo = res;
         const getRefNumber = res.response;
-        // this.getRefNumber = ref;
         this.getRefNo = refNo;
         getRefNumber != ''
           ? this.router.navigate(['/sire/piq-report/' + getRefNumber + '/new'])
           : '';
         localStorage.removeItem('getSelectedCheckListID');
-        // const getSelectedCheckList = localStorage.getItem('getSelectedCheckListID');
       } else {
         this._snackBarService.loadSnackBar(
           res.error.errorMessage,
@@ -178,11 +177,8 @@ export class PIQLandingPageComponent implements OnInit {
   getCodes() {
     if (this.userDetails?.cntrlType === 'CNT001') {
       this.compVslCode = this.userDetails.companyCode;
-      // this.showNew = false;
     } else if (this.userDetails?.cntrlType === 'CNT002') {
       this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
-      // this.compVslCode = "SNDC";
-      // this.showNew = true;
     } else {
     }
   }
@@ -205,6 +201,15 @@ export class PIQLandingPageComponent implements OnInit {
       this._snackBarService.loadSnackBar('Form Deleted', colorCodes.INFO);
       this.getLndPgDatas();
     });
+  }
+
+  getworkflowStatus(){
+    this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
+      let val = res.workflowmaster;
+      val.forEach((item:any)=>{
+        this.getWrkFlowUser=item.creater;
+      })
+    })
   }
 
   navigatePiq() {

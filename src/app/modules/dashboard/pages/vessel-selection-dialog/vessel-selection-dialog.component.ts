@@ -80,7 +80,6 @@ export class VesselSelectionDialogComponent {
   }
 
   onProceed(forms: any) {
-    console.log('^^^^', forms.value);
     this.getNewRef();
   }
 }

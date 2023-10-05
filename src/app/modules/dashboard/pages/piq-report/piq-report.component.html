@@ -255,7 +255,7 @@
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-2 dateWrap" *ngIf="subq.type == 'Integer'">
+                                      <div class="col-sm-2 dateWrap" *ngIf="subq.type == 'Integer' &&subq.response=='Integer'">
                                         <mat-form-field appearance="outline" class="input">
                                           <input matInput type="text" digitDirective appTwoDigitDecimaNumber
                                             placeholder="0.00" name="inputField" autocomplete="off"
@@ -388,7 +388,7 @@
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Integer'">
+                                      <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Integer' && subq.response=='Integer'">
                                         <mat-form-field appearance="outline" class="input">
                                           <input matInput appTwoDigitDecimaNumber digitDirective name="inputField"
                                             [readonly]="viewMode" placeholder="0.00" type="text" autocomplete="off"

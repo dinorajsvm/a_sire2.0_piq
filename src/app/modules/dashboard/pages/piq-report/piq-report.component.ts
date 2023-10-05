@@ -1002,9 +1002,9 @@ export class PiqReportComponent implements OnInit {
     this.showWorkSpace=!this.showWorkSpace;
     const expandIcon = document.getElementById('wrkflIcon');
     if (!this.showWorkSpace) {
-      this.renderer.setProperty(expandIcon, 'textContent', 'chevron_right');
-    } else {
       this.renderer.setProperty(expandIcon, 'textContent', 'chevron_left');
+    } else {
+      this.renderer.setProperty(expandIcon, 'textContent', 'chevron_right');
     }
   }
   onSearchTextChanged(searchValue: string) {

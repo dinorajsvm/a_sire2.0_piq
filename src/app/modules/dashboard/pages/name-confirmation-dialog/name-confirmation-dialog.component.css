@@ -17,8 +17,8 @@
 }
 
 ::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-content {
-  max-height: none;
-  height: calc(100vh - 549px);
+  max-height: 100px !important;
+  height: 50px !important;
   padding: 0 24px;
 }
 

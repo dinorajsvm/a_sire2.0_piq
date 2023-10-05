@@ -288,7 +288,6 @@ export class PIQSummaryComponent implements OnInit {
 
   getworkflowStatus(){
     this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
-      console.log(":::",res);
       let data = res.workflowmapping;
       let val = res.workflowmaster;
       val.forEach((item:any)=>{
@@ -304,12 +303,11 @@ export class PIQSummaryComponent implements OnInit {
       wfid:this.getWrkFlowId,
       instanceid:this.referenceNumber,
       user:this.userDetails.userCode,
-      rank:this.userDetails.userData.mdata.appInfo.rankCode
+      rank:this.userDetails.userData.mdata.appInfo.rankCode,
+      remarks:""
     }
 
     this.BudgetService.getworkflowaction(payload).subscribe((res:any)=>{
-      console.log("=====",res);
-      console.log("++++",payload);
     })
   }
 
