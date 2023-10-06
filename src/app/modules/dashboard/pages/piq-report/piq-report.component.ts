@@ -116,6 +116,7 @@ export class PiqReportComponent implements OnInit {
   getStatus: any;
   manualLookupData: any[] = [];
   getWrkFlowId: any;
+  getWrkFlSummaryData: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -136,6 +137,7 @@ export class PiqReportComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('type') == 'new') {
     this.saveWorkFlowAction();
     }
+    this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getTopBarDatas();
     this.getGuideLinesData();
@@ -206,6 +208,14 @@ export class PiqReportComponent implements OnInit {
       });
       this.subHeaderCount();
     });
+  }
+
+
+  getWrkFlSummary(){
+    this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe((res:any)=>{
+      this.getWrkFlSummaryData=res.response;
+      console.log("res",this.getWrkFlSummaryData);
+    })
   }
 
   getTopBarDatas() {

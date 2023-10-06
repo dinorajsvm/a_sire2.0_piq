@@ -27,22 +27,32 @@
 
   <div class="workFlowWrapper">
     <div>
-      <button mat-button class="wrkflToggle" (click)="workSpace()"><mat-icon
-          class="wrkflIcon" id="wrkflIcon">chevron_left</mat-icon></button>
+      <button mat-button class="wrkflToggle" (click)="workSpace()"><mat-icon class="wrkflIcon"
+          id="wrkflIcon">chevron_left</mat-icon></button>
     </div>
     <div class="statusWrapper" *ngIf="showWorkSpace">
-      <div class="flowContainer">
-      <div class="flowWrapper">
-        <div class="flowCircle"></div>
-        <div class="flowPath"></div>
-      </div>
-      <div class="flowDetails">
+      <div class="flowContainer" *ngFor="let data of getWrkFlSummaryData">
+        <div class="flowWrapper">
+          <div class="flowCircle"></div>
+          <div class="flowPath"></div>
+        </div>
+        <!-- <div class="flowDetails">
         <span class="flowPeriod">03/10/2023 10:10</span>
         <span>Mark Waugh</span>
         <span>Director</span>
         <div class="flowStatus">Submitted</div>
+      </div> -->
+        <div class="flowDetails">
+          <span class="flowPeriod">{{data.submitteddate | date : "dd/MM/yyyy HH:mm"}}</span>
+          <span>Mark Waugh</span>
+          <span>Director</span>
+          <div class="flowStatus" [ngClass]="{'wrkfl-INP': data.wfstatus === 'Inprogress',
+            'wrkfl-SUB': data.wfstatus === 'Submitted',
+            'wrkfl-RSN': data.wfstatus === 'ReAssigned',
+            'wrkfl-APR': data.wfstatus === 'Approved'}">
+            {{data.wfstatus}}</div>
+        </div>
       </div>
-    </div>
     </div>
   </div>
 
@@ -255,7 +265,8 @@
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-2 dateWrap" *ngIf="subq.type == 'Integer' &&subq.response=='Integer'">
+                                      <div class="col-sm-2 dateWrap"
+                                        *ngIf="subq.type == 'Integer' &&subq.response=='Integer'">
                                         <mat-form-field appearance="outline" class="input">
                                           <input matInput type="text" digitDirective appTwoDigitDecimaNumber
                                             placeholder="0.00" name="inputField" autocomplete="off"
@@ -388,7 +399,8 @@
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Integer' && subq.response=='Integer'">
+                                      <div class="col-sm-5 dateWrap"
+                                        *ngIf="subq.type == 'Integer' && subq.response=='Integer'">
                                         <mat-form-field appearance="outline" class="input">
                                           <input matInput appTwoDigitDecimaNumber digitDirective name="inputField"
                                             [readonly]="viewMode" placeholder="0.00" type="text" autocomplete="off"

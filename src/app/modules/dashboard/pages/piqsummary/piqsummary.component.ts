@@ -569,12 +569,12 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore') {
         this._snackBarService.loadSnackBar(
-          'Sync to store successfully.',
+          'Synced to Shore Successfully.',
           colorCodes.INFO
         );
       } else {
         this._snackBarService.loadSnackBar(
-          'Submit successfully.',
+          'Submitted Successfully.',
           colorCodes.INFO
         );
       }

@@ -1157,13 +1157,31 @@ legend {
 .flowStatus {
   display: flex;
   justify-content: center;
-  border: 1px solid;
   border-radius: 5px;
   width: fit-content;
   padding: 0 5px;
   font-size: 12px;
 }
 
+.wrkfl-INP{
+background-color: #39b7cd;
+color: white;
+}
+
+.wrkfl-SUB{
+  background-color: #ff7c25;
+  color: white;
+}
+
+.wrkfl-RSN{
+  background-color: #0e2350;
+  color: white;
+}
+
+.wrkfl-APR{
+  background-color: #00a65a;
+  color: white;
+}
 /* ::ng-deep .mat-vertical-stepper-header{
 
 } */

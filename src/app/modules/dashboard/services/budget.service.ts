@@ -156,7 +156,7 @@ export class BudgetService {
 
   deleteRow(payload: any) {
     let ba = this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/deletePIQ`,
+      `${this.globalUrl}/PIQ/event/deletereference`,
       payload
     );
     return ba;
@@ -195,6 +195,16 @@ export class BudgetService {
       `${this.globalUrl}/PIQ/event/submitworkflowaction`,
       payload
     );
+    return ba;
+  }
+
+  getWorkFlowSummary(refno: any) {
+    var payload: any = {
+      instanceid: refno,
+    };
+    let ba = this.client
+      .get<any>(`${this.globalUrl}/PIQ/event/getworkflowhistory?instanceid=${refno}`)
+      .pipe(map((res: any) => res));
     return ba;
   }
 

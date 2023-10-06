@@ -170,7 +170,7 @@
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                 </div>
-                <div *ngIf="getWorkFlowAction=='Submitted'">
+                <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
                   <button mat-button class="rsn" (click)="onReassign()"  type="submit"
                      >
                     <!-- [ngClass]="!disableFlowBtn ? 'rsn' : 'disableSyncBtn'" [disabled]="disableFlowBtn" -->
@@ -178,7 +178,7 @@
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
                 </div>
-                <div *ngIf="getWorkFlowAction=='Submitted'">
+                <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
                   <button mat-button class="apr" (click)="onAprrove()" type="submit"
                     >
                     <!-- [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'apr' : 'disableSyncBtn'" -->
