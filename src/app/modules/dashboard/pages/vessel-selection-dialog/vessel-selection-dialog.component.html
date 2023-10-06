@@ -10,7 +10,7 @@
   </div>
   <form [formGroup]="vesselSelectionForms" (ngSubmit)="onProceed(vesselSelectionForms)">
     <div mat-dialog-content>
-      <mat-form-field class="selectDropdown">
+      <mat-form-field class="selectDropdown" appearance="outline" >
         <mat-label>Select Vessel</mat-label>
         <mat-select [(ngModel)]="selectedValue" formControlName="vessel" name="food">
           <mat-option *ngFor="let food of foods" [value]="food.value">

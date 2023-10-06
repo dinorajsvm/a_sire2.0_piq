@@ -201,10 +201,7 @@ export class PIQLandingPageComponent implements OnInit {
   deleteRowData(event: any) {
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
-    this.BudgetService.deleteRow(payload).subscribe((res: any) => {
-      console.log("%%%",res);
-      
-      let object = res;
+    this.BudgetService.deleteRow(payload).subscribe((res: any) => {      
       this._snackBarService.loadSnackBar('Form Deleted', colorCodes.INFO);
       this.getLndPgDatas();
     });

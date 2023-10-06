@@ -293,7 +293,6 @@ export class PIQSummaryComponent implements OnInit {
 
   getworkflowStatus(){
     this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
-      console.log("!!!!",res);
       
       let data = res.workflowmapping;
       let val = res.workflowmaster;
@@ -301,7 +300,6 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId=item.wfid;
         this.getWrkFlowRank=item.submitter;
       })
-      console.log("this.getWrkFlowRank",this.getWrkFlowRank);  
       // if(this.getWrkFlowRank==this.getRank){
       //   this.disableFlowBtn=false;
       // }
@@ -330,7 +328,6 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      console.log("master",res);
       
       res['workfloaction']="INP";
       this.getWorkFlowAction =res.wrkflow;

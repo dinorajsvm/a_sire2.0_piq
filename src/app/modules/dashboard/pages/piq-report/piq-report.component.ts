@@ -214,7 +214,7 @@ export class PiqReportComponent implements OnInit {
   getWrkFlSummary(){
     this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe((res:any)=>{
       this.getWrkFlSummaryData=res.response;
-      console.log("res",this.getWrkFlSummaryData);
+      
     })
   }
 
@@ -243,9 +243,6 @@ export class PiqReportComponent implements OnInit {
 
   getworkflowStatus(){
     this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
-      console.log("!!!!",res);
-      
-      let data = res.workflowmapping;
       let val = res.workflowmaster;
       val.forEach((item:any)=>{
         this.getWrkFlowId=item.wfid;
