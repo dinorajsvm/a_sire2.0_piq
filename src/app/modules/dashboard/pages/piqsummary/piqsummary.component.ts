@@ -396,6 +396,7 @@ export class PIQSummaryComponent implements OnInit {
   getAnswerValue(type?: any) {
     this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
       (res: any) => {
+        
         this.submitData=res.response.MergedData
         this.answerDetails = res.response;
         this.quickNotesInput = this.answerDetails.QuickNotes.Value;
@@ -419,7 +420,7 @@ export class PIQSummaryComponent implements OnInit {
             user: this.userDetails.userCode,
             tenantIdentifier: '',
             answerdata: this.submitData,
-            location: this.locationCode,
+            locationcode: this.locationCode,
             mainQuestCheckbox: pendingResult,
             wfaction:""
           };
@@ -433,7 +434,7 @@ export class PIQSummaryComponent implements OnInit {
                 user: this.userDetails.userCode,
                 tenantIdentifier: '',
                 answerdata: this.submitData,
-                location: this.locationCode,
+                locationcode: this.locationCode,
                 mainQuestCheckbox: pendingResult,
                 wfaction:"SUB"
               };

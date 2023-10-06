@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <div class="workFlowWrapper">
+  <div class="workFlowWrapper" *ngIf="getWrkFlSummaryData&&getWrkFlSummaryData.length>0">
     <div>
       <button mat-button class="wrkflToggle" (click)="workSpace()"><mat-icon class="wrkflIcon"
           id="wrkflIcon">chevron_left</mat-icon></button>
