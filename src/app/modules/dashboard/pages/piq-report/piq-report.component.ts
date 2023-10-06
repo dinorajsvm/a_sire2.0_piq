@@ -133,7 +133,9 @@ export class PiqReportComponent implements OnInit {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     (this.vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode),
     this.getworkflowStatus();
+    if (this.route.snapshot.paramMap.get('type') == 'new') {
     this.saveWorkFlowAction();
+    }
     this.getQuestionAnswerDatas();
     this.getTopBarDatas();
     this.getGuideLinesData();

@@ -302,12 +302,12 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowRank=item.submitter;
       })
       console.log("this.getWrkFlowRank",this.getWrkFlowRank);  
-      if(this.getWrkFlowRank==this.getRank){
-        this.disableFlowBtn=false;
-      }
-      else{
-        this.disableFlowBtn=true;
-      }
+      // if(this.getWrkFlowRank==this.getRank){
+      //   this.disableFlowBtn=false;
+      // }
+      // else{
+      //   this.disableFlowBtn=true;
+      // }
     })
   }
 
