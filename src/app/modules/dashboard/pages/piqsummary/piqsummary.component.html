@@ -162,7 +162,7 @@
                   Sync to Ship
                 </button>
                 <div [class.hideFlowBtns]="getWorkFlowAction==='APR'" style="display: flex;">
-                <div *ngIf="getWorkFlowAction=='INP'|| getWorkFlowAction=='RSN'">
+                <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='RSN'">
                   <button mat-button class="sub" [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'sub' : 'disableSyncBtn'" type="submit"
                      (click)="onSubmit('submit')">
                     Submit

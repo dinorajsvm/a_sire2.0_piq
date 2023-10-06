@@ -115,6 +115,7 @@ export class PiqReportComponent implements OnInit {
   getOrigination: any;
   getStatus: any;
   manualLookupData: any[] = [];
+  getWrkFlowId: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -131,11 +132,12 @@ export class PiqReportComponent implements OnInit {
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     (this.vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode),
-      this.getQuestionAnswerDatas();
+    this.getworkflowStatus();
+    this.saveWorkFlowAction();
+    this.getQuestionAnswerDatas();
     this.getTopBarDatas();
     this.getGuideLinesData();
     this.edit();
-
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
     });
@@ -211,6 +213,34 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
+  saveWorkFlowAction(){
+    const payload={
+      wfaction:"INP",
+      wfid:this.getWrkFlowId,
+      instanceid:this.referenceNumber,
+      user:this.userDetails.userCode,
+      rank:this.userDetails.userData.mdata.appInfo.rankCode,
+      remarks:""
+    }
+
+    
+
+    this.BudgetService.getworkflowaction(payload).subscribe((res:any)=>{
+    })
+  }
+
+  getworkflowStatus(){
+    this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
+      console.log("!!!!",res);
+      
+      let data = res.workflowmapping;
+      let val = res.workflowmaster;
+      val.forEach((item:any)=>{
+        this.getWrkFlowId=item.wfid;
+      })
+    })
+  }
+
   getGuideLinesData() {
     this.BudgetService.getGuidelines().subscribe((res: any) => {
       const data = res.response;
@@ -270,14 +300,14 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       let object = JSON.parse(res.response);
-      res['workfloaction']="INP";
+      // res['workfloaction']="INP";
       // res['origination'] = this.userDetails?.cntrlType;
       // res['origination'] = "CNT002";
       // res['status'] = 'save/draft';
       // this.getOrigination = res.origination;
       this.getOrigination = res.orginator;
       // this.getStatus = res.status;
-      this.getStatus = res.Formstatus;
+      this.getStatus = res.wrkflow;
       this.getAllDatas = object;
       if (this.getAllDatas) {
         this.selectValue(
@@ -1042,7 +1072,7 @@ export class PiqReportComponent implements OnInit {
           return flag;
         } else if (
           this.getOrigination == 'CNT002' &&
-          this.getStatus == 'submit'
+          this.getStatus != 'Inprogress'
         ) {
           var flag = true;
           return flag;

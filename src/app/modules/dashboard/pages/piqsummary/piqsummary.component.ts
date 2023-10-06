@@ -333,7 +333,7 @@ export class PIQSummaryComponent implements OnInit {
       console.log("master",res);
       
       res['workfloaction']="INP";
-      this.getWorkFlowAction =res.workfloaction
+      this.getWorkFlowAction =res.wrkflow;
 
       const data = JSON.parse(res.lastMod);
       this.modifiedrowData = data;
@@ -392,6 +392,7 @@ export class PIQSummaryComponent implements OnInit {
     this.gridApi!.setRowData(this.rowData);
     this.gridApi.refreshCells(params);
   }
+
   getAnswerValue(type?: any) {
     this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
       (res: any) => {
@@ -417,7 +418,7 @@ export class PIQSummaryComponent implements OnInit {
             action: 'SS',
             user: this.userDetails.userCode,
             tenantIdentifier: '',
-            answerdata: this.answerDetails,
+            answerdata: this.submitData,
             location: this.locationCode,
             mainQuestCheckbox: pendingResult,
             wfaction:""
