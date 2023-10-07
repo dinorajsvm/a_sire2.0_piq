@@ -222,41 +222,44 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
       this.rowData = [];
       this.certficateGridDatas();
-      res.forEach((data: any) => {
-        let questions: any[] = [];
-        let questions1: any[] = [];
-        let filledQuestionCount = 0;
-        let answerQuestionCount = 0;
-        data.values.forEach((filledQus: any) => {
-          filledQus.question.forEach((question: any) => {
-            questions.push(
-              question.subQuestion.filter((x: any) => x.answer !== '').length
-            );
-            questions1.push(
-              question.subQuestion.filter((y: any) => y.answer === '').length
-            );
+      if(res){
+        res.forEach((data: any) => {
+          let questions: any[] = [];
+          let questions1: any[] = [];
+          let filledQuestionCount = 0;
+          let answerQuestionCount = 0;
+          data.values.forEach((filledQus: any) => {
+            filledQus.question.forEach((question: any) => {
+              questions.push(
+                question.subQuestion.filter((x: any) => x.answer !== '').length
+              );
+              questions1.push(
+                question.subQuestion.filter((y: any) => y.answer === '').length
+              );
+            });
           });
+          questions.forEach((count: any) => {
+            filledQuestionCount = filledQuestionCount + count;
+          });
+          questions1.forEach((count: any) => {
+            answerQuestionCount = answerQuestionCount + count;
+          });
+          const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
+          this.rowData.push({
+            serialNumber: data.id,
+            topics: data.header.replace(pattern, ''),
+            status: '',
+            totalQuestion:
+              data.values && data.values.length > 0 ? data.values.length : 0,
+            filledQuestion: filledQuestionCount,
+            pendingQuestion: answerQuestionCount,
+            lastModified: '04-Sep-2023',
+          });
+          this.gridApi!.setRowData(this.rowData);
+          this.gridApi.refreshCells();
         });
-        questions.forEach((count: any) => {
-          filledQuestionCount = filledQuestionCount + count;
-        });
-        questions1.forEach((count: any) => {
-          answerQuestionCount = answerQuestionCount + count;
-        });
-        const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
-        this.rowData.push({
-          serialNumber: data.id,
-          topics: data.header.replace(pattern, ''),
-          status: '',
-          totalQuestion:
-            data.values && data.values.length > 0 ? data.values.length : 0,
-          filledQuestion: filledQuestionCount,
-          pendingQuestion: answerQuestionCount,
-          lastModified: '04-Sep-2023',
-        });
-        this.gridApi!.setRowData(this.rowData);
-        this.gridApi.refreshCells();
-      });
+      }
+     
     });
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
@@ -300,12 +303,12 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId=item.wfid;
         this.getWrkFlowRank=item.submitter;
       })
-      // if(this.getWrkFlowRank==this.getRank){
-      //   this.disableFlowBtn=false;
-      // }
-      // else{
-      //   this.disableFlowBtn=true;
-      // }
+      if(this.getWrkFlowRank==this.getRank){
+        this.disableFlowBtn=false;
+      }
+      else{
+        this.disableFlowBtn=true;
+      }
     })
   }
 
@@ -501,8 +504,10 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      const data = JSON.parse(res.datasyncgrid);
-      this.expectedRowData = data;
+      if(res && res.datasyncgrid && res.datasyncgrid!=""){
+        const data = JSON.parse(res.datasyncgrid);
+        this.expectedRowData = data;
+      }
     });
   }
   onSubmitQuickNotes() {
