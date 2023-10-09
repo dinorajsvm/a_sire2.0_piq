@@ -12,8 +12,8 @@ export class BudgetService {
   // private globalUrl = "https://macktesting.solverminds.net"
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
-   private globalUrl = document.location.protocol + '//' + document.location.hostname;
-  // private globalUrl = environment.apiUrl;
+  //  private globalUrl = document.location.protocol + '//' + document.location.hostname;
+  private globalUrl = environment.apiUrl;
 
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;
@@ -39,7 +39,6 @@ export class BudgetService {
   getEnableViewMode() {
     return this.getViewMode.asObservable();
   }
-
 
   GetBudgetRate(stateData: any) {
     let ob = this.client.post<any>(
@@ -152,8 +151,6 @@ export class BudgetService {
     return ba;
   }
 
-
-
   deleteRow(payload: any) {
     let ba = this.client.post<any>(
       `${this.globalUrl}/PIQ/event/deletereference`,
@@ -187,7 +184,9 @@ export class BudgetService {
     return this.client.get<any>(`${this.globalUrl}/PIQ/event/getrefnotoimport`);
   }
   getworkFlowStatus() {
-    return this.client.get<any>(`${this.globalUrl}/PIQ/event/getpiqworkflowmaster`);
+    return this.client.get<any>(
+      `${this.globalUrl}/PIQ/event/getpiqworkflowmaster`
+    );
   }
 
   getworkflowaction(payload: any) {
@@ -386,7 +385,18 @@ export class BudgetService {
 
   getVesselCertificateLookup(location: any) {
     return this.client
-      .get<any>(`${this.globalUrl}/PIQ/event/getPIQvesselcertificate?location=${location}`)
+      .get<any>(
+        `${this.globalUrl}/PIQ/event/getPIQvesselcertificate?location=${location}`
+      )
+      .pipe(map((res: any) => res));
+  }
+
+  // PIQ/event/getlookup?lookupid=3.2.5&location=sndc
+  get325Lookup(id: any, location: any) {
+    return this.client
+      .get<any>(
+        `${this.globalUrl}/PIQ/event/getlookup?lookupid=${id}&location=${location}`
+      )
       .pipe(map((res: any) => res));
   }
 }

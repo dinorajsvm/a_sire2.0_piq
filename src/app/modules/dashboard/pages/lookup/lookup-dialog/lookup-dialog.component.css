@@ -1,4 +1,4 @@
-@import "../../../../../piq.css";
+@import "../../../../../../piq.css";
 ::ng-deep .grid-dialog-container ::ng-deep .mat-mdc-dialog-container {
     width: 100vw !important;
 }

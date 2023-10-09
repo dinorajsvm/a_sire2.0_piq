@@ -19,7 +19,7 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LookupDialogComponent } from '../lookup-dialog/lookup-dialog.component';
+import { LookupDialogComponent } from '../lookup/lookup-dialog/lookup-dialog.component';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -31,6 +31,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { MocComponent } from '../lookup/moc/moc.component';
 import { PscComponent } from '../lookup/psc/psc.component';
+import { TMSAComponent } from '../lookup/tmsa/tmsa.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -284,7 +285,7 @@ export class PiqReportComponent implements OnInit {
       answerdata: value.value,
       location: this.locationCode,
       mainQuestCheckbox: pendingResult,
-      wfaction:"",
+      wfaction: '',
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
     };
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
@@ -384,7 +385,7 @@ export class PiqReportComponent implements OnInit {
       this.selectValue(
         this.getAllDatas[0].values[0].subHeaders,
         this.getAllDatas[0].values[0]
-      )
+      );
       this.BudgetService.setSummaryGridData(this.getAllDatas);
       this.mainQuestCounts = this.getMainQuestCounts.length;
       this.getAllDatas.forEach((heading: any) => {
@@ -820,8 +821,7 @@ export class PiqReportComponent implements OnInit {
           this.manualLookupData = response;
         }
       },
-      (error) => {
-      }
+      (error) => {}
     );
   }
   openLookUp(event: any, quest: any, mainQuest?: any) {
@@ -830,72 +830,81 @@ export class PiqReportComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.panelClass = 'grid-dialog-container';
     if (quest && quest.subheadid === 'SH1') {
-      this.getVesselCertificateLookupDetail();
-      if (this.headerListContainer) {
-        this.headerListContainer = false;
-        this.lookupContainer = true;
-      } else if (this.lookupContainer) {
-        this.headerListContainer = true;
-        this.lookupContainer = false;
-      }
+      this.manualLookUp();
     } else if (quest && quest.subheadid === 'SH29') {
-      const mocDialog = this.dialog.open(MocComponent, dialogConfig);
-      mocDialog.afterClosed().subscribe((result: any) => {
-        quest.question.forEach((Mquest: any) => {
-          Mquest.subQuestion.forEach((response: any) => {
-            if (response && response.type === 'Select') {
-              result.forEach((result: any) => {
-                if (response && response.qid === result.qid) {
-                  this.dynamicForms.controls[response.qid].patchValue(
-                    result.value ? 'Yes' : 'No'
-                  );
-                  response.answer = result.value ? 'Yes' : 'No';
-                }
-              });
-            }
+      this.mocLookUp(dialogConfig, quest);
+    } else if (quest && quest.subheadid === 'SH2') {
+      this.lookUpDialog(dialogConfig, quest, mainQuest);
+    } else if (quest && quest.subheadid === 'SH32') {
+      this.pscLookUp(dialogConfig, quest);
+    } else if (
+      mainQuest &&
+      (mainQuest.qid === 'MQ115' ||
+        mainQuest.qid === 'MQ97' ||
+        mainQuest.qid === 'MQ100' ||
+        mainQuest.qid === 'MQ105' ||
+        mainQuest.qid === 'MQ111' ||
+        mainQuest.qid === 'MQ120' ||
+        mainQuest.qid === 'MQ125')
+    ) {
+      this.tmsaLookUp(mainQuest);
+    }
 
-            if (response.answer) {
-              response.inprogress = false;
-              response.completed = true;
-            } else {
-              response.inprogress = true;
-              response.completed = false;
-            }
-            // }
-          });
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  manualLookUp() {
+    this.getVesselCertificateLookupDetail();
+    if (this.headerListContainer) {
+      this.headerListContainer = false;
+      this.lookupContainer = true;
+    } else if (this.lookupContainer) {
+      this.headerListContainer = true;
+      this.lookupContainer = false;
+    }
+  }
+
+  mocLookUp(dialogConfig: any, quest: any) {
+    const mocDialog = this.dialog.open(MocComponent, dialogConfig);
+    mocDialog.afterClosed().subscribe((result: any) => {
+      quest.question.forEach((Mquest: any) => {
+        Mquest.subQuestion.forEach((response: any) => {
+          if (response && response.type === 'Select') {
+            result.forEach((result: any) => {
+              if (response && response.qid === result.qid) {
+                this.dynamicForms.controls[response.qid].patchValue(
+                  result.value ? 'Yes' : 'No'
+                );
+                response.answer = result.value ? 'Yes' : 'No';
+              }
+            });
+          }
+          if (response.answer) {
+            response.inprogress = false;
+            response.completed = true;
+          } else {
+            response.inprogress = true;
+            response.completed = false;
+          }
+          // }
         });
       });
-    } else if (quest && quest.subheadid === 'SH2') {
-      const dialogRef = this.dialog.open(LookupDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe((result: any) => {
-        const timeDifference =
-          result.visittodate.getTime() - result.visitfromdate.getTime();
-        const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+    });
+  }
+
+  lookUpDialog(dialogConfig: any, quest: any, mainQuest: any) {
+    const dialogRef = this.dialog.open(LookupDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((result: any) => {
+      const timeDifference =
+        result.visittodate.getTime() - result.visitfromdate.getTime();
+      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      if ((mainQuest && mainQuest.qid === 'MQ6') || mainQuest.qid === 'MQ20') {
         if (mainQuest && mainQuest.qid === 'MQ6') {
           this.dynamicForms.patchValue({
             Q8: new Date(result.visitfromdate),
             Q9: new Date(result.visittodate),
             Q10: dateCount,
-          });
-          quest.question.forEach((Mquest: any) => {
-            if (Mquest && Mquest.qid === 'MQ6') {
-              Mquest.subQuestion.forEach((response: any) => {
-                if (response && response.qid === 'Q8') {
-                  response.answer = result.visitfromdate;
-                } else if (response && response.qid === 'Q9') {
-                  response.answer = result.visittodate;
-                } else if (response && response.qid === 'Q10') {
-                  response.answer = dateCount;
-                }
-                if (response.answer) {
-                  response.inprogress = false;
-                  response.completed = true;
-                } else {
-                  response.inprogress = true;
-                  response.completed = false;
-                }
-              });
-            }
           });
         } else if (mainQuest && mainQuest.qid === 'MQ20') {
           this.dynamicForms.patchValue({
@@ -903,58 +912,26 @@ export class PiqReportComponent implements OnInit {
             Q23: new Date(result.visittodate),
             Q24: dateCount,
           });
-          quest.question.forEach((Mquest: any) => {
-            if (Mquest && Mquest.qid === 'MQ20') {
-              Mquest.subQuestion.forEach((response: any) => {
-                if (response && response.qid === 'Q22') {
-                  response.answer = result.visitfromdate;
-                } else if (response && response.qid === 'Q23') {
-                  response.answer = result.visittodate;
-                } else if (response && response.qid === 'Q24') {
-                  response.answer = dateCount;
-                }
-                if (response.answer) {
-                  response.inprogress = false;
-                  response.completed = true;
-                } else {
-                  response.inprogress = true;
-                  response.completed = false;
-                }
-              });
-            }
-          });
-        }
-      });
-    } else if (quest && quest.subheadid === 'SH32') {
-      const dialogRef = this.dialog.open(PscComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe((result: any) => {
-        this.dynamicForms.patchValue({
-          Q155: 'Yes',
-          Q156: result.crdate,
-          Q157: 'From Port Master',
-          Q158: result.authoritycode,
-          Q159: '',
-          Q160: result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes',
-          Q161: result.deficiencycount === '1' ? 'Yes' : 'No',
-        });
-        quest.question.forEach((Mquest: any) => {
-          if (Mquest && Mquest.qid === 'MQ154') {
-            Mquest.subQuestion.forEach((response: any) => {
-              if (response && response.qid === 'Q155') {
-                response.answer = 'Yes';
-              } else if (response && response.qid === 'Q156') {
-                response.answer = result.crdate;
-              } else if (response && response.qid === 'Q157') {
-                response.answer = 'From Port Master';
-              } else if (response && response.qid === 'Q158') {
-                response.answer = result.authoritycode;
-              } else if (response && response.qid === 'Q159') {
-                response.answer = '';
-              } else if (response && response.qid === 'Q160') {
-                response.answer =
-                  result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
-              } else if (response && response.qid === 'Q161') {
-                response.answer = result.deficiencycount === '1' ? 'Yes' : 'No';
+          if (
+            mainQuest &&
+            (mainQuest.qid === 'MQ6' || mainQuest.qid === 'MQ20')
+          ) {
+            mainQuest.subQuestion.forEach((response: any) => {
+              if (
+                (response && response.qid === 'Q8') ||
+                response.qid === 'Q22'
+              ) {
+                response.answer = result.visitfromdate;
+              } else if (
+                (response && response.qid === 'Q9') ||
+                response.qid === 'Q23'
+              ) {
+                response.answer = result.visittodate;
+              } else if (
+                (response && response.qid === 'Q10') ||
+                response.qid === 'Q24'
+              ) {
+                response.answer = dateCount;
               }
               if (response.answer) {
                 response.inprogress = false;
@@ -965,21 +942,408 @@ export class PiqReportComponent implements OnInit {
               }
             });
           }
-        });
-      });
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
+        }
+      }
+    });
   }
 
-  inputChanges(
-    event: any,
-    subq: any,
-    mquest: any,
-    entryorgin: any,
-    quest: any
-  ) {
+  pscLookUp(dialogConfig: any, quest: any) {
+    const dialogRef = this.dialog.open(PscComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((result: any) => {
+      this.dynamicForms.patchValue({
+        Q155: 'Yes',
+        Q156: result.crdate,
+        Q157: 'From Port Master',
+        Q158: result.authoritycode,
+        Q159: '',
+        Q160: result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes',
+        Q161: result.deficiencycount === '1' ? 'Yes' : 'No',
+      });
+      quest.question.forEach((Mquest: any) => {
+        if (Mquest && Mquest.qid === 'MQ154') {
+          Mquest.subQuestion.forEach((response: any) => {
+            if (response && response.qid === 'Q155') {
+              response.answer = 'Yes';
+            } else if (response && response.qid === 'Q156') {
+              response.answer = result.crdate;
+            } else if (response && response.qid === 'Q157') {
+              response.answer = 'From Port Master';
+            } else if (response && response.qid === 'Q158') {
+              response.answer = result.authoritycode;
+            } else if (response && response.qid === 'Q159') {
+              response.answer = '';
+            } else if (response && response.qid === 'Q160') {
+              response.answer = result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+            } else if (response && response.qid === 'Q161') {
+              response.answer = result.deficiencycount === '1' ? 'Yes' : 'No';
+            }
+            if (response.answer) {
+              response.inprogress = false;
+              response.completed = true;
+            } else {
+              response.inprogress = true;
+              response.completed = false;
+            }
+          });
+        }
+      });
+    });
+  }
+
+  tmsaLookUp(mainQuest: any) {
+    const dialogRef = this.dialog.open(TMSAComponent, {
+      panelClass: 'tmsa-dialog-container',
+      data:
+        mainQuest.qid === 'MQ97'
+          ? '3.2.1'
+          : mainQuest.qid === 'MQ100'
+          ? '3.2.2'
+          : mainQuest.qid === 'MQ105'
+          ? '3.2.3'
+          : mainQuest.qid === 'MQ111'
+          ? '3.2.4'
+          : mainQuest.qid === 'MQ115'
+          ? '3.2.5'
+          : mainQuest.qid === 'MQ120'
+          ? '3.2.6'
+          : mainQuest.qid === 'MQ125'
+          ? '3.2.7'
+          : '',
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (mainQuest && mainQuest.qid === 'MQ115') {
+        this.mq115LookUp(mainQuest, result);
+      } else if (mainQuest && mainQuest.qid === 'MQ97') {
+        this.mq97LookUp(mainQuest, result);
+      } else if (mainQuest && mainQuest.qid === 'MQ100') {
+        this.mq100LookUp(mainQuest, result);
+      } else if (mainQuest && mainQuest.qid === 'MQ105') {
+        this.mq105LookUp(mainQuest, result);
+      } else if (mainQuest && mainQuest.qid === 'MQ111') {
+        this.mq111LookUp(mainQuest, result);
+      } else if (mainQuest && mainQuest.qid === 'MQ120') {
+        this.mq120LookUp(mainQuest, result);
+      } else if (mainQuest && mainQuest.qid === 'MQ125') {
+        this.mq125LookUp(mainQuest, result);
+      }
+    });
+  }
+
+  mq115LookUp(mainQuest: any, result: any) {
+    if (result.hasOwnProperty('auditfromdate')) {
+      this.dynamicForms.patchValue({
+        Q117: result.auditfromdate,
+        Q118: result.audittodate,
+      });
+
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q117') {
+          response.answer = result.auditfromdate;
+        } else if (response && response.qid === 'Q118') {
+          response.answer = result.audittodate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    } else if (result.hasOwnProperty('actualfromdate')) {
+      this.dynamicForms.patchValue({
+        Q117: result.actualfromdate,
+        Q118: result.actualtodate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q117') {
+          response.answer = result.actualfromdate;
+        } else if (response && response.qid === 'Q118') {
+          response.answer = result.actualtodate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    }
+  }
+
+  mq97LookUp(mainQuest: any, result: any) {
+    if (result.hasOwnProperty('actualfromdate')) {
+      this.dynamicForms.patchValue({
+        Q99: result.actualfromdate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q99') {
+          response.answer = result.actualfromdate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    } else {
+      this.dynamicForms.patchValue({
+        Q99: result.auditfromdate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q99') {
+          response.answer = result.auditfromdate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    }
+  }
+
+  mq100LookUp(mainQuest: any, result: any) {
+    if (result.hasOwnProperty('actualfromdate')) {
+      const timeDifference =
+        new Date(result.actualtodate).getTime() -
+        new Date(result.actualfromdate).getTime();
+      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      this.dynamicForms.patchValue({
+        Q101: result.actualfromdate,
+        Q102: result.actualtodate,
+        Q103: dateCount,
+      });
+      if (mainQuest && mainQuest.qid === 'MQ100') {
+        mainQuest.subQuestion.forEach((response: any) => {
+          if (response && response.qid === 'Q101') {
+            response.answer = result.actualfromdate;
+          } else if (response && response.qid === 'Q102') {
+            response.answer = result.actualtodate;
+          } else if (response && response.qid === 'Q103') {
+            response.answer = dateCount;
+          }
+          if (response.answer) {
+            response.inprogress = false;
+            response.completed = true;
+          } else {
+            response.inprogress = true;
+            response.completed = false;
+          }
+        });
+      }
+    } else if (result.hasOwnProperty('auditfromdate')) {
+      const timeDifference =
+        new Date(result.audittodate).getTime() -
+        new Date(result.auditfromdate).getTime();
+      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      this.dynamicForms.patchValue({
+        Q101: result.auditfromdate,
+        Q102: result.audittodate,
+        Q103: dateCount,
+      });
+      if (mainQuest && mainQuest.qid === 'MQ100') {
+        mainQuest.subQuestion.forEach((response: any) => {
+          if (response && response.qid === 'Q101') {
+            response.answer = result.auditfromdate;
+          } else if (response && response.qid === 'Q102') {
+            response.answer = result.audittodate;
+          } else if (response && response.qid === 'Q103') {
+            response.answer = dateCount;
+          }
+          if (response.answer) {
+            response.inprogress = false;
+            response.completed = true;
+          } else {
+            response.inprogress = true;
+            response.completed = false;
+          }
+        });
+      }
+    }
+  }
+
+  mq105LookUp(mainQuest: any, result: any) {
+    if (result.hasOwnProperty('actualfromdate')) {
+      const timeDifference =
+        new Date(result.actualtodate).getTime() -
+        new Date(result.actualfromdate).getTime();
+      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      this.dynamicForms.patchValue({
+        Q107: result.actualfromdate,
+        Q108: result.actualtodate,
+        Q109: dateCount,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q107') {
+          response.answer = result.actualfromdate;
+        } else if (response && response.qid === 'Q108') {
+          response.answer = result.actualtodate;
+        } else if (response && response.qid === 'Q109') {
+          response.answer = dateCount;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    } else if (result.hasOwnProperty('auditfromdate')) {
+      const timeDifference =
+        new Date(result.audittodate).getTime() -
+        new Date(result.auditfromdate).getTime();
+      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      this.dynamicForms.patchValue({
+        Q107: result.auditfromdate,
+        Q108: result.audittodate,
+        Q109: dateCount,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q107') {
+          response.answer = result.auditfromdate;
+        } else if (response && response.qid === 'Q108') {
+          response.answer = result.audittodate;
+        } else if (response && response.qid === 'Q109') {
+          response.answer = dateCount;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    }
+  }
+
+  mq111LookUp(mainQuest: any, result: any) {
+    if (result.hasOwnProperty('actualfromdate')) {
+      this.dynamicForms.patchValue({
+        Q113: result.actualfromdate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q113') {
+          response.answer = result.actualfromdate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    } else if (result.hasOwnProperty('auditfromdate')) {
+      this.dynamicForms.patchValue({
+        Q113: result.auditfromdate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q113') {
+          response.answer = result.auditfromdate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    }
+  }
+
+  mq120LookUp(mainQuest: any, result: any) {
+    if (result.hasOwnProperty('actualfromdate')) {
+      this.dynamicForms.patchValue({
+        Q122: result.actualfromdate,
+        Q123: result.actualtodate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q122') {
+          response.answer = result.actualfromdate;
+        } else if (response && response.qid === 'Q123') {
+          response.answer = result.actualtodate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    } else if (result.hasOwnProperty('auditfromdate')) {
+      this.dynamicForms.patchValue({
+        Q122: result.auditfromdate,
+        Q123: result.audittodate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q122') {
+          response.answer = result.auditfromdate;
+        } else if (response && response.qid === 'Q123') {
+          response.answer = result.audittodate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    }
+  }
+
+  mq125LookUp(mainQuest: any, result: any) {
+    if (result.hasOwnProperty('actualfromdate')) {
+      this.dynamicForms.patchValue({
+        Q127: result.actualfromdate,
+        Q128: result.actualtodate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q127') {
+          response.answer = result.actualfromdate;
+        } else if (response && response.qid === 'Q128') {
+          response.answer = result.actualtodate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    } else if (result.hasOwnProperty('auditfromdate')) {
+      this.dynamicForms.patchValue({
+        Q127: result.auditfromdate,
+        Q128: result.audittodate,
+      });
+      mainQuest.subQuestion.forEach((response: any) => {
+        if (response && response.qid === 'Q127') {
+          response.answer = result.auditfromdate;
+        } else if (response && response.qid === 'Q128') {
+          response.answer = result.audittodate;
+        }
+        if (response.answer) {
+          response.inprogress = false;
+          response.completed = true;
+        } else {
+          response.inprogress = true;
+          response.completed = false;
+        }
+      });
+    }
+  }
+  inputChanges(event: any, subq: any, quest: any) {
     var value = event.target.value;
     subq.answer = value;
     if (subq.answer) {
@@ -1017,29 +1381,12 @@ export class PiqReportComponent implements OnInit {
       subq.completed = false;
     }
 
-    // this.subHeaderCount();
     this.exceptionFn(subQues, mquest, subq);
-    // if (selectedDate != null && selectedDate != undefined) {
-    //   mquest.selected = true;
-    //   const index = this.getMainQuestCounts.findIndex(
-    //     (section: any) => section.mainQuestion === mquest.mainQuestion
-    //   );
-    //   this.getMainQuestCounts[index] = mquest;
-    //   var booleanCount: any = [];
-    //   this.getMainQuestCounts.forEach((element: any) => {
-    //     booleanCount.push(element.selected);
-    //   });
-    //   this.pendingCount = booleanCount.filter(
-    //     (value: any) => value === false
-    //   ).length;
-    // } else {
-    //   mquest.selected = false;
-    // }
   }
 
-  showWorkSpace:boolean=false;
-  workSpace(){
-    this.showWorkSpace=!this.showWorkSpace;
+  showWorkSpace: boolean = false;
+  workSpace() {
+    this.showWorkSpace = !this.showWorkSpace;
     const expandIcon = document.getElementById('wrkflIcon');
     if (!this.showWorkSpace) {
       this.renderer.setProperty(expandIcon, 'textContent', 'chevron_left');

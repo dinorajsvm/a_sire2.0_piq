@@ -1,8 +1,15 @@
 @import "../../../../../../piq.css";
-::ng-deep .grid-dialog-container ::ng-deep .mat-mdc-dialog-container {
+::ng-deep .tmsa-dialog-container ::ng-deep .mat-mdc-dialog-container {
     width: 100vw !important;
 }
 
+::ng-deep .tmsa-dialog-container ::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 15px !important;
+    height: fit-content !important;
+    margin-top: 10px;
+  }
 .selectedChkID {
     border: 1px solid #bdc3c7;
     
@@ -76,10 +83,8 @@
 .toggleHeader {
     font-size: 12px;
     margin-bottom: 0px;
-    position: relative;
     display: inline-block;
-    top: 25px;
-    right: 15px;
+    margin-right: 5px;
 }
 .header {
     margin: 0;

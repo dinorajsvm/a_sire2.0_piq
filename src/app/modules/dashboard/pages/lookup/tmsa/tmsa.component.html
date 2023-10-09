@@ -1,0 +1,71 @@
+<div mat-dialog-title>
+  <div class="col-sm-12">
+    <div class="row ">
+      <div class="col-sm-11">
+        <h3 class="header">Crew Evaluation</h3>
+        <!-- <p class="descHeader">(List of crew evaluation for last 12 months)</p> -->
+      </div>
+      <!-- <div class="col-sm-3 text-right closeIcn" style="display: flex;">
+        <p class="toggleHeader">Ship Visit</p>
+        <mat-slide-toggle
+          class="toggleHeader"
+          [(ngModel)]="isChecked"
+          (change)="changeToggle($event)"
+        ></mat-slide-toggle>
+        <p class="toggleHeader">Internal Audit</p>
+      </div> -->
+      <div class="col-sm-1 text-right">
+        <mat-icon (click)="onDialogClose()">close</mat-icon>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <p class="descHeader">(List of crew evaluation for last 12 months)</p>
+      </div>
+      <div class="col-sm-4 text-right">
+        <p class="toggleHeader">Ship Visit</p>
+        <mat-slide-toggle
+          class="toggleHeader"
+          [(ngModel)]="isChecked"
+          (change)="changeToggle($event)"
+        ></mat-slide-toggle>
+        <p class="toggleHeader">Internal Audit</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-content class="mat-typography">
+  <div class="col-sm-12" >
+    <div class="row">
+      <div class="col-sm-12" [hidden]="!isChecked">
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham"
+          style="height: calc(100vh - 270px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+      </div>
+      <div class="col-sm-12" [hidden]="isChecked">
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham"
+          style="height: calc(100vh - 270px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowShipData"
+          [columnDefs]="columnShipDefs"
+          [gridOptions]="gridOptions"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

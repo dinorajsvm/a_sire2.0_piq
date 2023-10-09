@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ColDef, GridApi } from 'ag-grid-community';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../services/budget.service';
+import { BudgetService } from '../../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ButtonRendererComponent } from '../renderer/button-renderer.component';
+import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DatePipe } from '@angular/common';
 
 @Component({

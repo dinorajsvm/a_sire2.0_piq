@@ -21,7 +21,7 @@ import { PIQLandingPageComponent } from './pages/piq-landing-page/piq-landing-pa
 import { PIQSummaryComponent } from './pages/piqsummary/piqsummary.component';
 import { ExceptionQuestionComponent } from './pages/exception-question/exception-question.component';
 import { ChipFilterPipe } from './services/chip-filter.pipe';
-import { LookupDialogComponent } from './pages/lookup-dialog/lookup-dialog.component';
+import { LookupDialogComponent } from './pages/lookup/lookup-dialog/lookup-dialog.component';
 import { ReuseConfirmationDialogComponent } from './pages/reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { NewmericDirective } from './pages/directives/numbers.directives';
 import { TwoDigitDecimaNumberDirective } from './pages/directives/twoDecimal.directives';
@@ -37,6 +37,7 @@ import { MocComponent } from './pages/lookup/moc/moc.component';
 import { PscComponent } from './pages/lookup/psc/psc.component';
 import { VesselSelectionDialogComponent } from './pages/vessel-selection-dialog/vessel-selection-dialog.component';
 import { PercentageDirective } from './pages/directives/percentage.directives';
+import { TMSAComponent } from './pages/lookup/tmsa/tmsa.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { PercentageDirective } from './pages/directives/percentage.directives';
     SelectIdDialogComponent,
     MocComponent,
     PscComponent,
-    VesselSelectionDialogComponent
+    VesselSelectionDialogComponent,
+    TMSAComponent
   ],
   imports: [
     DashboardRoutingModule,
