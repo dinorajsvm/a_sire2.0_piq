@@ -342,11 +342,11 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId = item.wfid;
         this.getWrkFlowRank = item.submitter;
       });
-      if (this.getWrkFlowRank == this.getRank) {
-        this.disableFlowBtn = false;
-      } else {
-        this.disableFlowBtn = true;
-      }
+      // if (this.getWrkFlowRank == this.getRank) {
+      //   this.disableFlowBtn = false;
+      // } else {
+      //   this.disableFlowBtn = true;
+      // }
     });
   }
 

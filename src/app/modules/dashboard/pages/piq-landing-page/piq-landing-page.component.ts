@@ -174,7 +174,7 @@ export class PIQLandingPageComponent implements OnInit {
         }
       });
     }else{
-      this._snackBarService.loadSnackBar('This User is Not Allowed to Create this Form', colorCodes.ERROR);
+      this._snackBarService.loadSnackBar('You Do Not Have Access to Create a New Form', colorCodes.ERROR);
     }
     
   }
