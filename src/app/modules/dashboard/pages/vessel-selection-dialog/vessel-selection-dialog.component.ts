@@ -34,7 +34,14 @@ export class VesselSelectionDialogComponent {
       vessel: new FormControl('', Validators.required),
     });
     this.getCodes();
+    this.getVesselNames();
   }
+
+getVesselNames(){
+  this.BudgetService.getVesselNames(this.userDetails.companyCode).subscribe((res:any)=>{
+    console.log("vslName",res)
+  })
+}
 
   getCodes() {
     if (this.userDetails?.cntrlType === 'CNT001') {

@@ -219,6 +219,11 @@ export class BudgetService {
     );
   }
 
+  getVesselNames(companycode:any){
+    return this.client.get<any>(
+      `${this.globalUrl}/PIQ/event/getvesselbycompany?companycode=${companycode}`
+    );
+  }
   setPreviousPresetData(message: any) {
     this.getAllPreviousPresetData.next(message);
   }

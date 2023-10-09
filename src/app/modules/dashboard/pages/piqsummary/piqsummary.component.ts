@@ -19,6 +19,7 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: ['l'],
@@ -45,7 +46,7 @@ export const MY_DATE_FORMATS = {
   ],
 })
 export class PIQSummaryComponent implements OnInit {
-  dateForm!: FormGroup;
+  autoSaveForm!: FormGroup;
   @Input() getAllData: any;
   @Input() pendingQuestCount: any;
   @Input() totalQuestCount: any;
@@ -114,6 +115,8 @@ export class PIQSummaryComponent implements OnInit {
   setFlowAction: any;
   getRank: any;
   submitData: any;
+  dateSelected: any;
+  quickNotes: any;
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
@@ -125,7 +128,9 @@ export class PIQSummaryComponent implements OnInit {
   // }
   dateFormat(params: any) {
     const crdate = params.data.crdate;
-    return crdate? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss'):"";
+    return crdate
+      ? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss')
+      : '';
   }
   modifiedColumns: ColDef[] = [
     {
@@ -180,7 +185,7 @@ export class PIQSummaryComponent implements OnInit {
   lastModifiedData: any;
   syncedData: any[] = [];
   expectedRowData: any[] = [];
-  disableFlowBtn:boolean=true
+  disableFlowBtn: boolean = true;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -189,12 +194,10 @@ export class PIQSummaryComponent implements OnInit {
     private _snackBarService: SnackbarService,
     private datePipe: DatePipe,
     private fb: FormBuilder
-  ) {
-    this.dateForm = this.fb.group({
-      dateField: new FormControl(), // Initialize with an initial or default value
-    });
-  }
+  ) {}
+
   ngOnInit(): void {
+    this.buildForm();
     if (
       this.pendingQuestCount == undefined ||
       this.totalQuestCount == undefined
@@ -204,16 +207,18 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getLastModifiedDatas();
-    this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe((res:any)=>{
-      // this.expectedRowData = data;
-    });
-    this.getworkflowStatus()
+    this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
+      (res: any) => {
+        // this.expectedRowData = data;
+      }
+    );
+    this.getworkflowStatus();
     this.getSSDatas();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
-    this.getRank=this.userDetails.userData.mdata.appInfo.rankCode;
-    this.photoRowData = [];    
+    this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
+    this.photoRowData = [];
     this.photoData.forEach((res: any) => {
       res.subTopics.forEach((resp: any) => {
         this.photoRowData.push(resp);
@@ -222,7 +227,7 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
       this.rowData = [];
       this.certficateGridDatas();
-      if(res){
+      if (res) {
         res.forEach((data: any) => {
           let questions: any[] = [];
           let questions1: any[] = [];
@@ -259,7 +264,6 @@ export class PIQSummaryComponent implements OnInit {
           this.gridApi.refreshCells();
         });
       }
-     
     });
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
@@ -284,48 +288,79 @@ export class PIQSummaryComponent implements OnInit {
     this.getplannedDate();
   }
 
-  onReassign(){
-    this.setFlowAction="RSN";
-    this.saveWorkFlowAction(this.setFlowAction);
-    this._snackBarService.loadSnackBar('Form Reassigned Successfully',colorCodes.INFO);
+  buildForm() {
+    this.autoSaveForm = this.fb.group({
+      dateField: [''],
+      TextAreaField: [''], // Initialize with an initial or default value
+    });
+
+    this.onFormChanges();
   }
 
-  onAprrove(){
-    this.setFlowAction="APR";
-    this.saveWorkFlowAction(this.setFlowAction);
-    this._snackBarService.loadSnackBar('Form Aprroved Successfully',colorCodes.INFO);
+  onFormChanges() {
+    this.autoSaveForm.valueChanges.subscribe((values: any) => {
+      // setTimeout(() => {
+      //   this.dateSelected = values.dateField;
+      //   this.quickNotes = values.TextAreaField;
+      //   if (this.dateSelected != null && this.quickNotes != '') {
+      //     this.onSubmitQuickNotes();
+      //   }
+      // }, 5000);
+    });
+  }
+  onWorkflow(type?: any) {
+    // this.setFlowAction = 'RSN';
+    this.getAnswerValue(type);
+    // this.saveWorkFlowAction(this.setFlowAction);
+    if (type == 'reassign') {
+      this._snackBarService.loadSnackBar(
+        'Form Reassigned Successfully',
+        colorCodes.INFO
+      );
+    } else if (type == 'approve') {
+      this._snackBarService.loadSnackBar(
+        'Form Aprroved Successfully',
+        colorCodes.INFO
+      );
+    }
   }
 
-  getworkflowStatus(){
-    this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
-      
+  // onWorkflow(type?:any) {
+  //   this.setFlowAction = 'APR';
+  //   this.saveWorkFlowAction(this.setFlowAction);
+  //   this._snackBarService.loadSnackBar(
+  //     'Form Aprroved Successfully',
+  //     colorCodes.INFO
+  //   );
+  // }
+
+  getworkflowStatus() {
+    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let data = res.workflowmapping;
       let val = res.workflowmaster;
-      val.forEach((item:any)=>{
-        this.getWrkFlowId=item.wfid;
-        this.getWrkFlowRank=item.submitter;
-      })
-      if(this.getWrkFlowRank==this.getRank){
-        this.disableFlowBtn=false;
+      val.forEach((item: any) => {
+        this.getWrkFlowId = item.wfid;
+        this.getWrkFlowRank = item.submitter;
+      });
+      if (this.getWrkFlowRank == this.getRank) {
+        this.disableFlowBtn = false;
+      } else {
+        this.disableFlowBtn = true;
       }
-      else{
-        this.disableFlowBtn=true;
-      }
-    })
+    });
   }
 
-  saveWorkFlowAction(getFlowAction:any){
-    const payload={
-      wfaction:getFlowAction,
-      wfid:this.getWrkFlowId,
-      instanceid:this.referenceNumber,
-      user:this.userDetails.userCode,
-      rank:this.getRank,
-      remarks:this.remarks
-    }
+  saveWorkFlowAction(getFlowAction: any) {
+    const payload = {
+      wfaction: getFlowAction,
+      wfid: this.getWrkFlowId,
+      instanceid: this.referenceNumber,
+      user: this.userDetails.userCode,
+      rank: this.getRank,
+      remarks: this.remarks,
+    };
 
-    this.BudgetService.getworkflowaction(payload).subscribe((res:any)=>{
-    })
+    this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
   getLastModifiedDatas() {
@@ -333,9 +368,8 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      
-      res['workfloaction']="INP";
-      this.getWorkFlowAction =res.wrkflow;
+      res['workfloaction'] = 'INP';
+      this.getWorkFlowAction = res.wrkflow;
 
       const data = JSON.parse(res.lastMod);
       this.modifiedrowData = data;
@@ -398,8 +432,7 @@ export class PIQSummaryComponent implements OnInit {
   getAnswerValue(type?: any) {
     this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
       (res: any) => {
-        
-        this.submitData=res.response.MergedData
+        this.submitData = res.response.MergedData;
         this.answerDetails = res.response;
         this.quickNotesInput = this.answerDetails.QuickNotes.Value;
         const isNotNull = Object.values(this.answerDetails).every(
@@ -424,25 +457,54 @@ export class PIQSummaryComponent implements OnInit {
             answerdata: this.submitData,
             locationcode: this.locationCode,
             mainQuestCheckbox: pendingResult,
-            wfaction:""
+            wfaction: '',
           };
+        } else if (type === 'reassign') {
+          this.setFlowAction = 'RSN';
+          ansPayload = {
+            instanceid: this.referenceNumber,
+            action: 'SS',
+            user: this.userDetails.userCode,
+            tenantIdentifier: '',
+            answerdata: this.submitData,
+            locationcode: this.locationCode,
+            mainQuestCheckbox: pendingResult,
+            wfaction: 'RSN',
+          };
+          this.saveWorkFlowAction(this.setFlowAction);
+        } else if (type === 'approve') {
+          this.setFlowAction = 'APR';
+          ansPayload = {
+            instanceid: this.referenceNumber,
+            action: 'SS',
+            user: this.userDetails.userCode,
+            tenantIdentifier: '',
+            answerdata: this.submitData,
+            locationcode: this.locationCode,
+            mainQuestCheckbox: pendingResult,
+            wfaction: 'APR',
+          };
+          this.saveWorkFlowAction(this.setFlowAction);
         } else {
           if (this.isNotNull && type === 'submit') {
-            if(this.remarks!=""){
-              this.setFlowAction="SUB";
+            if (this.remarks != '') {
+              this.setFlowAction = 'SUB';
               ansPayload = {
                 instanceid: this.referenceNumber,
-                action: 'S',
+                action: 'SS',
                 user: this.userDetails.userCode,
                 tenantIdentifier: '',
                 answerdata: this.submitData,
                 locationcode: this.locationCode,
                 mainQuestCheckbox: pendingResult,
-                wfaction:"SUB"
+                wfaction: 'SUB',
               };
-              this.saveWorkFlowAction(this.setFlowAction) 
-            } else{
-              this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
+              this.saveWorkFlowAction(this.setFlowAction);
+            } else {
+              this._snackBarService.loadSnackBar(
+                'Add Remarks',
+                colorCodes.ERROR
+              );
             }
           } else {
             return;
@@ -477,13 +539,13 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.setEnableViewMode(this.enableViewMode);
   }
   onSubmit(type: string) {
-    this.setFlowAction=""
+    this.setFlowAction = '';
     this.getQuestionAnswerDatas(type);
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
     this.BudgetService.setEnableViewMode(this.enableViewMode);
-    
+
     // const modifiedData = {
     //   userName: this.userDetails.userData.mdata.appInfo.userName,
     //   userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -506,7 +568,7 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      if(res && res.datasyncgrid && res.datasyncgrid!=""){
+      if (res && res.datasyncgrid && res.datasyncgrid != '') {
         const data = JSON.parse(res.datasyncgrid);
         this.expectedRowData = data;
       }
@@ -531,7 +593,7 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       // const resDate=this.datePipe.transform(res.plannedsubdate, 'dd-MM-yyyy');
       const resDate = res.plannedsubdate;
-      this.dateForm.get('dateField')?.setValue(resDate);
+      this.autoSaveForm.get('dateField')?.setValue(resDate);
     });
   }
   getRefnImportDetails(instanceid: any) {

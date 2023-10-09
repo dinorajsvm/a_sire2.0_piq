@@ -232,6 +232,7 @@ export class PhotoRepositoryComponent implements OnInit {
   setDefaultName(img: any, defaultName: string,formattedname:any) {
     img.localfilename = defaultName;
     img.formattedName = formattedname;
+    this.createPRDetails();
   }
 
   resetAllImageFilenames(allListData: any) {
@@ -249,6 +250,7 @@ export class PhotoRepositoryComponent implements OnInit {
           });
         });
       }
+      this.createPRDetails();
     });
   }
 
