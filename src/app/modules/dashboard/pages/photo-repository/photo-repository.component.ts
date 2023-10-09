@@ -194,7 +194,7 @@ export class PhotoRepositoryComponent implements OnInit {
 
   createPRDetails() {
     this.getdetails=[];
-    const duplicatedList=this.listDatas
+    const duplicatedList=this.listDatas;
     duplicatedList.forEach((res: any) => {
       res.subTopics.forEach((sub: any) => {
         if(sub.imagelist.length==0){

@@ -367,7 +367,7 @@ export class BudgetService {
   }
   savePhotoRep(payload: any) {
     return this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/SavePIQPhotorepo`,
+      `${this.globalUrl}/PIQ/event/savePIQPhotorepo`,
       payload
     );
   }
