@@ -134,9 +134,9 @@ export class PiqReportComponent implements OnInit {
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     (this.vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode),
-    this.getworkflowStatus();
+      this.getworkflowStatus();
     if (this.route.snapshot.paramMap.get('type') == 'new') {
-    this.saveWorkFlowAction();
+      this.saveWorkFlowAction();
     }
     this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
@@ -211,12 +211,12 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-
-  getWrkFlSummary(){
-    this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe((res:any)=>{
-      this.getWrkFlSummaryData=res.response;
-      
-    })
+  getWrkFlSummary() {
+    this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
+      (res: any) => {
+        this.getWrkFlSummaryData = res.response;
+      }
+    );
   }
 
   getTopBarDatas() {
@@ -226,29 +226,26 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  saveWorkFlowAction(){
-    const payload={
-      wfaction:"INP",
-      wfid:this.getWrkFlowId,
-      instanceid:this.referenceNumber,
-      user:this.userDetails.userCode,
-      rank:this.userDetails.userData.mdata.appInfo.rankCode,
-      remarks:""
-    }
+  saveWorkFlowAction() {
+    const payload = {
+      wfaction: 'INP',
+      wfid: this.getWrkFlowId,
+      instanceid: this.referenceNumber,
+      user: this.userDetails.userCode,
+      rank: this.userDetails.userData.mdata.appInfo.rankCode,
+      remarks: '',
+    };
 
-    
-
-    this.BudgetService.getworkflowaction(payload).subscribe((res:any)=>{
-    })
+    this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
-  getworkflowStatus(){
-    this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
+  getworkflowStatus() {
+    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-      val.forEach((item:any)=>{
-        this.getWrkFlowId=item.wfid;
-      })
-    })
+      val.forEach((item: any) => {
+        this.getWrkFlowId = item.wfid;
+      });
+    });
   }
 
   getGuideLinesData() {
@@ -710,9 +707,9 @@ export class PiqReportComponent implements OnInit {
       subQue.completed = false;
     }
     this.selectedValue = ques.subHeaders;
-    this.subHeaderCount();
     this.exceptionFn(ques, mainQue, subQue);
     this.dynamicForms.controls[subQue.qid].setValue(value);
+    this.subHeaderCount();
     this.prTabEnabling(allValues);
   }
 
@@ -1344,7 +1341,7 @@ export class PiqReportComponent implements OnInit {
     }
   }
   inputChanges(event: any, subq: any, quest: any) {
-    var value = event.target.value;
+    let value = event.target.value;
     subq.answer = value;
     if (subq.answer) {
       subq.inprogress = false;
@@ -1354,6 +1351,7 @@ export class PiqReportComponent implements OnInit {
       subq.completed = false;
     }
     this.selectedValue = quest.subHeaders;
+    this.subHeaderCount();
   }
 
   onInputChange(event: Event) {
@@ -1380,7 +1378,7 @@ export class PiqReportComponent implements OnInit {
       subq.inprogress = true;
       subq.completed = false;
     }
-
+    this.subHeaderCount();
     this.exceptionFn(subQues, mquest, subq);
   }
 
