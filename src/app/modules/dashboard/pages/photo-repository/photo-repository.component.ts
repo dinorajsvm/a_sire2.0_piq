@@ -12,6 +12,8 @@ import { NameConfirmationDialogComponent } from '../name-confirmation-dialog/nam
 import { SelectIdDialogComponent } from '../select-id-dialog/select-id-dialog.component';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { ActivatedRoute } from '@angular/router';
+import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
+import { colorCodes } from 'src/app/core/constants';
 
 @Component({
   selector: 'app-photo-repository',
@@ -57,7 +59,8 @@ export class PhotoRepositoryComponent implements OnInit {
     private BudgetService: BudgetService,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private _snackBarService: SnackbarService,
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
@@ -516,6 +519,7 @@ export class PhotoRepositoryComponent implements OnInit {
     };
     this.BudgetService.savePhotoRep(payload).subscribe((res: any) => {
       const data = res;
+      this._snackBarService.loadSnackBar('Saved Successfully',colorCodes.INFO);
     });
   }
   selectedFile: File | null = null;

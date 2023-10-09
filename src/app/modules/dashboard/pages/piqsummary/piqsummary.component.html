@@ -163,25 +163,21 @@
                 </button>
                 <div [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
                 <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
-                  <button mat-button class="sub"  type="submit"
+                  <button mat-button class="sub"  type="submit" [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'sub' : 'disableSyncBtn'"
                      (click)="onSubmit('submit')">
-                     <!-- [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'sub' : 'disableSyncBtn'" -->
+                     
                     Submit
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                 </div>
                 <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
-                  <button mat-button class="rsn" (click)="onReassign()"  type="submit"
-                     >
-                    <!-- [ngClass]="!disableFlowBtn ? 'rsn' : 'disableSyncBtn'" [disabled]="disableFlowBtn" -->
+                  <button mat-button class="rsn" (click)="onReassign()"  type="submit" [ngClass]="!disableFlowBtn ? 'rsn' : 'disableSyncBtn'" [disabled]="disableFlowBtn">
                     Reassign
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
                 </div>
                 <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
-                  <button mat-button class="apr" (click)="onAprrove()" type="submit"
-                    >
-                    <!-- [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'apr' : 'disableSyncBtn'" -->
+                  <button mat-button class="apr" (click)="onAprrove()" type="submit" [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'apr' : 'disableSyncBtn'">
                     Approve
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/APR.svg" />

@@ -287,11 +287,13 @@ export class PIQSummaryComponent implements OnInit {
   onReassign(){
     this.setFlowAction="RSN";
     this.saveWorkFlowAction(this.setFlowAction);
+    this._snackBarService.loadSnackBar('Form Reassigned Successfully',colorCodes.INFO);
   }
 
   onAprrove(){
     this.setFlowAction="APR";
     this.saveWorkFlowAction(this.setFlowAction);
+    this._snackBarService.loadSnackBar('Form Aprroved Successfully',colorCodes.INFO);
   }
 
   getworkflowStatus(){
