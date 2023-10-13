@@ -152,12 +152,9 @@ export class TMSAComponent {
   }
 
   getTmsaDetail() {
-    console.log(this.data, 'data');
-
     this.BudgetService.get325Lookup(this.data, 'sndc').subscribe((resp) => {
       this.apiResponse = resp.response;
       this.rowData = resp.response.Internal;
-      console.log(this.rowData, 'roedatra');
     });
   }
   gridOptions = {

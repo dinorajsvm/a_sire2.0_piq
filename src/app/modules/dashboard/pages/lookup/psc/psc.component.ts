@@ -129,7 +129,6 @@ export class PscComponent {
     } else {
       this.rowData = this.apiResponse['Non-sPSC'];
     }
-    console.log(this.rowData);
   }
 
   getCheckListGridDatas() {

@@ -21,7 +21,6 @@ import { colorCodes } from 'src/app/core/constants';
   styleUrls: ['./photo-repository.component.css'],
 })
 export class PhotoRepositoryComponent implements OnInit {
-  @Input() getVesselType: any;
   dynamicImageURL = `${environment.apiUrl}/`;
   imageUrl: string = '';
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -126,6 +125,7 @@ export class PhotoRepositoryComponent implements OnInit {
           }
           groupedData[item.topic].push(...item.subTopics);
         }
+        
 
         for (const topic of Object.keys(groupedData)) {
           const mergedObject = {
@@ -134,9 +134,8 @@ export class PhotoRepositoryComponent implements OnInit {
           };
           imageCombined.push(mergedObject);
         }
-        
-        this.getSubTopicTitle = [];
        
+        this.getSubTopicTitle = [];
         imageCombined.forEach((element: any) => {
           element.subTopics.forEach((subtitle: any, index: any) => {
             this.getSubTopicTitle.push(subtitle.subTopicTitle);
@@ -158,6 +157,7 @@ export class PhotoRepositoryComponent implements OnInit {
         });
         this.subTopicCounts = this.getSubTopicTitle.length;
         this.BudgetService.setPhotoRepData(this.subTopicCounts);
+        
         this.listDatas = imageCombined;
         this.imageNames.forEach((data: any) => {
           this.listDatas.forEach((res: any) => {
@@ -275,7 +275,7 @@ export class PhotoRepositoryComponent implements OnInit {
           this.listDatas.push(res);
         }
       });
-
+      this.getSubTopicTitle = [];
       this.listDatas.forEach((res: any) => {
         res.subTopics.forEach((item: any) => {
           this.getSubTopicTitle.push(item.subTopicTitle);

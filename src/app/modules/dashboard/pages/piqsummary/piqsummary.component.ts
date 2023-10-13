@@ -117,6 +117,7 @@ export class PIQSummaryComponent implements OnInit {
   submitData: any;
   dateSelected: any;
   quickNotes: any;
+  getVesselCode: any;
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
@@ -274,6 +275,7 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getExceptionGridData().subscribe((res: any) => {
       this.exceptionCounts = res;
     });
+
     this.BudgetService.getPhotoRepData().subscribe((res: any) => {
       this.photoRepCounts = res;
     });
@@ -358,6 +360,7 @@ export class PIQSummaryComponent implements OnInit {
       user: this.userDetails.userCode,
       rank: this.getRank,
       remarks: this.remarks,
+      vesselcode:this.getVesselCode
     };
 
     this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
@@ -368,9 +371,8 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      res['workfloaction'] = 'INP';
       this.getWorkFlowAction = res.wrkflow;
-
+      this.getVesselCode= res.vesselcode;
       const data = JSON.parse(res.lastMod);
       this.modifiedrowData = data;
     });
@@ -485,8 +487,8 @@ export class PIQSummaryComponent implements OnInit {
             wfaction: 'APR',
           };
           this.saveWorkFlowAction(this.setFlowAction);
-        } else {
-          if (this.isNotNull && type === 'submit') {
+        } else 
+          if (type === 'submit') {
             if (this.remarks != '') {
               this.setFlowAction = 'SUB';
               ansPayload = {
@@ -509,7 +511,7 @@ export class PIQSummaryComponent implements OnInit {
           } else {
             return;
           }
-        }
+        
         this.saveMethodCall(ansPayload, type);
       }
     );
@@ -522,6 +524,7 @@ export class PIQSummaryComponent implements OnInit {
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      
       let object = JSON.parse(res.response);
       this.getAllDatas = object;
       object.forEach((value1: any) => {
@@ -639,7 +642,7 @@ export class PIQSummaryComponent implements OnInit {
           'Synced to Shore Successfully.',
           colorCodes.INFO
         );
-      } else {
+      } else if (type === 'submit') {
         this._snackBarService.loadSnackBar(
           'Submitted Successfully.',
           colorCodes.INFO

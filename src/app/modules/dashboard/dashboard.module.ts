@@ -38,6 +38,7 @@ import { PscComponent } from './pages/lookup/psc/psc.component';
 import { VesselSelectionDialogComponent } from './pages/vessel-selection-dialog/vessel-selection-dialog.component';
 import { PercentageDirective } from './pages/directives/percentage.directives';
 import { TMSAComponent } from './pages/lookup/tmsa/tmsa.component';
+import { selectSearchPipe } from './services/select-search-filter.pipe';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { TMSAComponent } from './pages/lookup/tmsa/tmsa.component';
     GlobalSearchComponent,
     PiqReportComponent,
     ChipFilterPipe,
+    selectSearchPipe,
     PhotoRepositoryComponent,
     PrDialogComponent,
     ImageDialogComponent,

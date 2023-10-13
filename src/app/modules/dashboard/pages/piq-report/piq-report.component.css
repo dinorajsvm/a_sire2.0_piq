@@ -155,16 +155,17 @@
 }
 
 .resetIcn {
-  font-size: 14px !important;
+  font-size: 11px !important;
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  height: 14px;
+  height: 12px;
   display: flex;
   border: 1px solid #dc3545;
   border-radius: 50%;
   width: 14px;
   margin: 0 5px;
+  padding: 0.5px 0.2px 0 0;
   color: #dc3545;
 }
 
@@ -514,6 +515,7 @@
 .card_container ::ng-deep .mat-expansion-panel-body {
   padding: 0 0px 3px !important;
   max-height: 210px;
+  /* max-height: 230px; */
   overflow: auto;
   /* border-top: 1px solid #c1c1c1; */
 }
@@ -639,7 +641,10 @@
 
 .selected-chip {
   background-color: #2196f3 !important;
-  color: #ffffff;
+  color: #ffffff !important;
+}
+.selected-chip ::ng-deep .mat-mdc-chip-action-label {
+  color: #ffffff !important;
 }
 
 /* Add this to your component's CSS or the global styles.css */
@@ -656,6 +661,15 @@
 .read-only-chip {
   pointer-events: none;
   opacity: 0.6;
+}
+
+.auto_Field {
+  pointer-events: none !important;
+}
+
+.auto_Field ::ng-deep .mat-mdc-text-field-wrapper {
+  background: #e3e3e4;
+  border-radius: 5px;
 }
 
 .quesCounts {
@@ -688,6 +702,8 @@
   border-radius: 5px;
   padding: 5px 15px;
   margin-top: 10px;
+  /* padding: 0px 15px;
+  margin-top: 0px; */
 }
 
 .mat-expansion-panel {
@@ -890,9 +906,10 @@ p {
 .shoreQuest {
   background-color: #e0e0e0 !important;
   pointer-events: none;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
   border-radius: 5px;
   padding: 10px;
+  padding: 0 10px;
 }
 
 .presetQuest {
@@ -1163,22 +1180,22 @@ legend {
   font-size: 12px;
 }
 
-.wrkfl-INP{
-background-color: #39b7cd;
-color: white;
+.wrkfl-INP {
+  background-color: #39b7cd;
+  color: white;
 }
 
-.wrkfl-SUB{
+.wrkfl-SUB {
   background-color: #ff7c25;
   color: white;
 }
 
-.wrkfl-RSN{
+.wrkfl-RSN {
   background-color: #0e2350;
   color: white;
 }
 
-.wrkfl-APR{
+.wrkfl-APR {
   background-color: #00a65a;
   color: white;
 }

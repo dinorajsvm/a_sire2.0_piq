@@ -7,11 +7,6 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { BudgetService } from '../../services/budget.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-interface Food {
-  value: string;
-  viewValue: string;
-}
-
 @Component({
   selector: 'app-vessel-selection-dialog',
   templateUrl: './vessel-selection-dialog.component.html',
@@ -23,12 +18,9 @@ export class VesselSelectionDialogComponent {
   userDetails: any;
   compVslCode: any;
   getRefNo: any;
+  vesselname: any;
+  selectedVesselName: any;
 
-  foods: Food[] = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' },
-  ];
   ngOnInit(): void {
     this.vesselSelectionForms = new FormGroup({
       vessel: new FormControl('', Validators.required),
@@ -39,8 +31,13 @@ export class VesselSelectionDialogComponent {
 
 getVesselNames(){
   this.BudgetService.getVesselNames(this.userDetails.companyCode).subscribe((res:any)=>{
-    console.log("vslName",res)
+    this.vesselname=res.response;
   })
+}
+
+onSelectVessel(event: any): void {
+  this.selectedVesselName = event.value;
+  
 }
 
   getCodes() {
@@ -66,6 +63,7 @@ getVesselNames(){
     const payload = {
       locationcode: this.compVslCode,
       user: this.userDetails?.userCode,
+      vesselcode:this.selectedVesselName
     };
     this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
       if (Object.keys(res).length != 0) {
@@ -76,6 +74,7 @@ getVesselNames(){
           ? this.router.navigate(['/sire/piq-report/' + getRefNumber + '/new'])
           : '';
         localStorage.removeItem('getSelectedCheckListID');
+        this.BudgetService.setVslCodeData(this.selectedVesselName);
       } else {
         this._snackBarService.loadSnackBar(
           res.error.errorMessage,

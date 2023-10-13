@@ -12,16 +12,17 @@
     <div mat-dialog-content>
       <mat-form-field class="selectDropdown" appearance="outline" >
         <mat-label>Select Vessel</mat-label>
-        <mat-select [(ngModel)]="selectedValue" formControlName="vessel" name="food">
-          <mat-option *ngFor="let food of foods" [value]="food.value">
-            {{food.viewValue}}
+        <mat-select [(ngModel)]="selectedValue" formControlName="vessel"  (selectionChange)="onSelectVessel($event)" name="food">
+          <input matInput placeholder="Search Vessel" class="filterSearch" #filterInput  />
+          <mat-option *ngFor="let vsl of vesselname | selectSearchFilter: filterInput.value" [value]="vsl.vesselcode">
+            {{vsl.vesselname}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div mat-dialog-actions>
       <button mat-button type="submit" [disabled]="!vesselSelectionForms.valid"
-        [ngClass]="{'disableBtn': !vesselSelectionForms.valid}" class="vslSelect" cdkFocusInitial>Proceed</button>
+        [ngClass]="{'disableBtn': !vesselSelectionForms.valid}" class="vslSelect" >Proceed</button>
     </div>
   </form>
 </div>

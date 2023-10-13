@@ -30,6 +30,7 @@ export class BudgetService {
   private getPhotoRepList = new BehaviorSubject<any>(0);
   private exceptionList = new Subject<any>();
   private exceptionReset = new Subject<any>();
+  private getVslCode = new Subject<any>();
   constructor(private client: HttpClient) {}
 
   setEnableViewMode(message: any) {
@@ -223,6 +224,14 @@ export class BudgetService {
     return this.client.get<any>(
       `${this.globalUrl}/PIQ/event/getvesselbycompany?companycode=${companycode}`
     );
+  }
+
+  setVslCodeData(message: any) {
+    this.getVslCode.next(message);
+  }
+
+  getVslCodeData() {
+    return this.getVslCode.asObservable();
   }
   setPreviousPresetData(message: any) {
     this.getAllPreviousPresetData.next(message);
