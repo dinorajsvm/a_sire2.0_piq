@@ -26,7 +26,7 @@
   </div>
 
   <div class="workFlowWrapper" *ngIf="getWrkFlSummaryData && getWrkFlSummaryData.length > 0">
-    <div>
+      <div>
       <button mat-button class="wrkflToggle" (click)="workSpace()">
         <mat-icon class="wrkflIcon" id="wrkflIcon">chevron_left</mat-icon>
       </button>
@@ -39,14 +39,21 @@
         </div>
 
         <div class="flowDetails">
-          <span class="flowPeriod">{{data.submitteddate | date : "dd/MM/yyyy HH:mm"}}</span>
-          <span>{{data.submitteduser}}</span>
-          <span>{{data.rankname}}</span>
-          <div class="flowStatus" [ngClass]="{'wrkfl-INP': data.wfstatus === 'Inprogress',
-            'wrkfl-SUB': data.wfstatus === 'Submitted',
-            'wrkfl-RSN': data.wfstatus === 'ReAssigned',
-            'wrkfl-APR': data.wfstatus === 'Approved'}">
-            {{data.wfstatus}}
+          <span class="flowPeriod">{{
+            data.submitteddate | date : "dd/MM/yyyy HH:mm"
+          }}</span>
+          <span>Mark Waugh</span>
+          <span>Director</span>
+          <div
+            class="flowStatus"
+            [ngClass]="{
+              'wrkfl-INP': data.wfstatus === 'Inprogress',
+              'wrkfl-SUB': data.wfstatus === 'Submitted',
+              'wrkfl-RSN': data.wfstatus === 'ReAssigned',
+              'wrkfl-APR': data.wfstatus === 'Approved'
+            }"
+          >
+            {{ data.wfstatus }}
           </div>
         </div>
       </div>
@@ -255,6 +262,35 @@
                                           <input matInput type="text" newmeric placeholder="0"  maxlength="3"
                                             name="inputField" autocomplete="off" [formControlName]="subq.qid"
                                             [readonly]="viewMode" (input)="inputChanges($event, subq, quest)" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div
+                                        class="col-sm-2 dateWrap"
+                                        *ngIf="
+                                          subq.type == 'Integer' &&
+                                          subq.response == 'Integer'
+                                        "
+                                      >
+                                        <mat-form-field
+                                          appearance="outline"
+                                          class="input"
+                                        >
+                                          <input
+                                            matInput
+                                            type="text"
+                                            digitDirective
+                                            appTwoDigitDecimaNumber
+                                            placeholder="0.00"
+                                            name="inputField"
+                                            autocomplete="off"
+                                            [formControlName]="subq.qid"
+                                            [readonly]="viewMode"
+                                            (input)="
+                                              inputChanges($event, subq, quest)
+                                            "
+                                          />
                                         </mat-form-field>
                                       </div>
                                     </div>
@@ -837,7 +873,7 @@
                             </div>
                           </div>
 
-                          <div class="col-sm-3 guideWrap" *ngIf="lookupContainer">
+                          <!-- <div class="col-sm-3 guideWrap" *ngIf="lookupContainer">
                             <div class="row">
                               <div class="col-sm-12 guidLines">
                                 <div class="row">
@@ -880,7 +916,7 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
 
                         <div class="col-sm-9 allMainQuest" [class.hidden]="!isSearchActive" style="padding: 0"
@@ -911,6 +947,64 @@
                               </div>
                             </div>
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 guideWrap" *ngIf="lookupContainer">
+                    <div class="row">
+                      <div class="col-sm-12 guidLines">
+                        <div class="row">
+                          <div class="col-sm-10 descTitle">
+                            Lookup - 2.1. Certification
+                          </div>
+                          <div
+                            class="col-sm-2 text-right"
+                            style="padding-right: 10px"
+                          >
+                            <mat-icon (click)="closeLookup()">close</mat-icon>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 p-0">
+                        <div *ngFor="let lookup of manualLookupData">
+                          <mat-accordion class="card_container">
+                            <mat-expansion-panel>
+                              <mat-expansion-panel-header
+                                class="content_header"
+                              >
+                                <mat-panel-title>
+                                  {{ lookup.certificatename }}
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+
+                              <div class="ml-3">
+                                <span style="font-weight: 500"
+                                  >Reference Id:- </span
+                                >{{ lookup.refid }}
+                              </div>
+                              <div class="ml-3">
+                                <span style="font-weight: 500"
+                                  >Certificate No:- </span
+                                >{{ lookup.certificatenumber }}
+                              </div>
+                              <div class="ml-3">
+                                <span style="font-weight: 500"
+                                  >Authority Name:- </span
+                                >{{ lookup.authorityname }}
+                              </div>
+                              <div class="ml-3">
+                                <span style="font-weight: 500"
+                                  >Date of Issued:- </span
+                                >{{ lookup.dateofissue }}
+                              </div>
+                              <div class="ml-3">
+                                <span style="font-weight: 500"
+                                  >Valid From:- </span
+                                >{{ lookup.validfrom }}
+                              </div>
+                            </mat-expansion-panel>
+                          </mat-accordion>
                         </div>
                       </div>
                     </div>

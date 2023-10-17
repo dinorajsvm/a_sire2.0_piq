@@ -7,10 +7,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
 import { ColDef, GridApi, LicenseManager } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
-import { DialogData } from 'src/app/core/modules/mack/utilities/chat-dialog/chat-dialog.component';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -25,6 +23,8 @@ export class TMSAComponent {
   private gridApi!: GridApi;
   isChecked = true;
   frameworkComponents: any;
+  isShowExternal = false;
+  rowExternalData: any[] = [];
   columnDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
@@ -37,6 +37,44 @@ export class TMSAComponent {
     {
       field: 'refno',
       headerName: 'Reference ID',
+      resizable: true,
+      flex: 1,
+    },
+
+    {
+      field: 'companyname',
+      headerName: 'Company Name',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'vesselname',
+      headerName: 'Vessel Name',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'instype',
+      headerName: 'Type Of Inspection',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'auditfromport',
+      headerName: 'Audit From Port',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'audittoport',
+      headerName: 'Audit To Port',
+      resizable: true,
+      flex: 1,
+    },
+
+    {
+      field: 'typeofaudit',
+      headerName: 'Type Of Audit',
       resizable: true,
       flex: 1,
     },
@@ -62,6 +100,12 @@ export class TMSAComponent {
           : '';
       },
     },
+    {
+      field: 'remote',
+      headerName: 'Remote',
+      resizable: true,
+      flex: 1,
+    },
   ];
   columnShipDefs: ColDef[] = [
     {
@@ -75,6 +119,42 @@ export class TMSAComponent {
     {
       field: 'refno',
       headerName: 'Reference ID',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'companyname',
+      headerName: 'Company Name',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'vesselname',
+      headerName: 'Vessel Name',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'vsltype',
+      headerName: 'Vessel Type',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'typeofvisit',
+      headerName: 'Type Of Visit',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'fromport',
+      headerName: 'From Port',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'toport',
+      headerName: 'To Port',
       resizable: true,
       flex: 1,
     },
@@ -101,6 +181,73 @@ export class TMSAComponent {
       },
     },
   ];
+  columnExternalDefs: ColDef[] = [
+    {
+      headerName: 'Auto Sync',
+      flex: 1,
+      cellRenderer: 'buttonRenderer',
+      cellRendererParams: {
+        onClick: this.onBtnClick1.bind(this),
+      },
+    },
+    {
+      field: 'extrfid',
+      headerName: 'Reference ID',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'inspectioncode',
+      headerName: 'Type Of Inspection',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'authoritycode',
+      headerName: 'Authority',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'inspectiondate',
+      headerName: 'Date Of Inspection',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'remote',
+      headerName: 'Remote',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'viqversion',
+      headerName: 'VIQ Version',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'countrycode',
+      headerName: 'Country',
+      resizable: true,
+      flex: 1,
+    },
+    {
+      field: 'detention',
+      headerName: 'Detention/Rejection',
+      resizable: true,
+      flex: 1,
+      valueGetter: (params) => {
+        return params.data.detention === 'Y' ? 'Yes' : 'No';
+      },
+    },
+    {
+      field: 'placetype',
+      headerName: 'Place Of Inspection',
+      resizable: true,
+      flex: 1,
+    },
+  ];
   rowData: any[] = [];
   rowShipData: any[] = [];
 
@@ -117,7 +264,6 @@ export class TMSAComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<TMSAComponent>,
     public dialog: MatDialog,
@@ -140,7 +286,13 @@ export class TMSAComponent {
     if (this.isChecked) {
       this.rowData = this.apiResponse.Internal;
     } else {
-      this.rowShipData = this.apiResponse.ShipVisit;
+      if (this.data === '3.2.3' || this.data === '3.2.4') {
+        this.isShowExternal = true;
+        this.rowExternalData = this.apiResponse.External;
+      } else {
+        this.isShowExternal = false;
+        this.rowShipData = this.apiResponse.ShipVisit;
+      }
     }
   }
 
@@ -152,7 +304,12 @@ export class TMSAComponent {
   }
 
   getTmsaDetail() {
-    this.BudgetService.get325Lookup(this.data, 'sndc').subscribe((resp) => {
+    this.BudgetService.getLookupDetail(
+      this.data.qid,
+      'sndc',
+      this.data.questionId,
+      this.data.referenceId
+    ).subscribe((resp) => {
       this.apiResponse = resp.response;
       this.rowData = resp.response.Internal;
     });

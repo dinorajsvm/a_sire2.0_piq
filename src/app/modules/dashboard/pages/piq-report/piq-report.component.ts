@@ -32,11 +32,15 @@ import { DatePipe } from '@angular/common';
 import { MocComponent } from '../lookup/moc/moc.component';
 import { PscComponent } from '../lookup/psc/psc.component';
 import { TMSAComponent } from '../lookup/tmsa/tmsa.component';
+import { SafetyManagementComponent } from '../lookup/safety-management/safety-management.component';
+import { PmsLookupComponent } from '../lookup/pms-lookup/pms-lookup.component';
+import { ManualLookUpComponent } from '../lookup/manual-look-up/manual-look-up.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: ['l'],
   },
+  //  DD-MM-YYYY
   display: {
     dateInput: 'DD-MMM-YYYY', // Change the date input format
     monthYearLabel: 'MMM YYYY',
@@ -131,13 +135,15 @@ export class PiqReportComponent implements OnInit {
     private route: ActivatedRoute,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private el: ElementRef
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
 
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+
     this.getworkflowStatus();
     if (this.route.snapshot.paramMap.get('type') == 'new') {
       this.saveWorkFlowAction();
@@ -337,6 +343,7 @@ export class PiqReportComponent implements OnInit {
             this.pendingCount = this.checkboxBoolean.filter(
               (value: any) => value === false
             ).length;
+
             subHeader.subQuestion.forEach((mainQus: any) => {
               if (
                 mainQus.entryorgin === 'Auto or Preset' ||
@@ -841,40 +848,39 @@ export class PiqReportComponent implements OnInit {
   navigateToPath() {
     this.router.navigateByUrl('/path');
   }
-  getVesselCertificateLookupDetail() {
-    this.BudgetService.getVesselCertificateLookup('sndc').subscribe(
-      (data) => {
-        if (data && data.response) {
-          const response = JSON.parse(data.response);
-          response.forEach((res: any) => {
-            res.dateofissue = this.datePipe.transform(
-              res.dateofissue,
-              'dd-MMM-yyyy HH:mm:ss'
-            );
-            res.validfrom = this.datePipe.transform(
-              res.validfrom,
-              'dd-MMM-yyyy HH:mm:ss'
-            );
-          });
-          this.manualLookupData = response;
-        }
-      },
-      (error) => {}
-    );
-  }
+
+  findResponse: any;
+
   openLookUp(event: any, quest: any, mainQuest?: any) {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = false;
     dialogConfig.disableClose = true;
     dialogConfig.panelClass = 'grid-dialog-container';
+    const mQuestion = mainQuest.mainQuestion;
+    const str = mQuestion.split(' ');
+    let questionId = '';
+    if (str && str.length > 0) {
+      if (str[0].endsWith('.')) {
+        const stringWithoutLastDot = str[0].slice(0, -1);
+        str[0] = stringWithoutLastDot;
+      }
+      questionId = str[0];
+    }
     if (quest && quest.subheadid === 'SH1') {
-      this.manualLookUp();
+      this.manualLookUp(dialogConfig);
     } else if (quest && quest.subheadid === 'SH29') {
       this.mocLookUp(dialogConfig, quest);
     } else if (quest && quest.subheadid === 'SH2') {
-      this.lookUpDialog(dialogConfig, quest, mainQuest);
+      this.lookUpDialog(dialogConfig, quest, mainQuest, questionId);
+    } else if (
+      mainQuest &&
+      (mainQuest.qid === 'MQ26' ||
+        mainQuest.qid === 'MQ29' ||
+        mainQuest.qid === 'MQ32')
+    ) {
+      this.pmsLookup(dialogConfig, quest, mainQuest);
     } else if (quest && quest.subheadid === 'SH32') {
-      this.pscLookUp(dialogConfig, quest);
+      this.pscLookUp(dialogConfig, quest, mainQuest, questionId);
     } else if (
       mainQuest &&
       (mainQuest.qid === 'MQ115' ||
@@ -885,22 +891,270 @@ export class PiqReportComponent implements OnInit {
         mainQuest.qid === 'MQ120' ||
         mainQuest.qid === 'MQ125')
     ) {
-      this.tmsaLookUp(mainQuest);
+      this.tmsaLookUp(mainQuest, questionId);
+    } else if (quest && quest.subheadid === 'SH14') {
+      const dialogRef = this.dialog.open(SafetyManagementComponent, {
+        panelClass: 'sm-dialog-container',
+        data: {
+          qid: '5.7.2',
+          questionId: questionId,
+          referenceId: this.referenceNumber,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result: any) => {
+        if (result) {
+          const rowKeys = [
+            'MQ337',
+            'MQ343',
+            'MQ349',
+            'MQ355',
+            'MQ361',
+            'MQ367',
+            'MQ373',
+            'MQ379',
+            'MQ385',
+            'MQ391',
+            'MQ397',
+            'MQ403',
+            'MQ409',
+            'MQ415',
+            'MQ421',
+            'MQ427',
+            'MQ433',
+            'MQ439',
+            'MQ445',
+            'MQ451',
+            'MQ457',
+            'MQ463',
+            'MQ469',
+            'MQ475',
+            'MQ481',
+            'MQ487',
+            'MQ493',
+            'MQ499',
+            'MQ505',
+          ];
+          let insertQuest: any;
+          let tempRowData: any[] = [];
+          rowKeys.forEach((row) => {
+            result.forEach((resultResponse: any, indexValue: any) => {
+              const trueValueKeys = Object.keys(resultResponse).filter(
+                (key) => resultResponse[key] === true
+              );
+
+              trueValueKeys.forEach((trueResponse: any) => {
+                if (trueResponse === row) {
+                  tempRowData.push(trueResponse);
+                  if (tempRowData && tempRowData.length > 1) {
+                    this.getAllDatas.forEach((chapter: any) => {
+                      if (chapter && chapter.uniqueid === 'H5') {
+                        chapter.values.forEach((mainQues: any) => {
+                          if (mainQues && mainQues.subheadid === 'SH14') {
+                            this.findResponse = mainQues.question.find(
+                              (quest: any) => quest && quest.qid === row
+                            );
+                            if (this.findResponse) {
+                              insertQuest = { ...this.findResponse };
+
+                              const splitMValue = insertQuest.qid.split('_');
+                              const lastIndexMValue =
+                                splitMValue[splitMValue.length - 1];
+                              insertQuest.qid =
+                                'D' + indexValue + '_' + lastIndexMValue;
+                              insertQuest.mainQuestion = resultResponse.ivrid;
+                              insertQuest.entrymethod = '';
+
+                              const tempSubQuestion = insertQuest.subQuestion;
+                              tempSubQuestion.forEach((temp: any) => {
+                                const splitValue = temp.qid.split('_');
+                                const lastIndexValue =
+                                  splitValue[splitValue.length - 1];
+
+                                const controlName =
+                                  'D' + indexValue + '_' + lastIndexValue;
+                                temp.qid = controlName;
+                                this.dynamicForms.addControl(
+                                  controlName,
+                                  new FormControl('')
+                                );
+                                const requestBody = {
+                                  [`${resultResponse.ivrid}`]: {
+                                    [`${temp.qid}`]: '',
+                                  },
+                                };
+
+                                // if (insertQuest.subQuestion[3].qid) {
+
+                                //   this.dynamicForms.controls[
+                                //     `${insertQuest.subQuestion[3].qid}`
+                                //   ].patchValue(resultResponse.dropdown);
+                                // }
+
+                                // if (insertQuest.subQuestion[4].qid) {
+                                //   // console.log(
+                                //   //   insertQuest.subQuestion[4].qid,
+                                //   //   '444444'
+                                //   // );
+
+                                //   this.dynamicForms.controls[
+                                //     `${insertQuest.subQuestion[4].qid}`
+                                //   ].patchValue(
+                                //     new Date(resultResponse.dateSelection)
+                                //   );
+                                // }
+                                const elementId = document.getElementById(
+                                  temp.qid
+                                );
+                                elementId?.focus();
+                              });
+                            }
+                            if (insertQuest) {
+                              this.getAllDatas.forEach((chapter: any) => {
+                                if (chapter && chapter.uniqueid === 'H5') {
+                                  chapter.values.forEach((mainQues: any) => {
+                                    if (
+                                      mainQues &&
+                                      mainQues.subheadid === 'SH14'
+                                    ) {
+                                      let index = mainQues.question.findIndex(
+                                        (quest: any) => quest.qid === row
+                                      );
+                                      ++index;
+                                      mainQues.question.splice(
+                                        index,
+                                        0,
+                                        insertQuest
+                                      );
+                                    }
+                                  });
+                                }
+                              });
+                            }
+                          }
+                        });
+                      }
+                    });
+                  } else {
+                    this.getAllDatas.forEach((chapter: any) => {
+                      if (chapter && chapter.uniqueid === 'H5') {
+                        chapter.values.forEach((mainQues: any) => {
+                          if (mainQues && mainQues.subheadid === 'SH14') {
+                            this.findResponse = mainQues.question.find(
+                              (quest: any) => quest && quest.qid === row
+                            );
+                            if (this.findResponse) {
+                              insertQuest = { ...this.findResponse };
+                              const tempSubQuestion = insertQuest.subQuestion;
+                              tempSubQuestion.forEach((temp: any) => {
+                                const valuesToCheckDD = [
+                                  'Q341',
+                                  'Q347',
+                                  'Q353',
+                                  'Q359',
+                                  'Q365',
+                                  'Q371',
+                                  'Q377',
+                                  'Q383',
+                                  'Q389',
+                                  'Q395',
+                                  'Q401',
+                                  'Q407',
+                                  'Q413',
+                                  'Q419',
+                                  'Q425',
+                                  'Q431',
+                                  'Q437',
+                                  'Q443',
+                                  'Q449',
+                                  'Q455',
+                                  'Q461',
+                                  'Q467',
+                                  'Q473',
+                                  'Q479',
+                                  'Q485',
+                                  'Q491',
+                                  'Q497',
+                                  'Q503',
+                                  'Q509',
+                                ];
+
+                                if (
+                                  valuesToCheckDD.some((value) =>
+                                    temp.qid.includes(value)
+                                  )
+                                ) {
+                                  this.dynamicForms.controls[
+                                    `${temp.qid}`
+                                  ].patchValue(resultResponse.dropdown);
+                                }
+                                const valuesToCheckDate = [
+                                  'Q342',
+                                  'Q348',
+                                  'Q354',
+                                  'Q360',
+                                  'Q366',
+                                  'Q372',
+                                  'Q378',
+                                  'Q384',
+                                  'Q390',
+                                  'Q396',
+                                  'Q402',
+                                  'Q408',
+                                  'Q414',
+                                  'Q420',
+                                  'Q426',
+                                  'Q432',
+                                  'Q438',
+                                  'Q444',
+                                  'Q450',
+                                  'Q456',
+                                  'Q462',
+                                  'Q468',
+                                  'Q474',
+                                  'Q480',
+                                  'Q486',
+                                  'Q492',
+                                  'Q498',
+                                  'Q504',
+                                  'Q510',
+                                ];
+
+                                if (
+                                  valuesToCheckDate.some((value) =>
+                                    temp.qid.includes(value)
+                                  )
+                                ) {
+                                  this.dynamicForms.controls[
+                                    `${temp.qid}`
+                                  ].patchValue(
+                                    new Date(resultResponse.dateSelection)
+                                  );
+                                }
+                              });
+                            }
+                          }
+                        });
+                      }
+                    });
+                  }
+                }
+                //  else {
+                // }
+              });
+            });
+            tempRowData = [];
+          });
+        }
+      });
     }
 
     event.preventDefault();
     event.stopPropagation();
   }
 
-  manualLookUp() {
-    this.getVesselCertificateLookupDetail();
-    if (this.headerListContainer) {
-      this.headerListContainer = false;
-      this.lookupContainer = true;
-    } else if (this.lookupContainer) {
-      this.headerListContainer = true;
-      this.lookupContainer = false;
-    }
+  manualLookUp(dialogConfig: any) {
+    this.dialog.open(ManualLookUpComponent, dialogConfig);
   }
 
   mocLookUp(dialogConfig: any, quest: any) {
@@ -930,45 +1184,159 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  lookUpDialog(dialogConfig: any, quest: any, mainQuest: any) {
-    const dialogRef = this.dialog.open(LookupDialogComponent, dialogConfig);
+  lookUpDialog(dialogConfig: any, quest: any, mainQuest: any, questionId: any) {
+    const dialogRef = this.dialog.open(LookupDialogComponent, {
+      panelClass: 'lookUp-dialog-container',
+      data: {
+        qid: mainQuest.qid,
+        questionId: questionId,
+        referenceId: this.referenceNumber,
+      },
+    });
     dialogRef.afterClosed().subscribe((result: any) => {
-      const timeDifference =
-        result.visittodate.getTime() - result.visitfromdate.getTime();
-      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
-      if ((mainQuest && mainQuest.qid === 'MQ6') || mainQuest.qid === 'MQ20') {
-        if (mainQuest && mainQuest.qid === 'MQ6') {
-          this.dynamicForms.patchValue({
-            Q8: new Date(result.visitfromdate),
-            Q9: new Date(result.visittodate),
-            Q10: dateCount,
-          });
-        } else if (mainQuest && mainQuest.qid === 'MQ20') {
-          this.dynamicForms.patchValue({
-            Q22: new Date(result.visitfromdate),
-            Q23: new Date(result.visittodate),
-            Q24: dateCount,
-          });
-          if (
-            mainQuest &&
-            (mainQuest.qid === 'MQ6' || mainQuest.qid === 'MQ20')
-          ) {
-            mainQuest.subQuestion.forEach((response: any) => {
-              if (
-                (response && response.qid === 'Q8') ||
-                response.qid === 'Q22'
-              ) {
-                response.answer = result.visitfromdate;
-              } else if (
-                (response && response.qid === 'Q9') ||
-                response.qid === 'Q23'
-              ) {
-                response.answer = result.visittodate;
-              } else if (
-                (response && response.qid === 'Q10') ||
-                response.qid === 'Q24'
-              ) {
-                response.answer = dateCount;
+      if (result) {
+        const payload = {
+          instanceid: this.referenceNumber,
+          questionid: questionId,
+          lookupid: result.refno,
+          lookupjson: '',
+          user: this.userDetails?.userCode,
+        };
+        this.BudgetService.saveLookUp(payload).subscribe((data) => {});
+        const timeDifference = result.auditfromdate
+          ? new Date(result.audittodate).getTime() -
+            new Date(result.auditfromdate).getTime()
+          : new Date(result.actualtodate).getTime() -
+            new Date(result.actualfromdate).getTime();
+
+        const dateCount = timeDifference
+          ? Math.floor(timeDifference / (1000 * 3600 * 24))
+          : 0;
+        if (
+          (mainQuest && mainQuest.qid === 'MQ6') ||
+          mainQuest.qid === 'MQ20'
+        ) {
+          if (mainQuest && mainQuest.qid === 'MQ6') {
+            this.dynamicForms.patchValue({
+              Q8: new Date(result.actualfromdate),
+              Q9: new Date(result.actualtodate),
+              Q10: dateCount,
+            });
+          } else if (mainQuest && mainQuest.qid === 'MQ20') {
+            this.dynamicForms.patchValue({
+              Q22: result.auditfromdate
+                ? new Date(result.auditfromdate)
+                : new Date(result.actualfromdate),
+              Q23: result.audittodate
+                ? new Date(result.audittodate)
+                : new Date(result.actualtodate),
+              Q24: dateCount,
+            });
+            if (
+              mainQuest &&
+              (mainQuest.qid === 'MQ6' || mainQuest.qid === 'MQ20')
+            ) {
+              mainQuest.subQuestion.forEach((response: any) => {
+                if (response && response.qid === 'Q8') {
+                  response.answer = result.actualfromdate;
+                } else if (response && response.qid === 'Q22') {
+                  response.answer = result.auditfromdate
+                    ? result.auditfromdate
+                    : result.actualfromdate;
+                } else if (response && response.qid === 'Q9') {
+                  response.answer = result.actualtodate;
+                } else if (response && response.qid === 'Q23') {
+                  response.answer = result.audittodate
+                    ? result.audittodate
+                    : result.actualtodate;
+                } else if (
+                  (response && response.qid === 'Q10') ||
+                  response.qid === 'Q24'
+                ) {
+                  response.answer = dateCount;
+                }
+                if (response.answer) {
+                  response.inprogress = false;
+                  response.completed = true;
+                } else {
+                  response.inprogress = true;
+                  response.completed = false;
+                }
+              });
+            }
+          }
+        }
+      }
+    });
+  }
+
+  pmsLookup(dialogConfig: any, quest: any, mainQuest: any) {
+    if (mainQuest && mainQuest.qid === 'MQ26') {
+      const dialogRef = this.dialog.open(PmsLookupComponent, {
+        panelClass: 'pmsLookUp-dialog-container',
+        data: 'Cargo Tanks',
+      });
+      dialogRef.afterClosed().subscribe((result: any) => {});
+    } else if (mainQuest && mainQuest.qid === 'MQ29') {
+      const dialogRef = this.dialog.open(PmsLookupComponent, {
+        panelClass: 'pmsLookUp-dialog-container',
+        data: 'Ballast Tanks',
+      });
+      dialogRef.afterClosed().subscribe((result: any) => {});
+    } else {
+      const dialogRef = this.dialog.open(PmsLookupComponent, {
+        panelClass: 'pmsLookUp-dialog-container',
+        data: 'Void Spaces',
+      });
+      dialogRef.afterClosed().subscribe((result: any) => {});
+    }
+  }
+  pscLookUp(dialogConfig: any, quest: any, mainQuest: any, questionId: any) {
+    const dialogRef = this.dialog.open(PscComponent, {
+      panelClass: 'psc-dialog-container',
+      data: {
+        qid: mainQuest.qid,
+        questionId: questionId,
+        referenceId: this.referenceNumber,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        const payload = {
+          instanceid: this.referenceNumber,
+          questionid: questionId,
+          lookupid: result.extrfid,
+          lookupjson: '',
+          user: this.userDetails?.userCode,
+        };
+        this.BudgetService.saveLookUp(payload).subscribe((data) => {});
+        this.dynamicForms.patchValue({
+          Q155: 'Yes',
+          Q156: result.crdate,
+          Q157: 'From Port Master',
+          Q158: result.authoritycode,
+          Q159: '',
+          Q160: result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes',
+          Q161: result.deficiencycount === '1' ? 'Yes' : 'No',
+        });
+        quest.question.forEach((Mquest: any) => {
+          if (Mquest && Mquest.qid === 'MQ154') {
+            Mquest.subQuestion.forEach((response: any) => {
+              if (response && response.qid === 'Q155') {
+                response.answer = 'Yes';
+              } else if (response && response.qid === 'Q156') {
+                response.answer = result.crdate;
+              } else if (response && response.qid === 'Q157') {
+                response.answer = 'From Port Master';
+              } else if (response && response.qid === 'Q158') {
+                response.answer = result.authoritycode;
+              } else if (response && response.qid === 'Q159') {
+                response.answer = '';
+              } else if (response && response.qid === 'Q160') {
+                response.answer =
+                  result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+              } else if (response && response.qid === 'Q161') {
+                response.answer = result.deficiencycount === '1' ? 'Yes' : 'No';
               }
               if (response.answer) {
                 response.inprogress = false;
@@ -979,73 +1347,34 @@ export class PiqReportComponent implements OnInit {
               }
             });
           }
-        }
+        });
       }
     });
   }
 
-  pscLookUp(dialogConfig: any, quest: any) {
-    const dialogRef = this.dialog.open(PscComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((result: any) => {
-      this.dynamicForms.patchValue({
-        Q155: 'Yes',
-        Q156: result.crdate,
-        Q157: 'From Port Master',
-        Q158: result.authoritycode,
-        Q159: '',
-        Q160: result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes',
-        Q161: result.deficiencycount === '1' ? 'Yes' : 'No',
-      });
-      quest.question.forEach((Mquest: any) => {
-        if (Mquest && Mquest.qid === 'MQ154') {
-          Mquest.subQuestion.forEach((response: any) => {
-            if (response && response.qid === 'Q155') {
-              response.answer = 'Yes';
-            } else if (response && response.qid === 'Q156') {
-              response.answer = result.crdate;
-            } else if (response && response.qid === 'Q157') {
-              response.answer = 'From Port Master';
-            } else if (response && response.qid === 'Q158') {
-              response.answer = result.authoritycode;
-            } else if (response && response.qid === 'Q159') {
-              response.answer = '';
-            } else if (response && response.qid === 'Q160') {
-              response.answer = result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
-            } else if (response && response.qid === 'Q161') {
-              response.answer = result.deficiencycount === '1' ? 'Yes' : 'No';
-            }
-            if (response.answer) {
-              response.inprogress = false;
-              response.completed = true;
-            } else {
-              response.inprogress = true;
-              response.completed = false;
-            }
-          });
-        }
-      });
-    });
-  }
-
-  tmsaLookUp(mainQuest: any) {
+  tmsaLookUp(mainQuest: any, questionId: any) {
     const dialogRef = this.dialog.open(TMSAComponent, {
       panelClass: 'tmsa-dialog-container',
-      data:
-        mainQuest.qid === 'MQ97'
-          ? '3.2.1'
-          : mainQuest.qid === 'MQ100'
-          ? '3.2.2'
-          : mainQuest.qid === 'MQ105'
-          ? '3.2.3'
-          : mainQuest.qid === 'MQ111'
-          ? '3.2.4'
-          : mainQuest.qid === 'MQ115'
-          ? '3.2.5'
-          : mainQuest.qid === 'MQ120'
-          ? '3.2.6'
-          : mainQuest.qid === 'MQ125'
-          ? '3.2.7'
-          : '',
+      data: {
+        qid:
+          mainQuest.qid === 'MQ97'
+            ? '3.2.1'
+            : mainQuest.qid === 'MQ100'
+            ? '3.2.2'
+            : mainQuest.qid === 'MQ105'
+            ? '3.2.3'
+            : mainQuest.qid === 'MQ111'
+            ? '3.2.4'
+            : mainQuest.qid === 'MQ115'
+            ? '3.2.5'
+            : mainQuest.qid === 'MQ120'
+            ? '3.2.6'
+            : mainQuest.qid === 'MQ125'
+            ? '3.2.7'
+            : '',
+        questionId: questionId,
+        referenceId: this.referenceNumber,
+      },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (mainQuest && mainQuest.qid === 'MQ115') {
@@ -1419,70 +1748,74 @@ export class PiqReportComponent implements OnInit {
     }
     this.subHeaderCount();
     this.exceptionFn(subQues, mquest, subq);
+    this.dateCount(mquest);
+  }
 
-    if (mquest.qid == 'MQ6') {
-      const getFromDate = this.dynamicForms.value.Q8;
-      const getToDate = this.dynamicForms.value.Q9;
+  dateCount(mquest: any) {
+    if (mquest) {
+      if (mquest.qid == 'MQ6') {
+        const getFromDate = this.dynamicForms.value.Q8;
+        const getToDate = this.dynamicForms.value.Q9;
 
-      if (getFromDate != '' && getToDate != '') {
-        const fromDate = new Date(getFromDate);
-        const toDate = new Date(getToDate);
-        const timeDifference = toDate.getTime() - fromDate.getTime();
-        const daysDifference = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24)
-        );
-        this.dynamicForms.patchValue({ Q10: daysDifference });
-      } else {
-        this.dynamicForms.patchValue({ Q10: 0 });
-      }
-    } else if (mquest.qid == 'MQ20') {
-      const getFromDate = this.dynamicForms.value.Q22;
-      const getToDate = this.dynamicForms.value.Q23;
+        if (getFromDate != '' && getToDate != '') {
+          const fromDate = new Date(getFromDate);
+          const toDate = new Date(getToDate);
+          const timeDifference = toDate.getTime() - fromDate.getTime();
+          const daysDifference = Math.floor(
+            timeDifference / (1000 * 60 * 60 * 24)
+          );
+          this.dynamicForms.patchValue({ Q10: daysDifference });
+        } else {
+          this.dynamicForms.patchValue({ Q10: 0 });
+        }
+      } else if (mquest.qid == 'MQ20') {
+        const getFromDate = this.dynamicForms.value.Q22;
+        const getToDate = this.dynamicForms.value.Q23;
 
-      if (getFromDate != '' && getToDate != '') {
-        const fromDate = new Date(getFromDate);
-        const toDate = new Date(getToDate);
-        const timeDifference = toDate.getTime() - fromDate.getTime();
-        const daysDifference = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24)
-        );
-        this.dynamicForms.patchValue({ Q24: daysDifference });
-      } else {
-        this.dynamicForms.patchValue({ Q24: 0 });
-      }
-    } else if (mquest.qid == 'MQ100') {
-      const getFromDate = this.dynamicForms.value.Q101;
-      const getToDate = this.dynamicForms.value.Q102;
+        if (getFromDate != '' && getToDate != '') {
+          const fromDate = new Date(getFromDate);
+          const toDate = new Date(getToDate);
+          const timeDifference = toDate.getTime() - fromDate.getTime();
+          const daysDifference = Math.floor(
+            timeDifference / (1000 * 60 * 60 * 24)
+          );
+          this.dynamicForms.patchValue({ Q24: daysDifference });
+        } else {
+          this.dynamicForms.patchValue({ Q24: 0 });
+        }
+      } else if (mquest.qid == 'MQ100') {
+        const getFromDate = this.dynamicForms.value.Q101;
+        const getToDate = this.dynamicForms.value.Q102;
 
-      if (getFromDate != '' && getToDate != '') {
-        const fromDate = new Date(getFromDate);
-        const toDate = new Date(getToDate);
-        const timeDifference = toDate.getTime() - fromDate.getTime();
-        const daysDifference = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24)
-        );
-        this.dynamicForms.patchValue({ Q103: daysDifference });
-      } else {
-        this.dynamicForms.patchValue({ Q103: 0 });
-      }
-    } else if (mquest.qid == 'MQ105') {
-      const getFromDate = this.dynamicForms.value.Q107;
-      const getToDate = this.dynamicForms.value.Q108;
+        if (getFromDate != '' && getToDate != '') {
+          const fromDate = new Date(getFromDate);
+          const toDate = new Date(getToDate);
+          const timeDifference = toDate.getTime() - fromDate.getTime();
+          const daysDifference = Math.floor(
+            timeDifference / (1000 * 60 * 60 * 24)
+          );
+          this.dynamicForms.patchValue({ Q103: daysDifference });
+        } else {
+          this.dynamicForms.patchValue({ Q103: 0 });
+        }
+      } else if (mquest.qid == 'MQ105') {
+        const getFromDate = this.dynamicForms.value.Q107;
+        const getToDate = this.dynamicForms.value.Q108;
 
-      if (getFromDate != '' && getToDate != '') {
-        const fromDate = new Date(getFromDate);
-        const toDate = new Date(getToDate);
-        const timeDifference = toDate.getTime() - fromDate.getTime();
-        const daysDifference = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24)
-        );
-        this.dynamicForms.patchValue({ Q109: daysDifference });
-      } else {
-        this.dynamicForms.patchValue({ Q109: 0 });
+        if (getFromDate != '' && getToDate != '') {
+          const fromDate = new Date(getFromDate);
+          const toDate = new Date(getToDate);
+          const timeDifference = toDate.getTime() - fromDate.getTime();
+          const daysDifference = Math.floor(
+            timeDifference / (1000 * 60 * 60 * 24)
+          );
+          this.dynamicForms.patchValue({ Q109: daysDifference });
+        } else {
+          this.dynamicForms.patchValue({ Q109: 0 });
+        }
       }
     }
   }
-
   workSpace() {
     this.showWorkSpace = !this.showWorkSpace;
     const expandIcon = document.getElementById('wrkflIcon');

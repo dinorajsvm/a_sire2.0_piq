@@ -256,8 +256,8 @@ export class PIQSummaryComponent implements OnInit {
             pendingQuestion: answerQuestionCount,
             lastModified: '04-Sep-2023',
           });
-          this.gridApi!.setRowData(this.rowData);
-          this.gridApi.refreshCells();
+          // this.gridApi!.setRowData(this.rowData);
+          // this.gridApi.refreshCells();
         });
       }
     });

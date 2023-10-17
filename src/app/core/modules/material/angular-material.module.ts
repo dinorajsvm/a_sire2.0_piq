@@ -41,7 +41,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
-
+import {MatFormFieldModule} from '@angular/material/form-field';
 @NgModule({
   imports: [
     A11yModule,
@@ -66,6 +66,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatFormFieldModule,
     MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
@@ -104,6 +105,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
     MatCheckboxModule,
     MatChipsModule,
     MatStepperModule,
+    MatFormFieldModule,
     MatDatepickerModule,
     MatDialogModule,
     MatDividerModule,

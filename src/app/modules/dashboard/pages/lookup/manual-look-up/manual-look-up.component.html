@@ -1,0 +1,31 @@
+<div mat-dialog-title>
+  <div class="col-sm-12" style="margin-top: 20px">
+    <div class="row">
+      <div class="col-sm-11">
+        <h3 class="header">Vessel Certificate</h3>
+        <p class="descHeader">(List of vessel certificate for last 18 month)</p>
+      </div>
+
+      <div class="col-sm-1 text-right closeIcn">
+        <mat-icon (click)="onDialogClose()">close</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-dialog-content class="mat-typography">
+  <div class="col-sm-12" style="padding-top: 20px">
+    <div class="row mt-3">
+      <div class="col-sm-12">
+        <ag-grid-angular
+          class="ag-theme-balham"
+          style="height: calc(100vh - 270px)"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          [defaultColDef]="defaultColDef"
+          (gridReady)="onGridReady($event)"
+        >
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

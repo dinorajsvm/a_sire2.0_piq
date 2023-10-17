@@ -20,12 +20,8 @@ export class PrDialogComponent implements OnInit {
     { field: 'createduser', headerName: 'CheckList User' },
     { field: 'lastupdatedate', headerName: 'CheckList Date' },
   ];
-
   rowData: any = [];
-
-  public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
-
   public defaultColDef: any = {
     resizable: true,
     filter: 'agTextColumnFilter',
@@ -40,6 +36,9 @@ export class PrDialogComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
+  ngOnInit(): void {
+    this.getCheckListGridDatas();
+  }
   onDialogClose(): void {
     this.dialogRef.close();
   }
@@ -49,7 +48,6 @@ export class PrDialogComponent implements OnInit {
       chklisttype: 'SAF',
       chklistname: 'PIQ',
     };
-
     this.BudgetService.getPhotoRepGridList(payload).subscribe((res: any) => {
       let obj = res.response;
       this.rowData = obj;
@@ -64,7 +62,6 @@ export class PrDialogComponent implements OnInit {
           const getSelectedCheckList = localStorage.getItem(
             'getSelectedCheckListID'
           );
-
           const getSelectedChecked =
             getSelectedCheckList && getSelectedCheckList.length > 0
               ? JSON.parse(getSelectedCheckList)
@@ -92,7 +89,6 @@ export class PrDialogComponent implements OnInit {
   }
 
   onCloseMarkClick(selectedChckID: any): void {
-    
     const dialogRef = this.dialog.open(ImageConfirmationDialogComponent, {
       panelClass: 'confirm-dialog-container',
     });
@@ -117,8 +113,6 @@ export class PrDialogComponent implements OnInit {
         }
       }
     });
-
-    // Set to null to hide the ul element.
   }
 
   ShowSelectedDatas() {
@@ -128,11 +122,6 @@ export class PrDialogComponent implements OnInit {
   }
 
   onGridReady(params: any) {
-    
     this.gridApi = params.api;
-  }
-
-  ngOnInit(): void {
-    this.getCheckListGridDatas();
   }
 }

@@ -27,10 +27,8 @@ import { NewmericDirective } from './pages/directives/numbers.directives';
 import { TwoDigitDecimaNumberDirective } from './pages/directives/twoDecimal.directives';
 import { OneDigitDecimaNumberDirective } from './pages/directives/oneDecimal.directives';
 import { DigitDirective } from './pages/directives/digit.directives';
-import { DropdownCellRendererComponent } from './pages/renderer/dropdown-renderer.component';
 import { CertificateRepositoryComponent } from './pages/certificate-repository/certificate-repository.component';
 import { ReferenceComponent } from './pages/reference/reference.component';
-import { CustomCertificateDetailsComponent } from './pages/renderer/custom-certificate-details.component';
 import { NameConfirmationDialogComponent } from './pages/name-confirmation-dialog/name-confirmation-dialog.component';
 import { SelectIdDialogComponent } from './pages/select-id-dialog/select-id-dialog.component';
 import { MocComponent } from './pages/lookup/moc/moc.component';
@@ -40,6 +38,11 @@ import { PercentageDirective } from './pages/directives/percentage.directives';
 import { TMSAComponent } from './pages/lookup/tmsa/tmsa.component';
 import { selectSearchPipe } from './services/select-search-filter.pipe';
 
+import { SafetyManagementComponent } from './pages/lookup/safety-management/safety-management.component';
+import { DateRendererComponent } from './pages/renderer/date-renderer.component';
+import { DDCellRendererComponent } from './pages/renderer/dd-renderer.component';
+import { PmsLookupComponent } from './pages/lookup/pms-lookup/pms-lookup.component';
+import { ManualLookUpComponent } from './pages/lookup/manual-look-up/manual-look-up.component';
 
 @NgModule({
   declarations: [
@@ -63,16 +66,19 @@ import { selectSearchPipe } from './services/select-search-filter.pipe';
     OneDigitDecimaNumberDirective,
     DigitDirective,
     PercentageDirective,
-    DropdownCellRendererComponent,
+    DDCellRendererComponent,
     CertificateRepositoryComponent,
     ReferenceComponent,
-    CustomCertificateDetailsComponent,
     NameConfirmationDialogComponent,
     SelectIdDialogComponent,
     MocComponent,
     PscComponent,
     VesselSelectionDialogComponent,
-    TMSAComponent
+    TMSAComponent,
+    SafetyManagementComponent,
+    DateRendererComponent,
+    PmsLookupComponent,
+    ManualLookUpComponent
   ],
   imports: [
     DashboardRoutingModule,
@@ -86,5 +92,8 @@ import { selectSearchPipe } from './services/select-search-filter.pipe';
     AgGridModule,
     FormsModule
   ],
+  exports: [
+    AngularMaterialModule
+  ]
 })
 export class DashboardModule {}

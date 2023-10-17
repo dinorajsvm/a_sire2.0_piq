@@ -7,7 +7,6 @@ import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/i
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import * as JSZip from 'jszip';
-import * as EXIF from 'exif-js';
 import { environment } from 'src/environments/environment';
 import { NameConfirmationDialogComponent } from '../name-confirmation-dialog/name-confirmation-dialog.component';
 import { SelectIdDialogComponent } from '../select-id-dialog/select-id-dialog.component';
@@ -80,7 +79,6 @@ export class PhotoRepositoryComponent implements OnInit {
     this.BudgetService.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
       if (this.getvslCode == undefined || this.getvslCode === '') {
-        console.log('No Vessel Type is Selected');
       } else {
         this.trimmedVslType = this.getvslCode.split(' ')[0];
         if (this.selectedInstanceID == undefined) {
@@ -114,7 +112,6 @@ export class PhotoRepositoryComponent implements OnInit {
         this.getTopicList = mergedImg;
         this.getTopicList.forEach((item: any) => {
           if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
-            console.log('no trimmed value');
           } else {
             this.isVslTypeSame = item.topic.includes(this.trimmedVslType);
           }
@@ -316,7 +313,6 @@ export class PhotoRepositoryComponent implements OnInit {
 
       staticData.forEach((res: any) => {
         if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
-          console.log('no trimmed value');
         } else {
           this.isVslTypeSame = res.topic.includes(this.trimmedVslType);
         }

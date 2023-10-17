@@ -1,0 +1,47 @@
+@import "../../../../../../piq.css";
+::ng-deep .grid-dialog-container ::ng-deep .mat-mdc-dialog-container {
+    width: 100vw !important;
+}
+
+::ng-deep .mat-mdc-dialog-title {
+    margin: 0;
+}
+
+.close_mark {
+    border-radius: 10px;
+    background: #dee1f0;
+    cursor: pointer;
+}
+
+.close.material-icons {
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+}
+
+.CheckID {
+    font-size: 11px;
+    padding-right: 5px;
+}
+
+.closeIcn .mat-icon {
+    cursor: pointer;
+}
+
+.showBtn{
+    background-color: #19c37d;
+    color: white;
+}
+
+.descHeader {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    height: 10px;
+    margin: 5px 0;
+    color: #707171;
+}
+
+.header {
+    margin: 0;
+}

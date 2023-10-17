@@ -1,23 +1,28 @@
 @import "../../../../../../piq.css";
-::ng-deep .lookUp-dialog-container ::ng-deep .mat-mdc-dialog-container {
+::ng-deep .sm-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 100vw !important;
 }
-.toggleHeader {
-  font-size: 12px;
-  margin-bottom: 0px;
-  position: relative;
-  display: inline-block;
-  top: 25px;
-  right: 15px;
+
+::ng-deep .mat-mdc-dialog-content {
+  overflow: hidden;
 }
+
+::ng-deep
+  .sm-dialog-container
+  ::ng-deep
+  .mat-mdc-dialog-container
+  .mdc-dialog__title {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 15px !important;
+  height: fit-content !important;
+  margin-top: 10px;
+}
+
 ::ng-deep .mat-mdc-dialog-title {
   margin: 0;
 }
 
-
-::ng-deep .highlighted-row {
-  background-color: yellow;
-}
 .close_mark {
   border-radius: 10px;
   background: #dee1f0;

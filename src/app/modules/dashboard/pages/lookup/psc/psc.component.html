@@ -7,24 +7,21 @@
       </div>
 
       <div class="col-sm-4 text-right closeIcn">
-        <p class="toggleHeader">Suggested </p>
+        <p class="toggleHeader">Suggested</p>
         <mat-slide-toggle
           class="toggleHeader"
           [(ngModel)]="isChecked"
           (change)="changeToggle($event)"
         ></mat-slide-toggle>
-        <p class="toggleHeader"> All Inspection</p>
+        <p class="toggleHeader">All Inspection</p>
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
     </div>
   </div>
 </div>
 <div mat-dialog-content class="mat-typography">
-  <div class="col-sm-12">
+  <!-- <div class="col-sm-12"> -->
     <div class="row mt-3">
-      <!-- <div class="col-sm-12 text-right mt-2">
-        
-      </div> -->
       <div class="col-sm-12 mt-2">
         <ag-grid-angular
           class="ag-theme-balham"
@@ -32,6 +29,7 @@
           [rowData]="rowData"
           [columnDefs]="columnDefs"
           [rowSelection]="multiRowSelection"
+          [rowClassRules]="rowClassRules"
           [rowMultiSelectWithClick]="true"
           (gridReady)="onGridReady($event)"
           [components]="frameworkComponents"
@@ -39,9 +37,5 @@
         </ag-grid-angular>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
 </div>
-<mat-dialog-actions align="end" style="padding: 8px 15px">
-  <!-- (rowSelected)="onRowSelected($event)" [mat-dialog-close]="true" 
-<button mat-button class="showBtn" (click)="ShowSelectedDatas()">Show</button> -->
-</mat-dialog-actions>

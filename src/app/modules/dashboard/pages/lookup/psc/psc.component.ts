@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ColDef, GridApi } from 'ag-grid-community';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ColDef, GridApi, RowClassRules } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 
@@ -49,15 +53,6 @@ export class PscComponent {
           : '';
       },
     },
-    // {
-    //   field: 'q160',
-    //   headerName: 'Visit Type',
-    //   resizable: true,
-    //   valueGetter: (params) => {
-    //     return params.data.q160 === 'N' ? 'No' : 'Yes';
-    //   },
-    //   flex: 1,
-    // },
     {
       field: 'inspectioncode',
       headerName: 'Type of inspection',
@@ -76,7 +71,7 @@ export class PscComponent {
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
-        return params.data.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+        return params.data.isnon_nc_def_obs === 'Y' ? 'Yes' : 'No';
       },
     },
     {
@@ -102,8 +97,14 @@ export class PscComponent {
     enableRowGroup: true,
     sortable: true,
   };
-
+  public rowClassRules: RowClassRules = {
+    // row style function
+    'highlighted-row': (params) => {
+      return params.data.highlight;
+    },
+  };
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<PscComponent>,
     public dialog: MatDialog,
@@ -131,17 +132,6 @@ export class PscComponent {
     }
   }
 
-  getCheckListGridDatas() {
-    const payload = {
-      chklisttype: 'SAF',
-      chklistname: 'PIQ',
-    };
-    this.BudgetService.getPhotoRepGridList(payload).subscribe((res: any) => {
-      let obj = res.response;
-      this.rowData = obj;
-    });
-  }
-
   onGridReady(params: any) {
     this.gridApi = params.api;
   }
@@ -151,7 +141,10 @@ export class PscComponent {
   }
 
   getPscDetail() {
-    this.BudgetService.getPscDetails().subscribe((data) => {
+    this.BudgetService.getPscDetails('SNDC',
+      this.data.referenceId,
+      this.data.questionId
+    ).subscribe((data) => {
       this.apiResponse = data.response;
       this.rowData = this.apiResponse.PSC;
     });

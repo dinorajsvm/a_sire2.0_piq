@@ -1,29 +1,60 @@
 <div mat-dialog-title>
   <div class="col-sm-12">
-    <div class="row ">
+    <div class="row">
       <div class="col-sm-11">
-        <h3 class="header">Crew Evaluation</h3>
-        <!-- <p class="descHeader">(List of crew evaluation for last 12 months)</p> -->
+        <h3 class="header" *ngIf="isChecked">Internal Audit Report</h3>
+        <h3 class="header" *ngIf="!isChecked && isShowExternal">
+          External Audit Report
+        </h3>
+        <h3 class="header" *ngIf="!isChecked && !isShowExternal">
+          Ship Visit Report
+        </h3>
       </div>
-      <!-- <div class="col-sm-3 text-right closeIcn" style="display: flex;">
-        <p class="toggleHeader">Ship Visit</p>
-        <mat-slide-toggle
-          class="toggleHeader"
-          [(ngModel)]="isChecked"
-          (change)="changeToggle($event)"
-        ></mat-slide-toggle>
-        <p class="toggleHeader">Internal Audit</p>
-      </div> -->
       <div class="col-sm-1 text-right">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-8">
-        <p class="descHeader">(List of crew evaluation for last 12 months)</p>
+        <p class="descHeader" *ngIf="isChecked && data !== '3.2.2'">
+          (List of internal audit for last 12 months)
+        </p>
+        <p class="descHeader" *ngIf="isChecked && data === '3.2.2'">
+          (List of internal audit for last 24 months)
+        </p>
+        <p class="descHeader" *ngIf="!isChecked && isShowExternal">
+          (List of external audit for last 12 months)
+        </p>
+        <p
+          class="descHeader"
+          *ngIf="!isChecked && !isShowExternal && data !== '3.2.2'"
+        >
+          (List of ship visit for last 12 months)
+        </p>
+        <p
+          class="descHeader"
+          *ngIf="!isChecked && !isShowExternal && data === '3.2.2'"
+        >
+          (List of ship visit for last 24 months)
+        </p>
       </div>
       <div class="col-sm-4 text-right">
-        <p class="toggleHeader">Ship Visit</p>
+        <p
+          class="toggleHeader"
+          *ngIf="
+            data === '3.2.1' ||
+            data === '3.2.2' ||
+            data === '3.2.5' ||
+            data === '3.2.6' ||
+            data === '3.2.7'
+          "
+        >
+          Ship Visit
+        </p>
+
+        <p class="toggleHeader" *ngIf="data === '3.2.3' || data === '3.2.4'">
+          External Visit
+        </p>
         <mat-slide-toggle
           class="toggleHeader"
           [(ngModel)]="isChecked"
@@ -36,9 +67,9 @@
 </div>
 
 <mat-dialog-content class="mat-typography">
-  <div class="col-sm-12" >
+  <div class="col-sm-12">
     <div class="row">
-      <div class="col-sm-12" [hidden]="!isChecked">
+      <div class="col-sm-12" *ngIf="isChecked">
         <ag-grid-angular
           #agGrid
           class="ag-theme-balham"
@@ -52,7 +83,7 @@
         >
         </ag-grid-angular>
       </div>
-      <div class="col-sm-12" [hidden]="isChecked">
+      <div class="col-sm-12" *ngIf="!isChecked && !isShowExternal">
         <ag-grid-angular
           #agGrid
           class="ag-theme-balham"
@@ -61,6 +92,20 @@
           enableFilter="true"
           [rowData]="rowShipData"
           [columnDefs]="columnShipDefs"
+          [gridOptions]="gridOptions"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+      </div>
+      <div class="col-sm-12" *ngIf="!isChecked && isShowExternal">
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham"
+          style="height: calc(100vh - 270px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowExternalData"
+          [columnDefs]="columnExternalDefs"
           [gridOptions]="gridOptions"
           [components]="frameworkComponents"
         >

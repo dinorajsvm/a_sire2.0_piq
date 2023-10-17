@@ -212,7 +212,9 @@ export class BudgetService {
       instanceid: refno,
     };
     let ba = this.client
-      .get<any>(`${this.globalUrl}/PIQ/event/getworkflowhistory?instanceid=${refno}`)
+      .get<any>(
+        `${this.globalUrl}/PIQ/event/getworkflowhistory?instanceid=${refno}`
+      )
       .pipe(map((res: any) => res));
     return ba;
   }
@@ -229,7 +231,7 @@ export class BudgetService {
     );
   }
 
-  getVesselNames(companycode:any){
+  getVesselNames(companycode: any) {
     return this.client.get<any>(
       `${this.globalUrl}/PIQ/event/getvesselbycompany?companycode=${companycode}`
     );
@@ -297,9 +299,15 @@ export class BudgetService {
   getPhotoRepData() {
     return this.getPhotoRepList.asObservable();
   }
-  getLookupVisitData(location: any) {
+  getLookupVisitData(location: any, instanceId: any, questionId: any) {
     return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getpiqshipvisitdata?location=${location}`
+      `${this.globalUrl}/PIQ/event/getpiqshipvisitdata?location=${location}&instanceid=${instanceId}&questionid=${questionId}`
+    );
+  }
+
+  getPMSLookupVisitData(companycode: any) {
+    return this.client.get<any>(
+      `${this.globalUrl}/PIQ/event/getpmslookup?companycode=${companycode}`
     );
   }
 
@@ -315,7 +323,6 @@ export class BudgetService {
     );
   }
 
-  // https://mackdevship.solverminds.net/PIQ/event/getreferncetab?vesselcode=VT002&companycode=NYKSG
   getReferenceList(vesselcode: any, companycode: any) {
     return this.client.get<any>(
       `${this.globalUrl}/PIQ/event/getreferncetab?vesselcode=${vesselcode}&companycode=${companycode}`
@@ -417,9 +424,11 @@ export class BudgetService {
       .pipe(map((res: any) => res));
   }
 
-  getPscDetails() {
+  getPscDetails(locationCode: any, instanceId: any, questionId: any) {
     return this.client
-      .get<any>(`${this.globalUrl}/PIQ/event/getextdata`)
+      .get<any>(
+        `${this.globalUrl}/PIQ/event/getextdata?location=${locationCode}&instanceid=${instanceId}&questionid=${questionId}`
+      )
       .pipe(map((res: any) => res));
   }
 
@@ -430,13 +439,19 @@ export class BudgetService {
       )
       .pipe(map((res: any) => res));
   }
-
-  // PIQ/event/getlookup?lookupid=3.2.5&location=sndc
-  get325Lookup(id: any, location: any) {
+//  ?lookupid=5.7.2&location=sndc&questionid&instanceid
+  getLookupDetail(id: any, location: any, questionId: any, instanceId: any) {
     return this.client
       .get<any>(
-        `${this.globalUrl}/PIQ/event/getlookup?lookupid=${id}&location=${location}`
+        `${this.globalUrl}/PIQ/event/getlookup?lookupid=${id}&location=${location}&questionid=${questionId}&instanceid=${instanceId}`
       )
       .pipe(map((res: any) => res));
+  }
+
+  saveLookUp(payload: any) {
+    return this.client.post<any>(
+      `${this.globalUrl}/PIQ/event/savelookupmapping`,
+      payload
+    );
   }
 }
