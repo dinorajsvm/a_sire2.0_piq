@@ -7,6 +7,7 @@ import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/i
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import * as JSZip from 'jszip';
+import * as EXIF from 'exif-js';
 import { environment } from 'src/environments/environment';
 import { NameConfirmationDialogComponent } from '../name-confirmation-dialog/name-confirmation-dialog.component';
 import { SelectIdDialogComponent } from '../select-id-dialog/select-id-dialog.component';
@@ -205,6 +206,7 @@ export class PhotoRepositoryComponent implements OnInit {
     this.getdetails = [];
     this.getImagesCount=[];
     const duplicatedList = this.listDatas;
+    
     duplicatedList.forEach((res: any) => {
       res.subTopics.forEach((sub: any) => {
         this.getImagesCount.push(...sub.imagelist);
@@ -580,6 +582,21 @@ export class PhotoRepositoryComponent implements OnInit {
       this.selectedFile = event.target.files[0];
     }
     if (this.selectedFile) {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        const base64Image = e.target.result;
+        const imgElement = new Image();
+        imgElement.src = base64Image;
+        imgElement.onload = () => {
+          const imageWidth = imgElement.width;
+          const imageHeight = imgElement.height;
+          const imageType = this.selectedFile?.type;
+          const imageSize = this.selectedFile?.size;
+          const fileName = this.selectedFile?.name;
+        };
+      };
+      reader.readAsDataURL(this.selectedFile);
       const files = event.target.files;
       if (this.selectedSubTopic) {
         this.handleFiles(files, this.selectedSubTopic); // Pass the selected subTopic to the handleFiles function
@@ -638,6 +655,7 @@ export class PhotoRepositoryComponent implements OnInit {
         sizeinbytes: data.sizeinbytes,
         sizeinMB: data.sizeinmb,
       });
+      
       const filterInstanceId = this.loadPhotoRep.find(
         (res: any) => res.instanceid == this.getFilteredID
       );

@@ -148,13 +148,13 @@ export class PIQSummaryComponent implements OnInit {
   ];
   certificateColumns: ColDef[] = [
     {
-      field: 'categoryname',
-      headerName: 'Certificate Type',
+      field: 'certifiactetype',
+      headerName: 'OCIMF Certificate Type',
       tooltipField: 'categoryname',
     },
     {
-      field: 'certificatename',
-      headerName: 'Certificate Name',
+      field: 'mackcertificatename',
+      headerName: 'MACK Certificate Name',
       tooltipField: 'certificatename',
     },
     {
@@ -277,7 +277,7 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getImgCount().subscribe((res: any) => {
       this.photoRepImgCounts = res;
     });
-    this.BudgetService.getPrGridData().subscribe((res: any) => {
+    this.BudgetService.getPrGridData().subscribe((res: any) => {   
       this.photoRowData = [];
       this.photoRowData = [...this.photoRowData, ...res];
     });
@@ -286,13 +286,11 @@ export class PIQSummaryComponent implements OnInit {
 
   buildForm() {
     this.autoSaveForm = this.fb.group({
-      dateField: [''],
-      TextAreaField: [''], // Initialize with an initial or default value
+      dateField: ['26/11/2023'],
+      TextAreaField: ['test'], // Initialize with an initial or default value
     });
-
-    
   }
-  onInputBlur(){
+  onInputBlur() {
     this.onFormChanges();
   }
   onDateChange(event: any) {
@@ -302,13 +300,12 @@ export class PIQSummaryComponent implements OnInit {
     );
     this.onFormChanges();
   }
-  onFormChanges() {      
-        this.dateSelected = this.autoSaveForm.controls['dateField'].value;
-        this.quickNotes = this.autoSaveForm.controls['TextAreaField'].value;
-        if (this.dateSelected != null && this.quickNotes != '') {      
-          this.onSubmitQuickNotes();
-        }
-    
+  onFormChanges() {
+    this.dateSelected = this.autoSaveForm.controls['dateField'].value;
+    this.quickNotes = this.autoSaveForm.controls['TextAreaField'].value;
+    if (this.dateSelected != null && this.quickNotes != '') {
+      this.onSubmitQuickNotes();
+    }
   }
   onWorkflow(type?: any) {
     this.getAnswerValue(type);
@@ -363,48 +360,17 @@ export class PIQSummaryComponent implements OnInit {
   }
   certficateGridDatas() {
     this.BudgetService.getCertificateList().subscribe((res: any) => {
-      this.certificateRowData = res.response.piqmappinglist;
-      if (res && res.response && res.response.piqmappinglist) {
-        res.response.piqmappinglist.forEach((data: any) => {
-          if (data.grid === null) {
-            data.grid = [];
-          } else {
-            if (data && data.grid) {
-              let gridResponse = JSON.parse(data.grid);
-              data.grid =
-                gridResponse.Response === 'No data'
-                  ? []
-                  : gridResponse.Response;
-            } else {
-              data.grid = JSON.parse(data.grid);
-            }
-          }
-        });
-      }
-      res.response.piqmappinglist.forEach((ress: any) => {
-        if (!this.isString(ress.grid)) {
-          ress.grid.forEach((response: any, index: any) => {
-            if (index === 0) {
-              (ress.categoryname = response.categoryname),
-                (ress.certificatename = response.certificatename);
-            }
-          });
-        }
-      });
-      this.certificateRowData = res.response.piqmappinglist;
-      const mappingCercodeValues = this.rowData.map(
-        (item) => item.mappingcercode
-      );
-      const filteredMappingCode = mappingCercodeValues.filter(
-        (value) => value !== null
-      );
+      this.certificateRowData =
+        res && res.response && res.response.piqmappinglist
+          ? res.response.piqmappinglist
+          : [];
     });
   }
   isString(input: any): input is string {
     return typeof input === 'string';
   }
   customCrUserValueGetter(params: any) {
-    const certificatename = params.data.certificatename;
+    const certificatename = params.data.mackcertificatename;
     return certificatename ? 'Yes' : 'No';
   }
   onGridReady(params: any) {

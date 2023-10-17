@@ -663,13 +663,43 @@
   opacity: 0.6;
 }
 
+.read-only ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #e0e0e0!important;
+  border-radius: 5px;
+  cursor: not-allowed !important;
+}
+
+.read-only-input ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #e0e0e0!important;
+  cursor: not-allowed !important;
+}
+
+.read-only-input ::ng-deep .mat-mdc-form-field-input-control{
+  cursor: not-allowed !important;
+}
+.read-only ::ng-deep .mat-mdc-form-field-input-control{
+  cursor: not-allowed !important;
+}
+
+.read-only-chip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  cursor: not-allowed !important;
+}
+
 .auto_Field {
   pointer-events: none !important;
+  cursor: not-allowed !important;
 }
 
 .auto_Field ::ng-deep .mat-mdc-text-field-wrapper {
   background: #e3e3e4;
   border-radius: 5px;
+  cursor: not-allowed !important;
 }
 
 .quesCounts {

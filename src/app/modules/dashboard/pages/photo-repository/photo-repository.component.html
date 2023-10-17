@@ -84,7 +84,7 @@
                     </div>
                   </div>
                   <div class="img">
-                    <img [src]="img.filepath? (dynamicImageURL+  img.filepath): img.url" />
+                    <img id="{{ imgIndex }}" [src]="img.filepath? (dynamicImageURL+  img.filepath): img.url" />
                   </div>
                   <div class="img_Size">
                     <span>Size:{{ convertFileSize(img.sizeinbytes) }}</span>
@@ -94,7 +94,7 @@
                       [class.nameHighlight]="img?.formattedName!=img.formattedDefName"
                       (blur)="updateImageName(subHead, imgIndex)" />
                     <span style="font-size: 10px;font-weight: 600;">.{{img.formattedExtension}}</span>
-                    <img src="assets/question/reset-password.svg" class="defaultNameImg"
+                    <img src="assets/question/reset-password.svg" class="defaultNameImg" 
                       (click)="setDefaultName(img, img.defaultImageName,img.formattedDefName)" matTooltip="Set Default Image Name" />
                   </div>
                   <!-- <div class="img_name">
