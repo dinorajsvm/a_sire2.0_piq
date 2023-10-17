@@ -315,10 +315,10 @@
                                                 <input matInput placeholder="Filter" #filterInput
                                                   [readonly]="viewMode" />
                                               </mat-form-field>
-                                              <mat-chip-listbox selectable multiple [formControlName]="subq.qid">
+                                              <mat-chip-listbox  multiple [formControlName]="subq.qid">
                                                 <mat-chip-option
                                                   *ngFor="let selecVal of subq.responsearry | chipFilter : filterInput.value"
-                                                  [value]="selecVal" [ngClass]="{'read-only-chip': viewMode}"
+                                                  [value]="selecVal" [ngClass]="{'read-only-chip': viewMode, 'selected-chip': isOptionSelected(selecVal, subq.answer)}"
                                                   (click)="toggleMultiSelection(subq.qid,selecVal,Mquest,subq,subq.entryorgin,quest)">
                                                   {{ selecVal }}
                                                 </mat-chip-option>
@@ -339,7 +339,7 @@
                                           </mat-datepicker-toggle>
                                           <mat-datepicker #picker></mat-datepicker>
                                         </mat-form-field>
-                                        <mat-icon class="resetIcn" [id]="subq.qid"
+                                        <mat-icon class="resetIcn"  [ngClass]="{'read-only-chip': viewMode}" [id]="subq.qid"
                                           (click)="resetDate($event,subq,quest,Mquest)">
                                           close
                                         </mat-icon>
@@ -456,10 +456,11 @@
                                                 <input matInput placeholder="Filter" #filterInput
                                                   [readonly]="viewMode" />
                                               </mat-form-field>
-                                              <mat-chip-listbox selectable multiple [formControlName]="subq.qid">
+                                              <mat-chip-listbox  multiple [formControlName]="subq.qid">
                                                 <mat-chip-option
                                                   *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
-                                                  [value]="selecVal" [ngClass]="{'read-only-chip': viewMode}"
+                                                  [value]="selecVal" [ngClass]="{'read-only-chip': viewMode, 'selected-chip': isOptionSelected(selecVal, subq.answer)}"
+                                                  
                                                   (click)="toggleMultiSelection(subq.qid,selecVal,Mquest,subq,subq.entryorgin,quest)">
                                                   <span>{{ selecVal }}</span>
                                                 </mat-chip-option>
@@ -480,7 +481,7 @@
                                             [disabled]="viewMode"></mat-datepicker-toggle>
                                           <mat-datepicker #picker></mat-datepicker>
                                         </mat-form-field>
-                                        <mat-icon class="resetIcn" [id]="subq.qid"
+                                        <mat-icon class="resetIcn" [id]="subq.qid" [ngClass]="{'read-only-chip': viewMode}"
                                           (click)="resetDate($event,subq,quest,Mquest)">
                                           close
                                         </mat-icon>
@@ -614,7 +615,7 @@
                                                     <mat-chip-listbox class="value" [formControlName]="subq.qid">
                                                       <mat-chip-option [id]="subq.sid"
                                                         *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
-                                                        class="mat-chip" [ngClass]="{'read-only-chip':viewMode}"
+                                                        class="mat-chip" [ngClass]="{'read-only-chip': viewMode, 'selected-chip': selecVal === subq.answer}"
                                                         [class.selected-chip]="selecVal === subq.answer"
                                                         (click)="toggleSingleSelection(selecVal,quest,allQuestValues,subq,getAllDatas)">
                                                         <span>{{ selecVal }}</span>
@@ -635,10 +636,11 @@
                                                       <input matInput placeholder="Filter" #filterInput
                                                         [readonly]="viewMode" />
                                                     </mat-form-field>
-                                                    <mat-chip-listbox selectable multiple [formControlName]="subq.qid">
+                                                    <mat-chip-listbox  multiple [formControlName]="subq.qid">
                                                       <mat-chip-option
                                                         *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
-                                                        [value]="selecVal" [ngClass]="{'read-only-chip':viewMode}"
+                                                        [value]="selecVal" [ngClass]="{'read-only-chip': viewMode, 'selected-chip': isOptionSelected(selecVal, subq.answer)}"
+                                                        
                                                         (click)="toggleMultiSelection(subq.qid,selecVal,allQuestValues,subq,subq.entryorgin,quest)">
                                                         <span>{{ selecVal }}</span>
                                                       </mat-chip-option>
@@ -659,7 +661,7 @@
                                                   [disabled]="viewMode"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                               </mat-form-field>
-                                              <mat-icon class="resetIcn" [id]="subq.qid"
+                                              <mat-icon class="resetIcn" [id]="subq.qid" [ngClass]="{'read-only-chip': viewMode}"
                                                 (click)="resetDate($event,subq,quest,allQuestValues)">
                                                 close
                                               </mat-icon>
@@ -735,7 +737,7 @@
                                                     <mat-chip-listbox class="value" [formControlName]="subq.qid">
                                                       <mat-chip-option [id]="subq.sid"
                                                         *ngFor="let selecVal of subq.responsearry| chipFilter: filterInput.value"
-                                                        class="mat-chip" [ngClass]="{'read-only-chip':viewMode}"
+                                                        class="mat-chip" [ngClass]="{'read-only-chip': viewMode, 'selected-chip': selecVal === subq.answer}"
                                                         [class.selected-chip]="selecVal === subq.answer"
                                                         (click)="toggleSingleSelection(selecVal,quest,allQuestValues,subq,getAllDatas)">
                                                         <span>{{selecVal}}</span>
@@ -757,10 +759,11 @@
                                                       <input matInput placeholder="Filter" #filterInput
                                                         [readonly]="viewMode" />
                                                     </mat-form-field>
-                                                    <mat-chip-listbox selectable multiple [formControlName]="subq.qid">
+                                                    <mat-chip-listbox  multiple [formControlName]="subq.qid">
                                                       <mat-chip-option
                                                         *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
-                                                        [value]="selecVal" [ngClass]="{'read-only-chip':viewMode}"
+                                                        [value]="selecVal" [ngClass]="{'read-only-chip': viewMode, 'selected-chip': isOptionSelected(selecVal, subq.answer)}"
+                                                        
                                                         (click)="toggleMultiSelection(subq.qid,selecVal,allQuestValues,subq,subq.entryorgin,quest)">
                                                         {{ selecVal }}
                                                       </mat-chip-option>
@@ -780,7 +783,7 @@
                                                   [disabled]="viewMode"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                               </mat-form-field>
-                                              <mat-icon class="resetIcn" [id]="subq.qid"
+                                              <mat-icon class="resetIcn" [id]="subq.qid" [ngClass]="{'read-only-chip': viewMode}"
                                                 (click)="resetDate($event,subq,quest,allQuestValues)">
                                                 close
                                               </mat-icon>

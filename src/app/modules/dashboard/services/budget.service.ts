@@ -27,10 +27,12 @@ export class BudgetService {
   private getModifiedDataList = new Subject<any>();
   private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
   private getExceptionGridDataList = new BehaviorSubject<any>(0);
+  private getImageCount = new BehaviorSubject<any>(0);
   private getPhotoRepList = new BehaviorSubject<any>(0);
   private exceptionList = new Subject<any>();
   private exceptionReset = new Subject<any>();
   private getVslCode = new Subject<any>();
+
   constructor(private client: HttpClient) {}
 
   setEnableViewMode(message: any) {
@@ -39,6 +41,13 @@ export class BudgetService {
 
   getEnableViewMode() {
     return this.getViewMode.asObservable();
+  }
+  setImgCount(message: any) {
+    this.getImageCount.next(message);
+  }
+
+  getImgCount() {
+    return this.getImageCount.asObservable();
   }
 
   GetBudgetRate(stateData: any) {
@@ -296,7 +305,7 @@ export class BudgetService {
 
   getCertificateList() {
     return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getcertificatemapping`
+      `${this.globalUrl}/PIQ/event/getcertificatemapping?companycode=NYKSG&vesselcode=SNDC`
     );
   }
   saveCertificateList(payload: any) {
@@ -346,12 +355,21 @@ export class BudgetService {
     return ba;
   }
 
+
+
   getPRImageName() {
     return this.client
       .get<any>('assets/question/getImageName.json')
       .pipe(map((res: any) => res));
   }
 
+  getPRImagename(companycode:any){
+    return this.client
+      .get<any>(
+        `${this.globalUrl}/PIQ/event/getimagename?companycode=${companycode}`
+      )
+      .pipe(map((res: any) => res));
+  }
   getDefaultImageTemplate() {
     let ba = this.client
       .get<any>(`${this.globalUrl}/PIQ/event/getstaticimagetemplate`)
@@ -383,6 +401,14 @@ export class BudgetService {
       `${this.globalUrl}/PIQ/event/savePIQPhotorepo`,
       payload
     );
+  }
+
+  getSavedPRData(instanceId:any){
+    return this.client
+      .get<any>(
+        `${this.globalUrl}/PIQ/event/getsavedphotorepo?instanceid=${instanceId}`
+      )
+      .pipe(map((res: any) => res));
   }
 
   getMocDetails() {

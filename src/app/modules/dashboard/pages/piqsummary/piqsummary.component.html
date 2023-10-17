@@ -27,7 +27,7 @@
       </div>
     </div> 
   </div>-->
-  <!-- <form [formGroup]="autoSaveForm"> -->
+  <form [formGroup]="autoSaveForm">
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-4 pl-0">
@@ -60,7 +60,7 @@
                     <div class="imgWrap photo">
                       <img src="assets/question/photo.svg" class="dataImg1" />
                     </div>
-                    <span class="count-font-photo">10 /
+                    <span class="count-font-photo">{{photoRepImgCounts}} /
                       {{photoRepCounts}}</span>
                   </div>
                 </mat-card-title>
@@ -139,9 +139,8 @@
                     <span style="font-weight: 500;">Planned Submission Date</span>
                   </div>
                   <div class="col-sm-8">
-                      <mat-form-field appearance="outline" class="datePicker">
-                        <!-- formControlName="dateField" -->
-                        <input matInput [matDatepicker]="picker" 
+                      <mat-form-field appearance="outline"  class="datePicker">
+                        <input matInput [matDatepicker]="picker" formControlName="dateField"
                           (dateInput)="onDateChange($event)" autocomplete="off"  />
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
@@ -190,7 +189,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <textarea id="float-input" autoResize="true" class="w-100" rows="2" #textArea cols="30"
-                  placeholder="Add Remarks" maxlength="1000" [(ngModel)]="remarks"  pInputTextarea></textarea>
+                  placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks"  pInputTextarea></textarea>
               </div>
             </div>
           </div>
@@ -200,8 +199,8 @@
             <span class="p-float-label">
               <span class="table-header">Quick Notes</span>
               <textarea id="float-input" autoResize="true" class="w-100" rows="4" #textArea cols="30"
-                placeholder="Quick notes" maxlength="1000"   [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
-                <!-- formControlName="TextAreaField" -->
+                placeholder="Quick notes" maxlength="1000" formControlName="TextAreaField" (blur)="onInputBlur()" [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
+                
             </span>
             <div class="text-right">
               <span style="font-size: 12px;text-align: right;">
@@ -220,7 +219,7 @@
       </div>
     </div>
   </div>
-<!-- </form> -->
+</form>
 
   <div class="row">
     <div class="col-sm-12">

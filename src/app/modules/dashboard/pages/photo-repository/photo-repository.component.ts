@@ -39,8 +39,8 @@ export class PhotoRepositoryComponent implements OnInit {
   value: any;
   imageNames: any;
   uploadedImgDatas: any[] = [];
-  getdetails:any[]=[]
-  getPRGriddetails:any
+  getdetails: any[] = [];
+  getPRGriddetails: any;
   getFilteredID: any;
   getFilteredSubHeading: any;
   userDetails: any;
@@ -52,6 +52,8 @@ export class PhotoRepositoryComponent implements OnInit {
   getTopicList: any;
   trimmedVslType: any;
   isVslTypeSame!: boolean;
+  companyCode: any;
+  getImagesCount: any;
 
   constructor(
     public dialog: MatDialog,
@@ -59,15 +61,18 @@ export class PhotoRepositoryComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private _storage: StorageService,
-    private _snackBarService: SnackbarService,
+    private _snackBarService: SnackbarService
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
 
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    this.getPrDataLists();
-    this.getImageName();
+    this.companyCode = 'NYKSG';
+    this.getSavedPRData();
+    // this.getPrDataLists();
+    this.getDefaultImageName();
+    // this.getImageName();
     this.getVesselTypeData();
   }
   getVesselTypeData() {
@@ -78,7 +83,8 @@ export class PhotoRepositoryComponent implements OnInit {
       } else {
         this.trimmedVslType = this.getvslCode.split(' ')[0];
         if (this.selectedInstanceID == undefined) {
-          this.getPrDataLists();
+          this.getSavedPRData();
+          // this.getPrDataLists();
         } else {
           this.getPRImgLists();
         }
@@ -98,6 +104,7 @@ export class PhotoRepositoryComponent implements OnInit {
       if (getinstanceID && getinstanceID?.length != 0) {
         this.loadPhotoRep = JSON.parse(res.response);
         this.listDatas = JSON.parse(res.response);
+
         var mergedImg = this.listDatas.reduce(
           (acc, obj) => acc.concat(obj.topiclist),
           []
@@ -111,12 +118,12 @@ export class PhotoRepositoryComponent implements OnInit {
             this.isVslTypeSame = item.topic.includes(this.trimmedVslType);
           }
           if (
-            item.topic === 'Core photograph set' 
-            || this.isVslTypeSame == true
-            ) {
-              getNewData.push(item);
-            }
-          });
+            item.topic === 'Core photograph set' ||
+            this.isVslTypeSame == true
+          ) {
+            getNewData.push(item);
+          }
+        });
         var imageCombined: any = [];
         const groupedData: any = {};
         for (const item of getNewData) {
@@ -125,7 +132,6 @@ export class PhotoRepositoryComponent implements OnInit {
           }
           groupedData[item.topic].push(...item.subTopics);
         }
-        
 
         for (const topic of Object.keys(groupedData)) {
           const mergedObject = {
@@ -134,12 +140,12 @@ export class PhotoRepositoryComponent implements OnInit {
           };
           imageCombined.push(mergedObject);
         }
-       
+
         this.getSubTopicTitle = [];
         imageCombined.forEach((element: any) => {
           element.subTopics.forEach((subtitle: any, index: any) => {
             this.getSubTopicTitle.push(subtitle.subTopicTitle);
-            
+
             const subheader: any = element.subTopics.find(
               (sub: any) => sub.subTopicTitle === subtitle.subTopicTitle
             );
@@ -157,26 +163,26 @@ export class PhotoRepositoryComponent implements OnInit {
         });
         this.subTopicCounts = this.getSubTopicTitle.length;
         this.BudgetService.setPhotoRepData(this.subTopicCounts);
-        
+
         this.listDatas = imageCombined;
         this.imageNames.forEach((data: any) => {
           this.listDatas.forEach((res: any) => {
-            res.subTopics.forEach((sub: any, index: any) => {              
-              if (data.subTopicName === sub.subTopicTitle) {
+            res.subTopics.forEach((sub: any, index: any) => {
+              if (data.subtopic === sub.subTopicTitle) {
                 sub.imagelist.forEach((list: any) => {
-                  const formattedName=list.localfilename.split('.')[0]
-                  const formattedExtension=list.localfilename.split('.')[1]
-                  const formattedDefName=data.imageName.split('.')[0]
-                  list['formattedName']=formattedName;
-                  list['formattedExtension']=formattedExtension;
-                  list['formattedDefName']=formattedDefName;
-                  list['defaultImageName'] = data.imageName;
+                  const formattedName = list.localfilename.split('.')[0];
+                  const formattedExtension = list.localfilename.split('.')[1];
+                  const formattedDefName = data.imagename.split('.')[0];
+                  list['formattedName'] = formattedName;
+                  list['formattedExtension'] = formattedExtension;
+                  list['formattedDefName'] = formattedDefName;
+                  list['defaultImageName'] = data.imagename;
                 });
               }
             });
           });
         });
-        this.createPRDetails()
+        this.createPRDetails();
         this.listDatas.forEach((data) => {
           data.subTopics.forEach((data1: any) => {
             const invalidImg = data1.imagelist.find((x: any) => {
@@ -189,47 +195,54 @@ export class PhotoRepositoryComponent implements OnInit {
           });
         });
       } else {
-        this.getPrDataLists();
+        this.getSavedPRData();
       }
     });
     this.allExpanded = true;
   }
 
   createPRDetails() {
-    this.getdetails=[];
-    const duplicatedList=this.listDatas;
+    this.getdetails = [];
+    this.getImagesCount=[];
+    const duplicatedList = this.listDatas;
     duplicatedList.forEach((res: any) => {
       res.subTopics.forEach((sub: any) => {
-        if(sub.imagelist.length==0){
-          sub['imgAvailable']="No"
-          sub['nameMatch']=""
-        }else{
-          sub['imgAvailable']="Yes"
+        this.getImagesCount.push(...sub.imagelist);
+        if (sub.imagelist.length == 0) {
+          sub['imgAvailable'] = 'No';
+          sub['nameMatch'] = '';
+        } else {
+          sub['imgAvailable'] = 'Yes';
         }
-        sub.imagelist.forEach((img:any)=>{
-          if(img.localfilename===img.defaultImageName){
-            sub['nameMatch']="Yes"
-          }else{
-            sub['nameMatch']="No"
+        sub.imagelist.forEach((img: any) => {
+          if (img.localfilename === img.defaultImageName) {
+            sub['nameMatch'] = 'Yes';
+          } else {
+            sub['nameMatch'] = 'No';
           }
-        })
-      })
-    })
-    this.getdetails=duplicatedList
-    this.getPhotoRepDetails()
+        });
+      });
+    });
+    this.BudgetService.setImgCount(this.getImagesCount.length);
+    this.getdetails = duplicatedList;
+    this.getPhotoRepDetails();
   }
 
-  getPhotoRepDetails(){
-    this.getPRGriddetails=[]
-    this.getdetails.forEach((res:any) => {
-      res.subTopics.forEach((item:any)=>{
-        this.getPRGriddetails.push({subTopicTitle:item.subTopicTitle,photoAvailable:item.imgAvailable,isNotMatching:item.nameMatch})
-      })
-    })
-    this.BudgetService.setPrGridData(this.getPRGriddetails);    
+  getPhotoRepDetails() {
+    this.getPRGriddetails = [];
+    this.getdetails.forEach((res: any) => {
+      res.subTopics.forEach((item: any) => {
+        this.getPRGriddetails.push({
+          subTopicTitle: item.subTopicTitle,
+          photoAvailable: item.imgAvailable,
+          isNotMatching: item.nameMatch,
+        });
+      });
+    });
+    this.BudgetService.setPrGridData(this.getPRGriddetails);
   }
 
-  setDefaultName(img: any, defaultName: string,formattedname:any) {
+  setDefaultName(img: any, defaultName: string, formattedname: any) {
     img.localfilename = defaultName;
     img.formattedName = formattedname;
     this.createPRDetails();
@@ -259,6 +272,40 @@ export class PhotoRepositoryComponent implements OnInit {
       this.imageNames = res;
     });
   }
+  getDefaultImageName() {
+    this.BudgetService.getPRImagename(this.companyCode).subscribe(
+      (res: any) => {
+        if (res && res.Response) {
+          let object = JSON.parse(res.Response);
+          this.imageNames = object;
+        }
+      }
+    );
+  }
+  getSavedPRData() {
+    this.BudgetService.getSavedPRData(this.referenceNumber).subscribe(
+      (res: any) => {
+        let object = res.response;
+        if (res && res.response) {
+          this.getSubTopicTitle = [];
+          object.forEach((item: any) => {
+            let prData = JSON.parse(item.photorepojson);
+            this.listDatas = prData.imagelist;
+            prData.imagelist.forEach((res: any) => {
+              res.subTopics.forEach((val: any) => {
+                this.getSubTopicTitle.push(val.subTopicTitle);
+              });
+            });
+            this.subTopicCounts = this.getSubTopicTitle.length;
+            this.BudgetService.setPhotoRepData(this.subTopicCounts);
+          });
+        } else {
+          this.getPrDataLists();
+        }
+      }
+    );
+    this.allExpanded = true;
+  }
 
   getPrDataLists() {
     this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
@@ -282,6 +329,7 @@ export class PhotoRepositoryComponent implements OnInit {
         });
       });
       this.subTopicCounts = this.getSubTopicTitle.length;
+      
       this.BudgetService.setPhotoRepData(this.subTopicCounts);
       this.subheads.forEach((data) => {
         data.forEach((data1: any) => {
@@ -517,11 +565,12 @@ export class PhotoRepositoryComponent implements OnInit {
     const payload = {
       instanceid: this.referenceNumber,
       usercode: this.userDetails?.userCode,
-      imagelist: this.loadPhotoRep,
+      imagelist: this.listDatas,
     };
     this.BudgetService.savePhotoRep(payload).subscribe((res: any) => {
       const data = res;
-      this._snackBarService.loadSnackBar('Saved Successfully',colorCodes.INFO);
+      this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
+      this.getSavedPRData();
     });
   }
   selectedFile: File | null = null;

@@ -1133,7 +1133,7 @@ legend {
   border-radius: 0px 5px 5px 5px;
   padding: 10px 15px;
   max-height: 270px;
-  width: 200px;
+  width: 250px;
   transition: width 500ms ease-in-out;
   overflow: auto;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

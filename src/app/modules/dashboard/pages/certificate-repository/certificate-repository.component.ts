@@ -1,16 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import {
   ColDef,
   FirstDataRenderedEvent,
-  GridOptions,
   GridReadyEvent,
-  ICellRendererComp,
-  ICellRendererParams,
 } from 'ag-grid-community';
 import { saveAs } from 'file-saver';
 import { LicenseManager } from 'ag-grid-enterprise';
-import { HttpClient } from '@angular/common/http';
 import { IDetailCellRendererParams, IsRowMaster } from 'ag-grid-community';
 import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
@@ -26,30 +22,68 @@ LicenseManager.setLicenseKey(
   styleUrls: ['./certificate-repository.component.css'],
   providers: [DatePipe],
 })
-export class CertificateRepositoryComponent implements OnInit {
+export class CertificateRepositoryComponent {
   dynamicImageURL = `${environment.apiUrl}/`;
   certificateCount: any;
   frameworkComponents: any;
   public isRowMaster: IsRowMaster = (dataItem: any) => {
-    return dataItem ? dataItem.file.length > 0 : false;
+    return dataItem && dataItem.imagelist && dataItem.imagelist.length > 0;
   };
   public columnDefs: ColDef[] = [
     {
-      field: 'categoryname',
-      headerName: 'Certificate Type',
+      field: 'certifiactetype',
+      headerName: 'OCIMF Certificate Type',
       cellRenderer: 'agGroupCellRenderer',
-      flex: 1,
     },
-    { field: 'certificatename', headerName: 'Certificate Name', flex: 1 },
+    {
+      field: 'mackcertificatename',
+      headerName: 'MACK Certificate Name',
+    },
     { field: 'certificatenumber', headerName: 'Certificate Number', flex: 1 },
-    { field: 'dateofissue', headerName: 'Issue Date', flex: 1 },
-    { field: 'validfrom', headerName: 'Expiry Date', flex: 1 },
-    { field: 'validto', headerName: 'Last Annual', flex: 1 },
-    { field: 'validto', headerName: 'Last Intermediate', flex: 1 },
-    { field: 'validto', headerName: 'Date of Endorsement', flex: 1 },
+    {
+      field: 'dateofissue',
+      headerName: 'Issue Date',
+      flex: 1,
+      valueGetter: (params) => {
+        return params.data.dateofissue
+          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+          : '';
+      },
+    },
+    {
+      field: 'validfrom',
+      headerName: 'Valid From',
+      flex: 1,
+      valueGetter: (params) => {
+        return params.data.dateofissue
+          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+          : '';
+      },
+    },
+    {
+      field: 'validto',
+      headerName: 'Valid To',
+      flex: 1,
+      valueGetter: (params) => {
+        return params.data.dateofissue
+          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+          : '';
+      },
+    },
+    {
+      field: 'anniversarydate',
+      headerName: 'Last Annual',
+      flex: 1,
+      valueGetter: (params) => {
+        return params.data.dateofissue
+          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+          : '';
+      },
+    },
+    { field: 'categoryname', headerName: 'Category Name', flex: 1 },
+    { field: 'placeofissue', headerName: 'Place Of Issue', flex: 1 },
   ];
   public defaultColDef: ColDef = {
-    flex: 1,
     resizable: true,
   };
   public detailCellRendererParams: any = {
@@ -60,6 +94,11 @@ export class CertificateRepositoryComponent implements OnInit {
         {
           field: 'filesize',
           headerName: 'File Size',
+          valueGetter: (params) => {
+            return params.data.filesize
+              ? this.convertFileSize(params.data.filesize)
+              : '0 Bytes';
+          },
         },
         {
           headerName: 'Certificate Download',
@@ -69,13 +108,9 @@ export class CertificateRepositoryComponent implements OnInit {
           },
         },
       ],
-      defaultColDef: {
-        flex: 1,
-        resizable: true,
-      },
     },
     getDetailRowData: function (params) {
-      params.successCallback(params.data.file);
+      params.successCallback(params.data.imagelist);
     },
   } as IDetailCellRendererParams<any, any>;
   public rowData!: any[];
@@ -89,64 +124,17 @@ export class CertificateRepositoryComponent implements OnInit {
       buttonRenderer: DownloadBtnRendererComponent,
     };
   }
-  ngOnInit(): void {}
   onFirstDataRendered(params: FirstDataRenderedEvent) {}
   onGridReady(params: GridReadyEvent) {
     this.BudgetService.getCertificateList().subscribe((res: any) => {
       if (res && res.response && res.response.piqmappinglist) {
         res.response.piqmappinglist.forEach((data: any) => {
-          if (data.grid === null) {
-            data.file = [];
-            data.grid = [];
-          } else {
-            if (data && data.grid) {
-              data.file = [];
-              let gridResponse = JSON.parse(data.grid);
-              data.grid =
-                gridResponse.Response === 'No data'
-                  ? []
-                  : gridResponse.Response;
-            } else {
-              data.grid = JSON.parse(data.grid);
-            }
-          }
+          data.imagelist =
+            data && data.imagelist && data.imagelist.length > 0
+              ? data.imagelist
+              : [];
         });
       }
-      res.response.piqmappinglist.forEach((ress: any) => {
-        if (!this.isString(ress.grid)) {
-          ress.grid.forEach((response: any, index: any) => {
-            if (index === 0) {
-              (ress.categoryname = response.categoryname),
-                (ress.certificatenumber = response.certificatenumber),
-                (ress.certificatename = response.certificatename),
-                (ress.dateofissue = this.datePipe.transform(
-                  response.dateofissue,
-                  'dd-MMM-yyyy'
-                )),
-                (ress.validfrom = this.datePipe.transform(
-                  response.validfrom,
-                  'dd-MMM-yyyy'
-                )),
-                (ress.validto = this.datePipe.transform(
-                  response.validto,
-                  'dd-MMM-yyyy'
-                ));
-            }
-            if (
-              response &&
-              response.imagelist &&
-              response.imagelist.length > 0
-            ) {
-              response.imagelist?.forEach((item: any) => {
-                const output_string = item.filepath.replaceAll(/\\/g, '/');
-                (item.filesize = this.convertFileSize(item.filesize)),
-                  (item.filepath = this.dynamicImageURL + output_string);
-                ress.file.push(item);
-              });
-            }
-          });
-        }
-      });
       this.rowData = res.response.piqmappinglist;
       this.totalCertificateCount = this.rowData.length;
       const mappingCercodeValues = this.rowData.map(

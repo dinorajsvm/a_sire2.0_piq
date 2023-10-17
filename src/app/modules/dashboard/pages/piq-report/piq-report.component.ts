@@ -145,14 +145,12 @@ export class PiqReportComponent implements OnInit {
     this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
-    this.edit();
+    
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
     });
 
-    if (this.route.snapshot.paramMap.get('type') == 'view') {
-      this.viewMode = true;
-    }
+    
     this.BudgetService.getPreviousPresetData().subscribe((data: any) => {
       Object.keys(data).forEach((response) => {
         if (this.dynamicForms.controls[response]) {
@@ -312,9 +310,12 @@ export class PiqReportComponent implements OnInit {
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
-      console.log("this.getVesselCode",this.getVesselCode);
       
       this.getStatus = res.wrkflow;
+      this.edit();
+      if (this.route.snapshot.paramMap.get('type') == 'view') {
+        this.viewMode = true;
+      }
       this.getAllDatas = object;
       if (this.getAllDatas) {
         this.selectValue(
@@ -459,7 +460,7 @@ export class PiqReportComponent implements OnInit {
     );
     setTimeout(() => {
       this.scrollToElement(subIndex);
-    }, 500);
+    }, 100);
     this.getQuestionId = [];
     this.selectedQuestion.forEach((item: any) => {
       item.question.filter((val: any) => {
@@ -641,7 +642,11 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  // multiSelectedValue: string[] = [];
+  isOptionSelected(selecVal: any, answer: any): boolean {
+    return answer.includes(selecVal);
+  }
+  
+
   toggleMultiSelection(
     controlname: any,
     value: any,
@@ -650,16 +655,23 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
-    if (entryorgin.answer.includes(value)) {
-      entryorgin.answer = entryorgin.answer.filter(
-        (item: any) => item !== value
-      );
-      this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
+  
+    if (Array.isArray(entryorgin.answer)) {
+      if (entryorgin.answer.includes(value)) {
+        entryorgin.answer = entryorgin.answer.filter(
+          (item: any) => item !== value
+        );
+        this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
+      } else {
+        entryorgin.answer.push(value);
+        this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
+      }
     } else {
-      entryorgin.answer.push(value);
+      entryorgin.answer = [value];
       this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
     }
-    if (entryorgin.answer) {
+  
+    if (entryorgin.answer.length > 0) {
       entryorgin.inprogress = false;
       entryorgin.completed = true;
     } else {
@@ -667,10 +679,11 @@ export class PiqReportComponent implements OnInit {
       entryorgin.completed = false;
     }
     this.selectedValue = quest.subHeaders;
-
+  
     this.subHeaderCount();
     this.exceptionFn(subq, mquest, quest);
   }
+  
 
   toggleSingleSelection(
     value: string,
@@ -1552,7 +1565,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   edit() {
-    if (this.route.snapshot.paramMap.get('type') == 'view') {
+    if (this.route.snapshot.paramMap.get('type') == 'view' && this.getStatus !="Approved") {
       this.viewMode = false;
       this.enableEditMode = false;
     } else {
