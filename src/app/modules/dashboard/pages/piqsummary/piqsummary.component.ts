@@ -352,6 +352,7 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      this.quickNotesInput = res.quicknotes;
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       const data = JSON.parse(res.lastMod);
@@ -384,7 +385,8 @@ export class PIQSummaryComponent implements OnInit {
       (res: any) => {
         this.submitData = res.response.MergedData;
         this.answerDetails = res.response;
-        this.quickNotesInput = this.answerDetails.QuickNotes.Value;
+
+        // this.quickNotesInput = this.answerDetails.QuickNotes.Value;
         const isNotNull = Object.values(this.answerDetails).every(
           (value) => value !== ''
         );
@@ -473,6 +475,7 @@ export class PIQSummaryComponent implements OnInit {
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       let object = JSON.parse(res.response);
+      
       this.getAllDatas = object;
       object.forEach((value1: any) => {
         value1.values.forEach((value: any) => {

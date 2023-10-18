@@ -2,6 +2,11 @@
 ::ng-deep .lookUp-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 100vw !important;
 }
+
+::ng-deep .lookUp-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content{
+  height: calc(100vh - 270px) !important;
+  padding-bottom: 0;
+}
 .toggleHeader {
   font-size: 12px;
   margin-bottom: 0px;

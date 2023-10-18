@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div mat-dialog-content class="mat-typography">
+<div mat-dialog-content class="mat-typography sm-Dailog">
   <div class="col-sm-12 mt-2">
     <mat-tab-group
       [selectedIndex]="selectedIndex"
@@ -25,7 +25,7 @@
         <ag-grid-angular
           #agGrid
           class="ag-theme-balham"
-          style="height: calc(100vh - 270px)"
+          style="height: calc(100vh - 320px)"
           enableSorting="true"
           enableFilter="true"
           [rowData]="rowData"
@@ -38,7 +38,7 @@
       <mat-tab label="Selected incident investigation">
         <ag-grid-angular
           class="ag-theme-balham"
-          style="height: calc(100vh - 312px); font-size: 11px"
+          style="height: calc(100vh - 375px); font-size: 11px"
           [rowData]="selectedRowData"
           [animateRows]="true"
           [suppressMenuHide]="true"

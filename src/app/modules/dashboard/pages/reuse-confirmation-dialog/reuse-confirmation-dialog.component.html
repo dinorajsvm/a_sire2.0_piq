@@ -1,28 +1,21 @@
-<div id="reuseConfirm">
-  <h2 mat-dialog-title>Confirm Action</h2>
-  <div mat-dialog-content>
-      Do you intend to override the previous answer with the current one?
 
-      <hr>
-      <div class="example-header">
-        Selection: {{instanceId}}
-        <span id="selectedRows"></span>
-      </div>
-      <ag-grid-angular
-      class="ag-theme-balham"
-      style="height: calc(100vh - 350px)"
-      [rowData]="rowData"
-      [columnDefs]="columnDefs"
-      [rowSelection]="rowSelection"
-      (selectionChanged)="onSelectionChanged($event)"
-      (gridReady)="onGridReady($event)"
-      [components]="frameworkComponents"
-    >
+  <div mat-dialog-title>
+    <h2>Confirm Action</h2>
+  </div>
+
+  <div mat-dialog-content class="mat-typography">
+    Do you intend to override the previous answer with the current one?
+    <hr>
+    <div class="example-header">
+      Selection: {{instanceId}}
+      <span id="selectedRows"></span>
+    </div>
+    <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 340px)" [rowData]="rowData"
+      [columnDefs]="columnDefs" [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)"
+      (gridReady)="onGridReady($event)" [components]="frameworkComponents">
     </ag-grid-angular>
   </div>
   <div mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>No</button>
-    <button mat-button mat-dialog-close cdkFocusInitial [disabled]="disableBtn" (click)="onSubmit()">Yes</button>
-  </div>
-  </div>
-  
+    <button mat-button mat-dialog-close [disabled]="disableBtn" (click)="onSubmit()">Yes</button>
+  </div>  

@@ -11,12 +11,16 @@
   position: fixed;
   top: 0;
   left: 0;
+  --mat-dialog-transition-duration: none !important;
 }
 
 ::ng-deep .fullscreen-dialog-container ::ng-deep .mat-mdc-dialog-content {
   max-height: none;
   height: calc(100vh - 120px);
   padding: 0;
+}
+::ng-deep .fullscreen-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
+  overflow: hidden !important;
 }
 
 /* .mat-mdc-dialog-title {

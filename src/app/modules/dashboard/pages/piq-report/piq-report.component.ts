@@ -127,6 +127,7 @@ export class PiqReportComponent implements OnInit {
   formattedDate: any = '';
   allExpansionPanelsExpanded = true;
   getVesselCode: any;
+  getExceptionGridData: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -155,7 +156,10 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
     });
-
+    this.BudgetService.getExceptionRowData().subscribe((res: any) => {
+      this.getExceptionGridData=[];
+      this.getExceptionGridData = res;
+    });
     
     this.BudgetService.getPreviousPresetData().subscribe((data: any) => {
       Object.keys(data).forEach((response) => {
@@ -289,6 +293,7 @@ export class PiqReportComponent implements OnInit {
       answerdata: value.value,
       location: this.locationCode,
       mainQuestCheckbox: pendingResult,
+      exceptionjson:this.getExceptionGridData,
       wfaction: '',
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
     };

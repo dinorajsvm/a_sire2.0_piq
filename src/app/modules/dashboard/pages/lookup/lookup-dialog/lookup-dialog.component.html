@@ -1,5 +1,5 @@
 <div mat-dialog-title>
-  <div class="col-sm-12" style="margin-top: 20px">
+  <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-8">
         <h3 class="header" *ngIf="isOnlyShipVisit">Ship Visit Report</h3>
@@ -31,10 +31,10 @@
 </div>
 <mat-dialog-content class="mat-typography">
   <div class="row">
-    <div class="col-sm-12" style="margin-top: 25px" *ngIf="isOnlyShipVisit">
+    <div class="col-sm-12" *ngIf="isOnlyShipVisit" style="padding-top: 10px;">
       <ag-grid-angular
         class="ag-theme-balham"
-        style="height: calc(100vh - 270px)"
+        style="height: calc(100vh - 320px)"
         [rowData]="rowData"
         [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef"
@@ -45,10 +45,10 @@
       >
       </ag-grid-angular>
     </div>
-    <div class="col-sm-12" style="margin-top: 25px" *ngIf="!isOnlyShipVisit">
+    <div class="col-sm-12"  *ngIf="!isOnlyShipVisit" style="padding-top: 10px;">
       <ag-grid-angular
         class="ag-theme-balham"
-        style="height: calc(100vh - 270px)"
+        style="height: calc(100vh - 320px)"
         [rowData]="rowData"
         [columnDefs]="internalColumnDefs"
         [rowClassRules]="rowClassRules"

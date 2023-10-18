@@ -1,19 +1,17 @@
 @import "../../../../../piq.css";
 ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-container {
-    width: 50vw !important;
-    height: 26rem !important;
-    top: 25% !important;
-    left: 25% !important;
-    padding: 0 24px !important;
-  }
-  
-  ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-content {
-    max-height: none;
-    height: calc(100vh - 285px);
-    padding: 0 24px;
-  }
-  
-  
-  ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-actions{
-    min-height: 40px !important;
-  }
+  width: 50vw !important;
+}
+
+::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-content {
+  height: calc(100vh - 270px) !important;
+  padding-bottom: 0;
+}
+
+::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-actions {
+  min-height: 40px !important;
+}
+
+::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
+  overflow: hidden !important;
+}

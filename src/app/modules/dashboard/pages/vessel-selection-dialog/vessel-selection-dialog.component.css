@@ -24,6 +24,10 @@
   font-size: 12px;
 }
 
+::ng-deep .vesselSelection-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
+  overflow: hidden !important;
+}
+
 ::ng-deep .vesselSelection-dialog-container ::ng-deep .mat-mdc-dialog-content {
   max-height: 100px;
   height: 50px;

@@ -8,20 +8,16 @@
   padding: 0 15px !important;
   height: 30px !important;
 } */
-::ng-deep .select-dialog-container ::ng-deep .mat-dialog-container {
+::ng-deep .select-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 25vw !important;
-  height: 30px !important;
-  top: 25% !important;
-  left: 25% !important;
-  padding: 0 24px !important;
 }
 
-::ng-deep .select-dialog-container ::ng-deep .mat-dialog-content {
+/* ::ng-deep .select-dialog-container ::ng-deep .mat-dialog-content {
   max-height: none;
   height: calc(100vh - 515px);
   padding: 0 24px;
   overflow: auto;
-}
+} */
 
 ::ng-deep .select-dialog-container ::ng-deep .mat-dialog-actions {
   min-height: 25px !important;

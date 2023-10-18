@@ -83,16 +83,19 @@ export class ExceptionQuestionComponent implements OnInit {
     this.userDetails = this._storage.getUserDetails();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.BudgetService.getExceptionData().subscribe((data) => {
-      ;
+      
       this.rowData = data;
       // if(this.rowData.length===0){
-      //   this.getRowdataCount=0
-      // }else{
-      //   this.getRowdataCount=this.rowData.length;
-      // }
-      this.getRowdataCount=this.rowData.length;
-      this.BudgetService.setExceptionGridData(this.getRowdataCount);
-      this.gridApi!.setRowData(this.rowData);
+        //   this.getRowdataCount=0
+        // }else{
+          //   this.getRowdataCount=this.rowData.length;
+          // }
+          this.getRowdataCount=this.rowData.length;
+          this.BudgetService.setExceptionGridData(this.getRowdataCount);
+          this.gridApi!.setRowData(this.rowData);
+          if(this.rowData.length!=0){
+            this.BudgetService.setExceptionRowData(this.rowData);
+          }
     });
   }
 

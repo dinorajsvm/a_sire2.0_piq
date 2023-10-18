@@ -22,6 +22,10 @@
   padding: 0 24px;
 }
 
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
+  overflow: hidden !important;
+}
+
 ::ng-deep .confirm-dialog-container ::ng-deep .mdc-dialog__actions {
   padding: 0 5px;
   min-height: 25px;

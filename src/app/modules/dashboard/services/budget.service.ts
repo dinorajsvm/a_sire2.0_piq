@@ -32,6 +32,7 @@ export class BudgetService {
   private exceptionList = new Subject<any>();
   private exceptionReset = new Subject<any>();
   private getVslCode = new Subject<any>();
+  private getExcepData = new Subject<any>();
 
   constructor(private client: HttpClient) {}
 
@@ -257,6 +258,13 @@ export class BudgetService {
 
   getPrGridData() {
     return this.getPhotoRepGridData.asObservable();
+  }
+
+  setExceptionRowData(message: any) {
+    this.getExcepData.next(message);
+  }
+  getExceptionRowData() {
+    return this.getExcepData.asObservable();
   }
 
   setSummaryGridData(message: any) {
