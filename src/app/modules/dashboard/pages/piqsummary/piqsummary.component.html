@@ -153,31 +153,31 @@
                   Re-Use Past Template
                 </button>
                 <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
-                  (click)="onSubmit('syncToStore')">
+                  (click)="onSubmit('syncToStore',$event)">
                   Sync to Shore
                 </button>
                 <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
-                  (click)="onSubmit('syncToStore')">
+                  (click)="onSubmit('syncToStore',$event)">
                   Sync to Ship
                 </button>
                 <div [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
                 <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
                   <button mat-button class="sub"  type="submit" 
-                     (click)="onSubmit('submit')">
+                     (click)="onSubmit('submit',$event)">
                      <!-- [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'sub' : 'disableSyncBtn'" -->
                     Submit
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                 </div>
                 <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
-                  <button mat-button class="rsn" (click)="onWorkflow('reassign')"  type="submit" >
+                  <button mat-button class="rsn" (click)="onWorkflow('reassign',$event)"  type="submit" >
                     <!-- [ngClass]="!disableFlowBtn ? 'rsn' : 'disableSyncBtn'" [disabled]="disableFlowBtn" -->
                     Reassign
                   </button>
                   <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
                 </div>
                 <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
-                  <button mat-button class="apr" (click)="onWorkflow('approve')" type="submit" >
+                  <button mat-button class="apr" (click)="onWorkflow('approve',$event)" type="submit" >
                     <!-- [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'apr' : 'disableSyncBtn'" -->
                     Approve
                   </button>
@@ -189,7 +189,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <textarea id="float-input" autoResize="true" class="w-100" rows="2" #textArea cols="30"
-                  placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks"  pInputTextarea></textarea>
+                  placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" formControlName="wrkFlowTextArea" pInputTextarea></textarea>
               </div>
             </div>
           </div>
@@ -200,7 +200,6 @@
               <span class="table-header">Quick Notes</span>
               <textarea id="float-input" autoResize="true" class="w-100" rows="4" #textArea cols="30"
                 placeholder="Quick notes" maxlength="1000" formControlName="TextAreaField" (blur)="onInputBlur()" [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
-                
             </span>
             <div class="text-right">
               <span style="font-size: 12px;text-align: right;">

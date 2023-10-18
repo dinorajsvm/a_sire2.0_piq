@@ -286,8 +286,10 @@ export class PIQSummaryComponent implements OnInit {
 
   buildForm() {
     this.autoSaveForm = this.fb.group({
-      dateField: ['26/11/2023'],
-      TextAreaField: ['test'], // Initialize with an initial or default value
+      dateField: [''],
+      TextAreaField: [''],
+      wrkFlowTextArea:['']
+       // Initialize with an initial or default value
     });
   }
   onInputBlur() {
@@ -307,7 +309,7 @@ export class PIQSummaryComponent implements OnInit {
       this.onSubmitQuickNotes();
     }
   }
-  onWorkflow(type?: any) {
+  onWorkflow(type?: any,event?:any) {
     this.getAnswerValue(type);
     if (type == 'reassign') {
       this._snackBarService.loadSnackBar(
@@ -320,6 +322,8 @@ export class PIQSummaryComponent implements OnInit {
         colorCodes.INFO
       );
     }
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   getworkflowStatus() {
@@ -441,7 +445,7 @@ export class PIQSummaryComponent implements OnInit {
           };
           this.saveWorkFlowAction(this.setFlowAction);
         } else if (type === 'submit') {
-          if (this.remarks != '') {
+          if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
             this.setFlowAction = 'SUB';
             ansPayload = {
               instanceid: this.referenceNumber,
@@ -491,13 +495,15 @@ export class PIQSummaryComponent implements OnInit {
   submit() {
     this.BudgetService.setEnableViewMode(this.enableViewMode);
   }
-  onSubmit(type: string) {
+  onSubmit(type: string,event:any) {
     this.setFlowAction = '';
     this.getQuestionAnswerDatas(type);
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
     this.BudgetService.setEnableViewMode(this.enableViewMode);
+    event.preventDefault();
+    event.stopPropagation();
   }
   getSSDatas() {
     const payload = {
@@ -562,7 +568,7 @@ export class PIQSummaryComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.instanceId = result;
-        this.onSubmit('reUse');
+        this.onSubmit('reUse',event);
       }
     });
   }
