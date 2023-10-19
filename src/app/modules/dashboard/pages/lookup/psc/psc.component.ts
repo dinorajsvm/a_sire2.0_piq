@@ -101,7 +101,6 @@ export class PscComponent {
     },
   };
   public rowClassRules: RowClassRules = {
-    // row style function
     'highlighted-row': (params) => {
       return params.data.highlight;
     },

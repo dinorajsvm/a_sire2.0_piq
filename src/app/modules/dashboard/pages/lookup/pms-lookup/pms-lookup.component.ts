@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ColDef, GridApi } from 'ag-grid-community';
+import { Component, Inject } from '@angular/core';
+import { ColDef, GridApi, RowClassRules } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -8,13 +8,10 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
-import { DatePipe } from '@angular/common';
-
 @Component({
   selector: 'app-pms-lookup',
   templateUrl: './pms-lookup.component.html',
   styleUrls: ['./pms-lookup.component.css'],
-  providers: [DatePipe],
 })
 export class PmsLookupComponent {
   private gridApi!: GridApi;
@@ -32,6 +29,12 @@ export class PmsLookupComponent {
     {
       field: 'pmsCode',
       headerName: 'PMS Component',
+      flex: 1,
+      resizable: true,
+    },
+    {
+      field: 'compname',
+      headerName: 'Component name',
       flex: 1,
       resizable: true,
     },
@@ -70,13 +73,16 @@ export class PmsLookupComponent {
       return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
     },
   };
-
+  public rowClassRules: RowClassRules = {
+    'highlighted-row': (params) => {
+      return params.data.highlight;
+    },
+  };
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<PmsLookupComponent>,
-    public dialog: MatDialog,
-    private datePipe: DatePipe
+    public dialog: MatDialog
   ) {
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
@@ -102,13 +108,19 @@ export class PmsLookupComponent {
   pmsCode: any;
   getLookUpVisit() {
     const locationCode = localStorage.getItem('locationCode');
-    this.BudgetService.getPMSLookupVisitData('nyksg').subscribe((data) => {
+    this.BudgetService.getPMSLookupVisitData(
+      'nyksg',
+      'sndc',
+      this.data.referenceId,
+      this.data.questionId
+    ).subscribe((data) => {
       const filterResponse = data.Response.find(
-        (x: any) => x.compname === this.data
+        (x: any) => x.compname === this.data.moduleName
       );
       filterResponse.jobList.forEach((res: any) => {
         res.pmsCode = filterResponse.pmscompcode;
       });
+      this.rowData = [];
       this.rowData = filterResponse.jobList;
     });
   }

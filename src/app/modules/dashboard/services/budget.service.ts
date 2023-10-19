@@ -312,10 +312,15 @@ export class BudgetService {
       `${this.globalUrl}/PIQ/event/getpiqshipvisitdata?location=${location}&instanceid=${instanceId}&questionid=${questionId}`
     );
   }
-
-  getPMSLookupVisitData(companycode: any) {
+  // companycode=nyksg&vesselcode=sndc&instanceid=223&questionid=1.23
+  getPMSLookupVisitData(
+    companycode: any,
+    vesselCode: any,
+    instanceId: any,
+    questionId: any
+  ) {
     return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getpmslookup?companycode=${companycode}`
+      `${this.globalUrl}/PIQ/event/getpmslookup?companycode=${companycode}&vesselcode=${vesselCode}&instanceid=${instanceId}&questionid=${questionId}`
     );
   }
 
@@ -370,15 +375,13 @@ export class BudgetService {
     return ba;
   }
 
-
-
   getPRImageName() {
     return this.client
       .get<any>('assets/question/getImageName.json')
       .pipe(map((res: any) => res));
   }
 
-  getPRImagename(companycode:any){
+  getPRImagename(companycode: any) {
     return this.client
       .get<any>(
         `${this.globalUrl}/PIQ/event/getimagename?companycode=${companycode}`
@@ -418,7 +421,7 @@ export class BudgetService {
     );
   }
 
-  getSavedPRData(instanceId:any){
+  getSavedPRData(instanceId: any) {
     return this.client
       .get<any>(
         `${this.globalUrl}/PIQ/event/getsavedphotorepo?instanceid=${instanceId}`
@@ -426,9 +429,11 @@ export class BudgetService {
       .pipe(map((res: any) => res));
   }
 
-  getMocDetails() {
+  getMocDetails(locationCode: any, instanceId: any, questionId: any) {
     return this.client
-      .get<any>(`${this.globalUrl}/PIQ/event/getmocdata`)
+      .get<any>(
+        `${this.globalUrl}/PIQ/event/getmocdata?location=${locationCode}&instanceid=${instanceId}&questionid=${questionId}`
+      )
       .pipe(map((res: any) => res));
   }
 
@@ -447,7 +452,7 @@ export class BudgetService {
       )
       .pipe(map((res: any) => res));
   }
-//  ?lookupid=5.7.2&location=sndc&questionid&instanceid
+  //  ?lookupid=5.7.2&location=sndc&questionid&instanceid
   getLookupDetail(id: any, location: any, questionId: any, instanceId: any) {
     return this.client
       .get<any>(

@@ -3,6 +3,11 @@
     width: 100vw !important;
 }
 
+::ng-deep .highlighted-row {
+    background-color: yellow;
+  }
+  
+
 ::ng-deep .tmsa-dialog-container ::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
     display: flex !important;
     align-items: center !important;
@@ -10,38 +15,9 @@
     height: fit-content !important;
     margin-top: 10px;
   }
-.selectedChkID {
-    border: 1px solid #bdc3c7;
-    
-    border-radius: 5px;
-    padding: 5px;
-    height: 45px;
-    margin: 5px 0px;
-}
 
 ::ng-deep .mat-mdc-dialog-title {
     margin: 0;
-}
-
-.selected_ID_list {
-    display: flex;
-    margin: 0;
-    list-style: none;
-    align-items: center;
-    width: fit-content;
-    border-radius: 5px;
-    padding: 3px;
-    
-}
-
-.selected_ID_value {
-    display: flex;
-    align-items: center;
-    border-radius: 5px;
-    padding: 0px 5px;
-    background: #e0e0e0;
-    border: 3px solid #c1c1c1;
-    margin: 0 2px;
 }
 
 .close_mark {

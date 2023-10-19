@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
 import { ColDef, LicenseManager } from 'ag-grid-enterprise';
 LicenseManager.setLicenseKey(
@@ -12,15 +15,14 @@ LicenseManager.setLicenseKey(
   selector: 'app-moc',
   templateUrl: './moc.component.html',
   styleUrls: ['./moc.component.css'],
-  providers: [DatePipe],
 })
 export class MocComponent {
   frameworkComponents: any;
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<MocComponent>,
-    public dialog: MatDialog,
-    private datePipe: DatePipe
+    public dialog: MatDialog
   ) {
     this.frameworkComponents = {
       checkboxRenderer: AgGridCheckboxComponent,
@@ -37,36 +39,24 @@ export class MocComponent {
       field: 'q136',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
-      cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
-      },
     },
     {
       headerName: '2.5.1.2',
       field: 'q139',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
-      cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
-      },
     },
     {
       headerName: '2.5.1.3',
       field: 'q142',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
-      cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
-      },
     },
     {
       headerName: '2.5.1.4',
       field: 'q145',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
-      cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
-      },
     },
   ];
 
@@ -77,8 +67,6 @@ export class MocComponent {
       params.api.sizeColumnsToFit();
     },
   };
-
-  onBtnClick1(event: any) {}
 
   applyMocDetails() {
     const response: any = [
@@ -107,20 +95,22 @@ export class MocComponent {
           : false,
       },
     ];
-    this.dialogRef.close(response);
+    const responseDetails = {
+      data: response,
+      rowData: this.rowData,
+    };
+    this.dialogRef.close(responseDetails);
   }
   ngOnInit() {
     this.mocDetails();
   }
 
   mocDetails() {
-    this.BudgetService.getMocDetails().subscribe((data) => {
-      data.response.forEach((res: any) => {
-        res.q136 = res.q136 === 'NO' ? false : true;
-        res.q139 = res.q139 === 'NO' ? false : true;
-        res.q142 = res.q142 === 'NO' ? false : true;
-        res.q145 = res.q145 === 'NO' ? false : true;
-      });
+    this.BudgetService.getMocDetails(
+      'SNDC',
+      this.data.referenceId,
+      this.data.questionId
+    ).subscribe((data) => {
       this.rowData = data.response;
     });
   }

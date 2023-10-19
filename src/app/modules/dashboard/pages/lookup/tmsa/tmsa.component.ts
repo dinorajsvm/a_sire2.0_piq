@@ -7,7 +7,12 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import { ColDef, GridApi, LicenseManager } from 'ag-grid-enterprise';
+import {
+  ColDef,
+  GridApi,
+  LicenseManager,
+  RowClassRules,
+} from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
@@ -264,7 +269,11 @@ export class TMSAComponent {
       return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
     },
   };
-
+  public rowClassRules: RowClassRules = {
+    'highlighted-row': (params) => {
+      return params.data.highlight;
+    },
+  };
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
@@ -289,7 +298,7 @@ export class TMSAComponent {
     if (this.isChecked) {
       this.rowData = this.apiResponse.Internal;
     } else {
-      if (this.data === '3.2.3' || this.data === '3.2.4') {
+      if (this.data.qid === '3.2.3' || this.data.qid === '3.2.4') {
         this.isShowExternal = true;
         this.rowExternalData = this.apiResponse.External;
       } else {
