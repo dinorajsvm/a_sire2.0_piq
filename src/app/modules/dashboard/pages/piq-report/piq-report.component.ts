@@ -244,6 +244,7 @@ export class PiqReportComponent implements OnInit {
       instanceid: this.referenceNumber,
       user: this.userDetails.userCode,
       rank: this.userDetails.userData.mdata.appInfo.rankCode,
+      vesselcode: this.getVesselCode,
       remarks: '',
     };
 

@@ -225,6 +225,8 @@ export class PIQSummaryComponent implements OnInit {
       this.certficateGridDatas();
       if (res) {
         res.forEach((data: any) => {
+          console.log("pending",res);
+          
           let questions: any[] = [];
           let questions1: any[] = [];
           let filledQuestionCount = 0;
@@ -355,8 +357,12 @@ export class PIQSummaryComponent implements OnInit {
     const payload = {
       instanceid: this.referenceNumber,
     };
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      this.quickNotesInput = res.quicknotes;
+    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {   
+      if(res.quicknotes==="null"){
+        this.quickNotesInput = "";
+      }else{
+        this.quickNotesInput = res.quicknotes;
+      }
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       const data = JSON.parse(res.lastMod);
@@ -574,14 +580,19 @@ export class PIQSummaryComponent implements OnInit {
   }
   saveMethodCall(ansPayload: any, type?: any) {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
-      if (type === 'syncToStore') {
+      if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
         this._snackBarService.loadSnackBar(
-          'Synced to Shore Successfully.',
+          'Synced to Shore Successfully',
           colorCodes.INFO
         );
-      } else if (type === 'submit') {
+      } else if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT001') {
         this._snackBarService.loadSnackBar(
-          'Submitted Successfully.',
+          'Synced to Ship Successfully',
+          colorCodes.INFO
+        );
+      }else if (type === 'submit') {
+        this._snackBarService.loadSnackBar(
+          'Submitted Successfully',
           colorCodes.INFO
         );
       }
