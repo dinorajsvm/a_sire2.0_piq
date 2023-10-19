@@ -28,6 +28,9 @@ export class PrDialogComponent implements OnInit {
     floatingFilter: true,
     enableRowGroup: true,
     sortable: true,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    },
   };
 
   constructor(

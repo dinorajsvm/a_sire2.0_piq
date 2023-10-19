@@ -195,6 +195,9 @@ export class MasterScreenComponent implements OnInit {
     enableRowGroup: true,
     sortable: true,
     flex: 1,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    },
     
   };
   public gridOptions: GridOptions = {

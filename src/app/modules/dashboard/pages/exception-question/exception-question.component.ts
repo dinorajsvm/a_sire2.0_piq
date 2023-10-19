@@ -67,6 +67,11 @@ export class ExceptionQuestionComponent implements OnInit {
     editable: true,
     resizable: true,
     filter: true,
+    enableRowGroup: true,
+    floatingFilter: true,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    },
   };
   constructor(
     private BudgetService: BudgetService,

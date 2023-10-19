@@ -85,6 +85,13 @@ export class CertificateRepositoryComponent {
   ];
   public defaultColDef: ColDef = {
     resizable: true,
+    enableRowGroup: true,
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    floatingFilter: true,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    },
   };
   public detailCellRendererParams: any = {
     detailGridOptions: {

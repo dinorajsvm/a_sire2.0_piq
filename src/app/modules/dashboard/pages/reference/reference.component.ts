@@ -48,6 +48,9 @@ export class ReferenceComponent implements OnInit {
     resizable: true,
     enableRowGroup: true,
     sortable: true,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    },
   };
 
   public gridOptions: GridOptions = {};

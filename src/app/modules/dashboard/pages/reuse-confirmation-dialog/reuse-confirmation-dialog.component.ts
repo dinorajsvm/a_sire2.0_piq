@@ -29,6 +29,14 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   public defaultColDef: any = {
     flex: 1,
     minWidth: 100,
+    resizable: true,
+    enableRowGroup: true,
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    floatingFilter: true,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    },
   };
 
   constructor(

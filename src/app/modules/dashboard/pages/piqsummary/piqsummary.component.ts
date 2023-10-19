@@ -67,6 +67,9 @@ export class PIQSummaryComponent implements OnInit {
     filter: 'agTextColumnFilter',
     floatingFilter: true,
     tooltipComponent: agGridTooltipComponent,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    },
   };
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;

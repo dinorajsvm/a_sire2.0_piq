@@ -185,6 +185,10 @@ export class LookupDialogComponent implements OnInit {
     filter: 'agTextColumnFilter',
     floatingFilter: true,
     sortable: true,
+    enableRowGroup: true,
+    cellStyle: (params: any) => {
+      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
+    }
   };
   public rowClassRules: RowClassRules = {
     // row style function
