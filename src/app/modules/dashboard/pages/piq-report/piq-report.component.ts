@@ -5,6 +5,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
 import { FormControl, FormGroup } from '@angular/forms';
 import 'ag-grid-enterprise';
 import { LicenseManager } from 'ag-grid-enterprise';
@@ -853,6 +854,8 @@ export class PiqReportComponent implements OnInit {
   }
 
   findResponse: any;
+  qids: any[] = [];
+  tempDatas: any[] = [];
 
   openLookUp(event: any, quest: any, mainQuest?: any) {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
@@ -939,7 +942,9 @@ export class PiqReportComponent implements OnInit {
             'MQ505',
           ];
           let insertQuest: any;
+          let arrayObj: any[] = [];
           let tempRowData: any[] = [];
+          let modifiedSubQuestion: any;
           rowKeys.forEach((row) => {
             result.forEach((resultResponse: any, indexValue: any) => {
               const trueValueKeys = Object.keys(resultResponse).filter(
@@ -958,192 +963,77 @@ export class PiqReportComponent implements OnInit {
                               (quest: any) => quest && quest.qid === row
                             );
                             if (this.findResponse) {
-                              insertQuest = { ...this.findResponse };
-
-                              const splitMValue = insertQuest.qid.split('_');
-                              const lastIndexMValue =
-                                splitMValue[splitMValue.length - 1];
-                              insertQuest.qid =
-                                'D' + indexValue + '_' + lastIndexMValue;
+                              const insertQuest = { ...this.findResponse };
                               insertQuest.mainQuestion = resultResponse.ivrid;
                               insertQuest.entrymethod = '';
 
-                              const tempSubQuestion = insertQuest.subQuestion;
-                              let obj: any = {}
-                              tempSubQuestion.forEach((temp: any) => {
-                                const splitValue = temp.qid.split('_');
-                                const lastIndexValue =
-                                  splitValue[splitValue.length - 1];
-
-                                const controlName =
-                                  'D' + indexValue + '_' + lastIndexValue;
-                                temp.qid = controlName;
+                              let obj: any = {};
+                              modifiedSubQuestion = insertQuest.subQuestion.map(
+                                (dsd: any) => ({
+                                  ...dsd,
+                                  qid: 'D' + indexValue + '_' + dsd.qid,
+                                })
+                              );
+                              modifiedSubQuestion.forEach((modData: any) => {
                                 this.dynamicForms.addControl(
-                                  controlName,
+                                  modData.qid,
                                   new FormControl('')
                                 );
-                                obj[`${controlName}`] = ''
-                                // const requestBody = {
-                                //   [`${controlName}`]: {
-                                //     [`${temp.qid}`]: '',
-                                //   },
-                                // };  
-                                // const requestBody = {
-                                //   [`${resultResponse.ivrid}`]: {
-                                //     [`${temp.qid}`]: '',
-                                //   },
-                                // };
+                                obj[`${modData.qid}`] = '';
+                              });
 
-                                // if (insertQuest.subQuestion[3].qid) {
+                              insertQuest.subQuestion = modifiedSubQuestion;
 
-                                //   this.dynamicForms.controls[
-                                //     `${insertQuest.subQuestion[3].qid}`
-                                //   ].patchValue(resultResponse.dropdown);
-                                // }
+                              if (insertQuest.subQuestion[3].qid) {
+                                this.dynamicForms.controls[
+                                  `${insertQuest.subQuestion[3].qid}`
+                                ].patchValue(resultResponse.dropdown);
+                              }
 
-                                // if (insertQuest.subQuestion[4].qid) {
-                                //   // console.log(
-                                //   //   insertQuest.subQuestion[4].qid,
-                                //   //   '444444'
-                                //   // );
-
-                                //   this.dynamicForms.controls[
-                                //     `${insertQuest.subQuestion[4].qid}`
-                                //   ].patchValue(
-                                //     new Date(resultResponse.dateSelection)
-                                //   );
-                                // }
-                                const elementId = document.getElementById(
-                                  temp.qid
+                              if (insertQuest.subQuestion[4].qid) {
+                                this.dynamicForms.controls[
+                                  `${insertQuest.subQuestion[4].qid}`
+                                ].patchValue(
+                                  new Date(resultResponse.dateSelection)
                                 );
-                                elementId?.focus();
-                              });
-                              console.log(obj, 'names');
+                              }
 
-                            }
-                            if (insertQuest) {
-                              this.getAllDatas.forEach((chapter: any) => {
-                                if (chapter && chapter.uniqueid === 'H5') {
-                                  chapter.values.forEach((mainQues: any) => {
-                                    if (
-                                      mainQues &&
-                                      mainQues.subheadid === 'SH14'
-                                    ) {
-                                      let index = mainQues.question.findIndex(
-                                        (quest: any) => quest.qid === row
-                                      );
-                                      ++index;
-                                      mainQues.question.splice(
-                                        index,
-                                        0,
-                                        insertQuest
-                                      );
-                                    }
-                                  });
-                                }
-                              });
-                            }
-                          }
-                        });
-                      }
-                    });
-                  } else {
-                    this.getAllDatas.forEach((chapter: any) => {
-                      if (chapter && chapter.uniqueid === 'H5') {
-                        chapter.values.forEach((mainQues: any) => {
-                          if (mainQues && mainQues.subheadid === 'SH14') {
-                            this.findResponse = mainQues.question.find(
-                              (quest: any) => quest && quest.qid === row
-                            );
-                            if (this.findResponse) {
-                              insertQuest = { ...this.findResponse };
-                              const tempSubQuestion = insertQuest.subQuestion;
-                              tempSubQuestion.forEach((temp: any) => {
-                                const valuesToCheckDD = [
-                                  'Q341',
-                                  'Q347',
-                                  'Q353',
-                                  'Q359',
-                                  'Q365',
-                                  'Q371',
-                                  'Q377',
-                                  'Q383',
-                                  'Q389',
-                                  'Q395',
-                                  'Q401',
-                                  'Q407',
-                                  'Q413',
-                                  'Q419',
-                                  'Q425',
-                                  'Q431',
-                                  'Q437',
-                                  'Q443',
-                                  'Q449',
-                                  'Q455',
-                                  'Q461',
-                                  'Q467',
-                                  'Q473',
-                                  'Q479',
-                                  'Q485',
-                                  'Q491',
-                                  'Q497',
-                                  'Q503',
-                                  'Q509',
-                                ];
+                              const keys = Object.keys(obj);
+                              if (keys && keys.length >= 4) {
+                                let fourthKey = keys[3]; // Index 3 corresponds to the fourth key
+                                let fifthKey = keys[4];
+                                obj[fourthKey] = resultResponse.dropdown;
+                                obj[fifthKey] = new Date(
+                                  resultResponse.dateSelection
+                                );
+                              }
 
-                                if (
-                                  valuesToCheckDD.some((value) =>
-                                    temp.qid.includes(value)
-                                  )
-                                ) {
-                                  this.dynamicForms.controls[
-                                    `${temp.qid}`
-                                  ].patchValue(resultResponse.dropdown);
-                                }
-                                const valuesToCheckDate = [
-                                  'Q342',
-                                  'Q348',
-                                  'Q354',
-                                  'Q360',
-                                  'Q366',
-                                  'Q372',
-                                  'Q378',
-                                  'Q384',
-                                  'Q390',
-                                  'Q396',
-                                  'Q402',
-                                  'Q408',
-                                  'Q414',
-                                  'Q420',
-                                  'Q426',
-                                  'Q432',
-                                  'Q438',
-                                  'Q444',
-                                  'Q450',
-                                  'Q456',
-                                  'Q462',
-                                  'Q468',
-                                  'Q474',
-                                  'Q480',
-                                  'Q486',
-                                  'Q492',
-                                  'Q498',
-                                  'Q504',
-                                  'Q510',
-                                ];
+                              arrayObj.push(obj);
+                              
+                              // this.tempDatas.push(insertQuest.subQuestion);
+                              if (insertQuest) {
+                                this.getAllDatas.forEach((chapter: any) => {
+                                  if (chapter && chapter.uniqueid === 'H5') {
+                                    chapter.values.forEach((mainQues: any) => {
+                                      if (
+                                        mainQues &&
+                                        mainQues.subheadid === 'SH14'
+                                      ) {
+                                        let index = mainQues.question.findIndex(
+                                          (quest: any) => quest.qid === row
+                                        );
+                                        ++index;
+                                        mainQues.question.splice(
+                                          index,
+                                          0,
+                                          insertQuest
+                                        );
+                                      }
+                                    });
+                                  }
+                                });
+                              }
 
-                                if (
-                                  valuesToCheckDate.some((value) =>
-                                    temp.qid.includes(value)
-                                  )
-                                ) {
-                                  this.dynamicForms.controls[
-                                    `${temp.qid}`
-                                  ].patchValue(
-                                    new Date(resultResponse.dateSelection)
-                                  );
-                                }
-                              });
                             }
                           }
                         });
@@ -1151,10 +1041,60 @@ export class PiqReportComponent implements OnInit {
                     });
                   }
                 }
-                //  else {
-                // }
               });
             });
+
+            // tempRowData.forEach((tempRD, indexRD) => {
+            //   if (indexRD > 0) {
+            //     const filterChapter = this.getAllDatas
+            //       .find((chapter: any) => chapter.uniqueid === 'H5')
+            //       .values.find(
+            //         (mainQuest: any) => mainQuest.subheadid === 'SH14'
+            //       )
+            //       .question.find((quest: any) => quest.qid === row);
+            //     const copyChapter = { ...filterChapter };
+            //     insertQuest.push(copyChapter);
+            //   }
+            // });
+
+            // const modify = insertQuest.map((res, ijk) => ({
+            //   ...res,
+            //   subQuestion: this.lastModified(res, ijk),
+            // }));
+            // console.log(modify, 'modifiedInsertQuest');
+
+            // if (modify) {
+            //   modify.forEach((mock) => {
+            //     this.getAllDatas.forEach((chapter: any) => {
+            //       if (chapter && chapter.uniqueid === 'H5') {
+            //         chapter.values.forEach((mainQues: any) => {
+            //           if (mainQues && mainQues.subheadid === 'SH14') {
+            //             let index = mainQues.question.findIndex(
+            //               (quest: any) => quest.qid === row
+            //             );
+            //             ++index;
+            //             mainQues.question.splice(index, 0, mock);
+            //           }
+            //         });
+            //       }
+            //     });
+            //   });
+
+            //   // this.getAllDatas
+            //   //     .find((chapter: any) => chapter.uniqueid === 'H5')
+            //   //     .values.find(
+            //   //       (mainQuest: any) => mainQuest.subheadid === 'SH14'
+            //   //     )
+            //   //     .question.splice(findLindex, 0, modify);
+            //   // let findLindex = this.getAllDatas
+            //   //   .find((chapter: any) => chapter.uniqueid === 'H5')
+            //   //   .values.find((mainQuest: any) => mainQuest.subheadid === 'SH14')
+            //   //   .question.findIndex((quest: any) => quest.qid === row);
+            //   // ++findLindex;
+            // }
+
+            // console.log(this.getAllDatas, 'All Data');
+
             tempRowData = [];
           });
         }
@@ -1163,6 +1103,21 @@ export class PiqReportComponent implements OnInit {
 
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  // lastModifxied(res: any, ijk: any) {
+  //   return res.subQuestion.map((dsd: any) => ({
+  //     ...dsd,
+  //     qid: 'D' + ijk + '_' + dsd.qid,
+  //   }));
+  // }
+
+  lastModified(res: any, ijk: any) {
+    const modifiedSubQuestion = res.subQuestion.map((dsd: any) => ({
+      ...dsd,
+      qid: 'D' + ijk + '_' + dsd.qid,
+    }));
+    return modifiedSubQuestion;
   }
 
   manualLookUp(dialogConfig: any) {
@@ -1178,7 +1133,6 @@ export class PiqReportComponent implements OnInit {
       },
     });
     mocDialog.afterClosed().subscribe((result: any) => {
-      console.log(result, 'result');
       if (result) {
         let payloadDetails: any[] = [];
 
@@ -1201,8 +1155,6 @@ export class PiqReportComponent implements OnInit {
           lookupjson: payloadDetails,
           user: this.userDetails?.userCode,
         };
-        console.log(payloadDetails, 'payloadDetails');
-
         this.BudgetService.saveLookUp(payload).subscribe((data) => {});
         quest.question.forEach((Mquest: any) => {
           Mquest.subQuestion.forEach((response: any) => {
@@ -1652,8 +1604,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   mq105LookUp(mainQuest: any, result: any, questionId: any) {
-    console.log(result, 'result');
-
     if (result && result.hasOwnProperty('actualfromdate')) {
       const payload = {
         instanceid: this.referenceNumber,

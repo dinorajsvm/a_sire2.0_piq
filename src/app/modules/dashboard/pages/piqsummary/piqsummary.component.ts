@@ -228,8 +228,6 @@ export class PIQSummaryComponent implements OnInit {
       this.certficateGridDatas();
       if (res) {
         res.forEach((data: any) => {
-          console.log("pending",res);
-          
           let questions: any[] = [];
           let questions1: any[] = [];
           let filledQuestionCount = 0;
