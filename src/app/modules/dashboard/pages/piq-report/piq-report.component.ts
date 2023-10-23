@@ -5,7 +5,6 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { FormControl, FormGroup } from '@angular/forms';
 import 'ag-grid-enterprise';
 import { LicenseManager } from 'ag-grid-enterprise';
