@@ -10,7 +10,7 @@ import { LicenseManager } from 'ag-grid-enterprise';
 import { IDetailCellRendererParams, IsRowMaster } from 'ag-grid-community';
 import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
-import { colorCodes } from 'src/app/core/constants';
+import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 LicenseManager.setLicenseKey(
@@ -83,16 +83,7 @@ export class CertificateRepositoryComponent {
     { field: 'categoryname', headerName: 'Category Name', flex: 1 },
     { field: 'placeofissue', headerName: 'Place Of Issue', flex: 1 },
   ];
-  public defaultColDef: ColDef = {
-    resizable: true,
-    enableRowGroup: true,
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
   public detailCellRendererParams: any = {
     detailGridOptions: {
       columnDefs: [

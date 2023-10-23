@@ -10,15 +10,18 @@
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
     </div>
+  </div>
+</div>
 
     <mat-dialog-content class="mat-typography">
       <div class="col-sm-12">
         <ag-grid-angular
           class="ag-theme-balham"
-          style="height: calc(100vh - 320px)"
+          style="height: calc(100vh - 270px)"
           [rowData]="rowData"
           [columnDefs]="columnDefs"
           [rowSelection]="multiRowSelection"
+          [defaultColDef]="defaultColDef"
           [rowClassRules]="rowClassRules"
           [rowMultiSelectWithClick]="true"
           (gridReady)="onGridReady($event)"
@@ -27,5 +30,5 @@
         </ag-grid-angular>
       </div>
     </mat-dialog-content>
-  </div>
-</div>
+  
+

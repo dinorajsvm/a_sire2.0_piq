@@ -14,6 +14,7 @@ import {
   RowClassRules,
 } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
+import { DefaultColDef } from 'src/app/core/constants';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -259,16 +260,7 @@ export class TMSAComponent {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
-  public defaultColDef: any = {
-    resizable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    enableRowGroup: true,
-    sortable: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

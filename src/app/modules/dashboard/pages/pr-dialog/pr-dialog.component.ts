@@ -4,6 +4,7 @@ import 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
+import { DefaultColDef } from 'src/app/core/constants';
 
 @Component({
   selector: 'app-pr-dialog',
@@ -22,16 +23,7 @@ export class PrDialogComponent implements OnInit {
   ];
   rowData: any = [];
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
-  public defaultColDef: any = {
-    resizable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    enableRowGroup: true,
-    sortable: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
 
   constructor(
     private BudgetService: BudgetService,

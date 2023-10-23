@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-11">
         <h3 class="header">MOC Report</h3>
-        <p class="descHeader">(List of Moc for last 12 months)</p>
+        <p class="descHeader">(List of Moc Report for last 12 months)</p>
       </div>
 
       <div class="col-sm-1 text-right closeIcn">
@@ -20,10 +20,11 @@
         <ag-grid-angular
           #agGrid
           class="ag-theme-balham"
-          style="height: calc(100vh - 320px)"
+          style="height: calc(100vh - 270px)"
           enableSorting="true"
           enableFilter="true"
           [rowData]="rowData"
+          [defaultColDef]="defaultColDef"
           [columnDefs]="columnDefs"
           [gridOptions]="gridOptions"
           [components]="frameworkComponents"

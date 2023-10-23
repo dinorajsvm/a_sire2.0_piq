@@ -8,6 +8,7 @@ import {
 } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
 import { ColDef, LicenseManager } from 'ag-grid-enterprise';
+import { DefaultColDef } from 'src/app/core/constants';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -59,6 +60,8 @@ export class MocComponent {
       cellRenderer: 'checkboxRenderer',
     },
   ];
+
+  defaultColDef = DefaultColDef
 
   rowData = [];
 

@@ -3,7 +3,7 @@ import { ColDef, GridApi, GridOptions } from 'ag-grid-community';
 import { BudgetService } from '../../services/budget.service';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-import { colorCodes } from 'src/app/core/constants';
+import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
@@ -19,7 +19,6 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: ['l'],
@@ -60,53 +59,45 @@ export class PIQSummaryComponent implements OnInit {
   pendingCount = 0;
   photoRowData: any[] = [];
   private gridApi!: GridApi;
-  public defaultColDef: any = {
-    resizable: true,
-    enableRowGroup: true,
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    tooltipComponent: agGridTooltipComponent,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
+
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;
   public gridOptions: GridOptions = {};
   columnDefs: ColDef[] = [
     // { field: 'serialNumber', headerName: 'S.No', width: 70 },
-    { field: 'topics', headerName: 'Header Topics', width: 300 },
+    { field: 'topics', headerName: 'Header Topics', width: 300,flex:1 },
     { field: 'status', headerName: 'Status' },
-    { field: 'totalQuestion', headerName: 'Total Questions', width: 160 },
-    { field: 'filledQuestion', headerName: 'Filled Question', width: 160 },
-    { field: 'pendingQuestion', headerName: 'Pending Question', width: 160 },
-    { field: 'lastModified', headerName: 'Last Modified', width: 160 },
+    { field: 'totalQuestion', headerName: 'Total Questions', width: 160,flex:1 },
+    { field: 'filledQuestion', headerName: 'Filled Question', width: 160,flex:1 },
+    { field: 'pendingQuestion', headerName: 'Pending Question', width: 160,flex:1 },
+    { field: 'lastModified', headerName: 'Last Modified', width: 160,flex:1 },
   ];
   photoColumnDefs: ColDef[] = [
     {
       field: 'subTopicTitle',
       headerName: 'Sub Topic Title',
-      tooltipField: 'subTopicTitle',
+      tooltipComponent: 'subTopicTitle',flex:1 
     },
     {
       field: 'photoAvailable',
       headerName: 'Photo Available',
-      tooltipField: 'photoAvailable',
+      tooltipField: 'photoAvailable',flex:1
     },
     {
       field: 'isNotMatching',
       headerName: 'Is Not Matching',
-      tooltipField: 'isNotMatching',
+      tooltipField: 'isNotMatching',flex:1
     },
   ];
   expectedColumnDefs: ColDef[] = [
-    { field: 'username', headerName: 'User Name', tooltipField: 'username' },
-    { field: 'rankname', headerName: 'User Rank', tooltipField: 'rankname' },
+    { field: 'username', headerName: 'User Name', tooltipField: 'username',flex:1 },
+    { field: 'rankname', headerName: 'User Rank', tooltipField: 'rankname',flex:1 },
     {
       field: 'crdate',
       headerName: 'Last Update',
       tooltipField: 'crdate',
+      flex:1,
       valueGetter: this.dateFormat.bind(this),
     },
   ];
@@ -135,35 +126,35 @@ export class PIQSummaryComponent implements OnInit {
     {
       field: 'mainQuestion',
       headerName: 'Main Question',
-      tooltipField: 'mainQuestion',
+      tooltipField: 'mainQuestion',flex:1
     },
     {
       field: 'subQuestion',
       headerName: 'Sub Question',
-      tooltipField: 'subQuestion',
+      tooltipField: 'subQuestion',flex:1
     },
-    { field: 'userName', headerName: 'User Name', tooltipField: 'userName' },
+    { field: 'userName', headerName: 'User Name', tooltipField: 'userName',flex:1 },
     {
       field: 'modifiedDateTime',
       headerName: 'Modified Date / Time',
-      tooltipField: 'modifiedDateTime',
+      tooltipField: 'modifiedDateTime',flex:1
     },
   ];
   certificateColumns: ColDef[] = [
     {
       field: 'certifiactetype',
       headerName: 'OCIMF Certificate Type',
-      tooltipField: 'categoryname',
+      tooltipField: 'categoryname',flex:1
     },
     {
       field: 'mackcertificatename',
       headerName: 'MACK Certificate Name',
-      tooltipField: 'certificatename',
+      tooltipField: 'certificatename',flex:1
     },
     {
       field: 'certificateAvailable',
       headerName: 'Certificate Available',
-      tooltipField: 'certificateAvailable',
+      tooltipField: 'certificateAvailable',flex:1,
       valueGetter: this.customCrUserValueGetter.bind(this),
     },
   ];
@@ -237,6 +228,8 @@ export class PIQSummaryComponent implements OnInit {
               questions.push(
                 question.subQuestion.filter((x: any) => x.answer !== '').length
               );
+              console.log("questions",questions);
+              
               questions1.push(
                 question.subQuestion.filter((y: any) => y.answer === '').length
               );
@@ -456,7 +449,7 @@ export class PIQSummaryComponent implements OnInit {
             this.setFlowAction = 'SUB';
             ansPayload = {
               instanceid: this.referenceNumber,
-              action: 'SS',
+              action: 'S',
               user: this.userDetails.userCode,
               tenantIdentifier: '',
               answerdata: this.submitData,

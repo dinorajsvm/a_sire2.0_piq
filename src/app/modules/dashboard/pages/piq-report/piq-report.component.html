@@ -391,20 +391,9 @@
                                       <div class="col-sm-11">
                                         {{ subq.subName }}
                                       </div>
-                                      <div
-                                        class="col-sm-1"
-                                        *ngIf="
-                                          subq.entryorgin == 'Auto or Preset' ||
-                                          subq.entryorgin == 'Preset'
-                                        "
-                                      >
-                                        <mat-icon
-                                          [ngClass]="{
-                                            'read-only-chip': viewMode
-                                          }"
-                                          (click)="restoreOriginal(subq)"
-                                          >refresh</mat-icon
-                                        >
+                                      <div class="col-sm-1 text-right"
+                                        *ngIf=" subq.entryorgin == 'Auto or Preset' || subq.entryorgin == 'Preset'">
+                                        <mat-icon [ngClass]="{'read-only-chip': viewMode}" (click)="restoreOriginal(subq)">refresh</mat-icon>
                                       </div>
                                     </div>
                                     <!-- API types Start -->
@@ -801,20 +790,9 @@
                                       <div class="col-sm-11">
                                         {{ subq.subName }}
                                       </div>
-                                      <div
-                                        class="col-sm-1"
-                                        *ngIf="
-                                          subq.entryorgin == 'Auto or Preset' ||
-                                          subq.entryorgin == 'Preset'
-                                        "
-                                      >
-                                        <mat-icon
-                                          [ngClass]="{
-                                            'read-only-chip': viewMode
-                                          }"
-                                          class="restoreIcn"
-                                          (click)="restoreOriginal(subq)"
-                                        >
+                                      <div class="col-sm-1"
+                                        *ngIf="subq.entryorgin == 'Auto or Preset' || subq.entryorgin == 'Preset'">
+                                        <mat-icon [ngClass]="{'read-only-chip': viewMode}" class="restoreIcn" (click)="restoreOriginal(subq)">
                                           refresh
                                         </mat-icon>
                                       </div>

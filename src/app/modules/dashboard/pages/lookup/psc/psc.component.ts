@@ -9,6 +9,7 @@ import {
 } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
+import { DefaultColDef } from 'src/app/core/constants';
 
 @Component({
   selector: 'app-psc',
@@ -60,28 +61,22 @@ export class PscComponent {
       flex: 1,
     },
     {
-      field: 'placecode',
+      field: 'countrycode',
       headerName: 'Country',
       resizable: true,
       flex: 1,
     },
     {
-      field: 'isnon_nc_def_obs',
+      field: 'q160',
       headerName: 'Detention/Rejection',
       resizable: true,
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.isnon_nc_def_obs === 'Y' ? 'Yes' : 'No';
-      },
     },
     {
-      field: 'deficiencycount',
+      field: 'primaryfinding',
       headerName: 'Primary finding count',
       resizable: true,
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.deficiencycount === 1;
-      },
     },
   ];
   syncData: any[] = [];
@@ -90,16 +85,7 @@ export class PscComponent {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
-  public defaultColDef: any = {
-    resizable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    enableRowGroup: true,
-    sortable: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

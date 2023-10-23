@@ -5,6 +5,7 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
+import { DefaultColDef } from 'src/app/core/constants';
 @Component({
   selector: 'app-reference',
   templateUrl: './reference.component.html',
@@ -44,14 +45,7 @@ export class ReferenceComponent implements OnInit {
   userDetails: any;
   private gridApi: any;
   private gridColumnApi: any;
-  public defaultColDef: any = {
-    resizable: true,
-    enableRowGroup: true,
-    sortable: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
 
   public gridOptions: GridOptions = {};
   constructor(

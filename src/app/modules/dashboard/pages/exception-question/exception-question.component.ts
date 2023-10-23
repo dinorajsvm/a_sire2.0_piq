@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import { LicenseManager } from 'ag-grid-enterprise';
-import { colorCodes } from 'src/app/core/constants';
+import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
 import { ActivatedRoute } from '@angular/router';
@@ -62,17 +62,7 @@ export class ExceptionQuestionComponent implements OnInit {
   rowData: any[] = [];
   private gridApi: any;
   private gridColumnApi: any;
-  public defaultColDef: any = {
-    sortable: true,
-    editable: true,
-    resizable: true,
-    filter: true,
-    enableRowGroup: true,
-    floatingFilter: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
   constructor(
     private BudgetService: BudgetService,
     private _snackBarService: SnackbarService,

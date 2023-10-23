@@ -8,6 +8,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
+import { DefaultColDef } from 'src/app/core/constants';
 @Component({
   selector: 'app-pms-lookup',
   templateUrl: './pms-lookup.component.html',
@@ -63,16 +64,7 @@ export class PmsLookupComponent {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
 
-  public defaultColDef: any = {
-    resizable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    enableRowGroup: true,
-    sortable: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

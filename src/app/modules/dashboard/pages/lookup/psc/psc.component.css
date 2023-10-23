@@ -3,6 +3,11 @@
   width: 100vw !important;
 }
 
+::ng-deep .psc-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content{
+  height: calc(100vh - 250px) !important;
+  max-height: unset !important;
+}
+
 ::ng-deep .highlighted-row {
   background-color: yellow;
 }
@@ -49,10 +54,8 @@
 .toggleHeader {
   font-size: 12px;
   margin-bottom: 0px;
-  position: relative;
   display: inline-block;
-  top: 25px;
-  right: 15px;
+  margin-right: 5px;
 }
 .header {
   margin: 0;

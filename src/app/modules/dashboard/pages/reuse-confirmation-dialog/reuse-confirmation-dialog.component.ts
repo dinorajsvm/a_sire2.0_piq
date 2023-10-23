@@ -4,6 +4,7 @@ import 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../renderer/button-renderer.component';
+import { DefaultColDef } from 'src/app/core/constants';
 
 @Component({
   selector: 'app-reuse-confirmation-dialog',
@@ -26,18 +27,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   disableBtn = true;
   public rowSelection: 'single' | 'multiple' = 'single';
 
-  public defaultColDef: any = {
-    flex: 1,
-    minWidth: 100,
-    resizable: true,
-    enableRowGroup: true,
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
 
   constructor(
     private BudgetService: BudgetService,

@@ -51,6 +51,7 @@
           [columnDefs]="columnDefs"
           [rowSelection]="multiRowSelection"
           [rowMultiSelectWithClick]="true"
+          [defaultColDef]="defaultColDef"
           (selectionChanged)="onSelectedRowData($event)"
           (gridReady)="onGridReady($event)"
         >

@@ -3,9 +3,9 @@
     width: 100vw !important;
 }
 
-::ng-deep .grid-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content{
-    height: calc(100vh - 310px) !important;
-    padding-bottom: 0;
+::ng-deep .moc-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content{
+    height: calc(100vh - 250px) !important;
+    max-height: unset !important;
   }
 
 

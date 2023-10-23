@@ -1,17 +1,9 @@
 @import "../../../../../piq.css";
-::ng-deep .grid-dialog-container ::ng-deep .mat-mdc-dialog-container {
+::ng-deep .gridSelection-dialog-container ::ng-deep .mat-mdc-dialog-container {
     width: 69vw !important;
 }
-/* ::ng-deep .grid-dialog-container ::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
-    display: flex !important;
-    align-items: center !important;
-    padding: 0 15px !important;
-    height: 30px !important;
-    margin-top: 10px;
-  } */
 
-
-::ng-deep .grid-dialog-container ::ng-deep .mat-mdc-dialog-content {
+::ng-deep .gridSelection-dialog-container ::ng-deep .mat-mdc-dialog-content {
     max-height: 63vh !important;
     padding-bottom:0;
 }

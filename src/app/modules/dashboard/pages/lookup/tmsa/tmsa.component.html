@@ -4,7 +4,7 @@
       <div class="col-sm-11">
         <h3 class="header" *ngIf="isChecked">Internal Audit Report</h3>
         <h3 class="header" *ngIf="!isChecked && isShowExternal">
-          External Audit Report
+          External Inspection Report
         </h3>
         <h3 class="header" *ngIf="!isChecked && !isShowExternal">
           Ship Visit Report
@@ -17,50 +17,58 @@
     <div class="row">
       <div class="col-sm-8">
         <p class="descHeader" *ngIf="isChecked && data.qid !== '3.2.2'">
-          (List of internal audit for last 12 months)
+          (List of Internal Audit Report for last 12 months)
         </p>
         <p class="descHeader" *ngIf="isChecked && data.qid === '3.2.2'">
-          (List of internal audit for last 24 months)
+          (List of Internal Audit Report for last 24 months)
         </p>
         <p class="descHeader" *ngIf="!isChecked && isShowExternal">
-          (List of external inspection for last 12 months)
+          (List of External Inspection Report for last 12 months)
         </p>
         <p
           class="descHeader"
           *ngIf="!isChecked && !isShowExternal && data.qid !== '3.2.2'"
         >
-          (List of ship visit for last 12 months)
+          (List of Ship Visit Report for last 12 months)
         </p>
         <p
           class="descHeader"
           *ngIf="!isChecked && !isShowExternal && data.qid === '3.2.2'"
         >
-          (List of ship visit for last 24 months)
+          (List of Ship Visit Report for last 24 months)
         </p>
       </div>
-      <div class="col-sm-4 text-right">
-        <p
-          class="toggleHeader"
-          *ngIf="
-            data.qid === '3.2.1' ||
-            data.qid === '3.2.2' ||
-            data.qid === '3.2.5' ||
-            data.qid === '3.2.6' ||
-            data.qid === '3.2.7'
-          "
-        >
-          Ship Visit
-        </p>
-
-        <p class="toggleHeader" *ngIf="data.qid === '3.2.3' || data.qid === '3.2.4'">
-          External Inspection
-        </p>
-        <mat-slide-toggle
+      <div class="col-sm-4 text-center" style="padding:0 0 15px 0;">
+        <div style="line-height: 1;">
+          <div style="color: #707171;font-size: 14px;font-weight: 500;">
+            <span>
+              Module Selection
+            </span>
+          </div>
+          <div style="white-space: nowrap;">
+            <p
+            class="toggleHeader"
+            *ngIf="
+              data.qid === '3.2.1' ||
+              data.qid === '3.2.2' ||
+              data.qid === '3.2.5' ||
+              data.qid === '3.2.6' ||
+              data.qid === '3.2.7'
+            "
+          >
+          Ship Visit Report
+          </p>
+          <p class="toggleHeader" *ngIf="data.qid === '3.2.3' || data.qid === '3.2.4'">
+            External Inspection Report
+          </p>
+          <mat-slide-toggle
           class="toggleHeader"
           [(ngModel)]="isChecked"
           (change)="changeToggle($event)"
         ></mat-slide-toggle>
-        <p class="toggleHeader">Internal Audit</p>
+        <p class="toggleHeader">Internal Audit Report</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -80,6 +88,7 @@
           [rowClassRules]="rowClassRules"
           [columnDefs]="columnDefs"
           [gridOptions]="gridOptions"
+          [defaultColDef]="defaultColDef"
           [components]="frameworkComponents"
         >
         </ag-grid-angular>
@@ -95,6 +104,7 @@
           [rowClassRules]="rowClassRules"
           [columnDefs]="columnShipDefs"
           [gridOptions]="gridOptions"
+          [defaultColDef]="defaultColDef"
           [components]="frameworkComponents"
         >
         </ag-grid-angular>
@@ -110,6 +120,7 @@
           [rowClassRules]="rowClassRules"
           [columnDefs]="columnExternalDefs"
           [gridOptions]="gridOptions"
+          [defaultColDef]="defaultColDef"
           [components]="frameworkComponents"
         >
         </ag-grid-angular>

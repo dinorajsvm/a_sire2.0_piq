@@ -7,6 +7,7 @@ import { MomentService } from 'src/app/core/services/moment/moment.service';
 import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
 import { DatePipe } from '@angular/common';
+import { DefaultColDef } from 'src/app/core/constants';
 
 @Component({
   selector: 'app-safety-management',
@@ -460,6 +461,7 @@ export class SafetyManagementComponent implements OnInit {
     { field: 'dateSelection', cellEditor: 'myDateEditor', editable: true },
     { field: 'dropdown', cellRenderer: 'dropdown' },
   ];
+  defaultColDef = DefaultColDef
   rowData: any[] = [];
   selectedRowData: any[] = [];
   constructor(

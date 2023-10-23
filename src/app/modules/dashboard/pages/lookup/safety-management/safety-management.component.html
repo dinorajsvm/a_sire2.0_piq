@@ -4,7 +4,7 @@
       <div class="col-sm-11">
         <h3 class="header">Incident Investigation</h3>
         <p class="descHeader">
-          (List of incident investigation for last 12 months)
+          (List of Incident Investigation for last 12 months)
         </p>
       </div>
 
@@ -30,6 +30,7 @@
           enableFilter="true"
           [rowData]="rowData"
           [columnDefs]="columnDefs"
+          [defaultColDef]="defaultColDef"
           [gridOptions]="gridOptions"
           (gridReady)="onGridReady($event)"
         >
@@ -42,6 +43,7 @@
           [rowData]="selectedRowData"
           [animateRows]="true"
           [suppressMenuHide]="true"
+          [defaultColDef]="defaultColDef"
           [columnDefs]="selectedColumnDefs"
           [components]="frameworkComponents"
         >

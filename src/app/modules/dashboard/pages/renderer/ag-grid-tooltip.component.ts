@@ -7,7 +7,7 @@ import {ITooltipAngularComp} from "ag-grid-angular";
   selector: 'app-ag-grid-tooltip',
   template: `
   <style>
-    .custom-tooltip{
+    ::ng-deep ::ng-deep .app-ag-grid-tooltip .custom-tooltip{
         background-color: white !important;
         border:1px solid black !important;
         white-space: nowrap !important;

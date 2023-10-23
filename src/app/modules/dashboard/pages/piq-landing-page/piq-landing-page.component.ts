@@ -5,7 +5,7 @@ import { AgGridMenuComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu.co
 import { BudgetService } from '../../services/budget.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
-import { EFormMode, colorCodes } from 'src/app/core/constants';
+import { CellStatus, DefaultColDef, EFormMode, colorCodes } from 'src/app/core/constants';
 import { MatDialog } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
@@ -21,8 +21,6 @@ export class PIQLandingPageComponent implements OnInit {
     {
       field: 'action',
       headerName: 'Action',
-      sortable: false,
-      filter: false,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
         innerRendererFramework:AgGridMenuComponent,
@@ -57,9 +55,9 @@ export class PIQLandingPageComponent implements OnInit {
     { field: 'fleetName', headerName: 'Fleet Name' },
     { field: 'createdDate', headerName: 'Created Date/Time' },
     { field: 'createdBy', headerName: 'Created By' },
-    { field: 'updatedUser', headerName: 'Updated User' },
+    { field: 'updatedBy', headerName: 'Updated User' },
     { field: 'updatedDate', headerName: 'Updated Date' },
-    { field: 'status', headerName: 'Status' },
+    { field: 'status', headerName: 'Status', cellStyle:CellStatus },
   ];
 
   shoreColumnDefs: any[] = [
@@ -99,21 +97,11 @@ export class PIQLandingPageComponent implements OnInit {
     { field: 'referenceNumber', headerName: 'Reference Number' },
     { field: 'createdDate', headerName: 'Created Date/Time' },
     { field: 'createdBy', headerName: 'Created By' },
-    { field: 'updatedUser', headerName: 'Updated User' },
+    { field: 'updatedBy', headerName: 'Updated User' },
     { field: 'updatedDate', headerName: 'Updated Date' },
     { field: 'status', headerName: 'Status' },
   ];
-
-  public defaultColDef: any = {
-    resizable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    enableRowGroup: true,
-    sortable: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
 
   public gridOptions: GridOptions = {};
 

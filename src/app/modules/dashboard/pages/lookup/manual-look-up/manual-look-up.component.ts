@@ -9,6 +9,7 @@ import {
 } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DatePipe } from '@angular/common';
+import { DefaultColDef } from 'src/app/core/constants';
 
 @Component({
   selector: 'app-manual-look-up',
@@ -92,16 +93,7 @@ export class ManualLookUpComponent {
   ];
   rowData: any = [];
 
-  public defaultColDef: any = {
-    resizable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    sortable: true,
-    enableRowGroup: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-  };
+  defaultColDef = DefaultColDef
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

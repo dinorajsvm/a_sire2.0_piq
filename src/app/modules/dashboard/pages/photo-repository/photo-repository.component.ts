@@ -476,7 +476,7 @@ export class PhotoRepositoryComponent implements OnInit {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = false;
     dialogConfig.disableClose = true;
-    dialogConfig.panelClass = 'grid-dialog-container';
+    dialogConfig.panelClass = 'gridSelection-dialog-container';
     const getSelectedCheckList = localStorage.getItem('getSelectedCheckListID');
     const getSelectedChecked =
       getSelectedCheckList && getSelectedCheckList.length > 0

@@ -6,6 +6,7 @@
 ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-content {
   height: calc(100vh - 270px) !important;
   padding-bottom: 0;
+  max-height: unset;
 }
 
 ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-actions {

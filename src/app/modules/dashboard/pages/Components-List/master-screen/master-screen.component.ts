@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GridOptions } from 'ag-grid-community';
+import { DefaultColDef } from 'src/app/core/constants';
 import { AgGridMenuComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu.component';
 
 interface topicNames {
@@ -188,18 +189,7 @@ export class MasterScreenComponent implements OnInit {
     { field: 'response', headerName: 'Response' },
   ];
 
-  public defaultColDef: any = {
-    resizable: true,
-    filter: "agTextColumnFilter",
-    floatingFilter: true,
-    enableRowGroup: true,
-    sortable: true,
-    flex: 1,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    },
-    
-  };
+  defaultColDef = DefaultColDef
   public gridOptions: GridOptions = {
 
   };

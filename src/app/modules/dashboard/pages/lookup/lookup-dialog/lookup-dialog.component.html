@@ -1,29 +1,40 @@
 <div mat-dialog-title>
   <div class="col-sm-12">
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-11" *ngIf="enableDiv">
+        <h3 class="header">Ship Visit Report</h3>
+        <p class="descHeader">
+          (List of Inspections from Ship Visit Report Module for last 18 months)
+        </p>
+      </div>
+      <div class="col-sm-8" *ngIf="!enableDiv">
         <h3 class="header" *ngIf="isOnlyShipVisit">Ship Visit Report</h3>
 
         <h3 class="header" *ngIf="!isOnlyShipVisit">Internal Audit Report</h3>
         <p class="descHeader" *ngIf="isOnlyShipVisit">
-          (List of Inspections from Ship Visit Module for last 18 months)
+          (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
         <p class="descHeader" *ngIf="!isOnlyShipVisit">
-          (List of Inspections from Internal Audit Module for last 18 months)
+          (List of Inspections from Internal Audit Report Module for last 18 months)
         </p>
       </div>
 
-      <div class="col-sm-4 text-right closeIcn" *ngIf="isShowToggle">
-        <p class="toggleHeader">Internal Audit Report</p>
-        <mat-slide-toggle
-          class="toggleHeader"
-          [(ngModel)]="isChecked"
-          (change)="changeToggle($event)"
-        ></mat-slide-toggle>
-        <p class="toggleHeader">Ship Visit Report</p>
-        <mat-icon (click)="onDialogClose()">close</mat-icon>
+      <div class="col-sm-3 text-center" style="padding:15px 0 0 0;" *ngIf="isShowToggle">
+        <div style="line-height: 1;">
+          <div style="color: #707171;font-size: 14px;font-weight: 500;">
+            <span>
+              Module Selection
+            </span>
+          </div>
+          <div style="white-space: nowrap;">
+            <p class="toggleHeader">Internal Audit Report</p>
+            <mat-slide-toggle class="toggleHeader m-0" [(ngModel)]="isChecked"
+              (change)="changeToggle($event)"></mat-slide-toggle>
+            <p class="toggleHeader">Ship Visit Report</p>
+          </div>
+        </div>
       </div>
-      <div class="col-sm-4 text-right closeIcn" *ngIf="!isShowToggle">
+      <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
     </div>
@@ -32,31 +43,15 @@
 <mat-dialog-content class="mat-typography">
   <div class="row">
     <div class="col-sm-12" *ngIf="isOnlyShipVisit" style="padding-top: 10px;">
-      <ag-grid-angular
-        class="ag-theme-balham"
-        style="height: calc(100vh - 320px)"
-        [rowData]="rowData"
-        [columnDefs]="columnDefs"
-        [defaultColDef]="defaultColDef"
-        [rowClassRules]="rowClassRules"
-        [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)"
-        [components]="frameworkComponents"
-      >
+      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 280px)" [rowData]="rowData"
+        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowClassRules]="rowClassRules"
+        [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents">
       </ag-grid-angular>
     </div>
-    <div class="col-sm-12"  *ngIf="!isOnlyShipVisit" style="padding-top: 10px;">
-      <ag-grid-angular
-        class="ag-theme-balham"
-        style="height: calc(100vh - 320px)"
-        [rowData]="rowData"
-        [columnDefs]="internalColumnDefs"
-        [rowClassRules]="rowClassRules"
-        [defaultColDef]="defaultColDef"
-        [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)"
-        [components]="frameworkComponents"
-      >
+    <div class="col-sm-12" *ngIf="!isOnlyShipVisit" style="padding-top: 10px;">
+      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 280px)" [rowData]="rowData"
+        [columnDefs]="internalColumnDefs" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef"
+        [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents">
       </ag-grid-angular>
     </div>
   </div>

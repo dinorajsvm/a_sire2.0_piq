@@ -10,6 +10,7 @@ import {
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { DefaultColDef } from 'src/app/core/constants';
 
 @Component({
   selector: 'app-lookup-dialog',
@@ -26,7 +27,6 @@ export class LookupDialogComponent implements OnInit {
   columnDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
-      floatingFilter: false,
       flex: 1,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
@@ -101,7 +101,6 @@ export class LookupDialogComponent implements OnInit {
   internalColumnDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
-      floatingFilter: false,
       flex: 1,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
@@ -178,24 +177,17 @@ export class LookupDialogComponent implements OnInit {
   getRowDatas: any = [];
   isShowToggle = false;
   isOnlyShipVisit = false;
+  enableDiv: boolean=false;
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
-  public defaultColDef: any = {
-    resizable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    sortable: true,
-    enableRowGroup: true,
-    cellStyle: (params: any) => {
-      return { textAlign: typeof params.value === 'number' ? 'right' : 'left' };
-    }
-  };
+  defaultColDef = DefaultColDef
   public rowClassRules: RowClassRules = {
     // row style function
     'highlighted-row': (params) => {
       return params.data.highlight;
     },
   };
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
@@ -238,9 +230,11 @@ export class LookupDialogComponent implements OnInit {
       if (this.data.qid === 'MQ6') {
         this.isShowToggle = false;
         this.isOnlyShipVisit = true;
+        this.enableDiv=true;
         this.rowData = this.getRowDatas.ShipVisit;
       } else if (this.data.qid === 'MQ20') {
         this.isOnlyShipVisit = false;
+        
         this.isShowToggle = true;
         this.isChecked = false;
         this.rowData = this.getRowDatas.Internal;
