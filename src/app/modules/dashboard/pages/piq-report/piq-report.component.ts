@@ -128,6 +128,7 @@ export class PiqReportComponent implements OnInit {
   allExpansionPanelsExpanded = true;
   getVesselCode: any;
   getExceptionGridData: any;
+  lookUpEnable?:boolean;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -1960,6 +1961,7 @@ export class PiqReportComponent implements OnInit {
   isQuestionShow(entrylogin: any): boolean | undefined {
     if (entrylogin) {
       if (this.userDetails?.cntrlType === 'CNT001') {
+        this.lookUpEnable=false;
         this.locationCode = this.userDetails.companyCode;
         localStorage.setItem('locationCode', this.locationCode);
         if (this.getOrigination == 'CNT002' && this.getStatus == 'Inprogress') {
@@ -1976,6 +1978,11 @@ export class PiqReportComponent implements OnInit {
           return flag;
         }
       } else if (this.userDetails?.cntrlType === 'CNT002') {
+        if(entrylogin=== 'Office'){
+          this.lookUpEnable=true;
+        }else{
+          this.lookUpEnable=false;
+        }
         var flag =
           entrylogin === 'Vessel' ||
           entrylogin === 'Auto or Preset' ||

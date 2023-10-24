@@ -100,6 +100,7 @@ export class PIQSummaryComponent implements OnInit {
       flex:1,
       valueGetter: this.dateFormat.bind(this),
     },
+    { field: 'status', headerName: 'Status', tooltipField: 'status',flex:1 },
   ];
   plannedSubDate: any;
   getDate: any;
@@ -579,12 +580,12 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
         this._snackBarService.loadSnackBar(
-          'Synced to Shore Successfully',
+          'Sync to Shore Initiated Successfully',
           colorCodes.INFO
         );
       } else if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT001') {
         this._snackBarService.loadSnackBar(
-          'Synced to Ship Successfully',
+          'Sync to Ship Initiated Successfully',
           colorCodes.INFO
         );
       }else if (type === 'submit') {
