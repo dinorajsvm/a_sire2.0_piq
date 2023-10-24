@@ -136,7 +136,7 @@ export class CertificateRepositoryComponent {
       this.rowData = res.response.piqmappinglist;
       this.totalCertificateCount = this.rowData.length;
       const mappingCercodeValues = this.rowData.map(
-        (item) => item.mappingcercode
+        (item) => item.mackcertificatename
       );
       const filteredMappingCode = mappingCercodeValues.filter(
         (value) => value !== null

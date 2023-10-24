@@ -227,9 +227,7 @@ export class PIQSummaryComponent implements OnInit {
             filledQus.question.forEach((question: any) => {
               questions.push(
                 question.subQuestion.filter((x: any) => x.answer !== '').length
-              );
-              console.log("questions",questions);
-              
+              );              
               questions1.push(
                 question.subQuestion.filter((y: any) => y.answer === '').length
               );
@@ -330,6 +328,11 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId = item.wfid;
         this.getWrkFlowRank = item.submitter;
       });
+      if (this.getWrkFlowRank == this.getRank) {
+        this.disableFlowBtn = false;
+      } else {
+        this.disableFlowBtn = true;
+      }
     });
   }
 

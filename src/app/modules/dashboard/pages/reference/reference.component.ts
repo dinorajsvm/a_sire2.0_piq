@@ -18,6 +18,7 @@ export class ReferenceComponent implements OnInit {
       field: 'topic',
       headerName: 'Topic',
       flex: 1,
+      cellStyle: {textalign: 'left'}
     },
     {
       field: 'remark',
