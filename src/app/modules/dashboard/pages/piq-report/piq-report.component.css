@@ -700,6 +700,7 @@
   pointer-events: none;
   background-color: #e0e0e0 !important;
   cursor: not-allowed !important;
+  color: black !important;
 }
 
 .auto_Field ::ng-deep .mat-mdc-text-field-wrapper {

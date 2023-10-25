@@ -128,7 +128,7 @@ export class PiqReportComponent implements OnInit {
   allExpansionPanelsExpanded = true;
   getVesselCode: any;
   getExceptionGridData: any;
-  lookUpEnable?:boolean;
+  lookUpEnable: boolean = false;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -326,6 +326,7 @@ export class PiqReportComponent implements OnInit {
 
       this.getStatus = res.wrkflow;
       this.edit();
+
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.viewMode = true;
       }
@@ -1009,7 +1010,7 @@ export class PiqReportComponent implements OnInit {
                               }
 
                               arrayObj.push(obj);
-                              
+
                               // this.tempDatas.push(insertQuest.subQuestion);
                               if (insertQuest) {
                                 this.getAllDatas.forEach((chapter: any) => {
@@ -1033,7 +1034,6 @@ export class PiqReportComponent implements OnInit {
                                   }
                                 });
                               }
-
                             }
                           }
                         });
@@ -1958,10 +1958,21 @@ export class PiqReportComponent implements OnInit {
     this.toggleContent(mQuestIndex, mQuest);
   }
 
+  disableLookUp(mquest:any){
+    mquest.subQuestion.forEach((item:any)=>{
+        if(this.userDetails?.cntrlType === 'CNT002' && item.entryorgin === 'Office') {
+          this.lookUpEnable = true;
+        } else {
+          this.lookUpEnable = false;
+      }
+    })
+  }
+
   isQuestionShow(entrylogin: any): boolean | undefined {
+    debugger
     if (entrylogin) {
       if (this.userDetails?.cntrlType === 'CNT001') {
-        this.lookUpEnable=false;
+        this.lookUpEnable = false;
         this.locationCode = this.userDetails.companyCode;
         localStorage.setItem('locationCode', this.locationCode);
         if (this.getOrigination == 'CNT002' && this.getStatus == 'Inprogress') {
@@ -1978,11 +1989,6 @@ export class PiqReportComponent implements OnInit {
           return flag;
         }
       } else if (this.userDetails?.cntrlType === 'CNT002') {
-        if(entrylogin=== 'Office'){
-          this.lookUpEnable=true;
-        }else{
-          this.lookUpEnable=false;
-        }
         var flag =
           entrylogin === 'Vessel' ||
           entrylogin === 'Auto or Preset' ||

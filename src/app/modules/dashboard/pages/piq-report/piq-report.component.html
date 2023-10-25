@@ -245,7 +245,9 @@
                                         </div>
                                         <div class="col-sm-2 text-right">
                                           <button *ngIf="Mquest.entrymethod == 'Lookup'" mat-button class="save"
-                                            (click)="openLookUp($event, quest, Mquest)" >
+                                            (click)="openLookUp($event, quest, Mquest)" [class.ShoreBtn]="
+                                            disableLookUp(Mquest)
+                                          " [ngClass]="{'ShoreBtn': lookUpEnable}">
                                             Look Up
                                           </button>
                                           <img src="assets/question/info.svg" (click)="
@@ -295,20 +297,6 @@
                                       <div class="col-sm-2" *ngIf="subq.type == 'Numeric'">
                                         <mat-form-field appearance="outline" class="input"
                                           [ngClass]="{ 'read-only': viewMode }">
-                                          <input matInput type="text" newmeric placeholder="0" maxlength="3"
-                                            name="inputField" autocomplete="off" [formControlName]="subq.qid"
-                                            [readonly]="viewMode" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
-                                        </mat-form-field>
-                                      </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col-sm-2 dateWrap" *ngIf="
-                                          subq.type == 'Integer' &&
-                                          subq.response == 'Integer'
-                                        ">
-                                        <mat-form-field appearance="outline" class="input">
                                           <input matInput type="text" digitDirective appTwoDigitDecimaNumber
                                             placeholder="0.00" name="inputField" autocomplete="off"
                                             [formControlName]="subq.qid" [readonly]="viewMode" (input)="
@@ -319,15 +307,13 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-2 dateWrap" *ngIf="
-                                          subq.type == 'Integer' &&
-                                          subq.response == 'Integer'
+                                          subq.type == 'Integer' && subq.response == 'Integer'
                                         ">
                                         <mat-form-field appearance="outline" class="input"
                                           [ngClass]="{ 'read-only': viewMode }">
-                                          <input matInput type="text" digitDirective appTwoDigitDecimaNumber
-                                            placeholder="0.00" name="inputField" autocomplete="off"
-                                            [formControlName]="subq.qid" [readonly]="viewMode"
-                                            (input)="onInputChange($event)" (input)="
+                                          <input matInput type="text" newmeric placeholder="0" maxlength="3"
+                                            name="inputField" autocomplete="off" [formControlName]="subq.qid"
+                                            [readonly]="viewMode" (input)="onInputChange($event)" (input)="
                                               inputChanges($event, subq, quest)
                                             " />
                                         </mat-form-field>
@@ -521,7 +507,7 @@
                                       <div class="col-sm-5" *ngIf="subq.type == 'Automatic'">
                                         <mat-form-field appearance="outline" class="input auto_Field"
                                           [ngClass]="{ 'read-only': viewMode }">
-                                          <input matInput autocomplete="off" [readonly]="viewMode" name="inputField"
+                                          <input matInput name="inputField" [readonly]="viewMode" autocomplete="off"
                                             [formControlName]="subq.qid" (input)="
                                               inputChanges($event, subq, quest)
                                             " />
@@ -535,9 +521,9 @@
                                         ">
                                         <mat-form-field appearance="outline" class="input"
                                           [ngClass]="{ 'read-only': viewMode }">
-                                          <input matInput appTwoDigitDecimaNumber digitDirective name="inputField"
-                                            [readonly]="viewMode" placeholder="0.00" type="text" autocomplete="off"
-                                            [formControlName]="subq.qid" (input)="
+                                          <input matInput type="text" newmeric placeholder="0" maxlength="3"
+                                            name="inputField" autocomplete="off" [formControlName]="subq.qid"
+                                            [readonly]="viewMode" (input)="onInputChange($event)" (input)="
                                               inputChanges($event, subq, quest)
                                             " />
                                         </mat-form-field>
@@ -564,8 +550,9 @@
                                       <div class="col-sm-5" *ngIf="subq.type == 'Numeric'">
                                         <mat-form-field appearance="outline" class="input"
                                           [ngClass]="{ 'read-only': viewMode }">
-                                          <input matInput type="text" [readonly]="viewMode" newmeric placeholder="0"
-                                            name="inputField" autocomplete="off" [formControlName]="subq.qid" (input)="
+                                          <input matInput type="text" digitDirective appTwoDigitDecimaNumber
+                                            placeholder="0.00" name="inputField" autocomplete="off"
+                                            [formControlName]="subq.qid" [readonly]="viewMode" (input)="
                                               inputChanges($event, subq, quest)
                                             " />
                                         </mat-form-field>
@@ -749,7 +736,7 @@
                                     let allQuestValues of allQuest.question;
                                     let indexAllQ = index
                                   ">
-                                  <mat-accordion style="margin: 5px 0; cursor: default" *ngIf="
+                                  <mat-accordion class="card_container" style="margin: 5px 0; cursor: default" *ngIf="
                                       searchText === '' ||
                                       allQuestValues.mainQuestion
                                         .toLowerCase()
@@ -792,58 +779,57 @@
 
                                           <div class="row">
                                             <div class="col-sm-2" *ngIf="subq.type == 'Automatic'">
-                                              <mat-form-field appearance="outline" class="input auto_Field" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
+                                              <mat-form-field appearance="outline" class="input auto_Field"
+                                                [ngClass]="{ 'read-only': viewMode }">
                                                 <input matInput name="inputField" [readonly]="viewMode"
                                                   autocomplete="off" [formControlName]="subq.qid" (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
-                                                  " />
+                                              inputChanges($event, subq, quest)
+                                            " />
                                               </mat-form-field>
                                             </div>
                                           </div>
 
                                           <div class="row">
                                             <div class="col-sm-2" *ngIf="subq.type == 'Numeric'">
-                                              <mat-form-field appearance="outline" class="input" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <input matInput type="text" newmeric placeholder="0" name="inputField"
-                                                  autocomplete="off" [formControlName]="subq.qid" [readonly]="viewMode"
-                                                  (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
+                                              <mat-form-field appearance="outline" class="input"
+                                                [ngClass]="{ 'read-only': viewMode }">
+                                                <input matInput type="text" digitDirective appTwoDigitDecimaNumber
+                                                  placeholder="0.00" name="inputField" autocomplete="off"
+                                                  [formControlName]="subq.qid" [readonly]="viewMode" (input)="
+                                              inputChanges($event, subq, quest)
+                                            " />
+                                              </mat-form-field>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-2 dateWrap" *ngIf="
+                                                subq.type == 'Integer' && subq.response == 'Integer'
+                                              ">
+                                              <mat-form-field appearance="outline" class="input"
+                                                [ngClass]="{ 'read-only': viewMode }">
+                                                <input matInput type="text" newmeric placeholder="0" maxlength="3"
+                                                  name="inputField" autocomplete="off" [formControlName]="subq.qid"
+                                                  [readonly]="viewMode" (input)="onInputChange($event)" (input)="
+                                                    inputChanges($event, subq, quest)
                                                   " />
                                               </mat-form-field>
                                             </div>
                                           </div>
-
                                           <div class="row">
-                                            <div class="col-sm-2 dateWrap" *ngIf="subq.type == 'Integer'">
-                                              <mat-form-field appearance="outline" class="input" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <input matInput type="text" digitDirective appTwoDigitDecimaNumber
-                                                  placeholder="0.00" name="inputField" autocomplete="off"
-                                                  [formControlName]="subq.qid" [readonly]="viewMode" maxlength="3"
-                                                  (input)="
-                                                    onInputChange($event)
-                                                  " (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
+                                            <div class="col-sm-2 dateWrap" *ngIf="
+                                                subq.type == 'Integer' &&
+                                                subq.response == 'Percentage'
+                                              ">
+                                              <mat-form-field appearance="outline" class="input"
+                                                [ngClass]="{ 'read-only': viewMode }">
+                                                <input matInput percentage name="inputField" [readonly]="viewMode"
+                                                  placeholder="0" type="text" autocomplete="off"
+                                                  [formControlName]="subq.qid" (input)="
+                                                    inputChanges($event, subq, quest)
                                                   " />
                                               </mat-form-field>
-                                              <span style="padding: 0 5px" *ngIf="subq.unit">{{ subq.unit }}</span>
+                                              <span style="padding: 0 5px" *ngIf="subq.unit == '%'">{{ subq.unit
+                                                }}</span>
                                             </div>
                                           </div>
 
@@ -1028,55 +1014,56 @@
                                           </div>
                                           <div class="row">
                                             <div class="col-sm-5" *ngIf="subq.type == 'Automatic'">
-                                              <mat-form-field appearance="outline" class="input auto_Field" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
+                                              <mat-form-field appearance="outline" class="input auto_Field"
+                                                [ngClass]="{ 'read-only': viewMode }">
                                                 <input matInput name="inputField" [readonly]="viewMode"
                                                   autocomplete="off" [formControlName]="subq.qid" (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
-                                                  " />
+                                              inputChanges($event, subq, quest)
+                                            " />
                                               </mat-form-field>
                                             </div>
                                           </div>
                                           <div class="row">
                                             <div class="col-sm-5" *ngIf="subq.type == 'Numeric'">
-                                              <mat-form-field appearance="outline" class="input" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <input matInput type="text" newmeric placeholder="0" name="inputField"
-                                                  autocomplete="off" [formControlName]="subq.qid" [readonly]="viewMode"
-                                                  (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
+                                              <mat-form-field appearance="outline" class="input"
+                                                [ngClass]="{ 'read-only': viewMode }">
+                                                <input matInput type="text" digitDirective appTwoDigitDecimaNumber
+                                                  placeholder="0.00" name="inputField" autocomplete="off"
+                                                  [formControlName]="subq.qid" [readonly]="viewMode" (input)="
+                                              inputChanges($event, subq, quest)
+                                            " />
+                                              </mat-form-field>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-5 dateWrap" *ngIf="
+                                                subq.type == 'Integer' && subq.response == 'Integer'
+                                              ">
+                                              <mat-form-field appearance="outline" class="input"
+                                                [ngClass]="{ 'read-only': viewMode }">
+                                                <input matInput type="text" newmeric placeholder="0" maxlength="3"
+                                                  name="inputField" autocomplete="off" [formControlName]="subq.qid"
+                                                  [readonly]="viewMode" (input)="onInputChange($event)" (input)="
+                                                    inputChanges($event, subq, quest)
                                                   " />
                                               </mat-form-field>
                                             </div>
                                           </div>
                                           <div class="row">
-                                            <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Integer'">
-                                              <mat-form-field appearance="outline" class="input" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <input matInput type="text" digitDirective appTwoDigitDecimaNumber
-                                                  placeholder="0.00" name="inputField" autocomplete="off" maxlength="3"
-                                                  [formControlName]="subq.qid" [readonly]="viewMode" (input)="
-                                                    onInputChange($event)
-                                                  " (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
+                                            <div class="col-sm-5 dateWrap" *ngIf="
+                                                subq.type == 'Integer' &&
+                                                subq.response == 'Percentage'
+                                              ">
+                                              <mat-form-field appearance="outline" class="input"
+                                                [ngClass]="{ 'read-only': viewMode }">
+                                                <input matInput percentage name="inputField" [readonly]="viewMode"
+                                                  placeholder="0" type="text" autocomplete="off"
+                                                  [formControlName]="subq.qid" (input)="
+                                                    inputChanges($event, subq, quest)
                                                   " />
                                               </mat-form-field>
-                                              <span style="padding: 0 5px" *ngIf="subq.unit">{{ subq.unit }}</span>
+                                              <span style="padding: 0 5px" *ngIf="subq.unit == '%'">{{ subq.unit
+                                                }}</span>
                                             </div>
                                           </div>
                                           <div class="row">
@@ -1332,7 +1319,7 @@
                                       let allQuestValues of allQuest.question;
                                       let indexAllQ = index
                                     ">
-                                    <mat-card appearance="outlined" style="margin: 5px 0; cursor: default" *ngIf="
+                                    <mat-card  appearance="outlined" style="margin: 5px 0; cursor: default" *ngIf="
                                         searchText === '' ||
                                         allQuestValues.mainQuestion
                                           .toLowerCase()

@@ -66,7 +66,7 @@ export class PIQSummaryComponent implements OnInit {
   public gridOptions: GridOptions = {};
   columnDefs: ColDef[] = [
     // { field: 'serialNumber', headerName: 'S.No', width: 70 },
-    { field: 'topics', headerName: 'Header Topics', width: 300,flex:1 },
+    { field: 'topics', headerName: 'Header Topics', width: 300,flex:1, },
     { field: 'status', headerName: 'Status' },
     { field: 'totalQuestion', headerName: 'Total Questions', width: 160,flex:1 },
     { field: 'filledQuestion', headerName: 'Filled Question', width: 160,flex:1 },
@@ -100,6 +100,7 @@ export class PIQSummaryComponent implements OnInit {
       flex:1,
       valueGetter: this.dateFormat.bind(this),
     },
+    { field: 'typw', headerName: 'Type', tooltipField: 'type',flex:1 },
     { field: 'status', headerName: 'Status', tooltipField: 'status',flex:1 },
   ];
   plannedSubDate: any;
@@ -197,14 +198,12 @@ export class PIQSummaryComponent implements OnInit {
       this.totalQuestCount = 0;
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    this.getLastModifiedDatas();
     this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
       (res: any) => {
         // this.expectedRowData = data;
       }
     );
     this.getworkflowStatus();
-    this.getSSDatas();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
@@ -216,6 +215,8 @@ export class PIQSummaryComponent implements OnInit {
       });
     });
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
+      this.getLastModifiedDatas();
+      this.getSSDatas();
       this.rowData = [];
       this.certficateGridDatas();
       if (res) {
@@ -408,7 +409,6 @@ export class PIQSummaryComponent implements OnInit {
           });
         });
         if (type === 'syncToStore') {
-          this.getSSDatas();
           ansPayload = {
             instanceid: this.referenceNumber,
             action: 'SS',
@@ -420,6 +420,8 @@ export class PIQSummaryComponent implements OnInit {
             lastmodifieddata: JSON.stringify(this.modifiedrowData),
             wfaction: '',
           };
+          
+          this.getSSDatas();
         } else if (type === 'reassign') {
           this.setFlowAction = 'RSN';
           ansPayload = {
@@ -496,16 +498,16 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
   enableViewMode: boolean = true;
-  submit() {
-    this.BudgetService.setEnableViewMode(this.enableViewMode);
-  }
+  
   onSubmit(type: string,event:any) {
     this.setFlowAction = '';
     this.getQuestionAnswerDatas(type);
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
-    this.BudgetService.setEnableViewMode(this.enableViewMode);
+    if(type != 'syncToStore'){
+      this.BudgetService.setEnableViewMode(this.enableViewMode);
+    }
     event.preventDefault();
     event.stopPropagation();
   }
@@ -513,7 +515,7 @@ export class PIQSummaryComponent implements OnInit {
     const payload = {
       instanceid: this.referenceNumber,
     };
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {  
       if (res && res.datasyncgrid && res.datasyncgrid != '') {
         const data = JSON.parse(res.datasyncgrid);
         this.expectedRowData = data;
