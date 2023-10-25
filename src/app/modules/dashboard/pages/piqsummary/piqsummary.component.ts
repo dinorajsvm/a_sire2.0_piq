@@ -100,7 +100,7 @@ export class PIQSummaryComponent implements OnInit {
       flex:1,
       valueGetter: this.dateFormat.bind(this),
     },
-    { field: 'typw', headerName: 'Type', tooltipField: 'type',flex:1 },
+    { field: 'sync', headerName: 'Type', tooltipField: 'type',flex:1 },
     { field: 'status', headerName: 'Status', tooltipField: 'status',flex:1 },
   ];
   plannedSubDate: any;

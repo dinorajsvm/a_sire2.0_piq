@@ -3118,7 +3118,7 @@
                 "sid": "subq.4.2.2.1",
                 "entrymethod": "Hybrid",
                 "entryorgin": "Preset",
-                "specification": "20 char",
+                "specification": 20,
                 "qid": "Q191",
                 "controlname": "textarea16",
                 "subcheckbox": false,

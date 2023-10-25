@@ -459,7 +459,7 @@
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode" (input)="
                                               inputChanges($event, subq, quest)
-                                            " autocomplete="off" #textArea maxlength="100" name="textAreaField">
+                                            " autocomplete="off" #textArea [maxlength]="100" name="textAreaField">
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
