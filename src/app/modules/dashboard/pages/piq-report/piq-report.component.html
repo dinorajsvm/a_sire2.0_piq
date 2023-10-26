@@ -157,7 +157,8 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="row">
-                  <div class="col-sm-3 head" style="padding: 0" [ngClass]="{ headHide: !headerListContainer }">
+                  <div class="col-sm-3 head" id="sideBarList" style="padding: 0"
+                    [ngClass]="{ headHide: !headerListContainer }">
                     <div class="list_wrapper">
                       <div *ngFor="let heading of getAllDatas">
                         <div class="header_list" *ngIf="
@@ -199,8 +200,14 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-sm-1" style="padding: 0;max-width: 1.9%;display: flex;">
+                    <button mat-button class="collapsiveBtn"
+                      (click)="hideSideBar($event)">
+                      <mat-icon style="margin-right: 3px;font-size: 20px;margin-top: 1px;">{{ isLeftIcon ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+                    </button>
+                  </div>
 
-                  <div class="col-sm-9 loopedMainQuest" [class.hidden]="isSearchActive" style="padding: 0"
+                  <div class="col-sm-9 loopedMainQuest" id="contentArea" [class.hidden]="isSearchActive"
                     *ngIf="AllQuestions">
                     <div class="content_load_wrap" *ngIf="isForm">
                       <div class="card-contents" *ngFor="
@@ -724,9 +731,7 @@
                   </div>
 
                   <!-- pending Question Start-->
-                  <div class="col-sm-9" *ngIf="showPendingQuest">
-                    <div class="row">
-                      <div class="col-sm-12 allMainQuest" style="padding: 0">
+                  <div class="col-sm-9 pendingQuest" id="pendingArea" *ngIf="showPendingQuest">
                         <div class="content_load_wrappen">
                           <div class="content_header">Pending Questions</div>
                           <div class="card-contents p-0">
@@ -1237,12 +1242,10 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
                   </div>
                   <!-- pending question ends -->
 
-                  <div class="col-sm-3 guideWrap" *ngIf="descriptionContainer">
+                  <div class="col-sm-3 guideWrap" id="guidanceWrapper">
                     <div class="row">
                       <div class="col-sm-12 guidLines">
                         <div class="row">
@@ -1319,7 +1322,7 @@
                                       let allQuestValues of allQuest.question;
                                       let indexAllQ = index
                                     ">
-                                    <mat-card  appearance="outlined" style="margin: 5px 0; cursor: default" *ngIf="
+                                    <mat-card appearance="outlined" style="margin: 5px 0; cursor: default" *ngIf="
                                         searchText === '' ||
                                         allQuestValues.mainQuestion
                                           .toLowerCase()

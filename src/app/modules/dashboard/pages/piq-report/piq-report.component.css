@@ -638,6 +638,38 @@
   /* bottom: 10px; */
   width: 30px !important;
 }
+.sideCollapse {
+  max-width: 0;
+}
+
+.collapsiveBtn.mat-mdc-button {
+  padding: 0;
+  display: flex;
+  min-width: 20px !important;
+  border-radius: 0px 5px 5px 0px !important;
+  background: #dee1f0;
+  height: 22px !important;
+  align-items: baseline;
+  margin-top: 1px !important;
+}
+
+
+
+.loopedMainQuest {
+  padding: 0;
+  max-width: 73%;
+  transition: max-width 0.7s ease-in-out;
+}
+.pendingQuest {
+  padding: 0;
+  max-width: 73%;
+  transition: max-width 0.7s ease-in-out;
+}
+
+.expandedContent {
+  max-width: 98% !important;
+  transition: max-width 0.7s ease-in-out;
+}
 
 .selected-chip {
   background-color: #2196f3 !important;
@@ -664,20 +696,20 @@
 }
 
 .read-only ::ng-deep .mat-mdc-text-field-wrapper {
-  background-color: #e0e0e0!important;
+  background-color: #e0e0e0 !important;
   border-radius: 5px;
   cursor: not-allowed !important;
 }
 
 .read-only-input ::ng-deep .mat-mdc-text-field-wrapper {
-  background-color: #e0e0e0!important;
+  background-color: #e0e0e0 !important;
   cursor: not-allowed !important;
 }
 
-.read-only-input ::ng-deep .mat-mdc-form-field-input-control{
+.read-only-input ::ng-deep .mat-mdc-form-field-input-control {
   cursor: not-allowed !important;
 }
-.read-only ::ng-deep .mat-mdc-form-field-input-control{
+.read-only ::ng-deep .mat-mdc-form-field-input-control {
   cursor: not-allowed !important;
 }
 
@@ -696,7 +728,7 @@
   cursor: not-allowed !important;
 }
 
-.ShoreBtn{
+.ShoreBtn {
   pointer-events: none;
   background-color: #e0e0e0 !important;
   cursor: not-allowed !important;
@@ -1028,8 +1060,19 @@ legend {
 }
 
 .guideWrap {
+  max-width: 0;
+  display: none;
+  transition: max-width .7s ease-in-out;
   box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
     -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.guideWrapExpanded{
+  max-width: 25% !important;
+  display: block !important;
+  transition: max-width .7s ease-in-out;
+  box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
+    -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12); 
 }
 
 .description::-webkit-scrollbar {
