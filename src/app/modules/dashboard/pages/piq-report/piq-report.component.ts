@@ -500,10 +500,20 @@ export class PiqReportComponent implements OnInit {
   }
 
   closeDesc() {
-    if (this.descriptionContainer) {
-      this.headerListContainer = true;
-      this.descriptionContainer = false;
+    let contentArea = document.getElementById('contentArea');
+    let guidance = document.getElementById('guidanceWrapper');
+    if (
+      contentArea?.classList.contains('col-sm-9')
+    ){
+      contentArea?.classList.add('col-sm-12', 'expandedContent');
+      contentArea?.classList.remove('col-sm-9');
+      guidance?.classList.add('guideWrap');
+      guidance?.classList.remove('guideWrapExpanded');
     }
+    // if (this.descriptionContainer) {
+    //   this.headerListContainer = true;
+    //   this.descriptionContainer = false;
+    // }
   }
 
   closeLookup() {
@@ -2088,6 +2098,8 @@ export class PiqReportComponent implements OnInit {
   }
 
   showpendQues() {
+    let contentArea = document.getElementById('contentArea');
+    let pending = document.getElementById('pendingArea');
     this.showPendingQuest = true;
     this.AllQuestions = false;
   }

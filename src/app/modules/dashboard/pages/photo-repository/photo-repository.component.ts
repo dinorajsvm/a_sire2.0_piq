@@ -601,8 +601,7 @@ export class PhotoRepositoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', this.selectedFile);
       this.http
-        .post(
-          'https://mackdevship.solverminds.net/PIQ/event/attachmentupload',
+        .post(this.dynamicImageURL+'PIQ/event/attachmentupload',
           formData
         )
         .subscribe(

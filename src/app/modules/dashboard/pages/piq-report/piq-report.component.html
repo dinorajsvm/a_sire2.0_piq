@@ -465,12 +465,12 @@
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode" (input)="
                                               inputChanges($event, subq, quest)
-                                            " autocomplete="off" #textArea [maxlength]="100" name="textAreaField">
+                                            " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
                                           <span style="font-size: 12px">
-                                            {{ 100 - textArea.value.length }}
+                                            {{ subq.specification - textArea.value.length }}
                                             Characters Remaining
                                           </span>
                                         </div>
@@ -688,13 +688,13 @@
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode" (input)="
                                               inputChanges($event, subq, quest)
-                                            " autocomplete="off" #textArea maxlength="100" name="textAreaField">
+                                            " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
                                           <span style="font-size: 12px">
-                                            {{ 100 - textArea.value.length }}
-                                            Characters Remaining
+                                            {{ subq.specification - textArea.value.length }}
+                                            Characters Remaining 
                                           </span>
                                         </div>
                                       </div>
@@ -986,13 +986,13 @@
                                                       subq,
                                                       quest
                                                     )
-                                                  " autocomplete="off" #textArea maxlength="100" name="textAreaField">
+                                                  " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
                                                 </textarea>
                                               </mat-form-field>
                                               <div class="text-right">
                                                 <span style="font-size: 12px">
                                                   {{
-                                                  100 - textArea.value.length
+                                                    subq.specification - textArea.value.length
                                                   }}
                                                   Characters Remaining
                                                 </span>
@@ -1219,13 +1219,13 @@
                                                       subq,
                                                       quest
                                                     )
-                                                  " autocomplete="off" #textArea maxlength="100" name="textAreaField">
+                                                  " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
                                                 </textarea>
                                               </mat-form-field>
                                               <div class="text-right">
                                                 <span style="font-size: 12px">
                                                   {{
-                                                  100 - textArea.value.length
+                                                    subq.specification - textArea.value.length
                                                   }}
                                                   Characters Remaining
                                                 </span>
