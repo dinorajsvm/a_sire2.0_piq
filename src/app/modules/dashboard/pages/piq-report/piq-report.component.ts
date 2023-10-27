@@ -411,21 +411,30 @@ export class PiqReportComponent implements OnInit {
   }
 
   openDesc(event: Event, questID: any) {
-    
     let guidance = document.getElementById('guidanceWrapper');
     let contentArea = document.getElementById('contentArea');
+    let sideBar = document.getElementById('sideBarList');
 
-    if(contentArea?.classList.contains("col-sm-12")){
-      contentArea?.classList.remove("col-sm-12","expandedContent");
-      contentArea?.classList.add("col-sm-9");
-      guidance?.classList.remove("guideWrapExpanded");
-      guidance?.classList.add("guideWrap");
-    }else if(contentArea?.classList.contains("col-sm-9")){
-      guidance?.classList.add("guideWrapExpanded");
-      guidance?.classList.remove("guideWrap");
-      contentArea?.classList.add("col-sm-12","expandedContent");
-      contentArea?.classList.remove("col-sm-9");
+    if (contentArea?.classList.contains('col-sm-12')) {
+      contentArea?.classList.remove('col-sm-12', 'expandedContent');
+      contentArea?.classList.add('col-sm-9');
+      contentArea?.classList.add('test');
+      guidance?.classList.add('guideWrapExpanded');
+      guidance?.classList.remove('guideWrap');
+    } else if (contentArea?.classList.contains('col-sm-9' && 'test')) {
+      guidance?.classList.remove('guideWrapExpanded');
+      guidance?.classList.add('guideWrap');
+      sideBar?.classList.add('sideCollapse');
+      contentArea?.classList.add('col-sm-12', 'expandedContent');
+      contentArea?.classList.remove('col-sm-9');
+      contentArea?.classList.remove('test');
+    } else if (contentArea?.classList.contains('col-sm-9')) {
+      sideBar?.classList.add('sideCollapse');
+      contentArea?.classList.add('test');
+      guidance?.classList.add('guideWrapExpanded');
+      guidance?.classList.remove('guideWrap');
     }
+
     this.infoMQuestId = questID;
     setTimeout(() => {
       this.showGuideQuestion(questID);
@@ -461,24 +470,30 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  hideSideBar(event:any){
+  hideSideBar(event: any) {
     this.isLeftIcon = !this.isLeftIcon;
     let sideBar = document.getElementById('sideBarList');
     let pending = document.getElementById('pendingArea');
     let contentArea = document.getElementById('contentArea');
-    sideBar?.classList.add("sideCollapse");
-    if(contentArea?.classList.contains("col-sm-9") || pending?.classList.contains("col-sm-9")){
-      contentArea?.classList.remove("col-sm-9");
-      contentArea?.classList.add("col-sm-12","expandedContent");
-      pending?.classList.remove("col-sm-9");
-      pending?.classList.add("col-sm-12","expandedContent");
-    }else if(contentArea?.classList.contains("col-sm-12") || pending?.classList.contains("col-sm-12")){
-      contentArea?.classList.remove("col-sm-12","expandedContent");
-      contentArea?.classList.add("col-sm-9");
-      pending?.classList.remove("col-sm-12","expandedContent");
-      pending?.classList.add("col-sm-9");
-      sideBar?.classList.remove("sideCollapse");
-    } 
+    sideBar?.classList.add('sideCollapse');
+    if (
+      contentArea?.classList.contains('col-sm-9') ||
+      pending?.classList.contains('col-sm-9')
+    ) {
+      contentArea?.classList.remove('col-sm-9');
+      contentArea?.classList.add('col-sm-12', 'expandedContent');
+      pending?.classList.remove('col-sm-9');
+      pending?.classList.add('col-sm-12', 'expandedContent');
+    } else if (
+      contentArea?.classList.contains('col-sm-12') ||
+      pending?.classList.contains('col-sm-12')
+    ) {
+      contentArea?.classList.remove('col-sm-12', 'expandedContent');
+      contentArea?.classList.add('col-sm-9');
+      pending?.classList.remove('col-sm-12', 'expandedContent');
+      pending?.classList.add('col-sm-9');
+      sideBar?.classList.remove('sideCollapse');
+    }
 
     event.preventDefault();
     event.stopPropagation();
@@ -1997,18 +2012,21 @@ export class PiqReportComponent implements OnInit {
     this.toggleContent(mQuestIndex, mQuest);
   }
 
-  disableLookUp(mquest:any){
-    mquest.subQuestion.forEach((item:any)=>{
-        if(this.userDetails?.cntrlType === 'CNT002' && item.entryorgin === 'Office') {
-          this.lookUpEnable = true;
-        } else {
-          this.lookUpEnable = false;
+  disableLookUp(mquest: any) {
+    mquest.subQuestion.forEach((item: any) => {
+      if (
+        this.userDetails?.cntrlType === 'CNT002' &&
+        item.entryorgin === 'Office'
+      ) {
+        this.lookUpEnable = true;
+      } else {
+        this.lookUpEnable = false;
       }
-    })
+    });
   }
 
   isQuestionShow(entrylogin: any): boolean | undefined {
-    debugger
+    debugger;
     if (entrylogin) {
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.lookUpEnable = false;
