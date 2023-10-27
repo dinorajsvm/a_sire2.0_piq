@@ -261,7 +261,7 @@ export class PiqReportComponent implements OnInit {
       });
     });
   }
-
+  arrayObj: any[] = [];
   getGuideLinesData() {
     this.BudgetService.getGuidelines().subscribe((res: any) => {
       const data = res.response;
@@ -299,6 +299,7 @@ export class PiqReportComponent implements OnInit {
       exceptionjson: this.getExceptionGridData,
       wfaction: '',
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
+      duplicateDetails: JSON.stringify(this.arrayObj),
     };
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
@@ -975,6 +976,15 @@ export class PiqReportComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result: any) => {
         if (result) {
+          
+          const payload = {
+            instanceid: this.referenceNumber,
+            questionid: questionId,
+            lookupid: '',
+            lookupjson: result,
+            user: this.userDetails?.userCode,
+          };
+          this.BudgetService.saveLookUp(payload).subscribe((data) => {});
           const rowKeys = [
             'MQ337',
             'MQ343',
@@ -1007,7 +1017,7 @@ export class PiqReportComponent implements OnInit {
             'MQ505',
           ];
           let insertQuest: any;
-          let arrayObj: any[] = [];
+          this.arrayObj = [];
           let tempRowData: any[] = [];
           let modifiedSubQuestion: any;
           rowKeys.forEach((row) => {
@@ -1030,15 +1040,18 @@ export class PiqReportComponent implements OnInit {
                             if (this.findResponse) {
                               const insertQuest = { ...this.findResponse };
                               insertQuest.mainQuestion = resultResponse.ivrid;
+                              const ivrid = resultResponse.ivrid;
                               insertQuest.entrymethod = '';
 
                               let obj: any = {};
+                              let duplicatePayload: any = {};
                               modifiedSubQuestion = insertQuest.subQuestion.map(
                                 (dsd: any) => ({
                                   ...dsd,
                                   qid: 'D' + indexValue + '_' + dsd.qid,
                                 })
                               );
+
                               modifiedSubQuestion.forEach((modData: any) => {
                                 this.dynamicForms.addControl(
                                   modData.qid,
@@ -1072,10 +1085,12 @@ export class PiqReportComponent implements OnInit {
                                   resultResponse.dateSelection
                                 );
                               }
+                              duplicatePayload.qid = row;
+                              duplicatePayload.ivrid = ivrid;
+                              duplicatePayload.duplicateDetails = obj;
 
-                              arrayObj.push(obj);
+                              this.arrayObj.push(duplicatePayload);
 
-                              // this.tempDatas.push(insertQuest.subQuestion);
                               if (insertQuest) {
                                 this.getAllDatas.forEach((chapter: any) => {
                                   if (chapter && chapter.uniqueid === 'H5') {
@@ -1103,61 +1118,112 @@ export class PiqReportComponent implements OnInit {
                         });
                       }
                     });
+                  } else {
+                    this.getAllDatas.forEach((chapter: any) => {
+                      if (chapter && chapter.uniqueid === 'H5') {
+                        chapter.values.forEach((mainQues: any) => {
+                          if (mainQues && mainQues.subheadid === 'SH14') {
+                            this.findResponse = mainQues.question.find(
+                              (quest: any) => quest && quest.qid === row
+                            );
+                            if (this.findResponse) {
+                              insertQuest = { ...this.findResponse };
+                              const tempSubQuestion = insertQuest.subQuestion;
+                              tempSubQuestion.forEach((temp: any) => {
+                                const valuesToCheckDD = [
+                                  'Q341',
+                                  'Q347',
+                                  'Q353',
+                                  'Q359',
+                                  'Q365',
+                                  'Q371',
+                                  'Q377',
+                                  'Q383',
+                                  'Q389',
+                                  'Q395',
+                                  'Q401',
+                                  'Q407',
+                                  'Q413',
+                                  'Q419',
+                                  'Q425',
+                                  'Q431',
+                                  'Q437',
+                                  'Q443',
+                                  'Q449',
+                                  'Q455',
+                                  'Q461',
+                                  'Q467',
+                                  'Q473',
+                                  'Q479',
+                                  'Q485',
+                                  'Q491',
+                                  'Q497',
+                                  'Q503',
+                                  'Q509',
+                                ];
+
+                                if (
+                                  valuesToCheckDD.some((value) =>
+                                    temp.qid.includes(value)
+                                  )
+                                ) {
+                                  this.dynamicForms.controls[
+                                    `${temp.qid}`
+                                  ].patchValue(resultResponse.dropdown);
+                                }
+                                const valuesToCheckDate = [
+                                  'Q342',
+                                  'Q348',
+                                  'Q354',
+                                  'Q360',
+                                  'Q366',
+                                  'Q372',
+                                  'Q378',
+                                  'Q384',
+                                  'Q390',
+                                  'Q396',
+                                  'Q402',
+                                  'Q408',
+                                  'Q414',
+                                  'Q420',
+                                  'Q426',
+                                  'Q432',
+                                  'Q438',
+                                  'Q444',
+                                  'Q450',
+                                  'Q456',
+                                  'Q462',
+                                  'Q468',
+                                  'Q474',
+                                  'Q480',
+                                  'Q486',
+                                  'Q492',
+                                  'Q498',
+                                  'Q504',
+                                  'Q510',
+                                ];
+
+                                if (
+                                  valuesToCheckDate.some((value) =>
+                                    temp.qid.includes(value)
+                                  )
+                                ) {
+                                  this.dynamicForms.controls[
+                                    `${temp.qid}`
+                                  ].patchValue(
+                                    new Date(resultResponse.dateSelection)
+                                  );
+                                }
+                              });
+                            }
+                          }
+                        });
+                      }
+                    });
                   }
                 }
               });
             });
-
-            // tempRowData.forEach((tempRD, indexRD) => {
-            //   if (indexRD > 0) {
-            //     const filterChapter = this.getAllDatas
-            //       .find((chapter: any) => chapter.uniqueid === 'H5')
-            //       .values.find(
-            //         (mainQuest: any) => mainQuest.subheadid === 'SH14'
-            //       )
-            //       .question.find((quest: any) => quest.qid === row);
-            //     const copyChapter = { ...filterChapter };
-            //     insertQuest.push(copyChapter);
-            //   }
-            // });
-
-            // const modify = insertQuest.map((res, ijk) => ({
-            //   ...res,
-            //   subQuestion: this.lastModified(res, ijk),
-            // }));
-            // console.log(modify, 'modifiedInsertQuest');
-
-            // if (modify) {
-            //   modify.forEach((mock) => {
-            //     this.getAllDatas.forEach((chapter: any) => {
-            //       if (chapter && chapter.uniqueid === 'H5') {
-            //         chapter.values.forEach((mainQues: any) => {
-            //           if (mainQues && mainQues.subheadid === 'SH14') {
-            //             let index = mainQues.question.findIndex(
-            //               (quest: any) => quest.qid === row
-            //             );
-            //             ++index;
-            //             mainQues.question.splice(index, 0, mock);
-            //           }
-            //         });
-            //       }
-            //     });
-            //   });
-
-            //   // this.getAllDatas
-            //   //     .find((chapter: any) => chapter.uniqueid === 'H5')
-            //   //     .values.find(
-            //   //       (mainQuest: any) => mainQuest.subheadid === 'SH14'
-            //   //     )
-            //   //     .question.splice(findLindex, 0, modify);
-            //   // let findLindex = this.getAllDatas
-            //   //   .find((chapter: any) => chapter.uniqueid === 'H5')
-            //   //   .values.find((mainQuest: any) => mainQuest.subheadid === 'SH14')
-            //   //   .question.findIndex((quest: any) => quest.qid === row);
-            //   // ++findLindex;
-            // }
-
-            // console.log(this.getAllDatas, 'All Data');
 
             tempRowData = [];
           });

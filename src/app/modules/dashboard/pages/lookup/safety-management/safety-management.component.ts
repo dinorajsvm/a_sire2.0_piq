@@ -67,6 +67,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.1',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.1. Have any of the following Incidents occurred during previous 12 months - A pollution incident that resulted in release to the environment of any substance covered by MARPOL Annex I, II, IV, V and VI in excess of that permitted by the applicable regulations.',
       suppressMenu: true,
@@ -79,6 +81,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.2',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.2. Have any of the following Incidents occurred during previous 12 months - An uncontrolled release of LNG/LPG vapour.',
       suppressMenu: true,
@@ -91,6 +95,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.3',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.3. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been hard aground.',
       suppressMenu: true,
@@ -103,6 +109,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.4',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.4. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had touched bottom.',
       suppressMenu: true,
@@ -116,6 +124,8 @@ export class SafetyManagementComponent implements OnInit {
 
     {
       headerName: '5.7.1.5',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.5. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been suspected of touching bottom.',
       suppressMenu: true,
@@ -128,6 +138,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.6',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.6. Have any of the following Incidents occurred during previous 12 months - A collision/allision with another vessel irrespective of whether damage had been caused to either vessel.',
       suppressMenu: true,
@@ -141,6 +153,8 @@ export class SafetyManagementComponent implements OnInit {
 
     {
       headerName: '5.7.1.7',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.7. Have any of the following Incidents occurred during previous 12 months - An allision with a fixed or floating structure or navigation mark irrespective of whether damage had been caused to the vessel or the fixed or floating structure or navigation mark.',
       suppressMenu: true,
@@ -153,6 +167,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.8',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.8. Have any of the following Incidents occurred during previous 12 months - An allision with a terminal during a berthing manoeuvre which resulted in damage to either the vessel or the terminal structure.',
       suppressMenu: true,
@@ -165,6 +181,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.9',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.9. Have any of the following Incidents occurred during previous 12 months - A breach of the hull plating which did not result in flooding.',
       suppressMenu: true,
@@ -177,6 +195,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.10',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.10. Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in open waters.',
       suppressMenu: true,
@@ -189,6 +209,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.11',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.11. Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in open waters.',
       suppressMenu: true,
@@ -201,6 +223,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.12',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.12. Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in territorial waters or within 12 miles of land.',
       suppressMenu: true,
@@ -213,6 +237,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.13',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.13. Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in territorial waters or within 12 miles of land.',
       suppressMenu: true,
@@ -225,6 +251,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.14',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.14. Have any of the following Incidents occurred during previous 12 months - Blackout while at a berth or at anchor.',
       suppressMenu: true,
@@ -237,6 +265,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.15',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.15. Have any of the following Incidents occurred during previous 12 months - Total loss, even momentarily, of steering capability at any time while the vessel was underway.',
       suppressMenu: true,
@@ -249,6 +279,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.16',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.16. Have any of the following Incidents occurred during previous 12 months - Contained hydrocarbon/chemical spill greater than 1.0m3 anywhere onboard (deck, pumproom, machinery spaces, mooring deck, etc.).',
       suppressMenu: true,
@@ -261,6 +293,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.17',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.17. Have any of the following Incidents occurred during previous 12 months - Loss of one or both anchors.',
       suppressMenu: true,
@@ -273,6 +307,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.18',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.18. Have any of the following Incidents occurred during previous 12 months - Damage to a windlass restricting the ability to recover an anchor without repairs.',
       suppressMenu: true,
@@ -285,6 +321,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.19',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.19. Have any of the following Incidents occurred during previous 12 months - Mooring tail/line (ship supplied) failure while moored at a conventional/CBM berth or while conducting STS operations.',
       suppressMenu: true,
@@ -297,6 +335,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.20',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.20. Have any of the following Incidents occurred during previous 12 months - Break out/away from a berth resulting in the vessel being out of the normal operating envelope for the Marine Loading Arms (MLA) or hoses.',
       suppressMenu: true,
@@ -309,6 +349,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.21',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.21. Have any of the following Incidents occurred during previous 12 months - Cargo hose crane wire failure while connecting or disconnecting hoses at a terminal.',
       suppressMenu: true,
@@ -321,6 +363,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.22',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.22. Have any of the following Incidents occurred during previous 12 months - Accommodation ladder hoisting wire failure.',
       suppressMenu: true,
@@ -333,6 +377,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.23',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.23. Have any of the following Incidents occurred during previous 12 months - Notification of an investigation into an alleged violation of international regulations such as MARPOL / COLREGS.',
       suppressMenu: true,
@@ -345,6 +391,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.24',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.24. Have any of the following Incidents occurred during previous 12 months - Structural or pipeline system failure causing migration of liquid within or between the cargo, ballast or bunker spaces',
       suppressMenu: true,
@@ -357,6 +405,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.25',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.25. Have any of the following Incidents occurred during previous 12 months - Contamination of ballast water by hydraulic oil.',
       suppressMenu: true,
@@ -369,6 +419,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.26',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.26. Have any of the following Incidents occurred during previous 12 months - Flooding of any space directly from the sea.',
       suppressMenu: true,
@@ -381,6 +433,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.27',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.27. Have any of the following Incidents occurred during previous 12 months - Fire or Explosion anywhere onboard.',
       suppressMenu: true,
@@ -393,6 +447,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.28',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.28. Have any of the following Incidents occurred during previous 12 months - A work related lost time injury.',
       suppressMenu: true,
@@ -405,6 +461,8 @@ export class SafetyManagementComponent implements OnInit {
     },
     {
       headerName: '5.7.1.29',
+      sortable: false,
+      filter: false,
       headerTooltip:
         '5.7.1.29. Have any of the following Incidents occurred during previous 12 months - A work related fatality.',
       suppressMenu: true,
@@ -461,7 +519,7 @@ export class SafetyManagementComponent implements OnInit {
     { field: 'dateSelection', cellEditor: 'myDateEditor', editable: true },
     { field: 'dropdown', cellRenderer: 'dropdown' },
   ];
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
   rowData: any[] = [];
   selectedRowData: any[] = [];
   constructor(
