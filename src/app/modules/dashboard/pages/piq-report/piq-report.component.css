@@ -1130,15 +1130,6 @@ legend {
   background: #2bc48a;
 }
 
-.home {
-  background-color: #193a5e;
-  color: white;
-  height: 24px !important;
-  padding: 0px;
-  margin: 0 5px;
-  font-size: 12px;
-  min-width: 24px;
-}
 
 .home .material-icons {
   font-size: 14px;
@@ -1151,7 +1142,7 @@ legend {
 .edit.mat-mdc-button.mat-mdc-button-base {
   background-color: #4caf50;
   color: white;
-  height: 24px !important;
+  height: 24px;
   padding: 0px;
   margin: 0 5px;
   font-size: 12px;
@@ -1167,7 +1158,7 @@ legend {
 .disabledEdit.mat-mdc-button.mat-mdc-button-base {
   background-color: grey;
   color: white;
-  height: 24px !important;
+  height: 24px;
   padding: 0px;
   margin: 0 5px;
   font-size: 12px;

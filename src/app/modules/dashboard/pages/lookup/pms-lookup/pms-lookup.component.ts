@@ -30,30 +30,35 @@ export class PmsLookupComponent {
     {
       field: 'pmsCode',
       headerName: 'PMS Component',
+      tooltipField: 'pmsCode',
       flex: 1,
       resizable: true,
     },
     {
       field: 'compname',
       headerName: 'Component name',
+      tooltipField: 'compname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'jobname',
       headerName: 'Job Name',
+      tooltipField: 'jobname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'frequencytype',
       headerName: 'Frequency Type',
+      tooltipField: 'frequencytype',
       flex: 1,
       resizable: true,
     },
     {
       field: 'frequency',
       headerName: 'Frequency',
+      tooltipField: 'frequency',
       flex: 1,
       resizable: true,
     },
@@ -64,7 +69,7 @@ export class PmsLookupComponent {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
 
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

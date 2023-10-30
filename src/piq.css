@@ -33,9 +33,9 @@
 /* TAB STYLE ENDS */
 
 /* BUTTON STYLE START */
-.mat-mdc-button.mat-mdc-button-base {
+/* .mat-mdc-button.mat-mdc-button-base {
   height: 30px !important;
-}
+} */
 /* BUTTON STYLE END */
 
 /* MACK STANDARD BUTTONS START */
@@ -174,23 +174,31 @@
 /* TEXTAREA FORMS END */
 
 /* SELECT FORMS START */
-.selectDropdown ::ng-deep .mat-mdc-form-field-infix{
+.selectDropdown ::ng-deep .mat-mdc-form-field-infix {
   padding: 10px 0 !important;
-    min-height: 35px !important;
+  min-height: 35px !important;
 }
 
-.selectDropdown ::ng-deep .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label{
+.selectDropdown
+  ::ng-deep
+  .mat-mdc-text-field-wrapper
+  .mat-mdc-form-field-flex
+  .mat-mdc-floating-label {
   top: 20px !important;
   font-size: 12px !important;
 }
 
-.selectDropdown ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above{
+.selectDropdown
+  ::ng-deep
+  .mat-mdc-text-field-wrapper.mdc-text-field--outlined
+  .mdc-notched-outline--upgraded
+  .mdc-floating-label--float-above {
   transform: translate(-4px, -24px) !important;
 }
 
-::ng-deep .mat-mdc-option{
-min-height: 35px !important;
-font-size: 12px !important;
+::ng-deep .mat-mdc-option {
+  min-height: 35px !important;
+  font-size: 12px !important;
 }
 /* SELECT FORMS END */
 
@@ -260,8 +268,8 @@ font-size: 12px !important;
 .buttons_wrap ::ng-deep .mdc-evolution-chip-set::-webkit-scrollbar-track {
   background: white;
 }
-.mat-mdc-standard-chip.mat-mdc-chip-selected.mat-primary{
-  background-color: #2196F3 !important;
+.mat-mdc-standard-chip.mat-mdc-chip-selected.mat-primary {
+  background-color: #2196f3 !important;
   color: white !important;
 }
 
@@ -306,20 +314,60 @@ font-size: 12px !important;
 /* DIALOG STYLE END */
 
 /* CARD STYLE START */
-::ng-deep .mat-mdc-card-header{
-padding: 0 15px !important;
+::ng-deep .mat-mdc-card-header {
+  padding: 0 15px !important;
 }
 /* CARD STYLE END */
-
 
 /* STYLES FOR TABLET START */
 @media only screen and (max-width: 770px) {
 
+  .moduleTitle {
+    font-size: 14px !important;
+  }
+
+  .disabledEdit.mat-mdc-button.mat-mdc-button-base {
+    height: 20px !important;
+    min-width: 20px !important;
+  }
+  
+  .disabledEdit img {
+    width: 12px !important;
+    height: 12px !important;
+    margin-bottom: 1px !important;
+  }
+
+  .edit.mat-mdc-button.mat-mdc-button-base {
+    height: 20px !important;
+    min-width: 20px !important;
+  }
+  
+  .edit img {
+    width: 12px !important;
+    height: 12px !important;
+    margin-bottom: 1px !important;
+  }
+
+  .sNumber{
+    font-size: 8px !important;
+  }
+
+  .home.mat-mdc-button.mat-mdc-button-base {
+    height: 20px !important;
+    min-width: 20px;
+  }
+
+  .home .material-icons {
+    font-size: 12px !important;
+    height: 12px !important;
+    width: 12px !important;
+  }
+
   .vesselParticuler label {
     font-weight: bold !important;
-    padding-left: 5px;
+    padding-left: 3px !important;
     color: white;
-    font-size: 7px !important;
+    font-size: 8px !important;
   }
 
   .vesselParticuler {
@@ -331,14 +379,75 @@ padding: 0 15px !important;
     color: white;
     background-color: #4657b8;
   }
-  
+
   .vesselParticuler span {
     font-weight: unset;
     padding: 0 5px;
-    font-size: 7px !important;
+    font-size: 8px !important;
+  }
+
+  ::ng-deep .mdc-tab {
+    min-width: 100px !important;
+    height: 18px !important;
+    font-size: 8px !important;
+    padding: 0 15px !important;
+  }
+
+  .syncBtn.mat-mdc-button.mat-mdc-button-base {
+    height: 22px !important;
+    padding: 0px 5px !important;
+    font-size: 8px !important;
+    white-space: nowrap;
+  }
+
+  .disableSyncBtn.mat-mdc-button.mat-mdc-button-base {
+    height: 22px !important;
+    padding: 0 18px 0 10px !important;
+    font-size: 8px !important;
+    cursor: not-allowed;
+    min-width: 50px !important;
+  }
+  
+  .sub.mat-mdc-button.mat-mdc-button-base {
+    height: 22px !important;
+    padding: 0px 18px 0 10px !important;
+    font-size: 8px !important;
+    min-width: 50px !important;
+  }
+  .btnImg {
+    height: 18px !important;
+    position: relative !important;
+    right: 16px !important;
+  }
+  .labelFont{
+    font-size: 8px !important;
+  }
+
+  .table-header {
+    font-size: 8px !important;
+  }
+
+  .datePicker ::ng-deep .mat-mdc-form-field-infix {
+    min-height: unset !important;
+    padding: 0 !important;
+  }
+  
+  .datePicker ::ng-deep .mat-mdc-text-field-wrapper {
+    padding: 0 5px !important;
+  }
+  
+  .datePicker ::ng-deep .mat-mdc-form-field-input-control {
+    height: 20px !important;
+    font-size: 8px !important;
+    margin: 5px 0px !important;
+  }
+  
+  .datePicker ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+    --mdc-icon-button-state-layer-size: 40px !important;
+    width: 15px !important;
+    height: 18px !important;
+    padding: 0px !important;
   }
 }
 
-
 /* STYLES FOR TABLET END */
-

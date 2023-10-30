@@ -59,49 +59,92 @@ export class PIQSummaryComponent implements OnInit {
   pendingCount = 0;
   photoRowData: any[] = [];
   private gridApi!: GridApi;
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
 
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;
   public gridOptions: GridOptions = {};
   columnDefs: ColDef[] = [
     // { field: 'serialNumber', headerName: 'S.No', width: 70 },
-    { field: 'topics', headerName: 'Header Topics', width: 300,flex:1, },
-    { field: 'status', headerName: 'Status' },
-    { field: 'totalQuestion', headerName: 'Total Questions', width: 160,flex:1 },
-    { field: 'filledQuestion', headerName: 'Filled Question', width: 160,flex:1 },
-    { field: 'pendingQuestion', headerName: 'Pending Question', width: 160,flex:1 },
-    { field: 'lastModified', headerName: 'Last Modified', width: 160,flex:1 },
+    {
+      field: 'topics',
+      headerName: 'Header Topics',
+      tooltipField: 'topics',
+      width: 300,
+      flex: 1,
+    },
+    { field: 'status', headerName: 'Status', tooltipField: 'status' },
+    {
+      field: 'totalQuestion',
+      headerName: 'Total Questions',
+      tooltipField: 'totalQuestion',
+      width: 160,
+      flex: 1,
+    },
+    {
+      field: 'filledQuestion',
+      headerName: 'Filled Question',
+      tooltipField: 'filledQuestion',
+      width: 160,
+      flex: 1,
+    },
+    {
+      field: 'pendingQuestion',
+      headerName: 'Pending Question',
+      tooltipField: 'pendingQuestion',
+      width: 160,
+      flex: 1,
+    },
+    {
+      field: 'lastModified',
+      headerName: 'Last Modified',
+      tooltipField: 'lastModified',
+      width: 160,
+      flex: 1,
+    },
   ];
   photoColumnDefs: ColDef[] = [
     {
       field: 'subTopicTitle',
       headerName: 'Sub Topic Title',
-      tooltipComponent: 'subTopicTitle',flex:1 
+      tooltipComponent: 'subTopicTitle',
+      flex: 1,
     },
     {
       field: 'photoAvailable',
       headerName: 'Photo Available',
-      tooltipField: 'photoAvailable',flex:1
+      tooltipField: 'photoAvailable',
+      flex: 1,
     },
     {
       field: 'isNotMatching',
       headerName: 'Is Not Matching',
-      tooltipField: 'isNotMatching',flex:1
+      tooltipField: 'isNotMatching',
+      flex: 1,
     },
   ];
   expectedColumnDefs: ColDef[] = [
-    { field: 'username', headerName: 'User Name', tooltipField: 'username',flex:1 },
-    { field: 'rankname', headerName: 'User Rank', tooltipField: 'rankname',flex:1 },
+    {
+      field: 'username',
+      headerName: 'User Name',
+      tooltipField: 'username',
+      flex: 1,
+    },
+    {
+      field: 'rankname',
+      headerName: 'User Rank',
+      tooltipField: 'rankname',
+      flex: 1,
+    },
     {
       field: 'crdate',
       headerName: 'Last Update',
       tooltipField: 'crdate',
-      flex:1,
+      flex: 1,
       valueGetter: this.dateFormat.bind(this),
     },
-    { field: 'sync', headerName: 'Type', tooltipField: 'type',flex:1 },
-    { field: 'status', headerName: 'Status', tooltipField: 'status',flex:1 },
+    { field: 'sync', headerName: 'Type', tooltipField: 'sync', flex: 1 },
+    { field: 'status', headerName: 'Status', tooltipField: 'status', flex: 1 },
   ];
   plannedSubDate: any;
   getDate: any;
@@ -128,38 +171,50 @@ export class PIQSummaryComponent implements OnInit {
     {
       field: 'mainQuestion',
       headerName: 'Main Question',
-      tooltipField: 'mainQuestion',flex:1
+      tooltipField: 'mainQuestion',
+      flex: 1,
     },
     {
       field: 'subQuestion',
       headerName: 'Sub Question',
-      tooltipField: 'subQuestion',flex:1
+      tooltipField: 'subQuestion',
+      flex: 1,
     },
-    { field: 'userName', headerName: 'User Name', tooltipField: 'userName',flex:1 },
+    {
+      field: 'userName',
+      headerName: 'User Name',
+      tooltipField: 'userName',
+      flex: 1,
+    },
     {
       field: 'modifiedDateTime',
       headerName: 'Modified Date / Time',
-      tooltipField: 'modifiedDateTime',flex:1
+      tooltipField: 'modifiedDateTime',
+      flex: 1,
     },
   ];
   certificateColumns: ColDef[] = [
     {
       field: 'certifiactetype',
       headerName: 'OCIMF Certificate Type',
-      tooltipField: 'categoryname',flex:1
+      tooltipField: 'certifiactetype',
+      flex: 1,
     },
     {
       field: 'mackcertificatename',
       headerName: 'MACK Certificate Name',
-      tooltipField: 'certificatename',flex:1
+      tooltipField: 'mackcertificatename',
+      flex: 1,
     },
     {
       field: 'certificateAvailable',
       headerName: 'Certificate Available',
-      tooltipField: 'certificateAvailable',flex:1,
+      tooltipField: 'certificateAvailable',
+      flex: 1,
       valueGetter: this.customCrUserValueGetter.bind(this),
     },
   ];
+
   rowData: any[] = [];
   certificateRowData: any[] = [];
   modifiedrowData: any[] = [];
@@ -229,7 +284,7 @@ export class PIQSummaryComponent implements OnInit {
             filledQus.question.forEach((question: any) => {
               questions.push(
                 question.subQuestion.filter((x: any) => x.answer !== '').length
-              );              
+              );
               questions1.push(
                 question.subQuestion.filter((y: any) => y.answer === '').length
               );
@@ -273,7 +328,7 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getImgCount().subscribe((res: any) => {
       this.photoRepImgCounts = res;
     });
-    this.BudgetService.getPrGridData().subscribe((res: any) => {   
+    this.BudgetService.getPrGridData().subscribe((res: any) => {
       this.photoRowData = [];
       this.photoRowData = [...this.photoRowData, ...res];
     });
@@ -284,8 +339,8 @@ export class PIQSummaryComponent implements OnInit {
     this.autoSaveForm = this.fb.group({
       dateField: [''],
       TextAreaField: [''],
-      wrkFlowTextArea:['']
-       // Initialize with an initial or default value
+      wrkFlowTextArea: [''],
+      // Initialize with an initial or default value
     });
   }
   onInputBlur() {
@@ -305,7 +360,7 @@ export class PIQSummaryComponent implements OnInit {
       this.onSubmitQuickNotes();
     }
   }
-  onWorkflow(type?: any,event?:any) {
+  onWorkflow(type?: any, event?: any) {
     this.getAnswerValue(type);
     if (type == 'reassign') {
       this._snackBarService.loadSnackBar(
@@ -356,10 +411,10 @@ export class PIQSummaryComponent implements OnInit {
     const payload = {
       instanceid: this.referenceNumber,
     };
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {   
-      if(res.quicknotes==="null"){
-        this.quickNotesInput = "";
-      }else{
+    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      if (res.quicknotes === 'null') {
+        this.quickNotesInput = '';
+      } else {
         this.quickNotesInput = res.quicknotes;
       }
       this.getWorkFlowAction = res.wrkflow;
@@ -420,7 +475,7 @@ export class PIQSummaryComponent implements OnInit {
             lastmodifieddata: JSON.stringify(this.modifiedrowData),
             wfaction: '',
           };
-          
+
           this.getSSDatas();
         } else if (type === 'reassign') {
           this.setFlowAction = 'RSN';
@@ -485,7 +540,7 @@ export class PIQSummaryComponent implements OnInit {
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       let object = JSON.parse(res.response);
-      
+
       this.getAllDatas = object;
       object.forEach((value1: any) => {
         value1.values.forEach((value: any) => {
@@ -498,14 +553,14 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
   enableViewMode: boolean = true;
-  
-  onSubmit(type: string,event:any) {
+
+  onSubmit(type: string, event: any) {
     this.setFlowAction = '';
     this.getQuestionAnswerDatas(type);
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
-    if(type != 'syncToStore'){
+    if (type != 'syncToStore') {
       this.BudgetService.setEnableViewMode(this.enableViewMode);
     }
     event.preventDefault();
@@ -515,7 +570,7 @@ export class PIQSummaryComponent implements OnInit {
     const payload = {
       instanceid: this.referenceNumber,
     };
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {  
+    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.datasyncgrid && res.datasyncgrid != '') {
         const data = JSON.parse(res.datasyncgrid);
         this.expectedRowData = data;
@@ -574,7 +629,7 @@ export class PIQSummaryComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.instanceId = result;
-        this.onSubmit('reUse',event);
+        this.onSubmit('reUse', event);
       }
     });
   }
@@ -585,12 +640,15 @@ export class PIQSummaryComponent implements OnInit {
           'Sync to Shore Initiated Successfully',
           colorCodes.INFO
         );
-      } else if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT001') {
+      } else if (
+        type === 'syncToStore' &&
+        this.userDetails?.cntrlType === 'CNT001'
+      ) {
         this._snackBarService.loadSnackBar(
           'Sync to Ship Initiated Successfully',
           colorCodes.INFO
         );
-      }else if (type === 'submit') {
+      } else if (type === 'submit') {
         this._snackBarService.loadSnackBar(
           'Submitted Successfully',
           colorCodes.INFO

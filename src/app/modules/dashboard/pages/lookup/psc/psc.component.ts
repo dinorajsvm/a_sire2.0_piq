@@ -34,18 +34,21 @@ export class PscComponent {
     {
       field: 'extrfid',
       headerName: 'Reference ID',
+      tooltipField: 'extrfid',
       resizable: true,
       flex: 1,
     },
     {
       field: 'authoritycode',
       headerName: 'Authority',
+      tooltipField: 'authoritycode',
       resizable: true,
       flex: 1,
     },
     {
       field: 'q156',
       headerName: 'Date of inspection',
+      tooltipField: 'q156',
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -57,24 +60,28 @@ export class PscComponent {
     {
       field: 'inspectioncode',
       headerName: 'Type of inspection',
+      tooltipField: 'inspectioncode',
       resizable: true,
       flex: 1,
     },
     {
       field: 'countrycode',
       headerName: 'Country',
+      tooltipField: 'countrycode',
       resizable: true,
       flex: 1,
     },
     {
       field: 'q160',
       headerName: 'Detention/Rejection',
+      tooltipField: 'q160',
       resizable: true,
       flex: 1,
     },
     {
       field: 'primaryfinding',
       headerName: 'Primary finding count',
+      tooltipField: 'primaryfinding',
       resizable: true,
       flex: 1,
     },
@@ -85,7 +92,7 @@ export class PscComponent {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
@@ -129,7 +136,8 @@ export class PscComponent {
   }
 
   getPscDetail() {
-    this.BudgetService.getPscDetails('SNDC',
+    this.BudgetService.getPscDetails(
+      'SNDC',
       this.data.referenceId,
       this.data.questionId
     ).subscribe((data) => {

@@ -16,14 +16,26 @@ export class PrDialogComponent implements OnInit {
   private gridApi!: GridApi;
 
   columnDefs: ColDef[] = [
-    { field: 'chkid', headerName: 'CheckList ID' },
-    { field: 'checklistname', headerName: 'CheckList Name' },
-    { field: 'createduser', headerName: 'CheckList User' },
-    { field: 'lastupdatedate', headerName: 'CheckList Date' },
+    { field: 'chkid', headerName: 'CheckList ID', tooltipField: 'chkid' },
+    {
+      field: 'checklistname',
+      headerName: 'CheckList Name',
+      tooltipField: 'checklistname',
+    },
+    {
+      field: 'createduser',
+      headerName: 'CheckList User',
+      tooltipField: 'createduser',
+    },
+    {
+      field: 'lastupdatedate',
+      headerName: 'CheckList Date',
+      tooltipField: 'lastupdatedate',
+    },
   ];
   rowData: any = [];
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
 
   constructor(
     private BudgetService: BudgetService,

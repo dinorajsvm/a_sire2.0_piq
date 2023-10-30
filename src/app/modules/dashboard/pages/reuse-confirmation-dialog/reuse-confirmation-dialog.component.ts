@@ -18,6 +18,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
     {
       field: 'instanceid',
       headerName: 'Reference ID',
+      tooltipField: 'instanceid',
       width: 300,
       resizable: true,
     },
@@ -27,7 +28,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   disableBtn = true;
   public rowSelection: 'single' | 'multiple' = 'single';
 
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
 
   constructor(
     private BudgetService: BudgetService,

@@ -85,8 +85,8 @@
               <div class="row" style="justify-content: flex-end;">
                 <div class="col-sm-4">
                   <div class="row" style="flex-direction: column;">
-                    <div class="col-sm-8">
-                      <span style="font-weight: 500;">Planned Submission Date</span>
+                    <div class="col-sm-12">
+                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date</span>
                     </div>
                     <div class="col-sm-8">
                       <mat-form-field appearance="outline" class="datePicker">
@@ -104,11 +104,11 @@
                   </button>
                   <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
-                    Sync to Shore
+                    Sync to Summary
                   </button>
                   <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
-                    Sync to Ship
+                    Sync to Summary
                   </button>
                   <div [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
                     <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
@@ -198,8 +198,7 @@
       <span class="table-header">Certificate Summary</span>
       <ag-grid-angular style="height: calc(100vh - 429px)" class="ag-theme-balham" [columnDefs]="certificateColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
-        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="certificateRowData"
-        [tooltipShowDelay]="tooltipShowDelay" [tooltipHideDelay]="tooltipHideDelay">
+        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="certificateRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6" *ngIf="userDetails?.cntrlType === 'CNT001'">

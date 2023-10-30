@@ -6,6 +6,7 @@ import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.c
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { DefaultColDef } from 'src/app/core/constants';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-reference',
   templateUrl: './reference.component.html',
@@ -17,18 +18,19 @@ export class ReferenceComponent implements OnInit {
     {
       field: 'topic',
       headerName: 'Topic',
+      tooltipField: 'topic',
       flex: 1,
       cellStyle: {textalign: 'left'}
     },
     {
       field: 'remark',
-      headerName: 'Remarks',
+      headerName: 'Remarks',tooltipField: 'remark',
       flex: 1,
     },
-    { field: 'localfilename', headerName: 'File Name', flex: 1 },
+    { field: 'localfilename', headerName: 'File Name',tooltipField: 'localfilename', flex: 1 },
     {
       field: 'filesize',
-      headerName: 'File Size',
+      headerName: 'File Size',tooltipField: 'filesize',
       flex: 1,
     },
     {
@@ -115,7 +117,7 @@ export class ReferenceComponent implements OnInit {
           const output_string = element.filepath.replaceAll(/\\/g, '/');
           (element.filesize = this.convertFileSize(element.filesize)),
             (element.filepath =
-              'https://mackdevship.solverminds.net/' + output_string);
+              `${environment.apiUrl}/` + output_string);
         });
         this.rowData = res.response;
       }

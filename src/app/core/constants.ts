@@ -1,3 +1,5 @@
+import { agGridTooltipComponent } from "../modules/dashboard/pages/renderer/ag-grid-tooltip.component";
+
 export enum ApiMethod {
   GET = 'GET',
   POST = 'POST',
@@ -101,6 +103,7 @@ export const DefaultColDef: any = {
   floatingFilter: true,
   enableRowGroup: true,
   sortable: true,
+  tooltipComponent: agGridTooltipComponent,
   cellStyle: (params: any) => {
     const value = params.value;
     if (typeof value === 'number') {

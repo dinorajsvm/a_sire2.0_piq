@@ -43,6 +43,7 @@ export class TMSAComponent {
     {
       field: 'refno',
       headerName: 'Reference ID',
+      tooltipField: 'refno',
       resizable: true,
       flex: 1,
     },
@@ -50,30 +51,35 @@ export class TMSAComponent {
     {
       field: 'companyname',
       headerName: 'Company Name',
+      tooltipField: 'companyname',
       resizable: true,
       flex: 1,
     },
     {
       field: 'vesselname',
       headerName: 'Vessel Name',
+      tooltipField: 'vesselname',
       resizable: true,
       flex: 1,
     },
     {
       field: 'instype',
       headerName: 'Type Of Inspection',
+      tooltipField: 'instype',
       resizable: true,
       flex: 1,
     },
     {
       field: 'auditfromport',
       headerName: 'Audit From Port',
+      tooltipField: 'auditfromport',
       resizable: true,
       flex: 1,
     },
     {
       field: 'audittoport',
       headerName: 'Audit To Port',
+      tooltipField: 'audittoport',
       resizable: true,
       flex: 1,
     },
@@ -81,12 +87,14 @@ export class TMSAComponent {
     {
       field: 'typeofaudit',
       headerName: 'Type Of Audit',
+      tooltipField: 'typeofaudit',
       resizable: true,
       flex: 1,
     },
     {
       field: 'auditfromdate',
       headerName: 'Audit From Date',
+      tooltipField: 'auditfromdate',
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -98,6 +106,7 @@ export class TMSAComponent {
     {
       field: 'audittodate',
       headerName: 'Audit To Date',
+      tooltipField: 'audittodate',
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -109,6 +118,7 @@ export class TMSAComponent {
     {
       field: 'remote',
       headerName: 'Remote',
+      tooltipField: 'remote',
       resizable: true,
       flex: 1,
     },
@@ -125,48 +135,56 @@ export class TMSAComponent {
     {
       field: 'refno',
       headerName: 'Reference ID',
+      tooltipField: 'refno',
       resizable: true,
       flex: 1,
     },
     {
       field: 'companyname',
       headerName: 'Company Name',
+      tooltipField: 'companyname',
       resizable: true,
       flex: 1,
     },
     {
       field: 'vesselname',
       headerName: 'Vessel Name',
+      tooltipField: 'vesselname',
       resizable: true,
       flex: 1,
     },
     {
       field: 'vsltype',
       headerName: 'Vessel Type',
+      tooltipField: 'vsltype',
       resizable: true,
       flex: 1,
     },
     {
       field: 'typeofvisit',
       headerName: 'Type Of Visit',
+      tooltipField: 'typeofvisit',
       resizable: true,
       flex: 1,
     },
     {
       field: 'fromport',
       headerName: 'From Port',
+      tooltipField: 'fromport',
       resizable: true,
       flex: 1,
     },
     {
       field: 'toport',
       headerName: 'To Port',
+      tooltipField: 'toport',
       resizable: true,
       flex: 1,
     },
     {
       field: 'actualfromdate',
       headerName: 'Actual From Date',
+      tooltipField: 'actualfromdate',
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -178,6 +196,7 @@ export class TMSAComponent {
     {
       field: 'actualtodate',
       headerName: 'Actual To Date',
+      tooltipField: 'actualtodate',
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -199,48 +218,56 @@ export class TMSAComponent {
     {
       field: 'extrfid',
       headerName: 'Reference ID',
+      tooltipField: 'extrfid',
       resizable: true,
       flex: 1,
     },
     {
       field: 'inspectioncode',
       headerName: 'Type Of Inspection',
+      tooltipField: 'inspectioncode',
       resizable: true,
       flex: 1,
     },
     {
       field: 'authoritycode',
       headerName: 'Authority',
+      tooltipField: 'authoritycode',
       resizable: true,
       flex: 1,
     },
     {
       field: 'inspectiondate',
       headerName: 'Date Of Inspection',
+      tooltipField: 'inspectiondate',
       resizable: true,
       flex: 1,
     },
     {
       field: 'remote',
       headerName: 'Remote',
+      tooltipField: 'remote',
       resizable: true,
       flex: 1,
     },
     {
       field: 'viqversion',
       headerName: 'VIQ Version',
+      tooltipField: 'viqversion',
       resizable: true,
       flex: 1,
     },
     {
       field: 'countrycode',
       headerName: 'Country',
+      tooltipField: 'countrycode',
       resizable: true,
       flex: 1,
     },
     {
       field: 'detention',
       headerName: 'Detention/Rejection',
+      tooltipField: 'detention',
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -250,6 +277,7 @@ export class TMSAComponent {
     {
       field: 'placetype',
       headerName: 'Place Of Inspection',
+      tooltipField: 'placetype',
       resizable: true,
       flex: 1,
     },
@@ -260,7 +288,7 @@ export class TMSAComponent {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

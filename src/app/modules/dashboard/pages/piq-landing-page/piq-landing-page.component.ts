@@ -5,7 +5,12 @@ import { AgGridMenuComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu.co
 import { BudgetService } from '../../services/budget.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
-import { CellStatus, DefaultColDef, EFormMode, colorCodes } from 'src/app/core/constants';
+import {
+  CellStatus,
+  DefaultColDef,
+  EFormMode,
+  colorCodes,
+} from 'src/app/core/constants';
 import { MatDialog } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
@@ -16,14 +21,14 @@ import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vesse
   styleUrls: ['./piq-landing-page.component.css'],
 })
 export class PIQLandingPageComponent implements OnInit {
-  frameWorkComponent:any
+  frameWorkComponent: any;
   shipColumnDefs: any[] = [
     {
       field: 'action',
       headerName: 'Action',
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
-        innerRendererFramework:AgGridMenuComponent,
+        innerRendererFramework: AgGridMenuComponent,
         menu: [
           {
             name: '',
@@ -48,16 +53,49 @@ export class PIQLandingPageComponent implements OnInit {
         ],
       },
     },
-    { field: 'serialNumber', headerName: 'Serial Number' },
-    { field: 'referenceNumber', headerName: 'Reference Number' },
-    { field: 'companyName', headerName: 'Company Name' },
-    { field: 'vesselName', headerName: 'Vessel Name' },
-    { field: 'fleetName', headerName: 'Fleet Name' },
-    { field: 'createdDate', headerName: 'Created Date/Time' },
-    { field: 'createdBy', headerName: 'Created By' },
-    { field: 'updatedBy', headerName: 'Updated User' },
-    { field: 'updatedDate', headerName: 'Updated Date' },
-    { field: 'status', headerName: 'Status', cellStyle:CellStatus },
+    {
+      field: 'serialNumber',
+      headerName: 'Serial Number',
+      tooltipField: 'serialNumber',
+    },
+    {
+      field: 'referenceNumber',
+      headerName: 'Reference Number',
+      tooltipField: 'referenceNumber',
+    },
+    {
+      field: 'companyName',
+      headerName: 'Company Name',
+      tooltipField: 'companyName',
+    },
+    {
+      field: 'vesselName',
+      headerName: 'Vessel Name',
+      tooltipField: 'vesselName',
+    },
+    { field: 'fleetName', headerName: 'Fleet Name', tooltipField: 'fleetName' },
+    {
+      field: 'createdDate',
+      headerName: 'Created Date/Time',
+      tooltipField: 'createdDate',
+    },
+    { field: 'createdBy', headerName: 'Created By', tooltipField: 'createdBy' },
+    {
+      field: 'updatedBy',
+      headerName: 'Updated User',
+      tooltipField: 'updatedBy',
+    },
+    {
+      field: 'updatedDate',
+      headerName: 'Updated Date',
+      tooltipField: 'updatedDate',
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      cellStyle: CellStatus,
+      tooltipField: 'status',
+    },
   ];
 
   shoreColumnDefs: any[] = [
@@ -68,7 +106,7 @@ export class PIQLandingPageComponent implements OnInit {
       filter: false,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
-        innerRendererFramework:AgGridMenuComponent,
+        innerRendererFramework: AgGridMenuComponent,
         menu: [
           {
             name: '',
@@ -93,15 +131,40 @@ export class PIQLandingPageComponent implements OnInit {
         ],
       },
     },
-    { field: 'serialNumber', headerName: 'Serial Number' },
-    { field: 'referenceNumber', headerName: 'Reference Number' },
-    { field: 'createdDate', headerName: 'Created Date/Time' },
-    { field: 'createdBy', headerName: 'Created By' },
-    { field: 'updatedBy', headerName: 'Updated User' },
-    { field: 'updatedDate', headerName: 'Updated Date' },
-    { field: 'status', headerName: 'Status' },
+    {
+      field: 'serialNumber',
+      headerName: 'Serial Number',
+      tooltipField: 'serialNumber',
+    },
+    {
+      field: 'referenceNumber',
+      headerName: 'Reference Number',
+      tooltipField: 'referenceNumber',
+    },
+    {
+      field: 'createdDate',
+      headerName: 'Created Date/Time',
+      tooltipField: 'createdDate',
+    },
+    { field: 'createdBy', headerName: 'Created By', tooltipField: 'createdBy' },
+    {
+      field: 'updatedBy',
+      headerName: 'Updated User',
+      tooltipField: 'updatedBy',
+    },
+    {
+      field: 'updatedDate',
+      headerName: 'Updated Date',
+      tooltipField: 'updatedDate',
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      cellStyle: CellStatus,
+      tooltipField: 'status',
+    },
   ];
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
 
   public gridOptions: GridOptions = {};
 
@@ -117,12 +180,13 @@ export class PIQLandingPageComponent implements OnInit {
     private router: Router,
     private BudgetService: BudgetService,
     private _storage: StorageService,
-    private _snackBarService: SnackbarService,public dialog: MatDialog,
+    private _snackBarService: SnackbarService,
+    public dialog: MatDialog
   ) {
     this.userDetails = this._storage.getUserDetails();
-    this.frameWorkComponent={
-      actionRenderer:AgGridMenuComponent
-    }
+    this.frameWorkComponent = {
+      actionRenderer: AgGridMenuComponent,
+    };
   }
 
   ngOnInit(): void {
@@ -140,7 +204,10 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   getNewRef() {
-    if(this.getWrkFlowUser=='anyuser' || this.getWrkFlowUser==this.userDetails.userData.mdata.appInfo.rankCode){
+    if (
+      this.getWrkFlowUser == 'anyuser' ||
+      this.getWrkFlowUser == this.userDetails.userData.mdata.appInfo.rankCode
+    ) {
       const payload = {
         locationcode: this.compVslCode,
         user: this.userDetails?.userCode,
@@ -151,7 +218,9 @@ export class PIQLandingPageComponent implements OnInit {
           const getRefNumber = res.response;
           this.getRefNo = refNo;
           getRefNumber != ''
-            ? this.router.navigate(['/sire/piq-report/' + getRefNumber + '/new'])
+            ? this.router.navigate([
+                '/sire/piq-report/' + getRefNumber + '/new',
+              ])
             : '';
           localStorage.removeItem('getSelectedCheckListID');
         } else {
@@ -161,10 +230,12 @@ export class PIQLandingPageComponent implements OnInit {
           );
         }
       });
-    }else{
-      this._snackBarService.loadSnackBar('You Do Not Have Access to Create a New Form', colorCodes.ERROR);
+    } else {
+      this._snackBarService.loadSnackBar(
+        'You Do Not Have Access to Create a New Form',
+        colorCodes.ERROR
+      );
     }
-    
   }
 
   getCodes() {
@@ -189,32 +260,28 @@ export class PIQLandingPageComponent implements OnInit {
   deleteRowData(event: any) {
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
-    this.BudgetService.deleteRow(payload).subscribe((res: any) => {      
+    this.BudgetService.deleteRow(payload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Form Deleted', colorCodes.INFO);
       this.getLndPgDatas();
     });
   }
 
-  getworkflowStatus(){
-    this.BudgetService.getworkFlowStatus().subscribe((res:any)=>{
+  getworkflowStatus() {
+    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-      val.forEach((item:any)=>{
-        this.getWrkFlowUser=item.creater;
-      })
-    
-    })
+      val.forEach((item: any) => {
+        this.getWrkFlowUser = item.creater;
+      });
+    });
   }
 
   navigatePiq() {
-    if(this.userDetails.cntrlType ==='CNT001'){
-      this.dialog.open(
-         VesselSelectionDialogComponent,{
-          panelClass: 'vesselSelection-dialog-container',
-        }
-       );
-    }else{
+    if (this.userDetails.cntrlType === 'CNT001') {
+      this.dialog.open(VesselSelectionDialogComponent, {
+        panelClass: 'vesselSelection-dialog-container',
+      });
+    } else {
       this.getNewRef();
     }
-
   }
 }

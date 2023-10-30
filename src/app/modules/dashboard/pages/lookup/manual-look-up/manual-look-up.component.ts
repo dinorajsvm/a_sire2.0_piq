@@ -24,36 +24,42 @@ export class ManualLookUpComponent {
     {
       field: 'refid',
       headerName: 'Reference ID',
+      tooltipField: 'refid',
       flex: 1,
       resizable: true,
     },
     {
       field: 'categoryname',
       headerName: 'Category Name',
+      tooltipField: 'categoryname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'certificatename',
       headerName: 'Certificate Name',
+      tooltipField: 'certificatename',
       flex: 1,
       resizable: true,
     },
     {
       field: 'certificatenumber',
       headerName: 'Certificate Number',
+      tooltipField: 'certificatenumber',
       flex: 1,
       resizable: true,
     },
     {
       field: 'authorityname',
       headerName: 'Authority Name',
+      tooltipField: 'authorityname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'dateofissue',
       headerName: 'Date Of Issue',
+      tooltipField: 'dateofissue',
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -65,6 +71,7 @@ export class ManualLookUpComponent {
     {
       field: 'validfrom',
       headerName: 'Valid From',
+      tooltipField: 'validfrom',
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -76,6 +83,7 @@ export class ManualLookUpComponent {
     {
       field: 'validto',
       headerName: 'Valid To',
+      tooltipField: 'validto',
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -87,13 +95,14 @@ export class ManualLookUpComponent {
     {
       field: 'placeofissue',
       headerName: 'Place Of Issue',
+      tooltipField: 'placeofissue',
       flex: 1,
       resizable: true,
     },
   ];
   rowData: any = [];
 
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

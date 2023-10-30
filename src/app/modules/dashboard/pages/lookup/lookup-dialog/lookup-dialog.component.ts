@@ -36,36 +36,42 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'refno',
       headerName: 'Reference ID',
+      tooltipField: 'refno',
       flex: 1,
       resizable: true,
     },
     {
       field: 'companyname',
       headerName: 'Company Name',
+      tooltipField: 'companyname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'vesselname',
       headerName: 'Vessel Name',
+      tooltipField: 'vesselname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'vsltype',
       headerName: 'Vessel Type',
+      tooltipField: 'vsltype',
       flex: 1,
       resizable: true,
     },
     {
       field: 'typeofvisit',
       headerName: 'Type Of Visit',
+      tooltipField: 'typeofvisit',
       flex: 1,
       resizable: true,
     },
     {
       field: 'actualfromdate',
       headerName: 'Actual From Date',
+      tooltipField: 'actualfromdate',
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -77,6 +83,7 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'actualtodate',
       headerName: 'Actual To Date',
+      tooltipField: 'actualtodate',
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -88,12 +95,14 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'fromport',
       headerName: 'From Port',
+      tooltipField: 'fromport',
       flex: 1,
       resizable: true,
     },
     {
       field: 'toport',
       headerName: 'To Port',
+      tooltipField: 'toport',
       flex: 1,
       resizable: true,
     },
@@ -110,36 +119,42 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'refno',
       headerName: 'Reference ID',
+      tooltipField: 'refno',
       flex: 1,
       resizable: true,
     },
     {
       field: 'companyname',
       headerName: 'Company Name',
+      tooltipField: 'companyname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'vesselname',
       headerName: 'Vessel Name',
+      tooltipField: 'vesselname',
       flex: 1,
       resizable: true,
     },
     {
       field: 'instype',
       headerName: 'Inspection Type',
+      tooltipField: 'instype',
       flex: 1,
       resizable: true,
     },
     {
       field: 'typeofaudit',
       headerName: 'Type Of Audit',
+      tooltipField: 'typeofaudit',
       flex: 1,
       resizable: true,
     },
     {
       field: 'auditfromdate',
       headerName: 'Audit From Date',
+      tooltipField: 'auditfromdate',
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -151,6 +166,7 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'audittodate',
       headerName: 'Audit To Date',
+      tooltipField: 'audittodate',
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -162,12 +178,14 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'auditfromport',
       headerName: 'From Port',
+      tooltipField: 'auditfromport',
       flex: 1,
       resizable: true,
     },
     {
       field: 'audittoport',
       headerName: 'To Port',
+      tooltipField: 'audittoport',
       flex: 1,
       resizable: true,
     },
@@ -177,17 +195,17 @@ export class LookupDialogComponent implements OnInit {
   getRowDatas: any = [];
   isShowToggle = false;
   isOnlyShipVisit = false;
-  enableDiv: boolean=false;
+  enableDiv: boolean = false;
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
   public rowClassRules: RowClassRules = {
     // row style function
     'highlighted-row': (params) => {
       return params.data.highlight;
     },
   };
-  
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
@@ -230,11 +248,11 @@ export class LookupDialogComponent implements OnInit {
       if (this.data.qid === 'MQ6') {
         this.isShowToggle = false;
         this.isOnlyShipVisit = true;
-        this.enableDiv=true;
+        this.enableDiv = true;
         this.rowData = this.getRowDatas.ShipVisit;
       } else if (this.data.qid === 'MQ20') {
         this.isOnlyShipVisit = false;
-        
+
         this.isShowToggle = true;
         this.isChecked = false;
         this.rowData = this.getRowDatas.Internal;

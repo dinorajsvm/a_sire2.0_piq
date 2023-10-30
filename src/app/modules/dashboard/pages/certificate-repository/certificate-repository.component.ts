@@ -34,15 +34,23 @@ export class CertificateRepositoryComponent {
       field: 'certifiactetype',
       headerName: 'OCIMF Certificate Type',
       cellRenderer: 'agGroupCellRenderer',
+      tooltipField: 'certifiactetype',
     },
     {
       field: 'mackcertificatename',
       headerName: 'MACK Certificate Name',
+      tooltipField: 'mackcertificatename',
     },
-    { field: 'certificatenumber', headerName: 'Certificate Number', flex: 1 },
+    {
+      field: 'certificatenumber',
+      headerName: 'Certificate Number',
+      tooltipField: 'certificatenumber',
+      flex: 1,
+    },
     {
       field: 'dateofissue',
       headerName: 'Issue Date',
+      tooltipField: 'dateofissue',
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue
@@ -53,6 +61,7 @@ export class CertificateRepositoryComponent {
     {
       field: 'validfrom',
       headerName: 'Valid From',
+      tooltipField: 'validfrom',
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue
@@ -63,6 +72,7 @@ export class CertificateRepositoryComponent {
     {
       field: 'validto',
       headerName: 'Valid To',
+      tooltipField: 'validto',
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue
@@ -73,6 +83,7 @@ export class CertificateRepositoryComponent {
     {
       field: 'anniversarydate',
       headerName: 'Last Annual',
+      tooltipField: 'anniversarydate',
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue
@@ -80,18 +91,37 @@ export class CertificateRepositoryComponent {
           : '';
       },
     },
-    { field: 'categoryname', headerName: 'Category Name', flex: 1 },
-    { field: 'placeofissue', headerName: 'Place Of Issue', flex: 1 },
+    {
+      field: 'categoryname',
+      headerName: 'Category Name',
+      tooltipField: 'categoryname',
+      flex: 1,
+    },
+    {
+      field: 'placeofissue',
+      headerName: 'Place Of Issue',
+      tooltipField: 'placeofissue',
+      flex: 1,
+    },
   ];
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
   public detailCellRendererParams: any = {
     detailGridOptions: {
       columnDefs: [
-        { field: 'docrefno', headerName: 'Document No' },
-        { field: 'localfilename', headerName: 'File Name' },
+        {
+          field: 'docrefno',
+          headerName: 'Document No',
+          tooltipField: 'docrefno',
+        },
+        {
+          field: 'localfilename',
+          headerName: 'File Name',
+          tooltipField: 'localfilename',
+        },
         {
           field: 'filesize',
           headerName: 'File Size',
+          tooltipField: 'filesize',
           valueGetter: (params) => {
             return params.data.filesize
               ? this.convertFileSize(params.data.filesize)

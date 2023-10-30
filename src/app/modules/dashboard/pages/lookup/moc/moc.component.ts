@@ -31,10 +31,25 @@ export class MocComponent {
   }
 
   columnDefs: ColDef[] = [
-    { headerName: 'Ref Id', field: 'mgcreferenceid', flex: 1 },
-    { headerName: 'Category Of Change', field: 'categoryofchange', flex: 1 },
-    { headerName: 'Rank', field: 'rank', flex: 1 },
-    { headerName: 'Orgianted By', field: 'orgiantedby', flex: 1 },
+    {
+      headerName: 'Ref Id',
+      field: 'mgcreferenceid',
+      tooltipField: 'mgcreferenceid',
+      flex: 1,
+    },
+    {
+      headerName: 'Category Of Change',
+      field: 'categoryofchange',
+      tooltipField: 'categoryofchange',
+      flex: 1,
+    },
+    { headerName: 'Rank', field: 'rank', tooltipField: 'rank', flex: 1 },
+    {
+      headerName: 'Orgianted By',
+      field: 'orgiantedby',
+      tooltipField: 'orgiantedby',
+      flex: 1,
+    },
     {
       headerName: '2.5.1.1',
       field: 'q136',
@@ -61,7 +76,7 @@ export class MocComponent {
     },
   ];
 
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
 
   rowData = [];
 

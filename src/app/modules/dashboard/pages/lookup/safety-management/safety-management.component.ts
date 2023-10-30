@@ -24,6 +24,7 @@ export class SafetyManagementComponent implements OnInit {
     {
       headerName: 'Ref No',
       field: 'ivrid',
+      tooltipField: 'ivrid',
       resizable: true,
       pinned: 'left',
       width: 125,
@@ -31,6 +32,7 @@ export class SafetyManagementComponent implements OnInit {
     {
       headerName: 'Incident Title',
       field: 'incidenttitle',
+      tooltipField: 'placeofissue',
       resizable: true,
       pinned: 'left',
       width: 125,
@@ -38,6 +40,7 @@ export class SafetyManagementComponent implements OnInit {
     {
       headerName: 'Incident Description',
       field: 'incidentdescription',
+      tooltipField: 'placeofissue',
       resizable: true,
       pinned: 'left',
       width: 125,
@@ -45,6 +48,7 @@ export class SafetyManagementComponent implements OnInit {
     {
       headerName: 'Type of Incident',
       field: 'typename',
+      tooltipField: 'placeofissue',
       resizable: true,
       pinned: 'left',
       width: 125,
@@ -53,6 +57,7 @@ export class SafetyManagementComponent implements OnInit {
     {
       headerName: 'Date and Time of Incident',
       field: 'incidentdate',
+      tooltipField: 'placeofissue',
       resizable: true,
       width: 125,
       pinned: 'left',
@@ -480,30 +485,35 @@ export class SafetyManagementComponent implements OnInit {
     {
       headerName: 'Ref No',
       field: 'ivrid',
+      tooltipField: 'ivrid',
       resizable: true,
       width: 120,
     },
     {
       headerName: 'Incident Title',
       field: 'incidenttitle',
+      tooltipField: 'incidenttitle',
       width: 120,
       resizable: true,
     },
     {
       headerName: 'Incident Description',
       field: 'incidentdescription',
+      tooltipField: 'incidentdescription',
       resizable: true,
       width: 120,
     },
     {
       headerName: 'Type of Incident',
       field: 'typename',
+      tooltipField: 'typename',
       width: 120,
       resizable: true,
     },
 
     {
       headerName: 'Date and Time of Incident',
+      tooltipField: 'incidentdate',
       field: 'incidentdate',
       width: 120,
       resizable: true,
@@ -516,7 +526,12 @@ export class SafetyManagementComponent implements OnInit {
           : '';
       },
     },
-    { field: 'dateSelection', cellEditor: 'myDateEditor', editable: true },
+    {
+      field: 'dateSelection',
+      cellEditor: 'myDateEditor',
+      tooltipField: 'dateSelection',
+      editable: true,
+    },
     { field: 'dropdown', cellRenderer: 'dropdown' },
   ];
   defaultColDef = DefaultColDef;
