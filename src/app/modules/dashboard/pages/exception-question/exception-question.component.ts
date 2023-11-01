@@ -6,19 +6,21 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-   LicenseManager.setLicenseKey(
-      "CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea"
-    );
+import { DatePipe } from '@angular/common';
+LicenseManager.setLicenseKey(
+  'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
+);
 @Component({
   selector: 'app-exception-question',
   templateUrl: './exception-question.component.html',
   styleUrls: ['./exception-question.component.css'],
+  providers: [DatePipe],
 })
 export class ExceptionQuestionComponent implements OnInit {
   rowSelection = 'single';
   public userDetails: any;
   emptyRemark = '';
-  getRowdataCount:any=[];
+  getRowdataCount: any = [];
   columnDefs: any[] = [
     {
       headerName: 'Auto Sync',
@@ -46,6 +48,11 @@ export class ExceptionQuestionComponent implements OnInit {
       headerName: 'Answer',
       resizable: true,
       width: 100,
+      valueGetter: (params: any) => {
+        return params.data.answer
+          ? this.datePipe.transform(params.data.answer, 'dd-MMM-yyyy')
+          : '';
+      },
     },
     {
       field: 'remark',
@@ -62,12 +69,13 @@ export class ExceptionQuestionComponent implements OnInit {
   rowData: any[] = [];
   private gridApi: any;
   private gridColumnApi: any;
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
   constructor(
     private BudgetService: BudgetService,
     private _snackBarService: SnackbarService,
     private route: ActivatedRoute,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private datePipe: DatePipe
   ) {
     this.frameworkComponents = {
       buttonRenderer: ResetBtnRendererComponent,
@@ -78,19 +86,14 @@ export class ExceptionQuestionComponent implements OnInit {
     this.userDetails = this._storage.getUserDetails();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.BudgetService.getExceptionData().subscribe((data) => {
-      
       this.rowData = data;
-      // if(this.rowData.length===0){
-        //   this.getRowdataCount=0
-        // }else{
-          //   this.getRowdataCount=this.rowData.length;
-          // }
-          this.getRowdataCount=this.rowData.length;
-          this.BudgetService.setExceptionGridData(this.getRowdataCount);
-          this.gridApi!.setRowData(this.rowData);
-          if(this.rowData.length!=0){
-            this.BudgetService.setExceptionRowData(this.rowData);
-          }
+      this.getRowdataCount =
+        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+      this.BudgetService.setExceptionGridData(this.getRowdataCount);
+      this.gridApi!.setRowData(this.rowData);
+      if (this.rowData && this.rowData.length != 0) {
+        this.BudgetService.setExceptionRowData(this.rowData);
+      }
     });
   }
 
@@ -118,8 +121,8 @@ export class ExceptionQuestionComponent implements OnInit {
     }
     const payload = {
       instanceid: this.referenceNumber,
-      usercode: this.userDetails?.userCode,
-      answerdata: {
+      user: this.userDetails?.userCode,
+      exceptionjson: {
         response: this.rowData,
       },
     };

@@ -130,6 +130,7 @@ export class PiqReportComponent implements OnInit {
   getExceptionGridData: any;
   lookUpEnable: boolean = false;
   isLeftIcon = true;
+  saveMappedCertificateData: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -163,6 +164,9 @@ export class PiqReportComponent implements OnInit {
       this.getExceptionGridData = res;
     });
 
+    this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
+      this.saveMappedCertificateData = res;
+    });
     this.BudgetService.getPreviousPresetData().subscribe((data: any) => {
       Object.keys(data).forEach((response) => {
         if (this.dynamicForms.controls[response]) {
@@ -299,7 +303,8 @@ export class PiqReportComponent implements OnInit {
       exceptionjson: this.getExceptionGridData,
       wfaction: '',
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
-      duplicateDetails: JSON.stringify(this.arrayObj),
+      duplicateDetails: this.arrayObj,
+      certificatetab: this.saveMappedCertificateData,
     };
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
@@ -341,7 +346,7 @@ export class PiqReportComponent implements OnInit {
       }
       if (res && res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
-        this.exceptionList = exceptionListObject.response;
+        this.exceptionList = exceptionListObject.response ? exceptionListObject.response : [];
         this.BudgetService.setExceptionData(this.exceptionList);
       }
       object.forEach((value1: any) => {
@@ -503,9 +508,7 @@ export class PiqReportComponent implements OnInit {
   closeDesc() {
     let contentArea = document.getElementById('contentArea');
     let guidance = document.getElementById('guidanceWrapper');
-    if (
-      contentArea?.classList.contains('col-sm-9')
-    ){
+    if (contentArea?.classList.contains('col-sm-9')) {
       contentArea?.classList.add('col-sm-12', 'expandedContent');
       contentArea?.classList.remove('col-sm-9');
       guidance?.classList.add('guideWrap');
@@ -611,6 +614,20 @@ export class PiqReportComponent implements OnInit {
 
   exceptionFn(ques: any, mquest: any, quest: any) {
     if (quest && quest.hasOwnProperty('presetvalue')) {
+      const duplicateResponse = this.exceptionList.find(
+        (x) => x.qid === quest.qid
+      );
+      if (duplicateResponse === undefined) {
+        this.exception(ques, mquest, quest);
+      } else {
+        duplicateResponse.answer = quest.answer;
+      }
+      this.BudgetService.setExceptionData(this.exceptionList);
+    }
+  }
+
+  exceptionDateFn(ques: any, mquest: any, quest: any) {
+    if (quest && quest.type === 'Date') {      
       const duplicateResponse = this.exceptionList.find(
         (x) => x.qid === quest.qid
       );
@@ -976,7 +993,7 @@ export class PiqReportComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result: any) => {
         if (result) {
-          
+
           const payload = {
             instanceid: this.referenceNumber,
             questionid: questionId,
@@ -1233,21 +1250,6 @@ export class PiqReportComponent implements OnInit {
 
     event.preventDefault();
     event.stopPropagation();
-  }
-
-  // lastModifxied(res: any, ijk: any) {
-  //   return res.subQuestion.map((dsd: any) => ({
-  //     ...dsd,
-  //     qid: 'D' + ijk + '_' + dsd.qid,
-  //   }));
-  // }
-
-  lastModified(res: any, ijk: any) {
-    const modifiedSubQuestion = res.subQuestion.map((dsd: any) => ({
-      ...dsd,
-      qid: 'D' + ijk + '_' + dsd.qid,
-    }));
-    return modifiedSubQuestion;
   }
 
   manualLookUp(dialogConfig: any) {
@@ -1975,6 +1977,22 @@ export class PiqReportComponent implements OnInit {
     mquest: any,
     subq: any
   ): void {
+    const mQuestion = mquest.mainQuestion;
+    const str = mQuestion.split(' ');
+    let questionId = '';
+    if (str && str.length > 0) {
+      if (str[0].endsWith('.')) {
+        const stringWithoutLastDot = str[0].slice(0, -1);
+        str[0] = stringWithoutLastDot;
+      }
+      questionId = str[0];
+    }
+    if (questionId === '2.2.1' || questionId === '2.2.2') {
+      this.getLookUpVisit(questionId, subQues, mquest, subq);
+    } else if (questionId === '2.8.2') {
+      this.getPscDetail(questionId, subQues, mquest, subq);
+    }
+
     const selectedDate = event.value;
     subq.answer = selectedDate;
     this.selectedValue = subQues.subHeaders;
@@ -1986,7 +2004,7 @@ export class PiqReportComponent implements OnInit {
       subq.completed = false;
     }
     this.subHeaderCount();
-    this.exceptionFn(subQues, mquest, subq);
+    // this.exceptionFn(subQues, mquest, subq);
     this.dateCount(mquest);
   }
 
@@ -2054,6 +2072,182 @@ export class PiqReportComponent implements OnInit {
         }
       }
     }
+  }
+
+  getLookUpVisit(questionId: any, subQues: any, mquest: any, subq: any) {
+    const locationCode = localStorage.getItem('locationCode');
+    this.BudgetService.getLookupVisitData(
+      'SNDC',
+      this.referenceNumber,
+      questionId
+    ).subscribe((data) => {
+      if (questionId === '2.2.1') {
+        let findLookUpDate: any;
+        if (
+          data &&
+          data.response &&
+          data.response.ShipVisit &&
+          data.response.ShipVisit.length > 0
+        ) {
+          findLookUpDate = data.response.ShipVisit.find(
+            (x: any) => x.highlight
+          );
+        }
+
+        if (findLookUpDate) {
+          const fromDate = this.dynamicForms.value.Q8
+            ? this.datePipe.transform(
+                new Date(this.dynamicForms.value.Q8),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const toDate = this.dynamicForms.value.Q9
+            ? this.datePipe.transform(
+                new Date(this.dynamicForms.value.Q9),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const lookUpFromDate = findLookUpDate.plannedfromdate
+            ? this.datePipe.transform(
+                new Date(findLookUpDate.plannedfromdate),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const lookUpToDate = findLookUpDate.plannedtodate
+            ? this.datePipe.transform(
+                new Date(findLookUpDate.plannedtodate),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+
+          if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
+            this.exceptionDateFn(subQues, mquest, subq);
+          }
+        }
+      } else {
+        let lookUpShipDate: any;
+        let lookUpInternDate: any;
+        if (data && data.response) {
+          lookUpShipDate = data.response.ShipVisit.find(
+            (x: any) => x.highlight
+          );
+          lookUpInternDate = data.response.Internal.find(
+            (x: any) => x.highlight
+          );
+        }
+
+        if (lookUpShipDate) {
+          const fromDate = this.dynamicForms.value.Q22
+            ? this.datePipe.transform(
+                new Date(this.dynamicForms.value.Q22),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const toDate = this.dynamicForms.value.Q23
+            ? this.datePipe.transform(
+                new Date(this.dynamicForms.value.Q23),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const lookUpFromDate = lookUpShipDate.actualfromdate
+            ? this.datePipe.transform(
+                new Date(lookUpShipDate.actualfromdate),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const lookUpToDate = lookUpShipDate.actualtodate
+            ? this.datePipe.transform(
+                new Date(lookUpShipDate.actualtodate),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+
+          if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
+            this.exceptionDateFn(subQues, mquest, subq);
+          }
+        }
+
+        if (lookUpInternDate) {
+          const fromDate = this.dynamicForms.value.Q22
+            ? this.datePipe.transform(
+                new Date(this.dynamicForms.value.Q22),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const toDate = this.dynamicForms.value.Q23
+            ? this.datePipe.transform(
+                new Date(this.dynamicForms.value.Q23),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const lookUpFromDate = lookUpInternDate.auditfromdate
+            ? this.datePipe.transform(
+                new Date(lookUpInternDate.auditfromdate),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+          const lookUpToDate = lookUpInternDate.audittodate
+            ? this.datePipe.transform(
+                new Date(lookUpInternDate.audittodate),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+
+          if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
+            this.exceptionDateFn(subQues, mquest, subq);
+          }
+        }
+      }
+    });
+  }
+
+  getPscDetail(questionId: any, subQues: any, mquest: any, subq: any) {
+    this.BudgetService.getPscDetails(
+      'SNDC',
+      this.referenceNumber,
+      questionId
+    ).subscribe((data) => {
+      if (questionId === '2.8.2') {
+        let lookUpPSCDate: any;
+        let lookUpNonPSCDate: any;
+        if (data && data.response) {
+          lookUpPSCDate = data.response.PSC.find((x: any) => x.highlight);
+          lookUpNonPSCDate = data.response['Non-sPSC'].find(
+            (x: any) => x.highlight
+          );
+        }
+
+        if (lookUpPSCDate || lookUpNonPSCDate) {
+          let lookUpFromDate: any;
+          const fromDate = this.dynamicForms.value.Q156
+            ? this.datePipe.transform(
+                new Date(this.dynamicForms.value.Q156),
+                'dd-MMM-yyyy HH:mm:ss'
+              )
+            : '';
+
+          if (lookUpPSCDate) {
+            lookUpFromDate = lookUpPSCDate.q156
+              ? this.datePipe.transform(
+                  new Date(lookUpPSCDate.q156),
+                  'dd-MMM-yyyy HH:mm:ss'
+                )
+              : '';
+          } else {
+            lookUpFromDate = lookUpNonPSCDate.q156
+              ? this.datePipe.transform(
+                  new Date(lookUpNonPSCDate.q156),
+                  'dd-MMM-yyyy HH:mm:ss'
+                )
+              : '';
+          }
+
+          if (!(fromDate === lookUpFromDate)) {
+            this.exceptionDateFn(subQues, mquest, subq);
+          }
+        }
+      }
+    });
   }
   workSpace() {
     this.showWorkSpace = !this.showWorkSpace;

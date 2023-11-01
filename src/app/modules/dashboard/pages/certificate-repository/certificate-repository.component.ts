@@ -164,6 +164,7 @@ export class CertificateRepositoryComponent {
         });
       }
       this.rowData = res.response.piqmappinglist;
+
       this.totalCertificateCount = this.rowData.length;
       const mappingCercodeValues = this.rowData.map(
         (item) => item.mackcertificatename
@@ -174,8 +175,25 @@ export class CertificateRepositoryComponent {
       this.certificateCount = filteredMappingCode.length;
       this.BudgetService.setCertificateGridData(this.totalCertificateCount);
       this.BudgetService.setMappedCertificateData(this.certificateCount);
+      this.setSaveCertificateAction();
     });
   }
+  setSaveCertificateAction() {
+    let payLoad: any[] = [];
+    this.rowData.forEach((data) => {
+      payLoad.push({
+        piqcername: data.certifiactetype ? data.certifiactetype : '',
+        macksavedcername: data.mackcertificatename
+          ? data.mackcertificatename
+          : '',
+      });
+    });
+    const reqestBody = {
+      certificatetab: payLoad,
+    };
+    this.BudgetService.saveMappedCertificateData(reqestBody);
+  }
+
   isString(input: any): input is string {
     return typeof input === 'string';
   }
@@ -214,9 +232,5 @@ export class CertificateRepositoryComponent {
       }
       return response.blob();
     });
-  }
-  onSubmit() {
-    // const selectedNodes = this.gridApi.getSelectedNodes();
-    // const selectedData = selectedNodes.map((node: any) => node.data);
   }
 }

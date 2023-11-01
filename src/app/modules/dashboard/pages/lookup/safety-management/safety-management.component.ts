@@ -571,7 +571,7 @@ export class SafetyManagementComponent implements OnInit {
       this.rowData = JSON.parse(data.response);
     });
   }
-  onBtnClick1(event: any) {
+  onBtnClick1(event?: any) {
     const rowKeys = [
       'MQ337',
       'MQ343',
@@ -635,8 +635,10 @@ export class SafetyManagementComponent implements OnInit {
     } else if (event && event.index === 1) {
       const tempSelectedData = this.selectedRowData;
       this.selectedRowData = [];
+    
       setTimeout(() => {
         this.selectedRowData = tempSelectedData;
+        this.onBtnClick1()
       }, 100);
     }
   }

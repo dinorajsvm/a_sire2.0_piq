@@ -26,6 +26,7 @@ export class BudgetService {
   private getCertificateGridDataList = new BehaviorSubject<any>(0);
   private getModifiedDataList = new Subject<any>();
   private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
+  private saveMappedCertificate = new Subject<any>;
   private getExceptionGridDataList = new BehaviorSubject<any>(0);
   private getImageCount = new BehaviorSubject<any>(0);
   private getPhotoRepList = new BehaviorSubject<any>(0);
@@ -288,6 +289,12 @@ export class BudgetService {
     return this.getMappedCertificateGridDataList.asObservable();
   }
 
+  saveMappedCertificateData(message: any) {
+    this.saveMappedCertificate.next(message);
+  }
+  getSavedMappedCertificateData() {
+    return this.saveMappedCertificate.asObservable();
+  }
   setModifiedData(message: any) {
     this.getModifiedDataList.next(message);
   }
