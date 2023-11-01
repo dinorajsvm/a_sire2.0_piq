@@ -48,11 +48,6 @@ export class ExceptionQuestionComponent implements OnInit {
       headerName: 'Answer',
       resizable: true,
       width: 100,
-      valueGetter: (params: any) => {
-        return params.data.answer
-          ? this.datePipe.transform(params.data.answer, 'dd-MMM-yyyy')
-          : '';
-      },
     },
     {
       field: 'remark',

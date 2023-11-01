@@ -8,12 +8,12 @@
   <div class="header col-sm-12">
     <div class="row">
       <div class="col-sm-9">
-        <h5 class="moduleTitle">Pre-Inspection Questionnarie</h5>
+        <h5>Pre-Inspection Questionnarie</h5>
       </div>
       <div class="col-sm-2 text-right" style="padding-right: 0; white-space: nowrap">
-        <span class="sNumber">RefID: {{ referenceNumber }}</span>
+        <span>RefID: {{ referenceNumber }}</span>
       </div>
-      <div class="col-sm-1 text-right" style="padding: 0;display: flex;justify-content: center;">
+      <div class="col-sm-1 text-right" style="padding: 0">
         <button matTooltip="Edit" [disabled]="enableEditMode" [class.disabledEdit]="enableEditMode" mat-button
           class="edit" (click)="edit()">
           <img src="assets/question/edit.svg" />

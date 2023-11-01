@@ -345,7 +345,9 @@ export class PiqReportComponent implements OnInit {
       }
       if (res && res.exceptionlist) {
         let exceptionListObject = JSON.parse(res.exceptionlist);
-        this.exceptionList = exceptionListObject.response ? exceptionListObject.response : [];
+        this.exceptionList = exceptionListObject.response
+          ? exceptionListObject.response
+          : [];
         this.BudgetService.setExceptionData(this.exceptionList);
       }
       object.forEach((value1: any) => {
@@ -513,10 +515,6 @@ export class PiqReportComponent implements OnInit {
       guidance?.classList.add('guideWrap');
       guidance?.classList.remove('guideWrapExpanded');
     }
-    // if (this.descriptionContainer) {
-    //   this.headerListContainer = true;
-    //   this.descriptionContainer = false;
-    // }
   }
 
   closeLookup() {
@@ -626,7 +624,19 @@ export class PiqReportComponent implements OnInit {
   }
 
   exceptionDateFn(ques: any, mquest: any, quest: any) {
-    if (quest && quest.type === 'Date') {      
+    if (quest && quest.type === 'Date') {
+      quest.answer = this.datePipe.transform(quest.answer, 'dd-MMM-yyyy');
+
+      const duplicateResponse = this.exceptionList.find(
+        (x) => x.qid === quest.qid
+      );
+      if (duplicateResponse === undefined) {
+        this.exception(ques, mquest, quest);
+      } else {
+        duplicateResponse.answer = quest.answer;
+      }
+      this.BudgetService.setExceptionData(this.exceptionList);
+    } else if (quest && quest.type === 'Select') {
       const duplicateResponse = this.exceptionList.find(
         (x) => x.qid === quest.qid
       );
@@ -785,6 +795,19 @@ export class PiqReportComponent implements OnInit {
     subQue: any,
     allValues: any
   ): void {
+    const mQuestion = mainQue.mainQuestion;
+    const str = mQuestion.split(' ');
+    let questionId = '';
+    if (str && str.length > 0) {
+      if (str[0].endsWith('.')) {
+        const stringWithoutLastDot = str[0].slice(0, -1);
+        str[0] = stringWithoutLastDot;
+      }
+      questionId = str[0];
+    }
+    if (questionId === '2.8.2') {
+      this.getPscDetail(questionId, ques, mainQue, subQue);
+    }
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
       userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -992,7 +1015,6 @@ export class PiqReportComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result: any) => {
         if (result) {
-
           const payload = {
             instanceid: this.referenceNumber,
             questionid: questionId,
@@ -2218,6 +2240,13 @@ export class PiqReportComponent implements OnInit {
 
         if (lookUpPSCDate || lookUpNonPSCDate) {
           let lookUpFromDate: any;
+          let lookUpQ155: any;
+          let lookUpQ158: any;
+          let lookUpQ160: any;
+          let lookUpQ161: any;
+          const q155Field = this.dynamicForms.value.Q155
+            ? this.dynamicForms.value.Q155
+            : '';
           const fromDate = this.dynamicForms.value.Q156
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q156),
@@ -2225,6 +2254,15 @@ export class PiqReportComponent implements OnInit {
               )
             : '';
 
+          const q158Field = this.dynamicForms.value.Q158
+            ? this.dynamicForms.value.Q158
+            : '';
+          const q160Field = this.dynamicForms.value.Q160
+            ? this.dynamicForms.value.Q160
+            : '';
+          const q161Field = this.dynamicForms.value.Q161
+            ? this.dynamicForms.value.Q161
+            : '';
           if (lookUpPSCDate) {
             lookUpFromDate = lookUpPSCDate.q156
               ? this.datePipe.transform(
@@ -2232,6 +2270,10 @@ export class PiqReportComponent implements OnInit {
                   'dd-MMM-yyyy HH:mm:ss'
                 )
               : '';
+            lookUpQ155 = 'Yes';
+            lookUpQ158 = lookUpPSCDate.authoritycode;
+            lookUpQ160 = lookUpPSCDate.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+            lookUpQ161 = lookUpPSCDate.deficiencycount === '1' ? 'Yes' : 'No';
           } else {
             lookUpFromDate = lookUpNonPSCDate.q156
               ? this.datePipe.transform(
@@ -2239,10 +2281,32 @@ export class PiqReportComponent implements OnInit {
                   'dd-MMM-yyyy HH:mm:ss'
                 )
               : '';
+            lookUpQ155 = 'Yes';
+            lookUpQ158 = lookUpNonPSCDate.authoritycode;
+            lookUpQ160 =
+              lookUpNonPSCDate.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+            lookUpQ161 =
+              lookUpNonPSCDate.deficiencycount === '1' ? 'Yes' : 'No';
           }
 
-          if (!(fromDate === lookUpFromDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
+          if (
+            !(
+              fromDate === lookUpFromDate &&
+              q155Field === lookUpQ155 &&
+              q158Field === lookUpQ158 &&
+              q160Field === lookUpQ160 &&
+              q161Field === lookUpQ161
+            )
+          ) {
+            if (
+              fromDate !== '' &&
+              q155Field !== '' &&
+              q158Field !== '' &&
+              q160Field !== '' &&
+              q161Field !== ''
+            ) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
           }
         }
       }
