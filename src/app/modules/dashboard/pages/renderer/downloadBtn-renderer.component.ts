@@ -6,7 +6,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
   selector: 'app-button-renderer',
   template: `
     <style>
-      .syncBtn {
+      .download {
         background-color: #19c37d;
         color: white;
         line-height: 19px;
@@ -16,7 +16,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
         border: 1px solid #19c37d;
       }
     </style>
-    <button mat-button class="syncBtn" type="submit" (click)="onClick($event)">
+    <button mat-button class="download" type="submit" (click)="onClick($event)">
       Download
     </button>
   `,

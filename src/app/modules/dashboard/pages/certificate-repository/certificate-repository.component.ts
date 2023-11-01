@@ -34,12 +34,13 @@ export class CertificateRepositoryComponent {
       field: 'certifiactetype',
       headerName: 'OCIMF Certificate Type',
       cellRenderer: 'agGroupCellRenderer',
-      tooltipField: 'certifiactetype',
+      cellClass:'width',
+      tooltipField: 'certifiactetype',flex: 1,
     },
     {
       field: 'mackcertificatename',
       headerName: 'MACK Certificate Name',
-      tooltipField: 'mackcertificatename',
+      tooltipField: 'mackcertificatename',flex: 1,
     },
     {
       field: 'certificatenumber',

@@ -512,6 +512,9 @@
   .charCount {
     font-size: 8px !important;
   }
+  ::ng-deep .download{
+    font-size: 8px !important;
+  }
 
   .summaryGrid {
     height: calc(100vh - 350px) !important;
@@ -528,7 +531,7 @@
     padding: 0 5px !important;
   }
 
-  .inProgress {
+  /* .inProgress {
     width: 6px !important;
     height: 6px !important;
   }
@@ -539,6 +542,12 @@
   }
   .expand-button-wrapper {
     padding-bottom: 0 !important;
+  }
+
+  .resetIcn{
+    height: 9px !important;
+    font-size: 7px !important;
+    width: 12px !important;
   }
 
   .content_header{
@@ -561,30 +570,30 @@
     margin-left: 0 !important;
     min-width: 55px !important;
   }
-  ::ng-deep .searchBox {
+  .searchBox {
     height: 20px !important;
     width: 20px !important;
   }
-  ::ng-deep .searchBox .search,
-  ::ng-deep .searchBox .closeIcn {
+  .searchBox .search,
+  .searchBox .closeIcn {
     height: 20px !important;
     font-size: 20px !important;
   }
 
-  ::ng-deep .search .mat-icon {
+  .search .mat-icon {
     font-size: 15px !important;
     padding: 5px 0 !important;
   }
-  ::ng-deep .closeIcn .mat-icon {
+  .closeIcn .mat-icon {
     font-size: 15px !important;
     padding: 5px 0 !important;
   }
 
-  ::ng-deep .searchBox .searchInput {
+  .searchBox .searchInput {
     height: 20px !important;
   }
 
-  ::ng-deep .searchBox .searchInput input {
+  .searchBox .searchInput input {
     font-size: 8px !important;
   }
 
@@ -613,7 +622,7 @@
     font-size: 8px !important;
     margin: 0px !important;
     line-height: 12px;
-  }
+  } */
 }
 
 /* STYLES FOR TABLET END */

@@ -37,6 +37,7 @@ export class ReferenceComponent implements OnInit {
       headerName: 'Download',
       flex:1,
       cellRenderer: 'buttonRenderer',
+      cellStyle: {textalign: 'center'},
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
       },
