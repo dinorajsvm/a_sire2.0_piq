@@ -105,22 +105,22 @@
         <div class="col-sm-12 quesCountsWrap">
           <div class="topBarQuestInd">
             <div class="quesCounts">
-              <span class="counts">Total Questions: {{ mainQuestCounts }}</span>
-              <span class="counts" (click)="showpendQues()">Pending Questions: {{ pendingCount }}</span>
-              <span class="counts" (click)="ShowAllQuest()">Show All Questions</span>
+              <span class="counts charCount">Total Questions: {{ mainQuestCounts }}</span>
+              <span class="counts charCount" (click)="showpendQues()">Pending Questions: {{ pendingCount }}</span>
+              <span class="counts charCount" (click)="ShowAllQuest()">Show All Questions</span>
             </div>
             <div class="questIndicator">
               <div class="indicators" *ngIf="userDetails?.cntrlType === 'CNT002'">
                 <span class="indCol shore"></span>
-                <span>Shore</span>
+                <span class="charCount">Shore</span>
               </div>
               <div class="indicators">
                 <span class="indCol preset"></span>
-                <span>Preset</span>
+                <span class="charCount">Preset</span>
               </div>
               <div class="indicators">
                 <span class="indCol presetChanged"></span>
-                <span>Changed Preset Question</span>
+                <span class="charCount">Changed Preset Question</span>
               </div>
             </div>
           </div>
@@ -134,9 +134,9 @@
                   <div class="expColWrap">
                     <mat-icon id="expandIcon">expand_less</mat-icon>
                   </div>
-                  <span>{{ expandAll ? "Collapse All" : "Expand All" }}</span>
+                  <span class="charCount">{{ expandAll ? "Collapse All" : "Expand All" }}</span>
                 </div>
-                <div class="memoBtn" (click)="toggleMemo()">
+                <div class="memoBtn charCount" (click)="toggleMemo()">
                   {{ memoVisible ? "Hide Momo" : "Show Memo" }}
                 </div>
               </div>
@@ -160,14 +160,14 @@
                   <div class="col-sm-3 head" id="sideBarList" style="padding: 0">
                     <div class="list_wrapper">
                       <div *ngFor="let heading of getAllDatas">
-                        <div class="header_list" *ngIf="
+                        <div class="header_list charCount" *ngIf="
                             searchText === '' ||
                             heading.header.toLowerCase().includes(searchText)
                           " (click)="toggleExpandHeader(heading)">
                           <div [innerHTML]="highlightSearchText(heading.header)">
                             {{ heading.header }}
                           </div>
-                          <div>
+                          <div class="wte-spc">
                             ({{ heading.filledCount }} /
                             {{ heading.values.length }})
                           </div>
@@ -182,7 +182,7 @@
                                   .toLowerCase()
                                   .includes(searchText)
                               ">
-                              <div class="head_list" (click)="selectValue(value.subHeaders, value)" [innerHTML]="
+                              <div class="head_list charCount" (click)="selectValue(value.subHeaders, value)" [innerHTML]="
                                   highlightSearchText(value.subHeaders)
                                 ">
                                 {{ value.subHeaders }}
@@ -214,7 +214,7 @@
                           let index = index
                         ">
                         <div>
-                          <div class="content_header" id="{{ index }}">
+                          <div class="content_header charCount" id="{{ index }}">
                             {{ quest.subHeaders }}
                             <div style="display: flex">
                               <mat-icon #comExpColBtn (click)="expandAllMainquestions()" class="comExpColBtn">
@@ -241,7 +241,7 @@
                                   <mat-panel-title>
                                     <div class="col-sm-12" style="padding: 0">
                                       <div class="row">
-                                        <div class="col-sm-10 mqAlign mainquest" [innerHTML]="
+                                        <div class="col-sm-10 mqAlign mainquest charCount" [innerHTML]="
                                             highlightSearchText(
                                               Mquest.mainQuestion
                                             )
@@ -269,7 +269,7 @@
                                     Mquest.subQuestion &&
                                     Mquest.subQuestion.length <= 1
                                   ">
-                                  <div class="col-sm-12 shoreQuest" [id]="subq.qid"
+                                  <div class="col-sm-12 shoreQuest charCount" [id]="subq.qid"
                                     *ngFor="let subq of Mquest.subQuestion" [class.shoreQuest]="
                                       !isQuestionShow(subq.entryorgin)
                                     " [class.presetQuest]="
@@ -278,7 +278,7 @@
                                       ishighlightClass(subq.entryorgin)
                                     ">
                                     <div class="row">
-                                      <div class="col-sm-11">
+                                      <div class="col-sm-11 charCount lineHeight">
                                         {{ subq.subName }}
                                       </div>
                                       <div class="col-sm-1 text-right"
@@ -290,7 +290,7 @@
                                     <!-- API types Start -->
                                     <div class="row">
                                       <div class="col-sm-2" *ngIf="subq.type == 'Automatic'">
-                                        <mat-form-field appearance="outline" class="input auto_Field"
+                                        <mat-form-field appearance="outline" class="input auto_Field charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput name="inputField" [readonly]="viewMode" autocomplete="off"
                                             [formControlName]="subq.qid" (input)="
@@ -301,7 +301,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-2" *ngIf="subq.type == 'Numeric'">
-                                        <mat-form-field appearance="outline" class="input"
+                                        <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" digitDirective appTwoDigitDecimaNumber
                                             placeholder="0.00" name="inputField" autocomplete="off"
@@ -315,7 +315,7 @@
                                       <div class="col-sm-2 dateWrap" *ngIf="
                                           subq.type == 'Integer' && subq.response == 'Integer'
                                         ">
-                                        <mat-form-field appearance="outline" class="input"
+                                        <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" newmeric placeholder="0" maxlength="3"
                                             name="inputField" autocomplete="off" [formControlName]="subq.qid"
@@ -429,7 +429,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-2 dateWrap" *ngIf="subq.type == 'Date'">
-                                        <mat-form-field appearance="outline" class="datePicker"
+                                        <mat-form-field appearance="outline" class="datePicker "
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput [matDatepicker]="picker" autocomplete="off"
                                             [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
@@ -461,7 +461,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-6" *ngIf="subq.type == 'TextArea'">
-                                        <mat-form-field appearance="outline" class="textArea"
+                                        <mat-form-field appearance="outline" class="textArea charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode" (input)="
                                               inputChanges($event, subq, quest)
@@ -469,7 +469,7 @@
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
-                                          <span style="font-size: 12px">
+                                          <span class="charCount"style="font-size: 12px">
                                             {{ subq.specification - textArea.value.length }}
                                             Characters Remaining
                                           </span>
@@ -498,7 +498,7 @@
                                       subq.presetvalue !== subq.answer
                                     ">
                                     <div class="row">
-                                      <div class="col-sm-11">
+                                      <div class="col-sm-11 charCount lineHeight">
                                         {{ subq.subName }}
                                       </div>
                                       <div class="col-sm-1"
@@ -511,7 +511,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-5" *ngIf="subq.type == 'Automatic'">
-                                        <mat-form-field appearance="outline" class="input auto_Field"
+                                        <mat-form-field appearance="outline" class="input auto_Field charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput name="inputField" [readonly]="viewMode" autocomplete="off"
                                             [formControlName]="subq.qid" (input)="
@@ -525,7 +525,7 @@
                                           subq.type == 'Integer' &&
                                           subq.response == 'Integer'
                                         ">
-                                        <mat-form-field appearance="outline" class="input"
+                                        <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" newmeric placeholder="0" maxlength="3"
                                             name="inputField" autocomplete="off" [formControlName]="subq.qid"
@@ -541,7 +541,7 @@
                                           subq.type == 'Integer' &&
                                           subq.response == 'Percentage'
                                         ">
-                                        <mat-form-field appearance="outline" class="input"
+                                        <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput percentage name="inputField" [readonly]="viewMode"
                                             placeholder="0" type="text" autocomplete="off" [formControlName]="subq.qid"
@@ -554,7 +554,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-5" *ngIf="subq.type == 'Numeric'">
-                                        <mat-form-field appearance="outline" class="input"
+                                        <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" digitDirective appTwoDigitDecimaNumber
                                             placeholder="0.00" name="inputField" autocomplete="off"
@@ -652,7 +652,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Date'">
-                                        <mat-form-field appearance="outline" class="datePicker"
+                                        <mat-form-field appearance="outline" class="datePicker charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput [matDatepicker]="picker" autocomplete="off"
                                             [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
@@ -684,7 +684,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
-                                        <mat-form-field appearance="outline" class="textArea"
+                                        <mat-form-field appearance="outline" class="textArea charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode" (input)="
                                               inputChanges($event, subq, quest)
@@ -692,7 +692,7 @@
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
-                                          <span style="font-size: 12px">
+                                          <span class="charCount" style="font-size: 12px">
                                             {{ subq.specification - textArea.value.length }}
                                             Characters Remaining 
                                           </span>
@@ -706,14 +706,13 @@
                                     <fieldset>
                                       <legend>Memo</legend>
                                       <div class="col-sm-12" style="padding: 0">
-                                        <mat-form-field class="textArea">
-                                          <textarea matInput #textArea maxlength="100" [readonly]="viewMode"
-                                            name="textAreaField">
+                                        <mat-form-field class="textArea charCount">
+                                          <textarea matInput #memoTextArea maxlength="100" [readonly]="viewMode">
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
-                                          <span style="font-size: 12px">
-                                            {{ 100 - textArea.value.length }}
+                                          <span class="charCount" style="font-size: 12px">
+                                            {{ 100 - memoTextArea.value.length }}
                                             Characters Remaining
                                           </span>
                                         </div>
@@ -976,7 +975,7 @@
                                           </div>
                                           <div class="row">
                                             <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
-                                              <mat-form-field appearance="outline" class="textArea" [ngClass]="{
+                                              <mat-form-field appearance="outline" class="textArea charCount" [ngClass]="{
                                                   'read-only': viewMode
                                                 }">
                                                 <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
@@ -990,7 +989,7 @@
                                                 </textarea>
                                               </mat-form-field>
                                               <div class="text-right">
-                                                <span style="font-size: 12px">
+                                                <span class="charCount" style="font-size: 12px">
                                                   {{
                                                     subq.specification - textArea.value.length
                                                   }}
@@ -1209,7 +1208,7 @@
 
                                           <div class="row">
                                             <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
-                                              <mat-form-field appearance="outline" class="textArea" [ngClass]="{
+                                              <mat-form-field appearance="outline" class="textArea charCount" [ngClass]="{
                                                   'read-only': viewMode
                                                 }">
                                                 <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
@@ -1223,7 +1222,7 @@
                                                 </textarea>
                                               </mat-form-field>
                                               <div class="text-right">
-                                                <span style="font-size: 12px">
+                                                <span class="charCount" style="font-size: 12px">
                                                   {{
                                                     subq.specification - textArea.value.length
                                                   }}

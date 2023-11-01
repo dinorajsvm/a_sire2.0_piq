@@ -13,7 +13,7 @@
   border: 1px solid #dee1f0;
   background-color: white;
 }
-#float-input{
+#float-input {
   padding: 0 5px;
 }
 
@@ -59,7 +59,7 @@
   height: 25px;
 }
 
-.dataImg1{
+.dataImg1 {
   width: 20px;
   height: 20px;
 }
@@ -143,7 +143,7 @@ mat-card-content {
   padding: 0 10px !important;
   width: 100%;
 }
-.contWrap{
+.contWrap {
   height: 91px;
   margin-bottom: 8px;
 }
@@ -152,11 +152,11 @@ mat-card-header {
   padding: 0 !important;
 }
 
-.header {
+.sumHeading {
   padding: 0 10px;
   width: 100%;
   font-weight: 500 !important;
-  font-size: 15px !important;
+  font-size: 15px;
   /* text-decoration: underline; */
   text-align: left;
 }
@@ -207,41 +207,46 @@ mat-card-header {
 }
 .count-font {
   font-weight: bold;
-  font-size: 20px;
   color: #4bd09e;
   padding: 0 10px;
 }
 
 .count-font-pending {
   font-weight: bold;
-  font-size: 20px;
   color: #dc3545;
   padding: 0 10px;
 }
 
 .count-font-preset {
   font-weight: bold;
-  font-size: 20px;
   color: #e9a70b;
   padding: 0 10px;
 }
 
 .count-font-certificate {
   font-weight: bold;
-  font-size: 20px;
   color: #9b1fe8;
   padding: 0 10px;
 }
 
 .count-font-photo {
   font-weight: bold;
-  font-size: 20px;
   color: #379df1;
   padding: 0 10px;
+}
+
+.cnt-fnt-size {
+  font-size: 20px;
 }
 
 .description-font {
   font-weight: 500;
   font-size: 12px;
   color: gray;
+}
+
+.charCount {
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
 }

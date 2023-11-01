@@ -13,7 +13,7 @@
   
   .searchBox.active {
     transition: 200ms;
-    width: 100%;
+    width: 100% !important;
   }
   
   .searchBox.active .closeIcn {

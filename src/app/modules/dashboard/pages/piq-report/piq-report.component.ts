@@ -152,10 +152,8 @@ export class PiqReportComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('type') == 'new') {
       this.saveWorkFlowAction();
     }
-    this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
-
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
     });
@@ -255,6 +253,7 @@ export class PiqReportComponent implements OnInit {
     };
 
     this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
+    this.getWrkFlSummary();
   }
 
   getworkflowStatus() {
