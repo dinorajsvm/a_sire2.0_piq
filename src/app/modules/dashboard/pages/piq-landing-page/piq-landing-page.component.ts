@@ -276,12 +276,8 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   navigatePiq() {
-    if (this.userDetails.cntrlType === 'CNT001') {
       this.dialog.open(VesselSelectionDialogComponent, {
         panelClass: 'vesselSelection-dialog-container',
       });
-    } else {
-      this.getNewRef();
-    }
   }
 }

@@ -482,20 +482,23 @@ export class PiqReportComponent implements OnInit {
     let sideBar = document.getElementById('sideBarList');
     let pending = document.getElementById('pendingArea');
     let contentArea = document.getElementById('contentArea');
+    let expColl = document.getElementById('expCol');
     sideBar?.classList.add('sideCollapse');
     if (
       contentArea?.classList.contains('col-sm-9') ||
       pending?.classList.contains('col-sm-9')
     ) {
       contentArea?.classList.remove('col-sm-9');
+      expColl?.classList.add('hideCol')
       contentArea?.classList.add('col-sm-12', 'expandedContent');
       pending?.classList.remove('col-sm-9');
       pending?.classList.add('col-sm-12', 'expandedContent');
     } else if (
       contentArea?.classList.contains('col-sm-12') ||
       pending?.classList.contains('col-sm-12')
-    ) {
-      contentArea?.classList.remove('col-sm-12', 'expandedContent');
+      ) {
+        contentArea?.classList.remove('col-sm-12', 'expandedContent');
+        expColl?.classList.remove('hideCol')
       contentArea?.classList.add('col-sm-9');
       pending?.classList.remove('col-sm-12', 'expandedContent');
       pending?.classList.add('col-sm-9');

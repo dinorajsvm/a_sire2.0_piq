@@ -366,6 +366,10 @@
   cursor: pointer;
 }
 
+.hideCol {
+  display: none !important;
+}
+
 .expColBtn span {
   font-size: 12px;
   font-weight: 500;
@@ -652,8 +656,6 @@
   align-items: baseline;
   margin-top: 1px !important;
 }
-
-
 
 .loopedMainQuest {
   padding: 0;
@@ -1062,17 +1064,17 @@ legend {
 .guideWrap {
   max-width: 0;
   display: none;
-  transition: max-width .7s ease-in-out;
+  transition: max-width 0.7s ease-in-out;
   box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
     -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
-.guideWrapExpanded{
+.guideWrapExpanded {
   max-width: 25% !important;
   display: block !important;
-  transition: max-width .7s ease-in-out;
+  transition: max-width 0.7s ease-in-out;
   box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
-    -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12); 
+    -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
 .description::-webkit-scrollbar {
@@ -1129,7 +1131,6 @@ legend {
   margin: 0 2px;
   background: #2bc48a;
 }
-
 
 .home .material-icons {
   font-size: 14px;

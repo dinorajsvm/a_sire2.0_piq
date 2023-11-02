@@ -73,7 +73,7 @@ export class PIQSummaryComponent implements OnInit {
       width: 300,
       flex: 1,
     },
-    { field: 'status', headerName: 'Status', tooltipField: 'status' },
+
     {
       field: 'totalQuestion',
       headerName: 'Total Questions',
@@ -95,6 +95,7 @@ export class PIQSummaryComponent implements OnInit {
       width: 160,
       flex: 1,
     },
+    { field: 'status', headerName: 'Status', tooltipField: 'status' },
     {
       field: 'lastModified',
       headerName: 'Last Modified',
@@ -202,7 +203,7 @@ export class PIQSummaryComponent implements OnInit {
     },
     {
       field: 'mackcertificatename',
-      headerName: 'MACK Certificate Name',
+      headerName: 'System Certificate Name',
       tooltipField: 'mackcertificatename',
       flex: 1,
     },
@@ -329,7 +330,9 @@ export class PIQSummaryComponent implements OnInit {
       if (res === 0) {
         this.remarksCounts = 0;
       } else {
-        const rowsWithRemarks = this.remarksGridData.filter((row: any) =>row.remark !== '');
+        const rowsWithRemarks = this.remarksGridData.filter(
+          (row: any) => row.remark !== ''
+        );
         this.remarksCounts = rowsWithRemarks.length;
         console.log(
           `Number of rows with non-empty remarks:`,

@@ -45,7 +45,7 @@ export class CertificateRepositoryComponent implements OnInit {
     },
     {
       field: 'mackcertificatename',
-      headerName: 'MACK Certificate Name',
+      headerName: 'System Certificate Name',
       tooltipField: 'mackcertificatename',
       flex: 1,
     },
