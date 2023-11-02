@@ -531,7 +531,7 @@
     padding: 0 5px !important;
   }
 
-  /* .inProgress {
+  .inProgress {
     width: 6px !important;
     height: 6px !important;
   }
@@ -622,7 +622,15 @@
     font-size: 8px !important;
     margin: 0px !important;
     line-height: 12px;
-  } */
+  }
+
+  #summaryWrapper{
+    height: calc(100vh - 200px) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    height: calc(100vh - 195px) !important;
+  }
 }
 
 /* STYLES FOR TABLET END */

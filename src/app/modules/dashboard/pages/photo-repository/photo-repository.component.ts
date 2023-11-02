@@ -565,6 +565,7 @@ export class PhotoRepositoryComponent implements OnInit {
       usercode: this.userDetails?.userCode,
       imagelist: this.listDatas,
     };
+    this.BudgetService.setPrGridData(this.getPRGriddetails);
     this.BudgetService.savePhotoRep(payload).subscribe((res: any) => {
       const data = res;
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);

@@ -318,7 +318,7 @@ export class PiqReportComponent implements OnInit {
     const payload = {
       instanceid: this.referenceNumber,
       presettype: 'n',
-      companycode: 'nyksg',
+      companycode: this.userDetails.companyCode,
       vesseltypecode: 'vt002',
     };
     let formGroupFields: any = {};
@@ -329,7 +329,7 @@ export class PiqReportComponent implements OnInit {
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
-
+      this.BudgetService.setVslCodeData(this.getVesselCode)
       this.getStatus = res.wrkflow;
       this.edit();
 
@@ -819,7 +819,7 @@ export class PiqReportComponent implements OnInit {
       sortingDate: new Date(),
       modifiedDateTime: this.datePipe.transform(
         new Date(),
-        'dd-MMM-yyyy HH:mm:ss'
+        'dd-MMM-yyyy HH:mm'
       ),
     };
     this.lastModifiedData.push(modifiedData);
@@ -2435,6 +2435,7 @@ export class PiqReportComponent implements OnInit {
   onTabChanged(event: any) {
     if (event && event.index === 0) {
       this.BudgetService.setSummaryGridData(this.getAllDatas);
+      this.BudgetService.setRemarksCountData(this.getExceptionGridData);
     }
   }
 }

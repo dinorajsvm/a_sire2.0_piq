@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font">Total Pending Questions</span>
+                <span class="sumHeading count-font">Pre-Inspection Questionnarie</span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
@@ -51,7 +51,7 @@
                       <div class="imgWrap exception">
                         <img src="assets/question/exception.svg" class="dataImg" />
                       </div>
-                      <span class="count-font-pending cnt-fnt-size">{{exceptionCounts}}</span>
+                      <span class="count-font-pending cnt-fnt-size">{{remarksCounts}} / {{exceptionCounts}}</span>
                     </div>
                   </mat-card-title>
                 </mat-card-header>
@@ -105,11 +105,11 @@
                   </button>
                   <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
-                    Sync to Summary
+                    Sync to Shore
                   </button>
                   <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
-                    Sync to Summary
+                    Sync to Ship
                   </button>
                   <div [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
                     <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
@@ -186,7 +186,7 @@
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl">
-      <span class="table-header">Last Modified Data</span>
+      <span class="table-header">Last Modified Data Summary</span>
       <ag-grid-angular  style="height: calc(100vh - 429px)" class="ag-theme-balham summaryGrid" [columnDefs]="modifiedColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
         [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="modifiedrowData">
@@ -203,7 +203,7 @@
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <span class="table-header">Last Sync to Ship Summary </span>
+      <span class="table-header">Last Sync Summary</span>
       <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
@@ -211,7 +211,7 @@
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <span class="table-header">Last Sync to Shore Summary </span>
+      <span class="table-header">Last Sync Summary</span>
       <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
         [animateRows]="true" [rowData]="expectedRowData">

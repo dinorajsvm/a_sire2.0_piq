@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
-import { LicenseManager } from 'ag-grid-enterprise';
+import { GridOptions, LicenseManager } from 'ag-grid-enterprise';
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
@@ -65,6 +65,7 @@ export class ExceptionQuestionComponent implements OnInit {
   private gridApi: any;
   private gridColumnApi: any;
   defaultColDef = DefaultColDef;
+  remarksCount: any;
   constructor(
     private BudgetService: BudgetService,
     private _snackBarService: SnackbarService,
@@ -88,6 +89,7 @@ export class ExceptionQuestionComponent implements OnInit {
       this.gridApi!.setRowData(this.rowData);
       if (this.rowData && this.rowData.length != 0) {
         this.BudgetService.setExceptionRowData(this.rowData);
+          
       }
     });
   }
@@ -102,6 +104,7 @@ export class ExceptionQuestionComponent implements OnInit {
       this.gridApi!.setRowData(this.rowData);
     }
   }
+
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -121,7 +124,7 @@ export class ExceptionQuestionComponent implements OnInit {
         response: this.rowData,
       },
     };
-
+    this.BudgetService.setExceptionRowData(this.rowData);
     this.BudgetService.saveExceptionList(payload).subscribe((res) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
     });

@@ -30,6 +30,7 @@ export class BudgetService {
   private getExceptionGridDataList = new BehaviorSubject<any>(0);
   private getImageCount = new BehaviorSubject<any>(0);
   private getPhotoRepList = new BehaviorSubject<any>(0);
+  private getRemarksCount = new BehaviorSubject<any>(0);
   private exceptionList = new Subject<any>();
   private exceptionReset = new Subject<any>();
   private getVslCode = new Subject<any>();
@@ -261,6 +262,8 @@ export class BudgetService {
     return this.getPhotoRepGridData.asObservable();
   }
 
+  
+
   setExceptionRowData(message: any) {
     this.getExcepData.next(message);
   }
@@ -308,6 +311,12 @@ export class BudgetService {
   getExceptionGridData() {
     return this.getExceptionGridDataList.asObservable();
   }
+  setRemarksCountData(message: any) {
+    this.getRemarksCount.next(message);
+  }
+  getRemarksCountsData() {
+    return this.getRemarksCount.asObservable();
+  }
   setPhotoRepData(message: any) {
     this.getPhotoRepList.next(message);
   }
@@ -331,9 +340,9 @@ export class BudgetService {
     );
   }
 
-  getCertificateList() {
+  getCertificateList(companycode: any,vesselcode: any,instanceId:any ) {
     return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getcertificatemapping?companycode=NYKSG&vesselcode=SNDC`
+      `${this.globalUrl}/PIQ/event/getcertificatemapping?companycode=${companycode}&vesselcode=${vesselcode}&instanceid=${instanceId}`
     );
   }
   saveCertificateList(payload: any) {

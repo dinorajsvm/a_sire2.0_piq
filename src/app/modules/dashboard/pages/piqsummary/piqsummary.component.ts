@@ -164,7 +164,7 @@ export class PIQSummaryComponent implements OnInit {
   dateFormat(params: any) {
     const crdate = params.data.crdate;
     return crdate
-      ? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm:ss')
+      ? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm')
       : '';
   }
   modifiedColumns: ColDef[] = [
@@ -227,6 +227,8 @@ export class PIQSummaryComponent implements OnInit {
   isNotNull = false;
   certificateCounts: any;
   exceptionCounts: any;
+  remarksCounts: any;
+  remarksGridData: any = [];
   photoRepCounts: any;
   mappedCertificateCounts: any;
   lastModifiedData: any;
@@ -321,6 +323,20 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getExceptionGridData().subscribe((res: any) => {
       this.exceptionCounts = res;
     });
+    this.BudgetService.getRemarksCountsData().subscribe((res: any) => {
+      this.remarksGridData = res;
+      console.log('res', res);
+      if (res === 0) {
+        this.remarksCounts = 0;
+      } else {
+        const rowsWithRemarks = this.remarksGridData.filter((row: any) =>row.remark !== '');
+        this.remarksCounts = rowsWithRemarks.length;
+        console.log(
+          `Number of rows with non-empty remarks:`,
+          this.remarksCounts
+        );
+      }
+    });
 
     this.BudgetService.getPhotoRepData().subscribe((res: any) => {
       this.photoRepCounts = res;
@@ -349,7 +365,7 @@ export class PIQSummaryComponent implements OnInit {
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
-      'yyyy-MM-dd HH:mm:ss'
+      'yyyy-MM-dd HH:mm'
     );
     this.onFormChanges();
   }
@@ -424,7 +440,11 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
   certficateGridDatas() {
-    this.BudgetService.getCertificateList().subscribe((res: any) => {
+    this.BudgetService.getCertificateList(
+      this.userDetails.companyCode,
+      this.getVesselCode,
+      this.referenceNumber
+    ).subscribe((res: any) => {
       this.certificateRowData =
         res && res.response && res.response.piqmappinglist
           ? res.response.piqmappinglist

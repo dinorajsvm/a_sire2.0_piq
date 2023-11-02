@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import {
   ColDef,
@@ -13,6 +13,8 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -22,25 +24,30 @@ LicenseManager.setLicenseKey(
   styleUrls: ['./certificate-repository.component.css'],
   providers: [DatePipe],
 })
-export class CertificateRepositoryComponent {
+export class CertificateRepositoryComponent implements OnInit {
   dynamicImageURL = `${environment.apiUrl}/`;
   certificateCount: any;
+  referenceNumber: any;
+  userDetails: any;
   frameworkComponents: any;
   public isRowMaster: IsRowMaster = (dataItem: any) => {
     return dataItem && dataItem.imagelist && dataItem.imagelist.length > 0;
   };
+
   public columnDefs: ColDef[] = [
     {
       field: 'certifiactetype',
       headerName: 'OCIMF Certificate Type',
       cellRenderer: 'agGroupCellRenderer',
-      cellClass:'width',
-      tooltipField: 'certifiactetype',flex: 1,
+      cellClass: 'width',
+      tooltipField: 'certifiactetype',
+      flex: 1,
     },
     {
       field: 'mackcertificatename',
       headerName: 'MACK Certificate Name',
-      tooltipField: 'mackcertificatename',flex: 1,
+      tooltipField: 'mackcertificatename',
+      flex: 1,
     },
     {
       field: 'certificatenumber',
@@ -144,40 +151,54 @@ export class CertificateRepositoryComponent {
   } as IDetailCellRendererParams<any, any>;
   public rowData!: any[];
   totalCertificateCount: any;
+  getvesselcode: any;
   constructor(
     private BudgetService: BudgetService,
     private snackBarService: SnackbarService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private route: ActivatedRoute,
+    private _storage: StorageService
   ) {
     this.frameworkComponents = {
       buttonRenderer: DownloadBtnRendererComponent,
     };
+    this.userDetails = this._storage.getUserDetails();
+  }
+  ngOnInit(): void {
+    this.referenceNumber = this.route.snapshot.paramMap.get('id');
   }
   onFirstDataRendered(params: FirstDataRenderedEvent) {}
   onGridReady(params: GridReadyEvent) {
-    this.BudgetService.getCertificateList().subscribe((res: any) => {
-      if (res && res.response && res.response.piqmappinglist) {
-        res.response.piqmappinglist.forEach((data: any) => {
-          data.imagelist =
-            data && data.imagelist && data.imagelist.length > 0
-              ? data.imagelist
-              : [];
-        });
-      }
-      this.rowData = res.response.piqmappinglist;
-
-      this.totalCertificateCount = this.rowData.length;
-      const mappingCercodeValues = this.rowData.map(
-        (item) => item.mackcertificatename
-      );
-      const filteredMappingCode = mappingCercodeValues.filter(
-        (value) => value !== null
-      );
-      this.certificateCount = filteredMappingCode.length;
-      this.BudgetService.setCertificateGridData(this.totalCertificateCount);
-      this.BudgetService.setMappedCertificateData(this.certificateCount);
-      this.setSaveCertificateAction();
-    });
+    this.BudgetService.getVslCodeData().subscribe((res: any) => {
+      this.getvesselcode = res;
+      this.BudgetService.getCertificateList(
+        this.userDetails.companyCode,
+        this.getvesselcode,
+        this.referenceNumber
+      ).subscribe((res: any) => {
+        if (res && res.response && res.response.piqmappinglist) {
+          res.response.piqmappinglist.forEach((data: any) => {
+            data.imagelist =
+              data && data.imagelist && data.imagelist.length > 0
+                ? data.imagelist
+                : [];
+          });
+        }
+        this.rowData = res.response.piqmappinglist;
+  
+        this.totalCertificateCount = this.rowData.length;
+        const mappingCercodeValues = this.rowData.map(
+          (item) => item.mackcertificatename
+        );
+        const filteredMappingCode = mappingCercodeValues.filter(
+          (value) => value !== null
+        );
+        this.certificateCount = filteredMappingCode.length;
+        this.BudgetService.setCertificateGridData(this.totalCertificateCount);
+        this.BudgetService.setMappedCertificateData(this.certificateCount);
+        this.setSaveCertificateAction();
+      });
+    });    
   }
   setSaveCertificateAction() {
     let payLoad: any[] = [];
