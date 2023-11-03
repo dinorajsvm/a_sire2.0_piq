@@ -43,6 +43,7 @@ import { DateRendererComponent } from './pages/renderer/date-renderer.component'
 import { DDCellRendererComponent } from './pages/renderer/dd-renderer.component';
 import { PmsLookupComponent } from './pages/lookup/pms-lookup/pms-lookup.component';
 import { ManualLookUpComponent } from './pages/lookup/manual-look-up/manual-look-up.component';
+import { selectSearchVslPipe } from './services/select-search-vsl-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { ManualLookUpComponent } from './pages/lookup/manual-look-up/manual-look
     GlobalSearchComponent,
     PiqReportComponent,
     ChipFilterPipe,
-    selectSearchPipe,
+    selectSearchPipe,selectSearchVslPipe,
     PhotoRepositoryComponent,
     PrDialogComponent,
     ImageDialogComponent,

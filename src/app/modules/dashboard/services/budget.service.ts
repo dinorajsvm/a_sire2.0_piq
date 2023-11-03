@@ -424,6 +424,12 @@ export class BudgetService {
     );
   }
 
+  getvesseltypeNameCode() {
+    return this.client.get<any>(
+      `${this.globalUrl}/PIQ/event/getvessel`
+    );
+  }
+
   getUploadData(payload: any) {
     return this.client.post<any>(
       `${this.globalUrl}/PIQ/event/getuploaddata`,

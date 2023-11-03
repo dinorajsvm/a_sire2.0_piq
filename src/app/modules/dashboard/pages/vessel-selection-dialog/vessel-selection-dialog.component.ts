@@ -43,6 +43,7 @@ export const MY_DATE_FORMATS = {
 })
 export class VesselSelectionDialogComponent {
   selectedValue: any;
+  selectedVslTypeValue: any;
   vesselSelectionForms!: FormGroup;
   userDetails: any;
   compVslCode: any;
@@ -50,15 +51,19 @@ export class VesselSelectionDialogComponent {
   vesselname: any;
   selectedVesselName: any;
   plannedSubDate: any;
+  vesselTypeCode: any;
+  disableProceed: boolean = true;
+  sendFormattedDate: any;
 
   ngOnInit(): void {
     this.vesselSelectionForms = new FormGroup({
-      vesselName: new FormControl('', Validators.required),
-      vesselType: new FormControl('', Validators.required),
-      datePick: new FormControl('', Validators.required),
+      vesselName: new FormControl(''),
+      vesselType: new FormControl(''),
+      datePick: new FormControl(''),
     });
     this.getCodes();
     this.getVesselNames();
+    this.getvesseltype();
   }
 
   getVesselNames() {
@@ -69,14 +74,50 @@ export class VesselSelectionDialogComponent {
     );
   }
 
+  getvesseltype() {
+    this.BudgetService.getvesseltypeNameCode().subscribe((res: any) => {
+      this.vesselTypeCode = res.response;
+    });
+  }
+
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
       'yyyy-MM-dd HH:mm'
     );
+    this.sendFormattedDate = this.datePipe.transform(
+      this.vesselSelectionForms.value.datePick,
+      'yyyy-MM-dd HH:mm:ss'
+    );
+    this.enableProceedButton();
   }
   onSelectVessel(event: any): void {
     this.selectedVesselName = event.value;
+    this.vesselSelectionForms.value.vesselType;
+    this.enableProceedButton();
+  }
+
+  enableProceedButton() {
+    if (this.userDetails?.cntrlType === 'CNT001') {
+      if (
+        this.vesselSelectionForms.value.vesselName != '' &&
+        this.vesselSelectionForms.value.vesselType != '' &&
+        this.vesselSelectionForms.value.datePick != ''
+      ) {
+        this.disableProceed = false;
+      } else {
+        this.disableProceed = true;
+      }
+    } else if (this.userDetails?.cntrlType === 'CNT002') {
+      if (
+        this.vesselSelectionForms.value.vesselType != '' &&
+        this.vesselSelectionForms.value.datePick != ''
+      ) {
+        this.disableProceed = false;
+      } else {
+        this.disableProceed = true;
+      }
+    }
   }
 
   getCodes() {
@@ -103,7 +144,9 @@ export class VesselSelectionDialogComponent {
     const payload = {
       locationcode: this.compVslCode,
       user: this.userDetails?.userCode,
-      vesselcode: this.selectedVesselName,
+      vesselcode: this.vesselSelectionForms.value.vesselName,
+      planndesubdate: this.sendFormattedDate,
+      vesseltype: this.vesselSelectionForms.value.vesselType,
     };
     this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
       if (Object.keys(res).length != 0) {
@@ -114,7 +157,6 @@ export class VesselSelectionDialogComponent {
           ? this.router.navigate(['/sire/piq-report/' + getRefNumber + '/new'])
           : '';
         localStorage.removeItem('getSelectedCheckListID');
-        this.BudgetService.setVslCodeData(this.selectedVesselName);
       } else {
         this._snackBarService.loadSnackBar(
           res.error.errorMessage,
