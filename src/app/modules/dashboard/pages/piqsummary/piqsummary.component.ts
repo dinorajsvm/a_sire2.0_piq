@@ -159,6 +159,7 @@ export class PIQSummaryComponent implements OnInit {
   quickNotes: any;
   getVesselCode: any;
   photoRepImgCounts: any;
+  getPlannedSubDate: any;
   // dateFormat(event: any) {
   //   return this.datePipe.transform(event.crdate, 'dd-MMM-yyyy HH:mm:ss');
   // }
@@ -356,7 +357,7 @@ export class PIQSummaryComponent implements OnInit {
 
   buildForm() {
     this.autoSaveForm = this.fb.group({
-      dateField: [''],
+      // dateField: [''],
       TextAreaField: [''],
       wrkFlowTextArea: [''],
       // Initialize with an initial or default value
@@ -373,7 +374,7 @@ export class PIQSummaryComponent implements OnInit {
     this.onFormChanges();
   }
   onFormChanges() {
-    this.dateSelected = this.autoSaveForm.controls['dateField'].value;
+    // this.dateSelected = this.autoSaveForm.controls['dateField'].value;
     this.quickNotes = this.autoSaveForm.controls['TextAreaField'].value;
     if (this.dateSelected != null && this.quickNotes != '') {
       this.onSubmitQuickNotes();
@@ -616,8 +617,12 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      this.getPlannedSubDate = this.datePipe.transform(
+        res.plannedsubdate,
+        'dd-MMM-yyyy'
+      );
       const resDate = res.plannedsubdate;
-      this.autoSaveForm.get('dateField')?.setValue(resDate);
+      // this.autoSaveForm.get('dateField')?.setValue(resDate);
     });
   }
   getRefnImportDetails(instanceid: any) {

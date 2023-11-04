@@ -87,15 +87,7 @@
                 <div class="col-sm-4">
                   <div class="row" style="flex-direction: column;">
                     <div class="col-sm-12">
-                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date</span>
-                    </div>
-                    <div class="col-sm-8">
-                      <mat-form-field appearance="outline" class="datePicker">
-                        <input matInput [matDatepicker]="picker" formControlName="dateField"
-                          (dateInput)="onDateChange($event)" autocomplete="off" />
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
+                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date: </span><span>{{getPlannedSubDate}}</span>
                     </div>
                   </div>
                 </div>
