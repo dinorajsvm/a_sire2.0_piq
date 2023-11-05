@@ -354,6 +354,13 @@
     font-size: 8px !important;
   }
 
+  .padZero{
+    padding: 0;
+  }
+  .topBtnWrapper {
+    display: flex;
+  }
+
   .home.mat-mdc-button.mat-mdc-button-base {
     height: 20px !important;
     min-width: 20px;
@@ -633,6 +640,132 @@
 
   ::ng-deep .mat-mdc-tab-body-wrapper {
     height: calc(100vh - 195px) !important;
+  }
+
+  .mat-mdc-standard-chip {
+    --mdc-chip-label-text-size: 8px !important;
+    padding: 0 5px !important;
+    --mdc-chip-label-text-line-height: 16px !important;
+  }
+
+  .input ::ng-deep .mat-mdc-form-field-input-control {
+    height: 20px !important;
+    font-size: 8px !important;
+    margin: 0px !important;
+    position: relative;
+    bottom: 2px;
+  }
+
+  .filter ::ng-deep .mat-mdc-form-field-input-control {
+    height: 5px !important;
+    font-size: 8px !important;
+    margin: 0px !important;
+  }
+
+  .desc {
+    width: 12px !important;
+  }
+
+  .loopedMainQuest,.pendingQuest{
+    max-width:72% !important;
+  }
+
+  .colSidebarBtnWrap{
+    max-width:2.9% !important;
+  }
+  .content_load_wrap{
+    height: calc(100vh - 250px) !important;
+  }
+  .list_wrapper{
+    height: calc(100vh - 250px) !important;
+  }
+
+  .searchTable {
+    min-width: 20px !important;
+    height: 20px !important;
+   margin: 0 5px !important;
+  }
+  
+  .searchTable ::ng-deep .material-icons {
+    font-size: 16px !important;
+    height: 18px !important;
+    width: 18px !important;
+  }
+  .idWrapper{
+    padding: 10px 15px !important;
+  }
+
+  .instanceIDWrap{
+    height: 20px !important;
+  }
+  .downloadAllBtn.mat-mdc-button.mat-mdc-button-base {
+    padding: 0;
+    height: 20px !important;
+    min-width: 20px !important;
+  }
+  
+  .downloadAllBtn ::ng-deep .mdc-button__label {
+    height: 17px !important;
+  }
+
+  .defNameIcn{
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+  }
+
+  .imgUpload.mat-mdc-button.mat-mdc-button-base {
+    height: 20px !important;
+    min-width: 20px !important;
+  }
+
+  .imgUpload .mat-icon {
+    height: 17px !important;
+    width: 13px !important;
+    font-size: 14px !important;
+    margin: 0 !important;
+  }
+
+  .downAllBtn.mat-mdc-button.mat-mdc-button-base {
+    height: 20px !important;
+    min-width: 20px !important;
+    padding: 0 !important;
+  }
+  .downAllBtn .icn{
+    margin-top: 2px !important;
+  }
+  .icn{
+    font-size: 16px !important;
+  }
+
+  .img{
+    height: 9rem !important;
+  }
+
+  .imgContainer{
+    width: 11rem !important;
+    height: 12rem !important;
+  }
+
+  .imgbtns{
+    margin: 0 !important;
+  }
+
+  .imgbtns .mat-icon{
+    font-size: 20px !important;
+  }
+
+  .img_icons_container{
+    width:165px !important;
+  }
+
+  .photoContents{
+    height: calc(100vh - 250px) !important;
+  }
+
+  .upDownBtnWrap{
+    top: 6px !important;
+    right: 15px !important;
   }
 }
 

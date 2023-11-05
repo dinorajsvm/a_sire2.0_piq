@@ -86,8 +86,8 @@
               <div class="row" style="justify-content: flex-end;">
                 <div class="col-sm-4">
                   <div class="row" style="flex-direction: column;">
-                    <div class="col-sm-12">
-                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date: </span><span>{{getPlannedSubDate}}</span>
+                    <div class="col-sm-12" style="padding-right: 0;white-space: nowrap;">
+                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date: </span><span class="charCount">{{getPlannedSubDate}}</span>
                     </div>
                   </div>
                 </div>
@@ -129,8 +129,8 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-12">
-                  <textarea id="float-input" autoResize="true" class="w-100" rows="2" cols="30"
+                <div class="col-sm-12" style="padding-top: 8px;">
+                  <textarea id="float-input" autoResize="true" class="w-100" rows="3" cols="30"
                     placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks"
                     formControlName="wrkFlowTextArea"></textarea>
                 </div>
@@ -146,7 +146,7 @@
                   [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
               </span>
               <div class="text-right">
-                <span class="charCount">
+                <span class="charCount textAreaCharCount">
                   {{1000 - textArea.value.length}} Characters Remaining
                 </span>
               </div>

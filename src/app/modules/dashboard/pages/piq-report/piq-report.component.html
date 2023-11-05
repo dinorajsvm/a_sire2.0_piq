@@ -8,12 +8,12 @@
   <div class="header col-sm-12">
     <div class="row">
       <div class="col-sm-9">
-        <h5>Pre-Inspection Questionnarie</h5>
+        <h5 class="moduleTitle">Pre-Inspection Questionnarie</h5>
       </div>
       <div class="col-sm-2 text-right" style="padding-right: 0; white-space: nowrap">
-        <span>RefID: {{ referenceNumber }}</span>
+        <span class="sNumber">RefID: {{ referenceNumber }}</span>
       </div>
-      <div class="col-sm-1 text-right" style="padding: 0">
+      <div class="col-sm-1 text-right topBtnWrapper" style="padding: 0">
         <button matTooltip="Edit" [disabled]="enableEditMode" [class.disabledEdit]="enableEditMode" mat-button
           class="edit" (click)="edit()">
           <img src="assets/question/edit.svg" />
@@ -199,7 +199,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-1" style="padding: 0;max-width: 1.9%;display: flex;">
+                  <div class="col-sm-1 colSidebarBtnWrap" style="padding: 0;max-width: 1.9%;display: flex;">
                     <button mat-button class="collapsiveBtn"
                       (click)="hideSideBar($event)">
                       <mat-icon style="margin-right: 3px;font-size: 20px;margin-top: 1px;">{{ isLeftIcon ? 'chevron_left' : 'chevron_right' }}</mat-icon>
@@ -249,7 +249,7 @@
                                           {{ Mquest.mainQuestion }}
                                           {{ Mquest.mainQuestionEntry }}
                                         </div>
-                                        <div class="col-sm-2 text-right">
+                                        <div class="col-sm-2 text-right" style="padding-left: 0 !important;">
                                           <button *ngIf="Mquest.entrymethod == 'Lookup'" mat-button class="save"
                                             (click)="openLookUp($event, quest, Mquest)" [class.ShoreBtn]="
                                             disableLookUp(Mquest)
@@ -258,7 +258,7 @@
                                           </button>
                                           <img src="assets/question/info.svg" (click)="
                                               openDesc($event, Mquest.qid)
-                                            " style="width: 15px" />
+                                            " style="width: 15px" class="desc"/>
                                         </div>
                                       </div>
                                     </div>
@@ -270,7 +270,7 @@
                                     Mquest.subQuestion.length <= 1
                                   ">
                                   <div class="col-sm-12 shoreQuest charCount" [id]="subq.qid"
-                                    *ngFor="let subq of Mquest.subQuestion" [class.shoreQuest]="
+                                    *ngFor="let subq of Mquest.subQuestion" [class.my-class]="subq.qid === 'Q133'" [class.shoreQuest]="
                                       !isQuestionShow(subq.entryorgin)
                                     " [class.presetQuest]="
                                       isSpecialClass(subq.entryorgin)
@@ -486,7 +486,7 @@
                                     Mquest.subQuestion.length > 1
                                   ">
                                   <div class="col-sm-6 shoreQuest subqContainer" [id]="subq.qid"
-                                    *ngFor="let subq of Mquest.subQuestion" [class.shoreQuest]="
+                                    *ngFor="let subq of Mquest.subQuestion" [class.freezeQuest]="subq.qid === 'Q133'" [class.shoreQuest]="
                                       !isQuestionShow(subq.entryorgin)
                                     " [class.presetQuest]="
                                       isSpecialClass(subq.entryorgin)

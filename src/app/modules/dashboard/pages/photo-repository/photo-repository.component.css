@@ -86,7 +86,7 @@
   align-items: center;
   border: none;
   padding: 4px 5px 0px 5px;
-  height: 26px !important;
+  height: 26px;
   min-width: 24px;
   border-radius: 5px;
   /* background: #103e8b; */
@@ -259,7 +259,7 @@
   padding:0 4px;
   display: flex;
   align-items: center;
-  height: 26px !important;
+  height: 26px;
   min-width: 24px;
   background: #8cb85c;
   /* background: #f58025; */
@@ -360,7 +360,7 @@
 .downloadAllBtn.mat-mdc-button.mat-mdc-button-base {
   /* background: #2d3e51; */
   padding: 0;
-  height: 26px !important;
+  height: 26px;
   min-width: 25px;
   margin-left: 5px;
 

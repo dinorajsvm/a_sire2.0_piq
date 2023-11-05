@@ -365,7 +365,23 @@
   line-height: 24px;
   cursor: pointer;
 }
+.freezeQuest {
+  background-color: #e0e0e0;
+}
 
+.freezeQuest ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #e0e0e0 !important;
+  cursor: not-allowed !important;
+}
+
+.freezeQuest ::ng-deep .mat-mdc-chip {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.freezeQuest ::ng-deep .mat-mdc-form-field-input-control{
+  cursor: not-allowed !important;
+}
 .hideCol {
   display: none !important;
 }

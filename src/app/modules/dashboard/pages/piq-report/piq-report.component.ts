@@ -329,10 +329,10 @@ export class PiqReportComponent implements OnInit {
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
-      this.vesselSelection=res.vesseltypename;
-      
+      this.vesselSelection = res.vesseltypename;
+
       this.BudgetService.setVesselTypeData(this.vesselSelection);
-      this.BudgetService.setVslCodeData(this.getVesselCode)
+      this.BudgetService.setVslCodeData(this.getVesselCode);
       this.getStatus = res.wrkflow;
       this.edit();
 
@@ -492,16 +492,16 @@ export class PiqReportComponent implements OnInit {
       pending?.classList.contains('col-sm-9')
     ) {
       contentArea?.classList.remove('col-sm-9');
-      expColl?.classList.add('hideCol')
+      expColl?.classList.add('hideCol');
       contentArea?.classList.add('col-sm-12', 'expandedContent');
       pending?.classList.remove('col-sm-9');
       pending?.classList.add('col-sm-12', 'expandedContent');
     } else if (
       contentArea?.classList.contains('col-sm-12') ||
       pending?.classList.contains('col-sm-12')
-      ) {
-        contentArea?.classList.remove('col-sm-12', 'expandedContent');
-        expColl?.classList.remove('hideCol')
+    ) {
+      contentArea?.classList.remove('col-sm-12', 'expandedContent');
+      expColl?.classList.remove('hideCol');
       contentArea?.classList.add('col-sm-9');
       pending?.classList.remove('col-sm-12', 'expandedContent');
       pending?.classList.add('col-sm-9');

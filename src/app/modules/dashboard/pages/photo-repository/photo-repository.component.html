@@ -3,28 +3,28 @@
     <div class="row">
       <div class="col-sm-2"
         style="display: flex;align-items: center;white-space: nowrap;justify-content: space-between;max-width: 15%;">
-        <label style="font-size: 12px; font-weight: 500">
+        <label class="charCount" style="font-size: 12px; font-weight: 500">
           Checklist Instance ID
         </label>
         <button class="searchTable" mat-raised-button (click)="openDialog()">
           <mat-icon>search</mat-icon>
         </button>
       </div>
-      <div class="col-sm-7" style="padding: 7px 15px;">
+      <div class="col-sm-7 idWrapper" style="padding: 7px 15px;">
         <div class=" instanceIDWrap">
-          <span style="font-weight: 500;">Selected CheckList:</span><span
-            style="padding: 0 5px;">{{selectedInstanceID}}</span>
+          <span class="charCount" style="font-weight: 500;">Selected CheckList:</span>
+          <span style="padding: 0 5px;" class="charCount">{{selectedInstanceID}}</span>
         </div>
       </div>
 
       <div class="col-sm-3 text-right" style="padding: 7px 15px;white-space: nowrap;">
-        <span class="expColWrap" (click)="toggleAllExpanded()">
+        <span class="expColWrap charCount" (click)="toggleAllExpanded()">
           {{allExpanded ? "Collapse All" : "Expand All"}}
         </span>
         <button mat-button class="downloadAllBtn" matTooltip="Download All Images" (click)="downloadAll()">
-          <i class="fa fa-arrow-circle-o-down" style="font-size: 18px;color: white"></i>
+          <i class="fa fa-arrow-circle-o-down icn" style="font-size: 18px;color: white"></i>
         </button>
-        <img src="assets/question/reset-password.svg" style="height: 25px;width: 25px;margin-left: 5px;"
+        <img src="assets/question/reset-password.svg" class="defNameIcn" style="height: 25px;width: 25px;margin-left: 5px;"
           matTooltip="Set Default Name To All Images" (click)="resetAllImageFilenames(listDatas)" />
         <button mat-button class="save" type="submit" (click)="savePhoto()" [disabled]="invalidImg">Save</button>
       </div>
@@ -38,14 +38,14 @@
         <div class="col-sm-12 topicHeader" (click)="toggleExpand(i)">
           <div class="row">
             <div class="col-sm-10 headName">
-              <span>{{ head.topic }}</span>
+              <span class="charCount">{{ head.topic }}</span>
             </div>
           </div>
         </div>
-        <div class="col-sm-12" *ngIf="allExpanded || expandedSectionIndex === i">
-          <div class="col-sm-12 topicSubHeader" *ngFor="let subHead of head.subTopics; let i = index">
+        <div class="col-sm-12 padZero" *ngIf="allExpanded || expandedSectionIndex === i">
+          <div class="col-sm-12 topicSubHeader padZero" *ngFor="let subHead of head.subTopics; let i = index">
             <span class="subTopName">
-              <p>{{ subHead.subTopicTitle }}</p>
+              <p class="charCount">{{ subHead.subTopicTitle }}</p>
             </span>
             <div class="upDownBtnWrap">
               <div class="attachBtn" style="margin: 0 3px">
@@ -59,7 +59,7 @@
               <div style="margin: 0 3px">
                 <button class="downAllBtn" mat-button matTooltip="Download Subtopic Images"
                   (click)="downloadAllSubTopicImages(subHead.subTopicTitle, subHead.imagelist)">
-                  <i class="fa fa-arrow-circle-o-down" style="font-size: 18px; color: white"></i>
+                  <i class="fa fa-arrow-circle-o-down icn" style="font-size: 18px; color: white"></i>
                 </button>
               </div>
             </div>
@@ -87,13 +87,13 @@
                     <img id="{{ imgIndex }}" [src]="img.filepath? (dynamicImageURL+  img.filepath): img.url" />
                   </div>
                   <div class="img_Size">
-                    <span>Size:{{ convertFileSize(img.sizeinbytes) }}</span>
+                    <span class="charCount">Size:{{ convertFileSize(img.sizeinbytes) }}</span>
                   </div>
                   <div class="img_name">
-                    <input [(ngModel)]="img.formattedName"
+                    <input class="charCount" [(ngModel)]="img.formattedName"
                       [class.nameHighlight]="img?.formattedName!=img.formattedDefName"
                       (blur)="updateImageName(subHead, imgIndex)" />
-                    <span style="font-size: 10px;font-weight: 600;">.{{img.formattedExtension}}</span>
+                    <span class="charCount" style="font-size: 10px;font-weight: 600;">.{{img.formattedExtension}}</span>
                     <img src="assets/question/reset-password.svg" class="defaultNameImg" 
                       (click)="setDefaultName(img, img.defaultImageName,img.formattedDefName)" matTooltip="Set Default Image Name" />
                   </div>
