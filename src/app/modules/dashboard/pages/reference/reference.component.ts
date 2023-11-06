@@ -34,7 +34,7 @@ export class ReferenceComponent implements OnInit {
       flex: 1,
     },
     {
-      headerName: 'Download',
+      headerName: 'Download',floatingFilter: false,
       flex:1,
       cellRenderer: 'buttonRenderer',
       cellStyle: {textalign: 'center'},

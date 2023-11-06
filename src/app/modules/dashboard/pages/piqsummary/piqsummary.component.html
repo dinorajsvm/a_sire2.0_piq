@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font">Pre-Inspection Questionnarie</span>
+                <span class="sumHeading count-font" (click)="tabChange('PIQ')">Pre-Inspection Questionnarie</span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
@@ -24,7 +24,7 @@
             </div>
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font-photo">Photo Repository</span>
+                <span class="sumHeading count-font-photo" (click)="tabChange('PR')">Photo Repository</span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
@@ -44,7 +44,7 @@
           <div class="row">
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font-pending">Exceptions</span>
+                <span class="sumHeading count-font-pending" (click)="tabChange('E')">Exceptions</span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
@@ -61,7 +61,7 @@
             </div>
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font-certificate">Certificate</span>
+                <span class="sumHeading count-font-certificate" (click)="tabChange('C')">Certificate</span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">

@@ -452,6 +452,13 @@
     padding: 0 5px !important;
   }
 
+  .certiRefGrid{
+    height: calc(100vh - 220px) !important;
+  }
+  .excepGrid{
+    height: calc(100vh - 235px) !important;
+  }
+
   .datePicker ::ng-deep .mat-mdc-form-field-input-control {
     height: 20px !important;
     font-size: 8px !important;
@@ -476,7 +483,6 @@
   .sumHeading {
     font-size: 10px !important;
     padding: 0 3px !important;
-    white-space: nowrap !important;
   }
 
   .summaryValWrap {
@@ -608,7 +614,7 @@
   }
 
   .subqContainer {
-    max-width: 48.7% !important;
+    max-width: 48.6% !important;
   }
 
   .dateWrap {
@@ -657,7 +663,7 @@
   }
 
   .filter ::ng-deep .mat-mdc-form-field-input-control {
-    height: 5px !important;
+    height: 15px !important;
     font-size: 8px !important;
     margin: 0px !important;
   }
@@ -766,6 +772,16 @@
   .upDownBtnWrap{
     top: 6px !important;
     right: 15px !important;
+  }
+  .exceptionBorder{
+    height: 9px !important;
+    width: 10px !important;
+  }
+
+  .exceptionText{
+    font-size: 8px !important;
+    bottom: 6.5px !important;
+    left: 1.5px !important;
   }
 }
 

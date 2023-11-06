@@ -70,7 +70,6 @@ export class PhotoRepositoryComponent implements OnInit {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.companyCode = 'NYKSG';
     this.getSavedPRData();
-    // this.getPrDataLists();
     this.getDefaultImageName();
     // this.getImageName();
     this.getVesselTypeData();
@@ -83,7 +82,6 @@ export class PhotoRepositoryComponent implements OnInit {
         this.trimmedVslType = this.getvslCode.split(' ')[0];
         if (this.selectedInstanceID == undefined) {
           this.getSavedPRData();
-          // this.getPrDataLists();
         } else {
           this.getPRImgLists();
         }
@@ -266,11 +264,11 @@ export class PhotoRepositoryComponent implements OnInit {
     });
   }
 
-  getImageName() {
-    this.BudgetService.getPRImageName().subscribe((res: any) => {
-      this.imageNames = res;
-    });
-  }
+  // getImageName() {
+  //   this.BudgetService.getPRImageName().subscribe((res: any) => {
+  //     this.imageNames = res;
+  //   });
+  // }
   getDefaultImageName() {
     this.BudgetService.getPRImagename(this.companyCode).subscribe(
       (res: any) => {
@@ -310,7 +308,6 @@ export class PhotoRepositoryComponent implements OnInit {
     this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
       this.listDatas = [];
       const staticData = JSON.parse(res.response);
-
       staticData.forEach((res: any) => {
         if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
         } else {
@@ -535,10 +532,7 @@ export class PhotoRepositoryComponent implements OnInit {
   }
 
   selectFile(subHead: any, selectedID: any, topic: any, event: any) {
-    if (selectedID && selectedID?.length == 0) {
-      this.fileInput.nativeElement.click();
-      this.selectedSubTopic = subHead;
-    } else if (selectedID && selectedID?.lenght != 0) {
+    if (selectedID && selectedID?.lenght != 0) {
       this.isDialogOpen = true;
       const dialogRef = this.dialog.open(SelectIdDialogComponent, {
         data: { instanceID: selectedID, subHead, topic },
@@ -556,6 +550,10 @@ export class PhotoRepositoryComponent implements OnInit {
           }
         }
       });
+    }else{
+      this.fileInput.nativeElement.click();
+      this.onFileSelected(event);
+      this.selectedSubTopic = subHead;
     }
   }
 
@@ -591,6 +589,12 @@ export class PhotoRepositoryComponent implements OnInit {
           const imageType = this.selectedFile?.type;
           const imageSize = this.selectedFile?.size;
           const fileName = this.selectedFile?.name;
+          console.log("imageWidth",imageWidth);
+          console.log("imageHeight",imageHeight);
+          console.log("imageType",imageType);
+          console.log("imageSize",imageSize);
+          console.log("fileName",fileName);
+          
         };
       };
       reader.readAsDataURL(this.selectedFile);
@@ -781,7 +785,13 @@ export class PhotoRepositoryComponent implements OnInit {
           filename: files[i].name,
           docsize: this.formatSize(files[i].size),
         };
-        subHead.imagelist.push(image);
+        if(subHead.imagelist){
+          console.log("****");
+          subHead.imagelist.push(image);
+        }else{
+          console.log("@@@");
+          subHead['imagelist'].push(image);
+        }
       };
       reader.readAsDataURL(files[i]);
     }

@@ -35,6 +35,7 @@ import { TMSAComponent } from '../lookup/tmsa/tmsa.component';
 import { SafetyManagementComponent } from '../lookup/safety-management/safety-management.component';
 import { PmsLookupComponent } from '../lookup/pms-lookup/pms-lookup.component';
 import { ManualLookUpComponent } from '../lookup/manual-look-up/manual-look-up.component';
+import { MatTabGroup } from '@angular/material/tabs';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -67,6 +68,8 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('expandedSection', { static: false }) expandedSection!: ElementRef;
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
+  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+
   locationCode: any;
   isContentVisible: boolean[] = [];
   selectedValue: string = '';
@@ -157,6 +160,8 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
     });
+
+    this.onTabChanged(event);
     this.BudgetService.getExceptionRowData().subscribe((res: any) => {
       this.getExceptionGridData = [];
       this.getExceptionGridData = res;
@@ -364,6 +369,7 @@ export class PiqReportComponent implements OnInit {
             ).length;
 
             subHeader.subQuestion.forEach((mainQus: any) => {
+
               if (
                 mainQus.entryorgin === 'Auto or Preset' ||
                 mainQus.entryorgin === 'Preset'
@@ -399,7 +405,7 @@ export class PiqReportComponent implements OnInit {
                 formGroupFields[mainQus.qid] = new FormControl(mainQus.answer);
               }
             });
-
+            
             this.dynamicForms = new FormGroup(formGroupFields);
             this.dynamicForms.patchValue({ Q133: this.vesselSelection });
           });
@@ -2727,10 +2733,17 @@ export class PiqReportComponent implements OnInit {
     this.showPendingQuest = false;
   }
 
+
   onTabChanged(event: any) {
+    this.BudgetService.getTabChangeData().subscribe((res: any) => {
+      console.log("res",res);
+      this.tabGroup.selectedIndex = res;
+    })
     if (event && event.index === 0) {
       this.BudgetService.setSummaryGridData(this.getAllDatas);
       this.BudgetService.setRemarksCountData(this.getExceptionGridData);
     }
+
+
   }
 }

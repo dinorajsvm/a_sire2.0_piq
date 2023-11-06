@@ -73,7 +73,7 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Vessel Name',
       tooltipField: 'vesselName',
     },
-    { field: 'fleetName', headerName: 'Fleet Name', tooltipField: 'fleetName' },
+    { field: 'fleetname', headerName: 'Fleet Name', tooltipField: 'fleetName' },
     {
       field: 'createdDate',
       headerName: 'Created Date/Time',

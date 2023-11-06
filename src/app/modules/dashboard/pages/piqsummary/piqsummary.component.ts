@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ColDef, GridApi, GridOptions } from 'ag-grid-community';
 import { BudgetService } from '../../services/budget.service';
 import { ActivatedRoute } from '@angular/router';
@@ -19,6 +19,7 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatTabGroup } from '@angular/material/tabs';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: ['l'],
@@ -50,6 +51,7 @@ export class PIQSummaryComponent implements OnInit {
   @Input() pendingQuestCount: any;
   @Input() totalQuestCount: any;
   @Input() presetQuestCounts: any;
+  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
   getSelectedDate: any = '';
   quickNotesInput = '';
   remarks = '';
@@ -217,6 +219,22 @@ export class PIQSummaryComponent implements OnInit {
     },
   ];
 
+  tabChange(tabRef:any){
+    if(tabRef=='PIQ'){
+      const tab = 1;
+      this.BudgetService.setTabChangeData(tab);
+    }else if(tabRef=='PR'){
+      const tab = 2;
+      this.BudgetService.setTabChangeData(tab);
+    }else if(tabRef=='E'){
+      const tab = 4;
+      this.BudgetService.setTabChangeData(tab);
+    }else if(tabRef=='C'){
+      const tab = 3;
+      this.BudgetService.setTabChangeData(tab);
+    }
+  }
+
   rowData: any[] = [];
   certificateRowData: any[] = [];
   modifiedrowData: any[] = [];
@@ -327,7 +345,6 @@ export class PIQSummaryComponent implements OnInit {
     });
     this.BudgetService.getRemarksCountsData().subscribe((res: any) => {
       this.remarksGridData = res;
-      console.log('res', res);
       if (res === 0) {
         this.remarksCounts = 0;
       } else {
@@ -335,10 +352,7 @@ export class PIQSummaryComponent implements OnInit {
           (row: any) => row.remark !== ''
         );
         this.remarksCounts = rowsWithRemarks.length;
-        console.log(
-          `Number of rows with non-empty remarks:`,
-          this.remarksCounts
-        );
+        
       }
     });
 

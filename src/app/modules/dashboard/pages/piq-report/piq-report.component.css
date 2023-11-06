@@ -372,6 +372,7 @@
 .freezeQuest ::ng-deep .mat-mdc-text-field-wrapper {
   background-color: #e0e0e0 !important;
   cursor: not-allowed !important;
+  pointer-events: none;
 }
 
 .freezeQuest ::ng-deep .mat-mdc-chip {
@@ -574,7 +575,25 @@
   /* border: 2px solid #97c6f3 !important; */
   background-color: #e0e0e0 !important;
 }
+.shoreQuest ::ng-deep .mat-datepicker-toggle{
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
+.shoreQuest ::ng-deep .resetIcn{
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.shoreQuest ::ng-deep .datePicker{
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.shoreQuest ::ng-deep .mat-mdc-form-field-icon-suffix{
+  pointer-events: none;
+  cursor: not-allowed;
+}
 /* ::ng-deep .mat-chip.mat-standard-chip:hover {
   background-color: white !important;
 } */

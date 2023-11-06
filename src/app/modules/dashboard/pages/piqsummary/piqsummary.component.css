@@ -159,6 +159,7 @@ mat-card-header {
   font-size: 14px;
   /* text-decoration: underline; */
   text-align: left;
+  cursor: pointer;
 }
 
 .image-bg {

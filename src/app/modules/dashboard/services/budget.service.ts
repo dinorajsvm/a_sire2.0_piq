@@ -35,6 +35,7 @@ export class BudgetService {
   private exceptionReset = new Subject<any>();
   private getVslCode = new Subject<any>();
   private getExcepData = new Subject<any>();
+  private getTabIndexCount = new Subject<any>();
 
   constructor(private client: HttpClient) {}
 
@@ -303,6 +304,12 @@ export class BudgetService {
   }
   getModifiedData() {
     return this.getModifiedDataList.asObservable();
+  }
+  setTabChangeData(message: any) {
+    this.getTabIndexCount.next(message);
+  }
+  getTabChangeData() {
+    return this.getTabIndexCount.asObservable();
   }
 
   setExceptionGridData(message: any) {
