@@ -134,6 +134,7 @@ export class PiqReportComponent implements OnInit {
   lookUpEnable: boolean = false;
   isLeftIcon = true;
   saveMappedCertificateData: any;
+  MultiSelectedValues: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -378,7 +379,7 @@ export class PiqReportComponent implements OnInit {
             ).length;
 
             subHeader.subQuestion.forEach((mainQus: any) => {
-
+              // mainQus['selectedAnswer'] = '';
               if (
                 mainQus.entryorgin === 'Auto or Preset' ||
                 mainQus.entryorgin === 'Preset'
@@ -388,6 +389,30 @@ export class PiqReportComponent implements OnInit {
                   mainQus.answer = mainQus.presetvalue;
                 }
               }
+
+              // if (mainQus.type === 'MultiSelect') {
+              //   const ans = mainQus.answer;
+              //   console.log('ans', typeof ans);
+              //   console.log('ans2', ans);
+              //   const tempValue = JSON.parse(ans);
+              //   console.log('ans3', tempValue);
+
+              //   if (ans != '') {
+              //     console.log("-------");
+              //     const tempValue = JSON.parse(ans);
+              //     tempValue.forEach((elem: any) => {
+              //       mainQus.selectedAnswer.concat(elem);
+              //     });
+              //   } else {
+              //     console.log("=====");
+              //     const tempValue = JSON.parse(ans);
+              //     console.log(tempValue,"1111");
+              //     tempValue.forEach((elem: any) => {
+              //       console.log(elem,"77777");
+              //       mainQus.selectedAnswer.concat(elem);
+              //     });
+              //   }
+              // }
               if (mainQus.answer) {
                 mainQus.inprogress = false;
                 mainQus.completed = true;
@@ -414,7 +439,7 @@ export class PiqReportComponent implements OnInit {
                 formGroupFields[mainQus.qid] = new FormControl(mainQus.answer);
               }
             });
-            
+
             this.dynamicForms = new FormGroup(formGroupFields);
             this.dynamicForms.patchValue({ Q133: this.vesselSelection });
           });
@@ -789,6 +814,14 @@ export class PiqReportComponent implements OnInit {
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
       } else {
         entryorgin.answer.push(value);
+        // const ans = entryorgin.answer;
+        // if (ans != '') {
+        //   const tempValue = JSON.parse(ans);
+        //   tempValue.forEach((elem: any) => {
+        //     entryorgin.selectedAnswer.concat(elem);
+        //   });
+        // }
+        // console.log('entryorgin.answer', this.MultiSelectedValues);
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
       }
     } else {
@@ -2760,17 +2793,14 @@ export class PiqReportComponent implements OnInit {
     this.showPendingQuest = false;
   }
 
-
   onTabChanged(event: any) {
     this.BudgetService.getTabChangeData().subscribe((res: any) => {
-      console.log("res",res);
+      console.log('res', res);
       this.tabGroup.selectedIndex = res;
-    })
+    });
     if (event && event.index === 0) {
       this.BudgetService.setSummaryGridData(this.getAllDatas);
       this.BudgetService.setRemarksCountData(this.getExceptionGridData);
     }
-
-
   }
 }

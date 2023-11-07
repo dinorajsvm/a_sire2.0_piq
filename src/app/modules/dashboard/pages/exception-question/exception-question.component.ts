@@ -17,7 +17,7 @@ LicenseManager.setLicenseKey(
   providers: [DatePipe],
 })
 export class ExceptionQuestionComponent implements OnInit {
-  rowSelection = 'single';
+  public singleRowSelection: 'single' | 'multiple' = 'single';
   public userDetails: any;
   emptyRemark = '';
   getRowdataCount: any = [];
@@ -104,7 +104,10 @@ export class ExceptionQuestionComponent implements OnInit {
       this.gridApi!.setRowData(this.rowData);
     }
   }
-
+  onRowSelected(event: any) {
+    const tab=1;
+    this.BudgetService.setTabChangeData(tab);
+  }
 
   onGridReady(params: any) {
     this.gridApi = params.api;
