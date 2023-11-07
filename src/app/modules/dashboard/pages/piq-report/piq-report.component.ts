@@ -319,6 +319,15 @@ export class PiqReportComponent implements OnInit {
     this.memoVisible = !this.memoVisible;
   }
 
+  exceptionCount() {
+    this.BudgetService.setExceptionData(this.exceptionList);
+    const rowCount =
+      this.exceptionList && this.exceptionList.length > 0
+        ? this.exceptionList.length
+        : 0;
+    this.BudgetService.setExceptionGridData(rowCount);
+  }
+
   getQuestionAnswerDatas() {
     const payload = {
       instanceid: this.referenceNumber,
@@ -356,7 +365,7 @@ export class PiqReportComponent implements OnInit {
         this.exceptionList = exceptionListObject.response
           ? exceptionListObject.response
           : [];
-        this.BudgetService.setExceptionData(this.exceptionList);
+        this.exceptionCount();
       }
       object.forEach((value1: any) => {
         value1.filledCount = 0;
@@ -631,7 +640,7 @@ export class PiqReportComponent implements OnInit {
       } else {
         duplicateResponse.answer = quest.answer;
       }
-      this.BudgetService.setExceptionData(this.exceptionList);
+      this.exceptionCount();
     }
   }
 
@@ -647,7 +656,7 @@ export class PiqReportComponent implements OnInit {
       } else {
         duplicateResponse.answer = quest.answer;
       }
-      this.BudgetService.setExceptionData(this.exceptionList);
+      this.exceptionCount();
     } else if (quest && quest.type === 'Select') {
       const duplicateResponse = this.exceptionList.find(
         (x) => x.qid === quest.qid
@@ -657,7 +666,7 @@ export class PiqReportComponent implements OnInit {
       } else {
         duplicateResponse.answer = quest.answer;
       }
-      this.BudgetService.setExceptionData(this.exceptionList);
+      this.exceptionCount();
     }
   }
 
@@ -869,6 +878,7 @@ export class PiqReportComponent implements OnInit {
     };
     this.exceptionList.push(exceptionData);
     this.BudgetService.setExceptionData(this.exceptionList);
+    this.exceptionCount();
   }
 
   resetDate(event: any, subq: any, quest: any, mquest: any) {
@@ -936,7 +946,7 @@ export class PiqReportComponent implements OnInit {
     );
     if (objWithIdIndex > -1) {
       this.exceptionList.splice(objWithIdIndex, 1);
-      this.BudgetService.setExceptionData(this.exceptionList);
+      this.exceptionCount();
     }
     this.dynamicForms.controls[subq.qid].setValue(subq.presetvalue);
     subq.answer = subq.presetvalue;
@@ -956,7 +966,7 @@ export class PiqReportComponent implements OnInit {
     );
     if (objWithIdIndex > -1) {
       this.exceptionList.splice(objWithIdIndex, 1);
-      this.BudgetService.setExceptionData(this.exceptionList);
+      this.exceptionCount();
     }
     subq.answer = '';
     if (subq.answer) {
@@ -1374,6 +1384,7 @@ export class PiqReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
+        
         const payload = {
           instanceid: this.referenceNumber,
           questionid: questionId,
@@ -1391,22 +1402,13 @@ export class PiqReportComponent implements OnInit {
         const dateCount = timeDifference
           ? Math.floor(timeDifference / (1000 * 3600 * 24))
           : 0;
-        // console.log(mainQuest, 'response-main');
         if (
           (mainQuest && mainQuest.qid === 'MQ6') ||
           mainQuest.qid === 'MQ20'
         ) {
-          // console.log(mainQuest, 'response');
-
           mainQuest.subQuestion.forEach((subQuest: any) => {
-            // subQuest.subQuestion.forEach((elem: any) => {
-            // console.log(subQuest, 'elem');
-
             this.restoreLookUp(subQuest);
-
-            // })
           });
-          // console.log(this.exceptionList, 'list');
 
           if (mainQuest && mainQuest.qid === 'MQ6') {
             this.dynamicForms.patchValue({
@@ -1458,6 +1460,15 @@ export class PiqReportComponent implements OnInit {
             }
           }
         }
+      } else {
+        const payload = {
+          instanceid: this.referenceNumber,
+          questionid: questionId,
+          lookupid: 'Reset',
+          lookupjson: '',
+          user: this.userDetails?.userCode,
+        };
+        this.BudgetService.saveLookUp(payload).subscribe((data) => {});
       }
     });
   }
@@ -1562,6 +1573,7 @@ export class PiqReportComponent implements OnInit {
         quest.question.forEach((Mquest: any) => {
           if (Mquest && Mquest.qid === 'MQ154') {
             Mquest.subQuestion.forEach((response: any) => {
+              this.restoreLookUp(response);
               if (response && response.qid === 'Q155') {
                 response.answer = 'Yes';
               } else if (response && response.qid === 'Q156') {
@@ -1618,6 +1630,7 @@ export class PiqReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
+        
         if (mainQuest && mainQuest.qid === 'MQ115') {
           this.mq115LookUp(mainQuest, result, questionId);
         } else if (mainQuest && mainQuest.qid === 'MQ97') {
@@ -1653,6 +1666,7 @@ export class PiqReportComponent implements OnInit {
       });
 
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q117') {
           response.answer = result.auditfromdate;
         } else if (response && response.qid === 'Q118') {
@@ -1672,6 +1686,7 @@ export class PiqReportComponent implements OnInit {
         Q118: result.actualtodate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q117') {
           response.answer = result.actualfromdate;
         } else if (response && response.qid === 'Q118') {
@@ -1702,6 +1717,7 @@ export class PiqReportComponent implements OnInit {
         Q99: result.actualfromdate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q99') {
           response.answer = result.actualfromdate;
         }
@@ -1718,6 +1734,7 @@ export class PiqReportComponent implements OnInit {
         Q99: result.auditfromdate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q99') {
           response.answer = result.auditfromdate;
         }
@@ -1753,6 +1770,7 @@ export class PiqReportComponent implements OnInit {
       });
       if (mainQuest && mainQuest.qid === 'MQ100') {
         mainQuest.subQuestion.forEach((response: any) => {
+          this.restoreLookUp(response);
           if (response && response.qid === 'Q101') {
             response.answer = result.actualfromdate;
           } else if (response && response.qid === 'Q102') {
@@ -1781,6 +1799,7 @@ export class PiqReportComponent implements OnInit {
       });
       if (mainQuest && mainQuest.qid === 'MQ100') {
         mainQuest.subQuestion.forEach((response: any) => {
+          this.restoreLookUp(response);
           if (response && response.qid === 'Q101') {
             response.answer = result.auditfromdate;
           } else if (response && response.qid === 'Q102') {
@@ -1820,6 +1839,7 @@ export class PiqReportComponent implements OnInit {
         Q109: dateCount,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q107') {
           response.answer = result.actualfromdate;
         } else if (response && response.qid === 'Q108') {
@@ -1854,6 +1874,7 @@ export class PiqReportComponent implements OnInit {
         Q109: dateCount,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q107') {
           response.answer = result.auditfromdate;
         } else if (response && response.qid === 'Q108') {
@@ -1886,6 +1907,7 @@ export class PiqReportComponent implements OnInit {
         Q113: result.actualfromdate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q113') {
           response.answer = result.actualfromdate;
         }
@@ -1902,6 +1924,7 @@ export class PiqReportComponent implements OnInit {
         Q113: result.auditfromdate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q113') {
           response.answer = result.auditfromdate;
         }
@@ -1931,6 +1954,7 @@ export class PiqReportComponent implements OnInit {
         Q123: result.actualtodate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q122') {
           response.answer = result.actualfromdate;
         } else if (response && response.qid === 'Q123') {
@@ -1950,6 +1974,7 @@ export class PiqReportComponent implements OnInit {
         Q123: result.audittodate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q122') {
           response.answer = result.auditfromdate;
         } else if (response && response.qid === 'Q123') {
@@ -1981,6 +2006,7 @@ export class PiqReportComponent implements OnInit {
         Q128: result.actualtodate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q127') {
           response.answer = result.actualfromdate;
         } else if (response && response.qid === 'Q128') {
@@ -2000,6 +2026,7 @@ export class PiqReportComponent implements OnInit {
         Q128: result.audittodate,
       });
       mainQuest.subQuestion.forEach((response: any) => {
+        this.restoreLookUp(response);
         if (response && response.qid === 'Q127') {
           response.answer = result.auditfromdate;
         } else if (response && response.qid === 'Q128') {

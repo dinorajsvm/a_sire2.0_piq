@@ -22,6 +22,7 @@ export class LookupDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
   isChecked = false;
+  isViewAll = false;
   frameworkComponents: any;
   referenceId: any = '';
   columnDefs: ColDef[] = [
@@ -30,7 +31,7 @@ export class LookupDialogComponent implements OnInit {
       flex: 1,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
+        onClick: this.onShipBtnClick.bind(this),
       },
     },
     {
@@ -113,7 +114,7 @@ export class LookupDialogComponent implements OnInit {
       flex: 1,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
+        onClick: this.onInternalBtnClick.bind(this),
       },
     },
     {
@@ -190,11 +191,12 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
   ];
-  syncData: any[] = [];
-  rowData: any = [];
+  rowShipData: any = [];
+  rowInternalData: any = [];
   getRowDatas: any = [];
   isShowToggle = false;
   isOnlyShipVisit = false;
+  isOnlyInterVisit = false;
   enableDiv: boolean = false;
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
@@ -224,9 +226,16 @@ export class LookupDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onBtnClick1(e: any) {
-    this.syncData = e.rowData;
+  onInternalBtnClick(e: any) {    
     this.dialogRef.close(e.rowData);
+  }
+
+  onShipBtnClick(e: any) {
+    this.dialogRef.close(e.rowData);
+  }
+
+  onReset() {
+    this.dialogRef.close();
   }
 
   onGridReady(params: any) {
@@ -248,25 +257,39 @@ export class LookupDialogComponent implements OnInit {
       if (this.data.qid === 'MQ6') {
         this.isShowToggle = false;
         this.isOnlyShipVisit = true;
+        this.isOnlyInterVisit = false;
         this.enableDiv = true;
-        this.rowData = this.getRowDatas.ShipVisit;
+        this.rowShipData = this.getRowDatas.ShipVisit;
       } else if (this.data.qid === 'MQ20') {
         this.isOnlyShipVisit = false;
-
+        this.isOnlyInterVisit = true;
         this.isShowToggle = true;
         this.isChecked = false;
-        this.rowData = this.getRowDatas.Internal;
+        this.rowInternalData = this.getRowDatas.Internal;
       }
     });
   }
 
-  changeToggle(event: any) {
-    if (this.isChecked) {
-      this.isOnlyShipVisit = true;
-      this.rowData = this.getRowDatas.ShipVisit;
-    } else {
+  changeToggle(chipType: string) {
+    if (chipType === 'InternalAudit') {
+      this.isChecked = false;
+      this.isViewAll = false;
+      this.isOnlyInterVisit = true;
       this.isOnlyShipVisit = false;
-      this.rowData = this.getRowDatas.Internal;
+      this.rowInternalData = this.getRowDatas.Internal;
+    } else if (chipType === 'ShipVisit') {
+      this.isChecked = true;
+      this.isViewAll = false;
+      this.isOnlyShipVisit = true;
+      this.isOnlyInterVisit = false;
+      this.rowShipData = this.getRowDatas.ShipVisit;
+    } else if (chipType === 'ViewAll') {
+      this.isViewAll = true;
+      this.isChecked = true;
+      this.isOnlyInterVisit = true;
+      this.isOnlyShipVisit = true;
+      this.rowShipData = this.getRowDatas.ShipVisit;
+      this.rowInternalData = this.getRowDatas.Internal;
     }
   }
 }

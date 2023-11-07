@@ -7,32 +7,61 @@
           (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
       </div>
-      <div class="col-sm-8" *ngIf="!enableDiv">
-        <h3 class="header" *ngIf="isOnlyShipVisit">Ship Visit Report</h3>
+      <div class="col-sm-7" *ngIf="!enableDiv">
+        <h3 class="header" *ngIf="isOnlyShipVisit && !isViewAll">
+          Ship Visit Report
+        </h3>
 
-        <h3 class="header" *ngIf="!isOnlyShipVisit">Internal Audit Report</h3>
-        <p class="descHeader" *ngIf="isOnlyShipVisit">
+        <h3 class="header" *ngIf="isOnlyInterVisit && !isViewAll">
+          Internal Audit Report
+        </h3>
+        <p class="descHeader" *ngIf="isOnlyShipVisit && !isViewAll">
           (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
-        <p class="descHeader" *ngIf="!isOnlyShipVisit">
-          (List of Inspections from Internal Audit Report Module for last 18 months)
+        <p class="descHeader" *ngIf="isOnlyInterVisit && !isViewAll">
+          (List of Inspections from Internal Audit Report Module for last 18
+          months)
+        </p>
+
+        <h3 class="header" *ngIf="isViewAll">
+          Internal Audit And Ship Visit Report
+        </h3>
+        <p class="descHeader" *ngIf="isViewAll">
+          (List of inspections from internal audit and ship visit report module
+          for last 18 months)
         </p>
       </div>
-
-      <div class="col-sm-3 text-center" style="padding:15px 0 0 0;" *ngIf="isShowToggle">
-        <div style="line-height: 1;">
-          <div style="color: #707171;font-size: 14px;font-weight: 500;">
-            <span>
-              Module Selection
-            </span>
-          </div>
-          <div style="white-space: nowrap;">
-            <p class="toggleHeader">Internal Audit Report</p>
-            <mat-slide-toggle class="toggleHeader m-0" [(ngModel)]="isChecked"
-              (change)="changeToggle($event)"></mat-slide-toggle>
-            <p class="toggleHeader">Ship Visit Report</p>
-          </div>
-        </div>
+      <div
+        class="col-sm-4 text-center"
+        style="padding: 15px 0 0 0"
+        *ngIf="isShowToggle"
+      >
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Color selection"
+        >
+          <mat-chip-option
+            color="primary"
+            [selected]="!isChecked && !isViewAll"
+            (click)="changeToggle('InternalAudit')"
+          >
+            Internal Audit Report
+          </mat-chip-option>
+          <mat-chip-option
+            color="primary"
+            [selected]="isChecked && !isViewAll"
+            (click)="changeToggle('ShipVisit')"
+          >
+            Ship Visit Report
+          </mat-chip-option>
+          <mat-chip-option
+            color="primary"
+            (click)="changeToggle('ViewAll')"
+            [selected]="isChecked && isViewAll"
+          >
+            View All
+          </mat-chip-option>
+        </mat-chip-listbox>
       </div>
       <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
@@ -42,17 +71,46 @@
 </div>
 <mat-dialog-content class="mat-typography">
   <div class="row">
-    <div class="col-sm-12" *ngIf="isOnlyShipVisit" style="padding-top: 10px;">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 280px)" [rowData]="rowData"
-        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowClassRules]="rowClassRules"
-        [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents">
+    <div class="col-sm-12" *ngIf="isOnlyShipVisit" style="padding-top: 10px">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [rowData]="rowShipData"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [rowClassRules]="rowClassRules"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
       </ag-grid-angular>
     </div>
-    <div class="col-sm-12" *ngIf="!isOnlyShipVisit" style="padding-top: 10px;">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 280px)" [rowData]="rowData"
-        [columnDefs]="internalColumnDefs" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef"
-        [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents">
+    <div
+      class="col-sm-12"
+      *ngIf="this.isOnlyInterVisit"
+      style="padding-top: 10px"
+    >
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [rowData]="rowInternalData"
+        [columnDefs]="internalColumnDefs"
+        [rowClassRules]="rowClassRules"
+        [defaultColDef]="defaultColDef"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
       </ag-grid-angular>
     </div>
   </div>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    style="float: right"
+    type="submit"
+    (click)="onReset()"
+  >
+    Reset
+  </button>
 </mat-dialog-content>
