@@ -1287,6 +1287,13 @@ legend {
   font-size: 12px;
 }
 
+.showSelected{
+  display: inline-block !important;
+}
+.showInitial{
+  display: inline-block !important;
+}
+
 .wrkfl-INP {
   background-color: #39b7cd;
   color: white;

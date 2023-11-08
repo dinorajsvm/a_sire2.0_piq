@@ -125,6 +125,8 @@ export class PiqReportComponent implements OnInit {
   getWrkFlSummaryData: any;
   showWorkSpace: boolean = false;
   enableEditMode: boolean = true;
+  initialMultiAns = true;
+  selectedMultiAns = false;
   showPendingQuest: boolean = false;
   AllQuestions: boolean = true;
   formattedDate: any = '';
@@ -134,7 +136,6 @@ export class PiqReportComponent implements OnInit {
   lookUpEnable: boolean = false;
   isLeftIcon = true;
   saveMappedCertificateData: any;
-  MultiSelectedValues: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -345,6 +346,8 @@ export class PiqReportComponent implements OnInit {
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
       this.vesselSelection = res.vesseltypename;
+      this.selectedMultiAns = false;
+      this.initialMultiAns = true;
 
       this.BudgetService.setVesselTypeData(this.vesselSelection);
       this.BudgetService.setVslCodeData(this.getVesselCode);
@@ -390,29 +393,6 @@ export class PiqReportComponent implements OnInit {
                 }
               }
 
-              // if (mainQus.type === 'MultiSelect') {
-              //   const ans = mainQus.answer;
-              //   console.log('ans', typeof ans);
-              //   console.log('ans2', ans);
-              //   const tempValue = JSON.parse(ans);
-              //   console.log('ans3', tempValue);
-
-              //   if (ans != '') {
-              //     console.log("-------");
-              //     const tempValue = JSON.parse(ans);
-              //     tempValue.forEach((elem: any) => {
-              //       mainQus.selectedAnswer.concat(elem);
-              //     });
-              //   } else {
-              //     console.log("=====");
-              //     const tempValue = JSON.parse(ans);
-              //     console.log(tempValue,"1111");
-              //     tempValue.forEach((elem: any) => {
-              //       console.log(elem,"77777");
-              //       mainQus.selectedAnswer.concat(elem);
-              //     });
-              //   }
-              // }
               if (mainQus.answer) {
                 mainQus.inprogress = false;
                 mainQus.completed = true;
@@ -426,6 +406,16 @@ export class PiqReportComponent implements OnInit {
                 (section: any) =>
                   section.mainQuestion === subHeader.mainQuestion
               );
+
+              if (mainQus.type === 'MultiSelect') {
+                const ans = mainQus.answer.replace(/\[|\]/g, '');
+                console.log('ans', typeof ans);
+                console.log('ans2', ans.toString());
+                const trimedAns = ans.replace(/\[|\]/g, '');
+                mainQus.answer = trimedAns;
+
+                // const tempValue  = JSON.parse(ans);
+              }
               this.subHeaderCount();
               this.getMainQuestCounts[index] = subHeader;
               var booleanCount: any = [];
@@ -806,6 +796,32 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
+    // console.log('a', controlname);
+    // console.log('b', value);
+    // console.log('c', mquest);
+    // console.log('d', entryorgin);
+    // console.log('e', subq);
+    // console.log('f', quest);
+    if (entryorgin.qid == 'Q104' && this.initialMultiAns == true) {
+      this.selectedMultiAns = true;
+      this.initialMultiAns = false;
+    } else if (entryorgin.qid == 'Q110' && this.initialMultiAns == true) {
+      this.selectedMultiAns = true;
+      this.initialMultiAns = false;
+    } else if (entryorgin.qid == 'Q113' && this.initialMultiAns == true) {
+      this.selectedMultiAns = true;
+      this.initialMultiAns = false;
+    } else if (entryorgin.qid == 'Q119' && this.initialMultiAns == true) {
+      this.selectedMultiAns = true;
+      this.initialMultiAns = false;
+    } else if (entryorgin.qid == 'Q124' && this.initialMultiAns == true) {
+      this.selectedMultiAns = true;
+      this.initialMultiAns = false;
+    }else{
+      this.selectedMultiAns = false;
+      this.initialMultiAns = true;
+    }
+
     if (Array.isArray(entryorgin.answer)) {
       if (entryorgin.answer.includes(value)) {
         entryorgin.answer = entryorgin.answer.filter(
@@ -814,14 +830,13 @@ export class PiqReportComponent implements OnInit {
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
       } else {
         entryorgin.answer.push(value);
-        // const ans = entryorgin.answer;
+        const ans = entryorgin.answer;
         // if (ans != '') {
         //   const tempValue = JSON.parse(ans);
         //   tempValue.forEach((elem: any) => {
         //     entryorgin.selectedAnswer.concat(elem);
         //   });
         // }
-        // console.log('entryorgin.answer', this.MultiSelectedValues);
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
       }
     } else {
@@ -1417,7 +1432,6 @@ export class PiqReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        
         const payload = {
           instanceid: this.referenceNumber,
           questionid: questionId,
@@ -1663,7 +1677,6 @@ export class PiqReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        
         if (mainQuest && mainQuest.qid === 'MQ115') {
           this.mq115LookUp(mainQuest, result, questionId);
         } else if (mainQuest && mainQuest.qid === 'MQ97') {

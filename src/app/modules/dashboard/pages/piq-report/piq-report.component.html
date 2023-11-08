@@ -39,17 +39,13 @@
         </div>
 
         <div class="flowDetails">
-          <span class="flowPeriod">{{
-            data.submitteddate | date : "dd/MM/yyyy HH:mm"
-            }}</span>
+          <span class="flowPeriod">{{data.submitteddate | date : "dd/MM/yyyy HH:mm"}}</span>
           <span>Mark Waugh</span>
           <span>Director</span>
-          <div class="flowStatus" [ngClass]="{
-              'wrkfl-INP': data.wfstatus === 'Inprogress',
-              'wrkfl-SUB': data.wfstatus === 'Submitted',
-              'wrkfl-RSN': data.wfstatus === 'ReAssigned',
-              'wrkfl-APR': data.wfstatus === 'Approved'
-            }">
+          <div class="flowStatus" [ngClass]="{'wrkfl-INP': data.wfstatus === 'Inprogress',
+            'wrkfl-SUB': data.wfstatus === 'Submitted',
+            'wrkfl-RSN': data.wfstatus === 'ReAssigned',
+            'wrkfl-APR': data.wfstatus === 'Approved'}">
             {{ data.wfstatus }}
           </div>
         </div>
@@ -105,7 +101,7 @@
         <div class="col-sm-12 quesCountsWrap">
           <div class="topBarQuestInd">
             <div class="quesCounts">
-              <span class="counts charCount" >Total Questions: {{ mainQuestCounts }}</span>
+              <span class="counts charCount">Total Questions: {{ mainQuestCounts }}</span>
               <span class="counts charCount" (click)="showpendQues()">Pending Questions: {{ pendingCount }}</span>
               <span class="counts charCount" (click)="ShowAllQuest()">Show All Questions</span>
             </div>
@@ -160,31 +156,23 @@
                   <div class="col-sm-3 head" id="sideBarList" style="padding: 0">
                     <div class="list_wrapper">
                       <div *ngFor="let heading of getAllDatas">
-                        <div class="header_list charCount" *ngIf="
-                            searchText === '' ||
-                            heading.header.toLowerCase().includes(searchText)
-                          " (click)="toggleExpandHeader(heading)">
+                        <div class="header_list charCount"
+                          *ngIf="searchText === '' || heading.header.toLowerCase().includes(searchText)"
+                          (click)="toggleExpandHeader(heading)">
                           <div [innerHTML]="highlightSearchText(heading.header)">
                             {{ heading.header }}
                           </div>
                           <div class="wte-spc">
-                            ({{ heading.filledCount }} /
-                            {{ heading.values.length }})
+                            ({{ heading.filledCount }} / {{ heading.values.length }})
                           </div>
                         </div>
                         <div *ngIf="heading.expanded">
-                          <div class="list_values" *ngFor="let value of heading.values; let i = index" [class.selected]="
-                              value.subHeaders === selectedValue
-                            ">
-                            <div class="list_val_wrap" id="{{ value.subheadid }}" *ngIf="
-                                searchText === '' ||
-                                value.subHeaders
-                                  .toLowerCase()
-                                  .includes(searchText)
-                              ">
-                              <div class="head_list charCount" (click)="selectValue(value.subHeaders, value)" [innerHTML]="
-                                  highlightSearchText(value.subHeaders)
-                                ">
+                          <div class="list_values" *ngFor="let value of heading.values; let i = index"
+                            [class.selected]="value.subHeaders === selectedValue">
+                            <div class="list_val_wrap" id="{{ value.subheadid }}"
+                              *ngIf="searchText === '' || value.subHeaders.toLowerCase().includes(searchText)">
+                              <div class="head_list charCount" (click)="selectValue(value.subHeaders, value)"
+                                [innerHTML]="highlightSearchText(value.subHeaders)">
                                 {{ value.subHeaders }}
                               </div>
                               <div class="exceptionBorder" *ngIf="value.isException">
@@ -200,83 +188,60 @@
                     </div>
                   </div>
                   <div class="col-sm-1 colSidebarBtnWrap" style="padding: 0;max-width: 1.9%;display: flex;">
-                    <button mat-button class="collapsiveBtn"
-                      (click)="hideSideBar($event)">
-                      <mat-icon style="margin-right: 3px;font-size: 20px;margin-top: 1px;">{{ isLeftIcon ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+                    <button mat-button class="collapsiveBtn" (click)="hideSideBar($event)">
+                      <mat-icon style="margin-right: 3px;font-size: 20px;margin-top: 1px;">
+                        {{ isLeftIcon ? 'chevron_left' : 'chevron_right' }}
+                      </mat-icon>
                     </button>
                   </div>
 
                   <div class="col-sm-9 loopedMainQuest" id="contentArea" [class.hidden]="isSearchActive"
                     *ngIf="AllQuestions">
                     <div class="content_load_wrap" *ngIf="isForm">
-                      <div class="card-contents" *ngFor="
-                          let quest of selectedQuestion;
-                          let index = index
-                        ">
+                      <div class="card-contents" *ngFor="let quest of selectedQuestion; let index = index ">
                         <div>
                           <div class="content_header charCount" id="{{ index }}">
                             {{ quest.subHeaders }}
                             <div style="display: flex">
                               <mat-icon #comExpColBtn (click)="expandAllMainquestions()" class="comExpColBtn">
-                                {{
-                                allExpansionPanelsExpanded
-                                ? "expand_less"
-                                : "expand_more"
-                                }}
+                                {{allExpansionPanelsExpanded ? "expand_less" : "expand_more"}}
                               </mat-icon>
                             </div>
                           </div>
-                          <div class="sub-ques" *ngFor="
-                              let Mquest of quest.question;
-                              let index = index
-                            ">
-                            <mat-accordion class="card_container" *ngIf="
-                                searchText === '' ||
-                                Mquest.mainQuestion
-                                  .toLowerCase()
-                                  .includes(searchText)
-                              ">
+                          <div class="sub-ques" *ngFor="let Mquest of quest.question;let index = index">
+                            <mat-accordion class="card_container"
+                              *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)">
                               <mat-expansion-panel [expanded]="allExpansionPanelsExpanded">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
                                     <div class="col-sm-12" style="padding: 0">
                                       <div class="row">
-                                        <div class="col-sm-10 mqAlign mainquest charCount" [innerHTML]="
-                                            highlightSearchText(
-                                              Mquest.mainQuestion
-                                            )
-                                          ">
+                                        <div class="col-sm-10 mqAlign mainquest charCount"
+                                          [innerHTML]="highlightSearchText(Mquest.mainQuestion)">
                                           {{ Mquest.mainQuestion }}
                                           {{ Mquest.mainQuestionEntry }}
                                         </div>
                                         <div class="col-sm-2 text-right" style="padding-left: 0 !important;">
                                           <button *ngIf="Mquest.entrymethod == 'Lookup'" mat-button class="save"
-                                            (click)="openLookUp($event, quest, Mquest)" [class.ShoreBtn]="
-                                            disableLookUp(Mquest)
-                                          " [ngClass]="{'ShoreBtn': lookUpEnable}">
+                                            (click)="openLookUp($event, quest, Mquest)"
+                                            [class.ShoreBtn]="disableLookUp(Mquest)"
+                                            [ngClass]="{'ShoreBtn': lookUpEnable}">
                                             Look Up
                                           </button>
-                                          <img src="assets/question/info.svg" (click)="
-                                              openDesc($event, Mquest.qid)
-                                            " style="width: 15px" class="desc"/>
+                                          <img src="assets/question/info.svg" (click)="openDesc($event, Mquest.qid)"
+                                            style="width: 15px" class="desc" />
                                         </div>
                                       </div>
                                     </div>
                                   </mat-panel-title>
                                 </mat-expansion-panel-header>
-                                <div class="sub_ques" *ngIf="
-                                    Mquest &&
-                                    Mquest.subQuestion &&
-                                    Mquest.subQuestion.length <= 1
-                                  ">
+                                <div class="sub_ques"
+                                  *ngIf="Mquest && Mquest.subQuestion && Mquest.subQuestion.length <= 1">
                                   <div class="col-sm-12 shoreQuest charCount" [id]="subq.qid"
-                                    *ngFor="let subq of Mquest.subQuestion"  [class.shoreQuest]="
-                                      !isQuestionShow(subq.entryorgin)
-                                    " [class.presetQuest]="
-                                      isSpecialClass(subq.entryorgin)
-                                    " [class.presetHigh]="
-                                      ishighlightClass(subq.entryorgin)
-                                    ">
+                                    *ngFor="let subq of Mquest.subQuestion"
+                                    [class.shoreQuest]="!isQuestionShow(subq.entryorgin)"
+                                    [class.presetQuest]="isSpecialClass(subq.entryorgin)"
+                                    [class.presetHigh]="ishighlightClass(subq.entryorgin)">
                                     <div class="row">
                                       <div class="col-sm-11 charCount lineHeight">
                                         {{ subq.subName }}
@@ -284,7 +249,9 @@
                                       <div class="col-sm-1 text-right"
                                         *ngIf=" subq.entryorgin == 'Auto or Preset' || subq.entryorgin == 'Preset'">
                                         <mat-icon [ngClass]="{'read-only-chip': viewMode}"
-                                          (click)="restoreOriginal(subq)">refresh</mat-icon>
+                                          (click)="restoreOriginal(subq)">
+                                          refresh
+                                        </mat-icon>
                                       </div>
                                     </div>
                                     <!-- API types Start -->
@@ -293,9 +260,7 @@
                                         <mat-form-field appearance="outline" class="input auto_Field charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput name="inputField" [readonly]="viewMode" autocomplete="off"
-                                            [formControlName]="subq.qid" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            [formControlName]="subq.qid" (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                       </div>
                                     </div>
@@ -305,38 +270,31 @@
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" digitDirective appTwoDigitDecimaNumber
                                             placeholder="0.00" name="inputField" autocomplete="off"
-                                            [formControlName]="subq.qid" [readonly]="viewMode" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            [formControlName]="subq.qid" [readonly]="viewMode"
+                                            (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-2 dateWrap" *ngIf="
-                                          subq.type == 'Integer' && subq.response == 'Integer'
-                                        ">
+                                      <div class="col-sm-2 dateWrap"
+                                        *ngIf="subq.type == 'Integer' && subq.response == 'Integer'">
                                         <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" newmeric placeholder="0" maxlength="3"
                                             name="inputField" autocomplete="off" [formControlName]="subq.qid"
-                                            [readonly]="viewMode" (input)="onInputChange($event)" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            [readonly]="viewMode" (input)="onInputChange($event)"
+                                            (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-2 dateWrap" *ngIf="
-                                          subq.type == 'Integer' &&
-                                          subq.response == 'Percentage'
-                                        ">
+                                      <div class="col-sm-2 dateWrap"
+                                        *ngIf="subq.type == 'Integer' && subq.response == 'Percentage'">
                                         <mat-form-field appearance="outline" class="input"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput percentage name="inputField" [readonly]="viewMode"
                                             placeholder="0" type="text" autocomplete="off" [formControlName]="subq.qid"
-                                            (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                         <span style="padding: 0 5px" *ngIf="subq.unit == '%'">{{ subq.unit }}</span>
                                       </div>
@@ -346,35 +304,19 @@
                                         <div class="col-sm-12 select_wrapper">
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
-                                              <!-- <span style="font-weight: 500;">Selected Answer:</span><span> {{subq.answer}}</span> -->
-                                              <mat-form-field class="filter" [ngClass]="{
-                                                  'read-only-input': viewMode
-                                                }" [hidden]="
-                                                  subq &&
-                                                  subq.responsearry &&
-                                                  subq.responsearry.length <= 5
-                                                ">
+                                              <span style="font-weight: 500;">Selected Answer:</span>
+                                              <span> {{subq.answer}}</span>
+                                              <mat-form-field class="filter" [ngClass]="{'read-only-input': viewMode}"
+                                                [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
                                                 <input matInput placeholder="Filter" #filterInput
                                                   [readonly]="viewMode" />
                                               </mat-form-field>
                                               <mat-chip-listbox class="value" [formControlName]="subq.qid">
-                                                <mat-chip-option [id]="subq.sid" *ngFor="
-                                                    let selecVal of subq.responsearry
-                                                      | chipFilter
-                                                        : filterInput.value
-                                                  " class="mat-chip" [ngClass]="{
-                                                    'read-only-chip': viewMode
-                                                  }" [class.selected-chip]="
-                                                    selecVal === subq.answer
-                                                  " (click)="
-                                                    toggleSingleSelection(
-                                                      selecVal,
-                                                      quest,
-                                                      Mquest,
-                                                      subq,
-                                                      getAllDatas
-                                                    )
-                                                  ">
+                                                <mat-chip-option [id]="subq.sid"
+                                                  *ngFor="let selecVal of subq.responsearry | chipFilter : filterInput.value"
+                                                  class="mat-chip" [ngClass]="{'read-only-chip': viewMode}"
+                                                  [class.selected-chip]="selecVal === subq.answer"
+                                                  (click)="toggleSingleSelection(selecVal,quest,Mquest,subq,getAllDatas)">
                                                   <span>{{ selecVal }}</span>
                                                 </mat-chip-option>
                                               </mat-chip-listbox>
@@ -383,44 +325,33 @@
                                         </div>
                                       </div>
                                     </div>
+                                    
                                     <div class="row">
                                       <div class="col-sm-12" *ngIf="subq.type == 'MultiSelect'">
                                         <div class="col-sm-12 select_wrapper">
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
-                                              <!-- <span style="font-weight: 500;">Selected Answer:</span><span>{{MultiSelectedValues}}</span> -->
-                                              <mat-form-field class="filter" [ngClass]="{
-                                                  'read-only-input': viewMode
-                                                }" [hidden]="
-                                                  subq &&
-                                                  subq.responsearry &&
-                                                  subq.responsearry.length <= 5
-                                                ">
+                                              <span style="font-weight: 500;">Selected Answer:</span>
+                                              <span style="display: none;"
+                                                [ngClass]="{'showInitial': initialMultiAns}">
+                                                 {{subq.answer}}
+                                              </span>
+                                              <span style="display: none;" [id]="'yes-'+ subq.sid"
+                                                [ngClass]="{'showSelected': selectedMultiAns}"
+                                                *ngFor="let selected of subq.answer">
+                                                 {{ selected }},
+                                              </span>
+                                              <mat-form-field class="filter" [ngClass]="{'read-only-input': viewMode}"
+                                                [hidden]=" subq && subq.responsearry && subq.responsearry.length <= 5">
                                                 <input matInput placeholder="Filter" #filterInput
                                                   [readonly]="viewMode" />
                                               </mat-form-field>
                                               <mat-chip-listbox multiple [formControlName]="subq.qid">
-                                                <mat-chip-option *ngFor="
-                                                    let selecVal of subq.responsearry
-                                                      | chipFilter
-                                                        : filterInput.value
-                                                  " [value]="selecVal" [ngClass]="{
-                                                    'read-only-chip': viewMode,
-                                                    'selected-chip':
-                                                      isOptionSelected(
-                                                        selecVal,
-                                                        subq.answer
-                                                      )
-                                                  }" (click)="
-                                                    toggleMultiSelection(
-                                                      subq.qid,
-                                                      selecVal,
-                                                      Mquest,
-                                                      subq,
-                                                      subq.entryorgin,
-                                                      quest
-                                                    )
-                                                  ">
+                                                <mat-chip-option
+                                                  *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
+                                                  [value]="selecVal"
+                                                  [ngClass]="{'read-only-chip': viewMode,'selected-chip':isOptionSelected(selecVal,subq.answer)}"
+                                                  (click)="toggleMultiSelection(subq.qid,selecVal,Mquest,subq,subq.entryorgin,quest)">
                                                   {{ selecVal }}
                                                 </mat-chip-option>
                                               </mat-chip-listbox>
@@ -435,28 +366,14 @@
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput [matDatepicker]="picker" autocomplete="off"
                                             [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
-                                            [value]="formattedDate" (dateInput)="
-                                              datePickerChanges(
-                                                $event,
-                                                quest,
-                                                Mquest,
-                                                subq
-                                              )
-                                            " />
+                                            [value]="formattedDate"
+                                            (dateInput)="datePickerChanges($event,quest,Mquest,subq)" />
                                           <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="viewMode">
                                           </mat-datepicker-toggle>
                                           <mat-datepicker #picker></mat-datepicker>
                                         </mat-form-field>
-                                        <mat-icon class="resetIcn" [ngClass]="{
-                                            'read-only-chip': viewMode
-                                          }" [id]="subq.qid" (click)="
-                                            resetDate(
-                                              $event,
-                                              subq,
-                                              quest,
-                                              Mquest
-                                            )
-                                          ">
+                                        <mat-icon class="resetIcn" [ngClass]="{'read-only-chip': viewMode}"
+                                          [id]="subq.qid" (click)="resetDate($event,subq,quest,Mquest)">
                                           close
                                         </mat-icon>
                                       </div>
@@ -465,13 +382,13 @@
                                       <div class="col-sm-6" *ngIf="subq.type == 'TextArea'">
                                         <mat-form-field appearance="outline" class="textArea charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
-                                          <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
+                                          <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
+                                            (input)="inputChanges($event, subq, quest)" autocomplete="off" #textArea
+                                            [maxlength]="subq.specification" name="textAreaField">
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
-                                          <span class="charCount"style="font-size: 12px">
+                                          <span class="charCount" style="font-size: 12px">
                                             {{ subq.specification - textArea.value.length }}
                                             Characters Remaining
                                           </span>
@@ -482,23 +399,14 @@
                                   </div>
                                 </div>
 
-                                <div class="sub_ques" style="display: flex; flex-wrap: wrap" *ngIf="
-                                    Mquest &&
-                                    Mquest.subQuestion &&
-                                    Mquest.subQuestion.length > 1
-                                  ">
+                                <div class="sub_ques" style="display: flex; flex-wrap: wrap"
+                                  *ngIf="Mquest && Mquest.subQuestion && Mquest.subQuestion.length > 1">
                                   <div class="col-sm-6 shoreQuest subqContainer" [id]="subq.qid"
-                                    *ngFor="let subq of Mquest.subQuestion"  [class.shoreQuest]="
-                                      !isQuestionShow(subq.entryorgin)
-                                    " [class.presetQuest]="
-                                      isSpecialClass(subq.entryorgin)
-                                    " [class.presetChanged]="
-                                      subq &&
-                                      subq.presetvalue &&
-                                      (subq.entryorgin === 'Auto or Preset' ||
-                                        subq.entryorgin === 'Preset') &&
-                                      subq.presetvalue !== subq.answer
-                                    ">
+                                    *ngFor="let subq of Mquest.subQuestion"
+                                    [class.shoreQuest]="!isQuestionShow(subq.entryorgin)"
+                                    [class.presetQuest]="isSpecialClass(subq.entryorgin)" [class.presetChanged]="subq && subq.presetvalue && 
+                                    (subq.entryorgin === 'Auto or Preset' || subq.entryorgin === 'Preset') && 
+                                    subq.presetvalue !== subq.answer">
                                     <div class="row">
                                       <div class="col-sm-11 charCount lineHeight">
                                         {{ subq.subName }}
@@ -516,40 +424,31 @@
                                         <mat-form-field appearance="outline" class="input auto_Field charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput name="inputField" [readonly]="viewMode" autocomplete="off"
-                                            [formControlName]="subq.qid" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            [formControlName]="subq.qid" (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-5 dateWrap" *ngIf="
-                                          subq.type == 'Integer' &&
-                                          subq.response == 'Integer'
-                                        ">
+                                      <div class="col-sm-5 dateWrap"
+                                        *ngIf="subq.type == 'Integer' && subq.response == 'Integer'">
                                         <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" newmeric placeholder="0" maxlength="3"
                                             name="inputField" autocomplete="off" [formControlName]="subq.qid"
-                                            [readonly]="viewMode" (input)="onInputChange($event)" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            [readonly]="viewMode" (input)="onInputChange($event)"
+                                            (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                       </div>
                                     </div>
 
                                     <div class="row">
-                                      <div class="col-sm-5 dateWrap" *ngIf="
-                                          subq.type == 'Integer' &&
-                                          subq.response == 'Percentage'
-                                        ">
+                                      <div class="col-sm-5 dateWrap"
+                                        *ngIf="subq.type == 'Integer' && subq.response == 'Percentage'">
                                         <mat-form-field appearance="outline" class="input charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput percentage name="inputField" [readonly]="viewMode"
                                             placeholder="0" type="text" autocomplete="off" [formControlName]="subq.qid"
-                                            (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                         <span style="padding: 0 5px" *ngIf="subq.unit == '%'">{{ subq.unit }}</span>
                                       </div>
@@ -560,9 +459,8 @@
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput type="text" digitDirective appTwoDigitDecimaNumber
                                             placeholder="0.00" name="inputField" autocomplete="off"
-                                            [formControlName]="subq.qid" [readonly]="viewMode" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
+                                            [formControlName]="subq.qid" [readonly]="viewMode"
+                                            (input)="inputChanges($event, subq, quest)" />
                                         </mat-form-field>
                                       </div>
                                     </div>
@@ -571,35 +469,19 @@
                                         <div class="col-sm-12 select_wrapper">
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
-                                              <!-- <span style="font-weight: 500;">Selected Answer:</span><span> {{subq.answer}}</span> -->
-                                              <mat-form-field class="filter" [ngClass]="{
-                                                  'read-only-input': viewMode
-                                                }" [hidden]="
-                                                  subq &&
-                                                  subq.responsearry &&
-                                                  subq.responsearry.length <= 5
-                                                ">
+                                              <span style="font-weight: 500;">Selected Answer:</span>
+                                              <span> {{subq.answer}}</span>
+                                              <mat-form-field class="filter" [ngClass]="{'read-only-input': viewMode}"
+                                                [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
                                                 <input matInput placeholder="Filter" #filterInput
                                                   [readonly]="viewMode" />
                                               </mat-form-field>
                                               <mat-chip-listbox class="value" [formControlName]="subq.qid">
-                                                <mat-chip-option [id]="subq.sid" *ngFor="
-                                                    let selecVal of subq.responsearry
-                                                      | chipFilter
-                                                        : filterInput.value
-                                                  " class="mat-chip" [ngClass]="{
-                                                    'read-only-chip': viewMode
-                                                  }" [class.selected-chip]="
-                                                    selecVal === subq.answer
-                                                  " (click)="
-                                                    toggleSingleSelection(
-                                                      selecVal,
-                                                      quest,
-                                                      Mquest,
-                                                      subq,
-                                                      getAllDatas
-                                                    )
-                                                  ">
+                                                <mat-chip-option [id]="subq.sid"
+                                                  *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
+                                                  class="mat-chip" [ngClass]="{'read-only-chip': viewMode}"
+                                                  [class.selected-chip]="selecVal === subq.answer"
+                                                  (click)="toggleSingleSelection(selecVal,quest,Mquest,subq,getAllDatas)">
                                                   <span>{{ selecVal }}</span>
                                                 </mat-chip-option>
                                               </mat-chip-listbox>
@@ -613,39 +495,26 @@
                                         <div class="col-sm-12 select_wrapper">
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
-                                              <!-- <span style="font-weight: 500;">Selected Answer:</span><span>{{MultiSelectedValues}}</span> -->
-                                              <mat-form-field class="filter" [ngClass]="{
-                                                  'read-only-input': viewMode
-                                                }" [hidden]="
-                                                  subq &&
-                                                  subq.responsearry &&
-                                                  subq.responsearry.length <= 5
-                                                ">
+                                              <span style="font-weight: 500;">Selected Answer:</span>
+                                              <span style="display: none;"
+                                                [ngClass]="{'showInitial': initialMultiAns}">
+                                                 {{subq.answer}}
+                                              </span>
+                                              <span style="display: none;" [id]="'yes-'+subq.sid" [ngClass]="{'showSelected': selectedMultiAns}"
+                                                *ngFor="let selected of subq.answer">
+                                                 {{ selected }},
+                                              </span>
+                                              <mat-form-field class="filter" [ngClass]="{'read-only-input': viewMode}"
+                                                [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
                                                 <input matInput placeholder="Filter" #filterInput
                                                   [readonly]="viewMode" />
                                               </mat-form-field>
                                               <mat-chip-listbox multiple [formControlName]="subq.qid">
-                                                <mat-chip-option *ngFor="
-                                                    let selecVal of subq.responsearry
-                                                      | chipFilter
-                                                        : filterInput.value
-                                                  " [value]="selecVal" [ngClass]="{
-                                                    'read-only-chip': viewMode,
-                                                    'selected-chip':
-                                                      isOptionSelected(
-                                                        selecVal,
-                                                        subq.answer
-                                                      )
-                                                  }" (click)="
-                                                    toggleMultiSelection(
-                                                      subq.qid,
-                                                      selecVal,
-                                                      Mquest,
-                                                      subq,
-                                                      subq.entryorgin,
-                                                      quest
-                                                    )
-                                                  ">
+                                                <mat-chip-option
+                                                  *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
+                                                  [value]="selecVal"
+                                                  [ngClass]="{'read-only-chip': viewMode,'selected-chip':isOptionSelected(selecVal,subq.answer)}"
+                                                  (click)="toggleMultiSelection(subq.qid,selecVal,Mquest,subq,subq.entryorgin,quest)">
                                                   <span>{{ selecVal }}</span>
                                                 </mat-chip-option>
                                               </mat-chip-listbox>
@@ -660,28 +529,15 @@
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <input matInput [matDatepicker]="picker" autocomplete="off"
                                             [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
-                                            [value]="formattedDate" (dateInput)="
-                                              datePickerChanges(
-                                                $event,
-                                                quest,
-                                                Mquest,
-                                                subq
-                                              )
-                                            " />
+                                            [value]="formattedDate"
+                                            (dateInput)="datePickerChanges($event,quest,Mquest,subq)" />
                                           <mat-datepicker-toggle matIconSuffix [for]="picker"
                                             [disabled]="viewMode"></mat-datepicker-toggle>
                                           <mat-datepicker #picker></mat-datepicker>
                                         </mat-form-field>
-                                        <mat-icon class="resetIcn" [id]="subq.qid" [ngClass]="{
-                                            'read-only-chip': viewMode
-                                          }" (click)="
-                                            resetDate(
-                                              $event,
-                                              subq,
-                                              quest,
-                                              Mquest
-                                            )
-                                          ">
+                                        <mat-icon class="resetIcn" [id]="subq.qid"
+                                          [ngClass]="{'read-only-chip': viewMode}"
+                                          (click)="resetDate($event,subq,quest,Mquest)">
                                           close
                                         </mat-icon>
                                       </div>
@@ -690,15 +546,15 @@
                                       <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
                                         <mat-form-field appearance="outline" class="textArea charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
-                                          <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
+                                          <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
+                                            (input)="inputChanges($event, subq, quest)" autocomplete="off" #textArea
+                                            [maxlength]="subq.specification" name="textAreaField">
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">
                                           <span class="charCount" style="font-size: 12px">
                                             {{ subq.specification - textArea.value.length }}
-                                            Characters Remaining 
+                                            Characters Remaining
                                           </span>
                                         </div>
                                       </div>
@@ -734,520 +590,349 @@
 
                   <!-- pending Question Start-->
                   <div class="col-sm-9 pendingQuest" id="pendingArea" *ngIf="showPendingQuest">
-                        <div class="content_load_wrappen">
-                          <div class="content_header">Pending Questions</div>
-                          <div class="card-contents p-0">
-                            <div *ngFor="let quest of getAllDatas">
-                              <div *ngFor="let allQuest of quest.values">
-                                <div class="sub-ques" *ngFor="
-                                    let allQuestValues of allQuest.question;
-                                    let indexAllQ = index
-                                  ">
-                                  <mat-accordion class="card_container" style="margin: 5px 0; cursor: default" *ngIf="
-                                      searchText === '' ||
-                                      allQuestValues.mainQuestion
-                                        .toLowerCase()
-                                        .includes(searchText)
-                                    ">
-                                    <mat-expansion-panel [expanded]="allExpansionPanelsExpanded"
-                                      *ngIf="allQuestValues.selected == false">
-                                      <mat-expansion-panel-header>
-                                        <mat-panel-title>
-                                          <div class="col-sm-12" style="padding: 0">
+                    <div class="content_load_wrappen">
+                      <div class="content_header">Pending Questions</div>
+                      <div class="card-contents p-0">
+                        <div *ngFor="let quest of getAllDatas">
+                          <div *ngFor="let allQuest of quest.values">
+                            <div class="sub-ques"
+                              *ngFor="let allQuestValues of allQuest.question;let indexAllQ = index">
+                              <mat-accordion class="card_container" style="margin: 5px 0; cursor: default"
+                                *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)">
+                                <mat-expansion-panel [expanded]="allExpansionPanelsExpanded"
+                                  *ngIf="allQuestValues.selected == false">
+                                  <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                      <div class="col-sm-12" style="padding: 0">
+                                        <div class="row">
+                                          <div class="col-sm-12 mainquest"
+                                            [innerHTML]="highlightSearchText(allQuestValues.mainQuestion)">
+                                            {{allQuestValues.mainQuestion}}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </mat-panel-title>
+                                  </mat-expansion-panel-header>
+                                  <div class="sub_ques"
+                                    *ngIf="allQuestValues && allQuestValues.subQuestion && allQuestValues.subQuestion.length <= 1">
+                                    <div class="col-sm-12 shoreQuest" *ngFor="let subq of allQuestValues.subQuestion"
+                                      [class.shoreQuest]="!isQuestionShow(subq.entryorgin)">
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          {{ subq.subName }}
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-sm-2" *ngIf="subq.type == 'Automatic'">
+                                          <mat-form-field appearance="outline" class="input auto_Field"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput name="inputField" [readonly]="viewMode" autocomplete="off"
+                                              [formControlName]="subq.qid"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-sm-2" *ngIf="subq.type == 'Numeric'">
+                                          <mat-form-field appearance="outline" class="input"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput type="text" digitDirective appTwoDigitDecimaNumber
+                                              placeholder="0.00" name="inputField" autocomplete="off"
+                                              [formControlName]="subq.qid" [readonly]="viewMode"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-2 dateWrap"
+                                          *ngIf="subq.type == 'Integer' && subq.response == 'Integer'">
+                                          <mat-form-field appearance="outline" class="input"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput type="text" newmeric placeholder="0" maxlength="3"
+                                              name="inputField" autocomplete="off" [formControlName]="subq.qid"
+                                              [readonly]="viewMode" (input)="onInputChange($event)"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-2 dateWrap"
+                                          *ngIf="subq.type == 'Integer' && subq.response == 'Percentage'">
+                                          <mat-form-field appearance="outline" class="input"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput percentage name="inputField" [readonly]="viewMode"
+                                              placeholder="0" type="text" autocomplete="off"
+                                              [formControlName]="subq.qid"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                          <span style="padding: 0 5px" *ngIf="subq.unit == '%'">
+                                            {{ subq.unit}}
+                                          </span>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-sm-12" *ngIf="subq.type == 'Select'">
+                                          <div class="col-sm-12 select_wrapper">
                                             <div class="row">
-                                              <div class="col-sm-12 mainquest" [innerHTML]="
-                                                  highlightSearchText(
-                                                    allQuestValues.mainQuestion
-                                                  )
-                                                ">
-                                                {{
-                                                allQuestValues.mainQuestion
-                                                }}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </mat-panel-title>
-                                      </mat-expansion-panel-header>
-                                      <div class="sub_ques" *ngIf="
-                                          allQuestValues &&
-                                          allQuestValues.subQuestion &&
-                                          allQuestValues.subQuestion.length <= 1
-                                        ">
-                                        <div class="col-sm-12 shoreQuest" *ngFor="
-                                            let subq of allQuestValues.subQuestion
-                                          " [class.shoreQuest]="
-                                            !isQuestionShow(subq.entryorgin)
-                                          ">
-                                          <div class="row">
-                                            <div class="col-sm-12">
-                                              {{ subq.subName }}
-                                            </div>
-                                          </div>
-
-                                          <div class="row">
-                                            <div class="col-sm-2" *ngIf="subq.type == 'Automatic'">
-                                              <mat-form-field appearance="outline" class="input auto_Field"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput name="inputField" [readonly]="viewMode"
-                                                  autocomplete="off" [formControlName]="subq.qid" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
-                                              </mat-form-field>
-                                            </div>
-                                          </div>
-
-                                          <div class="row">
-                                            <div class="col-sm-2" *ngIf="subq.type == 'Numeric'">
-                                              <mat-form-field appearance="outline" class="input"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput type="text" digitDirective appTwoDigitDecimaNumber
-                                                  placeholder="0.00" name="inputField" autocomplete="off"
-                                                  [formControlName]="subq.qid" [readonly]="viewMode" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
-                                              </mat-form-field>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-2 dateWrap" *ngIf="
-                                                subq.type == 'Integer' && subq.response == 'Integer'
-                                              ">
-                                              <mat-form-field appearance="outline" class="input"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput type="text" newmeric placeholder="0" maxlength="3"
-                                                  name="inputField" autocomplete="off" [formControlName]="subq.qid"
-                                                  [readonly]="viewMode" (input)="onInputChange($event)" (input)="
-                                                    inputChanges($event, subq, quest)
-                                                  " />
-                                              </mat-form-field>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-2 dateWrap" *ngIf="
-                                                subq.type == 'Integer' &&
-                                                subq.response == 'Percentage'
-                                              ">
-                                              <mat-form-field appearance="outline" class="input"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput percentage name="inputField" [readonly]="viewMode"
-                                                  placeholder="0" type="text" autocomplete="off"
-                                                  [formControlName]="subq.qid" (input)="
-                                                    inputChanges($event, subq, quest)
-                                                  " />
-                                              </mat-form-field>
-                                              <span style="padding: 0 5px" *ngIf="subq.unit == '%'">{{ subq.unit
-                                                }}</span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row">
-                                            <div class="col-sm-12" *ngIf="subq.type == 'Select'">
-                                              <div class="col-sm-12 select_wrapper">
-                                                <div class="row">
-                                                  <div class="col-sm-12 buttons_wrap">
-                                                    <!-- <span style="font-weight: 500;">Selected Answer:</span><span> {{subq.answer}}</span> -->
-                                                    <mat-form-field class="filter" [ngClass]="{
-                                                        'read-only-input':
-                                                          viewMode
-                                                      }" [hidden]="
-                                                        subq &&
-                                                        subq.responsearry &&
-                                                        subq.responsearry
-                                                          .length <= 5
-                                                      ">
-                                                      <input matInput placeholder="Filter" #filterInput
-                                                        [readonly]="viewMode" />
-                                                    </mat-form-field>
-                                                    <mat-chip-listbox class="value" [formControlName]="
-                                                        subq.qid
-                                                      ">
-                                                      <mat-chip-option [id]="subq.sid" *ngFor="
-                                                          let selecVal of subq.responsearry
-                                                            | chipFilter
-                                                              : filterInput.value
-                                                        " class="mat-chip" [ngClass]="{
-                                                          'read-only-chip':
-                                                            viewMode,
-                                                          'selected-chip':
-                                                            selecVal ===
-                                                            subq.answer
-                                                        }" [class.selected-chip]="
-                                                          selecVal ===
-                                                          subq.answer
-                                                        " (click)="
-                                                          toggleSingleSelection(
-                                                            selecVal,
-                                                            quest,
-                                                            allQuestValues,
-                                                            subq,
-                                                            getAllDatas
-                                                          )
-                                                        ">
-                                                        <span>{{
-                                                          selecVal
-                                                          }}</span>
-                                                      </mat-chip-option>
-                                                    </mat-chip-listbox>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-12" *ngIf="subq.type == 'MultiSelect'">
-                                              <div class="col-sm-12 select_wrapper">
-                                                <div class="row">
-                                                  <div class="col-sm-12 buttons_wrap">
-                                                    <!-- <span style="font-weight: 500;">Selected Answer:</span><span>{{MultiSelectedValues}}</span> -->
-                                                    <mat-form-field class="filter" [ngClass]="{
-                                                        'read-only-input':
-                                                          viewMode
-                                                      }" [hidden]="
-                                                        subq &&
-                                                        subq.responsearry &&
-                                                        subq.responsearry
-                                                          .length <= 5
-                                                      ">
-                                                      <input matInput placeholder="Filter" #filterInput
-                                                        [readonly]="viewMode" />
-                                                    </mat-form-field>
-                                                    <mat-chip-listbox multiple [formControlName]="
-                                                        subq.qid
-                                                      ">
-                                                      <mat-chip-option *ngFor="
-                                                          let selecVal of subq.responsearry
-                                                            | chipFilter
-                                                              : filterInput.value
-                                                        " [value]="selecVal" [ngClass]="{
-                                                          'read-only-chip':
-                                                            viewMode,
-                                                          'selected-chip':
-                                                            isOptionSelected(
-                                                              selecVal,
-                                                              subq.answer
-                                                            )
-                                                        }" (click)="
-                                                          toggleMultiSelection(
-                                                            subq.qid,
-                                                            selecVal,
-                                                            allQuestValues,
-                                                            subq,
-                                                            subq.entryorgin,
-                                                            quest
-                                                          )
-                                                        ">
-                                                        <span>{{
-                                                          selecVal
-                                                          }}</span>
-                                                      </mat-chip-option>
-                                                    </mat-chip-listbox>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-2 dateWrap" *ngIf="subq.type == 'Date'">
-                                              <mat-form-field appearance="outline" class="datePicker" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <input matInput [matDatepicker]="picker" autocomplete="off"
-                                                  [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
-                                                  [value]="formattedDate" (dateInput)="
-                                                    datePickerChanges(
-                                                      $event,
-                                                      quest,
-                                                      allQuestValues,
-                                                      subq
-                                                    )
-                                                  " />
-                                                <mat-datepicker-toggle matIconSuffix [for]="picker"
-                                                  [disabled]="viewMode"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker></mat-datepicker>
-                                              </mat-form-field>
-                                              <mat-icon class="resetIcn" [id]="subq.qid" [ngClass]="{
-                                                  'read-only-chip': viewMode
-                                                }" (click)="
-                                                  resetDate(
-                                                    $event,
-                                                    subq,
-                                                    quest,
-                                                    allQuestValues
-                                                  )
-                                                ">
-                                                close
-                                              </mat-icon>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
-                                              <mat-form-field appearance="outline" class="textArea charCount" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
-                                                  (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
-                                                  " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
-                                                </textarea>
-                                              </mat-form-field>
-                                              <div class="text-right">
-                                                <span class="charCount" style="font-size: 12px">
-                                                  {{
-                                                    subq.specification - textArea.value.length
-                                                  }}
-                                                  Characters Remaining
-                                                </span>
+                                              <div class="col-sm-12 buttons_wrap">
+                                                <span style="font-weight: 500;">Selected Answer:</span>
+                                                <span> {{subq.answer}}</span>
+                                                <mat-form-field class="filter" [ngClass]="{'read-only-input':viewMode}"
+                                                  [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
+                                                  <input matInput placeholder="Filter" #filterInput
+                                                    [readonly]="viewMode" />
+                                                </mat-form-field>
+                                                <mat-chip-listbox class="value" [formControlName]="subq.qid">
+                                                  <mat-chip-option [id]="subq.sid"
+                                                    *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
+                                                    class="mat-chip"
+                                                    [ngClass]="{'read-only-chip':viewMode,'selected-chip':selecVal === subq.answer}"
+                                                    [class.selected-chip]="selecVal === subq.answer"
+                                                    (click)="toggleSingleSelection(selecVal,quest,allQuestValues,subq,getAllDatas)">
+                                                    <span>{{selecVal}}</span>
+                                                  </mat-chip-option>
+                                                </mat-chip-listbox>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-                                      <div class="sub_ques" style="display: flex; flex-wrap: wrap" *ngIf="
-                                          allQuestValues &&
-                                          allQuestValues.subQuestion &&
-                                          allQuestValues.subQuestion.length > 1
-                                        ">
-                                        <div class="col-sm-6 shoreQuest subqContainer" *ngFor="
-                                            let subq of allQuestValues.subQuestion
-                                          " [class.shoreQuest]="
-                                            !isQuestionShow(subq.entryorgin)
-                                          ">
-                                          <div class="row">
-                                            <div class="col-sm-12">
-                                              {{ subq.subName }}
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-5" *ngIf="subq.type == 'Automatic'">
-                                              <mat-form-field appearance="outline" class="input auto_Field"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput name="inputField" [readonly]="viewMode"
-                                                  autocomplete="off" [formControlName]="subq.qid" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
-                                              </mat-form-field>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-5" *ngIf="subq.type == 'Numeric'">
-                                              <mat-form-field appearance="outline" class="input"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput type="text" digitDirective appTwoDigitDecimaNumber
-                                                  placeholder="0.00" name="inputField" autocomplete="off"
-                                                  [formControlName]="subq.qid" [readonly]="viewMode" (input)="
-                                              inputChanges($event, subq, quest)
-                                            " />
-                                              </mat-form-field>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-5 dateWrap" *ngIf="
-                                                subq.type == 'Integer' && subq.response == 'Integer'
-                                              ">
-                                              <mat-form-field appearance="outline" class="input"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput type="text" newmeric placeholder="0" maxlength="3"
-                                                  name="inputField" autocomplete="off" [formControlName]="subq.qid"
-                                                  [readonly]="viewMode" (input)="onInputChange($event)" (input)="
-                                                    inputChanges($event, subq, quest)
-                                                  " />
-                                              </mat-form-field>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-5 dateWrap" *ngIf="
-                                                subq.type == 'Integer' &&
-                                                subq.response == 'Percentage'
-                                              ">
-                                              <mat-form-field appearance="outline" class="input"
-                                                [ngClass]="{ 'read-only': viewMode }">
-                                                <input matInput percentage name="inputField" [readonly]="viewMode"
-                                                  placeholder="0" type="text" autocomplete="off"
-                                                  [formControlName]="subq.qid" (input)="
-                                                    inputChanges($event, subq, quest)
-                                                  " />
-                                              </mat-form-field>
-                                              <span style="padding: 0 5px" *ngIf="subq.unit == '%'">{{ subq.unit
-                                                }}</span>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-12" *ngIf="subq.type == 'Select'">
-                                              <div class="col-sm-12 select_wrapper">
-                                                <div class="row">
-                                                  <div class="col-sm-12 buttons_wrap">
-                                                    <!-- <span style="font-weight: 500;">Selected Answer:</span><span> {{subq.answer}}</span> -->
-                                                    <mat-form-field class="filter" [ngClass]="{
-                                                        'read-only-input':
-                                                          viewMode
-                                                      }" [hidden]="
-                                                        subq &&
-                                                        subq.responsearry &&
-                                                        subq.responsearry
-                                                          .length <= 5
-                                                      ">
-                                                      <input matInput placeholder="Filter" #filterInput
-                                                        [readonly]="viewMode" />
-                                                    </mat-form-field>
-                                                    <mat-chip-listbox class="value" [formControlName]="
-                                                        subq.qid
-                                                      ">
-                                                      <mat-chip-option [id]="subq.sid" *ngFor="
-                                                          let selecVal of subq.responsearry
-                                                            | chipFilter
-                                                              : filterInput.value
-                                                        " class="mat-chip" [ngClass]="{
-                                                          'read-only-chip':
-                                                            viewMode,
-                                                          'selected-chip':
-                                                            selecVal ===
-                                                            subq.answer
-                                                        }" [class.selected-chip]="
-                                                          selecVal ===
-                                                          subq.answer
-                                                        " (click)="
-                                                          toggleSingleSelection(
-                                                            selecVal,
-                                                            quest,
-                                                            allQuestValues,
-                                                            subq,
-                                                            getAllDatas
-                                                          )
-                                                        ">
-                                                        <span>{{
-                                                          selecVal
-                                                          }}</span>
-                                                      </mat-chip-option>
-                                                    </mat-chip-listbox>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-
-                                          <div class="row">
-                                            <div class="col-sm-12" *ngIf="subq.type == 'MultiSelect'">
-                                              <div class="col-sm-12 select_wrapper">
-                                                <div class="row">
-                                                  <div class="col-sm-12 buttons_wrap">
-                                                    <!-- <span style="font-weight: 500;">Selected Answer:</span><span>{{MultiSelectedValues}}</span> -->
-                                                    <mat-form-field class="filter" [ngClass]="{
-                                                        'read-only-input':
-                                                          viewMode
-                                                      }" [hidden]="
-                                                        subq &&
-                                                        subq.responsearry &&
-                                                        subq.responsearry
-                                                          .length <= 5
-                                                      ">
-                                                      <input matInput placeholder="Filter" #filterInput
-                                                        [readonly]="viewMode" />
-                                                    </mat-form-field>
-                                                    <mat-chip-listbox multiple [formControlName]="
-                                                        subq.qid
-                                                      ">
-                                                      <mat-chip-option *ngFor="
-                                                          let selecVal of subq.responsearry
-                                                            | chipFilter
-                                                              : filterInput.value
-                                                        " [value]="selecVal" [ngClass]="{
-                                                          'read-only-chip':
-                                                            viewMode,
-                                                          'selected-chip':
-                                                            isOptionSelected(
-                                                              selecVal,
-                                                              subq.answer
-                                                            )
-                                                        }" (click)="
-                                                          toggleMultiSelection(
-                                                            subq.qid,
-                                                            selecVal,
-                                                            allQuestValues,
-                                                            subq,
-                                                            subq.entryorgin,
-                                                            quest
-                                                          )
-                                                        ">
-                                                        {{ selecVal }}
-                                                      </mat-chip-option>
-                                                    </mat-chip-listbox>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Date'">
-                                              <mat-form-field appearance="outline" class="datePicker" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <input matInput [matDatepicker]="picker" autocomplete="off"
-                                                  [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
-                                                  (dateInput)="
-                                                    datePickerChanges(
-                                                      $event,
-                                                      quest,
-                                                      allQuestValues,
-                                                      subq
-                                                    )
-                                                  " />
-                                                <mat-datepicker-toggle matIconSuffix [for]="picker"
-                                                  [disabled]="viewMode"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker></mat-datepicker>
-                                              </mat-form-field>
-                                              <mat-icon class="resetIcn" [id]="subq.qid" [ngClass]="{
-                                                  'read-only-chip': viewMode
-                                                }" (click)="
-                                                  resetDate(
-                                                    $event,
-                                                    subq,
-                                                    quest,
-                                                    allQuestValues
-                                                  )
-                                                ">
-                                                close
-                                              </mat-icon>
-                                            </div>
-                                          </div>
-
-                                          <div class="row">
-                                            <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
-                                              <mat-form-field appearance="outline" class="textArea charCount" [ngClass]="{
-                                                  'read-only': viewMode
-                                                }">
-                                                <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
-                                                  (input)="
-                                                    inputChanges(
-                                                      $event,
-                                                      subq,
-                                                      quest
-                                                    )
-                                                  " autocomplete="off" #textArea [maxlength]="subq.specification" name="textAreaField">
-                                                </textarea>
-                                              </mat-form-field>
-                                              <div class="text-right">
-                                                <span class="charCount" style="font-size: 12px">
-                                                  {{
-                                                    subq.specification - textArea.value.length
-                                                  }}
-                                                  Characters Remaining
+                                      <div class="row">
+                                        <div class="col-sm-12" *ngIf="subq.type == 'MultiSelect'">
+                                          <div class="col-sm-12 select_wrapper">
+                                            <div class="row">
+                                              <div class="col-sm-12 buttons_wrap">
+                                                <span style="font-weight: 500;">Selected Answer:</span>
+                                                <span style="display: none;"
+                                                  [ngClass]="{'showInitial': initialMultiAns}">
+                                                   {{subq.answer}}
                                                 </span>
+                                                <span style="display: none;" [id]="'yes-'+subq.sid" [ngClass]="{'showSelected': selectedMultiAns}"
+                                                  *ngFor="let selected of subq.answer"> {{ selected }}, </span>
+                                                <mat-form-field class="filter" [ngClass]="{'read-only-input':viewMode}"
+                                                  [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
+                                                  <input matInput placeholder="Filter" #filterInput
+                                                    [readonly]="viewMode" />
+                                                </mat-form-field>
+                                                <mat-chip-listbox multiple [formControlName]="subq.qid">
+                                                  <mat-chip-option
+                                                    *ngFor=" let selecVal of subq.responsearry | chipFilter: filterInput.value"
+                                                    [value]="selecVal"
+                                                    [ngClass]="{'read-only-chip':viewMode,'selected-chip':isOptionSelected(selecVal,subq.answer)}"
+                                                    (click)="toggleMultiSelection(subq.qid,selecVal,allQuestValues,subq,subq.entryorgin,quest)">
+                                                    <span>{{selecVal}}</span>
+                                                  </mat-chip-option>
+                                                </mat-chip-listbox>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-                                    </mat-expansion-panel>
-                                  </mat-accordion>
-                                </div>
-                              </div>
+                                      <div class="row">
+                                        <div class="col-sm-2 dateWrap" *ngIf="subq.type == 'Date'">
+                                          <mat-form-field appearance="outline" class="datePicker"
+                                            [ngClass]="{'read-only': viewMode}">
+                                            <input matInput [matDatepicker]="picker" autocomplete="off"
+                                              [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
+                                              [value]="formattedDate"
+                                              (dateInput)="datePickerChanges($event,quest,allQuestValues,subq)" />
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                              [disabled]="viewMode"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                          </mat-form-field>
+                                          <mat-icon class="resetIcn" [id]="subq.qid"
+                                            [ngClass]="{'read-only-chip': viewMode}"
+                                            (click)="resetDate($event,subq,quest,allQuestValues)">
+                                            close
+                                          </mat-icon>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
+                                          <mat-form-field appearance="outline" class="textArea charCount"
+                                            [ngClass]="{'read-only': viewMode}">
+                                            <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
+                                              (input)="inputChanges($event,subq,quest)" autocomplete="off" #textArea
+                                              [maxlength]="subq.specification" name="textAreaField">
+                                            </textarea>
+                                          </mat-form-field>
+                                          <div class="text-right">
+                                            <span class="charCount" style="font-size: 12px">
+                                              {{subq.specification - textArea.value.length}}
+                                              Characters Remaining
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="sub_ques" style="display: flex; flex-wrap: wrap"
+                                    *ngIf="allQuestValues && allQuestValues.subQuestion && allQuestValues.subQuestion.length > 1">
+                                    <div class="col-sm-6 shoreQuest subqContainer"
+                                      *ngFor="let subq of allQuestValues.subQuestion"
+                                      [class.shoreQuest]="!isQuestionShow(subq.entryorgin)">
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          {{ subq.subName }}
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-5" *ngIf="subq.type == 'Automatic'">
+                                          <mat-form-field appearance="outline" class="input auto_Field"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput name="inputField" [readonly]="viewMode" autocomplete="off"
+                                              [formControlName]="subq.qid"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-5" *ngIf="subq.type == 'Numeric'">
+                                          <mat-form-field appearance="outline" class="input"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput type="text" digitDirective appTwoDigitDecimaNumber
+                                              placeholder="0.00" name="inputField" autocomplete="off"
+                                              [formControlName]="subq.qid" [readonly]="viewMode"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-5 dateWrap"
+                                          *ngIf="subq.type == 'Integer' && subq.response == 'Integer'">
+                                          <mat-form-field appearance="outline" class="input"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput type="text" newmeric placeholder="0" maxlength="3"
+                                              name="inputField" autocomplete="off" [formControlName]="subq.qid"
+                                              [readonly]="viewMode" (input)="onInputChange($event)"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-5 dateWrap"
+                                          *ngIf="subq.type == 'Integer' && subq.response == 'Percentage'">
+                                          <mat-form-field appearance="outline" class="input"
+                                            [ngClass]="{ 'read-only': viewMode }">
+                                            <input matInput percentage name="inputField" [readonly]="viewMode"
+                                              placeholder="0" type="text" autocomplete="off"
+                                              [formControlName]="subq.qid"
+                                              (input)="inputChanges($event, subq, quest)" />
+                                          </mat-form-field>
+                                          <span style="padding: 0 5px" *ngIf="subq.unit == '%'">
+                                            {{ subq.unit}}
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-12" *ngIf="subq.type == 'Select'">
+                                          <div class="col-sm-12 select_wrapper">
+                                            <div class="row">
+                                              <div class="col-sm-12 buttons_wrap">
+                                                <span style="font-weight: 500;">Selected Answer:</span>
+                                                <span> {{subq.answer}}</span>
+                                                <mat-form-field class="filter" [ngClass]="{'read-only-input':viewMode}"
+                                                  [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
+                                                  <input matInput placeholder="Filter" #filterInput
+                                                    [readonly]="viewMode" />
+                                                </mat-form-field>
+                                                <mat-chip-listbox class="value" [formControlName]="subq.qid">
+                                                  <mat-chip-option [id]="subq.sid"
+                                                    *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
+                                                    class="mat-chip"
+                                                    [ngClass]="{'read-only-chip':viewMode,'selected-chip':selecVal ===subq.answer}"
+                                                    [class.selected-chip]="selecVal ===subq.answer"
+                                                    (click)="toggleSingleSelection(selecVal,quest,allQuestValues,subq,getAllDatas)">
+                                                    <span>{{selecVal}}</span>
+                                                  </mat-chip-option>
+                                                </mat-chip-listbox>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-sm-12" *ngIf="subq.type == 'MultiSelect'">
+                                          <div class="col-sm-12 select_wrapper">
+                                            <div class="row">
+                                              <div class="col-sm-12 buttons_wrap">
+                                                <span style="font-weight: 500;">Selected Answer:</span>
+                                                <span style="display: none;"
+                                                  [ngClass]="{'showInitial': initialMultiAns}">
+                                                   {{subq.answer}}
+                                                </span>
+                                                <span style="display: none;" [id]="'yes-'+subq.sid" [ngClass]="{'showSelected': selectedMultiAns}"
+                                                  *ngFor="let selected of subq.answer">
+                                                  {{ selected }},
+                                                </span>
+                                                <mat-form-field class="filter" [ngClass]="{'read-only-input':viewMode}"
+                                                  [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
+                                                  <input matInput placeholder="Filter" #filterInput
+                                                    [readonly]="viewMode" />
+                                                </mat-form-field>
+                                                <mat-chip-listbox multiple [formControlName]="subq.qid">
+                                                  <mat-chip-option
+                                                    *ngFor="let selecVal of subq.responsearry | chipFilter: filterInput.value"
+                                                    [value]="selecVal"
+                                                    [ngClass]="{'read-only-chip':viewMode,'selected-chip':isOptionSelected(selecVal,subq.answer)}"
+                                                    (click)="toggleMultiSelection(subq.qid,selecVal,allQuestValues,subq,subq.entryorgin,quest)">
+                                                    {{ selecVal }}
+                                                  </mat-chip-option>
+                                                </mat-chip-listbox>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-5 dateWrap" *ngIf="subq.type == 'Date'">
+                                          <mat-form-field appearance="outline" class="datePicker"
+                                            [ngClass]="{'read-only': viewMode}">
+                                            <input matInput [matDatepicker]="picker" autocomplete="off"
+                                              [readonly]="viewMode" [formControlName]="subq.qid" name="dateField"
+                                              (dateInput)="datePickerChanges($event,quest,allQuestValues,subq)" />
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                              [disabled]="viewMode"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                          </mat-form-field>
+                                          <mat-icon class="resetIcn" [id]="subq.qid"
+                                            [ngClass]="{'read-only-chip': viewMode}"
+                                            (click)="resetDate($event,subq,quest,allQuestValues)">
+                                            close
+                                          </mat-icon>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-sm-12" *ngIf="subq.type == 'TextArea'">
+                                          <mat-form-field appearance="outline" class="textArea charCount"
+                                            [ngClass]="{'read-only': viewMode}">
+                                            <textarea matInput [formControlName]="subq.qid" [readonly]="viewMode"
+                                              (input)="inputChanges($event,subq,quest)" autocomplete="off" #textArea
+                                              [maxlength]="subq.specification" name="textAreaField">
+                                            </textarea>
+                                          </mat-form-field>
+                                          <div class="text-right">
+                                            <span class="charCount" style="font-size: 12px">
+                                              {{subq.specification - textArea.value.length}}
+                                              Characters Remaining
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </mat-expansion-panel>
+                              </mat-accordion>
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
                   </div>
                   <!-- pending question ends -->
 
@@ -1324,34 +1009,17 @@
                             <div class="card-contents p-0">
                               <div *ngFor="let quest of getAllDatas">
                                 <div *ngFor="let allQuest of quest.values">
-                                  <div *ngFor="
-                                      let allQuestValues of allQuest.question;
-                                      let indexAllQ = index
-                                    ">
-                                    <mat-card appearance="outlined" style="margin: 5px 0; cursor: default" *ngIf="
-                                        searchText === '' ||
-                                        allQuestValues.mainQuestion
-                                          .toLowerCase()
-                                          .includes(searchText)
-                                      " (click)="
-                                        openOriginalQuest(
-                                          allQuestValues.mainQuestion,
-                                          allQuest,
-                                          indexAllQ
-                                        )
-                                      ">
+                                  <div *ngFor=" let allQuestValues of allQuest.question;let indexAllQ = index">
+                                    <mat-card appearance="outlined" style="margin: 5px 0; cursor: default"
+                                      *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)"
+                                      (click)="openOriginalQuest(allQuestValues.mainQuestion,allQuest,indexAllQ)">
                                       <mat-card-header>
                                         <mat-card-title>
                                           <div class="col-sm-12" style="padding: 0">
                                             <div class="row">
-                                              <div class="col-sm-12 mainquest filteredQuest" [innerHTML]="
-                                                  highlightSearchText(
-                                                    allQuestValues.mainQuestion
-                                                  )
-                                                ">
-                                                {{
-                                                allQuestValues.mainQuestion
-                                                }}
+                                              <div class="col-sm-12 mainquest filteredQuest"
+                                                [innerHTML]="highlightSearchText(allQuestValues.mainQuestion)">
+                                                {{allQuestValues.mainQuestion}}
                                               </div>
                                             </div>
                                           </div>

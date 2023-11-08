@@ -6,7 +6,7 @@
   padding: 0 24px !important;
   flex-grow: 0 !important;
 }
-
+sidebar-content-close
 ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
   border-top-width: 1px !important;
   border-color: #212121 !important;
