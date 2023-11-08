@@ -8,6 +8,7 @@ import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
 import { DatePipe } from '@angular/common';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 
 @Component({
   selector: 'app-safety-management',
@@ -537,13 +538,16 @@ export class SafetyManagementComponent implements OnInit {
   defaultColDef = DefaultColDef;
   rowData: any[] = [];
   selectedRowData: any[] = [];
+  userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<SafetyManagementComponent>,
     private BudgetService: BudgetService,
     private _momentService: MomentService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _storage: StorageService
   ) {
+    this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       myDateEditor: DateRendererComponent,
       dropdown: DDCellRendererComponent,
@@ -562,9 +566,10 @@ export class SafetyManagementComponent implements OnInit {
   }
 
   safetyManagementDetails() {
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getLookupDetail(
       this.data.qid,
-      'sndc',
+      vesselCode,
       this.data.questionId,
       this.data.referenceId
     ).subscribe((data) => {
@@ -635,10 +640,10 @@ export class SafetyManagementComponent implements OnInit {
     } else if (event && event.index === 1) {
       const tempSelectedData = this.selectedRowData;
       this.selectedRowData = [];
-    
+
       setTimeout(() => {
         this.selectedRowData = tempSelectedData;
-        this.onBtnClick1()
+        this.onBtnClick1();
       }, 100);
     }
   }

@@ -9,6 +9,7 @@ import {
 } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 @Component({
   selector: 'app-pms-lookup',
   templateUrl: './pms-lookup.component.html',
@@ -75,12 +76,15 @@ export class PmsLookupComponent {
       return params.data.highlight;
     },
   };
+  userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<PmsLookupComponent>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public _storage: StorageService
   ) {
+    this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
     };
@@ -104,10 +108,11 @@ export class PmsLookupComponent {
   }
   pmsCode: any;
   getLookUpVisit() {
-    const locationCode = localStorage.getItem('locationCode');
+    const companyCode = this.userDetails.userData.mdata.appInfo.companyCode;
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getPMSLookupVisitData(
-      'nyksg',
-      'sndc',
+      companyCode,
+      vesselCode,
       this.data.referenceId,
       this.data.questionId
     ).subscribe((data) => {

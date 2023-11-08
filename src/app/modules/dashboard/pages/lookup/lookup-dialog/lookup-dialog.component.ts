@@ -11,6 +11,7 @@ import { ButtonRendererComponent } from '../../renderer/button-renderer.componen
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 
 @Component({
   selector: 'app-lookup-dialog',
@@ -198,6 +199,7 @@ export class LookupDialogComponent implements OnInit {
   isOnlyShipVisit = false;
   isOnlyInterVisit = false;
   enableDiv: boolean = false;
+  userDetails: any;
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
   defaultColDef = DefaultColDef;
@@ -214,8 +216,10 @@ export class LookupDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<LookupDialogComponent>,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _storage: StorageService
   ) {
+    this.userDetails = this._storage.getUserDetails();
     this.referenceId = this.route.snapshot.paramMap.get('id');
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
@@ -226,7 +230,7 @@ export class LookupDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onInternalBtnClick(e: any) {    
+  onInternalBtnClick(e: any) {
     this.dialogRef.close(e.rowData);
   }
 
@@ -235,7 +239,7 @@ export class LookupDialogComponent implements OnInit {
   }
 
   onReset() {
-    this.dialogRef.close();
+    this.dialogRef.close('Reset');
   }
 
   onGridReady(params: any) {
@@ -247,9 +251,9 @@ export class LookupDialogComponent implements OnInit {
   }
 
   getLookUpVisit() {
-    const locationCode = localStorage.getItem('locationCode');
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getLookupVisitData(
-      'SNDC',
+      vesselCode,
       this.data.referenceId,
       this.data.questionId
     ).subscribe((data) => {

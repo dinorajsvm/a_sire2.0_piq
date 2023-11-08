@@ -9,6 +9,7 @@ import {
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
 import { ColDef, LicenseManager } from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -19,12 +20,15 @@ LicenseManager.setLicenseKey(
 })
 export class MocComponent {
   frameworkComponents: any;
+  userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<MocComponent>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public _storage: StorageService
   ) {
+    this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       checkboxRenderer: AgGridCheckboxComponent,
     };
@@ -124,8 +128,9 @@ export class MocComponent {
   }
 
   mocDetails() {
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getMocDetails(
-      'SNDC',
+      vesselCode,
       this.data.referenceId,
       this.data.questionId
     ).subscribe((data) => {

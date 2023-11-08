@@ -10,6 +10,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 
 @Component({
   selector: 'app-psc',
@@ -98,13 +99,16 @@ export class PscComponent {
       return params.data.highlight;
     },
   };
+  userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<PscComponent>,
     public dialog: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _storage: StorageService
   ) {
+    this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ApplyRendererComponent,
     };
@@ -119,11 +123,32 @@ export class PscComponent {
     this.dialogRef.close(e.rowData);
   }
 
-  changeToggle(event: any) {
-    if (this.isChecked) {
-      this.rowData = this.apiResponse.PSC;
-    } else {
+  // changeToggle(event: any) {
+  //   if (this.isChecked) {
+  //     this.rowData = this.apiResponse.PSC;
+  //   } else {
+  //     this.rowData = this.apiResponse['Non-sPSC'];
+  //   }
+  // }
+
+  // isChecked = false;
+  isViewAll = false;
+  rowPscData: any[] = [];
+  rowNonPscData: any[] = [];
+  changeToggle(chipType: string) {
+    if (chipType === 'Suggested') {
+      this.isChecked = false;
+      this.isViewAll = false;
       this.rowData = this.apiResponse['Non-sPSC'];
+    } else if (chipType === 'All Inspection') {
+      this.isChecked = true;
+      this.isViewAll = false;
+      this.rowData = this.apiResponse.PSC;
+    } else if (chipType === 'ViewAll') {
+      this.isViewAll = true;
+      this.isChecked = true;
+      this.rowPscData = this.apiResponse.PSC;
+      this.rowNonPscData = this.apiResponse['Non-sPSC'];
     }
   }
 
@@ -135,9 +160,14 @@ export class PscComponent {
     this.getPscDetail();
   }
 
+  onReset() {
+    this.dialogRef.close('Reset');
+  }
+
   getPscDetail() {
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getPscDetails(
-      'SNDC',
+      vesselCode,
       this.data.referenceId,
       this.data.questionId
     ).subscribe((data) => {

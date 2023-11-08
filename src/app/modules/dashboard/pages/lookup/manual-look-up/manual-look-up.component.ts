@@ -10,6 +10,7 @@ import {
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DatePipe } from '@angular/common';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 
 @Component({
   selector: 'app-manual-look-up',
@@ -101,7 +102,7 @@ export class ManualLookUpComponent {
     },
   ];
   rowData: any = [];
-
+  userDetails: any;
   defaultColDef = DefaultColDef;
 
   constructor(
@@ -109,8 +110,11 @@ export class ManualLookUpComponent {
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<ManualLookUpComponent>,
     public dialog: MatDialog,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private _storage: StorageService
+  ) {
+    this.userDetails = this._storage.getUserDetails();
+  }
 
   onDialogClose(): void {
     this.dialogRef.close();
@@ -124,7 +128,8 @@ export class ManualLookUpComponent {
     this.getVesselCertificateLookupDetail();
   }
   getVesselCertificateLookupDetail() {
-    this.BudgetService.getVesselCertificateLookup('sndc').subscribe(
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    this.BudgetService.getVesselCertificateLookup(vesselCode).subscribe(
       (data) => {
         this.rowData = data && data.response.length > 0 ? data.response : [];
       },

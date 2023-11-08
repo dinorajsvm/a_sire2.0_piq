@@ -15,6 +15,7 @@ import {
 } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -294,13 +295,16 @@ export class TMSAComponent {
       return params.data.highlight;
     },
   };
+  userDetails: any
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<TMSAComponent>,
     public dialog: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _storage: StorageService
   ) {
+    this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ApplyRendererComponent,
     };
@@ -336,9 +340,10 @@ export class TMSAComponent {
   }
 
   getTmsaDetail() {
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getLookupDetail(
       this.data.qid,
-      'sndc',
+      vesselCode,
       this.data.questionId,
       this.data.referenceId
     ).subscribe((resp) => {

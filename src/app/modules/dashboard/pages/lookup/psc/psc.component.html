@@ -3,22 +3,38 @@
     <div class="row">
       <div class="col-sm-8">
         <h3 class="header">External inspection data</h3>
-        <p class="descHeader">(List of External Inspection Data in last 18 months)</p>
+        <p class="descHeader">
+          (List of External Inspection Data in last 18 months)
+        </p>
       </div>
-      <div class="col-sm-3 text-center" style="padding:15px 0 0 0;">
-        <div style="line-height: 1;">
-          <div style="color: #707171;font-size: 14px;font-weight: 500;">
-            <span>
-              Module Selection
-            </span>
-          </div>
-          <div style="white-space: nowrap;">
-            <p class="toggleHeader">Suggested</p>
-            <mat-slide-toggle class="toggleHeader" [(ngModel)]="isChecked"
-              (change)="changeToggle($event)"></mat-slide-toggle>
-            <p class="toggleHeader">All Inspection</p>
-          </div>
-        </div>
+
+      <div class="col-sm-3 text-center" style="padding: 15px 0 0 0">
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Color selection"
+        >
+          <mat-chip-option
+            color="primary"
+            [selected]="!isChecked && !isViewAll"
+            (click)="changeToggle('Suggested')"
+          >
+            Suggested
+          </mat-chip-option>
+          <mat-chip-option
+            color="primary"
+            [selected]="isChecked && !isViewAll"
+            (click)="changeToggle('All Inspection')"
+          >
+            All Inspection
+          </mat-chip-option>
+          <mat-chip-option
+            color="primary"
+            (click)="changeToggle('ViewAll')"
+            [selected]="isChecked && isViewAll"
+          >
+            View All
+          </mat-chip-option>
+        </mat-chip-listbox>
       </div>
       <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
@@ -27,15 +43,67 @@
   </div>
 </div>
 <div mat-dialog-content class="mat-typography">
-  <!-- <div class="col-sm-12"> -->
-  <div class="row">
-    <div class="col-sm-12" style="padding-top: 10px;">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 280px)" [rowData]="rowData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [rowClassRules]="rowClassRules"
-        [defaultColDef]="defaultColDef" [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)"
-        [components]="frameworkComponents">
+  <div
+    class="row"
+    *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
+  >
+    <div class="col-sm-12" style="padding-top: 10px">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [rowClassRules]="rowClassRules"
+        [defaultColDef]="defaultColDef"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
       </ag-grid-angular>
     </div>
   </div>
-  <!-- </div> -->
+
+  <div class="row" *ngIf="isChecked && isViewAll">
+    <div class="col-sm-12" style="padding-top: 10px">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [rowData]="rowPscData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [rowClassRules]="rowClassRules"
+        [defaultColDef]="defaultColDef"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
+      </ag-grid-angular>
+    </div>
+
+    <div class="col-sm-12" style="padding-top: 10px">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [rowData]="rowNonPscData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [rowClassRules]="rowClassRules"
+        [defaultColDef]="defaultColDef"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    style="float: right"
+    type="submit"
+    (click)="onReset()"
+  >
+    Reset
+  </button>
 </div>

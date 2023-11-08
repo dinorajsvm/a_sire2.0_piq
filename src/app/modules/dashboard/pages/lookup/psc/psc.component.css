@@ -8,6 +8,17 @@
   max-height: unset !important;
 }
 
+
+.syncBtn.mat-mdc-button.mat-mdc-button-base {
+  background-color: #19c37d;
+  color: white;
+  height: 26px;
+  margin: 0 5px;
+  padding: 0px 10px;
+  font-size: 12px;
+}
+
+
 ::ng-deep .highlighted-row {
   background-color: yellow;
 }

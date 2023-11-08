@@ -382,7 +382,6 @@ export class PiqReportComponent implements OnInit {
             ).length;
 
             subHeader.subQuestion.forEach((mainQus: any) => {
-              // mainQus['selectedAnswer'] = '';
               if (
                 mainQus.entryorgin === 'Auto or Preset' ||
                 mainQus.entryorgin === 'Preset'
@@ -1507,7 +1506,7 @@ export class PiqReportComponent implements OnInit {
             }
           }
         }
-      } else {
+      } else if (result === 'Reset') {
         const payload = {
           instanceid: this.referenceNumber,
           questionid: questionId,
@@ -1647,6 +1646,15 @@ export class PiqReportComponent implements OnInit {
             });
           }
         });
+      } else if (result === 'Reset') {
+        const payload = {
+          instanceid: this.referenceNumber,
+          questionid: questionId,
+          lookupid: 'Reset',
+          lookupjson: '',
+          user: this.userDetails?.userCode,
+        };
+        this.BudgetService.saveLookUp(payload).subscribe((data) => {});
       }
     });
   }
@@ -2223,9 +2231,9 @@ export class PiqReportComponent implements OnInit {
   }
 
   getLookUpVisit(questionId: any, subQues: any, mquest: any, subq: any) {
-    const locationCode = localStorage.getItem('locationCode');
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getLookupVisitData(
-      'SNDC',
+      vesselCode,
       this.referenceNumber,
       questionId
     ).subscribe((data) => {
@@ -2350,8 +2358,9 @@ export class PiqReportComponent implements OnInit {
   }
 
   getPscDetail(questionId: any, subQues: any, mquest: any, subq: any) {
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getPscDetails(
-      'SNDC',
+      vesselCode,
       this.referenceNumber,
       questionId
     ).subscribe((data) => {
@@ -2441,9 +2450,10 @@ export class PiqReportComponent implements OnInit {
   }
 
   getTmsaDetail(questionId: any, subQues: any, mquest: any, subq: any) {
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     this.BudgetService.getLookupDetail(
       questionId,
-      'sndc',
+      vesselCode,
       questionId,
       this.referenceNumber
     ).subscribe((data) => {
@@ -2808,7 +2818,6 @@ export class PiqReportComponent implements OnInit {
 
   onTabChanged(event: any) {
     this.BudgetService.getTabChangeData().subscribe((res: any) => {
-      console.log('res', res);
       this.tabGroup.selectedIndex = res;
     });
     if (event && event.index === 0) {

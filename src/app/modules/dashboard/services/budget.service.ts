@@ -26,7 +26,7 @@ export class BudgetService {
   private getCertificateGridDataList = new BehaviorSubject<any>(0);
   private getModifiedDataList = new Subject<any>();
   private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
-  private saveMappedCertificate = new Subject<any>;
+  private saveMappedCertificate = new Subject<any>();
   private getExceptionGridDataList = new BehaviorSubject<any>(0);
   private getImageCount = new BehaviorSubject<any>(0);
   private getPhotoRepList = new BehaviorSubject<any>(0);
@@ -263,8 +263,6 @@ export class BudgetService {
     return this.getPhotoRepGridData.asObservable();
   }
 
-  
-
   setExceptionRowData(message: any) {
     this.getExcepData.next(message);
   }
@@ -335,7 +333,6 @@ export class BudgetService {
       `${this.globalUrl}/PIQ/event/getpiqshipvisitdata?location=${location}&instanceid=${instanceId}&questionid=${questionId}`
     );
   }
-  // companycode=nyksg&vesselcode=sndc&instanceid=223&questionid=1.23
   getPMSLookupVisitData(
     companycode: any,
     vesselCode: any,
@@ -347,7 +344,7 @@ export class BudgetService {
     );
   }
 
-  getCertificateList(companycode: any,vesselcode: any,instanceId:any ) {
+  getCertificateList(companycode: any, vesselcode: any, instanceId: any) {
     return this.client.get<any>(
       `${this.globalUrl}/PIQ/event/getcertificatemapping?companycode=${companycode}&vesselcode=${vesselcode}&instanceid=${instanceId}`
     );
@@ -432,9 +429,7 @@ export class BudgetService {
   }
 
   getvesseltypeNameCode() {
-    return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getvessel`
-    );
+    return this.client.get<any>(`${this.globalUrl}/PIQ/event/getvessel`);
   }
 
   getUploadData(payload: any) {
@@ -481,7 +476,6 @@ export class BudgetService {
       )
       .pipe(map((res: any) => res));
   }
-  //  ?lookupid=5.7.2&location=sndc&questionid&instanceid
   getLookupDetail(id: any, location: any, questionId: any, instanceId: any) {
     return this.client
       .get<any>(
