@@ -6,7 +6,19 @@
   padding: 0 24px !important;
   flex-grow: 0 !important;
 }
-sidebar-content-close
+::ng-deep .sidebar-content-open ::ng-deep .btnWrapper {
+  display: flex;
+}
+
+::ng-deep .sidebar-content-open ::ng-deep .save {
+  min-width: 45px !important;
+}
+::ng-deep .sidebar-content-open ::ng-deep .subqContainer {
+  max-width: 49%;
+}
+::ng-deep .sidebar-content-open ::ng-deep .wte-spc {
+white-space: nowrap;
+}
 ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
   border-top-width: 1px !important;
   border-color: #212121 !important;
@@ -354,7 +366,7 @@ sidebar-content-close
     font-size: 8px !important;
   }
 
-  .padZero{
+  .padZero {
     padding: 0;
   }
   .topBtnWrapper {
@@ -452,10 +464,10 @@ sidebar-content-close
     padding: 0 5px !important;
   }
 
-  .certiRefGrid{
+  .certiRefGrid {
     height: calc(100vh - 220px) !important;
   }
-  .excepGrid{
+  .excepGrid {
     height: calc(100vh - 235px) !important;
   }
 
@@ -672,36 +684,37 @@ sidebar-content-close
     width: 12px !important;
   }
 
-  .loopedMainQuest,.pendingQuest{
-    max-width:72% !important;
+  .loopedMainQuest,
+  .pendingQuest {
+    max-width: 72% !important;
   }
 
-  .colSidebarBtnWrap{
-    max-width:2.9% !important;
+  .colSidebarBtnWrap {
+    max-width: 2.9% !important;
   }
-  .content_load_wrap{
+  .content_load_wrap {
     height: calc(100vh - 250px) !important;
   }
-  .list_wrapper{
+  .list_wrapper {
     height: calc(100vh - 250px) !important;
   }
 
   .searchTable {
     min-width: 20px !important;
     height: 20px !important;
-   margin: 0 5px !important;
+    margin: 0 5px !important;
   }
-  
+
   .searchTable ::ng-deep .material-icons {
     font-size: 16px !important;
     height: 18px !important;
     width: 18px !important;
   }
-  .idWrapper{
+  .idWrapper {
     padding: 10px 15px !important;
   }
 
-  .instanceIDWrap{
+  .instanceIDWrap {
     height: 20px !important;
   }
   .downloadAllBtn.mat-mdc-button.mat-mdc-button-base {
@@ -709,12 +722,12 @@ sidebar-content-close
     height: 20px !important;
     min-width: 20px !important;
   }
-  
+
   .downloadAllBtn ::ng-deep .mdc-button__label {
     height: 17px !important;
   }
 
-  .defNameIcn{
+  .defNameIcn {
     width: 20px !important;
     height: 20px !important;
     margin: 0 !important;
@@ -737,48 +750,48 @@ sidebar-content-close
     min-width: 20px !important;
     padding: 0 !important;
   }
-  .downAllBtn .icn{
+  .downAllBtn .icn {
     margin-top: 2px !important;
   }
-  .icn{
+  .icn {
     font-size: 16px !important;
   }
 
-  .img{
+  .img {
     height: 9rem !important;
   }
 
-  .imgContainer{
+  .imgContainer {
     width: 11rem !important;
     height: 12rem !important;
   }
 
-  .imgbtns{
+  .imgbtns {
     margin: 0 !important;
   }
 
-  .imgbtns .mat-icon{
+  .imgbtns .mat-icon {
     font-size: 20px !important;
   }
 
-  .img_icons_container{
-    width:165px !important;
+  .img_icons_container {
+    width: 165px !important;
   }
 
-  .photoContents{
+  .photoContents {
     height: calc(100vh - 250px) !important;
   }
 
-  .upDownBtnWrap{
+  .upDownBtnWrap {
     top: 6px !important;
     right: 15px !important;
   }
-  .exceptionBorder{
+  .exceptionBorder {
     height: 9px !important;
     width: 10px !important;
   }
 
-  .exceptionText{
+  .exceptionText {
     font-size: 8px !important;
     bottom: 6.5px !important;
     left: 1.5px !important;
