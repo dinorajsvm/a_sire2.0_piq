@@ -87,6 +87,7 @@ export class PiqReportComponent implements OnInit {
   headerListContainer: boolean = true;
   descriptionContainer = false;
   lookupContainer = false;
+  panelExpansionStates: boolean[] = [];
   searchText: string = '';
   getAllDatas: any;
   isSearchActive = false;
@@ -152,7 +153,7 @@ export class PiqReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
-
+    
     this.getworkflowStatus();
     if (this.route.snapshot.paramMap.get('type') == 'new') {
       this.saveWorkFlowAction();
@@ -374,6 +375,7 @@ export class PiqReportComponent implements OnInit {
       object.forEach((value1: any) => {
         value1.filledCount = 0;
         value1.values.forEach((value: any) => {
+          this.panelExpansionStates = value.question.map(() => true);
           value.question.forEach((subHeader: any) => {
             this.getMainQuestCounts.push(subHeader);
             this.checkboxBoolean.push(subHeader.selected);
@@ -1025,32 +1027,8 @@ export class PiqReportComponent implements OnInit {
     }
     this.subHeaderCount();
   }
-  expandAllMainquestions(event: any, quest: any,ref:any) {
-    console.log('event', event);
-    console.log('ref', ref);
-    console.log('event', event);
-    console.log('quest', quest);
-    if (event.target.id == quest.subheadid) {
-      let a = document.getElementById('exp'+quest.subheadid);
-      console.log("a",a)
-      if(this.allExpansionPanelsExpanded == false){
-        this.allExpansionPanelsExpanded = true;
-      }else{
-       this.allExpansionPanelsExpanded = false
-     }
-    } 
-    else {
-      this.allExpansionPanelsExpanded = true
-    }
-    // const getTargetId = event.target.id;
-    // const getId= document.getElementById("MQ1");
-    // if (getId==="MQ1") {
-
-    // }
-    // this.allExpansionPanelsExpanded = !this.allExpansionPanelsExpanded;
-    // this.isContentVisible = new Array(this.getAllDatas.length).fill(
-    //   this.allExpansionPanelsExpanded
-    // );
+  expandAllMainquestions(event:any,quest: any,index:any) {
+    quest['expand' + index] = !quest['expand' + index];
   }
 
   areAllQuestionsExpanded() {

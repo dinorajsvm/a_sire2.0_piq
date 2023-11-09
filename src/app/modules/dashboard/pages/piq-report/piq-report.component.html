@@ -203,16 +203,16 @@
                           <div class="content_header charCount" id="{{ index }}">
                             {{ quest.subHeaders }}
                             <div style="display: flex">
-                              <mat-icon #comExpColBtn (click)="expandAllMainquestions($event,quest,comExpColBtn);quest['expand'+index]= !quest['expand'+index]" 
+                              <mat-icon #comExpColBtn (click)="expandAllMainquestions($event,quest, index)"
                                 [id]="quest.subheadid" class="comExpColBtn">
-                                {{allExpansionPanelsExpanded ? "expand_less" : "expand_more"}}
+                                {{ quest['expand' + index] ? "expand_more" : "expand_less" }}
                               </mat-icon>
                             </div>
                           </div>
-                          <div class="sub-ques" *ngFor="let Mquest of quest.question;let index = index">
+                          <div class="sub-ques" *ngFor="let Mquest of quest.question;let index1 = index">
                             <mat-accordion class="card_container"
                               *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)">
-                              <mat-expansion-panel [id]="'exp'+quest.subheadid" [expanded]="quest['expand'+index]">
+                              <mat-expansion-panel [id]="'exp'+quest.subheadid" [expanded]="!quest['expand'+index]">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
                                     <div class="col-sm-12" style="padding: 0">
