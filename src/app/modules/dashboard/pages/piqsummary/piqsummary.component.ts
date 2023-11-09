@@ -295,10 +295,16 @@ export class PIQSummaryComponent implements OnInit {
         res.forEach((data: any) => {
           let questions: any[] = [];
           let questions1: any[] = [];
+          let totalQuest:any[]=[]
+          let status:any;
+          let totalQuestCount = 0;
           let filledQuestionCount = 0;
           let answerQuestionCount = 0;
           data.values.forEach((filledQus: any) => {
             filledQus.question.forEach((question: any) => {
+              totalQuest.push(
+                question.subQuestion.length
+              );
               questions.push(
                 question.subQuestion.filter((x: any) => x.answer !== '').length
               );
@@ -307,21 +313,29 @@ export class PIQSummaryComponent implements OnInit {
               );
             });
           });
+          totalQuest.forEach((count: any) => {
+            totalQuestCount = totalQuestCount + count;
+          });
           questions.forEach((count: any) => {
             filledQuestionCount = filledQuestionCount + count;
           });
           questions1.forEach((count: any) => {
             answerQuestionCount = answerQuestionCount + count;
           });
+          if(totalQuestCount-filledQuestionCount==0){
+            status="Completed"
+          }
+          else{
+            status="Inprogress"
+          }
           const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
           this.rowData.push({
             serialNumber: data.id,
             topics: data.header.replace(pattern, ''),
-            status: '',
-            totalQuestion:
-              data.values && data.values.length > 0 ? data.values.length : 0,
+            status: status,
+            totalQuestion:totalQuestCount,
             filledQuestion: filledQuestionCount,
-            pendingQuestion: answerQuestionCount,
+            pendingQuestion: totalQuestCount-filledQuestionCount,
             lastModified: '04-Sep-2023',
           });
           // this.gridApi!.setRowData(this.rowData);

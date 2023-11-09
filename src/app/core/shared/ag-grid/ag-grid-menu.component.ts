@@ -39,7 +39,6 @@ export class AgGridMenuComponent implements AgRendererComponent {
   }
   agInit(params: import("ag-grid-community").ICellRendererParams): void {
     this.params = params;
-    console.log("Status Value: ", this.params.data);
     this.params.menu.forEach((value: any, index: any) => {
       if (value.hasOwnProperty("workflowIndication")) {
         this.toShow = value.isVisible(params.data);
@@ -56,7 +55,6 @@ export class AgGridMenuComponent implements AgRendererComponent {
   filterMenuItems() {
     // Check the 'Status' value in params.data.status and decide whether to show the "Delete" menu item
     const status = this.params.data.formstatus;
-    console.log("Filtering Menu Items for Status: ", this.params.data);
     
     if (status === 'Synced') {
       // Hide the "Delete" menu item if the 'Status' is 'synced'

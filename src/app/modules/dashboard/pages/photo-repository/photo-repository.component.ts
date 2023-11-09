@@ -69,8 +69,8 @@ export class PhotoRepositoryComponent implements OnInit {
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.companyCode = 'NYKSG';
-    this.getSavedPRData();
     this.getDefaultImageName();
+    this.getSavedPRData();
     // this.getImageName();
     this.getVesselTypeData();
   }

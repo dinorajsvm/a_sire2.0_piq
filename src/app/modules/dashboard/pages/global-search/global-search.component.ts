@@ -28,6 +28,7 @@ export class GlobalSearchComponent implements OnInit {
   }
 
   deactivateSearch() {
+    this.enteredSearchvalue = '';
     this.isSearchActive = false;
   }
 
