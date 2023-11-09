@@ -58,7 +58,7 @@
                 "subcheckbox": false,
                 "inprogress": false,
                 "completed": false,
-                "answer": "Crude/Products Tanker"
+                "answer": ""
               }
             ],
             "entrymethod": "Manual",
@@ -97,7 +97,7 @@
                 "sid": "subq.2.1.1.1",
                 "information": "TSI",
                 "entrymethod": "Manual",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q3",
                 "controlname": "date1",
                 "subcheckbox": false,
@@ -181,7 +181,7 @@
                 "information": "TSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q8",
                 "controlname": "date2",
                 "subcheckbox": false,
@@ -196,7 +196,7 @@
                 "information": "TSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q9",
                 "controlname": "date3",
                 "subcheckbox": false,
@@ -268,7 +268,7 @@
                 "information": "MSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q22",
                 "controlname": "date8",
                 "subcheckbox": false,
@@ -283,7 +283,7 @@
                 "information": "MSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q23",
                 "controlname": "date9",
                 "subcheckbox": false,
@@ -362,9 +362,10 @@
                 "qid": "Q27",
                 "controlname": "select9",
                 "subcheckbox": false,
+                "presetvalue": "3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "12 months"
+                "answer": ""
               },
               {
                 "subName": "What is the date of the oldest inspection report for all cargo and sloptanks in the current sequence of tank inspections?",
@@ -373,7 +374,7 @@
                 "information": "Vessel ",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q28",
                 "controlname": "date10",
                 "subcheckbox": false,
@@ -413,9 +414,10 @@
                 "qid": "Q30",
                 "controlname": "select10",
                 "subcheckbox": false,
+                "presetvalue": "6 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "6 months"
+                "answer": ""
               },
               {
                 "subName": "What is the date of the oldest inspection report for all ballast tanks  in the current sequence of tank inspections?",
@@ -424,7 +426,7 @@
                 "information": "Vessel ",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q31",
                 "controlname": "date11",
                 "subcheckbox": false,
@@ -464,9 +466,10 @@
                 "qid": "Q33",
                 "controlname": "select11",
                 "subcheckbox": false,
+                "presetvalue": "6 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "6 months"
+                "answer": ""
               },
               {
                 "subName": "What is the date of the oldest inspection report for all void spaces in the current sequence of void space inspections?",
@@ -475,7 +478,7 @@
                 "information": "Vessel ",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q34",
                 "controlname": "date12",
                 "subcheckbox": false,
@@ -614,7 +617,7 @@
                 "information": "TSI",
                 "entrymethod": "Manual",
                 "entryorgin": "Vessel",
-                "specification": "Backend tables",
+                "specification": "500",
                 "response": "",
                 "qid": "Q43",
                 "controlname": "textarea2",
@@ -670,7 +673,7 @@
                 "information": "TSI",
                 "entrymethod": "Manual",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q47",
                 "controlname": "date13",
                 "subcheckbox": false,
@@ -685,7 +688,7 @@
                 "information": "TSI",
                 "entrymethod": "Manual",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q48",
                 "controlname": "date14",
                 "subcheckbox": false,
@@ -1026,9 +1029,10 @@
                 "qid": "Q150",
                 "controlname": "select60",
                 "subcheckbox": false,
+                "presetvalue": "English",
                 "inprogress": false,
                 "completed": false,
-                "answer": "English"
+                "answer": ""
               },
               {
                 "subName": "Alternate Languages",
@@ -1077,9 +1081,10 @@
                 "qid": "Q151",
                 "controlname": "select61",
                 "subcheckbox": false,
+                "presetvalue": "English",
                 "inprogress": false,
                 "completed": false,
-                "answer": "English"
+                "answer": ""
               }
             ],
             "qid": "MQ149",
@@ -1181,7 +1186,7 @@
                 "sid": "subq.2.8.2.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q156",
                 "controlname": "date27",
                 "subcheckbox": false,
@@ -2888,6 +2893,7 @@
                 "qid": "Q77",
                 "controlname": "select258",
                 "subcheckbox": false,
+                "presetvalue": "",
                 "inprogress": false,
                 "completed": false,
                 "answer": ""
@@ -2902,6 +2908,7 @@
                 "qid": "Q78",
                 "controlname": "select257",
                 "subcheckbox": false,
+                "presetvalue": "",
                 "inprogress": false,
                 "completed": false,
                 "answer": ""
@@ -2971,6 +2978,7 @@
                 "qid": "Q83",
                 "controlname": "select259",
                 "subcheckbox": false,
+                "presetvalue": "",
                 "inprogress": false,
                 "completed": false,
                 "answer": ""
@@ -2985,6 +2993,7 @@
                 "qid": "Q84",
                 "controlname": "select260",
                 "subcheckbox": false,
+                "presetvalue": "",
                 "inprogress": false,
                 "completed": false,
                 "answer": ""
@@ -3055,9 +3064,10 @@
                 "qid": "Q89",
                 "controlname": "select44",
                 "subcheckbox": false,
+                "presetvalue": "Yes",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Yes"
+                "answer": ""
               },
               {
                 "subName": "Please provide details ?",
@@ -3150,13 +3160,15 @@
                 "information": "MSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Preset",
+                "specification": "100",
                 "response": ["1"],
                 "qid": "Q96",
                 "controlname": "textarea5",
                 "subcheckbox": false,
+                "presetvalue": "15",
                 "inprogress": false,
                 "completed": false,
-                "answer": "15"
+                "answer": ""
               }
             ],
             "entrymethod": "Auto",
@@ -3201,7 +3213,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q99",
                 "controlname": "date15",
                 "subcheckbox": false,
@@ -3227,7 +3239,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q101",
                 "controlname": "date16",
                 "subcheckbox": false,
@@ -3242,7 +3254,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q102",
                 "controlname": "date17",
                 "subcheckbox": false,
@@ -3257,6 +3269,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
+                "specification": "100",
                 "response": "0",
                 "qid": "Q103",
                 "controlname": "textarea6",
@@ -3289,7 +3302,7 @@
                 "subcheckbox": false,
                 "inprogress": false,
                 "completed": false,
-                "answer": "[Channel/Straits, Pilotage, Coastal, Deep Sea, Berthing, Unberthing, Anchoring, STS Operations, Restricted Visibility]"
+                "answer": ""
               },
               {
                 "subName": "Dynamic navigational assessment - conducted by shore staff",
@@ -3339,7 +3352,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q107",
                 "controlname": "date18",
                 "subcheckbox": false,
@@ -3354,7 +3367,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q108",
                 "controlname": "date19",
                 "subcheckbox": false,
@@ -3369,6 +3382,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
+                "specification": "100",
                 "response": "0",
                 "qid": "Q109",
                 "controlname": "textarea7",
@@ -3435,7 +3449,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q113",
                 "controlname": "date20",
                 "subcheckbox": false,
@@ -3502,7 +3516,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q117",
                 "controlname": "date21",
                 "subcheckbox": false,
@@ -3517,7 +3531,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q118",
                 "controlname": "date22",
                 "subcheckbox": false,
@@ -3589,7 +3603,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q122",
                 "controlname": "date23",
                 "subcheckbox": false,
@@ -3604,7 +3618,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q123",
                 "controlname": "date24",
                 "subcheckbox": false,
@@ -3670,7 +3684,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q127",
                 "controlname": "date25",
                 "subcheckbox": false,
@@ -3685,7 +3699,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q128",
                 "controlname": "date26",
                 "subcheckbox": false,
@@ -3930,7 +3944,7 @@
                 "sid": "subq.3.4.2.1.1",
                 "entrymethod": "Manual",
                 "entryorgin": "Vessel",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q173",
                 "controlname": "date28",
                 "subcheckbox": false,
@@ -3967,7 +3981,7 @@
                 "subName": "Date of last unannounced alcohol test ?",
                 "type": "Date",
                 "sid": "subq.3.4.2.2.1",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q176",
                 "controlname": "date29",
                 "subcheckbox": false,
@@ -4008,9 +4022,10 @@
                 "qid": "Q179",
                 "controlname": "numeric1",
                 "subcheckbox": false,
+                "presetvalue": "1",
                 "inprogress": false,
                 "completed": false,
-                "answer": "1"
+                "answer": ""
               }
             ],
             "qid": "MQ178",
@@ -4091,9 +4106,10 @@
                 "qid": "Q184",
                 "controlname": "select73",
                 "subcheckbox": false,
+                "presetvalue": "Internet/Internet Based Training (eLearning) followed by installation specific familiarization onboard",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Internet/Internet Based Training (eLearning) followed by installation specific familiarization onboard"
+                "answer": ""
               },
               {
                 "subName": "Select company approved secondary delivery method?",
@@ -4117,9 +4133,10 @@
                 "qid": "Q185",
                 "controlname": "select74",
                 "subcheckbox": false,
+                "presetvalue": "Computer based training (CBT) followed by installation specific familiarization",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Computer based training (CBT) followed by installation specific familiarization"
+                "answer": ""
               }
             ],
             "qid": "MQ183",
@@ -4221,9 +4238,10 @@
                 "qid": "Q191",
                 "controlname": "textarea16",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "During open sea passage - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
@@ -4235,9 +4253,10 @@
                 "qid": "Q192",
                 "controlname": "textarea17",
                 "subcheckbox": false,
+                "presetvalue": "12.9m",
                 "inprogress": false,
                 "completed": false,
-                "answer": "12.9m"
+                "answer": ""
               },
               {
                 "subName": "During coastal / restricted waters passage - state company under keel clearance policy ?",
@@ -4249,9 +4268,10 @@
                 "qid": "Q193",
                 "controlname": "textarea18",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "During coastal / restricted waters passage - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
@@ -4263,9 +4283,10 @@
                 "qid": "Q194",
                 "controlname": "textarea19",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "Within port limits - state company under keel clearance policy",
@@ -4277,9 +4298,10 @@
                 "qid": "Q195",
                 "controlname": "textarea20",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "Within port limits - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
@@ -4291,9 +4313,10 @@
                 "qid": "Q196",
                 "controlname": "textarea21",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "While alongside - state company under keel clearance policy",
@@ -4305,9 +4328,10 @@
                 "qid": "Q197",
                 "controlname": "textarea22",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "While alongside - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
@@ -4319,9 +4343,10 @@
                 "qid": "Q198",
                 "controlname": "textarea23",
                 "subcheckbox": false,
+                "presetvalue": "50",
                 "inprogress": false,
                 "completed": false,
-                "answer": "50"
+                "answer": ""
               },
               {
                 "subName": "While at SBM/CBM berths - state company under keel clearance policy ?",
@@ -4333,9 +4358,10 @@
                 "qid": "Q199",
                 "controlname": "textarea24",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "While at SBM/CBM berths - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
@@ -4347,9 +4373,10 @@
                 "qid": "Q200",
                 "controlname": "textarea25",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "At anchor - state company under keel clearance policy",
@@ -4361,9 +4388,10 @@
                 "qid": "Q201",
                 "controlname": "textarea26",
                 "subcheckbox": false,
+                "presetvalue": "10%",
                 "inprogress": false,
                 "completed": false,
-                "answer": "10%"
+                "answer": ""
               },
               {
                 "subName": "At anchor - what is the minimum dynamic under clearance required in metres for the ship in accordance with the company policy?",
@@ -4375,9 +4403,10 @@
                 "qid": "Q202",
                 "controlname": "textarea27",
                 "subcheckbox": false,
+                "presetvalue": "11.8m",
                 "inprogress": false,
                 "completed": false,
-                "answer": "11.8m"
+                "answer": ""
               }
             ],
             "qid": "MQ190",
@@ -4592,7 +4621,7 @@
                 "sid": "subq.5.7.1.1.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q339",
                 "controlname": "date30",
                 "subcheckbox": false,
@@ -4634,7 +4663,7 @@
                 "sid": "subq.5.7.1.1.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q342",
                 "controlname": "date31",
                 "subcheckbox": false,
@@ -4675,7 +4704,7 @@
                 "information": "MSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q345",
                 "controlname": "date32",
                 "subcheckbox": false,
@@ -4720,7 +4749,7 @@
                 "information": "MSI",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q348",
                 "controlname": "date33",
                 "subcheckbox": false,
@@ -4759,7 +4788,7 @@
                 "sid": "subq.5.7.1.3.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q351",
                 "controlname": "date34",
                 "subcheckbox": false,
@@ -4801,7 +4830,7 @@
                 "sid": "subq.5.7.1.3.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q354",
                 "controlname": "date35",
                 "subcheckbox": false,
@@ -4839,7 +4868,7 @@
                 "sid": "subq.5.7.1.4.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q357",
                 "controlname": "date36",
                 "subcheckbox": false,
@@ -4881,7 +4910,7 @@
                 "sid": "subq.5.7.1.4.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q360",
                 "controlname": "date37",
                 "subcheckbox": false,
@@ -4920,7 +4949,7 @@
                 "sid": "subq.5.7.1.5.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q363",
                 "controlname": "date38",
                 "subcheckbox": false,
@@ -4962,7 +4991,7 @@
                 "sid": "subq.5.7.1.5.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q366",
                 "controlname": "date39",
                 "subcheckbox": false,
@@ -5000,7 +5029,7 @@
                 "sid": "subq.5.7.1.6.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q369",
                 "controlname": "date40",
                 "subcheckbox": false,
@@ -5042,7 +5071,7 @@
                 "sid": "subq.5.7.1.6.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q372",
                 "controlname": "date41",
                 "subcheckbox": false,
@@ -5080,7 +5109,7 @@
                 "sid": "subq.5.7.1.7.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q375",
                 "controlname": "date42",
                 "subcheckbox": false,
@@ -5122,7 +5151,7 @@
                 "sid": "subq.5.7.1.7.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q378",
                 "controlname": "date43",
                 "subcheckbox": false,
@@ -5160,7 +5189,7 @@
                 "sid": "subq.5.7.1.8.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q381",
                 "controlname": "date44",
                 "subcheckbox": false,
@@ -5202,7 +5231,7 @@
                 "sid": "subq.5.7.1.8.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q384",
                 "controlname": "date45",
                 "subcheckbox": false,
@@ -5240,7 +5269,7 @@
                 "sid": "subq.5.7.1.9.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q387",
                 "controlname": "date46",
                 "subcheckbox": false,
@@ -5282,7 +5311,7 @@
                 "sid": "subq.5.7.1.9.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q390",
                 "controlname": "date47",
                 "subcheckbox": false,
@@ -5320,7 +5349,7 @@
                 "sid": "subq.5.7.1.10.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q393",
                 "controlname": "date48",
                 "subcheckbox": false,
@@ -5362,7 +5391,7 @@
                 "sid": "subq.5.7.1.10.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q396",
                 "controlname": "date49",
                 "subcheckbox": false,
@@ -5400,7 +5429,7 @@
                 "sid": "subq.5.7.1.11.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q399",
                 "controlname": "date50",
                 "subcheckbox": false,
@@ -5442,7 +5471,7 @@
                 "sid": "subq.5.7.1.11.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q402",
                 "controlname": "date51",
                 "subcheckbox": false,
@@ -5480,7 +5509,7 @@
                 "sid": "subq.5.7.1.12.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q405",
                 "controlname": "date52",
                 "subcheckbox": false,
@@ -5522,7 +5551,7 @@
                 "sid": "subq.5.7.1.12.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q408",
                 "controlname": "date53",
                 "subcheckbox": false,
@@ -5560,7 +5589,7 @@
                 "sid": "subq.5.7.1.13.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q411",
                 "controlname": "date54",
                 "subcheckbox": false,
@@ -5602,7 +5631,7 @@
                 "sid": "subq.5.7.1.13.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q414",
                 "controlname": "date55",
                 "subcheckbox": false,
@@ -5640,7 +5669,7 @@
                 "sid": "subq.5.7.1.14.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q417",
                 "controlname": "date56",
                 "subcheckbox": false,
@@ -5682,7 +5711,7 @@
                 "sid": "subq.5.7.1.14.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q420",
                 "controlname": "date57",
                 "subcheckbox": false,
@@ -5720,7 +5749,7 @@
                 "sid": "subq.5.7.1.15.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q423",
                 "controlname": "date58",
                 "subcheckbox": false,
@@ -5762,7 +5791,7 @@
                 "sid": "subq.5.7.1.15.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q426",
                 "controlname": "date59",
                 "subcheckbox": false,
@@ -5800,7 +5829,7 @@
                 "sid": "subq.5.7.1.16.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q429",
                 "controlname": "date60",
                 "subcheckbox": false,
@@ -5842,7 +5871,7 @@
                 "sid": "subq.5.7.1.16.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q432",
                 "controlname": "date61",
                 "subcheckbox": false,
@@ -5880,7 +5909,7 @@
                 "sid": "subq.5.7.1.17.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q435",
                 "controlname": "date62",
                 "subcheckbox": false,
@@ -5922,7 +5951,7 @@
                 "sid": "subq.5.7.1.17.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q438",
                 "controlname": "date63",
                 "subcheckbox": false,
@@ -5960,7 +5989,7 @@
                 "sid": "subq.5.7.1.18.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q441",
                 "controlname": "date64",
                 "subcheckbox": false,
@@ -6002,7 +6031,7 @@
                 "sid": "subq.5.7.1.18.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q444",
                 "controlname": "date65",
                 "subcheckbox": false,
@@ -6040,7 +6069,7 @@
                 "sid": "subq.5.7.1.19.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q447",
                 "controlname": "date66",
                 "subcheckbox": false,
@@ -6082,7 +6111,7 @@
                 "sid": "subq.5.7.1.19.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q450",
                 "controlname": "date67",
                 "subcheckbox": false,
@@ -6120,7 +6149,7 @@
                 "sid": "subq.5.7.1.20.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q453",
                 "controlname": "date68",
                 "subcheckbox": false,
@@ -6162,7 +6191,7 @@
                 "sid": "subq.5.7.1.20.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q456",
                 "controlname": "date69",
                 "subcheckbox": false,
@@ -6200,7 +6229,7 @@
                 "sid": "subq.5.7.1.21.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q459",
                 "controlname": "date70",
                 "subcheckbox": false,
@@ -6242,7 +6271,7 @@
                 "sid": "subq.5.7.1.21.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q462",
                 "controlname": "date71",
                 "subcheckbox": false,
@@ -6280,7 +6309,7 @@
                 "sid": "subq.5.7.1.22.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q465",
                 "controlname": "date72",
                 "subcheckbox": false,
@@ -6322,7 +6351,7 @@
                 "sid": "subq.5.7.1.22.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q468",
                 "controlname": "date73",
                 "subcheckbox": false,
@@ -6360,7 +6389,7 @@
                 "sid": "subq.5.7.1.23.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q471",
                 "controlname": "date74",
                 "subcheckbox": false,
@@ -6402,7 +6431,7 @@
                 "sid": "subq.5.7.1.23.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q474",
                 "controlname": "date75",
                 "subcheckbox": false,
@@ -6440,7 +6469,7 @@
                 "sid": "subq.5.7.1.24.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q477",
                 "controlname": "date76",
                 "subcheckbox": false,
@@ -6482,7 +6511,7 @@
                 "sid": "subq.5.7.1.24.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q480",
                 "controlname": "date77",
                 "subcheckbox": false,
@@ -6520,7 +6549,7 @@
                 "sid": "subq.5.7.1.25.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q483",
                 "controlname": "date78",
                 "subcheckbox": false,
@@ -6562,7 +6591,7 @@
                 "sid": "subq.5.7.1.25.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q486",
                 "controlname": "date79",
                 "subcheckbox": false,
@@ -6600,7 +6629,7 @@
                 "sid": "subq.5.7.1.26.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q489",
                 "controlname": "date80",
                 "subcheckbox": false,
@@ -6642,7 +6671,7 @@
                 "sid": "subq.5.7.1.26.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q492",
                 "controlname": "date81",
                 "subcheckbox": false,
@@ -6680,7 +6709,7 @@
                 "sid": "subq.5.7.1.27.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q495",
                 "controlname": "date82",
                 "subcheckbox": false,
@@ -6722,7 +6751,7 @@
                 "sid": "subq.5.7.1.27.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q498",
                 "controlname": "date83",
                 "subcheckbox": false,
@@ -6760,7 +6789,7 @@
                 "sid": "subq.5.7.1.28.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q501",
                 "controlname": "date84",
                 "subcheckbox": false,
@@ -6802,7 +6831,7 @@
                 "sid": "subq.5.7.1.28.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q504",
                 "controlname": "date85",
                 "subcheckbox": false,
@@ -6840,7 +6869,7 @@
                 "sid": "subq.5.7.1.29.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q507",
                 "controlname": "date86",
                 "subcheckbox": false,
@@ -6882,7 +6911,7 @@
                 "sid": "subq.5.7.1.29.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "07-11-2023",
+                "response": "08-11-2023",
                 "qid": "Q510",
                 "controlname": "date87",
                 "subcheckbox": false,
@@ -7579,9 +7608,10 @@
                 "qid": "Q258",
                 "controlname": "select102",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Main engine sump",
@@ -7607,9 +7637,10 @@
                 "qid": "Q260",
                 "controlname": "select104",
                 "subcheckbox": false,
+                "presetvalue": "7-12 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "7-12 months"
+                "answer": ""
               },
               {
                 "subName": "Main engine cylinder ",
@@ -7635,9 +7666,10 @@
                 "qid": "Q262",
                 "controlname": "select106",
                 "subcheckbox": false,
+                "presetvalue": "4-6 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "4-6 months"
+                "answer": ""
               },
               {
                 "subName": "Stern tube lubricating oil ",
@@ -7663,9 +7695,10 @@
                 "qid": "Q264",
                 "controlname": "select108",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Main engine turbo charger ",
@@ -7691,9 +7724,10 @@
                 "qid": "Q266",
                 "controlname": "select110",
                 "subcheckbox": false,
+                "presetvalue": "4-6 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "4-6 months"
+                "answer": ""
               },
               {
                 "subName": "Alternator engine sump ",
@@ -7719,9 +7753,10 @@
                 "qid": "Q268",
                 "controlname": "select112",
                 "subcheckbox": false,
+                "presetvalue": "4-6 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "4-6 months"
+                "answer": ""
               },
               {
                 "subName": "Alternator engine turbo charger",
@@ -7747,9 +7782,10 @@
                 "qid": "Q270",
                 "controlname": "select114",
                 "subcheckbox": false,
+                "presetvalue": "4-6 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "4-6 months"
+                "answer": ""
               },
               {
                 "subName": "Emergency generator engine sump",
@@ -7775,9 +7811,10 @@
                 "qid": "Q272",
                 "controlname": "select116",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Steering gear hydraulic oilr",
@@ -7803,9 +7840,10 @@
                 "qid": "Q274",
                 "controlname": "select118",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Thruster gear oilr",
@@ -7831,9 +7869,10 @@
                 "qid": "Q276",
                 "controlname": "select120",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Framo system hydraulic oil Nor",
@@ -7859,9 +7898,10 @@
                 "qid": "Q278",
                 "controlname": "select122",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Valve remote control hydraulic oilr",
@@ -7887,9 +7927,10 @@
                 "qid": "Q280",
                 "controlname": "select124",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Mooring winch hydraulic oilr",
@@ -7915,9 +7956,10 @@
                 "qid": "Q282",
                 "controlname": "select126",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Hose cranes hydraulic oil",
@@ -7943,9 +7985,10 @@
                 "qid": "Q284",
                 "controlname": "select128",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Stores crane hydraulic oil",
@@ -7971,9 +8014,10 @@
                 "qid": "Q286",
                 "controlname": "select130",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               },
               {
                 "subName": "Winch / windlass gear case oil",
@@ -7999,9 +8043,10 @@
                 "qid": "Q288",
                 "controlname": "select132",
                 "subcheckbox": false,
+                "presetvalue": "0-3 months",
                 "inprogress": false,
                 "completed": false,
-                "answer": "0-3 months"
+                "answer": ""
               }
             ],
             "qid": "MQ257",
@@ -8032,9 +8077,10 @@
                 "qid": "Q290",
                 "controlname": "select133",
                 "subcheckbox": false,
+                "presetvalue": "Yes",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Yes"
+                "answer": ""
               },
               {
                 "subName": "Heavy Oil",
@@ -8055,9 +8101,10 @@
                 "qid": "Q292",
                 "controlname": "select134",
                 "subcheckbox": false,
+                "presetvalue": "Yes",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Yes"
+                "answer": ""
               },
               {
                 "subName": "Marine Diesel Oil / Gas Oil",
@@ -8078,9 +8125,10 @@
                 "qid": "Q294",
                 "controlname": "select135",
                 "subcheckbox": false,
+                "presetvalue": "Yes",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Yes"
+                "answer": ""
               }
             ],
             "qid": "MQ289",
@@ -8111,9 +8159,10 @@
                 "qid": "Q296",
                 "controlname": "select136",
                 "subcheckbox": false,
+                "presetvalue": "Yes",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Yes"
+                "answer": ""
               },
               {
                 "subName": "Means provided (Main Engine(s))",
@@ -8131,9 +8180,10 @@
                 "qid": "Q297",
                 "controlname": "select137",
                 "subcheckbox": false,
+                "presetvalue": "Crankcase pressure monitor",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Crankcase pressure monitor"
+                "answer": ""
               }
             ],
             "qid": "MQ295",
@@ -8155,9 +8205,10 @@
                 "qid": "Q299",
                 "controlname": "select138",
                 "subcheckbox": false,
+                "presetvalue": "Yes",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Yes"
+                "answer": ""
               },
               {
                 "subName": "Means provided (Auxiliary Engine(s))",
@@ -8175,9 +8226,10 @@
                 "qid": "Q300",
                 "controlname": "select139",
                 "subcheckbox": false,
+                "presetvalue": "Crankcase pressure monitor",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Crankcase pressure monitor"
+                "answer": ""
               }
             ],
             "qid": "MQ298",
@@ -8199,9 +8251,10 @@
                 "qid": "Q302",
                 "controlname": "select140",
                 "subcheckbox": false,
+                "presetvalue": "Yes",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Yes"
+                "answer": ""
               },
               {
                 "subName": "What fire protection measures are provided",
@@ -8218,9 +8271,10 @@
                 "qid": "Q303",
                 "controlname": "select141",
                 "subcheckbox": false,
+                "presetvalue": "Contained within a specially designed space",
                 "inprogress": false,
                 "completed": false,
-                "answer": "Contained within a specially designed space"
+                "answer": ""
               }
             ],
             "qid": "MQ301",

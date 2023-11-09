@@ -203,7 +203,8 @@
                           <div class="content_header charCount" id="{{ index }}">
                             {{ quest.subHeaders }}
                             <div style="display: flex">
-                              <mat-icon #comExpColBtn (click)="expandAllMainquestions()" class="comExpColBtn">
+                              <mat-icon #comExpColBtn (click)="expandAllMainquestions($event,quest,comExpColBtn);quest['expand'+index]= !quest['expand'+index]" 
+                                [id]="quest.subheadid" class="comExpColBtn">
                                 {{allExpansionPanelsExpanded ? "expand_less" : "expand_more"}}
                               </mat-icon>
                             </div>
@@ -211,7 +212,7 @@
                           <div class="sub-ques" *ngFor="let Mquest of quest.question;let index = index">
                             <mat-accordion class="card_container"
                               *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)">
-                              <mat-expansion-panel [expanded]="allExpansionPanelsExpanded">
+                              <mat-expansion-panel [id]="'exp'+quest.subheadid" [expanded]="quest['expand'+index]">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
                                     <div class="col-sm-12" style="padding: 0">
@@ -219,7 +220,6 @@
                                         <div class="col-sm-10 mqAlign mainquest charCount"
                                           [innerHTML]="highlightSearchText(Mquest.mainQuestion)">
                                           {{ Mquest.mainQuestion }}
-                                          {{ Mquest.mainQuestionEntry }}
                                         </div>
                                         <div class="col-sm-2 text-right" style="padding-left: 0 !important;">
                                           <button *ngIf="Mquest.entrymethod == 'Lookup'" mat-button class="save"
@@ -325,21 +325,20 @@
                                         </div>
                                       </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                       <div class="col-sm-12" *ngIf="subq.type == 'MultiSelect'">
                                         <div class="col-sm-12 select_wrapper">
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
                                               <span style="font-weight: 500;">Selected Answer:</span>
-                                              <span style="display: none;"
-                                                [ngClass]="{'showInitial': initialMultiAns}">
-                                                 {{subq.answer}}
+                                              <span style="display: none;" [ngClass]="{'showInitial': initialMultiAns}">
+                                                {{subq.answer}}
                                               </span>
                                               <span style="display: none;" [id]="'yes-'+ subq.sid"
                                                 [ngClass]="{'showSelected': selectedMultiAns}"
                                                 *ngFor="let selected of subq.answer">
-                                                 {{ selected }},
+                                                {{ selected }},
                                               </span>
                                               <mat-form-field class="filter" [ngClass]="{'read-only-input': viewMode}"
                                                 [hidden]=" subq && subq.responsearry && subq.responsearry.length <= 5">
@@ -496,13 +495,13 @@
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
                                               <span style="font-weight: 500;">Selected Answer:</span>
-                                              <span style="display: none;"
-                                                [ngClass]="{'showInitial': initialMultiAns}">
-                                                 {{subq.answer}}
+                                              <span style="display: none;" [ngClass]="{'showInitial': initialMultiAns}">
+                                                {{subq.answer}}
                                               </span>
-                                              <span style="display: none;" [id]="'yes-'+subq.sid" [ngClass]="{'showSelected': selectedMultiAns}"
+                                              <span style="display: none;" [id]="'yes-'+subq.sid"
+                                                [ngClass]="{'showSelected': selectedMultiAns}"
                                                 *ngFor="let selected of subq.answer">
-                                                 {{ selected }},
+                                                {{ selected }},
                                               </span>
                                               <mat-form-field class="filter" [ngClass]="{'read-only-input': viewMode}"
                                                 [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
@@ -708,9 +707,10 @@
                                                 <span style="font-weight: 500;">Selected Answer:</span>
                                                 <span style="display: none;"
                                                   [ngClass]="{'showInitial': initialMultiAns}">
-                                                   {{subq.answer}}
+                                                  {{subq.answer}}
                                                 </span>
-                                                <span style="display: none;" [id]="'yes-'+subq.sid" [ngClass]="{'showSelected': selectedMultiAns}"
+                                                <span style="display: none;" [id]="'yes-'+subq.sid"
+                                                  [ngClass]="{'showSelected': selectedMultiAns}"
                                                   *ngFor="let selected of subq.answer"> {{ selected }}, </span>
                                                 <mat-form-field class="filter" [ngClass]="{'read-only-input':viewMode}"
                                                   [hidden]="subq && subq.responsearry && subq.responsearry.length <= 5">
@@ -863,9 +863,10 @@
                                                 <span style="font-weight: 500;">Selected Answer:</span>
                                                 <span style="display: none;"
                                                   [ngClass]="{'showInitial': initialMultiAns}">
-                                                   {{subq.answer}}
+                                                  {{subq.answer}}
                                                 </span>
-                                                <span style="display: none;" [id]="'yes-'+subq.sid" [ngClass]="{'showSelected': selectedMultiAns}"
+                                                <span style="display: none;" [id]="'yes-'+subq.sid"
+                                                  [ngClass]="{'showSelected': selectedMultiAns}"
                                                   *ngFor="let selected of subq.answer">
                                                   {{ selected }},
                                                 </span>
@@ -1002,80 +1003,81 @@
                             </div>
                           </div> -->
                         </div>
+                      </div>
+                    </div>
+                  </div>
 
-                        <div class="col-sm-9 allMainQuest" [class.hidden]="!isSearchActive" style="padding: 0"
-                          *ngIf="isSearchActive">
-                          <div class="content_load_wrap">
-                            <div class="card-contents p-0">
-                              <div *ngFor="let quest of getAllDatas">
-                                <div *ngFor="let allQuest of quest.values">
-                                  <div *ngFor=" let allQuestValues of allQuest.question;let indexAllQ = index">
-                                    <mat-card appearance="outlined" style="margin: 5px 0; cursor: default"
-                                      *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)"
-                                      (click)="openOriginalQuest(allQuestValues.mainQuestion,allQuest,indexAllQ)">
-                                      <mat-card-header>
-                                        <mat-card-title>
-                                          <div class="col-sm-12" style="padding: 0">
-                                            <div class="row">
-                                              <div class="col-sm-12 mainquest filteredQuest"
-                                                [innerHTML]="highlightSearchText(allQuestValues.mainQuestion)">
-                                                {{allQuestValues.mainQuestion}}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </mat-card-title>
-                                      </mat-card-header>
-                                    </mat-card>
-                                  </div>
-                                </div>
-                              </div>
+                  <div class="col-sm-9 allMainQuest" [class.hidden]="!isSearchActive" style="padding: 0"
+                    *ngIf="isSearchActive">
+                    <div class="content_load_wrap">
+                      <div class="card-contents p-0">
+                        <div *ngFor="let quest of getAllDatas">
+                          <div *ngFor="let allQuest of quest.values">
+                            <div *ngFor=" let allQuestValues of allQuest.question;let indexAllQ = index">
+                              <mat-card appearance="outlined" style="margin: 5px 0; cursor: default"
+                                *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)"
+                                (click)="openOriginalQuest(allQuestValues.mainQuestion,allQuest,indexAllQ)">
+                                <mat-card-header>
+                                  <mat-card-title>
+                                    <div class="col-sm-12" style="padding: 0">
+                                      <div class="row">
+                                        <div class="col-sm-12 mainquest filteredQuest"
+                                          [innerHTML]="highlightSearchText(allQuestValues.mainQuestion)">
+                                          {{allQuestValues.mainQuestion}}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </mat-card-title>
+                                </mat-card-header>
+                              </mat-card>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-3 guideWrap" *ngIf="lookupContainer">
-                    <div class="row">
-                      <div class="col-sm-12 guidLines">
-                        <div class="row">
-                          <div class="col-sm-10 descTitle">
-                            Lookup - 2.1. Certification
-                          </div>
-                          <div class="col-sm-2 text-right" style="padding-right: 10px">
-                            <mat-icon (click)="closeLookup()">close</mat-icon>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-12 p-0">
-                        <div *ngFor="let lookup of manualLookupData">
-                          <mat-accordion class="card_container">
-                            <mat-expansion-panel>
-                              <mat-expansion-panel-header class="content_header">
-                                <mat-panel-title>
-                                  {{ lookup.certificatename }}
-                                </mat-panel-title>
-                              </mat-expansion-panel-header>
+                </div>
+              </div>
 
-                              <div class="ml-3">
-                                <span style="font-weight: 500">Reference Id:- </span>{{ lookup.refid }}
-                              </div>
-                              <div class="ml-3">
-                                <span style="font-weight: 500">Certificate No:- </span>{{ lookup.certificatenumber }}
-                              </div>
-                              <div class="ml-3">
-                                <span style="font-weight: 500">Authority Name:- </span>{{ lookup.authorityname }}
-                              </div>
-                              <div class="ml-3">
-                                <span style="font-weight: 500">Date of Issued:- </span>{{ lookup.dateofissue }}
-                              </div>
-                              <div class="ml-3">
-                                <span style="font-weight: 500">Valid From:- </span>{{ lookup.validfrom }}
-                              </div>
-                            </mat-expansion-panel>
-                          </mat-accordion>
-                        </div>
+              <div class="col-sm-3 guideWrap" *ngIf="lookupContainer">
+                <div class="row">
+                  <div class="col-sm-12 guidLines">
+                    <div class="row">
+                      <div class="col-sm-10 descTitle">
+                        Lookup - 2.1. Certification
                       </div>
+                      <div class="col-sm-2 text-right" style="padding-right: 10px">
+                        <mat-icon (click)="closeLookup()">close</mat-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 p-0">
+                    <div *ngFor="let lookup of manualLookupData">
+                      <mat-accordion class="card_container">
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header class="content_header">
+                            <mat-panel-title>
+                              {{ lookup.certificatename }}
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+
+                          <div class="ml-3">
+                            <span style="font-weight: 500">Reference Id:- </span>{{ lookup.refid }}
+                          </div>
+                          <div class="ml-3">
+                            <span style="font-weight: 500">Certificate No:- </span>{{ lookup.certificatenumber }}
+                          </div>
+                          <div class="ml-3">
+                            <span style="font-weight: 500">Authority Name:- </span>{{ lookup.authorityname }}
+                          </div>
+                          <div class="ml-3">
+                            <span style="font-weight: 500">Date of Issued:- </span>{{ lookup.dateofissue }}
+                          </div>
+                          <div class="ml-3">
+                            <span style="font-weight: 500">Valid From:- </span>{{ lookup.validfrom }}
+                          </div>
+                        </mat-expansion-panel>
+                      </mat-accordion>
                     </div>
                   </div>
                 </div>

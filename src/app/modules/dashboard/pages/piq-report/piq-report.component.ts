@@ -816,7 +816,7 @@ export class PiqReportComponent implements OnInit {
     } else if (entryorgin.qid == 'Q124' && this.initialMultiAns == true) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
-    }else{
+    } else {
       this.selectedMultiAns = false;
       this.initialMultiAns = true;
     }
@@ -1025,11 +1025,32 @@ export class PiqReportComponent implements OnInit {
     }
     this.subHeaderCount();
   }
-  expandAllMainquestions() {
-    this.allExpansionPanelsExpanded = !this.allExpansionPanelsExpanded;
-    this.isContentVisible = new Array(this.getAllDatas.length).fill(
-      this.allExpansionPanelsExpanded
-    );
+  expandAllMainquestions(event: any, quest: any,ref:any) {
+    console.log('event', event);
+    console.log('ref', ref);
+    console.log('event', event);
+    console.log('quest', quest);
+    if (event.target.id == quest.subheadid) {
+      let a = document.getElementById('exp'+quest.subheadid);
+      console.log("a",a)
+      if(this.allExpansionPanelsExpanded == false){
+        this.allExpansionPanelsExpanded = true;
+      }else{
+       this.allExpansionPanelsExpanded = false
+     }
+    } 
+    else {
+      this.allExpansionPanelsExpanded = true
+    }
+    // const getTargetId = event.target.id;
+    // const getId= document.getElementById("MQ1");
+    // if (getId==="MQ1") {
+
+    // }
+    // this.allExpansionPanelsExpanded = !this.allExpansionPanelsExpanded;
+    // this.isContentVisible = new Array(this.getAllDatas.length).fill(
+    //   this.allExpansionPanelsExpanded
+    // );
   }
 
   areAllQuestionsExpanded() {

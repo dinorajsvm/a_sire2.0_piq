@@ -691,6 +691,9 @@
   align-items: baseline;
   margin-top: 1px !important;
 }
+.allMainQuest{
+  max-width: 73%;
+}
 
 .loopedMainQuest {
   padding: 0;
