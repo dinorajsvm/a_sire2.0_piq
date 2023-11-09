@@ -199,9 +199,9 @@ export class PhotoRepositoryComponent implements OnInit {
 
   createPRDetails() {
     this.getdetails = [];
-    this.getImagesCount=[];
+    this.getImagesCount = [];
     const duplicatedList = this.listDatas;
-    
+
     duplicatedList.forEach((res: any) => {
       res.subTopics.forEach((sub: any) => {
         this.getImagesCount.push(...sub.imagelist);
@@ -324,7 +324,7 @@ export class PhotoRepositoryComponent implements OnInit {
         });
       });
       this.subTopicCounts = this.getSubTopicTitle.length;
-      
+
       this.BudgetService.setPhotoRepData(this.subTopicCounts);
       this.subheads.forEach((data) => {
         data.forEach((data1: any) => {
@@ -550,7 +550,7 @@ export class PhotoRepositoryComponent implements OnInit {
           }
         }
       });
-    }else{
+    } else {
       this.fileInput.nativeElement.click();
       this.onFileSelected(event);
       this.selectedSubTopic = subHead;
@@ -583,19 +583,6 @@ export class PhotoRepositoryComponent implements OnInit {
         const base64Image = e.target.result;
         const imgElement = new Image();
         imgElement.src = base64Image;
-        imgElement.onload = () => {
-          const imageWidth = imgElement.width;
-          const imageHeight = imgElement.height;
-          const imageType = this.selectedFile?.type;
-          const imageSize = this.selectedFile?.size;
-          const fileName = this.selectedFile?.name;
-          console.log("imageWidth",imageWidth);
-          console.log("imageHeight",imageHeight);
-          console.log("imageType",imageType);
-          console.log("imageSize",imageSize);
-          console.log("fileName",fileName);
-          
-        };
       };
       reader.readAsDataURL(this.selectedFile);
       const files = event.target.files;
@@ -606,9 +593,7 @@ export class PhotoRepositoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', this.selectedFile);
       this.http
-        .post(this.dynamicImageURL+'PIQ/event/attachmentupload',
-          formData
-        )
+        .post(this.dynamicImageURL + 'PIQ/event/attachmentupload', formData)
         .subscribe(
           (response) => {
             this.uploadedData();
@@ -655,7 +640,7 @@ export class PhotoRepositoryComponent implements OnInit {
         sizeinbytes: data.sizeinbytes,
         sizeinMB: data.sizeinmb,
       });
-      
+
       const filterInstanceId = this.loadPhotoRep.find(
         (res: any) => res.instanceid == this.getFilteredID
       );
@@ -785,11 +770,9 @@ export class PhotoRepositoryComponent implements OnInit {
           filename: files[i].name,
           docsize: this.formatSize(files[i].size),
         };
-        if(subHead.imagelist){
-          console.log("****");
+        if (subHead.imagelist) {
           subHead.imagelist.push(image);
-        }else{
-          console.log("@@@");
+        } else {
           subHead['imagelist'].push(image);
         }
       };

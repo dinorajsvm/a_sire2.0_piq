@@ -567,7 +567,7 @@ export class SafetyManagementComponent implements OnInit {
   }
 
   safetyManagementDetails() {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupDetail(
       this.data.qid,
       vesselCode,

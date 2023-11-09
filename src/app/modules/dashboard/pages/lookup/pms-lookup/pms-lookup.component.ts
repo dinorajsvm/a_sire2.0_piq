@@ -109,7 +109,7 @@ export class PmsLookupComponent {
   pmsCode: any;
   getLookUpVisit() {
     const companyCode = this.userDetails.userData.mdata.appInfo.companyCode;
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getPMSLookupVisitData(
       companyCode,
       vesselCode,

@@ -21,24 +21,32 @@ export class ReferenceComponent implements OnInit {
       headerName: 'Topic',
       tooltipField: 'topic',
       flex: 1,
-      cellStyle: {textalign: 'left'}
+      cellStyle: { textalign: 'left' },
     },
     {
       field: 'remark',
-      headerName: 'Remarks',tooltipField: 'remark',
+      headerName: 'Remarks',
+      tooltipField: 'remark',
       flex: 1,
     },
-    { field: 'localfilename', headerName: 'File Name',tooltipField: 'localfilename', flex: 1 },
+    {
+      field: 'localfilename',
+      headerName: 'File Name',
+      tooltipField: 'localfilename',
+      flex: 1,
+    },
     {
       field: 'filesize',
-      headerName: 'File Size',tooltipField: 'filesize',
+      headerName: 'File Size',
+      tooltipField: 'filesize',
       flex: 1,
     },
     {
-      headerName: 'Download',floatingFilter: false,
-      flex:1,
+      headerName: 'Download',
+      floatingFilter: false,
+      flex: 1,
       cellRenderer: 'buttonRenderer',
-      cellStyle: {textalign: 'center'},
+      cellStyle: { textalign: 'center' },
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
       },
@@ -50,7 +58,7 @@ export class ReferenceComponent implements OnInit {
   userDetails: any;
   private gridApi: any;
   private gridColumnApi: any;
-  defaultColDef = DefaultColDef
+  defaultColDef = DefaultColDef;
 
   public gridOptions: GridOptions = {};
   constructor(
@@ -111,15 +119,14 @@ export class ReferenceComponent implements OnInit {
   }
 
   getCertificateRepoList() {
-    // const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
-    // const companyCode = this.userDetails.companyCode;
-    this.BudgetService.getReferenceList('VT002', 'NYKSG').subscribe(
+    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const companyCode = this.userDetails.companyCode;
+    this.BudgetService.getReferenceList(vesselCode, companyCode).subscribe(
       (res: any) => {
         res.response.forEach((element: any) => {
           const output_string = element.filepath.replaceAll(/\\/g, '/');
           (element.filesize = this.convertFileSize(element.filesize)),
-            (element.filepath =
-              `${environment.apiUrl}/` + output_string);
+            (element.filepath = `${environment.apiUrl}/` + output_string);
         });
         this.rowData = res.response;
       }

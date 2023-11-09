@@ -129,7 +129,7 @@ export class ManualLookUpComponent {
     this.getVesselCertificateLookupDetail();
   }
   getVesselCertificateLookupDetail() {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getVesselCertificateLookup(vesselCode).subscribe(
       (data) => {
         this.rowData = data && data.response.length > 0 ? data.response : [];

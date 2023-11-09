@@ -129,7 +129,7 @@ export class MocComponent {
   }
 
   mocDetails() {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getMocDetails(
       vesselCode,
       this.data.referenceId,

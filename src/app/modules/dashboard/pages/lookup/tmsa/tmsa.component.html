@@ -1,74 +1,82 @@
 <div mat-dialog-title>
   <div class="col-sm-12">
     <div class="row">
-      <div class="col-sm-11">
-        <h3 class="header" *ngIf="isChecked">Internal Audit Report</h3>
-        <h3 class="header" *ngIf="!isChecked && isShowExternal">
+      <div class="col-sm-7">
+        <h3 class="header" *ngIf="isShowInternal">Internal Audit Report</h3>
+        <p class="descHeader" *ngIf="isShowInternal && data.qid !== '3.2.2'">
+          (List of Internal Audit Report for last 12 months)
+        </p>
+        <p class="descHeader" *ngIf="isShowInternal && data.qid === '3.2.2'">
+          (List of Internal Audit Report for last 24 months)
+        </p>
+        <h3 class="header" *ngIf="isShowExternal">
           External Inspection Report
         </h3>
-        <h3 class="header" *ngIf="!isChecked && !isShowExternal">
-          Ship Visit Report
+        <p class="descHeader" *ngIf="isShowExternal">
+          (List of External Inspection Report for last 12 months)
+        </p>
+        <h3 class="header" *ngIf="isShowShip">Ship Visit Report</h3>
+        <p class="descHeader" *ngIf="isShowShip && data.qid !== '3.2.2'">
+          (List of Ship Visit Report for last 12 months)
+        </p>
+        <p class="descHeader" *ngIf="isShowShip && data.qid === '3.2.2'">
+          (List of Ship Visit Report for last 24 months)
+        </p>
+        <h3 class="header" *ngIf="isShowView && isShowInternalShip">
+          Internal Audit And Ship Visit Report
         </h3>
+        <p class="descHeader" *ngIf="isShowView && isShowInternalShip">
+          (List of Internal Audit and Ship Visit Report for last 24 months)
+        </p>
+        <h3 class="header" *ngIf="isShowView && isShowInternalExternal">
+          Internal Audit And External Audit Report
+        </h3>
+
+        <p class="descHeader" *ngIf="isShowView && isShowInternalExternal">
+          (List of Internal Audit and External Audit Report for last 24 months)
+        </p>
+      </div>
+
+      <div class="col-sm-4 text-center" style="padding: 15px 0 0 0">
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Color selection"
+        >
+          <mat-chip-option
+            color="primary"
+            [selected]="isShowShip"
+            (click)="changeToggle('Ship Visit Report')"
+            *ngIf="isShowInternalShip"
+          >
+            Ship Visit Report
+          </mat-chip-option>
+          <mat-chip-option
+            color="primary"
+            [selected]="isShowExternal"
+            (click)="changeToggle('External Audit Report')"
+            *ngIf="isShowInternalExternal"
+          >
+            External Audit Report
+          </mat-chip-option>
+
+          <mat-chip-option
+            color="primary"
+            [selected]="isShowInternal"
+            (click)="changeToggle('Internal Audit Report')"
+          >
+            Internal Audit Report
+          </mat-chip-option>
+          <mat-chip-option
+            color="primary"
+            (click)="changeToggle('ViewAll')"
+            [selected]="isShowView"
+          >
+            View All
+          </mat-chip-option>
+        </mat-chip-listbox>
       </div>
       <div class="col-sm-1 text-right">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-8">
-        <p class="descHeader" *ngIf="isChecked && data.qid !== '3.2.2'">
-          (List of Internal Audit Report for last 12 months)
-        </p>
-        <p class="descHeader" *ngIf="isChecked && data.qid === '3.2.2'">
-          (List of Internal Audit Report for last 24 months)
-        </p>
-        <p class="descHeader" *ngIf="!isChecked && isShowExternal">
-          (List of External Inspection Report for last 12 months)
-        </p>
-        <p
-          class="descHeader"
-          *ngIf="!isChecked && !isShowExternal && data.qid !== '3.2.2'"
-        >
-          (List of Ship Visit Report for last 12 months)
-        </p>
-        <p
-          class="descHeader"
-          *ngIf="!isChecked && !isShowExternal && data.qid === '3.2.2'"
-        >
-          (List of Ship Visit Report for last 24 months)
-        </p>
-      </div>
-      <div class="col-sm-4 text-center" style="padding:0 0 15px 0;">
-        <div style="line-height: 1;">
-          <div style="color: #707171;font-size: 14px;font-weight: 500;">
-            <span>
-              Module Selection
-            </span>
-          </div>
-          <div style="white-space: nowrap;">
-            <p
-            class="toggleHeader"
-            *ngIf="
-              data.qid === '3.2.1' ||
-              data.qid === '3.2.2' ||
-              data.qid === '3.2.5' ||
-              data.qid === '3.2.6' ||
-              data.qid === '3.2.7'
-            "
-          >
-          Ship Visit Report
-          </p>
-          <p class="toggleHeader" *ngIf="data.qid === '3.2.3' || data.qid === '3.2.4'">
-            External Inspection Report
-          </p>
-          <mat-slide-toggle
-          class="toggleHeader"
-          [(ngModel)]="isChecked"
-          (change)="changeToggle($event)"
-        ></mat-slide-toggle>
-        <p class="toggleHeader">Internal Audit Report</p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -77,16 +85,16 @@
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-12">
     <div class="row">
-      <div class="col-sm-12" *ngIf="isChecked" >
+      <div class="col-sm-12" *ngIf="isShowInternal">
         <ag-grid-angular
           #agGrid
           class="ag-theme-balham"
-          style="height: calc(100vh - 270px)"
+          style="height: calc(100vh - 320px)"
           enableSorting="true"
           enableFilter="true"
-          [rowData]="rowData"
+          [rowData]="rowInternalData"
           [rowClassRules]="rowClassRules"
-          [columnDefs]="columnDefs"
+          [columnDefs]="columnInternalDefs"
           [gridOptions]="gridOptions"
           [tooltipShowDelay]="tooltipShowDelay"
           [defaultColDef]="defaultColDef"
@@ -94,11 +102,11 @@
         >
         </ag-grid-angular>
       </div>
-      <div class="col-sm-12" *ngIf="!isChecked && !isShowExternal">
+      <div class="col-sm-12" *ngIf="isShowShip">
         <ag-grid-angular
           #agGrid
           class="ag-theme-balham"
-          style="height: calc(100vh - 270px)"
+          style="height: calc(100vh - 320px)"
           enableSorting="true"
           enableFilter="true"
           [rowData]="rowShipData"
@@ -111,11 +119,72 @@
         >
         </ag-grid-angular>
       </div>
-      <div class="col-sm-12" *ngIf="!isChecked && isShowExternal">
+      <div class="col-sm-12" *ngIf="isShowExternal">
         <ag-grid-angular
           #agGrid
           class="ag-theme-balham"
-          style="height: calc(100vh - 270px)"
+          style="height: calc(100vh - 320px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowExternalData"
+          [rowClassRules]="rowClassRules"
+          [columnDefs]="columnExternalDefs"
+          [gridOptions]="gridOptions"
+          [defaultColDef]="defaultColDef"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+      </div>
+
+      <div class="col-sm-12" *ngIf="isShowInternalShip && isShowView">
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham"
+          style="height: calc(100vh - 320px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowInternalData"
+          [rowClassRules]="rowClassRules"
+          [columnDefs]="columnInternalDefs"
+          [gridOptions]="gridOptions"
+          [defaultColDef]="defaultColDef"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham mt-4"
+          style="height: calc(100vh - 320px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowShipData"
+          [rowClassRules]="rowClassRules"
+          [columnDefs]="columnShipDefs"
+          [gridOptions]="gridOptions"
+          [defaultColDef]="defaultColDef"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+      </div>
+      <div class="col-sm-12" *ngIf="isShowInternalExternal && isShowView">
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham"
+          style="height: calc(100vh - 320px)"
+          enableSorting="true"
+          enableFilter="true"
+          [rowData]="rowInternalData"
+          [rowClassRules]="rowClassRules"
+          [columnDefs]="columnInternalDefs"
+          [gridOptions]="gridOptions"
+          [defaultColDef]="defaultColDef"
+          [components]="frameworkComponents"
+        >
+        </ag-grid-angular>
+        <ag-grid-angular
+          #agGrid
+          class="ag-theme-balham mt-4"
+          style="height: calc(100vh - 320px)"
           enableSorting="true"
           enableFilter="true"
           [rowData]="rowExternalData"
@@ -130,4 +199,13 @@
       </div>
     </div>
   </div>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    style="float: right"
+    type="submit"
+    (click)="onReset()"
+  >
+    Reset
+  </button>
 </mat-dialog-content>

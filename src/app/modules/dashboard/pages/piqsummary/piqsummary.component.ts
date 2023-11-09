@@ -275,11 +275,6 @@ export class PIQSummaryComponent implements OnInit {
       this.totalQuestCount = 0;
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
-      (res: any) => {
-        // this.expectedRowData = data;
-      }
-    );
     this.getworkflowStatus();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
@@ -462,7 +457,7 @@ export class PIQSummaryComponent implements OnInit {
       this.userDetails.companyCode,
       this.getVesselCode,
       this.referenceNumber
-    ).subscribe((res: any) => {
+    ).subscribe((res: any) => {      
       this.certificateRowData =
         res && res.response && res.response.piqmappinglist
           ? res.response.piqmappinglist

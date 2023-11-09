@@ -14,12 +14,10 @@ export class AdvancedSearchService {
 
   categoryCompanyList(payloadValue:any,successCallback:any,errorCallback:any) {
 
-    console.log('payloadValue',payloadValue)
     let companyEndpoint = this._http.requestCall(Endpoints.GET_COMPANY, ApiMethod.POST, payloadValue);
     // let categoryEndpoint = this._http.requestCall(Endpoints.GET_CATEGORY, ApiMethod.POST, {});
     // let departmentEndpoint = this._http.requestCall(Endpoints.GET_DEPARTMENT, ApiMethod.POST, {});
     forkJoin([companyEndpoint]).subscribe((res:any)=> {
-      console.log('res',res)
       successCallback(res);
      }, (error:any) => {
        errorCallback(error);

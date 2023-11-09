@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -32,6 +32,7 @@ export class BudgetService {
   private getPhotoRepList = new BehaviorSubject<any>(0);
   private getRemarksCount = new BehaviorSubject<any>(0);
   private exceptionList = new Subject<any>();
+  private guidelineList = new Subject<any>();
   private exceptionReset = new Subject<any>();
   private getVslCode = new Subject<any>();
   private getExcepData = new Subject<any>();
@@ -369,6 +370,13 @@ export class BudgetService {
     return this.exceptionList.asObservable();
   }
 
+  setGuidelineData(message: any) {
+    this.guidelineList.next(message);
+  }
+  getGuidelineData() {
+    return this.guidelineList.asObservable();
+  }
+
   setExceptionResetData(message: any) {
     this.exceptionReset.next(message);
   }
@@ -413,12 +421,6 @@ export class BudgetService {
       .get<any>(`${this.globalUrl}/PIQ/event/getstaticimagetemplate`)
       .pipe(map((res: any) => res));
     return ba;
-  }
-
-  getGuidelines() {
-    return this.client
-      .get<any>('assets/question/guidelines.json')
-      .pipe(map((res: any) => res));
   }
 
   photoRepUpload(payload: any) {

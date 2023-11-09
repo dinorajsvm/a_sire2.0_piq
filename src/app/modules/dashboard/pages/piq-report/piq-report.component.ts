@@ -115,7 +115,6 @@ export class PiqReportComponent implements OnInit {
   getGuideLines: any;
   getQuestionId: any[] = [];
   infoMQuestId: any;
-  getGuideQuestID: any[] = [];
   presetQuestCount: any;
   lastModifiedData: any[] = [];
   vesselSelection: any;
@@ -274,13 +273,9 @@ export class PiqReportComponent implements OnInit {
   }
   arrayObj: any[] = [];
   getGuideLinesData() {
-    this.BudgetService.getGuidelines().subscribe((res: any) => {
-      const data = res.response;
+    this.BudgetService.getGuidelineData().subscribe((res: any) => {
+      const data = res;
       this.getGuideLines = data;
-      this.getGuideQuestID = [];
-      this.getGuideLines.forEach((item: any) => {
-        this.getGuideQuestID.push(item.qid);
-      });
     });
   }
 
@@ -346,6 +341,7 @@ export class PiqReportComponent implements OnInit {
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
+      localStorage.setItem('masterVesselCode', res.vesselcode);
       this.vesselSelection = res.vesseltypename;
       this.selectedMultiAns = false;
       this.initialMultiAns = true;
@@ -371,6 +367,12 @@ export class PiqReportComponent implements OnInit {
           ? exceptionListObject.response
           : [];
         this.exceptionCount();
+      }
+
+      if (res && res.guidence) {
+        let guidenceObject = JSON.parse(res.guidence);
+        let guidance = guidenceObject ? guidenceObject : [];
+        this.BudgetService.setGuidelineData(guidance);
       }
       object.forEach((value1: any) => {
         value1.filledCount = 0;
@@ -410,8 +412,6 @@ export class PiqReportComponent implements OnInit {
 
               if (mainQus.type === 'MultiSelect') {
                 const ans = mainQus.answer.replace(/\[|\]/g, '');
-                console.log('ans', typeof ans);
-                console.log('ans2', ans.toString());
                 const trimedAns = ans.replace(/\[|\]/g, '');
                 mainQus.answer = trimedAns;
 
@@ -797,12 +797,6 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
-    // console.log('a', controlname);
-    // console.log('b', value);
-    // console.log('c', mquest);
-    // console.log('d', entryorgin);
-    // console.log('e', subq);
-    // console.log('f', quest);
     if (entryorgin.qid == 'Q104' && this.initialMultiAns == true) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
@@ -1099,7 +1093,7 @@ export class PiqReportComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe((result: any) => {
-        if (result) {
+        if (result !== 'Reset') {
           const payload = {
             instanceid: this.referenceNumber,
             questionid: questionId,
@@ -1350,6 +1344,15 @@ export class PiqReportComponent implements OnInit {
 
             tempRowData = [];
           });
+        } else if (result === 'Reset') {
+          const payload = {
+            instanceid: this.referenceNumber,
+            questionid: questionId,
+            lookupid: 'Reset',
+            lookupjson: '',
+            user: this.userDetails?.userCode,
+          };
+          this.BudgetService.saveLookUp(payload).subscribe((data) => {});
         }
       });
     }
@@ -1429,7 +1432,7 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
+      if (result !== 'Reset' ) {
         const payload = {
           instanceid: this.referenceNumber,
           questionid: questionId,
@@ -1530,11 +1533,20 @@ export class PiqReportComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((result: any) => {
-        if (result) {
+        if (result !== 'Reset') {
           const payload = {
             instanceid: this.referenceNumber,
             questionid: questionId,
             lookupid: result.jobid,
+            lookupjson: '',
+            user: this.userDetails?.userCode,
+          };
+          this.BudgetService.saveLookUp(payload).subscribe((data) => {});
+        } else if (result === 'Reset') {
+          const payload = {
+            instanceid: this.referenceNumber,
+            questionid: questionId,
+            lookupid: 'Reset',
             lookupjson: '',
             user: this.userDetails?.userCode,
           };
@@ -1552,11 +1564,20 @@ export class PiqReportComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((result: any) => {
-        if (result) {
+        if (result !== 'Reset') {
           const payload = {
             instanceid: this.referenceNumber,
             questionid: questionId,
             lookupid: result.jobid,
+            lookupjson: '',
+            user: this.userDetails?.userCode,
+          };
+          this.BudgetService.saveLookUp(payload).subscribe((data) => {});
+        } else if (result === 'Reset') {
+          const payload = {
+            instanceid: this.referenceNumber,
+            questionid: questionId,
+            lookupid: 'Reset',
             lookupjson: '',
             user: this.userDetails?.userCode,
           };
@@ -1574,11 +1595,20 @@ export class PiqReportComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((result: any) => {
-        if (result) {
+        if (result !== 'Reset') {
           const payload = {
             instanceid: this.referenceNumber,
             questionid: questionId,
             lookupid: result.jobid,
+            lookupjson: '',
+            user: this.userDetails?.userCode,
+          };
+          this.BudgetService.saveLookUp(payload).subscribe((data) => {});
+        } else if (result === 'Reset') {
+          const payload = {
+            instanceid: this.referenceNumber,
+            questionid: questionId,
+            lookupid: 'Reset',
             lookupjson: '',
             user: this.userDetails?.userCode,
           };
@@ -1597,7 +1627,7 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
+      if (result !== 'Reset') {
         const payload = {
           instanceid: this.referenceNumber,
           questionid: questionId,
@@ -1683,7 +1713,7 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
+      if (result !== 'Reset') {
         if (mainQuest && mainQuest.qid === 'MQ115') {
           this.mq115LookUp(mainQuest, result, questionId);
         } else if (mainQuest && mainQuest.qid === 'MQ97') {
@@ -1699,6 +1729,15 @@ export class PiqReportComponent implements OnInit {
         } else if (mainQuest && mainQuest.qid === 'MQ125') {
           this.mq125LookUp(mainQuest, result, questionId);
         }
+      } else if (result === 'Reset') {
+        const payload = {
+          instanceid: this.referenceNumber,
+          questionid: questionId,
+          lookupid: 'Reset',
+          lookupjson: '',
+          user: this.userDetails?.userCode,
+        };
+        this.BudgetService.saveLookUp(payload).subscribe((data) => {});
       }
     });
   }
@@ -2230,7 +2269,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   getLookUpVisit(questionId: any, subQues: any, mquest: any, subq: any) {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupVisitData(
       vesselCode,
       this.referenceNumber,
@@ -2357,7 +2396,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   getPscDetail(questionId: any, subQues: any, mquest: any, subq: any) {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getPscDetails(
       vesselCode,
       this.referenceNumber,
@@ -2449,7 +2488,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   getTmsaDetail(questionId: any, subQues: any, mquest: any, subq: any) {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupDetail(
       questionId,
       vesselCode,
@@ -2804,8 +2843,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   showpendQues() {
-    let contentArea = document.getElementById('contentArea');
-    let pending = document.getElementById('pendingArea');
     this.showPendingQuest = true;
     this.AllQuestions = false;
   }

@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -25,15 +25,22 @@ LicenseManager.setLicenseKey(
   styleUrls: ['./tmsa.component.css'],
   providers: [DatePipe],
 })
-export class TMSAComponent {
-  getSelectedCheckListID: any[] = [];
+export class TMSAComponent implements OnInit {
   private gridApi!: GridApi;
   isChecked = true;
   public tooltipShowDelay = 0;
+  isShowInternalShip = false;
+  isShowInternalExternal = false;
   frameworkComponents: any;
+  isShowShip = false;
+  isShowInternal = false;
   isShowExternal = false;
+  isShowView = false;
+  apiResponse: any = [];
+  rowShipData: any[] = [];
+  rowInternalData: any[] = [];
   rowExternalData: any[] = [];
-  columnDefs: ColDef[] = [
+  columnInternalDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
       flex: 1,
@@ -284,19 +291,15 @@ export class TMSAComponent {
       flex: 1,
     },
   ];
-  rowData: any[] = [];
-  rowShipData: any[] = [];
-
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
-  apiResponse: any = [];
   defaultColDef = DefaultColDef;
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
     },
   };
-  userDetails: any
+  userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
@@ -319,16 +322,30 @@ export class TMSAComponent {
     this.dialogRef.close(e.rowData);
   }
 
-  changeToggle(event: any) {
-    if (this.isChecked) {
-      this.rowData = this.apiResponse.Internal;
-    } else {
-      if (this.data.qid === '3.2.3' || this.data.qid === '3.2.4') {
-        this.isShowExternal = true;
-        this.rowExternalData = this.apiResponse.External;
-      } else {
-        this.isShowExternal = false;
-        this.rowShipData = this.apiResponse.ShipVisit;
+  changeToggle(chipType: string) {
+    if (this.data) {
+      if (
+        this.data.qid === '3.2.1' ||
+        this.data.qid === '3.2.2' ||
+        this.data.qid === '3.2.5' ||
+        this.data.qid === '3.2.6' ||
+        this.data.qid === '3.2.7'
+      ) {
+        if (chipType === 'Ship Visit Report') {
+          this.showShip();
+        } else if (chipType === 'ViewAll') {
+          this.showView();
+        } else {
+          this.showInternal();
+        }
+      } else if (this.data.qid === '3.2.3' || this.data.qid === '3.2.4') {
+        if (chipType === 'External Audit Report') {
+          this.showExternal();
+        } else if (chipType === 'ViewAll') {
+          this.showView();
+        } else {
+          this.showInternal();
+        }
       }
     }
   }
@@ -338,10 +355,24 @@ export class TMSAComponent {
   }
   ngOnInit(): void {
     this.getTmsaDetail();
+
+    if (
+      this.data.qid === '3.2.1' ||
+      this.data.qid === '3.2.2' ||
+      this.data.qid === '3.2.5' ||
+      this.data.qid === '3.2.6' ||
+      this.data.qid === '3.2.7'
+    ) {
+      this.isShowInternalShip = true;
+      this.isShowInternalExternal = false;
+    } else {
+      this.isShowInternalShip = false;
+      this.isShowInternalExternal = true;
+    }
   }
 
   getTmsaDetail() {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupDetail(
       this.data.qid,
       vesselCode,
@@ -349,7 +380,7 @@ export class TMSAComponent {
       this.data.referenceId
     ).subscribe((resp) => {
       this.apiResponse = resp.response;
-      this.rowData = resp.response.Internal;
+      this.showInternal();
     });
   }
   gridOptions = {
@@ -357,4 +388,41 @@ export class TMSAComponent {
       params.api.sizeColumnsToFit();
     },
   };
+
+  showInternal() {
+    this.isShowView = false;
+    this.isShowShip = false;
+    this.isShowExternal = false;
+    this.isShowInternal = true;
+    this.rowInternalData = this.apiResponse.Internal;
+  }
+
+  showShip() {
+    this.isShowView = false;
+    this.isShowExternal = false;
+    this.isShowInternal = false;
+    this.isShowShip = true;
+    this.rowShipData = this.apiResponse.ShipVisit;
+  }
+  showExternal() {
+    this.isShowView = false;
+    this.isShowInternal = false;
+    this.isShowShip = false;
+    this.isShowExternal = true;
+    this.rowExternalData = this.apiResponse.External;
+  }
+  showView() {
+    this.isShowView = true;
+    this.isShowInternal = false;
+    this.isShowShip = false;
+    this.isShowExternal = false;
+    this.rowExternalData = this.apiResponse.External;
+    this.rowInternalData = this.apiResponse.Internal;
+    this.rowShipData = this.apiResponse.ShipVisit;
+  }
+
+  onReset() {
+    this.dialogRef.close('Reset');
+  }
+
 }

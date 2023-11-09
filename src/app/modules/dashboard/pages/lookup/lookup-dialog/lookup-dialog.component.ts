@@ -252,7 +252,7 @@ export class LookupDialogComponent implements OnInit {
   }
 
   getLookUpVisit() {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupVisitData(
       vesselCode,
       this.data.referenceId,

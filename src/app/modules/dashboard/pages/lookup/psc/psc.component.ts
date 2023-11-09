@@ -90,7 +90,9 @@ export class PscComponent {
   ];
   syncData: any[] = [];
   rowData: any[] = [];
-
+  isViewAll = false;
+  rowPscData: any[] = [];
+  rowNonPscData: any[] = [];
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
@@ -124,18 +126,6 @@ export class PscComponent {
     this.dialogRef.close(e.rowData);
   }
 
-  // changeToggle(event: any) {
-  //   if (this.isChecked) {
-  //     this.rowData = this.apiResponse.PSC;
-  //   } else {
-  //     this.rowData = this.apiResponse['Non-sPSC'];
-  //   }
-  // }
-
-  // isChecked = false;
-  isViewAll = false;
-  rowPscData: any[] = [];
-  rowNonPscData: any[] = [];
   changeToggle(chipType: string) {
     if (chipType === 'Suggested') {
       this.isChecked = false;
@@ -166,7 +156,7 @@ export class PscComponent {
   }
 
   getPscDetail() {
-    const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getPscDetails(
       vesselCode,
       this.data.referenceId,
