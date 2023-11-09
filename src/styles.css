@@ -31,7 +31,6 @@ body {
   color: #2d3e50;
 }
 
-
 button:focus {
   outline: none !important;
 }
@@ -574,6 +573,10 @@ input:read-only {
 
 .notifyfooter {
   margin-bottom: -10px;
+}
+
+.mat-mdc-menu-panel {
+  max-width: unset !important;
 }
 
 .mat-mdc-menu-panel.myMenu {

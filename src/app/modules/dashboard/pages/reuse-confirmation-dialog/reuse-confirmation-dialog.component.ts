@@ -14,6 +14,7 @@ import { DefaultColDef } from 'src/app/core/constants';
 export class ReuseConfirmationDialogComponent implements OnInit {
   private gridApi!: GridApi;
   frameworkComponents: any;
+  public tooltipShowDelay = 0;
   columnDefs: ColDef[] = [
     {
       field: 'instanceid',

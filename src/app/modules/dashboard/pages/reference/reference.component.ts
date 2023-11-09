@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ReferenceComponent implements OnInit {
   rowSelection = 'single';
+  public tooltipShowDelay = 0;
   columnDefs: any[] = [
     {
       field: 'topic',

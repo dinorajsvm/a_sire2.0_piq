@@ -162,7 +162,7 @@
       <span class="table-header">Chapter Summary </span>
       <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="rowData"
+        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [embedFullWidthRows]="true" [rowData]="rowData"
         (gridReady)="onGridReady($event)">
       </ag-grid-angular>
     </div>
@@ -173,7 +173,7 @@
       <span class="table-header">Photo Repository Summary </span>
       <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="photoRowData"
+        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [embedFullWidthRows]="true" [rowData]="photoRowData"
         [suppressHorizontalScroll]="true">
       </ag-grid-angular>
     </div>
@@ -181,7 +181,7 @@
       <span class="table-header">Last Modified Data Summary</span>
       <ag-grid-angular  style="height: calc(100vh - 429px)" class="ag-theme-balham summaryGrid" [columnDefs]="modifiedColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
-        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="modifiedrowData">
+        [masterDetail]="true" [embedFullWidthRows]="true" [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
       </ag-grid-angular>
     </div>
   </div>
@@ -191,21 +191,21 @@
       <span class="table-header">Certificate Summary</span>
       <ag-grid-angular  style="height: calc(100vh - 429px)" class="ag-theme-balham summaryGrid" [columnDefs]="certificateColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
-        [masterDetail]="true" [embedFullWidthRows]="true" [rowData]="certificateRowData">
+        [masterDetail]="true" [embedFullWidthRows]="true" [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last Sync Summary</span>
       <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
-        [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
+        [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true" [embedFullWidthRows]="true"
         [rowData]="expectedRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
       <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay" [gridOptions]="gridOptions"
         [animateRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
     </div>

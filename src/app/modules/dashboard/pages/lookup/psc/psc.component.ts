@@ -21,6 +21,7 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 export class PscComponent {
   getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
+  public tooltipShowDelay = 0;
   isChecked = true;
   frameworkComponents: any;
   columnDefs: ColDef[] = [

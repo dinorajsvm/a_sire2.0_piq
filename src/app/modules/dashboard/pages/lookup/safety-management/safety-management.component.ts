@@ -20,6 +20,7 @@ export class SafetyManagementComponent implements OnInit {
   selectedIndex: number = 0;
   frameworkComponents: any;
   gridOptions!: GridOptions;
+  public tooltipShowDelay = 0;
 
   columnDefs: ColDef[] = [
     {

@@ -30,6 +30,7 @@
           enableFilter="true"
           [rowData]="rowData"
           [columnDefs]="columnDefs"
+          [tooltipShowDelay]="tooltipShowDelay"
           [defaultColDef]="defaultColDef"
           [gridOptions]="gridOptions"
           (gridReady)="onGridReady($event)"
@@ -44,6 +45,7 @@
           [animateRows]="true"
           [suppressMenuHide]="true"
           [defaultColDef]="defaultColDef"
+          [tooltipShowDelay]="tooltipShowDelay"
           [columnDefs]="selectedColumnDefs"
           [components]="frameworkComponents"
         >

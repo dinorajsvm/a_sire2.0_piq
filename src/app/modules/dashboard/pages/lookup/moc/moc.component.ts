@@ -21,6 +21,7 @@ LicenseManager.setLicenseKey(
 export class MocComponent {
   frameworkComponents: any;
   userDetails: any;
+  public tooltipShowDelay = 0;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,

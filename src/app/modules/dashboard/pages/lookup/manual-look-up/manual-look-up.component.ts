@@ -20,6 +20,7 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 })
 export class ManualLookUpComponent {
   private gridApi!: GridApi;
+  public tooltipShowDelay = 0;
 
   columnDefs: ColDef[] = [
     {

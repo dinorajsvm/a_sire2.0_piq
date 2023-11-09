@@ -10,7 +10,7 @@ export class PromptService {
   constructor(public _dialog: MatDialog) { }
 
   openDialog(config:any, closeCallback:any) { 
-      const dialogRef = this._dialog.open(PromptComponent, {
+      const dialogRef = this._dialog.open(PromptComponent, {panelClass: 'logOut-dialog-container',
         width: config.width ? config.width :'350px',
         data: config
       });

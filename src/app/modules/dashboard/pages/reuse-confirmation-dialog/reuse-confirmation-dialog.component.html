@@ -11,7 +11,7 @@
       <span id="selectedRows"></span>
     </div>
     <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 340px)" [rowData]="rowData"
-      [columnDefs]="columnDefs" [rowSelection]="rowSelection" [defaultColDef]="defaultColDef" (selectionChanged)="onSelectionChanged($event)"
+      [columnDefs]="columnDefs" [rowSelection]="rowSelection" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay" (selectionChanged)="onSelectionChanged($event)"
       (gridReady)="onGridReady($event)" [components]="frameworkComponents">
     </ag-grid-angular>
   </div>

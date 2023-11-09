@@ -17,7 +17,7 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 })
 export class PmsLookupComponent {
   private gridApi!: GridApi;
-
+  public tooltipShowDelay = 0;
   frameworkComponents: any;
   columnDefs: ColDef[] = [
     {

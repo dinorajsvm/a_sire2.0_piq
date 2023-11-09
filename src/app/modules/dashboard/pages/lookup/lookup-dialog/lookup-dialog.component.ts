@@ -25,6 +25,7 @@ export class LookupDialogComponent implements OnInit {
   isChecked = false;
   isViewAll = false;
   frameworkComponents: any;
+  public tooltipShowDelay = 0;
   referenceId: any = '';
   columnDefs: ColDef[] = [
     {

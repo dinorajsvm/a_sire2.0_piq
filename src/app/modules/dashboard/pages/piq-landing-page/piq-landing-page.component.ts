@@ -129,6 +129,7 @@ export class PIQLandingPageComponent implements OnInit {
             onMenuAction: this.deleteRowData.bind(this),
           },
         ],
+        
       },
     },
     {
@@ -175,6 +176,7 @@ export class PIQLandingPageComponent implements OnInit {
   compVslCode: any;
   showNew: boolean = true;
   getWrkFlowUser: any;
+  public tooltipShowDelay = 0;
 
   constructor(
     private router: Router,

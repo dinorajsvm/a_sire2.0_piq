@@ -14,6 +14,7 @@ import { DefaultColDef } from 'src/app/core/constants';
 export class PrDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
+  public tooltipShowDelay = 0;
 
   columnDefs: ColDef[] = [
     { field: 'chkid', headerName: 'CheckList ID', tooltipField: 'chkid' },

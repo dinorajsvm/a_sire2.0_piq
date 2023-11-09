@@ -29,6 +29,7 @@ export class TMSAComponent {
   getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
   isChecked = true;
+  public tooltipShowDelay = 0;
   frameworkComponents: any;
   isShowExternal = false;
   rowExternalData: any[] = [];

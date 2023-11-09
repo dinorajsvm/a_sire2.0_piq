@@ -30,6 +30,7 @@ export class CertificateRepositoryComponent implements OnInit {
   referenceNumber: any;
   userDetails: any;
   frameworkComponents: any;
+  public tooltipShowDelay = 0;
   public isRowMaster: IsRowMaster = (dataItem: any) => {
     return dataItem && dataItem.imagelist && dataItem.imagelist.length > 0;
   };

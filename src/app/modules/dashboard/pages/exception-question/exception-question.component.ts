@@ -20,6 +20,7 @@ export class ExceptionQuestionComponent implements OnInit {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public userDetails: any;
   emptyRemark = '';
+  public tooltipShowDelay = 0;
   getRowdataCount: any = [];
   columnDefs: any[] = [
     {
