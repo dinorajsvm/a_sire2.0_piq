@@ -82,7 +82,7 @@
 
         <div class="col-sm-8 pr-0">
           <div class="row">
-            <div class="col-sm-12 contWrap">
+            <div class="col-sm-12">
               <div class="row" style="justify-content: flex-end;">
                 <div class="col-sm-4">
                   <div class="row" style="flex-direction: column;">
@@ -130,9 +130,14 @@
               </div>
               <div class="row">
                 <div class="col-sm-12" style="padding-top: 8px;">
-                  <textarea id="float-input" autoResize="true" class="w-100" rows="3" cols="30"
-                    placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks"
+                  <textarea id="float-input" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
+                    placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" style="height: 41px;"
                     formControlName="wrkFlowTextArea"></textarea>
+                    <div class="text-right">
+                      <span class="charCount textAreaCharCount">
+                        {{1000 - workFlowTextArea.value.length}} Characters Remaining
+                      </span>
+                    </div>
                 </div>
               </div>
             </div>
@@ -160,7 +165,7 @@
   <div class="row">
     <div class="col-sm-12 padl">
       <span class="table-header">Chapter Summary </span>
-      <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [embedFullWidthRows]="true" [rowData]="rowData"
         (gridReady)="onGridReady($event)">
@@ -171,7 +176,7 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Photo Repository Summary </span>
-      <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [embedFullWidthRows]="true" [rowData]="photoRowData"
         [suppressHorizontalScroll]="true">
@@ -179,7 +184,7 @@
     </div>
     <div class="col-sm-6 padl">
       <span class="table-header">Last Modified Data Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 429px)" class="ag-theme-balham summaryGrid" [columnDefs]="modifiedColumns"
+      <ag-grid-angular  style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid" [columnDefs]="modifiedColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
         [masterDetail]="true" [embedFullWidthRows]="true" [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
       </ag-grid-angular>
@@ -189,14 +194,14 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Certificate Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 429px)" class="ag-theme-balham summaryGrid" [columnDefs]="certificateColumns"
+      <ag-grid-angular  style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid" [columnDefs]="certificateColumns"
         [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
         [masterDetail]="true" [embedFullWidthRows]="true" [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true" [embedFullWidthRows]="true"
         [rowData]="expectedRowData">
@@ -204,7 +209,7 @@
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 429px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay" [gridOptions]="gridOptions"
         [animateRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>

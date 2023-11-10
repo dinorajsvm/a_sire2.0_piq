@@ -100,8 +100,8 @@ export class VesselSelectionDialogComponent {
   enableProceedButton() {
     if (this.userDetails?.cntrlType === 'CNT001') {
       if (
-        this.vesselSelectionForms.value.vesselName != '' &&
-        this.vesselSelectionForms.value.vesselType != '' &&
+        this.vesselSelectionForms.value.vesselName != null &&
+        this.vesselSelectionForms.value.vesselType != null &&
         this.vesselSelectionForms.value.datePick != ''
       ) {
         this.disableProceed = false;
@@ -110,7 +110,7 @@ export class VesselSelectionDialogComponent {
       }
     } else if (this.userDetails?.cntrlType === 'CNT002') {
       if (
-        this.vesselSelectionForms.value.vesselType != '' &&
+        this.vesselSelectionForms.value.vesselType != null &&
         this.vesselSelectionForms.value.datePick != ''
       ) {
         this.disableProceed = false;

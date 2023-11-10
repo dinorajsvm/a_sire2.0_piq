@@ -1,8 +1,7 @@
 <div class="prContentWrap">
   <div class="col-sm-12 topBarWrap">
     <div class="row">
-      <div class="col-sm-2"
-        style="display: flex;align-items: center;white-space: nowrap;">
+      <div class="col-sm-2" style="display: flex;align-items: center;white-space: nowrap;">
         <label class="charCount" style="font-size: 12px; font-weight: 500">
           Checklist Instance ID
         </label>
@@ -18,20 +17,28 @@
       </div>
 
       <div class="col-sm-3 text-right" style="padding: 7px 15px;white-space: nowrap;">
-        <span class="expColWrap charCount" (click)="toggleAllExpanded()">
-          {{allExpanded ? "Collapse All" : "Expand All"}}
-        </span>
-        <button mat-button class="downloadAllBtn" matTooltip="Download All Images" (click)="downloadAll()">
-          <i class="fa fa-arrow-circle-o-down icn" style="font-size: 18px;color: white"></i>
-        </button>
-        <img src="assets/question/reset-password.svg" class="defNameIcn" style="height: 25px;width: 25px;margin-left: 5px;"
-          matTooltip="Set Default Name To All Images" (click)="resetAllImageFilenames(listDatas)" />
-        <button mat-button class="save" type="submit" (click)="savePhoto()" [disabled]="invalidImg">Save</button>
+        <div class="row" style="justify-content: end;">
+          <div style="display: flex;align-items: center;" (click)="toggleAllExpanded()">
+            <mat-icon style="margin-right: 3px;font-size: 20px;margin-top: 2px;">
+              {{ allExpanded ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+            <span class="expColWrap charCount" >
+              {{allExpanded ? "Collapse All" : "Expand All"}}
+            </span>
+          </div>
+          <button mat-button class="downloadAllBtn" matTooltip="Download All Images" (click)="downloadAll()">
+            <i class="fa fa-arrow-circle-o-down icn" style="font-size: 18px;color: white"></i>
+          </button>
+          <img src="assets/question/reset-password.svg" class="defNameIcn"
+            style="height: 25px;width: 25px;margin-left: 5px;" matTooltip="Set Default Name To All Images"
+            (click)="resetAllImageFilenames(listDatas)" />
+          <button mat-button class="save" type="submit" (click)="savePhoto()" [disabled]="invalidImg">Save</button>
+        </div>
       </div>
     </div>
   </div>
   <div class="photoContents">
-  
+
     <div class="col-sm-12" (drop)="handleDrop($event)" (dragover)="handleDragOver($event)"
       (dragleave)="handleDragLeave($event)">
       <div class="row" *ngFor="let head of listDatas; let i = index">
@@ -94,8 +101,9 @@
                       [class.nameHighlight]="img?.formattedName!=img.formattedDefName"
                       (blur)="updateImageName(subHead, imgIndex)" />
                     <span class="charCount" style="font-size: 10px;font-weight: 600;">.{{img.formattedExtension}}</span>
-                    <img src="assets/question/reset-password.svg" class="defaultNameImg" 
-                      (click)="setDefaultName(img, img.defaultImageName,img.formattedDefName)" matTooltip="Set Default Image Name" />
+                    <img src="assets/question/reset-password.svg" class="defaultNameImg"
+                      (click)="setDefaultName(img, img.defaultImageName,img.formattedDefName)"
+                      matTooltip="Set Default Image Name" />
                   </div>
                   <!-- <div class="img_name">
                     <input [(ngModel)]="img.localfilename"
@@ -106,7 +114,7 @@
                       (click)="setDefaultName(img, img.defaultImageName,img.formattedDefName)" matTooltip="Set Default Image Name" />
                   </div> -->
                 </div>
-                
+
 
               </div>
             </div>

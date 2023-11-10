@@ -136,6 +136,7 @@ export class PiqReportComponent implements OnInit {
   lookUpEnable: boolean = false;
   isLeftIcon = true;
   saveMappedCertificateData: any;
+  getSearch: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -152,7 +153,7 @@ export class PiqReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    
+
     this.getworkflowStatus();
     if (this.route.snapshot.paramMap.get('type') == 'new') {
       this.saveWorkFlowAction();
@@ -161,6 +162,13 @@ export class PiqReportComponent implements OnInit {
     this.getGuideLinesData();
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
+    });
+    this.BudgetService.getSearch().subscribe((res: any) => {
+      console.log('setSearch', res);
+      this.getSearch = res;
+      if (this.getSearch == false) {
+        this.onSearchTextChanged('');
+      }
     });
 
     this.onTabChanged(event);
@@ -1021,7 +1029,7 @@ export class PiqReportComponent implements OnInit {
     }
     this.subHeaderCount();
   }
-  expandAllMainquestions(event:any,quest: any,index:any) {
+  expandAllMainquestions(event: any, quest: any, index: any) {
     quest['expand' + index] = !quest['expand' + index];
   }
 
@@ -1432,7 +1440,7 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result !== 'Reset' ) {
+      if (result !== 'Reset') {
         const payload = {
           instanceid: this.referenceNumber,
           questionid: questionId,

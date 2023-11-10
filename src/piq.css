@@ -339,6 +339,10 @@
   position: relative;
   top: 20px;
 }
+
+::ng-deep .ag-icon{
+cursor: pointer;
+}
 /* AG-GRID STYLE END */
 
 /* STYLES FOR TABLET START */

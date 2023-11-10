@@ -23,6 +23,7 @@ export class BudgetService {
   private getViewMode = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
   private getPhotoRepGridData = new Subject<any>();
+  private getSearchStatus = new Subject<any>();
   private getCertificateGridDataList = new BehaviorSubject<any>(0);
   private getModifiedDataList = new Subject<any>();
   private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
@@ -53,6 +54,13 @@ export class BudgetService {
 
   getImgCount() {
     return this.getImageCount.asObservable();
+  }
+  setSearch(message: any) {
+    this.getSearchStatus.next(message);
+  }
+
+  getSearch() {
+    return this.getSearchStatus.asObservable();
   }
 
   GetBudgetRate(stateData: any) {

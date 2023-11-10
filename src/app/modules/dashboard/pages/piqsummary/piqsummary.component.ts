@@ -78,21 +78,21 @@ export class PIQSummaryComponent implements OnInit {
 
     {
       field: 'totalQuestion',
-      headerName: 'Total Questions',
+      headerName: 'Total Sub Questions',
       tooltipField: 'totalQuestion',
       width: 160,
       flex: 1,
     },
     {
       field: 'filledQuestion',
-      headerName: 'Filled Question',
+      headerName: 'Filled Sub Question',
       tooltipField: 'filledQuestion',
       width: 160,
       flex: 1,
     },
     {
       field: 'pendingQuestion',
-      headerName: 'Pending Question',
+      headerName: 'Pending Sub Question',
       tooltipField: 'pendingQuestion',
       width: 160,
       flex: 1,
