@@ -17,7 +17,7 @@
   max-width: 49%;
 }
 ::ng-deep .sidebar-content-open ::ng-deep .wte-spc {
-white-space: nowrap;
+  white-space: nowrap;
 }
 ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
   border-top-width: 1px !important;
@@ -333,6 +333,13 @@ white-space: nowrap;
   padding: 0 15px !important;
 }
 /* CARD STYLE END */
+
+/* AG-GRID STYLE START */
+::ng-deep .ag-overlay-no-rows-center {
+  position: relative;
+  top: 20px;
+}
+/* AG-GRID STYLE END */
 
 /* STYLES FOR TABLET START */
 @media only screen and (max-width: 770px) {
