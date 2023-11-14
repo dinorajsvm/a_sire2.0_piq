@@ -920,6 +920,11 @@
   color: white;
   font-size: 12px;
 }
+@media screen and (max-width: 1170px) {
+  .vesselParticuler label {
+    font-size: 11px !important;
+  }
+} 
 
 p {
   padding-left: 5px;
@@ -1237,12 +1242,14 @@ legend {
 }
 .flowDetails span {
   font-size: 12px;
+  width: 200px;
+  word-break: break-all;
 }
 .statusWrapper {
   background: white;
   border-radius: 0px 5px 5px 5px;
   padding: 10px 15px;
-  max-height: 270px;
+  max-height: 300px;
   width: 250px;
   transition: width 500ms ease-in-out;
   overflow: auto;

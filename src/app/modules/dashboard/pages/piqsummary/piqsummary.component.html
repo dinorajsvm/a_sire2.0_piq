@@ -87,7 +87,8 @@
                 <div class="col-sm-4">
                   <div class="row" style="flex-direction: column;">
                     <div class="col-sm-12" style="padding-right: 0;white-space: nowrap;">
-                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date: </span><span class="charCount">{{getPlannedSubDate}}</span>
+                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date: </span><span
+                        class="charCount">{{getPlannedSubDate}}</span>
                     </div>
                   </div>
                 </div>
@@ -106,21 +107,21 @@
                   <div [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
                     <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
                       <button mat-button class="sub" type="submit" (click)="onSubmit('submit',$event)"
-                        [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'sub' : 'disableSyncBtn'">
+                        [disabled]="disableSubFlowBtn"  [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableSyncBtn'">
                         Submit
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                     </div>
                     <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
                       <button mat-button class="rsn" (click)="onWorkflow('reassign',$event)" type="submit"
-                        [ngClass]="!disableFlowBtn ? 'rsn' : 'disableSyncBtn'" [disabled]="disableFlowBtn">
+                        [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'rsn' : 'disableSyncBtn'" >
                         Reassign
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
                     </div>
                     <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
                       <button mat-button class="apr" (click)="onWorkflow('approve',$event)" type="submit"
-                        [disabled]="disableFlowBtn" [ngClass]="!disableFlowBtn ? 'apr' : 'disableSyncBtn'">
+                        [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'apr' : 'disableSyncBtn'">
                         Approve
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/APR.svg" />
@@ -133,11 +134,11 @@
                   <textarea id="float-input" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
                     placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" style="height: 41px;"
                     formControlName="wrkFlowTextArea"></textarea>
-                    <div class="text-right">
-                      <span class="charCount textAreaCharCount">
-                        {{1000 - workFlowTextArea.value.length}} Characters Remaining
-                      </span>
-                    </div>
+                  <div class="text-right">
+                    <span class="charCount textAreaCharCount">
+                      {{1000 - workFlowTextArea.value.length}} Characters Remaining
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -165,10 +166,10 @@
   <div class="row">
     <div class="col-sm-12 padl">
       <span class="table-header">Chapter Summary </span>
-      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [embedFullWidthRows]="true" [rowData]="rowData"
-        (gridReady)="onGridReady($event)">
+        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
+        [embedFullWidthRows]="true" [rowData]="rowData" (gridReady)="onGridReady($event)">
       </ag-grid-angular>
     </div>
   </div>
@@ -176,17 +177,18 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Photo Repository Summary </span>
-      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [embedFullWidthRows]="true" [rowData]="photoRowData"
-        [suppressHorizontalScroll]="true">
+        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
+        [embedFullWidthRows]="true" [rowData]="photoRowData" [suppressHorizontalScroll]="true">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl">
       <span class="table-header">Last Modified Data Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid" [columnDefs]="modifiedColumns"
-        [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
-        [masterDetail]="true" [embedFullWidthRows]="true" [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
+      <ag-grid-angular style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid"
+        [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
+        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
+        [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
       </ag-grid-angular>
     </div>
   </div>
@@ -194,24 +196,25 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Certificate Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid" [columnDefs]="certificateColumns"
-        [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
-        [masterDetail]="true" [embedFullWidthRows]="true" [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
+      <ag-grid-angular style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid"
+        [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
+        [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
+        [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
-        [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true" [embedFullWidthRows]="true"
-        [rowData]="expectedRowData">
+        [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true"
+        [embedFullWidthRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular  style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay" [gridOptions]="gridOptions"
-        [animateRows]="true" [rowData]="expectedRowData">
+      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay"
+        [gridOptions]="gridOptions" [animateRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
     </div>
   </div>

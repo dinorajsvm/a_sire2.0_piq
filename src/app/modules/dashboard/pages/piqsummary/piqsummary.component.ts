@@ -153,7 +153,8 @@ export class PIQSummaryComponent implements OnInit {
   getDate: any;
   getWorkFlowAction: any;
   getWrkFlowId: any;
-  getWrkFlowRank: any;
+  getSubWrkFlowRank: any;
+  getResAprWrkFlowRank: any;
   setFlowAction: any;
   getRank: any;
   submitData: any;
@@ -254,7 +255,8 @@ export class PIQSummaryComponent implements OnInit {
   lastModifiedData: any;
   syncedData: any[] = [];
   expectedRowData: any[] = [];
-  disableFlowBtn: boolean = true;
+  disableSubFlowBtn: boolean = false;
+  disableResAprFlowBtn: boolean = true;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -426,13 +428,24 @@ export class PIQSummaryComponent implements OnInit {
       let val = res.workflowmaster;
       val.forEach((item: any) => {
         this.getWrkFlowId = item.wfid;
-        this.getWrkFlowRank = item.submitter;
+        this.getSubWrkFlowRank = item.submitter;
+        this.getResAprWrkFlowRank = item.approver;
+        console.log("this.getResAprWrkFlowRank",this.getResAprWrkFlowRank);
+        
       });
-      if (this.getWrkFlowRank == this.getRank) {
-        this.disableFlowBtn = false;
+      // if (this.getSubWrkFlowRank == this.getRank) {
+      //   this.disableSubFlowBtn = false;
+      // } else {
+      //   this.disableSubFlowBtn = true;
+      // }
+      if (this.getResAprWrkFlowRank == this.getRank) {
+        console.log("this.getResAprWrkFlowRank",this.getResAprWrkFlowRank);
+        
+        this.disableResAprFlowBtn = false;
       } else {
-        this.disableFlowBtn = true;
+        this.disableResAprFlowBtn = true;
       }
+    
     });
   }
 
@@ -567,6 +580,7 @@ export class PIQSummaryComponent implements OnInit {
               wfaction: 'SUB',
             };
             this.saveWorkFlowAction(this.setFlowAction);
+            this.disableSubFlowBtn = true;
           } else {
             this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
           }

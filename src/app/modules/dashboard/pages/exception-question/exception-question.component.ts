@@ -118,7 +118,7 @@ export class ExceptionQuestionComponent implements OnInit {
   onSubmit() {
     this.emptyRemark = this.rowData.find((x) => x.remark === '');
     if (this.emptyRemark) {
-      this._snackBarService.loadSnackBar('Remark Mandatory.', colorCodes.ERROR);
+      this._snackBarService.loadSnackBar('Remark Mandatory', colorCodes.ERROR);
       return;
     }
     const payload = {

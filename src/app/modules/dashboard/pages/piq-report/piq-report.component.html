@@ -14,7 +14,7 @@
         <span class="sNumber">Ref ID: {{ referenceNumber }}</span>
       </div>
       <div class="col-sm-1 text-right topBtnWrapper" style="padding: 0">
-        <button matTooltip="Edit" [disabled]="enableEditMode" [class.disabledEdit]="enableEditMode" mat-button
+        <button matTooltip="Edit" [disabled]="disableEditMode" [class.disabledEdit]="disableEditMode" mat-button
           class="edit" (click)="edit()">
           <img src="assets/question/edit.svg" />
         </button>
@@ -40,8 +40,8 @@
 
         <div class="flowDetails">
           <span class="flowPeriod">{{data.submitteddate | date : "dd/MM/yyyy HH:mm"}}</span>
-          <span>Mark Waugh</span>
-          <span>Director</span>
+          <span>{{ data.submitteduser }}</span>
+          <span>{{ data.rankname }}</span>
           <div class="flowStatus" [ngClass]="{'wrkfl-INP': data.wfstatus === 'Inprogress',
             'wrkfl-SUB': data.wfstatus === 'Submitted',
             'wrkfl-RSN': data.wfstatus === 'ReAssigned',
@@ -105,7 +105,7 @@
               <span class="counts charCount" (click)="showpendQues()">Pending Questions: {{ pendingCount }}</span>
               <span class="counts charCount" (click)="ShowAllQuest()">Show All Questions</span>
             </div>
-            <div class="questIndicator">
+            <div class="questIndicator" *ngIf="getOrigination==='CNT002' && userDetails?.cntrlType === 'CNT002'">
               <div class="indicators" *ngIf="userDetails?.cntrlType === 'CNT002'">
                 <span class="indCol shore"></span>
                 <span class="charCount">Shore</span>
@@ -117,6 +117,12 @@
               <div class="indicators">
                 <span class="indCol presetChanged"></span>
                 <span class="charCount">Changed Preset Question</span>
+              </div>
+            </div>
+            <div class="questIndicator" *ngIf="getOrigination==='CNT001' && userDetails?.cntrlType === 'CNT002'">
+              <div class="indicators">
+                <span class="indCol shore"></span>
+                <span class="charCount">All Question</span>
               </div>
             </div>
           </div>
@@ -941,7 +947,7 @@
                     <div class="row">
                       <div class="col-sm-12 guidLines">
                         <div class="row">
-                          <div class="col-sm-10 descTitle">GuidLines</div>
+                          <div class="col-sm-10 descTitle">GuideLines</div>
                           <div class="col-sm-2 text-right" style="padding-right: 10px">
                             <mat-icon (click)="closeDesc()">close</mat-icon>
                           </div>
@@ -1101,6 +1107,6 @@
     </mat-tab-group>
   </div>
   <div class="col-sm-12 versPanel">
-    <span class="charCount">Version: 1.1</span>
+    <span class="charCount">Version: 1.0</span>
   </div>
 </div>

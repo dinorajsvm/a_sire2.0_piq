@@ -124,7 +124,7 @@ export class PiqReportComponent implements OnInit {
   getWrkFlowId: any;
   getWrkFlSummaryData: any;
   showWorkSpace: boolean = false;
-  enableEditMode: boolean = true;
+  disableEditMode: boolean = true;
   initialMultiAns = true;
   selectedMultiAns = false;
   showPendingQuest: boolean = false;
@@ -157,6 +157,8 @@ export class PiqReportComponent implements OnInit {
     this.getworkflowStatus();
     if (this.route.snapshot.paramMap.get('type') == 'new') {
       this.saveWorkFlowAction();
+    }else{
+      this.getWrkFlSummary();
     }
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
@@ -241,14 +243,6 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  getWrkFlSummary() {
-    this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
-      (res: any) => {
-        this.getWrkFlSummaryData = res.response;
-      }
-    );
-  }
-
   getTopBarDatas() {
     this.BudgetService.getTopBarData(this.vesselCode).subscribe((res: any) => {
       const data = res.response;
@@ -278,6 +272,15 @@ export class PiqReportComponent implements OnInit {
         this.getWrkFlowId = item.wfid;
       });
     });
+  }
+  getWrkFlSummary() {
+    this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
+      (res: any) => {
+        console.log("res",res);
+        
+        this.getWrkFlSummaryData = res.response;
+      }
+    );
   }
   arrayObj: any[] = [];
   getGuideLinesData() {
@@ -362,6 +365,9 @@ export class PiqReportComponent implements OnInit {
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.viewMode = true;
       }
+      // if (this.route.snapshot.paramMap.get('type') == 'view') {
+      //   this.viewMode = true;
+      // }
       this.getAllDatas = object;
       if (this.getAllDatas) {
         this.selectValue(
@@ -2809,14 +2815,20 @@ export class PiqReportComponent implements OnInit {
           return flag;
         }
       } else if (this.userDetails?.cntrlType === 'CNT002') {
-        var flag =
-          entrylogin === 'Vessel' ||
-          entrylogin === 'Auto or Preset' ||
-          entrylogin === 'Preset' ||
-          entrylogin === 'Hybrid';
-        this.locationCode = this.userDetails.userData.mdata.appInfo.vesselCode;
-        localStorage.setItem('locationCode', this.locationCode);
-        return flag;
+        if (this.getOrigination == 'CNT001') {
+          var flag = false;
+          return flag;
+        } else {
+          var flag =
+            entrylogin === 'Vessel' ||
+            entrylogin === 'Auto or Preset' ||
+            entrylogin === 'Preset' ||
+            entrylogin === 'Hybrid';
+          this.locationCode =
+            this.userDetails.userData.mdata.appInfo.vesselCode;
+          localStorage.setItem('locationCode', this.locationCode);
+          return flag;
+        }
       } else {
         return undefined;
       }
@@ -2839,14 +2851,21 @@ export class PiqReportComponent implements OnInit {
   }
 
   edit() {
+    // if (
+    //   this.route.snapshot.paramMap.get('type') == 'view' &&
+    //   this.getStatus != 'Approved'
+    // ) {
+    //   this.viewMode = false;
+    //   this.disableEditMode = false;
+    // } else 
     if (
       this.route.snapshot.paramMap.get('type') == 'view' &&
-      this.getStatus != 'Approved'
+      this.getStatus == 'Submitted'
     ) {
-      this.viewMode = false;
-      this.enableEditMode = false;
+      this.viewMode = true;
+      this.disableEditMode = true;
     } else {
-      this.enableEditMode = true;
+      this.disableEditMode = false;
     }
   }
 

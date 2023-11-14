@@ -263,7 +263,7 @@ export class PIQLandingPageComponent implements OnInit {
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {
-      this._snackBarService.loadSnackBar('Form Deleted', colorCodes.INFO);
+      this._snackBarService.loadSnackBar('Form Deleted Successfully', colorCodes.INFO);
       this.getLndPgDatas();
     });
   }
