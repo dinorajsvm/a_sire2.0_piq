@@ -473,6 +473,8 @@ export class PIQSummaryComponent implements OnInit {
       } else {
         this.quickNotesInput = res.quicknotes;
       }
+      console.log("1111",res);
+      
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       const data = JSON.parse(res.lastMod);
@@ -621,7 +623,8 @@ export class PIQSummaryComponent implements OnInit {
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
-    if (type != 'syncToStore') {
+    
+    if (type != 'syncToStore' ) {
       this.BudgetService.setEnableViewMode(this.enableViewMode);
     }
     event.preventDefault();

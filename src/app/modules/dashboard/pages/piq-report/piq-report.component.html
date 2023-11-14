@@ -116,13 +116,19 @@
               </div>
               <div class="indicators">
                 <span class="indCol presetChanged"></span>
-                <span class="charCount">Changed Preset Question</span>
+                <span class="charCount">Changed Preset Questions</span>
               </div>
             </div>
             <div class="questIndicator" *ngIf="getOrigination==='CNT001' && userDetails?.cntrlType === 'CNT002'">
               <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">All Question</span>
+              </div>
+            </div>
+            <div class="questIndicator" *ngIf="getOrigination==='CNT002' && userDetails?.cntrlType === 'CNT001' && getStatus==='Inprogress'">
+              <div class="indicators">
+                <span class="indCol shore"></span>
+                <span class="charCount">Ship & Preset</span>
               </div>
             </div>
           </div>

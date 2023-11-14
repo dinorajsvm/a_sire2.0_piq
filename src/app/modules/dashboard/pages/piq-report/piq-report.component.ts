@@ -2865,6 +2865,7 @@ export class PiqReportComponent implements OnInit {
       this.viewMode = true;
       this.disableEditMode = true;
     } else {
+      this.viewMode = false;
       this.disableEditMode = false;
     }
   }
