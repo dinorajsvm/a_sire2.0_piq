@@ -38,6 +38,7 @@ export class BudgetService {
   private getVslCode = new Subject<any>();
   private getExcepData = new Subject<any>();
   private getTabIndexCount = new Subject<any>();
+  private hideEditButton = new Subject<any>();
 
   constructor(private client: HttpClient) {}
 
@@ -54,6 +55,14 @@ export class BudgetService {
 
   getImgCount() {
     return this.getImageCount.asObservable();
+  }
+
+  setEditVisible(message: any) {
+    this.hideEditButton.next(message);
+  }
+
+  getEditVisible() {
+    return this.hideEditButton.asObservable();
   }
   setSearch(message: any) {
     this.getSearchStatus.next(message);

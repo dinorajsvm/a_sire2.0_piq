@@ -131,8 +131,9 @@
               </div>
               <div class="row">
                 <div class="col-sm-12" style="padding-top: 8px;">
-                  <textarea id="float-input" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
-                    placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" style="height: 41px;"
+                  <span class="table-header">Add Remarks</span><span style="color: red;"> *</span>
+                  <textarea id="float-input" id="remarks" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
+                    placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" style="height: 41px;padding: 0 5px;"
                     formControlName="wrkFlowTextArea"></textarea>
                   <div class="text-right">
                     <span class="charCount textAreaCharCount">

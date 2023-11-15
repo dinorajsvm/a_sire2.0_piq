@@ -144,14 +144,17 @@ mat-card-content {
   width: 100%;
 }
 .contWrap {
-  height: 91px;
+  height: 95px;
   margin-bottom: 8px;
 }
 
 mat-card-header {
   padding: 0 !important;
 }
-
+.remError{
+  border: 1px solid red;
+  border-radius: 3px;
+}
 .sumHeading {
   padding: 0 10px;
   width: 100%;

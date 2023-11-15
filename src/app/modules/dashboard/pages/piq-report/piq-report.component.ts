@@ -135,6 +135,7 @@ export class PiqReportComponent implements OnInit {
   getExceptionGridData: any;
   lookUpEnable: boolean = false;
   isLeftIcon = true;
+  hideEditbutton = false;
   saveMappedCertificateData: any;
   getSearch: any;
   constructor(
@@ -157,16 +158,23 @@ export class PiqReportComponent implements OnInit {
     this.getworkflowStatus();
     if (this.route.snapshot.paramMap.get('type') == 'new') {
       this.saveWorkFlowAction();
-    }else{
+    } else {
       this.getWrkFlSummary();
     }
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       this.viewMode = res;
+      if (this.userDetails?.cntrlType === 'CNT001') {
+        this.disableEditMode = false;
+      } else {
+        this.disableEditMode = res;
+      }
+    });
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      this.hideEditbutton = res;
     });
     this.BudgetService.getSearch().subscribe((res: any) => {
-      console.log('setSearch', res);
       this.getSearch = res;
       if (this.getSearch == false) {
         this.onSearchTextChanged('');
@@ -276,8 +284,6 @@ export class PiqReportComponent implements OnInit {
   getWrkFlSummary() {
     this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
       (res: any) => {
-        console.log("res",res);
-        
         this.getWrkFlSummaryData = res.response;
       }
     );
@@ -365,9 +371,6 @@ export class PiqReportComponent implements OnInit {
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.viewMode = true;
       }
-      // if (this.route.snapshot.paramMap.get('type') == 'view') {
-      //   this.viewMode = true;
-      // }
       this.getAllDatas = object;
       if (this.getAllDatas) {
         this.selectValue(
@@ -2815,7 +2818,11 @@ export class PiqReportComponent implements OnInit {
           return flag;
         }
       } else if (this.userDetails?.cntrlType === 'CNT002') {
-        if (this.getOrigination == 'CNT001') {
+        // if(this.getStatus == 'Submitted'){
+        //   var flag = false;
+        //   return flag;
+        // }
+        if (this.getOrigination == 'CNT001' || this.getStatus == 'Submitted') {
           var flag = false;
           return flag;
         } else {
@@ -2851,19 +2858,29 @@ export class PiqReportComponent implements OnInit {
   }
 
   edit() {
-    // if (
-    //   this.route.snapshot.paramMap.get('type') == 'view' &&
-    //   this.getStatus != 'Approved'
-    // ) {
-    //   this.viewMode = false;
-    //   this.disableEditMode = false;
-    // } else 
-    if (
-      this.route.snapshot.paramMap.get('type') == 'view' &&
-      this.getStatus == 'Submitted'
-    ) {
-      this.viewMode = true;
-      this.disableEditMode = true;
+    if (this.route.snapshot.paramMap.get('type') == 'view') {
+      if (
+        this.getOrigination == 'CNT001' &&
+        this.userDetails?.cntrlType === 'CNT002'
+      ) {
+        this.disableEditMode = true;
+      } else if (
+        this.userDetails?.cntrlType === 'CNT002' &&
+        this.getStatus != 'Submitted'
+      ) {
+        this.viewMode = false;
+        this.disableEditMode = false;
+      } else if (
+        (this.getOrigination == 'CNT001' || this.getOrigination == 'CNT002') &&
+        this.userDetails?.cntrlType === 'CNT001' &&
+        this.getStatus != 'Approved'
+      ) {
+        this.viewMode = false;
+        this.disableEditMode = false;
+      } else {
+        this.viewMode = true;
+        this.disableEditMode = true;
+      }
     } else {
       this.viewMode = false;
       this.disableEditMode = false;

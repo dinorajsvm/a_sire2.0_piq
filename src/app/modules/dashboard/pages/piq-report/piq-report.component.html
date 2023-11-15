@@ -14,7 +14,7 @@
         <span class="sNumber">Ref ID: {{ referenceNumber }}</span>
       </div>
       <div class="col-sm-1 text-right topBtnWrapper" style="padding: 0">
-        <button matTooltip="Edit" [disabled]="disableEditMode" [class.disabledEdit]="disableEditMode" mat-button
+        <button matTooltip="Edit" [disabled]="disableEditMode" *ngIf="getStatus!='Approved'" [class.hideEdit]="hideEditbutton" [class.disabledEdit]="disableEditMode" mat-button
           class="edit" (click)="edit()">
           <img src="assets/question/edit.svg" />
         </button>

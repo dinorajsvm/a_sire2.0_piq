@@ -163,6 +163,7 @@ export class PIQSummaryComponent implements OnInit {
   getVesselCode: any;
   photoRepImgCounts: any;
   getPlannedSubDate: any;
+  getOriginator: any;
   // dateFormat(event: any) {
   //   return this.datePipe.transform(event.crdate, 'dd-MMM-yyyy HH:mm:ss');
   // }
@@ -220,17 +221,17 @@ export class PIQSummaryComponent implements OnInit {
     },
   ];
 
-  tabChange(tabRef:any){
-    if(tabRef=='PIQ'){
+  tabChange(tabRef: any) {
+    if (tabRef == 'PIQ') {
       const tab = 1;
       this.BudgetService.setTabChangeData(tab);
-    }else if(tabRef=='PR'){
+    } else if (tabRef == 'PR') {
       const tab = 2;
       this.BudgetService.setTabChangeData(tab);
-    }else if(tabRef=='E'){
+    } else if (tabRef == 'E') {
       const tab = 4;
       this.BudgetService.setTabChangeData(tab);
-    }else if(tabRef=='C'){
+    } else if (tabRef == 'C') {
       const tab = 3;
       this.BudgetService.setTabChangeData(tab);
     }
@@ -256,7 +257,7 @@ export class PIQSummaryComponent implements OnInit {
   syncedData: any[] = [];
   expectedRowData: any[] = [];
   disableSubFlowBtn: boolean = false;
-  disableResAprFlowBtn: boolean = true;
+  disableResAprFlowBtn: boolean = false;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -297,16 +298,14 @@ export class PIQSummaryComponent implements OnInit {
         res.forEach((data: any) => {
           let questions: any[] = [];
           let questions1: any[] = [];
-          let totalQuest:any[]=[]
-          let status:any;
+          let totalQuest: any[] = [];
+          let status: any;
           let totalQuestCount = 0;
           let filledQuestionCount = 0;
           let answerQuestionCount = 0;
           data.values.forEach((filledQus: any) => {
             filledQus.question.forEach((question: any) => {
-              totalQuest.push(
-                question.subQuestion.length
-              );
+              totalQuest.push(question.subQuestion.length);
               questions.push(
                 question.subQuestion.filter((x: any) => x.answer !== '').length
               );
@@ -324,20 +323,19 @@ export class PIQSummaryComponent implements OnInit {
           questions1.forEach((count: any) => {
             answerQuestionCount = answerQuestionCount + count;
           });
-          if(totalQuestCount-filledQuestionCount==0){
-            status="Completed"
-          }
-          else{
-            status="Inprogress"
+          if (totalQuestCount - filledQuestionCount == 0) {
+            status = 'Completed';
+          } else {
+            status = 'Inprogress';
           }
           const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
           this.rowData.push({
             serialNumber: data.id,
             topics: data.header.replace(pattern, ''),
             status: status,
-            totalQuestion:totalQuestCount,
+            totalQuestion: totalQuestCount,
             filledQuestion: filledQuestionCount,
-            pendingQuestion: totalQuestCount-filledQuestionCount,
+            pendingQuestion: totalQuestCount - filledQuestionCount,
             lastModified: '04-Sep-2023',
           });
           // this.gridApi!.setRowData(this.rowData);
@@ -363,7 +361,6 @@ export class PIQSummaryComponent implements OnInit {
           (row: any) => row.remark !== ''
         );
         this.remarksCounts = rowsWithRemarks.length;
-        
       }
     });
 
@@ -406,6 +403,9 @@ export class PIQSummaryComponent implements OnInit {
     }
   }
   onWorkflow(type?: any, event?: any) {
+    if(type == 'approve'){
+      this.BudgetService.setEditVisible(this.hideEdit);
+    }
     this.getAnswerValue(type);
     if (type == 'reassign') {
       this._snackBarService.loadSnackBar(
@@ -430,22 +430,17 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId = item.wfid;
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
-        console.log("this.getResAprWrkFlowRank",this.getResAprWrkFlowRank);
-        
       });
-      // if (this.getSubWrkFlowRank == this.getRank) {
-      //   this.disableSubFlowBtn = false;
-      // } else {
-      //   this.disableSubFlowBtn = true;
-      // }
+      if (this.getSubWrkFlowRank == this.getRank) {
+        this.disableSubFlowBtn = false;
+      } else {
+        this.disableSubFlowBtn = true;
+      }
       if (this.getResAprWrkFlowRank == this.getRank) {
-        console.log("this.getResAprWrkFlowRank",this.getResAprWrkFlowRank);
-        
         this.disableResAprFlowBtn = false;
       } else {
         this.disableResAprFlowBtn = true;
       }
-    
     });
   }
 
@@ -473,10 +468,9 @@ export class PIQSummaryComponent implements OnInit {
       } else {
         this.quickNotesInput = res.quicknotes;
       }
-      console.log("1111",res);
-      
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
+      this.getOriginator = res.orginator;
       const data = JSON.parse(res.lastMod);
       this.modifiedrowData = data;
     });
@@ -486,7 +480,7 @@ export class PIQSummaryComponent implements OnInit {
       this.userDetails.companyCode,
       this.getVesselCode,
       this.referenceNumber
-    ).subscribe((res: any) => {      
+    ).subscribe((res: any) => {
       this.certificateRowData =
         res && res.response && res.response.piqmappinglist
           ? res.response.piqmappinglist
@@ -540,33 +534,53 @@ export class PIQSummaryComponent implements OnInit {
 
           this.getSSDatas();
         } else if (type === 'reassign') {
-          this.setFlowAction = 'RSN';
-          ansPayload = {
-            instanceid: this.referenceNumber,
-            action: 'SS',
-            user: this.userDetails.userCode,
-            tenantIdentifier: '',
-            answerdata: this.submitData,
-            locationcode: this.locationCode,
-            mainQuestCheckbox: pendingResult,
-            lastmodifieddata: JSON.stringify(this.modifiedrowData),
-            wfaction: 'RSN',
-          };
-          this.saveWorkFlowAction(this.setFlowAction);
+          if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
+            this.setFlowAction = 'RSN';
+            ansPayload = {
+              instanceid: this.referenceNumber,
+              action: 'SS',
+              user: this.userDetails.userCode,
+              tenantIdentifier: '',
+              answerdata: this.submitData,
+              locationcode: this.locationCode,
+              mainQuestCheckbox: pendingResult,
+              lastmodifieddata: JSON.stringify(this.modifiedrowData),
+              wfaction: 'RSN',
+            };
+            let remarks = document.getElementById('remarks');
+            remarks?.classList.remove('remError');
+            this.disableResAprFlowBtn = true;
+            this.saveWorkFlowAction(this.setFlowAction);
+          } else {
+            let remarks = document.getElementById('remarks');
+            remarks?.classList.add('remError');
+            this.disableResAprFlowBtn = false;
+            this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
+          }
         } else if (type === 'approve') {
-          this.setFlowAction = 'APR';
-          ansPayload = {
-            instanceid: this.referenceNumber,
-            action: 'SS',
-            user: this.userDetails.userCode,
-            tenantIdentifier: '',
-            answerdata: this.submitData,
-            locationcode: this.locationCode,
-            mainQuestCheckbox: pendingResult,
-            lastmodifieddata: JSON.stringify(this.modifiedrowData),
-            wfaction: 'APR',
-          };
-          this.saveWorkFlowAction(this.setFlowAction);
+          if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
+            this.setFlowAction = 'APR';
+            ansPayload = {
+              instanceid: this.referenceNumber,
+              action: 'SS',
+              user: this.userDetails.userCode,
+              tenantIdentifier: '',
+              answerdata: this.submitData,
+              locationcode: this.locationCode,
+              mainQuestCheckbox: pendingResult,
+              lastmodifieddata: JSON.stringify(this.modifiedrowData),
+              wfaction: 'APR',
+            };
+            let remarks = document.getElementById('remarks');
+            remarks?.classList.remove('remError');
+            this.disableResAprFlowBtn = true;
+            this.saveWorkFlowAction(this.setFlowAction);
+          } else {
+            let remarks = document.getElementById('remarks');
+            remarks?.classList.add('remError');
+            this.disableResAprFlowBtn = false;
+            this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
+          }
         } else if (type === 'submit') {
           if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
             this.setFlowAction = 'SUB';
@@ -581,15 +595,18 @@ export class PIQSummaryComponent implements OnInit {
               lastmodifieddata: JSON.stringify(this.modifiedrowData),
               wfaction: 'SUB',
             };
+            let remarks = document.getElementById('remarks');
+            remarks?.classList.remove('remError');
             this.saveWorkFlowAction(this.setFlowAction);
             this.disableSubFlowBtn = true;
           } else {
+            let remarks = document.getElementById('remarks');
+            remarks?.classList.add('remError');
             this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
           }
         } else {
           return;
         }
-
         this.saveMethodCall(ansPayload, type);
       }
     );
@@ -616,6 +633,7 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
   enableViewMode: boolean = true;
+  hideEdit: boolean = true;
 
   onSubmit(type: string, event: any) {
     this.setFlowAction = '';
@@ -623,10 +641,11 @@ export class PIQSummaryComponent implements OnInit {
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
-    
-    if (type != 'syncToStore' ) {
+
+    if (type != 'syncToStore') {
       this.BudgetService.setEnableViewMode(this.enableViewMode);
     }
+    
     event.preventDefault();
     event.stopPropagation();
   }

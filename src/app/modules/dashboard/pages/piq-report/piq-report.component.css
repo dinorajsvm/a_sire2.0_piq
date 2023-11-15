@@ -1224,7 +1224,7 @@ legend {
   background: transparent;
   z-index: 2;
   right: 0;
-  top: 65px;
+  top: 60px;
 }
 
 .wrkflToggle {
@@ -1232,6 +1232,7 @@ legend {
   color: #fff;
   padding: 0 !important;
   min-width: 30px;
+  height: 30px;
   display: flex;
   border-radius: 5px 0px 0px 5px;
 }
@@ -1244,6 +1245,9 @@ legend {
   font-size: 12px;
   width: 200px;
   word-break: break-all;
+}
+.hideEdit{
+  display: none;
 }
 .statusWrapper {
   background: white;
