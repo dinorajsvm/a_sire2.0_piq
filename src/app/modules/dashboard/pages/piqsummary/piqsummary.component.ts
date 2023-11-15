@@ -62,6 +62,8 @@ export class PIQSummaryComponent implements OnInit {
   photoRowData: any[] = [];
   private gridApi!: GridApi;
   defaultColDef = DefaultColDef;
+  enableViewMode: boolean = true;
+
 
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;
@@ -431,11 +433,11 @@ export class PIQSummaryComponent implements OnInit {
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
       });
-      if (this.getSubWrkFlowRank == this.getRank) {
-        this.disableSubFlowBtn = false;
-      } else {
-        this.disableSubFlowBtn = true;
-      }
+      // if (this.getSubWrkFlowRank == this.getRank) {
+      //   this.disableSubFlowBtn = false;
+      // } else {
+      //   this.disableSubFlowBtn = true;
+      // }
       if (this.getResAprWrkFlowRank == this.getRank) {
         this.disableResAprFlowBtn = false;
       } else {
@@ -547,6 +549,7 @@ export class PIQSummaryComponent implements OnInit {
               lastmodifieddata: JSON.stringify(this.modifiedrowData),
               wfaction: 'RSN',
             };
+            this.BudgetService.setEnableViewMode(this.enableViewMode);
             let remarks = document.getElementById('remarks');
             remarks?.classList.remove('remError');
             this.disableResAprFlowBtn = true;
@@ -571,6 +574,7 @@ export class PIQSummaryComponent implements OnInit {
               lastmodifieddata: JSON.stringify(this.modifiedrowData),
               wfaction: 'APR',
             };
+            this.BudgetService.setEnableViewMode(this.enableViewMode);
             let remarks = document.getElementById('remarks');
             remarks?.classList.remove('remError');
             this.disableResAprFlowBtn = true;
@@ -595,6 +599,7 @@ export class PIQSummaryComponent implements OnInit {
               lastmodifieddata: JSON.stringify(this.modifiedrowData),
               wfaction: 'SUB',
             };
+            this.BudgetService.setEnableViewMode(this.enableViewMode);
             let remarks = document.getElementById('remarks');
             remarks?.classList.remove('remError');
             this.saveWorkFlowAction(this.setFlowAction);
@@ -632,7 +637,6 @@ export class PIQSummaryComponent implements OnInit {
       this.getAnswerValue(type);
     });
   }
-  enableViewMode: boolean = true;
   hideEdit: boolean = true;
 
   onSubmit(type: string, event: any) {
@@ -642,9 +646,8 @@ export class PIQSummaryComponent implements OnInit {
       this.getRefnImportDetails(this.instanceId);
     }
 
-    if (type != 'syncToStore') {
-      this.BudgetService.setEnableViewMode(this.enableViewMode);
-    }
+    // if (type != 'syncToStore') {
+    // }
     
     event.preventDefault();
     event.stopPropagation();
