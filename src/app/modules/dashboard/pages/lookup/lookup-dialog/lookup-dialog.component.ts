@@ -204,6 +204,7 @@ export class LookupDialogComponent implements OnInit {
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
   public rowClassRules: RowClassRules = {
     // row style function
     'highlighted-row': (params) => {

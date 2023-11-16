@@ -18,6 +18,7 @@
         class="ag-theme-balham"
         [columnDefs]="shipColumnDefs"
         [defaultColDef]="defaultColDef"
+        [rowGroupPanelShow]="rowGroupPanelShow"
         [gridOptions]="gridOptions"
         [tooltipShowDelay]="tooltipShowDelay"
         [animateRows]="true"
@@ -36,13 +37,14 @@
         class="ag-theme-balham"
         [columnDefs]="shoreColumnDefs"
         [defaultColDef]="defaultColDef"
+        [rowGroupPanelShow]="rowGroupPanelShow"
         [gridOptions]="gridOptions"
         [animateRows]="true"
         [suppressMenuHide]="true"
         [masterDetail]="true"
         [embedFullWidthRows]="true"
         [rowData]="rowData"
-        [components]="frameWorkComponent"
+        [components]="frameWorkShoreComponent"
       >
       </ag-grid-angular>
     </div>

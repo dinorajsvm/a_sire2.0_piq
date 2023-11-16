@@ -30,6 +30,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   public rowSelection: 'single' | 'multiple' = 'single';
 
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
 
   constructor(
     private BudgetService: BudgetService,

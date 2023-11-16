@@ -537,6 +537,7 @@ export class SafetyManagementComponent implements OnInit {
     { field: 'dropdown', cellRenderer: 'dropdown' },
   ];
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
   rowData: any[] = [];
   selectedRowData: any[] = [];
   userDetails: any;

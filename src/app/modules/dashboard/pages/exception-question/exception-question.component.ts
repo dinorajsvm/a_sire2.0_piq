@@ -66,6 +66,7 @@ export class ExceptionQuestionComponent implements OnInit {
   private gridApi: any;
   private gridColumnApi: any;
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
   remarksCount: any;
   constructor(
     private BudgetService: BudgetService,

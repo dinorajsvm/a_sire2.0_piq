@@ -82,6 +82,7 @@ export class MocComponent {
   ];
 
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
 
   rowData = [];
 

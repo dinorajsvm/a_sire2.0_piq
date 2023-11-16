@@ -1327,6 +1327,12 @@ legend {
   background-color: #00a65a;
   color: white;
 }
+
+.saveDisable{
+background-color: gray !important;
+color: black !important;
+}
+
 /* ::ng-deep .mat-vertical-stepper-header{
 
 } */

@@ -14,6 +14,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
+import { AgGridMenuShoreComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu-shore.component';
 
 @Component({
   selector: 'app-piq-landing-page',
@@ -22,29 +23,31 @@ import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vesse
 })
 export class PIQLandingPageComponent implements OnInit {
   frameWorkComponent: any;
+  frameWorkShoreComponent: any;
   shipColumnDefs: any[] = [
     {
       field: 'action',
       headerName: 'Action',
+      pinned: 'left',
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
         innerRendererFramework: AgGridMenuComponent,
         menu: [
           {
-            name: '',
+            name: 'View',
             image: 'assets/icon-images/view.png',
             link: '',
             tooltip: 'View',
             onMenuAction: this.viewForm.bind(this),
           },
           {
-            name: '',
+            name: 'Edit',
             image: 'assets/icon-images/edit.png',
             link: '/sire/piq-report/',
             tooltip: 'Edit',
           },
           {
-            name: '',
+            name: 'Delete',
             image: 'assets/icon-images/delete.png',
             link: '',
             tooltip: 'Delete',
@@ -102,27 +105,28 @@ export class PIQLandingPageComponent implements OnInit {
     {
       field: 'action',
       headerName: 'Action',
+      pinned: 'left',
       sortable: false,
       filter: false,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
-        innerRendererFramework: AgGridMenuComponent,
+        innerRendererFramework: AgGridMenuShoreComponent,
         menu: [
           {
-            name: '',
+            name: 'View',
             image: 'assets/icon-images/view.png',
             link: '',
             tooltip: 'View',
             onMenuAction: this.viewForm.bind(this),
           },
           {
-            name: '',
+            name: 'Edit',
             image: 'assets/icon-images/edit.png',
             link: '/sire/piq-report/',
             tooltip: 'Edit',
           },
           {
-            name: '',
+            name: 'Delete',
             image: 'assets/icon-images/delete.png',
             link: '',
             tooltip: 'Delete',
@@ -166,6 +170,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
   ];
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
 
   public gridOptions: GridOptions = {};
 
@@ -188,6 +193,9 @@ export class PIQLandingPageComponent implements OnInit {
     this.userDetails = this._storage.getUserDetails();
     this.frameWorkComponent = {
       actionRenderer: AgGridMenuComponent,
+    };
+    this.frameWorkShoreComponent = {
+      actionRenderer: AgGridMenuShoreComponent,
     };
   }
 

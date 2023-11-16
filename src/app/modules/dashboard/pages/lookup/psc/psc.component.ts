@@ -97,6 +97,7 @@ export class PscComponent {
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

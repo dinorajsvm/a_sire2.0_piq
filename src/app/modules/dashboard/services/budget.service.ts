@@ -39,9 +39,17 @@ export class BudgetService {
   private getExcepData = new Subject<any>();
   private getTabIndexCount = new Subject<any>();
   private hideEditButton = new Subject<any>();
+  private enableDisableButtons  = new Subject<any>();
 
   constructor(private client: HttpClient) {}
 
+  setEnableBtn(message: any) {
+    this.enableDisableButtons.next(message);
+  }
+
+  getEnableBtn() {
+    return this.enableDisableButtons.asObservable();
+  }
   setEnableViewMode(message: any) {
     this.getViewMode.next(message);
   }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   template: `<ng-container *ngFor="let menu of params.menu">
-                <span class="cursor-pointer mr-2" *ngIf = "menu.link && menu.image && !(menu.name == 'Edit' && params.data.status && (params.data.status =='SUBMITTED' || params.data.status =='APPROVED')) " (click)="navigate(menu.link, menu.id ?  params.data[menu.id] : id)" [matTooltip]="menu.tooltip">
+                <span class="cursor-pointer mr-2" *ngIf = "menu.link && menu.image && !(menu.name == 'Edit' && params.data.status && params.data.status =='APPROVED') " (click)="navigate(menu.link, menu.id ?  params.data[menu.id] : id)" [matTooltip]="menu.tooltip">
                     <img src="{{ menu.image }}" alt="" width="14" *ngIf="menu.image"/>
                     <!-- <span *ngIf="menu.name">{{menu.name}}</span> -->
                 </span>
@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
   styles: ['.mat-menu-item { line-height: 30px;height: 30px;}']
 })
 
-export class AgGridMenuComponent implements AgRendererComponent {
+export class AgGridMenuShoreComponent implements AgRendererComponent {
   params: any;
   public id: any;
   toShow:boolean = false;
@@ -40,7 +40,7 @@ export class AgGridMenuComponent implements AgRendererComponent {
   agInit(params: import("ag-grid-community").ICellRendererParams): void {
     this.params = params;
     this.params.menu.forEach((value: any, index: any) => {
-   if (value.hasOwnProperty("workflowIndication")) {
+      if (value.hasOwnProperty("workflowIndication")) {
         this.toShow = value.isVisible(params.data);
       }
       if (value.hasOwnProperty("displayLikeDislike")) {

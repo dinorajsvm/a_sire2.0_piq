@@ -136,6 +136,7 @@ export class PiqReportComponent implements OnInit {
   lookUpEnable: boolean = false;
   isLeftIcon = true;
   hideEditbutton = false;
+  saveDisable = true;
   saveMappedCertificateData: any;
   getSearch: any;
   constructor(
@@ -249,6 +250,7 @@ export class PiqReportComponent implements OnInit {
       });
       this.subHeaderCount();
     });
+    this.edit();
   }
 
   getTopBarDatas() {
@@ -366,10 +368,10 @@ export class PiqReportComponent implements OnInit {
       this.BudgetService.setVesselTypeData(this.vesselSelection);
       this.BudgetService.setVslCodeData(this.getVesselCode);
       this.getStatus = res.wrkflow;
-      this.edit();
 
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.viewMode = true;
+        this.saveDisable = true;
       }
       this.getAllDatas = object;
       if (this.getAllDatas) {
@@ -2856,9 +2858,10 @@ export class PiqReportComponent implements OnInit {
   home() {
     this.router.navigate(['/sire/piq-landing/']);
   }
-
+disableBtn=false;
   edit() {
     if (this.route.snapshot.paramMap.get('type') == 'view') {
+      this.BudgetService.setEnableBtn(this.disableBtn);
       if (
         this.getOrigination == 'CNT001' &&
         this.userDetails?.cntrlType === 'CNT002'
@@ -2870,6 +2873,8 @@ export class PiqReportComponent implements OnInit {
       ) {
         this.viewMode = false;
         this.disableEditMode = false;
+        this.saveDisable=false;
+        
       } else if (
         (this.getOrigination == 'CNT001' || this.getOrigination == 'CNT002') &&
         this.userDetails?.cntrlType === 'CNT001' &&
@@ -2877,13 +2882,17 @@ export class PiqReportComponent implements OnInit {
       ) {
         this.viewMode = false;
         this.disableEditMode = false;
+        this.saveDisable=false;
       } else {
         this.viewMode = true;
         this.disableEditMode = true;
+        this.saveDisable=true;
       }
     } else {
       this.viewMode = false;
       this.disableEditMode = false;
+      this.saveDisable=false;
+      this.BudgetService.setEnableBtn(this.disableBtn);
     }
   }
 

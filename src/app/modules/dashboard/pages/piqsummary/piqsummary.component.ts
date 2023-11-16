@@ -62,8 +62,8 @@ export class PIQSummaryComponent implements OnInit {
   photoRowData: any[] = [];
   private gridApi!: GridApi;
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
   enableViewMode: boolean = true;
-
 
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;
@@ -260,6 +260,7 @@ export class PIQSummaryComponent implements OnInit {
   expectedRowData: any[] = [];
   disableSubFlowBtn: boolean = false;
   disableResAprFlowBtn: boolean = false;
+  disableSyncBtn = true;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -280,6 +281,20 @@ export class PIQSummaryComponent implements OnInit {
       this.totalQuestCount = 0;
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    if (this.route.snapshot.paramMap.get('type') == 'view') {
+      this.disableSubFlowBtn = true;
+      this.disableResAprFlowBtn = true;
+      this.BudgetService.getEnableBtn().subscribe((res: any) => {
+        if (res == false) {
+          this.disableSyncBtn = res;
+        } else {
+          this.disableSyncBtn = true;
+        }
+      });
+    }
+    else{
+      this.disableSyncBtn = false;
+    }
     this.getworkflowStatus();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
@@ -405,7 +420,7 @@ export class PIQSummaryComponent implements OnInit {
     }
   }
   onWorkflow(type?: any, event?: any) {
-    if(type == 'approve'){
+    if (type == 'approve') {
       this.BudgetService.setEditVisible(this.hideEdit);
     }
     this.getAnswerValue(type);
@@ -433,16 +448,45 @@ export class PIQSummaryComponent implements OnInit {
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
       });
-      // if (this.getSubWrkFlowRank == this.getRank) {
-      //   this.disableSubFlowBtn = false;
-      // } else {
-      //   this.disableSubFlowBtn = true;
-      // }
-      if (this.getResAprWrkFlowRank == this.getRank) {
-        this.disableResAprFlowBtn = false;
+      if (this.route.snapshot.paramMap.get('type') == 'view') {
+        this.BudgetService.getEnableBtn().subscribe((res: any) => {
+          if (this.getSubWrkFlowRank == this.getRank && res == false) {
+            this.disableSubFlowBtn = false;
+          } else {
+            this.disableSubFlowBtn = true;
+          }
+          if (this.getResAprWrkFlowRank == this.getRank && res == false) {
+            this.disableResAprFlowBtn = false;
+          } else {
+            this.disableResAprFlowBtn = true;
+          }
+        });
       } else {
-        this.disableResAprFlowBtn = true;
+        if (this.getSubWrkFlowRank == this.getRank) {
+          this.disableSubFlowBtn = false;
+        } else {
+          this.disableSubFlowBtn = true;
+        }
+        if (this.getResAprWrkFlowRank == this.getRank) {
+          this.disableResAprFlowBtn = false;
+        } else {
+          this.disableResAprFlowBtn = true;
+        }
       }
+
+      // this.BudgetService.getEnableBtn().subscribe((res: any) => {
+      //   this.disableSubFlowBtn = res;
+      //   // if (this.getSubWrkFlowRank == this.getRank) {
+      //   //   this.disableSubFlowBtn = false;
+      //   // } else {
+      //   //   this.disableSubFlowBtn = true;
+      //   // }
+      //   if (this.getResAprWrkFlowRank == this.getRank) {
+      //     this.disableResAprFlowBtn = false;
+      //   } else {
+      //     this.disableResAprFlowBtn = true;
+      //   }
+      // });
     });
   }
 
@@ -648,7 +692,7 @@ export class PIQSummaryComponent implements OnInit {
 
     // if (type != 'syncToStore') {
     // }
-    
+
     event.preventDefault();
     event.stopPropagation();
   }

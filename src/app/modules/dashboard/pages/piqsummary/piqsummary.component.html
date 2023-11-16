@@ -93,35 +93,35 @@
                   </div>
                 </div>
                 <div class="col-sm-8" style="display: flex;justify-content: flex-end;">
-                  <button mat-button class="syncBtn" type="submit" (click)="openDialog()">
+                  <button mat-button class="syncBtn" type="submit" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" (click)="openDialog()">
                     Re-Use Past Template
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
+                  <button *ngIf="userDetails?.cntrlType === 'CNT002'" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button  class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
                     Sync to Shore
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
+                  <button *ngIf="userDetails?.cntrlType === 'CNT001'" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
                     Sync to Ship
                   </button>
                   <div [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
                     <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
                       <button mat-button class="sub" type="submit" (click)="onSubmit('submit',$event)"
-                        [disabled]="disableSubFlowBtn"  [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableSyncBtn'">
+                        [disabled]="disableSubFlowBtn"  [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'">
                         Submit
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                     </div>
                     <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
                       <button mat-button class="rsn" (click)="onWorkflow('reassign',$event)" type="submit"
-                        [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'rsn' : 'disableSyncBtn'" >
+                        [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'rsn' : 'disableWrkFlowBtn'" >
                         Reassign
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
                     </div>
                     <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
                       <button mat-button class="apr" (click)="onWorkflow('approve',$event)" type="submit"
-                        [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'apr' : 'disableSyncBtn'">
+                        [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'apr' : 'disableWrkFlowBtn'">
                         Approve
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/APR.svg" />
@@ -168,7 +168,7 @@
     <div class="col-sm-12 padl">
       <span class="table-header">Chapter Summary </span>
       <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
+        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
         [embedFullWidthRows]="true" [rowData]="rowData" (gridReady)="onGridReady($event)">
       </ag-grid-angular>
@@ -179,7 +179,7 @@
     <div class="col-sm-6 padl">
       <span class="table-header">Photo Repository Summary </span>
       <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
+        [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
         [embedFullWidthRows]="true" [rowData]="photoRowData" [suppressHorizontalScroll]="true">
       </ag-grid-angular>
@@ -187,7 +187,7 @@
     <div class="col-sm-6 padl">
       <span class="table-header">Last Modified Data Summary</span>
       <ag-grid-angular style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid"
-        [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" [animateRows]="true"
+        [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
       </ag-grid-angular>
@@ -198,7 +198,7 @@
     <div class="col-sm-6 padl">
       <span class="table-header">Certificate Summary</span>
       <ag-grid-angular style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid"
-        [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
+        [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
       </ag-grid-angular>
@@ -206,7 +206,7 @@
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last Sync Summary</span>
       <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [gridOptions]="gridOptions"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true"
         [embedFullWidthRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
@@ -214,7 +214,7 @@
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
       <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [tooltipShowDelay]="tooltipShowDelay"
         [gridOptions]="gridOptions" [animateRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
     </div>

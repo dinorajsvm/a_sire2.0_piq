@@ -294,6 +294,7 @@ export class TMSAComponent implements OnInit {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

@@ -114,6 +114,7 @@ export class CertificateRepositoryComponent implements OnInit {
     },
   ];
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
   public detailCellRendererParams: any = {
     detailGridOptions: {
       columnDefs: [

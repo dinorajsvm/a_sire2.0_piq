@@ -105,6 +105,7 @@ export class ManualLookUpComponent {
   rowData: any = [];
   userDetails: any;
   defaultColDef = DefaultColDef;
+  public rowGroupPanelShow:any  = 'always';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
