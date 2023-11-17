@@ -136,7 +136,7 @@ export class PiqReportComponent implements OnInit {
   lookUpEnable: boolean = false;
   isLeftIcon = true;
   hideEditbutton = false;
-  saveDisable = true;
+  saveDisable = false;
   saveMappedCertificateData: any;
   getSearch: any;
   constructor(
@@ -371,7 +371,7 @@ export class PiqReportComponent implements OnInit {
 
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.viewMode = true;
-        this.saveDisable = true;
+        // this.saveDisable = true;
       }
       this.getAllDatas = object;
       if (this.getAllDatas) {
@@ -2858,10 +2858,10 @@ export class PiqReportComponent implements OnInit {
   home() {
     this.router.navigate(['/sire/piq-landing/']);
   }
-disableBtn=false;
+// disableBtn=false;
   edit() {
     if (this.route.snapshot.paramMap.get('type') == 'view') {
-      this.BudgetService.setEnableBtn(this.disableBtn);
+      // this.BudgetService.setEnableBtn(this.disableBtn);
       if (
         this.getOrigination == 'CNT001' &&
         this.userDetails?.cntrlType === 'CNT002'
@@ -2873,7 +2873,7 @@ disableBtn=false;
       ) {
         this.viewMode = false;
         this.disableEditMode = false;
-        this.saveDisable=false;
+        // this.saveDisable=false;
         
       } else if (
         (this.getOrigination == 'CNT001' || this.getOrigination == 'CNT002') &&
@@ -2882,17 +2882,17 @@ disableBtn=false;
       ) {
         this.viewMode = false;
         this.disableEditMode = false;
-        this.saveDisable=false;
+        // this.saveDisable=false;
       } else {
         this.viewMode = true;
         this.disableEditMode = true;
-        this.saveDisable=true;
+        // this.saveDisable=true;
       }
     } else {
       this.viewMode = false;
       this.disableEditMode = false;
-      this.saveDisable=false;
-      this.BudgetService.setEnableBtn(this.disableBtn);
+      // this.saveDisable=false;
+      // this.BudgetService.setEnableBtn(this.disableBtn);
     }
   }
 

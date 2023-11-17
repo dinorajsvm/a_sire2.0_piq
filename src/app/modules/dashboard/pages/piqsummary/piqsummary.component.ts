@@ -260,7 +260,7 @@ export class PIQSummaryComponent implements OnInit {
   expectedRowData: any[] = [];
   disableSubFlowBtn: boolean = false;
   disableResAprFlowBtn: boolean = false;
-  disableSyncBtn = true;
+  disableSyncBtn = false;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -282,8 +282,8 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     if (this.route.snapshot.paramMap.get('type') == 'view') {
-      this.disableSubFlowBtn = true;
-      this.disableResAprFlowBtn = true;
+      // this.disableSubFlowBtn = true;
+      // this.disableResAprFlowBtn = true;
       this.BudgetService.getEnableBtn().subscribe((res: any) => {
         if (res == false) {
           this.disableSyncBtn = res;
@@ -448,30 +448,32 @@ export class PIQSummaryComponent implements OnInit {
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
       });
-      if (this.route.snapshot.paramMap.get('type') == 'view') {
-        this.BudgetService.getEnableBtn().subscribe((res: any) => {
-          if (this.getSubWrkFlowRank == this.getRank && res == false) {
-            this.disableSubFlowBtn = false;
-          } else {
-            this.disableSubFlowBtn = true;
-          }
-          if (this.getResAprWrkFlowRank == this.getRank && res == false) {
-            this.disableResAprFlowBtn = false;
-          } else {
-            this.disableResAprFlowBtn = true;
-          }
-        });
+      // if (this.route.snapshot.paramMap.get('type') == 'view') {
+      //   this.BudgetService.getEnableBtn().subscribe((res: any) => {
+      //     if (this.getSubWrkFlowRank == this.getRank && res == false) {
+      //       this.disableSubFlowBtn = false;
+      //     } else {
+      //       this.disableSubFlowBtn = true;
+      //     }
+      //     if (this.getResAprWrkFlowRank == this.getRank && res == false) {
+      //       this.disableResAprFlowBtn = false;
+      //     } else {
+      //       this.disableResAprFlowBtn = true;
+      //     }
+      //   });
+      // } else {
+       
+      // }
+
+      if (this.getSubWrkFlowRank == this.getRank) {
+        this.disableSubFlowBtn = false;
       } else {
-        if (this.getSubWrkFlowRank == this.getRank) {
-          this.disableSubFlowBtn = false;
-        } else {
-          this.disableSubFlowBtn = true;
-        }
-        if (this.getResAprWrkFlowRank == this.getRank) {
-          this.disableResAprFlowBtn = false;
-        } else {
-          this.disableResAprFlowBtn = true;
-        }
+        this.disableSubFlowBtn = true;
+      }
+      if (this.getResAprWrkFlowRank == this.getRank) {
+        this.disableResAprFlowBtn = false;
+      } else {
+        this.disableResAprFlowBtn = true;
       }
 
       // this.BudgetService.getEnableBtn().subscribe((res: any) => {
