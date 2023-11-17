@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ColDef, GridApi } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
@@ -7,10 +7,17 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DatePipe } from '@angular/common';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
+declare function mdldmsnavigatenewtab(
+  params: any,
+  params1: any,
+  params2: any,
+  params3: any,
+  param4s: any
+): any;
 
 @Component({
   selector: 'app-manual-look-up',
@@ -18,7 +25,7 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
   styleUrls: ['./manual-look-up.component.css'],
   providers: [DatePipe],
 })
-export class ManualLookUpComponent {
+export class ManualLookUpComponent implements OnInit {
   private gridApi!: GridApi;
   public tooltipShowDelay = 0;
 
@@ -29,6 +36,7 @@ export class ManualLookUpComponent {
       tooltipField: 'refid',
       flex: 1,
       resizable: true,
+      cellRenderer: 'agGroupCellRenderer',
     },
     {
       field: 'categoryname',
@@ -113,7 +121,8 @@ export class ManualLookUpComponent {
     private dialogRef: MatDialogRef<ManualLookUpComponent>,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private _loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
@@ -131,11 +140,24 @@ export class ManualLookUpComponent {
   }
   getVesselCertificateLookupDetail() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getVesselCertificateLookup(vesselCode).subscribe(
+    this.BudgetService.getVesselCertificateLookup('sndc').subscribe(
       (data) => {
-        this.rowData = data && data.response.length > 0 ? data.response : [];
+        this.rowData =
+          data && data.response && data.response.length > 0
+            ? data.response
+            : [];
       },
       (error) => {}
     );
+  }
+
+  onCellClicked(event: any) {
+    if (event.colDef.field === 'refid') {
+      mdldmsnavigatenewtab('PIQ', 'VCL', event.data.refid, 'true', 'true');
+      this._loaderService.loaderShow();
+      setTimeout(() => {
+        this._loaderService.loaderHide();
+      }, 2500);
+    }
   }
 }

@@ -5,8 +5,15 @@ import { colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { BudgetService } from '../../services/budget.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
+
 import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
@@ -50,20 +57,33 @@ export class VesselSelectionDialogComponent {
   getRefNo: any;
   vesselname: any;
   selectedVesselName: any;
-  plannedSubDate: any;
   vesselTypeCode: any;
   disableProceed: boolean = true;
   sendFormattedDate: any;
 
   ngOnInit(): void {
-    this.vesselSelectionForms = new FormGroup({
-      vesselName: new FormControl(''),
-      vesselType: new FormControl(''),
-      datePick: new FormControl(''),
+    this.vesselSelectionForms = this.fb.group({
+      vesselName: [''],
+      vesselType: [''],
+      datePick: ['', [this.dateValidator()]],
     });
     this.getCodes();
     this.getVesselNames();
     this.getvesseltype();
+  } 
+  
+  // Custom validator for DD-MMM-YYYY format
+  dateValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = this.datePipe.transform(control.value, 'dd-MMM-YYYY');
+      if (value) {
+        const pattern = /^\d{2}-[a-zA-Z]{3}-\d{4}$/;
+        if (!pattern.test(value)) {
+          return { invalidDate: { value } };
+        }
+      }
+      return null;
+    };
   }
 
   getVesselNames() {
@@ -74,6 +94,15 @@ export class VesselSelectionDialogComponent {
     );
   }
 
+  onKeyChange(event: any): void {
+    const value = event.target.value;
+    const pattern = /^\d{2}-[a-zA-Z]{3}-\d{4}$/;
+    this.disableProceed = !pattern.test(value);
+    this.vesselSelectionForms.controls['datePick'].setErrors(
+      pattern.test(value) ? null : { invalidDateFormat: true }
+    );
+  }
+
   getvesseltype() {
     this.BudgetService.getvesseltypeNameCode().subscribe((res: any) => {
       this.vesselTypeCode = res.response;
@@ -81,10 +110,6 @@ export class VesselSelectionDialogComponent {
   }
 
   onDateChange(event: any) {
-    this.plannedSubDate = this.datePipe.transform(
-      event.value,
-      'yyyy-MM-dd HH:mm'
-    );
     this.sendFormattedDate = this.datePipe.transform(
       this.vesselSelectionForms.value.datePick,
       'yyyy-MM-dd HH:mm:ss'
@@ -130,6 +155,7 @@ export class VesselSelectionDialogComponent {
   }
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private BudgetService: BudgetService,
     private _storage: StorageService,

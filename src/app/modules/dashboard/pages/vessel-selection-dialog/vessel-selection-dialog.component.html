@@ -67,7 +67,7 @@
             <div><span>Planned Submission Date</span></div>
             <mat-form-field appearance="outline" class="datePicker">
               <input matInput [matDatepicker]="picker" formControlName="datePick"
-                (dateInput)="onDateChange($event)" autocomplete="off" />
+                (dateInput)="onDateChange($event)" autocomplete="off" (input)="onKeyChange($event)"/>
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>

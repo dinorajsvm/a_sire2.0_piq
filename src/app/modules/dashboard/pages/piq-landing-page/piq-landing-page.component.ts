@@ -12,14 +12,15 @@ import {
   colorCodes,
 } from 'src/app/core/constants';
 import { MatDialog } from '@angular/material/dialog';
-import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
 import { AgGridMenuShoreComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu-shore.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-piq-landing-page',
   templateUrl: './piq-landing-page.component.html',
   styleUrls: ['./piq-landing-page.component.css'],
+  providers: [DatePipe],
 })
 export class PIQLandingPageComponent implements OnInit {
   frameWorkComponent: any;
@@ -81,6 +82,11 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date/Time',
       tooltipField: 'createdDate',
+      valueGetter: (params: any) => {
+        return params.data.createdDate
+          ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy')
+          : '';
+      },
     },
     { field: 'createdBy', headerName: 'Created By', tooltipField: 'createdBy' },
     {
@@ -92,6 +98,11 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
+      valueGetter: (params: any) => {
+        return params.data.updatedDate
+          ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy')
+          : '';
+      },
     },
     {
       field: 'status',
@@ -133,7 +144,6 @@ export class PIQLandingPageComponent implements OnInit {
             onMenuAction: this.deleteRowData.bind(this),
           },
         ],
-        
       },
     },
     {
@@ -150,8 +160,17 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date/Time',
       tooltipField: 'createdDate',
+      valueGetter: (params: any) => {
+        return params.data.createdDate
+          ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy')
+          : '';
+      },
     },
-    { field: 'createdBy', headerName: 'Created By', tooltipField: 'createdBy' },
+    {
+      field: 'createdBy',
+      headerName: 'Created By',
+      tooltipField: 'createdBy',
+    },
     {
       field: 'updatedBy',
       headerName: 'Updated User',
@@ -161,6 +180,11 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
+      valueGetter: (params: any) => {
+        return params.data.updatedDate
+          ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy')
+          : '';
+      },
     },
     {
       field: 'status',
@@ -188,7 +212,8 @@ export class PIQLandingPageComponent implements OnInit {
     private BudgetService: BudgetService,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public datePipe: DatePipe
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameWorkComponent = {
@@ -271,7 +296,10 @@ export class PIQLandingPageComponent implements OnInit {
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {
-      this._snackBarService.loadSnackBar('Form Deleted Successfully', colorCodes.INFO);
+      this._snackBarService.loadSnackBar(
+        'Form Deleted Successfully',
+        colorCodes.INFO
+      );
       this.getLndPgDatas();
     });
   }
@@ -286,8 +314,8 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   navigatePiq() {
-      this.dialog.open(VesselSelectionDialogComponent, {
-        panelClass: 'vesselSelection-dialog-container',
-      });
+    this.dialog.open(VesselSelectionDialogComponent, {
+      panelClass: 'vesselSelection-dialog-container',
+    });
   }
 }
