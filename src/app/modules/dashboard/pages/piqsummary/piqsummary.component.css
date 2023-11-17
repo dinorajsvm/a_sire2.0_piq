@@ -263,3 +263,7 @@ mat-card-header {
   display: flex;
   justify-content: flex-end;
 }
+
+.hideReqBtns{
+  display: none;
+}

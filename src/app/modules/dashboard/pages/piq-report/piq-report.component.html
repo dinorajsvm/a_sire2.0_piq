@@ -14,7 +14,7 @@
         <span class="sNumber">Ref ID: {{ referenceNumber }}</span>
       </div>
       <div class="col-sm-1 text-right topBtnWrapper" style="padding: 0">
-        <button matTooltip="Edit" [disabled]="disableEditMode" *ngIf="getStatus!='Approved'" [class.hideEdit]="hideEditbutton" [class.disabledEdit]="disableEditMode" mat-button
+        <button matTooltip="Edit" [disabled]="disableEditMode" *ngIf="getStatus!='Approved'" [class.hideEdit]="hideEditbutton" [class.hideReqBtns]="hideReqBtns" [class.disabledEdit]="disableEditMode" mat-button
           class="edit" (click)="edit()">
           <img src="assets/question/edit.svg" />
         </button>
@@ -155,8 +155,8 @@
               </div>
 
               <div class="col-sm-2 text-right expand-button-wrapper btnWrapper">
-                <button mat-button class="save" [disabled]="saveDisable" [class.saveDisable]="saveDisable" type="submit">Save</button>
-                <button mat-button class="draft" [disabled]="saveDisable" [class.saveDisable]="saveDisable">Save As Draft</button>
+                <button mat-button class="save" [disabled]="saveDisable" [class.hideReqBtns]="hideReqBtns" [class.saveDisable]="saveDisable" type="submit">Save</button>
+                <button mat-button class="draft" [disabled]="saveDisable" [class.hideReqBtns]="hideReqBtns" [class.saveDisable]="saveDisable">Save As Draft</button>
               </div>
             </div>
           </div>

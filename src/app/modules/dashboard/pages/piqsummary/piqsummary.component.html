@@ -93,18 +93,18 @@
                   </div>
                 </div>
                 <div class="col-sm-8" style="display: flex;justify-content: flex-end;">
-                  <button mat-button class="syncBtn" type="submit" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" (click)="openDialog()">
+                  <button mat-button class="syncBtn" type="submit" [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" (click)="openDialog()">
                     Re-Use Past Template
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT002'" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button  class="syncBtn" type="submit"
+                  <button *ngIf="userDetails?.cntrlType === 'CNT002'" [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button  class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
                     Sync to Shore
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT001'" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button class="syncBtn" type="submit"
+                  <button *ngIf="userDetails?.cntrlType === 'CNT001'" [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
                     Sync to Ship
                   </button>
-                  <div [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
+                  <div [class.hideReqBtns]="hideReqBtns" [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
                     <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
                       <button mat-button class="sub" type="submit" (click)="onSubmit('submit',$event)"
                         [disabled]="disableSubFlowBtn"  [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'">

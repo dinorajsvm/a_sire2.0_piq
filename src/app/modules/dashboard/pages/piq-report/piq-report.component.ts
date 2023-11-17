@@ -136,9 +136,10 @@ export class PiqReportComponent implements OnInit {
   lookUpEnable: boolean = false;
   isLeftIcon = true;
   hideEditbutton = false;
-  saveDisable = false;
+  saveDisable = true;
   saveMappedCertificateData: any;
   getSearch: any;
+  hideReqBtns: boolean = false;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -364,15 +365,30 @@ export class PiqReportComponent implements OnInit {
       this.vesselSelection = res.vesseltypename;
       this.selectedMultiAns = false;
       this.initialMultiAns = true;
+      if (
+        this.getOrigination == 'CNT001' &&
+        this.userDetails?.cntrlType === 'CNT002'
+      ) {
+        this.hideReqBtns = true;
+        this.viewMode = false;
+      }
 
       this.BudgetService.setVesselTypeData(this.vesselSelection);
       this.BudgetService.setVslCodeData(this.getVesselCode);
       this.getStatus = res.wrkflow;
 
       if (this.route.snapshot.paramMap.get('type') == 'view') {
-        this.viewMode = true;
-        // this.saveDisable = true;
+        if (
+          this.getOrigination == 'CNT001' &&
+          this.userDetails?.cntrlType === 'CNT002'
+        ) {
+          this.viewMode = false;
+        } else {
+          this.viewMode = true;
+        }
+        this.saveDisable = true;
       }
+
       this.getAllDatas = object;
       if (this.getAllDatas) {
         this.selectValue(
@@ -2858,41 +2874,64 @@ export class PiqReportComponent implements OnInit {
   home() {
     this.router.navigate(['/sire/piq-landing/']);
   }
-// disableBtn=false;
+  disableBtn = false;
   edit() {
-    if (this.route.snapshot.paramMap.get('type') == 'view') {
-      // this.BudgetService.setEnableBtn(this.disableBtn);
-      if (
-        this.getOrigination == 'CNT001' &&
-        this.userDetails?.cntrlType === 'CNT002'
-      ) {
-        this.disableEditMode = true;
-      } else if (
-        this.userDetails?.cntrlType === 'CNT002' &&
-        this.getStatus != 'Submitted'
-      ) {
-        this.viewMode = false;
-        this.disableEditMode = false;
-        // this.saveDisable=false;
-        
-      } else if (
-        (this.getOrigination == 'CNT001' || this.getOrigination == 'CNT002') &&
-        this.userDetails?.cntrlType === 'CNT001' &&
-        this.getStatus != 'Approved'
-      ) {
-        this.viewMode = false;
-        this.disableEditMode = false;
-        // this.saveDisable=false;
-      } else {
-        this.viewMode = true;
-        this.disableEditMode = true;
-        // this.saveDisable=true;
+    if (this.route.snapshot.paramMap.get('type') == 'new') {
+      console.log('inga');
+      this.disableEditMode = true;
+      this.saveDisable = false;
+    } else if (this.route.snapshot.paramMap.get('type') == 'view') {
+      console.log('illa inga');
+
+      this.BudgetService.setEnableBtn(this.disableBtn);
+      if (this.userDetails?.cntrlType === 'CNT002') {
+        if (
+          this.userDetails?.cntrlType === 'CNT002' &&
+          (this.getStatus != 'Approved' || this.getStatus != 'Submitted')
+        ) {
+          this.viewMode = false;
+          this.disableEditMode = false;
+          this.saveDisable = false;
+        }
+      } else if (this.userDetails?.cntrlType === 'CNT001') {
+        if (
+          this.userDetails?.cntrlType === 'CNT001' &&
+          this.getStatus != 'Approved'
+        ) {
+          this.viewMode = false;
+          this.disableEditMode = false;
+          this.saveDisable = false;
+        }
       }
+      //   if (
+      //     this.userDetails?.cntrlType === 'CNT002' &&
+      //     this.getStatus != 'Submitted'
+      //   ) {
+      //     console.log('1');
+      //     this.viewMode = false;
+      //     this.disableEditMode = false;
+      //     this.saveDisable = false;
+      //   } else if (
+      //     (this.getOrigination == 'CNT001' || this.getOrigination == 'CNT002') &&
+      //     this.userDetails?.cntrlType === 'CNT001' &&
+      //     this.getStatus != 'Approved'
+      //   ) {
+      //     console.log('2');
+      //     this.viewMode = false;
+      //     this.disableEditMode = false;
+      //     this.saveDisable = false;
+      //   } else {
+      //     console.log('3');
+      //     this.viewMode = true;
+      //     this.disableEditMode = true;
+      //     this.saveDisable = true;
+      //   }
     } else {
+      console.log('4');
       this.viewMode = false;
       this.disableEditMode = false;
-      // this.saveDisable=false;
-      // this.BudgetService.setEnableBtn(this.disableBtn);
+      this.saveDisable = false;
+      this.BudgetService.setEnableBtn(this.disableBtn);
     }
   }
 

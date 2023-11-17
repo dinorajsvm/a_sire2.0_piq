@@ -64,6 +64,7 @@ export class PIQSummaryComponent implements OnInit {
   defaultColDef = DefaultColDef;
   public rowGroupPanelShow:any  = 'always';
   enableViewMode: boolean = true;
+  hideReqBtns: boolean =false;
 
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;
@@ -260,7 +261,7 @@ export class PIQSummaryComponent implements OnInit {
   expectedRowData: any[] = [];
   disableSubFlowBtn: boolean = false;
   disableResAprFlowBtn: boolean = false;
-  disableSyncBtn = false;
+  disableSyncBtn = true;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -282,8 +283,8 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     if (this.route.snapshot.paramMap.get('type') == 'view') {
-      // this.disableSubFlowBtn = true;
-      // this.disableResAprFlowBtn = true;
+      this.disableSubFlowBtn = true;
+      this.disableResAprFlowBtn = true;
       this.BudgetService.getEnableBtn().subscribe((res: any) => {
         if (res == false) {
           this.disableSyncBtn = res;
@@ -448,32 +449,30 @@ export class PIQSummaryComponent implements OnInit {
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
       });
-      // if (this.route.snapshot.paramMap.get('type') == 'view') {
-      //   this.BudgetService.getEnableBtn().subscribe((res: any) => {
-      //     if (this.getSubWrkFlowRank == this.getRank && res == false) {
-      //       this.disableSubFlowBtn = false;
-      //     } else {
-      //       this.disableSubFlowBtn = true;
-      //     }
-      //     if (this.getResAprWrkFlowRank == this.getRank && res == false) {
-      //       this.disableResAprFlowBtn = false;
-      //     } else {
-      //       this.disableResAprFlowBtn = true;
-      //     }
-      //   });
-      // } else {
-       
-      // }
-
-      if (this.getSubWrkFlowRank == this.getRank) {
-        this.disableSubFlowBtn = false;
+      if (this.route.snapshot.paramMap.get('type') == 'view') {
+        this.BudgetService.getEnableBtn().subscribe((res: any) => {
+          if (this.getSubWrkFlowRank == this.getRank && res == false) {
+            this.disableSubFlowBtn = false;
+          } else {
+            this.disableSubFlowBtn = true;
+          }
+          if (this.getResAprWrkFlowRank == this.getRank && res == false) {
+            this.disableResAprFlowBtn = false;
+          } else {
+            this.disableResAprFlowBtn = true;
+          }
+        });
       } else {
-        this.disableSubFlowBtn = true;
-      }
-      if (this.getResAprWrkFlowRank == this.getRank) {
-        this.disableResAprFlowBtn = false;
-      } else {
-        this.disableResAprFlowBtn = true;
+        if (this.getSubWrkFlowRank == this.getRank) {
+          this.disableSubFlowBtn = false;
+        } else {
+          this.disableSubFlowBtn = true;
+        }
+        if (this.getResAprWrkFlowRank == this.getRank) {
+          this.disableResAprFlowBtn = false;
+        } else {
+          this.disableResAprFlowBtn = true;
+        }
       }
 
       // this.BudgetService.getEnableBtn().subscribe((res: any) => {
@@ -519,6 +518,9 @@ export class PIQSummaryComponent implements OnInit {
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
+      if(this.getOriginator=='CNT001' && this.userDetails?.cntrlType === 'CNT002'){
+        this.hideReqBtns=true
+      }
       const data = JSON.parse(res.lastMod);
       this.modifiedrowData = data;
     });
