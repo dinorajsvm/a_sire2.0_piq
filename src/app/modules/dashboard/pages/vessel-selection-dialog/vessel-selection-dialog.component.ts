@@ -70,8 +70,8 @@ export class VesselSelectionDialogComponent {
     this.getCodes();
     this.getVesselNames();
     this.getvesseltype();
-  } 
-  
+  }
+
   // Custom validator for DD-MMM-YYYY format
   dateValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -100,6 +100,10 @@ export class VesselSelectionDialogComponent {
     this.disableProceed = !pattern.test(value);
     this.vesselSelectionForms.controls['datePick'].setErrors(
       pattern.test(value) ? null : { invalidDateFormat: true }
+    );
+    this.sendFormattedDate = this.datePipe.transform(
+      event.target.value,
+      'yyyy-MM-dd HH:mm:ss'
     );
   }
 

@@ -153,7 +153,7 @@ export class ManualLookUpComponent implements OnInit {
 
   onCellClicked(event: any) {
     if (event.colDef.field === 'refid') {
-      mdldmsnavigatenewtab('PIQ', 'VCL', event.data.refid, 'true', 'true');
+      mdldmsnavigatenewtab('PIQ', 'VCT', event.data.refid, 'true', 'true');
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();
