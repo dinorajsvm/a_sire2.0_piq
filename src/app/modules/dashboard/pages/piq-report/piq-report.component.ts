@@ -251,7 +251,7 @@ export class PiqReportComponent implements OnInit {
       });
       this.subHeaderCount();
     });
-    this.edit();
+    
   }
 
   getTopBarDatas() {
@@ -365,6 +365,14 @@ export class PiqReportComponent implements OnInit {
       this.vesselSelection = res.vesseltypename;
       this.selectedMultiAns = false;
       this.initialMultiAns = true;
+
+      if (this.route.snapshot.paramMap.get('type') == 'new') {
+        console.log('inga');
+        this.disableEditMode = true;
+        this.saveDisable = false;
+      }
+
+
       if (
         this.getOrigination == 'CNT001' &&
         this.userDetails?.cntrlType === 'CNT002'
@@ -387,7 +395,30 @@ export class PiqReportComponent implements OnInit {
           this.viewMode = true;
         }
         this.saveDisable = true;
+        // mani
+        if(this.userDetails?.cntrlType === 'CNT002'){
+          if (
+            this.getOrigination == 'CNT002' &&
+            (this.getStatus != 'Submitted')
+          ) {
+            this.disableEditMode = false;
+          }else{
+            this.disableEditMode = true;
+          }
+
+        }else if(this.userDetails?.cntrlType === 'CNT001'){
+          if(this.getOrigination == 'CNT001' && this.getStatus != 'Approved'){
+            this.disableEditMode = false;
+          }else if(this.getOrigination == 'CNT002' && (this.getStatus == 'Submitted' || this.getStatus == 'ReAssigned')){
+            this.disableEditMode = false;
+          }
+        }
       }
+      else{
+        this.saveDisable = false;
+      }
+
+      
 
       this.getAllDatas = object;
       if (this.getAllDatas) {
@@ -2876,30 +2907,28 @@ export class PiqReportComponent implements OnInit {
   }
   disableBtn = false;
   edit() {
-    if (this.route.snapshot.paramMap.get('type') == 'new') {
-      console.log('inga');
-      this.disableEditMode = true;
-      this.saveDisable = false;
-    } else if (this.route.snapshot.paramMap.get('type') == 'view') {
-      console.log('illa inga');
-
+   if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.BudgetService.setEnableBtn(this.disableBtn);
       if (this.userDetails?.cntrlType === 'CNT002') {
         if (
-          this.userDetails?.cntrlType === 'CNT002' &&
+          this.getOrigination == 'CNT002' &&
           (this.getStatus != 'Approved' || this.getStatus != 'Submitted')
         ) {
           this.viewMode = false;
-          this.disableEditMode = false;
           this.saveDisable = false;
+        }else{
+
         }
       } else if (this.userDetails?.cntrlType === 'CNT001') {
         if (
-          this.userDetails?.cntrlType === 'CNT001' &&
+          this.getOrigination === 'CNT001' &&
           this.getStatus != 'Approved'
         ) {
+          console.log("this.getOrigination4",this.getOrigination);
           this.viewMode = false;
-          this.disableEditMode = false;
+          this.saveDisable = false;
+        }else if(this.getOrigination == 'CNT002'&& (this.getStatus == 'Submitted'||this.getStatus == 'ReAssigned')){
+          this.viewMode = false;
           this.saveDisable = false;
         }
       }

@@ -265,5 +265,5 @@ mat-card-header {
 }
 
 .hideReqBtns{
-  display: none;
+  display: none !important;
 }
