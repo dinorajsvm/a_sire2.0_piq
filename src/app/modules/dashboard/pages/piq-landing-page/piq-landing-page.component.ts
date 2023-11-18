@@ -59,12 +59,12 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: 'serialNumber',
-      headerName: 'Serial Number',
+      headerName: 'S.No',
       tooltipField: 'serialNumber',
     },
     {
       field: 'referenceNumber',
-      headerName: 'Reference Number',
+      headerName: 'Ref.Id',
       tooltipField: 'referenceNumber',
     },
     {
@@ -72,15 +72,16 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Company Name',
       tooltipField: 'companyName',
     },
+    { field: 'fleetname', headerName: 'Fleet Name', tooltipField: 'fleetName' },
     {
       field: 'vesselName',
       headerName: 'Vessel Name',
       tooltipField: 'vesselName',
     },
-    { field: 'fleetname', headerName: 'Fleet Name', tooltipField: 'fleetName' },
+    { field: 'createdBy', headerName: 'Created User', tooltipField: 'createdBy' },
     {
       field: 'createdDate',
-      headerName: 'Created Date/Time',
+      headerName: 'Created Date',
       tooltipField: 'createdDate',
       // valueGetter: (params: any) => {
       //   return params.data.createdDate
@@ -88,7 +89,6 @@ export class PIQLandingPageComponent implements OnInit {
       //     : '';
       // },
     },
-    { field: 'createdBy', headerName: 'Created By', tooltipField: 'createdBy' },
     {
       field: 'updatedBy',
       headerName: 'Updated User',
@@ -96,7 +96,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: 'updatedDate',
-      headerName: 'Updated Date/Time',
+      headerName: 'Updated Date',
       tooltipField: 'updatedDate',
       // valueGetter: (params: any) => {
       //   return params.data.updatedDate
@@ -148,17 +148,22 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: 'serialNumber',
-      headerName: 'Serial Number',
+      headerName: 'S.No',
       tooltipField: 'serialNumber',
     },
     {
       field: 'referenceNumber',
-      headerName: 'Reference Number',
+      headerName: 'Ref.Id',
       tooltipField: 'referenceNumber',
     },
     {
+      field: 'createdBy',
+      headerName: 'Created User',
+      tooltipField: 'createdBy',
+    },
+    {
       field: 'createdDate',
-      headerName: 'Created Date/Time',
+      headerName: 'Created Date',
       tooltipField: 'createdDate',
       valueGetter: (params: any) => {
         return params.data.createdDate
@@ -167,24 +172,19 @@ export class PIQLandingPageComponent implements OnInit {
       },
     },
     {
-      field: 'createdBy',
-      headerName: 'Created By',
-      tooltipField: 'createdBy',
-    },
-    {
       field: 'updatedBy',
       headerName: 'Updated User',
       tooltipField: 'updatedBy',
     },
     {
       field: 'updatedDate',
-      headerName: 'Updated Date/Time',
+      headerName: 'Updated Date',
       tooltipField: 'updatedDate',
-      valueGetter: (params: any) => {
-        return params.data.updatedDate
-          ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
-          : '';
-      },
+      // valueGetter: (params: any) => {
+      //   return params.data.updatedDate
+      //     ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
+      //     : '';
+      // },
     },
     {
       field: 'status',

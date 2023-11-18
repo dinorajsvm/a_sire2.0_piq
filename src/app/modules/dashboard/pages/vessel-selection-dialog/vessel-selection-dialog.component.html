@@ -3,11 +3,11 @@
     <div class="col-sm-12">
       <div class="row">
         <div class="col-sm-11" style="font-size: 12px;white-space: nowrap;">
-          <h5>Select Vessel</h5>
+          <h5>Select Details</h5>
         </div>
-        <div class="col-sm-1 text-right">
+        <!-- <div class="col-sm-1 text-right">
           <mat-icon [mat-dialog-close]="true">close</mat-icon>
-      </div>
+      </div> -->
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
       <div class="col-sm-12" style="padding: 0;" *ngIf="this.userDetails?.cntrlType === 'CNT001'">
         <div class="row">
           <div class="col-sm-4">
-            <div><span>Select Vessel Name</span></div>
+            <div><span>Select Details</span></div>
             <mat-form-field class="selectDropdown" appearance="outline" >
               <mat-select [(ngModel)]="selectedValue" formControlName="vesselName"  (selectionChange)="onSelectVessel($event)" name="food">
                 <input  placeholder="Search Vessel" class="filterSearch" #filterVesselNameInput  />
@@ -28,7 +28,7 @@
             </mat-form-field>
           </div>
           <div class="col-sm-4">
-            <div><span>Select Vessel Type</span></div>
+            <div><span style="color: black;">Select Vessel Type</span><span style="color: red;"> *</span></div>
             <mat-form-field class="selectDropdown" appearance="outline" >
               <mat-select [(ngModel)]="selectedVslTypeValue" formControlName="vesselType"  (selectionChange)="onSelectVessel($event)" name="food">
                 <input  placeholder="Search Vessel" class="filterSearch" #filterVesselTypeInput  />
@@ -39,7 +39,7 @@
             </mat-form-field>
           </div>
           <div class="col-sm-4">
-            <div><span>Planned Submission Date</span></div>
+            <div><span style="color: black;">Planned Submission Date</span><span style="color: red;"> *</span></div>
             <mat-form-field appearance="outline" class="datePicker">
               <input matInput [matDatepicker]="picker" formControlName="datePick"
                 (dateInput)="onDateChange($event)" autocomplete="off" />
@@ -53,7 +53,7 @@
       <div class="col-sm-12" style="padding: 0;"  *ngIf="this.userDetails?.cntrlType === 'CNT002'">
         <div class="row">
           <div class="col-sm-6">
-            <div><span>Select Vessel Type</span></div>
+            <div><span style="color: black;">Select Vessel Type</span><span style="color: red;"> *</span></div>
             <mat-form-field class="selectDropdown" appearance="outline" >
               <mat-select [(ngModel)]="selectedVslTypeValue" formControlName="vesselType"  (selectionChange)="onSelectVessel($event)" name="food">
                 <input  placeholder="Search Vessel" class="filterSearch" #filterInput  />
@@ -64,7 +64,7 @@
             </mat-form-field>
           </div>
           <div class="col-sm-6">
-            <div><span>Planned Submission Date</span></div>
+            <div><span style="color: black;">Planned Submission Date</span><span style="color: red;"> *</span></div>
             <mat-form-field appearance="outline" class="datePicker">
               <input matInput [matDatepicker]="picker" formControlName="datePick"
                 (dateInput)="onDateChange($event)" autocomplete="off" (input)="onKeyChange($event)"/>
@@ -79,6 +79,7 @@
     <div mat-dialog-actions>
       <button mat-button type="submit" [disabled]="disableProceed"
         [ngClass]="{'disableBtn': disableProceed}" class="vslSelect">Proceed</button>
+      <button mat-button (click)="closeDialog($event)" class="cancel" [mat-dialog-close]="true">Cancel</button>
     </div>
   </form>
 </div>

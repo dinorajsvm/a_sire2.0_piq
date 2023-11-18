@@ -86,10 +86,18 @@
               <div class="row" style="justify-content: flex-end;">
                 <div class="col-sm-4">
                   <div class="row" style="flex-direction: column;">
-                    <div class="col-sm-12" style="padding-right: 0;white-space: nowrap;">
-                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date: </span><span
-                        class="charCount">{{getPlannedSubDate}}</span>
+                    <div class="col-sm-8" style="padding-right: 0;white-space: nowrap;">
+                      <span style="font-weight: 500;" class="labelFont">Planned Submission Date: </span>
+                      <!-- <span class="charCount">{{getPlannedSubDate}}</span> -->
                     </div>
+                    <div class="col-sm-8">
+                      <mat-form-field appearance="outline"  class="datePicker">
+                        <input matInput [matDatepicker]="picker" formControlName="dateField"
+                          (dateInput)="onDateChange($event)" autocomplete="off"  />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                  </div>
                   </div>
                 </div>
                 <div class="col-sm-8" style="display: flex;justify-content: flex-end;">
@@ -167,56 +175,62 @@
   <div class="row">
     <div class="col-sm-12 padl">
       <span class="table-header">Chapter Summary </span>
-      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions" [animateRows]="true"
+      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
         [embedFullWidthRows]="true" [rowData]="rowData" (gridReady)="onGridReady($event)">
       </ag-grid-angular>
+      <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
     </div>
   </div>
 
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Photo Repository Summary </span>
-      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions" [animateRows]="true"
+      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+        [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
         [embedFullWidthRows]="true" [rowData]="photoRowData" [suppressHorizontalScroll]="true">
       </ag-grid-angular>
+      <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
     </div>
     <div class="col-sm-6 padl">
       <span class="table-header">Last Modified Data Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid"
-        [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions" [animateRows]="true"
+      <ag-grid-angular style="height: calc(100vh - 365px)" class="ag-theme-balham summaryGrid"
+        [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
       </ag-grid-angular>
+      <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
     </div>
   </div>
 
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Certificate Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 398px)" class="ag-theme-balham summaryGrid"
-        [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions"
+      <ag-grid-angular style="height: calc(100vh - 365px)" class="ag-theme-balham summaryGrid"
+        [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
       </ag-grid-angular>
+      <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions"
+      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true"
         [embedFullWidthRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
+      <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 398px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [tooltipShowDelay]="tooltipShowDelay"
+      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [tooltipShowDelay]="tooltipShowDelay"
         [gridOptions]="gridOptions" [animateRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
+      <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
     </div>
   </div>
 </div>

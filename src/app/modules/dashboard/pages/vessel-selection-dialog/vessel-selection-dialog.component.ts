@@ -197,6 +197,12 @@ export class VesselSelectionDialogComponent {
     this.dialogRef.close();
   }
 
+  closeDialog(event:any){
+    this.dialogRef.close();
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
   onProceed(forms: any) {
     this.getNewRef();
   }
