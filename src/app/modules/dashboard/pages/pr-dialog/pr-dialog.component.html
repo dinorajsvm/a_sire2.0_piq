@@ -2,11 +2,11 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-11">
-        <h5>Photo Repository Dialog</h5>
+        <h5>Photo Repository CheckList</h5>
       </div>
-      <div class="col-sm-1 text-right closeIcn">
+      <!-- <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -67,4 +67,5 @@
   <!-- (rowSelected)="onRowSelected($event)" [mat-dialog-close]="true"-->
 
   <button mat-button class="showBtn" (click)="ShowSelectedDatas()">Show</button>
+  <button mat-button (click)="closeDialog($event)" class="cancel" [mat-dialog-close]="true">Cancel</button>
 </mat-dialog-actions>

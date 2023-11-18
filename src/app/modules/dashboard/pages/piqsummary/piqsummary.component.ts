@@ -263,6 +263,7 @@ export class PIQSummaryComponent implements OnInit {
   disableSubFlowBtn: boolean = false;
   disableResAprFlowBtn: boolean = false;
   disableSyncBtn = true;
+  viewMode?: boolean;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -286,11 +287,15 @@ export class PIQSummaryComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableSubFlowBtn = true;
       this.disableResAprFlowBtn = true;
+      this.viewMode = true;
+      
       this.BudgetService.getEnableBtn().subscribe((res: any) => {
         if (res == false) {
           this.disableSyncBtn = res;
+          this.viewMode = res;
         } else {
           this.disableSyncBtn = true;
+          this.viewMode = true;
         }
       });
     }

@@ -1224,15 +1224,15 @@ legend {
   background: transparent;
   z-index: 2;
   right: 0;
-  top: 60px;
+  top: 65px;
 }
 
 .wrkflToggle {
   background: #000000;
   color: #fff;
   padding: 0 !important;
-  min-width: 30px;
-  height: 30px;
+  min-width: 25px;
+  height: 25px;
   display: flex;
   border-radius: 5px 0px 0px 5px;
 }

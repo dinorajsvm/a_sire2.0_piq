@@ -153,8 +153,20 @@ mat-card-content {
   width: 100%;
 }
 .contWrap {
-  height: 95px;
+  height: 105px;
   margin-bottom: 8px;
+}
+
+.read-only {
+  background-color: #e0e0e0 !important;
+  border-radius: 3px;
+  cursor: not-allowed !important;
+}
+
+.read-only-date ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #e0e0e0 !important;
+  border-radius: 5px;
+  cursor: not-allowed !important;
 }
 
 mat-card-header {

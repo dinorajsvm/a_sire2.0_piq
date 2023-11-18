@@ -37,7 +37,7 @@ export class ExceptionQuestionComponent implements OnInit {
       headerName: 'Main Question',
       resizable: true,
     },
-    { field: 'subName', headerName: 'Question', resizable: true },
+    { field: 'subName', headerName: 'Sub Question', resizable: true },
     {
       field: 'presetValue',
       headerName: 'Preset Value',
@@ -52,12 +52,12 @@ export class ExceptionQuestionComponent implements OnInit {
     },
     {
       field: 'remark',
-      headerName: 'Remark',
+      headerName: 'Remarks',
       editable: true,
       wrapText: true,
       cellEditor: 'agLargeTextCellEditor',
       cellEditorPopup: true,
-      minWidth: 350,
+   flex:1
     },
   ];
   referenceNumber: any;

@@ -91,10 +91,10 @@
                       <!-- <span class="charCount">{{getPlannedSubDate}}</span> -->
                     </div>
                     <div class="col-sm-8">
-                      <mat-form-field appearance="outline"  class="datePicker">
+                      <mat-form-field appearance="outline"  class="datePicker"  [ngClass]="{ 'read-only-date': viewMode }">
                         <input matInput [matDatepicker]="picker" formControlName="dateField"
-                          (dateInput)="onDateChange($event)" autocomplete="off"  />
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                          (dateInput)="onDateChange($event)" [readonly]="viewMode" autocomplete="off"  />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="viewMode"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
                   </div>
@@ -140,7 +140,7 @@
               <div class="row">
                 <div class="col-sm-12" style="padding-top: 8px;">
                   <span class="table-header">Add Remarks</span><span style="color: red;"> *</span>
-                  <textarea id="float-input" id="remarks" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
+                  <textarea id="float-input" id="remarks" [readonly]="viewMode" [ngClass]="{ 'read-only': viewMode }" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
                     placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" style="height: 41px;padding: 0 5px;"
                     formControlName="wrkFlowTextArea"></textarea>
                   <div class="text-right">
@@ -156,7 +156,7 @@
             <div class="col-sm-12">
               <span class="p-float-label">
                 <span class="table-header">Quick Notes</span>
-                <textarea id="float-input" autoResize="true" class="w-100" rows="3" #textArea cols="30"
+                <textarea id="float-input" autoResize="true" [readonly]="viewMode" [ngClass]="{ 'read-only': viewMode }" class="w-100" rows="3" #textArea cols="30"
                   placeholder="Quick notes" maxlength="1000" formControlName="TextAreaField" (blur)="onInputBlur()"
                   [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
               </span>
@@ -175,7 +175,7 @@
   <div class="row">
     <div class="col-sm-12 padl">
       <span class="table-header">Chapter Summary </span>
-      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
         [embedFullWidthRows]="true" [rowData]="rowData" (gridReady)="onGridReady($event)">
@@ -187,7 +187,7 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Photo Repository Summary </span>
-      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
         [embedFullWidthRows]="true" [rowData]="photoRowData" [suppressHorizontalScroll]="true">
@@ -196,7 +196,7 @@
     </div>
     <div class="col-sm-6 padl">
       <span class="table-header">Last Modified Data Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 365px)" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
         [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
@@ -208,7 +208,7 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Certificate Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 365px)" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
         [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
@@ -217,7 +217,7 @@
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true"
         [embedFullWidthRows]="true" [rowData]="expectedRowData">
@@ -226,7 +226,7 @@
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
-      <ag-grid-angular style="height: calc(100vh - 365px);overflow: auto" class="ag-theme-balham summaryGrid"
+      <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [tooltipShowDelay]="tooltipShowDelay"
         [gridOptions]="gridOptions" [animateRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
