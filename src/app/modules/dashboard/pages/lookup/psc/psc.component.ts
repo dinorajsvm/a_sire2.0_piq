@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ColDef, GridApi, RowClassRules } from 'ag-grid-community';
+import { ColDef, GridApi, RowClassRules, StatusPanelDef } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -11,7 +11,14 @@ import { DatePipe } from '@angular/common';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
+declare function mdldmsnavigatenewtab(
+  params: any,
+  params1: any,
+  params2: any,
+  params3: any,
+  param4s: any
+): any;
 @Component({
   selector: 'app-psc',
   templateUrl: './psc.component.html',
@@ -88,6 +95,16 @@ export class PscComponent {
       flex: 1,
     },
   ];
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = {
+    statusPanels: [
+      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
+  };
   syncData: any[] = [];
   rowData: any[] = [];
   isViewAll = false;
@@ -110,7 +127,8 @@ export class PscComponent {
     private dialogRef: MatDialogRef<PscComponent>,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private _loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
@@ -166,5 +184,15 @@ export class PscComponent {
       this.apiResponse = data.response;
       this.rowData = this.apiResponse.PSC;
     });
+  }
+
+  onCellClicked(event: any) {
+    if (event.colDef.field === 'extrfid') {
+      mdldmsnavigatenewtab('PIQ', 'EXT', event.data.extrfid, 'true', 'true');
+      this._loaderService.loaderShow();
+      setTimeout(() => {
+        this._loaderService.loaderHide();
+      }, 2500);
+    }
   }
 }

@@ -2,35 +2,27 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-7">
-        <h3 class="header" *ngIf="isShowInternal">Internal Audit Report</h3>
+        <h4 class="header">3.2. Crew Evaluation</h4>
         <p class="descHeader" *ngIf="isShowInternal && data.qid !== '3.2.2'">
           (List of Internal Audit Report for last 12 months)
         </p>
         <p class="descHeader" *ngIf="isShowInternal && data.qid === '3.2.2'">
           (List of Internal Audit Report for last 24 months)
         </p>
-        <h3 class="header" *ngIf="isShowExternal">
-          External Inspection Report
-        </h3>
+
         <p class="descHeader" *ngIf="isShowExternal">
           (List of External Inspection Report for last 12 months)
         </p>
-        <h3 class="header" *ngIf="isShowShip">Ship Visit Report</h3>
         <p class="descHeader" *ngIf="isShowShip && data.qid !== '3.2.2'">
           (List of Ship Visit Report for last 12 months)
         </p>
         <p class="descHeader" *ngIf="isShowShip && data.qid === '3.2.2'">
           (List of Ship Visit Report for last 24 months)
         </p>
-        <h3 class="header" *ngIf="isShowView && isShowInternalShip">
-          Internal Audit And Ship Visit Report
-        </h3>
+
         <p class="descHeader" *ngIf="isShowView && isShowInternalShip">
           (List of Internal Audit and Ship Visit Report for last 24 months)
         </p>
-        <h3 class="header" *ngIf="isShowView && isShowInternalExternal">
-          Internal Audit And External Audit Report
-        </h3>
 
         <p class="descHeader" *ngIf="isShowView && isShowInternalExternal">
           (List of Internal Audit and External Audit Report for last 24 months)
@@ -100,6 +92,8 @@
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [components]="frameworkComponents"
+          [statusBar]="statusBar"
+          (cellClicked)="onCellClicked($event)"
         >
         </ag-grid-angular>
       </div>
@@ -118,6 +112,8 @@
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [components]="frameworkComponents"
+          [statusBar]="statusBar"
+          (cellClicked)="onCellClicked($event)"
         >
         </ag-grid-angular>
       </div>
@@ -135,6 +131,8 @@
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [components]="frameworkComponents"
+          [statusBar]="statusBar"
+          (cellClicked)="onCellClicked($event)"
         >
         </ag-grid-angular>
       </div>
@@ -153,6 +151,8 @@
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [components]="frameworkComponents"
+          [statusBar]="statusBar"
+          (cellClicked)="onCellClicked($event)"
         >
         </ag-grid-angular>
         <ag-grid-angular
@@ -168,6 +168,8 @@
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [components]="frameworkComponents"
+          [statusBar]="statusBar"
+          (cellClicked)="onCellClicked($event)"
         >
         </ag-grid-angular>
       </div>
@@ -185,6 +187,8 @@
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [components]="frameworkComponents"
+          [statusBar]="statusBar"
+          (cellClicked)="onCellClicked($event)"
         >
         </ag-grid-angular>
         <ag-grid-angular
@@ -201,6 +205,8 @@
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [components]="frameworkComponents"
+          [statusBar]="statusBar"
+          (cellClicked)="onCellClicked($event)"
         >
         </ag-grid-angular>
       </div>

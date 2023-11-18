@@ -7,7 +7,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
-import { ColDef, LicenseManager } from 'ag-grid-enterprise';
+import { ColDef, LicenseManager, StatusPanelDef } from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
@@ -43,7 +43,16 @@ export class MocComponent {
       checkboxRenderer: AgGridCheckboxComponent,
     };
   }
-
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = {
+    statusPanels: [
+      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
+  };
   columnDefs: ColDef[] = [
     {
       headerName: 'Ref Id',

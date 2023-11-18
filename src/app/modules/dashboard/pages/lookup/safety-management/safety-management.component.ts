@@ -1,15 +1,21 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
-import { ColDef, GridOptions } from 'ag-grid-community';
+import { ColDef, GridOptions, StatusPanelDef } from 'ag-grid-community';
 import { BudgetService } from '../../../services/budget.service';
-import { MomentService } from 'src/app/core/services/moment/moment.service';
 import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
 import { DatePipe } from '@angular/common';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
+declare function mdldmsnavigatenewtab(
+  params: any,
+  params1: any,
+  params2: any,
+  params3: any,
+  param4s: any
+): any;
 @Component({
   selector: 'app-safety-management',
   templateUrl: './safety-management.component.html',
@@ -483,6 +489,16 @@ export class SafetyManagementComponent implements OnInit {
   ];
   private gridApi: any;
   private gridColumnApi: any;
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = {
+    statusPanels: [
+      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
+  };
   selectedColumnDefs: ColDef[] = [
     {
       headerName: 'Ref No',
@@ -545,9 +561,9 @@ export class SafetyManagementComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<SafetyManagementComponent>,
     private BudgetService: BudgetService,
-    private _momentService: MomentService,
     private datePipe: DatePipe,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private _loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
@@ -652,5 +668,15 @@ export class SafetyManagementComponent implements OnInit {
 
   onApply() {
     this.dialogRef.close(this.selectedRowData);
+  }
+
+  onCellClicked(event: any) {
+    if (event.colDef.field === 'ivrid') {
+      mdldmsnavigatenewtab('PIQ', 'IVR', event.data.ivrid, 'true', 'true');
+      this._loaderService.loaderShow();
+      setTimeout(() => {
+        this._loaderService.loaderHide();
+      }, 2500);
+    }
   }
 }

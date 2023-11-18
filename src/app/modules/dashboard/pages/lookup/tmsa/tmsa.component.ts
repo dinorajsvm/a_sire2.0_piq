@@ -12,10 +12,19 @@ import {
   GridApi,
   LicenseManager,
   RowClassRules,
+  StatusPanelDef,
 } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
+declare function mdldmsnavigatenewtab(
+  params: any,
+  params1: any,
+  params2: any,
+  params3: any,
+  param4s: any
+): any;
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -291,6 +300,17 @@ export class TMSAComponent implements OnInit {
       flex: 1,
     },
   ];
+
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = {
+    statusPanels: [
+      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
+  };
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   defaultColDef = DefaultColDef;
@@ -307,7 +327,8 @@ export class TMSAComponent implements OnInit {
     private dialogRef: MatDialogRef<TMSAComponent>,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private _loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
@@ -424,6 +445,22 @@ export class TMSAComponent implements OnInit {
 
   onReset() {
     this.dialogRef.close('Reset');
+  }
+
+  onCellClicked(event: any) {
+    if (event.colDef.field === 'refno') {
+      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.refno, 'true', 'true');
+      this._loaderService.loaderShow();
+      setTimeout(() => {
+        this._loaderService.loaderHide();
+      }, 2500);
+    } else if (event.colDef.field === 'extrfid') {
+      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.extrfid, 'true', 'true');
+      this._loaderService.loaderShow();
+      setTimeout(() => {
+        this._loaderService.loaderHide();
+      }, 2500);
+    }
   }
 
 }

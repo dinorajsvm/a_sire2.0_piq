@@ -2,7 +2,9 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-11">
-        <h3 class="header">2.3. Structural Assessment - {{ data.moduleName }}</h3>
+        <h4 class="header">
+          2.3. Structural Assessment - {{ data.moduleName }}
+        </h4>
         <p class="descHeader">(List of PMS Overview)</p>
       </div>
 
@@ -13,34 +15,32 @@
   </div>
 </div>
 
-    <mat-dialog-content class="mat-typography">
-      <div class="col-sm-12">
-        <ag-grid-angular
-          class="ag-theme-balham"
-          style="height: calc(100vh - 235px)"
-          [rowData]="rowData"
-          [columnDefs]="columnDefs"
-          [rowSelection]="multiRowSelection"
-          [defaultColDef]="defaultColDef"
-          [rowGroupPanelShow]="rowGroupPanelShow"
-          [statusBar]="statusBar"
-          [tooltipShowDelay]="tooltipShowDelay"
-          [rowClassRules]="rowClassRules"
-          [rowMultiSelectWithClick]="true"
-          (gridReady)="onGridReady($event)"
-          [components]="frameworkComponents"
-        >
-        </ag-grid-angular>
-      </div>
-      <button
-      mat-button
-      class="syncBtn mt-2"
-      style="float: right"
-      type="submit"
-      (click)="onReset()"
+<mat-dialog-content class="mat-typography">
+  <div class="col-sm-12">
+    <ag-grid-angular
+      class="ag-theme-balham"
+      style="height: calc(100vh - 235px)"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [rowSelection]="multiRowSelection"
+      [defaultColDef]="defaultColDef"
+      [rowGroupPanelShow]="rowGroupPanelShow"
+      [statusBar]="statusBar"
+      [tooltipShowDelay]="tooltipShowDelay"
+      [rowClassRules]="rowClassRules"
+      [rowMultiSelectWithClick]="true"
+      (gridReady)="onGridReady($event)"
+      [components]="frameworkComponents"
     >
-      Reset
-    </button>
-    </mat-dialog-content>
-  
-
+    </ag-grid-angular>
+  </div>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    style="float: right"
+    type="submit"
+    (click)="onReset()"
+  >
+    Reset
+  </button>
+</mat-dialog-content>

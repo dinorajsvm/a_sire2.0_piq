@@ -2,7 +2,7 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-8">
-        <h3 class="header">2.8. General Information</h3>
+        <h4 class="header">2.8. General Information</h4>
         <p class="descHeader">
           (List of External Inspection Data in last 18 months)
         </p>
@@ -61,6 +61,8 @@
         [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
+        [statusBar]="statusBar"
+        (cellClicked)="onCellClicked($event)"
       >
       </ag-grid-angular>
     </div>
@@ -76,10 +78,12 @@
         [rowSelection]="multiRowSelection"
         [rowClassRules]="rowClassRules"
         [defaultColDef]="defaultColDef"
+        [statusBar]="statusBar"
         [rowGroupPanelShow]="rowGroupPanelShow"
         [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
       >
       </ag-grid-angular>
     </div>
@@ -93,10 +97,12 @@
         [rowSelection]="multiRowSelection"
         [rowClassRules]="rowClassRules"
         [defaultColDef]="defaultColDef"
+        [statusBar]="statusBar"
         [rowGroupPanelShow]="rowGroupPanelShow"
         [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
       >
       </ag-grid-angular>
     </div>

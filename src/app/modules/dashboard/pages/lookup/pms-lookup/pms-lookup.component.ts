@@ -1,5 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { ColDef, GridApi, RowClassRules, StatusPanelDef } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  RowClassRules,
+  StatusPanelDef,
+} from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -10,6 +15,7 @@ import {
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
+
 @Component({
   selector: 'app-pms-lookup',
   templateUrl: './pms-lookup.component.html',
@@ -23,6 +29,8 @@ export class PmsLookupComponent {
     {
       headerName: 'Auto Sync',
       width: 100,
+      sortable: false,
+      filter: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -72,7 +80,7 @@ export class PmsLookupComponent {
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
 
   defaultColDef = DefaultColDef;
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
@@ -119,7 +127,6 @@ export class PmsLookupComponent {
     this.getLookUpVisit();
   }
 
-  
   onReset() {
     this.dialogRef.close('Reset');
   }
@@ -140,7 +147,12 @@ export class PmsLookupComponent {
         res.pmsCode = filterResponse.pmscompcode;
       });
       this.rowData = [];
-      this.rowData = filterResponse.jobList;
+      this.rowData =
+        filterResponse &&
+        filterResponse.jobList &&
+        filterResponse.jobList.length > 0
+          ? filterResponse.jobList
+          : [];
     });
   }
 }

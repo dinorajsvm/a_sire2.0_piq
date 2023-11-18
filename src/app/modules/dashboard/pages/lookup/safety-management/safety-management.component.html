@@ -2,7 +2,7 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-11">
-        <h3 class="header">5.7. Safety Management</h3>
+        <h4 class="header">5.7. Safety Management</h4>
         <p class="descHeader">
           (List of Incident Investigation for last 12 months)
         </p>
@@ -35,6 +35,8 @@
           [rowGroupPanelShow]="rowGroupPanelShow"
           [gridOptions]="gridOptions"
           (gridReady)="onGridReady($event)"
+          (cellClicked)="onCellClicked($event)"
+          [statusBar]="statusBar"
         >
         </ag-grid-angular>
       </mat-tab>
@@ -50,6 +52,8 @@
           [tooltipShowDelay]="tooltipShowDelay"
           [columnDefs]="selectedColumnDefs"
           [components]="frameworkComponents"
+          (cellClicked)="onCellClicked($event)"
+          [statusBar]="statusBar"
         >
         </ag-grid-angular>
 
