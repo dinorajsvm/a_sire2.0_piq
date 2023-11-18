@@ -13,6 +13,14 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
+declare function mdldmsnavigatenewtab(
+  params: any,
+  params1: any,
+  params2: any,
+  params3: any,
+  param4s: any
+): any;
 @Component({
   selector: 'app-moc',
   templateUrl: './moc.component.html',
@@ -27,7 +35,8 @@ export class MocComponent {
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<MocComponent>,
     public dialog: MatDialog,
-    public _storage: StorageService
+    public _storage: StorageService,
+    private _loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
@@ -141,5 +150,15 @@ export class MocComponent {
   }
   onDialogClose(): void {
     this.dialogRef.close();
+  }
+
+  onCellClicked(event: any) {
+    if (event.colDef.field === 'mgcreferenceid') {
+      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.mgcreferenceid, 'true', 'true');
+      this._loaderService.loaderShow();
+      setTimeout(() => {
+        this._loaderService.loaderHide();
+      }, 2500);
+    }
   }
 }

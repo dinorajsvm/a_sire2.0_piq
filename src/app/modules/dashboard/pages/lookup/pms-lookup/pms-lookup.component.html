@@ -2,7 +2,7 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-11">
-        <h3 class="header">PMS Overview - {{ data.moduleName }}</h3>
+        <h3 class="header">2.3. Structural Assessment - {{ data.moduleName }}</h3>
         <p class="descHeader">(List of PMS Overview)</p>
       </div>
 
@@ -17,12 +17,13 @@
       <div class="col-sm-12">
         <ag-grid-angular
           class="ag-theme-balham"
-          style="height: calc(100vh - 270px)"
+          style="height: calc(100vh - 235px)"
           [rowData]="rowData"
           [columnDefs]="columnDefs"
           [rowSelection]="multiRowSelection"
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
+          [statusBar]="statusBar"
           [tooltipShowDelay]="tooltipShowDelay"
           [rowClassRules]="rowClassRules"
           [rowMultiSelectWithClick]="true"
@@ -31,6 +32,15 @@
         >
         </ag-grid-angular>
       </div>
+      <button
+      mat-button
+      class="syncBtn mt-2"
+      style="float: right"
+      type="submit"
+      (click)="onReset()"
+    >
+      Reset
+    </button>
     </mat-dialog-content>
   
 

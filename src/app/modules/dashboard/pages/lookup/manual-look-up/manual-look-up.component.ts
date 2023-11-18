@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ColDef, GridApi } from 'ag-grid-community';
+import { ColDef, GridApi, StatusPanelDef } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -110,6 +110,17 @@ export class ManualLookUpComponent implements OnInit {
       resizable: true,
     },
   ];
+
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = {
+    statusPanels: [
+      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
+  };
   rowData: any = [];
   userDetails: any;
   defaultColDef = DefaultColDef;
@@ -140,7 +151,7 @@ export class ManualLookUpComponent implements OnInit {
   }
   getVesselCertificateLookupDetail() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getVesselCertificateLookup('sndc').subscribe(
+    this.BudgetService.getVesselCertificateLookup(vesselCode).subscribe(
       (data) => {
         this.rowData =
           data && data.response && data.response.length > 0

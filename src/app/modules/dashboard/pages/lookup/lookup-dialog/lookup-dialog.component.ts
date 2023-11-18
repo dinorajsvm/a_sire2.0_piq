@@ -1,5 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ColDef, GridApi, RowClassRules } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  RowClassRules,
+  StatusPanelDef,
+} from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -12,7 +17,14 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
+declare function mdldmsnavigatenewtab(
+  params: any,
+  params1: any,
+  params2: any,
+  params3: any,
+  param4s: any
+): any;
 @Component({
   selector: 'app-lookup-dialog',
   templateUrl: './lookup-dialog.component.html',
@@ -30,6 +42,8 @@ export class LookupDialogComponent implements OnInit {
   columnDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
+      sortable: false,
+      filter: false,
       flex: 1,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
@@ -114,6 +128,8 @@ export class LookupDialogComponent implements OnInit {
     {
       headerName: 'Auto Sync',
       flex: 1,
+      sortable: false,
+      filter: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onInternalBtnClick.bind(this),
@@ -193,6 +209,16 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
   ];
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = {
+    statusPanels: [
+      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
+  };
   rowShipData: any = [];
   rowInternalData: any = [];
   getRowDatas: any = [];
@@ -204,7 +230,7 @@ export class LookupDialogComponent implements OnInit {
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
   defaultColDef = DefaultColDef;
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     // row style function
     'highlighted-row': (params) => {
@@ -219,7 +245,8 @@ export class LookupDialogComponent implements OnInit {
     public dialog: MatDialog,
     private datePipe: DatePipe,
     private route: ActivatedRoute,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private _loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.referenceId = this.route.snapshot.paramMap.get('id');
@@ -296,6 +323,17 @@ export class LookupDialogComponent implements OnInit {
       this.isOnlyShipVisit = true;
       this.rowShipData = this.getRowDatas.ShipVisit;
       this.rowInternalData = this.getRowDatas.Internal;
+    }
+  }
+
+
+  onCellClicked(event: any) {
+    if (event.colDef.field === 'refno') {
+      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.refno, 'true', 'true');
+      this._loaderService.loaderShow();
+      setTimeout(() => {
+        this._loaderService.loaderHide();
+      }, 2500);
     }
   }
 }

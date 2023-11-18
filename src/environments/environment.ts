@@ -12,12 +12,12 @@ export const environment = {
   // authUrl: "http://70.205.1.5:8080/auth/api/v1/mack/auth",
   // apiUrl: "https://mackdevship.solverminds.net",
   // authUrl: "https://mackdevship.solverminds.net/auth/api/v1/mack/auth",
+  apiUrl: 'https://mackstagingship.solverminds.net',
+  authUrl: 'https://mackstagingship.solverminds.net/auth/api/v1/mack/auth',
   // apiUrl: "https://mackdevshore.solverminds.net",
   // authUrl: "https://mackdevshore.solverminds.net/auth/api/v1/mack/auth",
   // apiUrl: "https://macktesting.solverminds.net",
   // authUrl: "https://macktesting.solverminds.net/auth/api/v1/mack/auth",
-  apiUrl: "https://macktestingship1.solverminds.net",
-  authUrl: "https://macktestingship1.solverminds.net/auth/api/v1/mack/auth",
   // apiUrl: "https://macktesting.solverminds.net/managementDashboard/api/v1/mgntDb",
   // authUrl: "https://macktesting.solverminds.net/auth/api/v1/mack/auth",
   //  apiUrl: "http://70.207.7.23:8080/managementDashboard/api/v1/mgntDb",
@@ -27,9 +27,9 @@ export const environment = {
   // apiUrl: "https://test.nyk-nibiki.com/managementDashboard/api/v1/mgntDb",
   // authUrl: "https://test.nyk-nibiki.com/auth/api/v1/mack/auth",
   //devApiUrl : "http://70.205.1.4",
-  // apiUrl: "https://www.nyk-nibiki.com/managementDashboard/api/v1/mgntDb", 
+  // apiUrl: "https://www.nyk-nibiki.com/managementDashboard/api/v1/mgntDb",
   //  authUrl: "https://www.nyk-nibiki.com/auth/api/v1/mack/auth",
-  projectType: Roles.SHIP
+  projectType: Roles.SHIP,
 };
 
 /*

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { ColDef, GridApi, RowClassRules } from 'ag-grid-community';
+import { ColDef, GridApi, RowClassRules, StatusPanelDef } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -66,6 +66,7 @@ export class PmsLookupComponent {
   ];
   syncData: any[] = [];
   rowData: any = [];
+  pmsCode: any;
 
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
@@ -76,6 +77,16 @@ export class PmsLookupComponent {
     'highlighted-row': (params) => {
       return params.data.highlight;
     },
+  };
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = {
+    statusPanels: [
+      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
   };
   userDetails: any;
   constructor(
@@ -107,7 +118,12 @@ export class PmsLookupComponent {
   ngOnInit(): void {
     this.getLookUpVisit();
   }
-  pmsCode: any;
+
+  
+  onReset() {
+    this.dialogRef.close('Reset');
+  }
+
   getLookUpVisit() {
     const companyCode = this.userDetails.userData.mdata.appInfo.companyCode;
     const vesselCode = localStorage.getItem('masterVesselCode');

@@ -83,11 +83,11 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
-      // valueGetter: (params: any) => {
-      //   return params.data.createdDate
-      //     ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy HH:mm')
-      //     : '';
-      // },
+      valueGetter: (params: any) => {
+        return params.data.createdDate
+          ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy HH:mm')
+          : '';
+      },
     },
     {
       field: 'updatedBy',
@@ -98,11 +98,11 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
-      // valueGetter: (params: any) => {
-      //   return params.data.updatedDate
-      //     ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
-      //     : '';
-      // },
+      valueGetter: (params: any) => {
+        return params.data.updatedDate
+          ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
+          : '';
+      },
     },
     {
       field: 'status',
@@ -180,11 +180,11 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
-      // valueGetter: (params: any) => {
-      //   return params.data.updatedDate
-      //     ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
-      //     : '';
-      // },
+      valueGetter: (params: any) => {
+        return params.data.updatedDate
+          ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
+          : '';
+      },
     },
     {
       field: 'status',
@@ -194,7 +194,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
   ];
   defaultColDef = DefaultColDef;
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
 
   public gridOptions: GridOptions = {};
 

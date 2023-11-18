@@ -114,7 +114,7 @@ export class CertificateRepositoryComponent implements OnInit {
     },
   ];
   defaultColDef = DefaultColDef;
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
   public detailCellRendererParams: any = {
     detailGridOptions: {
       columnDefs: [
@@ -186,8 +186,11 @@ export class CertificateRepositoryComponent implements OnInit {
                 : [];
           });
         }
-        this.rowData = res.response.piqmappinglist;
-  
+        this.rowData =
+          res && res.response && res.response.piqmappinglist
+            ? res.response.piqmappinglist
+            : [];
+
         this.totalCertificateCount = this.rowData.length;
         const mappingCercodeValues = this.rowData.map(
           (item) => item.mackcertificatename
@@ -200,7 +203,7 @@ export class CertificateRepositoryComponent implements OnInit {
         this.BudgetService.setMappedCertificateData(this.certificateCount);
         this.setSaveCertificateAction();
       });
-    });    
+    });
   }
   setSaveCertificateAction() {
     let payLoad: any[] = [];

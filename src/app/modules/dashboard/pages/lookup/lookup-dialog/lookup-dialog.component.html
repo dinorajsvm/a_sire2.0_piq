@@ -2,19 +2,13 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-11" *ngIf="enableDiv">
-        <h3 class="header">Ship Visit Report</h3>
+        <h3 class="header">2.2. Management Oversight</h3>
         <p class="descHeader">
           (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
       </div>
       <div class="col-sm-7" *ngIf="!enableDiv">
-        <h3 class="header" *ngIf="isOnlyShipVisit && !isViewAll">
-          Ship Visit Report
-        </h3>
-
-        <h3 class="header" *ngIf="isOnlyInterVisit && !isViewAll">
-          Internal Audit Report
-        </h3>
+        <h3 class="header">2.2. Management Oversight</h3>
         <p class="descHeader" *ngIf="isOnlyShipVisit && !isViewAll">
           (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
@@ -23,9 +17,6 @@
           months)
         </p>
 
-        <h3 class="header" *ngIf="isViewAll">
-          Internal Audit And Ship Visit Report
-        </h3>
         <p class="descHeader" *ngIf="isViewAll">
           (List of inspections from internal audit and ship visit report module
           for last 18 months)
@@ -74,16 +65,18 @@
     <div class="col-sm-12" *ngIf="isOnlyShipVisit" style="padding-top: 10px">
       <ag-grid-angular
         class="ag-theme-balham"
-        style="height: calc(100vh - 320px)"
+        style="height: calc(100vh - 292px)"
         [rowData]="rowShipData"
         [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef"
         [rowGroupPanelShow]="rowGroupPanelShow"
         [tooltipShowDelay]="tooltipShowDelay"
         [rowClassRules]="rowClassRules"
+        [statusBar]="statusBar"
         [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
       >
       </ag-grid-angular>
     </div>
@@ -94,15 +87,17 @@
     >
       <ag-grid-angular
         class="ag-theme-balham"
-        style="height: calc(100vh - 320px)"
+        style="height: calc(100vh - 292px)"
         [rowData]="rowInternalData"
         [columnDefs]="internalColumnDefs"
         [rowClassRules]="rowClassRules"
         [defaultColDef]="defaultColDef"
+        [statusBar]="statusBar"
         [rowGroupPanelShow]="rowGroupPanelShow"
         [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
       >
       </ag-grid-angular>
     </div>
