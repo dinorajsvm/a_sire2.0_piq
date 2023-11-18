@@ -18,8 +18,9 @@ export class SidebarComponent implements OnInit {
   vesselImage:any = '';
   constructor(private _storage: StorageService) {
     this.userDetails = this._storage.getUserDetails();
+
     this.vesselImage = this.userDetails?.vesselPicShip;
-    if (environment.projectType == Roles.SHORE) {
+    if (this.userDetails?.userData?.mdata?.appInfo?.controlTypeCode == Roles.SHORE) {
       this.isShipUser = false;
       this.vesselImage = this.userDetails?.vesselPicShore;
     }
@@ -29,6 +30,8 @@ export class SidebarComponent implements OnInit {
     if(this._storage.getRoleCode() === UserRoles.NYK_MARINE_GROUP) {
       this.showAreaMenu = true;
     }
+    console.log("this.userDetails",this.userDetails);
+    
   }
 
   navigate(toMldId:any){
