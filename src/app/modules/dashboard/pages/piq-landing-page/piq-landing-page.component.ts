@@ -77,6 +77,18 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'vesselName',
       headerName: 'Vessel Name',
       tooltipField: 'vesselName',
+      cellStyle: { textalign: 'left' },
+    },
+    {
+      field: '',
+      headerName: 'Vessel Type',
+      tooltipField: '',
+
+    },
+    {
+      field: '',
+      headerName: 'Flag Name',
+      tooltipField: '',
     },
     { field: 'createdBy', headerName: 'Created User', tooltipField: 'createdBy' },
     {
@@ -155,6 +167,31 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'referenceNumber',
       headerName: 'Ref.Id',
       tooltipField: 'referenceNumber',
+    },{
+      field: 'companyName',
+      headerName: 'Company Name',
+      tooltipField: 'companyName',
+    },
+    {
+      field: 'fleetname',
+      headerName: 'Fleet Name',
+      tooltipField: 'fleetname',
+    },
+    {
+      field: 'vesselName',
+      headerName: 'Vessel Name',
+      tooltipField: 'vesselName',
+      cellStyle: { textalign: 'left' },
+    },
+    {
+      field: '',
+      headerName: 'Vessel Type',
+      tooltipField: '',
+    },
+    {
+      field: '',
+      headerName: 'Flag',
+      tooltipField: '',
     },
     {
       field: 'createdBy',
