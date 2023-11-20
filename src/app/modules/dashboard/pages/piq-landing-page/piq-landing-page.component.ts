@@ -190,7 +190,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: '',
-      headerName: 'Flag',
+      headerName: 'Flag Name',
       tooltipField: '',
     },
     {
