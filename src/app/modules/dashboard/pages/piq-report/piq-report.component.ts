@@ -367,7 +367,6 @@ export class PiqReportComponent implements OnInit {
       this.initialMultiAns = true;
 
       if (this.route.snapshot.paramMap.get('type') == 'new') {
-        console.log('inga');
         this.disableEditMode = true;
         this.saveDisable = false;
       }
@@ -2200,7 +2199,31 @@ export class PiqReportComponent implements OnInit {
       });
     }
   }
-  inputChanges(event: any, subq: any, quest: any) {
+
+  lastinputChanges(event: any, subq: any, quest: any,mquest:any) {
+    let value = event.target.value;
+    
+        const modifiedData = {
+          userName: this.userDetails.userData.mdata.appInfo.userName,
+          userType: this.userDetails.userData.mdata.userInfo.userType,
+          header: quest.subHeaders,
+          mainQuestion: mquest.mainQuestion,
+          subID: subq.qid,
+          subQuestion: subq.subName,
+          answer: value,
+          sortingDate: new Date(),
+          modifiedDateTime: this.datePipe.transform(
+            new Date(),
+            'dd-MMM-yyyy HH:mm'
+          ),
+        };
+        this.lastModifiedData.push(modifiedData);
+        this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
+        if (this.lastModifiedData.length > 5) {
+          this.lastModifiedData.splice(5);
+        }
+  }
+  inputChanges(event: any, subq: any, quest: any,mquest:any) {
     let value = event.target.value;
     subq.answer = value;
     if (subq.answer) {
@@ -2213,6 +2236,8 @@ export class PiqReportComponent implements OnInit {
     this.selectedValue = quest.subHeaders;
     this.subHeaderCount();
   }
+
+
 
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -2227,6 +2252,27 @@ export class PiqReportComponent implements OnInit {
     mquest: any,
     subq: any
   ): void {
+    let value = event.value;
+        const modifiedData = {
+          userName: this.userDetails.userData.mdata.appInfo.userName,
+          userType: this.userDetails.userData.mdata.userInfo.userType,
+          header: subQues.subHeaders,
+          mainQuestion: mquest.mainQuestion,
+          subID: subq.qid,
+          subQuestion: subq.subName,
+          answer: value,
+          sortingDate: new Date(),
+          modifiedDateTime: this.datePipe.transform(
+            new Date(),
+            'dd-MMM-yyyy HH:mm'
+          ),
+        };
+        
+        this.lastModifiedData.push(modifiedData);
+        this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
+        if (this.lastModifiedData.length > 5) {
+          this.lastModifiedData.splice(5);
+        }
     const mQuestion = mquest.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -2924,7 +2970,6 @@ export class PiqReportComponent implements OnInit {
           this.getOrigination === 'CNT001' &&
           this.getStatus != 'Approved'
         ) {
-          console.log("this.getOrigination4",this.getOrigination);
           this.viewMode = false;
           this.saveDisable = false;
         }else if(this.getOrigination == 'CNT002'&& (this.getStatus == 'Submitted'||this.getStatus == 'ReAssigned')){
@@ -2936,7 +2981,6 @@ export class PiqReportComponent implements OnInit {
       //     this.userDetails?.cntrlType === 'CNT002' &&
       //     this.getStatus != 'Submitted'
       //   ) {
-      //     console.log('1');
       //     this.viewMode = false;
       //     this.disableEditMode = false;
       //     this.saveDisable = false;
@@ -2945,18 +2989,15 @@ export class PiqReportComponent implements OnInit {
       //     this.userDetails?.cntrlType === 'CNT001' &&
       //     this.getStatus != 'Approved'
       //   ) {
-      //     console.log('2');
       //     this.viewMode = false;
       //     this.disableEditMode = false;
       //     this.saveDisable = false;
       //   } else {
-      //     console.log('3');
       //     this.viewMode = true;
       //     this.disableEditMode = true;
       //     this.saveDisable = true;
       //   }
     } else {
-      console.log('4');
       this.viewMode = false;
       this.disableEditMode = false;
       this.saveDisable = false;

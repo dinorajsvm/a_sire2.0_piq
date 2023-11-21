@@ -457,41 +457,26 @@ export class PIQSummaryComponent implements OnInit {
       });
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
-          console.log("res",res);
-          
           if (this.getSubWrkFlowRank == this.getRank && res == false) {
-          console.log("res1",res);
-
             this.disableSubFlowBtn = false;
           } else {
-          console.log("res2",res);
-
             this.disableSubFlowBtn = true;
           }
           if (this.getResAprWrkFlowRank == this.getRank && res == false) {
-          console.log("res3",res);
-
             this.disableResAprFlowBtn = false;
           } else {
-          console.log("res4",res);
-
             this.disableResAprFlowBtn = true;
           }
         });
       } else {
         if (this.getSubWrkFlowRank == this.getRank) {
-          console.log("res*");
-
           this.disableSubFlowBtn = false;
         } else {
-          console.log("res#");
           this.disableSubFlowBtn = true;
         }
         if (this.getResAprWrkFlowRank == this.getRank) {
-          console.log("res!");
           this.disableResAprFlowBtn = false;
         } else {
-          console.log("res$");
           this.disableResAprFlowBtn = true;
         }
       }

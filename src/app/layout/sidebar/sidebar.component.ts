@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Roles, UserRoles } from 'src/app/core/mgntDBconstants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { environment } from 'src/environments/environment';
@@ -16,7 +17,7 @@ export class SidebarComponent implements OnInit {
   userDetails:any;
   isShipUser:boolean = true;
   vesselImage:any = '';
-  constructor(private _storage: StorageService) {
+  constructor(private _storage: StorageService,private router: Router) {
     this.userDetails = this._storage.getUserDetails();
 
     this.vesselImage = this.userDetails?.vesselPicShip;
@@ -29,14 +30,16 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     if(this._storage.getRoleCode() === UserRoles.NYK_MARINE_GROUP) {
       this.showAreaMenu = true;
-    }
-    console.log("this.userDetails",this.userDetails);
-    
+    }    
   }
 
-  navigate(toMldId:any){
-    console.log("redirection to other module");
-    let fromMldId = 'MGD';
-    mdldmsnavigatenewtab(fromMldId,toMldId,'','true','true');
+  // navigate(toMldId:any){
+  //   console.log("redirection to other module");
+  //   let fromMldId = 'MGD';
+  //   mdldmsnavigatenewtab(fromMldId,toMldId,'','true','true');
+  // }
+
+  navigateHome(){
+    this.router.navigate(['/sire/piq-landing/']);
   }
 }
