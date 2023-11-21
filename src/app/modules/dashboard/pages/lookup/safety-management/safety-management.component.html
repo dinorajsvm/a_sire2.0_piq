@@ -17,46 +17,35 @@
 
 <div mat-dialog-content class="mat-typography sm-Dailog">
   <div class="col-sm-12 mt-2">
-    <mat-tab-group
-      [selectedIndex]="selectedIndex"
-      (selectedTabChange)="onTabChanged($event)"
-    >
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChanged($event)">
       <mat-tab label="List of incident investigation">
-        <ag-grid-angular
-          #agGrid
-          class="ag-theme-balham"
-          style="height: calc(100vh - 320px)"
-          enableSorting="true"
-          enableFilter="true"
-          [rowData]="rowData"
-          [columnDefs]="columnDefs"
-          [tooltipShowDelay]="tooltipShowDelay"
-          [defaultColDef]="defaultColDef"
-          [rowGroupPanelShow]="rowGroupPanelShow"
-          [gridOptions]="gridOptions"
-          (gridReady)="onGridReady($event)"
-          (cellClicked)="onCellClicked($event)"
-          [statusBar]="statusBar"
-        >
-        </ag-grid-angular>
+        <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;">
+          <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
+              enableFilter="true" [rowData]="rowData" [columnDefs]="columnDefs" [tooltipShowDelay]="tooltipShowDelay"
+              [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [gridOptions]="gridOptions"
+              (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)" [statusBar]="statusBar">
+            </ag-grid-angular>
+          </div>
+        </div>
       </mat-tab>
       <mat-tab label="Selected incident investigation">
-        <ag-grid-angular
-          class="ag-theme-balham"
-          style="height: calc(100vh - 375px); font-size: 11px"
-          [rowData]="selectedRowData"
-          [animateRows]="true"
-          [suppressMenuHide]="true"
-          [defaultColDef]="defaultColDef"
-          [rowGroupPanelShow]="rowGroupPanelShow"
-          [tooltipShowDelay]="tooltipShowDelay"
-          [columnDefs]="selectedColumnDefs"
-          [components]="frameworkComponents"
-          (cellClicked)="onCellClicked($event)"
-          [statusBar]="statusBar"
-        >
-        </ag-grid-angular>
-
+        <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;">
+          <span class="m-0">Total Records: {{selectedRowData && selectedRowData.length}}</span>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 375px); font-size: 12px"
+              [rowData]="selectedRowData" [animateRows]="true" [suppressMenuHide]="true" [defaultColDef]="defaultColDef"
+              [rowGroupPanelShow]="rowGroupPanelShow" [tooltipShowDelay]="tooltipShowDelay"
+              [columnDefs]="selectedColumnDefs" [components]="frameworkComponents" (cellClicked)="onCellClicked($event)"
+              [statusBar]="statusBar">
+            </ag-grid-angular>
+          </div>
+        </div>
         <div mat-dialog-actions align="end" style="padding: 8px 15px">
           <button mat-button class="showBtn" (click)="onApply()">Apply</button>
         </div>

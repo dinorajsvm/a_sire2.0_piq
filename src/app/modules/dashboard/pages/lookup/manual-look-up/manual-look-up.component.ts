@@ -111,16 +111,16 @@ export class ManualLookUpComponent implements OnInit {
     },
   ];
 
-  public statusBar: {
-    statusPanels: StatusPanelDef[];
-  } = {
-    statusPanels: [
-      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
-    ],
-  };
+  // public statusBar: {
+  //   statusPanels: StatusPanelDef[];
+  // } = {
+  //   statusPanels: [
+  //     { statusPanel: 'agTotalRowCountComponent', align: 'right' },
+  //     { statusPanel: 'agFilteredRowCountComponent' },
+  //     { statusPanel: 'agSelectedRowCountComponent' },
+  //     { statusPanel: 'agAggregationComponent' },
+  //   ],
+  // };
   rowData: any = [];
   userDetails: any;
   defaultColDef = DefaultColDef;

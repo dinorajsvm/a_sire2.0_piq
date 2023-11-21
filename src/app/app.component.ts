@@ -11,9 +11,9 @@ export class AppComponent {
     throw new Error('Method not implemented.');
   }
   public constructor( private _storage: StorageService,) {
-    //  this.userDetails = this._storage.getUserDetails();
-    // //document.getElementById('favicon')?.setAttribute('href',"data:image/png;base64," +this.userDetails.favPic);
-    //  this.userDetails?.favPic ? document.getElementById('favicon')?.setAttribute('href',"data:image/png;base64," +this.userDetails.favPic): '';
+     this.userDetails = this._storage.getUserDetails();
+    //document.getElementById('favicon')?.setAttribute('href',"data:image/png;base64," +this.userDetails.favPic);
+     this.userDetails?.favPic ? document.getElementById('favicon')?.setAttribute('href',"data:image/png;base64," +this.userDetails.favPic): '';
   }
 
 }

@@ -16,31 +16,20 @@
 </div>
 
 <mat-dialog-content class="mat-typography">
-  <div class="col-sm-12">
-    <ag-grid-angular
-      class="ag-theme-balham"
-      style="height: calc(100vh - 235px)"
-      [rowData]="rowData"
-      [columnDefs]="columnDefs"
-      [rowSelection]="multiRowSelection"
-      [defaultColDef]="defaultColDef"
-      [rowGroupPanelShow]="rowGroupPanelShow"
-      [statusBar]="statusBar"
-      [tooltipShowDelay]="tooltipShowDelay"
-      [rowClassRules]="rowClassRules"
-      [rowMultiSelectWithClick]="true"
-      (gridReady)="onGridReady($event)"
-      [components]="frameworkComponents"
-    >
-    </ag-grid-angular>
+  <div class="col-sm-12 justify-content-end ag-toolBar">
+    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
   </div>
-  <button
-    mat-button
-    class="syncBtn mt-2"
-    style="float: right"
-    type="submit"
-    (click)="onReset()"
-  >
+  <div class="row">
+    <div class="col-sm-12">
+      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 270px)" [rowData]="rowData"
+        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [defaultColDef]="defaultColDef"
+        [rowGroupPanelShow]="rowGroupPanelShow" [tooltipShowDelay]="tooltipShowDelay" [rowClassRules]="rowClassRules"
+        [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents">
+      </ag-grid-angular>
+      <!-- [statusBar]="statusBar" -->
+    </div>
+  </div>
+  <button mat-button class="syncBtn mt-2" style="float: right" type="submit" (click)="onReset()">
     Reset
   </button>
 </mat-dialog-content>

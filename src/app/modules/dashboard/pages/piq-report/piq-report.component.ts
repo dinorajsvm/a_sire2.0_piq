@@ -157,12 +157,12 @@ export class PiqReportComponent implements OnInit {
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
 
-    this.getworkflowStatus();
-    if (this.route.snapshot.paramMap.get('type') == 'new') {
-      this.saveWorkFlowAction();
-    } else {
-      this.getWrkFlSummary();
-    }
+    // this.getworkflowStatus();
+    // if (this.route.snapshot.paramMap.get('type') == 'new') {
+    //   this.saveWorkFlowAction();
+    // } else {
+    // }
+    this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
@@ -261,29 +261,29 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  saveWorkFlowAction() {
-    const payload = {
-      wfaction: 'INP',
-      wfid: this.getWrkFlowId,
-      instanceid: this.referenceNumber,
-      user: this.userDetails.userCode,
-      rank: this.userDetails.userData.mdata.appInfo.rankCode,
-      vesselcode: this.getVesselCode,
-      remarks: '',
-    };
+  // saveWorkFlowAction() {
+  //   const payload = {
+  //     wfaction: 'INP',
+  //     wfid: this.getWrkFlowId,
+  //     instanceid: this.referenceNumber,
+  //     user: this.userDetails.userCode,
+  //     rank: this.userDetails.userData.mdata.appInfo.rankCode,
+  //     vesselcode: this.getVesselCode,
+  //     remarks: '',
+  //   };
 
-    this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
-    this.getWrkFlSummary();
-  }
+  //   this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
+  //   this.getWrkFlSummary();
+  // }
 
-  getworkflowStatus() {
-    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
-      let val = res.workflowmaster;
-      val.forEach((item: any) => {
-        this.getWrkFlowId = item.wfid;
-      });
-    });
-  }
+  // getworkflowStatus() {
+  //   this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
+  //     let val = res.workflowmaster;
+  //     val.forEach((item: any) => {
+  //       this.getWrkFlowId = item.wfid;
+  //     });
+  //   });
+  // }
   getWrkFlSummary() {
     this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
       (res: any) => {

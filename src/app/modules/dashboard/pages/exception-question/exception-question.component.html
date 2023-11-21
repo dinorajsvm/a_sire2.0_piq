@@ -6,10 +6,13 @@
         </button>
     </div>
   </div>
+  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top: 5px;">
+    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+  </div>
   <div class="row">
     <div class="col-sm-12">
       <ag-grid-angular
-        style="height: calc(100vh - 205px);margin-top: 5px;"
+        style="height: calc(100vh - 230px);"
         class="ag-theme-balham charCount excepGrid"
         [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef"

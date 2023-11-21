@@ -175,6 +175,9 @@
   <div class="row">
     <div class="col-sm-12 padl">
       <span class="table-header">Chapter Summary </span>
+      <div class="col-sm-12 justify-content-end ag-toolBar" >
+        <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+      </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
@@ -187,6 +190,9 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Photo Repository Summary </span>
+      <div class="col-sm-12 justify-content-end ag-toolBar" >
+        <span class="m-0">Total Records: {{photoRowData && photoRowData.length}}</span>
+      </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
@@ -196,6 +202,9 @@
     </div>
     <div class="col-sm-6 padl">
       <span class="table-header">Last Modified Data Summary</span>
+      <div class="col-sm-12 justify-content-end ag-toolBar">
+        <span class="m-0">Total Records: {{modifiedrowData && modifiedrowData.length}}</span>
+      </div>
       <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
         [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
         [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
@@ -208,6 +217,9 @@
   <div class="row mt-2">
     <div class="col-sm-6 padl">
       <span class="table-header">Certificate Summary</span>
+      <div class="col-sm-12 justify-content-end ag-toolBar">
+        <span class="m-0">Total Records: {{certificateRowData && certificateRowData.length}}</span>
+      </div>
       <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
         [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
@@ -217,6 +229,9 @@
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <span class="table-header">Last Sync Summary</span>
+      <div class="col-sm-12 justify-content-end ag-toolBar">
+        <span class="m-0">Total Records: {{expectedRowData && expectedRowData.length}}</span>
+      </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true"
@@ -226,6 +241,9 @@
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
+      <div class="col-sm-12 justify-content-end ag-toolBar">
+        <span class="m-0">Total Records: {{modifiedrowData && modifiedrowData.length}}</span>
+      </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [tooltipShowDelay]="tooltipShowDelay"
         [gridOptions]="gridOptions" [animateRows]="true" [rowData]="expectedRowData">

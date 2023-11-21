@@ -60,6 +60,7 @@ export class VesselSelectionDialogComponent {
   vesselTypeCode: any;
   disableProceed: boolean = true;
   sendFormattedDate: any;
+  getWrkFlowId: any;
 
   ngOnInit(): void {
     this.vesselSelectionForms = this.fb.group({
@@ -67,6 +68,7 @@ export class VesselSelectionDialogComponent {
       vesselType: [''],
       datePick: ['', [this.dateValidator()]],
     });
+    this.getworkflowStatus();
     this.getCodes();
     this.getVesselNames();
     this.getvesseltype();
@@ -177,6 +179,10 @@ export class VesselSelectionDialogComponent {
       vesselcode: this.vesselSelectionForms.value.vesselName,
       planndesubdate: this.sendFormattedDate,
       vesseltype: this.vesselSelectionForms.value.vesselType,
+      wfaction: 'INP',
+      wfid: this.getWrkFlowId,
+      rank: this.userDetails.userData.mdata.appInfo.rankCode,
+      remarks: '',
     };
     this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
       if (Object.keys(res).length != 0) {
@@ -197,10 +203,20 @@ export class VesselSelectionDialogComponent {
     this.dialogRef.close();
   }
 
+
   closeDialog(event:any){
     this.dialogRef.close();
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  getworkflowStatus() {
+    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
+      let val = res.workflowmaster;
+      val.forEach((item: any) => {
+        this.getWrkFlowId = item.wfid;
+      });
+    });
   }
 
   onProceed(forms: any) {

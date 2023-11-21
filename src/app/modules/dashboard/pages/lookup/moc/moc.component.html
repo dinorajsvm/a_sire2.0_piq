@@ -14,30 +14,21 @@
 </div>
 
 <div mat-dialog-content class="mat-typography">
-  <div class="col-sm-12">
-    <div class="row">
-      <div class="col-sm-12">
-        <ag-grid-angular
-          #agGrid
-          class="ag-theme-balham"
-          style="height: calc(100vh - 270px)"
-          enableSorting="true"
-          enableFilter="true"
-          [rowData]="rowData"
-          [defaultColDef]="defaultColDef"
-          [rowGroupPanelShow]="rowGroupPanelShow"
-          [tooltipShowDelay]="tooltipShowDelay"
-          [statusBar]="statusBar"
-          [columnDefs]="columnDefs"
-          [gridOptions]="gridOptions"
-          [components]="frameworkComponents"
-          (cellClicked)="onCellClicked($event)"
-        >
-        </ag-grid-angular>
-      </div>
+  <div class="col-sm-12 justify-content-end ag-toolBar">
+    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 305px)" enableSorting="true"
+        enableFilter="true" [rowData]="rowData" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow"
+        [tooltipShowDelay]="tooltipShowDelay" [columnDefs]="columnDefs" [gridOptions]="gridOptions"
+        [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
+      </ag-grid-angular>
+      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 </div>
+
 <div mat-dialog-actions align="end" style="padding: 8px 15px">
   <button mat-button class="showBtn" (click)="applyMocDetails()">Apply</button>
 </div>

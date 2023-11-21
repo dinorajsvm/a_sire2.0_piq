@@ -51,7 +51,7 @@
 /* BUTTON STYLE END */
 
 /* MACK STANDARD BUTTONS START */
-.save.mat-mdc-button.mat-mdc-button-base {
+.save.mat-mdc-button {
   background-color: #00acf5;
   color: white;
   height: 26px;
@@ -60,7 +60,7 @@
   font-size: 12px;
 }
 
-.home.mat-mdc-button.mat-mdc-button-base {
+.home.mat-mdc-button {
   background-color: #193a5e;
   color: white;
   height: 24px !important;
@@ -70,7 +70,7 @@
   min-width: 24px;
 }
 
-.draft.mat-mdc-button.mat-mdc-button-base {
+.draft.mat-mdc-button {
   background-color: #e3a40c;
   color: white;
   height: 26px;
@@ -79,7 +79,7 @@
   font-size: 12px;
 }
 
-.sub.mat-mdc-button.mat-mdc-button-base {
+.sub.mat-mdc-button {
   border: 1px solid #ff7c25;
   background-color: #ff7c25;
   color: white;
@@ -88,7 +88,7 @@
   font-size: 12px;
 }
 
-.rsn.mat-mdc-button.mat-mdc-button-base {
+.rsn.mat-mdc-button {
   border: 1px solid #0e2350;
   background-color: #0e2350;
   color: white;
@@ -97,7 +97,7 @@
   font-size: 12px;
 }
 
-.apr.mat-mdc-button.mat-mdc-button-base {
+.apr.mat-mdc-button {
   border: 1px solid #00a65a;
   background-color: #00a65a;
   color: white;
@@ -340,8 +340,20 @@
   top: 20px;
 }
 
-::ng-deep .ag-icon{
-cursor: pointer;
+::ng-deep .ag-icon {
+  cursor: pointer;
+}
+
+.ag-toolBar {
+  background-color: #f5f7f7;
+  border: 1px solid #bdc3c7;
+  display: flex;
+  padding: 3px 15px;
+  border-bottom: none;
+}
+.ag-toolBar span {
+  font-size: 12px;
+  font-weight: 500;
 }
 /* AG-GRID STYLE END */
 

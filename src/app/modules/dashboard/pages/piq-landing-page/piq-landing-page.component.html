@@ -10,11 +10,17 @@
       </div>
     </div>
   </div>
+  <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="userDetails?.cntrlType === 'CNT002'">
+    <span class="m-0">Total Records: {{rowData.length}}</span>
+  </div>
+  <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="userDetails?.cntrlType === 'CNT001'">
+    <span class="m-0">Total Records: {{rowData.length}}</span>
+  </div>
   <div class="row">
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <ag-grid-angular
-        style="height: calc(100vh - 110px)"
+        style="height: calc(100vh - 140px)"
         class="ag-theme-balham"
         [columnDefs]="shipColumnDefs"
         [defaultColDef]="defaultColDef"
@@ -33,7 +39,7 @@
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <ag-grid-angular
-        style="height: calc(100vh - 100px)"
+        style="height: calc(100vh - 140px)"
         class="ag-theme-balham"
         [columnDefs]="shoreColumnDefs"
         [defaultColDef]="defaultColDef"

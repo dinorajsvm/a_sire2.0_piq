@@ -42,6 +42,9 @@
       </div>
     </div>
 
+    <div class="col-sm-12 justify-content-end ag-toolBar" >
+      <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+    </div>
     <div class="row">
       <div class="col-sm-12">
         <ag-grid-angular
@@ -67,5 +70,5 @@
   <!-- (rowSelected)="onRowSelected($event)" [mat-dialog-close]="true"-->
 
   <button mat-button class="showBtn" (click)="ShowSelectedDatas()">Show</button>
-  <button mat-button (click)="closeDialog($event)" class="cancel" [mat-dialog-close]="true">Cancel</button>
+  <button mat-button (click)="closeDialog($event)" class="cancel" >Cancel</button>
 </mat-dialog-actions>

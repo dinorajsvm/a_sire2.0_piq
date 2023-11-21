@@ -6,7 +6,7 @@
         <p class="descHeader">(List of Vessel Certificate for last 18 month)</p>
       </div>
 
-      <div class="col-sm-1 text-right closeIcn">
+      <div class="col-sm-1 text-right closeIcn" style="padding-top: 10px;padding-right: 0;">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
     </div>
@@ -14,21 +14,24 @@
 </div>
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-12">
+    <div class="col-sm-12 justify-content-end ag-toolBar" >
+      <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+    </div>
     <div class="row">
       <div class="col-sm-12">
         <ag-grid-angular
           class="ag-theme-balham"
-          style="height: calc(100vh - 250px)"
+          style="height: calc(100vh - 282px)"
           [rowData]="rowData"
           [columnDefs]="columnDefs"
-          [statusBar]="statusBar"
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
           [tooltipShowDelay]="tooltipShowDelay"
           (gridReady)="onGridReady($event)"
           (cellClicked)="onCellClicked($event)"
-        >
+          >
         </ag-grid-angular>
+        <!-- [statusBar]="statusBar" -->
       </div>
     </div>
   </div>

@@ -51,10 +51,11 @@ export class PrDialogComponent implements OnInit {
   onDialogClose(): void {
     this.dialogRef.close();
   }
+  
   closeDialog(event:any){
-    this.dialogRef.close();
     event.preventDefault();
     event.stopPropagation();
+    this.dialogRef.close();
   }
   getCheckListGridDatas() {
     const payload = {
