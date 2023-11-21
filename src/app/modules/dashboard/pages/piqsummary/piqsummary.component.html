@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font" (click)="tabChange('PIQ')">Pre-Inspection Questionnarie</span>
+                <span class="sumHeading count-font" (click)="tabChange('PIQ')">Pre-Inspection Questionnaire</span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
@@ -242,7 +242,7 @@
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <span class="table-header">Last Sync Summary</span>
       <div class="col-sm-12 justify-content-end ag-toolBar">
-        <span class="m-0">Total Records: {{modifiedrowData && modifiedrowData.length}}</span>
+        <span class="m-0">Total Records: {{expectedRowData && expectedRowData.length}}</span>
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [tooltipShowDelay]="tooltipShowDelay"

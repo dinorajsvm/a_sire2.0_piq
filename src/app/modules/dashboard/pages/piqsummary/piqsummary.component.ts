@@ -528,7 +528,9 @@ export class PIQSummaryComponent implements OnInit {
         this.hideReqBtns=true
       }
       const data = JSON.parse(res.lastMod);
-      this.modifiedrowData = data;
+      if(data && data){
+        this.modifiedrowData = data;
+      }
     });
   }
   certficateGridDatas() {
@@ -588,7 +590,6 @@ export class PIQSummaryComponent implements OnInit {
             wfaction: '',
           };
 
-          this.getSSDatas();
         } else if (type === 'reassign') {
           if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
             this.setFlowAction = 'RSN';
@@ -780,6 +781,7 @@ export class PIQSummaryComponent implements OnInit {
   saveMethodCall(ansPayload: any, type?: any) {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
+        this.getSSDatas();
         this._snackBarService.loadSnackBar(
           'Sync to Shore Initiated Successfully',
           colorCodes.INFO

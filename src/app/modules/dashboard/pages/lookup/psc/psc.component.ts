@@ -42,7 +42,7 @@ export class PscComponent {
     },
     {
       field: 'extrfid',
-      headerName: 'Reference ID',
+      headerName: 'Ref.Id',
       tooltipField: 'extrfid',
       resizable: true,
       flex: 1,

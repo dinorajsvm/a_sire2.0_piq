@@ -17,17 +17,18 @@
         [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef"
         [rowGroupPanelShow]="rowGroupPanelShow"
-        (rowSelected)="onRowSelected($event)"
+        (cellClicked)="onCellClicked($event)"
         [animateRows]="true"
-        [rowSelection]="singleRowSelection"
         [tooltipShowDelay]="tooltipShowDelay"
         [suppressMenuHide]="true"
         [embedFullWidthRows]="true"
         [rowData]="rowData"
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
-      >
+        >
       </ag-grid-angular>
+      <!-- [rowSelection]="singleRowSelection" -->
+      <!-- (rowSelected)="onRowSelected($event)" -->
     </div>
   </div>
 </div>

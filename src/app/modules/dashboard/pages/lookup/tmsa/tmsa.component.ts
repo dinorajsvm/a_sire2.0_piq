@@ -60,7 +60,7 @@ export class TMSAComponent implements OnInit {
     },
     {
       field: 'refno',
-      headerName: 'Reference ID',
+      headerName: 'Ref.Id',
       tooltipField: 'refno',
       resizable: true,
       flex: 1,
@@ -152,7 +152,7 @@ export class TMSAComponent implements OnInit {
     },
     {
       field: 'refno',
-      headerName: 'Reference ID',
+      headerName: 'Ref.Id',
       tooltipField: 'refno',
       resizable: true,
       flex: 1,
@@ -235,7 +235,7 @@ export class TMSAComponent implements OnInit {
     },
     {
       field: 'extrfid',
-      headerName: 'Reference ID',
+      headerName: 'Ref.Id',
       tooltipField: 'extrfid',
       resizable: true,
       flex: 1,

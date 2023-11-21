@@ -80,15 +80,15 @@ export class PIQLandingPageComponent implements OnInit {
       cellStyle: { textalign: 'left' },
     },
     {
-      field: '',
+      field: 'vesseltype',
       headerName: 'Vessel Type',
-      tooltipField: '',
+      tooltipField: 'vesseltype',
 
     },
     {
-      field: '',
+      field: 'flag',
       headerName: 'Flag Name',
-      tooltipField: '',
+      tooltipField: 'flag',
     },
     { field: 'createdBy', headerName: 'Created User', tooltipField: 'createdBy' },
     {
@@ -184,14 +184,14 @@ export class PIQLandingPageComponent implements OnInit {
       cellStyle: { textalign: 'left' },
     },
     {
-      field: '',
+      field: 'vesseltype',
       headerName: 'Vessel Type',
-      tooltipField: '',
+      tooltipField: 'vesseltype',
     },
     {
-      field: '',
+      field: 'flag',
       headerName: 'Flag Name',
-      tooltipField: '',
+      tooltipField: 'flag',
     },
     {
       field: 'createdBy',

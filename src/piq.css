@@ -51,6 +51,10 @@
 /* BUTTON STYLE END */
 
 /* MACK STANDARD BUTTONS START */
+
+.cancel{
+  border: 1px solid #c1c1c1;
+}
 .save.mat-mdc-button {
   background-color: #00acf5;
   color: white;

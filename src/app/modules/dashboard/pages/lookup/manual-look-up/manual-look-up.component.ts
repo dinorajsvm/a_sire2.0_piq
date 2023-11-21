@@ -32,7 +32,7 @@ export class ManualLookUpComponent implements OnInit {
   columnDefs: ColDef[] = [
     {
       field: 'refid',
-      headerName: 'Reference ID',
+      headerName: 'Ref.Id',
       tooltipField: 'refid',
       flex: 1,
       resizable: true,

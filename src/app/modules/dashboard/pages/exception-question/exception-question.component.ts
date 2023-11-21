@@ -106,9 +106,21 @@ export class ExceptionQuestionComponent implements OnInit {
       this.gridApi!.setRowData(this.rowData);
     }
   }
-  onRowSelected(event: any) {
-    const tab=1;
-    this.BudgetService.setTabChangeData(tab);
+  // onRowSelected(event: any) {
+  //   const tab=1;
+  //   this.BudgetService.setTabChangeData(tab);
+  // }
+
+  onCellClicked(event: any): void {
+    // Assuming you have a unique identifier in your rowData
+    const selectedItemId = event.data.subHeaders;
+    const targetColumnName = 'subHeaders';
+    console.log("event",selectedItemId);
+    console.log("event1",event);
+    if(event.colDef.field === targetColumnName){
+      const tab=1;
+      this.BudgetService.setTabChangeData(tab);
+    }
   }
 
   onGridReady(params: any) {

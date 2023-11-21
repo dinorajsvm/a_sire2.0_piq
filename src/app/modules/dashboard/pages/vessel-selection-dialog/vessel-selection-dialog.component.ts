@@ -61,6 +61,8 @@ export class VesselSelectionDialogComponent {
   disableProceed: boolean = true;
   sendFormattedDate: any;
   getWrkFlowId: any;
+  toolTipVal: any;
+  toolTipValType: any;
 
   ngOnInit(): void {
     this.vesselSelectionForms = this.fb.group({
@@ -124,7 +126,12 @@ export class VesselSelectionDialogComponent {
   }
   onSelectVessel(event: any): void {
     this.selectedVesselName = event.value;
-    this.vesselSelectionForms.value.vesselType;
+    this.toolTipVal=event.source.selected.viewValue;
+    this.enableProceedButton();
+  }
+  onSelectVesselType(event: any): void {
+    this.selectedVesselName = event.value;
+    this.toolTipValType=event.source.selected.viewValue;
     this.enableProceedButton();
   }
 

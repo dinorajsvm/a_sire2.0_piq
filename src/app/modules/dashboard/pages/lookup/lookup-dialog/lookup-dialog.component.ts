@@ -52,7 +52,7 @@ export class LookupDialogComponent implements OnInit {
     },
     {
       field: 'refno',
-      headerName: 'Reference ID',
+      headerName: 'Ref.Id',
       tooltipField: 'refno',
       flex: 1,
       resizable: true,
@@ -137,7 +137,7 @@ export class LookupDialogComponent implements OnInit {
     },
     {
       field: 'refno',
-      headerName: 'Reference ID',
+      headerName: 'Ref.Id',
       tooltipField: 'refno',
       flex: 1,
       resizable: true,
