@@ -828,6 +828,7 @@ export class PIQSummaryComponent implements OnInit {
         type === 'syncToStore' &&
         this.userDetails?.cntrlType === 'CNT001'
       ) {
+        this.getSSDatas();
         this._snackBarService.loadSnackBar(
           'Sync to Ship Initiated Successfully',
           colorCodes.INFO

@@ -2871,8 +2871,11 @@ export class PiqReportComponent implements OnInit {
     return text;
   }
 
-  openOriginalQuest(mQuest: any, allValues: any, mQuestIndex: any) {
+  openOriginalQuest(mQuest: any, allValues: any, mQuestIndex: any,question:any) {    
     this.selectValue(allValues.subHeaders, allValues);
+    setTimeout(() => {
+      this.scrollToElement(question.qid);
+    }, 100);
     this.isSearchActive = false;
     this.onSearchTextChanged('');
     this.globalSearchComponent.clearSearch();

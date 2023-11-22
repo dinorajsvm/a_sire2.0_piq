@@ -228,7 +228,7 @@
                           <div class="sub-ques" *ngFor="let Mquest of quest.question;let index1 = index">
                             <mat-accordion class="card_container"
                               *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)">
-                              <mat-expansion-panel [id]="'exp'+quest.subheadid" [expanded]="!quest['expand'+index]">
+                              <mat-expansion-panel [id]="Mquest.qid" [expanded]="!quest['expand'+index]">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
                                     <div class="col-sm-12" style="padding: 0">
@@ -1032,7 +1032,7 @@
                             <div *ngFor=" let allQuestValues of allQuest.question;let indexAllQ = index">
                               <mat-card appearance="outlined" style="margin: 5px 0; cursor: default"
                                 *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)"
-                                (click)="openOriginalQuest(allQuestValues.mainQuestion,allQuest,indexAllQ)">
+                                (click)="openOriginalQuest(allQuestValues.mainQuestion,allQuest,indexAllQ,allQuestValues)">
                                 <mat-card-header>
                                   <mat-card-title>
                                     <div class="col-sm-12" style="padding: 0">
