@@ -228,6 +228,7 @@ export class LookupDialogComponent implements OnInit {
   isOnlyInterVisit = false;
   enableDiv: boolean = false;
   userDetails: any;
+  hideReqBtns: boolean = false;
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
   defaultColDef = DefaultColDef;
@@ -279,6 +280,13 @@ export class LookupDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLookUpVisit();
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }
+    });
   }
 
   getLookUpVisit() {

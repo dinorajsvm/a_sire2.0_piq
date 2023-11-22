@@ -318,6 +318,7 @@ export class PIQLandingPageComponent implements OnInit {
       this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     } else {
     }
+    
   }
 
   getLndPgDatas() {

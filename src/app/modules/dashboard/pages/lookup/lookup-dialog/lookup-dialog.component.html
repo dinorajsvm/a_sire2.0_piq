@@ -72,7 +72,7 @@
   </div>
 
 
-  <button mat-button class="syncBtn mt-2" style="float: right" type="submit" (click)="onReset()">
+  <button mat-button class="syncBtn mt-2" style="float: right" [class.hideReqBtns]="hideReqBtns" type="submit" (click)="onReset()">
     Reset
   </button>
 </mat-dialog-content>

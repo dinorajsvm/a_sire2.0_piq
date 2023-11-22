@@ -76,6 +76,7 @@ export class PmsLookupComponent {
   syncData: any[] = [];
   rowData: any = [];
   pmsCode: any;
+  hideReqBtns: boolean = false;
 
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
@@ -127,6 +128,12 @@ export class PmsLookupComponent {
 
   ngOnInit(): void {
     this.getLookUpVisit();
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }})
   }
 
   onReset() {

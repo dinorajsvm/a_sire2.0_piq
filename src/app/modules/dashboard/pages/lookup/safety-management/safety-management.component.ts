@@ -576,9 +576,15 @@ export class SafetyManagementComponent implements OnInit {
       onGridReady: this.onGridReady.bind(this), // Bind the event handler to the component context
     };
   }
-
+  hideReqBtns: boolean = false;
   ngOnInit() {
     this.safetyManagementDetails();
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }})
   }
   getEditFlag(event: any) {
     return true;

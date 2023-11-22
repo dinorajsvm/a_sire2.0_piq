@@ -29,6 +29,7 @@ declare function mdldmsnavigatenewtab(
 export class MocComponent {
   frameworkComponents: any;
   userDetails: any;
+  hideReqBtns: boolean = false;
   public tooltipShowDelay = 0;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -146,6 +147,12 @@ export class MocComponent {
   }
   ngOnInit() {
     this.mocDetails();
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }})
   }
 
   mocDetails() {

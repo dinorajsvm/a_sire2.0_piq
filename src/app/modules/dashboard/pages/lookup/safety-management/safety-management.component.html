@@ -47,7 +47,7 @@
           </div>
         </div>
         <div mat-dialog-actions align="end" style="padding: 8px 15px">
-          <button mat-button class="showBtn" (click)="onApply()">Apply</button>
+          <button mat-button class="showBtn" (click)="onApply()" [class.hideReqBtns]="hideReqBtns">Apply</button>
         </div>
       </mat-tab>
     </mat-tab-group>

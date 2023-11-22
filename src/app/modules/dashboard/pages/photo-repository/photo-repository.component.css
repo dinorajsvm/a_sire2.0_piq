@@ -104,6 +104,10 @@
   cursor: pointer;
 }
 
+.hideReqBtns{
+  display: none !important;
+}
+
 .img {
   position: relative;
   top: 0px;

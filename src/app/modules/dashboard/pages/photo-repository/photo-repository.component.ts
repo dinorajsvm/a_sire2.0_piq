@@ -54,6 +54,7 @@ export class PhotoRepositoryComponent implements OnInit {
   isVslTypeSame!: boolean;
   companyCode: any;
   getImagesCount: any;
+  hideReqBtns: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -73,6 +74,13 @@ export class PhotoRepositoryComponent implements OnInit {
     this.getSavedPRData();
     // this.getImageName();
     this.getVesselTypeData();
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }
+    });
   }
   getVesselTypeData() {
     this.BudgetService.getVesselTypeData().subscribe((res: any) => {

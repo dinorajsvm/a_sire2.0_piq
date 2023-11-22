@@ -1,5 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ColDef, GridApi, GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  RowGroupingDisplayType,
+} from 'ag-grid-community';
 import { BudgetService } from '../../services/budget.service';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -8,6 +13,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { DatePipe } from '@angular/common';
+import { Location } from '@angular/common';
 import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
 import {
   DateAdapter,
@@ -298,6 +304,8 @@ export class PIQSummaryComponent implements OnInit {
   disableSubFlowBtn: boolean = false;
   disableResAprFlowBtn: boolean = false;
   disableSyncBtn = true;
+  hideEdit: boolean = true;
+  hideBtns: boolean = false;
   viewMode?: boolean;
   constructor(
     public dialog: MatDialog,
@@ -306,7 +314,7 @@ export class PIQSummaryComponent implements OnInit {
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
     private datePipe: DatePipe,
-    private fb: FormBuilder
+    private fb: FormBuilder,private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -348,8 +356,9 @@ export class PIQSummaryComponent implements OnInit {
       });
     });
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
-      this.getLastModifiedDatas();
-      this.getSSDatas();
+      this.getMasterDetails();
+      // this.getLastModifiedDatas();
+      // this.getSSDatas();
       this.rowData = [];
       this.certficateGridDatas();
       if (res) {
@@ -465,17 +474,6 @@ export class PIQSummaryComponent implements OnInit {
       this.BudgetService.setEditVisible(this.hideEdit);
     }
     this.getAnswerValue(type);
-    if (type == 'reassign') {
-      this._snackBarService.loadSnackBar(
-        'Form Reassigned Successfully',
-        colorCodes.INFO
-      );
-    } else if (type == 'approve') {
-      this._snackBarService.loadSnackBar(
-        'Form Aprroved Successfully',
-        colorCodes.INFO
-      );
-    }
     event.preventDefault();
     event.stopPropagation();
   }
@@ -545,31 +543,85 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
-  getLastModifiedDatas() {
+  getMasterDetails() {
     const payload = {
       instanceid: this.referenceNumber,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      this.getWorkFlowAction = res.wrkflow;
+      this.getVesselCode = res.vesselcode;
+      this.getOriginator = res.orginator;
+
+      const data = JSON.parse(res.lastMod);
+
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';
       } else {
         this.quickNotesInput = res.quicknotes;
       }
-      this.getWorkFlowAction = res.wrkflow;
-      this.getVesselCode = res.vesselcode;
-      this.getOriginator = res.orginator;
+
       if (
         this.getOriginator == 'CNT001' &&
         this.userDetails?.cntrlType === 'CNT002'
       ) {
         this.hideReqBtns = true;
+        this.hideBtns=true
+        this.BudgetService.setEditVisible(this.hideBtns);
       }
-      const data = JSON.parse(res.lastMod);
       if (data && data) {
         this.modifiedrowData = data;
       }
+      if (res && res.datasyncgrid && res.datasyncgrid != '') {
+        const data = JSON.parse(res.datasyncgrid);
+        this.expectedRowData = data;
+      }
+
+      if (
+        this.getOriginator == 'CNT002' &&
+        this.userDetails?.cntrlType === 'CNT002' &&
+        this.getWorkFlowAction === 'Submitted'
+      ) {
+        this.hideBtns=true
+        this.BudgetService.setEditVisible(this.hideBtns);
+        this.hideReqBtns = true;
+      }
+      if (
+        this.getOriginator == 'CNT001' &&
+        this.userDetails?.cntrlType === 'CNT001' &&
+        this.getWorkFlowAction === 'Approved'
+      ) {
+        this.hideBtns=true
+        this.BudgetService.setEditVisible(this.hideBtns);
+        this.hideReqBtns = true;
+      }
     });
   }
+
+  // getLastModifiedDatas() {
+  //   const payload = {
+  //     instanceid: this.referenceNumber,
+  //   };
+  //   this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+  //     if (res.quicknotes === 'null') {
+  //       this.quickNotesInput = '';
+  //     } else {
+  //       this.quickNotesInput = res.quicknotes;
+  //     }
+  //     this.getWorkFlowAction = res.wrkflow;
+  //     this.getVesselCode = res.vesselcode;
+  //     this.getOriginator = res.orginator;
+  //     if (
+  //       this.getOriginator == 'CNT001' &&
+  //       this.userDetails?.cntrlType === 'CNT002'
+  //     ) {
+  //       this.hideReqBtns = true;
+  //     }
+  //     const data = JSON.parse(res.lastMod);
+  //     if (data && data) {
+  //       this.modifiedrowData = data;
+  //     }
+  //   });
+  // }
   certficateGridDatas() {
     this.BudgetService.getCertificateList(
       this.userDetails.companyCode,
@@ -730,7 +782,6 @@ export class PIQSummaryComponent implements OnInit {
       this.getAnswerValue(type);
     });
   }
-  hideEdit: boolean = true;
 
   onSubmit(type: string, event: any) {
     this.setFlowAction = '';
@@ -739,23 +790,24 @@ export class PIQSummaryComponent implements OnInit {
       this.getRefnImportDetails(this.instanceId);
     }
 
-    // if (type != 'syncToStore') {
+    // if (type == 'submit' && ) {
+
     // }
 
     event.preventDefault();
     event.stopPropagation();
   }
-  getSSDatas() {
-    const payload = {
-      instanceid: this.referenceNumber,
-    };
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      if (res && res.datasyncgrid && res.datasyncgrid != '') {
-        const data = JSON.parse(res.datasyncgrid);
-        this.expectedRowData = data;
-      }
-    });
-  }
+  // getSSDatas() {
+  //   const payload = {
+  //     instanceid: this.referenceNumber,
+  //   };
+  //   this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+  //     if (res && res.datasyncgrid && res.datasyncgrid != '') {
+  //       const data = JSON.parse(res.datasyncgrid);
+  //       this.expectedRowData = data;
+  //     }
+  //   });
+  // }
   onSubmitQuickNotes() {
     const payload = {
       instanceid: this.referenceNumber,
@@ -819,7 +871,8 @@ export class PIQSummaryComponent implements OnInit {
   saveMethodCall(ansPayload: any, type?: any) {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
-        this.getSSDatas();
+        // this.getSSDatas();
+        this.getMasterDetails();
         this._snackBarService.loadSnackBar(
           'Sync to Shore Initiated Successfully',
           colorCodes.INFO
@@ -828,14 +881,31 @@ export class PIQSummaryComponent implements OnInit {
         type === 'syncToStore' &&
         this.userDetails?.cntrlType === 'CNT001'
       ) {
-        this.getSSDatas();
+        // this.getSSDatas();
+        this.getMasterDetails();
         this._snackBarService.loadSnackBar(
           'Sync to Ship Initiated Successfully',
           colorCodes.INFO
         );
       } else if (type === 'submit') {
+        this.getMasterDetails();
+        window.location.reload();
         this._snackBarService.loadSnackBar(
           'Submitted Successfully',
+          colorCodes.INFO
+        );
+      }else if (type == 'reassign') {
+        this.getMasterDetails();
+        window.location.reload();
+        this._snackBarService.loadSnackBar(
+          'Form Reassigned Successfully',
+          colorCodes.INFO
+        );
+      } else if (type == 'approve') {
+        this.getMasterDetails();
+        window.location.reload();
+        this._snackBarService.loadSnackBar(
+          'Form Aprroved Successfully',
           colorCodes.INFO
         );
       }

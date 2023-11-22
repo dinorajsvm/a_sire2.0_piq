@@ -9,7 +9,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import 'ag-grid-enterprise';
 import { LicenseManager } from 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
@@ -36,6 +36,7 @@ import { SafetyManagementComponent } from '../lookup/safety-management/safety-ma
 import { PmsLookupComponent } from '../lookup/pms-lookup/pms-lookup.component';
 import { ManualLookUpComponent } from '../lookup/manual-look-up/manual-look-up.component';
 import { MatTabGroup } from '@angular/material/tabs';
+import { filter } from 'rxjs/operators';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -175,6 +176,15 @@ export class PiqReportComponent implements OnInit {
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideEditbutton = res;
+      this.hideReqBtns = res;
+      if (res == true) {
+        this.BudgetService.getPiqQuestAns(this.referenceNumber).subscribe(
+          (res: any) => {}
+        );
+        this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
+          (res: any) => {}
+        );
+      }
     });
     this.BudgetService.getSearch().subscribe((res: any) => {
       this.getSearch = res;
@@ -251,7 +261,19 @@ export class PiqReportComponent implements OnInit {
       });
       this.subHeaderCount();
     });
-    
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/sire/piq-landing') {
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }
+      });
   }
 
   getTopBarDatas() {
@@ -358,6 +380,12 @@ export class PiqReportComponent implements OnInit {
     this.getShipPreQuestCounts = [];
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      if (res && res.exceptionlist != '') {
+        let exceptionData = JSON.parse(res.exceptionlist);
+        console.log('guide', exceptionData);
+        console.log('guide', typeof exceptionData);
+        this.BudgetService.setExceptionData(exceptionData);
+      }
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
@@ -370,7 +398,6 @@ export class PiqReportComponent implements OnInit {
         this.disableEditMode = true;
         this.saveDisable = false;
       }
-
 
       if (
         this.getOrigination == 'CNT001' &&
@@ -395,29 +422,28 @@ export class PiqReportComponent implements OnInit {
         }
         this.saveDisable = true;
         // mani
-        if(this.userDetails?.cntrlType === 'CNT002'){
+        if (this.userDetails?.cntrlType === 'CNT002') {
           if (
             this.getOrigination == 'CNT002' &&
-            (this.getStatus != 'Submitted')
+            this.getStatus != 'Submitted'
           ) {
             this.disableEditMode = false;
-          }else{
+          } else {
             this.disableEditMode = true;
           }
-
-        }else if(this.userDetails?.cntrlType === 'CNT001'){
-          if(this.getOrigination == 'CNT001' && this.getStatus != 'Approved'){
+        } else if (this.userDetails?.cntrlType === 'CNT001') {
+          if (this.getOrigination == 'CNT001' && this.getStatus != 'Approved') {
             this.disableEditMode = false;
-          }else if(this.getOrigination == 'CNT002' && (this.getStatus == 'Submitted' || this.getStatus == 'ReAssigned')){
+          } else if (
+            this.getOrigination == 'CNT002' &&
+            (this.getStatus == 'Submitted' || this.getStatus == 'ReAssigned')
+          ) {
             this.disableEditMode = false;
           }
         }
-      }
-      else{
+      } else {
         this.saveDisable = false;
       }
-
-      
 
       this.getAllDatas = object;
       if (this.getAllDatas) {
@@ -2200,30 +2226,30 @@ export class PiqReportComponent implements OnInit {
     }
   }
 
-  lastinputChanges(event: any, subq: any, quest: any,mquest:any) {
+  lastinputChanges(event: any, subq: any, quest: any, mquest: any) {
     let value = event.target.value;
-    
-        const modifiedData = {
-          userName: this.userDetails.userData.mdata.appInfo.userName,
-          userType: this.userDetails.userData.mdata.userInfo.userType,
-          header: quest.subHeaders,
-          mainQuestion: mquest.mainQuestion,
-          subID: subq.qid,
-          subQuestion: subq.subName,
-          answer: value,
-          sortingDate: new Date(),
-          modifiedDateTime: this.datePipe.transform(
-            new Date(),
-            'dd-MMM-yyyy HH:mm'
-          ),
-        };
-        this.lastModifiedData.push(modifiedData);
-        this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
-        if (this.lastModifiedData.length > 5) {
-          this.lastModifiedData.splice(5);
-        }
+
+    const modifiedData = {
+      userName: this.userDetails.userData.mdata.appInfo.userName,
+      userType: this.userDetails.userData.mdata.userInfo.userType,
+      header: quest.subHeaders,
+      mainQuestion: mquest.mainQuestion,
+      subID: subq.qid,
+      subQuestion: subq.subName,
+      answer: value,
+      sortingDate: new Date(),
+      modifiedDateTime: this.datePipe.transform(
+        new Date(),
+        'dd-MMM-yyyy HH:mm'
+      ),
+    };
+    this.lastModifiedData.push(modifiedData);
+    this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
+    if (this.lastModifiedData.length > 5) {
+      this.lastModifiedData.splice(5);
+    }
   }
-  inputChanges(event: any, subq: any, quest: any,mquest:any) {
+  inputChanges(event: any, subq: any, quest: any, mquest: any) {
     let value = event.target.value;
     subq.answer = value;
     if (subq.answer) {
@@ -2236,8 +2262,6 @@ export class PiqReportComponent implements OnInit {
     this.selectedValue = quest.subHeaders;
     this.subHeaderCount();
   }
-
-
 
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -2253,26 +2277,26 @@ export class PiqReportComponent implements OnInit {
     subq: any
   ): void {
     let value = event.value;
-        const modifiedData = {
-          userName: this.userDetails.userData.mdata.appInfo.userName,
-          userType: this.userDetails.userData.mdata.userInfo.userType,
-          header: subQues.subHeaders,
-          mainQuestion: mquest.mainQuestion,
-          subID: subq.qid,
-          subQuestion: subq.subName,
-          answer: value,
-          sortingDate: new Date(),
-          modifiedDateTime: this.datePipe.transform(
-            new Date(),
-            'dd-MMM-yyyy HH:mm'
-          ),
-        };
-        
-        this.lastModifiedData.push(modifiedData);
-        this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
-        if (this.lastModifiedData.length > 5) {
-          this.lastModifiedData.splice(5);
-        }
+    const modifiedData = {
+      userName: this.userDetails.userData.mdata.appInfo.userName,
+      userType: this.userDetails.userData.mdata.userInfo.userType,
+      header: subQues.subHeaders,
+      mainQuestion: mquest.mainQuestion,
+      subID: subq.qid,
+      subQuestion: subq.subName,
+      answer: value,
+      sortingDate: new Date(),
+      modifiedDateTime: this.datePipe.transform(
+        new Date(),
+        'dd-MMM-yyyy HH:mm'
+      ),
+    };
+
+    this.lastModifiedData.push(modifiedData);
+    this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
+    if (this.lastModifiedData.length > 5) {
+      this.lastModifiedData.splice(5);
+    }
     const mQuestion = mquest.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -2871,7 +2895,12 @@ export class PiqReportComponent implements OnInit {
     return text;
   }
 
-  openOriginalQuest(mQuest: any, allValues: any, mQuestIndex: any,question:any) {    
+  openOriginalQuest(
+    mQuest: any,
+    allValues: any,
+    mQuestIndex: any,
+    question: any
+  ) {
     this.selectValue(allValues.subHeaders, allValues);
     setTimeout(() => {
       this.scrollToElement(question.qid);
@@ -2910,6 +2939,10 @@ export class PiqReportComponent implements OnInit {
           this.getStatus != 'Inprogress'
         ) {
           var flag = true;
+          return flag;
+        }else if(this.getOrigination == 'CNT001' &&
+        this.getStatus == 'Approved'){
+          var flag = false;
           return flag;
         } else {
           var flag = true;
@@ -2956,7 +2989,7 @@ export class PiqReportComponent implements OnInit {
   }
   disableBtn = false;
   edit() {
-   if (this.route.snapshot.paramMap.get('type') == 'view') {
+    if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.BudgetService.setEnableBtn(this.disableBtn);
       if (this.userDetails?.cntrlType === 'CNT002') {
         if (
@@ -2965,17 +2998,16 @@ export class PiqReportComponent implements OnInit {
         ) {
           this.viewMode = false;
           this.saveDisable = false;
-        }else{
-
+        } else {
         }
       } else if (this.userDetails?.cntrlType === 'CNT001') {
-        if (
-          this.getOrigination === 'CNT001' &&
-          this.getStatus != 'Approved'
-        ) {
+        if (this.getOrigination === 'CNT001' && this.getStatus != 'Approved') {
           this.viewMode = false;
           this.saveDisable = false;
-        }else if(this.getOrigination == 'CNT002'&& (this.getStatus == 'Submitted'||this.getStatus == 'ReAssigned')){
+        } else if (
+          this.getOrigination == 'CNT002' &&
+          (this.getStatus == 'Submitted' || this.getStatus == 'ReAssigned')
+        ) {
           this.viewMode = false;
           this.saveDisable = false;
         }

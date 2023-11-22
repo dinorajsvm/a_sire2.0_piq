@@ -91,10 +91,10 @@
                       <!-- <span class="charCount">{{getPlannedSubDate}}</span> -->
                     </div>
                     <div class="col-sm-8">
-                      <mat-form-field appearance="outline"  class="datePicker"  [ngClass]="{ 'read-only-date': viewMode }">
+                      <mat-form-field appearance="outline"  class="datePicker"  [ngClass]="{ 'read-only-date': viewMode }" [ngClass]="{ 'read-only-date': hideReqBtns }">
                         <input matInput [matDatepicker]="picker" formControlName="dateField"
-                          (dateInput)="onDateChange($event)" [readonly]="viewMode" autocomplete="off"  />
-                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="viewMode"></mat-datepicker-toggle>
+                          (dateInput)="onDateChange($event)" [readonly]="viewMode" [readonly]="hideReqBtns" autocomplete="off"  />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="viewMode" [disabled]="hideReqBtns"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
                   </div>
@@ -140,7 +140,7 @@
               <div class="row">
                 <div class="col-sm-12" style="padding-top: 8px;">
                   <span class="table-header">Add Remarks</span><span style="color: red;"> *</span>
-                  <textarea id="float-input" id="remarks" [readonly]="viewMode" [ngClass]="{ 'read-only': viewMode }" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
+                  <textarea id="float-input" id="remarks" [readonly]="viewMode" [readonly]="hideReqBtns" [ngClass]="{ 'read-only': viewMode }" [ngClass]="{ 'read-only': hideReqBtns }" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
                     placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" style="height: 41px;padding: 0 5px;"
                     formControlName="wrkFlowTextArea"></textarea>
                   <div class="text-right">
@@ -156,7 +156,7 @@
             <div class="col-sm-12">
               <span class="p-float-label">
                 <span class="table-header">Quick Notes</span>
-                <textarea id="float-input" autoResize="true" [readonly]="viewMode" [ngClass]="{ 'read-only': viewMode }" class="w-100" rows="3" #textArea cols="30"
+                <textarea id="float-input" autoResize="true" [readonly]="viewMode" [readonly]="hideReqBtns"  [ngClass]="{ 'read-only': hideReqBtns }" [ngClass]="{ 'read-only': viewMode }" class="w-100" rows="3" #textArea cols="30"
                   placeholder="Quick notes" maxlength="1000" formControlName="TextAreaField" (blur)="onInputBlur()"
                   [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
               </span>

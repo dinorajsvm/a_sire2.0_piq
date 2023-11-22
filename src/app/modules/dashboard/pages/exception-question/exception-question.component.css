@@ -28,6 +28,10 @@ padding: 5px 15px;
   background-color: sandybrown !important;
 }
 
+.hideReqBtns{
+  display: none;
+}
+
 .sick-days-breach {
   background-color: lightcoral !important;
 }

@@ -72,7 +72,7 @@
       <!-- [statusBar]="statusBar" -->
     </div>
   </div>
-  <button mat-button class="syncBtn mt-2" style="float: right" type="submit" (click)="onReset()">
+  <button mat-button class="syncBtn mt-2" style="float: right" type="submit" [class.hideReqBtns]="hideReqBtns" (click)="onReset()">
     Reset
   </button>
 </div>

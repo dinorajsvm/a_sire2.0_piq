@@ -69,6 +69,7 @@ export class ExceptionQuestionComponent implements OnInit {
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
   remarksCount: any;
+  hideReqBtns: boolean = false;
   constructor(
     private BudgetService: BudgetService,
     private _snackBarService: SnackbarService,
@@ -84,6 +85,13 @@ export class ExceptionQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.userDetails = this._storage.getUserDetails();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }
+    });
     this.BudgetService.getExceptionData().subscribe((data) => {
       this.rowData = data;
       this.getRowdataCount =
@@ -116,8 +124,6 @@ export class ExceptionQuestionComponent implements OnInit {
     // Assuming you have a unique identifier in your rowData
     const selectedItemId = event.data.subHeaders;
     const targetColumnName = 'subHeaders';
-    console.log("event",selectedItemId);
-    console.log("event1",event);
     if(event.colDef.field === targetColumnName){
       const tab=1;
       this.BudgetService.setTabChangeData(tab);

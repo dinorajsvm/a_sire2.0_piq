@@ -156,6 +156,7 @@ export class CertificateRepositoryComponent implements OnInit {
   public rowData!: any[];
   totalCertificateCount: any;
   getvesselcode: any;
+  hideReqBtns: boolean = false;
   constructor(
     private BudgetService: BudgetService,
     private snackBarService: SnackbarService,
@@ -170,6 +171,9 @@ export class CertificateRepositoryComponent implements OnInit {
   }
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      this.hideReqBtns = res;
+    });
   }
   onFirstDataRendered(params: FirstDataRenderedEvent) {}
   onGridReady(params: GridReadyEvent) {

@@ -377,8 +377,15 @@ export class TMSAComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
   }
+  hideReqBtns: boolean = false;
   ngOnInit(): void {
     this.getTmsaDetail();
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }})
 
     if (
       this.data.qid === '3.2.1' ||

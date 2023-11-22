@@ -114,6 +114,7 @@ export class PscComponent {
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
   defaultColDef = DefaultColDef;
+  hideReqBtns: boolean = false;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
   public rowClassRules: RowClassRules = {
@@ -169,6 +170,12 @@ export class PscComponent {
 
   ngOnInit(): void {
     this.getPscDetail();
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      if (res == true) {
+        this.hideReqBtns = res;
+      } else {
+        this.hideReqBtns = false;
+      }})
   }
 
   onReset() {
