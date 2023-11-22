@@ -22,7 +22,7 @@
   <div class="row">
     <div class="col-sm-12">
       <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 270px)" [rowData]="rowData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [defaultColDef]="defaultColDef"
+        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [defaultColDef]="defaultColDef" [groupDisplayType]="groupDisplayType"
         [rowGroupPanelShow]="rowGroupPanelShow" [tooltipShowDelay]="tooltipShowDelay" [rowClassRules]="rowClassRules"
         [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents">
       </ag-grid-angular>

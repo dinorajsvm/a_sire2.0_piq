@@ -63,7 +63,7 @@
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowInternal">
       <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowInternalData" [rowClassRules]="rowClassRules"
+        enableFilter="true" [rowData]="rowInternalData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
         [columnDefs]="columnInternalDefs" [gridOptions]="gridOptions" [tooltipShowDelay]="tooltipShowDelay"
         [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)">
@@ -78,7 +78,7 @@
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowShip">
       <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowShipData" [rowClassRules]="rowClassRules"
+        enableFilter="true" [rowData]="rowShipData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
         [tooltipShowDelay]="tooltipShowDelay" [columnDefs]="columnShipDefs" [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)">
@@ -93,7 +93,7 @@
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowExternal">
       <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowExternalData" [rowClassRules]="rowClassRules"
+        enableFilter="true" [rowData]="rowExternalData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
         [columnDefs]="columnExternalDefs" [gridOptions]="gridOptions" [defaultColDef]="defaultColDef"
         [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)">
@@ -109,7 +109,7 @@
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowInternalShip && isShowView">
       <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowInternalData" [rowClassRules]="rowClassRules"
+        enableFilter="true" [rowData]="rowInternalData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
         [columnDefs]="columnInternalDefs" [gridOptions]="gridOptions" [defaultColDef]="defaultColDef"
         [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)">

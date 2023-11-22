@@ -48,8 +48,9 @@
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isOnlyShipVisit">
+      
       <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 320px)" [rowData]="rowShipData"
-        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow"
+        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
         [tooltipShowDelay]="tooltipShowDelay" [rowClassRules]="rowClassRules" [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)" [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
       </ag-grid-angular>
@@ -62,7 +63,7 @@
   <div class="row">
     <div class="col-sm-12" *ngIf="this.isOnlyInterVisit">
       <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 320px)" [rowData]="rowInternalData"
-        [columnDefs]="internalColumnDefs" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef"
+        [columnDefs]="internalColumnDefs" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" [groupDisplayType]="groupDisplayType"
         [rowGroupPanelShow]="rowGroupPanelShow" [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)"
         [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
       </ag-grid-angular>

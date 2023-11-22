@@ -20,7 +20,7 @@
   <div class="row">
     <div class="col-sm-12">
       <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 305px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowData" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow"
+        enableFilter="true" [rowData]="rowData" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
         [tooltipShowDelay]="tooltipShowDelay" [columnDefs]="columnDefs" [gridOptions]="gridOptions"
         [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
       </ag-grid-angular>

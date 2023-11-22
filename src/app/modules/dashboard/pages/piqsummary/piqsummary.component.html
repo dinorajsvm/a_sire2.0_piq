@@ -180,7 +180,7 @@
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
+        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [groupDisplayType]="groupDisplayType"
         [embedFullWidthRows]="true" [rowData]="rowData" (gridReady)="onGridReady($event)">
       </ag-grid-angular>
       <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
@@ -195,7 +195,7 @@
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
+        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay" [groupDisplayType]="groupDisplayType"
         [embedFullWidthRows]="true" [rowData]="photoRowData" [suppressHorizontalScroll]="true">
       </ag-grid-angular>
       <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
@@ -207,7 +207,7 @@
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
         [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions" [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
+        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true" [groupDisplayType]="groupDisplayType"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
       </ag-grid-angular>
       <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
@@ -222,7 +222,7 @@
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
         [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
-        [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
+        [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true" [groupDisplayType]="groupDisplayType"
         [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
       </ag-grid-angular>
       <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
@@ -234,7 +234,7 @@
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
         [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [gridOptions]="gridOptions"
-        [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true"
+        [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" [masterDetail]="true" [groupDisplayType]="groupDisplayType"
         [embedFullWidthRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
       <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->
@@ -245,7 +245,7 @@
         <span class="m-0">Total Records: {{expectedRowData && expectedRowData.length}}</span>
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px);overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef"  [tooltipShowDelay]="tooltipShowDelay" [groupDisplayType]="groupDisplayType"
         [gridOptions]="gridOptions" [animateRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
       <!-- [rowGroupPanelShow]="rowGroupPanelShow" -->

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ColDef, GridApi } from 'ag-grid-community';
+import { ColDef, GridApi, RowGroupingDisplayType } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -30,6 +30,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   public rowSelection: 'single' | 'multiple' = 'single';
 
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
 
   constructor(

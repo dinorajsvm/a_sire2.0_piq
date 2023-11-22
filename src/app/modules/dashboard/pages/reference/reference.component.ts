@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
-import { GridOptions } from 'ag-grid-community';
+import { GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
 import { saveAs } from 'file-saver';
@@ -59,6 +59,7 @@ export class ReferenceComponent implements OnInit {
   private gridApi: any;
   private gridColumnApi: any;
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
 
   public gridOptions: GridOptions = {};

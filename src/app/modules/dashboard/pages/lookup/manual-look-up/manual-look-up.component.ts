@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ColDef, GridApi, StatusPanelDef } from 'ag-grid-community';
+import { ColDef, GridApi, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -124,6 +124,7 @@ export class ManualLookUpComponent implements OnInit {
   rowData: any = [];
   userDetails: any;
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
 
   constructor(

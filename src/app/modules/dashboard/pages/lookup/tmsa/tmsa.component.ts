@@ -12,6 +12,7 @@ import {
   GridApi,
   LicenseManager,
   RowClassRules,
+  RowGroupingDisplayType,
   StatusPanelDef,
 } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
@@ -314,6 +315,7 @@ export class TMSAComponent implements OnInit {
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {

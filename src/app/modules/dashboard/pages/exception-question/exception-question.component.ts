@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
-import { GridOptions, LicenseManager } from 'ag-grid-enterprise';
+import { GridOptions, LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
@@ -66,6 +66,7 @@ export class ExceptionQuestionComponent implements OnInit {
   private gridApi: any;
   private gridColumnApi: any;
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
   remarksCount: any;
   constructor(

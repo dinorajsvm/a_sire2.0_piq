@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
-import { ColDef, GridOptions, StatusPanelDef } from 'ag-grid-community';
+import { ColDef, GridOptions, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-community';
 import { BudgetService } from '../../../services/budget.service';
 import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
@@ -553,6 +553,7 @@ export class SafetyManagementComponent implements OnInit {
     { field: 'dropdown', cellRenderer: 'dropdown' },
   ];
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
   rowData: any[] = [];
   selectedRowData: any[] = [];

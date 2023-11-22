@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GridOptions } from 'ag-grid-community';
+import { GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { AgGridMenuComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu.component';
 import { BudgetService } from '../../services/budget.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -231,6 +231,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
   ];
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
 
   public gridOptions: GridOptions = {};

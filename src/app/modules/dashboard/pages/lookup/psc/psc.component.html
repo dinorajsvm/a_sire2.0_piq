@@ -36,7 +36,7 @@
   <div class="row" *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)">
     <div class="col-sm-12">
       <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 345px)" [rowData]="rowData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [tooltipShowDelay]="tooltipShowDelay" [groupDisplayType]="groupDisplayType"
         [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow"
         [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)">
@@ -51,7 +51,7 @@
   <div class="row" *ngIf="isChecked && isViewAll">
     <div class="col-sm-12">
       <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 345px)" [rowData]="rowPscData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [rowClassRules]="rowClassRules"
+        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
         [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)" [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
       </ag-grid-angular>
@@ -65,7 +65,7 @@
   <div class="row" *ngIf="isChecked && isViewAll">
     <div class="col-sm-12">
       <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 345px)" [rowData]="rowNonPscData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [rowClassRules]="rowClassRules"
+        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
         [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)" [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
       </ag-grid-angular>

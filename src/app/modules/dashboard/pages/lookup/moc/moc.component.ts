@@ -7,7 +7,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
-import { ColDef, LicenseManager, StatusPanelDef } from 'ag-grid-enterprise';
+import { ColDef, LicenseManager, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
@@ -100,6 +100,7 @@ export class MocComponent {
   ];
 
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
 
   rowData = [];

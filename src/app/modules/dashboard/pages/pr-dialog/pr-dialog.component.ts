@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ColDef, GridApi, SelectionChangedEvent } from 'ag-grid-community';
+import { ColDef, GridApi, RowGroupingDisplayType, SelectionChangedEvent } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -37,6 +37,7 @@ export class PrDialogComponent implements OnInit {
   rowData: any = [];
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
 
   constructor(

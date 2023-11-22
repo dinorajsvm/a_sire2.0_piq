@@ -3,6 +3,7 @@ import {
   ColDef,
   GridApi,
   RowClassRules,
+  RowGroupingDisplayType,
   StatusPanelDef,
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
@@ -230,6 +231,7 @@ export class LookupDialogComponent implements OnInit {
   public singleRowSelection: 'single' | 'multiple' = 'single';
 
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     // row style function

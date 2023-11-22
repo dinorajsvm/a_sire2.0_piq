@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ColDef, GridApi, RowClassRules, StatusPanelDef } from 'ag-grid-community';
+import { ColDef, GridApi, RowClassRules, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -114,6 +114,7 @@ export class PscComponent {
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow:any  = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ColDef, GridApi, GridOptions } from 'ag-grid-community';
+import { ColDef, GridApi, GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { BudgetService } from '../../services/budget.service';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -62,9 +62,10 @@ export class PIQSummaryComponent implements OnInit {
   photoRowData: any[] = [];
   private gridApi!: GridApi;
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   // public rowGroupPanelShow:any  = 'always';
   enableViewMode: boolean = true;
-  hideReqBtns: boolean =false;
+  hideReqBtns: boolean = false;
 
   public tooltipShowDelay = 0;
   public tooltipHideDelay = 20000;
@@ -85,29 +86,38 @@ export class PIQSummaryComponent implements OnInit {
       headerName: 'Total Sub Questions',
       tooltipField: 'totalQuestion',
       width: 160,
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'filledQuestion',
       headerName: 'Filled Sub Question',
       tooltipField: 'filledQuestion',
       width: 160,
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'pendingQuestion',
       headerName: 'Pending Sub Question',
       tooltipField: 'pendingQuestion',
       width: 160,
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
-    { field: 'status', headerName: 'Status', tooltipField: 'status',floatingFilter: false, },
+    {
+      field: 'status',
+      headerName: 'Status',
+      tooltipField: 'status',
+      floatingFilter: false,
+    },
     {
       field: 'lastModified',
       headerName: 'Last Modified',
       tooltipField: 'lastModified',
       width: 160,
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
   ];
   photoColumnDefs: ColDef[] = [
@@ -115,19 +125,22 @@ export class PIQSummaryComponent implements OnInit {
       field: 'subTopicTitle',
       headerName: 'Sub Topic Title',
       tooltipComponent: 'subTopicTitle',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'photoAvailable',
       headerName: 'Photo Available',
       tooltipField: 'photoAvailable',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'isNotMatching',
       headerName: 'Is Not Matching',
       tooltipField: 'isNotMatching',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
   ];
   expectedColumnDefs: ColDef[] = [
@@ -135,23 +148,38 @@ export class PIQSummaryComponent implements OnInit {
       field: 'username',
       headerName: 'User Name',
       tooltipField: 'username',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'rankname',
       headerName: 'User Rank',
       tooltipField: 'rankname',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'crdate',
       headerName: 'Last Update',
       tooltipField: 'crdate',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
       valueGetter: this.dateFormat.bind(this),
     },
-    { field: 'sync', headerName: 'Type', tooltipField: 'sync', flex: 1,floatingFilter: false, },
-    { field: 'status', headerName: 'Status', tooltipField: 'status', flex: 1,floatingFilter: false, },
+    {
+      field: 'sync',
+      headerName: 'Type',
+      tooltipField: 'sync',
+      flex: 1,
+      floatingFilter: false,
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      tooltipField: 'status',
+      flex: 1,
+      floatingFilter: false,
+    },
   ];
   plannedSubDate: any;
   getDate: any;
@@ -182,25 +210,29 @@ export class PIQSummaryComponent implements OnInit {
       field: 'mainQuestion',
       headerName: 'Main Question',
       tooltipField: 'mainQuestion',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'subQuestion',
       headerName: 'Sub Question',
       tooltipField: 'subQuestion',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'userName',
       headerName: 'User Name',
       tooltipField: 'userName',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'modifiedDateTime',
       headerName: 'Modified Date',
       tooltipField: 'modifiedDateTime',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
   ];
   certificateColumns: ColDef[] = [
@@ -208,19 +240,22 @@ export class PIQSummaryComponent implements OnInit {
       field: 'certifiactetype',
       headerName: 'OCIMF Certificate Type',
       tooltipField: 'certifiactetype',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'mackcertificatename',
       headerName: 'System Certificate Name',
       tooltipField: 'mackcertificatename',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'certificateAvailable',
       headerName: 'Certificate Available',
       tooltipField: 'certificateAvailable',
-      flex: 1,floatingFilter: false,
+      flex: 1,
+      floatingFilter: false,
       valueGetter: this.customCrUserValueGetter.bind(this),
     },
   ];
@@ -288,7 +323,7 @@ export class PIQSummaryComponent implements OnInit {
       this.disableSubFlowBtn = true;
       this.disableResAprFlowBtn = true;
       this.viewMode = true;
-      
+
       this.BudgetService.getEnableBtn().subscribe((res: any) => {
         if (res == false) {
           this.disableSyncBtn = res;
@@ -298,8 +333,7 @@ export class PIQSummaryComponent implements OnInit {
           this.viewMode = true;
         }
       });
-    }
-    else{
+    } else {
       this.disableSyncBtn = false;
     }
     this.getworkflowStatus();
@@ -524,11 +558,14 @@ export class PIQSummaryComponent implements OnInit {
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
-      if(this.getOriginator=='CNT001' && this.userDetails?.cntrlType === 'CNT002'){
-        this.hideReqBtns=true
+      if (
+        this.getOriginator == 'CNT001' &&
+        this.userDetails?.cntrlType === 'CNT002'
+      ) {
+        this.hideReqBtns = true;
       }
       const data = JSON.parse(res.lastMod);
-      if(data && data){
+      if (data && data) {
         this.modifiedrowData = data;
       }
     });
@@ -589,7 +626,6 @@ export class PIQSummaryComponent implements OnInit {
             lastmodifieddata: JSON.stringify(this.modifiedrowData),
             wfaction: '',
           };
-
         } else if (type === 'reassign') {
           if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
             this.setFlowAction = 'RSN';
@@ -679,16 +715,18 @@ export class PIQSummaryComponent implements OnInit {
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      let object = JSON.parse(res.response);
-
-      this.getAllDatas = object;
-      object.forEach((value1: any) => {
-        value1.values.forEach((value: any) => {
-          value.question.forEach((subHeader: any) => {
-            this.getMainQuestCounts.push(subHeader);
+      console.log('test', type);
+      if (res && res.response) {
+        let object = JSON.parse(res.response);
+        this.getAllDatas = object;
+        object.forEach((value1: any) => {
+          value1.values.forEach((value: any) => {
+            value.question.forEach((subHeader: any) => {
+              this.getMainQuestCounts.push(subHeader);
+            });
           });
         });
-      });
+      }
       this.getAnswerValue(type);
     });
   }

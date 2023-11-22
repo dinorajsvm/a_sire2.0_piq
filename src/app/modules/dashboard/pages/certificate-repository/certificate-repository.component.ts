@@ -4,6 +4,7 @@ import {
   ColDef,
   FirstDataRenderedEvent,
   GridReadyEvent,
+  RowGroupingDisplayType,
 } from 'ag-grid-community';
 import { saveAs } from 'file-saver';
 import { LicenseManager } from 'ag-grid-enterprise';
@@ -114,6 +115,7 @@ export class CertificateRepositoryComponent implements OnInit {
     },
   ];
   defaultColDef = DefaultColDef;
+  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
   public detailCellRendererParams: any = {
     detailGridOptions: {
