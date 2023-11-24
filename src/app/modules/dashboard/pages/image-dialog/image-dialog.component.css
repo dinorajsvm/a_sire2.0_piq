@@ -18,6 +18,8 @@
   max-height: none;
   height: calc(100vh - 120px);
   padding: 0;
+  font-size: 12px;
+  color: black;
 }
 ::ng-deep .fullscreen-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
   overflow: hidden !important;
@@ -117,6 +119,15 @@
   padding: 0;
   justify-content: center;
 
+}
+.yesBtn {
+  background-color: #19c37d;
+  color: white;
+}
+
+.disableBtn{
+    background-color: #c1c1c1 !important;
+    color: black !important;
 }
 
 /* .fullScreen_imgWrap {

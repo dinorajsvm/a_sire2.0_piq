@@ -11,6 +11,8 @@
   height: calc(100vh - 270px) !important;
   padding-bottom: 0;
   max-height: unset !important;
+  font-size: 12px;
+  color: black;
 }
 ::ng-deep
   .sm-dialog-container

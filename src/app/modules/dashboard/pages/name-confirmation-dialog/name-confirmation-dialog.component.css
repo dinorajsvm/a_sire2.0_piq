@@ -20,6 +20,8 @@
   max-height: 100px !important;
   height: 50px !important;
   padding: 0 24px;
+  font-size: 12px;
+  color: black;
 }
 
 ::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
@@ -29,4 +31,14 @@
 ::ng-deep .confirm-dialog-container ::ng-deep .mdc-dialog__actions {
   padding: 0 5px;
   min-height: 25px;
+}
+
+.yesBtn {
+  background-color: #19c37d;
+  color: white;
+}
+
+.disableBtn{
+    background-color: #c1c1c1 !important;
+    color: black !important;
 }

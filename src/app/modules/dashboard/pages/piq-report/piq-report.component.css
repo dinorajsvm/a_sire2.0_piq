@@ -450,9 +450,9 @@
 .content_load_wrappen {
   height: calc(100vh - 230px);
   overflow: auto;
-  background: #dee1f0;
-  padding: 10px;
-  border: 1px solid #b1aeae;
+  background: white;
+  padding: 5px;
+  /* border: 1px solid #b1aeae; */
 }
 
 .sub-ques {
@@ -697,12 +697,12 @@
 
 .loopedMainQuest {
   padding: 0;
-  max-width: 73%;
+  max-width: 73.1%;
   transition: max-width 0.7s ease-in-out;
 }
 .pendingQuest {
   padding: 0;
-  max-width: 73%;
+  max-width: 73.1%;
   transition: max-width 0.7s ease-in-out;
 }
 
