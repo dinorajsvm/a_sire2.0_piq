@@ -11,10 +11,10 @@
     </div>
   </div>
   <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="userDetails?.cntrlType === 'CNT002'">
-    <span class="m-0">Total Records: {{rowData.length}}</span>
+    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
   </div>
   <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="userDetails?.cntrlType === 'CNT001'">
-    <span class="m-0">Total Records: {{rowData.length}}</span>
+    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
   </div>
   <div class="row">
     <!-- ship -->
