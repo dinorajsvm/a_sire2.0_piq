@@ -122,7 +122,7 @@ export class PiqReportComponent implements OnInit {
   getOrigination: any;
   getStatus: any;
   manualLookupData: any[] = [];
-  getWrkFlowId: any;
+  getApproveRank: any;
   getWrkFlSummaryData: any;
   showWorkSpace: boolean = false;
   disableEditMode: boolean = true;
@@ -158,7 +158,7 @@ export class PiqReportComponent implements OnInit {
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
 
-    // this.getworkflowStatus();
+    this.getworkflowStatus();
     // if (this.route.snapshot.paramMap.get('type') == 'new') {
     //   this.saveWorkFlowAction();
     // } else {
@@ -177,14 +177,6 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideEditbutton = res;
       this.hideReqBtns = res;
-      if (res == true) {
-        this.BudgetService.getPiqQuestAns(this.referenceNumber).subscribe(
-          (res: any) => {}
-        );
-        this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
-          (res: any) => {}
-        );
-      }
     });
     this.BudgetService.getSearch().subscribe((res: any) => {
       this.getSearch = res;
@@ -298,14 +290,15 @@ export class PiqReportComponent implements OnInit {
   //   this.getWrkFlSummary();
   // }
 
-  // getworkflowStatus() {
-  //   this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
-  //     let val = res.workflowmaster;
-  //     val.forEach((item: any) => {
-  //       this.getWrkFlowId = item.wfid;
-  //     });
-  //   });
-  // }
+  getworkflowStatus() {
+    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
+      let val = res.workflowmaster;
+      val.forEach((item: any) => {
+        console.log('item', item);
+        this.getApproveRank = item.approver;
+      });
+    });
+  }
   getWrkFlSummary() {
     this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
       (res: any) => {
@@ -382,8 +375,6 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.exceptionlist != '') {
         let exceptionData = JSON.parse(res.exceptionlist);
-        console.log('guide', exceptionData);
-        console.log('guide', typeof exceptionData);
         this.BudgetService.setExceptionData(exceptionData);
       }
       let object = JSON.parse(res.response);
@@ -430,6 +421,7 @@ export class PiqReportComponent implements OnInit {
             this.disableEditMode = false;
           } else {
             this.disableEditMode = true;
+            this.viewMode = false;
           }
         } else if (this.userDetails?.cntrlType === 'CNT001') {
           if (this.getOrigination == 'CNT001' && this.getStatus != 'Approved') {
@@ -2935,13 +2927,13 @@ export class PiqReportComponent implements OnInit {
           var flag = entrylogin === 'Office';
           return flag;
         } else if (
-          this.getOrigination == 'CNT002' &&
-          this.getStatus != 'Inprogress'
+          (this.getOrigination == 'CNT001' && this.getStatus == 'Submitted' &&
+          this.getApproveRank != this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT002' &&
+            this.getStatus != 'Inprogress' &&
+            this.getApproveRank != this.userDetails?.rankCode) || (this.getOrigination == 'CNT001' && this.getStatus == 'Approved')
         ) {
-          var flag = true;
-          return flag;
-        }else if(this.getOrigination == 'CNT001' &&
-        this.getStatus == 'Approved'){
+          // this.viewMode = false;
           var flag = false;
           return flag;
         } else {

@@ -24,6 +24,11 @@ padding: 5px 15px;
   font-size: 12px;
 }
 
+.disableBtns{
+  background-color: gray !important;
+  color: black !important;
+  }
+
 .sick-days-warning {
   background-color: sandybrown !important;
 }

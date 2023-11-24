@@ -486,10 +486,12 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId = item.wfid;
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
+        console.log("this.getResAprWrkFlowRank");
+        
       });
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
-          if (this.getSubWrkFlowRank == this.getRank && res == false) {
+          if ((this.getSubWrkFlowRank == this.getRank || this.getResAprWrkFlowRank == this.getRank) && res == false) {
             this.disableSubFlowBtn = false;
           } else {
             this.disableSubFlowBtn = true;
@@ -501,7 +503,7 @@ export class PIQSummaryComponent implements OnInit {
           }
         });
       } else {
-        if (this.getSubWrkFlowRank == this.getRank) {
+        if (this.getSubWrkFlowRank == this.getRank || this.getResAprWrkFlowRank == this.getRank) {
           this.disableSubFlowBtn = false;
         } else {
           this.disableSubFlowBtn = true;
@@ -560,31 +562,52 @@ export class PIQSummaryComponent implements OnInit {
         this.quickNotesInput = res.quicknotes;
       }
 
-      if (
-        this.getOriginator == 'CNT001' &&
-        this.userDetails?.cntrlType === 'CNT002'
-      ) {
-        this.hideReqBtns = true;
-        this.hideBtns=true
-        this.BudgetService.setEditVisible(this.hideBtns);
-      }
       if (data && data) {
         this.modifiedrowData = data;
       }
+
       if (res && res.datasyncgrid && res.datasyncgrid != '') {
         const data = JSON.parse(res.datasyncgrid);
         this.expectedRowData = data;
       }
 
-      if (
-        this.getOriginator == 'CNT002' &&
-        this.userDetails?.cntrlType === 'CNT002' &&
-        this.getWorkFlowAction === 'Submitted'
-      ) {
-        this.hideBtns=true
+      if(this.getOriginator == 'CNT002'){
+        if((this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT002') || (this.getWorkFlowAction != 'Inprogress' && this.userDetails?.cntrlType === 'CNT001' && this.getResAprWrkFlowRank!=this.userDetails?.rankCode) ){
+          // (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001') || (this.getWorkFlowAction === 'Approved' && this.userDetails?.cntrlType === 'CNT001')
+          this.hideBtns=true
         this.BudgetService.setEditVisible(this.hideBtns);
         this.hideReqBtns = true;
+        this.viewMode = true;
+        }
+      }else if(this.getOriginator == 'CNT001'){
+        if((this.userDetails?.cntrlType === 'CNT002') || (this.getWorkFlowAction == 'Submitted' && this.userDetails?.cntrlType === 'CNT001' && this.getResAprWrkFlowRank!=this.userDetails?.rankCode)|| (this.getWorkFlowAction == 'Approved' && this.userDetails?.cntrlType === 'CNT001')){
+          this.hideReqBtns = true;
+          this.hideBtns=true
+          this.viewMode = true;
+          this.BudgetService.setEditVisible(this.hideBtns);
+        }
+
       }
+
+      // if (
+      //   this.getOriginator == 'CNT001' &&
+      //   this.userDetails?.cntrlType === 'CNT002'
+      // ) {
+      //   this.hideReqBtns = true;
+      //   this.hideBtns=true
+      //   this.BudgetService.setEditVisible(this.hideBtns);
+      // }
+
+      // if (
+      //   this.getWorkFlowAction === 'Submitted' && this.getOriginator == 'CNT002' &&
+      //   this.userDetails?.cntrlType === 'CNT002' 
+      // ) {
+        
+      //   this.hideBtns=true
+      //   this.BudgetService.setEditVisible(this.hideBtns);
+      //   this.hideReqBtns = true;
+      //   this.viewMode = true;
+      // }
       if (
         this.getOriginator == 'CNT001' &&
         this.userDetails?.cntrlType === 'CNT001' &&
@@ -594,6 +617,10 @@ export class PIQSummaryComponent implements OnInit {
         this.BudgetService.setEditVisible(this.hideBtns);
         this.hideReqBtns = true;
       }
+
+      // if (this.route.snapshot.paramMap.get('type') == 'view') {
+      //   this.viewMode = true;
+      // }
     });
   }
 
@@ -888,22 +915,24 @@ export class PIQSummaryComponent implements OnInit {
           colorCodes.INFO
         );
       } else if (type === 'submit') {
-        this.getMasterDetails();
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+        // window.location.reload();  
         this._snackBarService.loadSnackBar(
           'Submitted Successfully',
           colorCodes.INFO
         );
       }else if (type == 'reassign') {
-        this.getMasterDetails();
         window.location.reload();
+        this.getMasterDetails();
         this._snackBarService.loadSnackBar(
           'Form Reassigned Successfully',
           colorCodes.INFO
         );
       } else if (type == 'approve') {
-        this.getMasterDetails();
         window.location.reload();
+        this.getMasterDetails();
         this._snackBarService.loadSnackBar(
           'Form Aprroved Successfully',
           colorCodes.INFO

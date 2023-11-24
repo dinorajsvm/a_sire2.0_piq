@@ -1,7 +1,7 @@
 <div class="col-sm-12" id="exceptionWrapper">
   <div class="row">
     <div class="col-sm-12 text-right">
-        <button mat-button class="save" [class.hideReqBtns]="hideReqBtns" type="submit" (click)="onSubmit()">
+        <button mat-button class="save"[disabled]="disableBtns" [class.disableBtns]="disableBtns" [class.hideReqBtns]="hideReqBtns" type="submit" (click)="onSubmit()">
           Save
         </button>
     </div>

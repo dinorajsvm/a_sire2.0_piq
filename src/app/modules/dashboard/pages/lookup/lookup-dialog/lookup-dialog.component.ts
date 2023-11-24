@@ -280,13 +280,7 @@ export class LookupDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLookUpVisit();
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
-      if (res == true) {
-        this.hideReqBtns = res;
-      } else {
-        this.hideReqBtns = false;
-      }
-    });
+    
   }
 
   getLookUpVisit() {
@@ -310,6 +304,14 @@ export class LookupDialogComponent implements OnInit {
         this.isChecked = false;
         this.rowInternalData = this.getRowDatas.Internal;
       }
+      this.BudgetService.getEditVisible().subscribe((res: any) => {
+        console.log("res",res);
+        if (res == true) {
+          this.hideReqBtns = res;
+        } else {
+          this.hideReqBtns = false;
+        }
+      });
     });
   }
 

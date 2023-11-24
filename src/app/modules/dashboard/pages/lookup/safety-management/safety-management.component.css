@@ -70,3 +70,8 @@ height: calc(100vh - 320px) !important;
 .header {
   margin: 0;
 }
+
+
+.hideReqBtns{
+  display: none !important;
+}

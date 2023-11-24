@@ -55,6 +55,7 @@ export class PhotoRepositoryComponent implements OnInit {
   companyCode: any;
   getImagesCount: any;
   hideReqBtns: boolean = false;
+  disableBtns: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -69,6 +70,19 @@ export class PhotoRepositoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    if (this.route.snapshot.paramMap.get('type') == 'view') {
+      this.disableBtns = true;
+      this.invalidImg = true;
+    }
+    this.BudgetService.getEnableBtn().subscribe((res: any) => {
+      if (res == false) {
+        this.disableBtns = res;
+        this.invalidImg = res;
+      } else {
+        this.disableBtns = true;
+        this.invalidImg = true;
+      }
+    });
     this.companyCode = 'NYKSG';
     this.getDefaultImageName();
     this.getSavedPRData();

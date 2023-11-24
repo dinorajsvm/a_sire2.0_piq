@@ -91,12 +91,14 @@
                       <!-- <span class="charCount">{{getPlannedSubDate}}</span> -->
                     </div>
                     <div class="col-sm-8">
-                      <mat-form-field appearance="outline"  class="datePicker"  [ngClass]="{ 'read-only-date': viewMode }" [ngClass]="{ 'read-only-date': hideReqBtns }">
+                      <!-- [readonly]="hideReqBtns" -->
+                      <mat-form-field appearance="outline"  class="datePicker"  [ngClass]="{ 'read-only-date': viewMode }">
                         <input matInput [matDatepicker]="picker" formControlName="dateField"
-                          (dateInput)="onDateChange($event)" [readonly]="viewMode" [readonly]="hideReqBtns" autocomplete="off"  />
-                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="viewMode" [disabled]="hideReqBtns"></mat-datepicker-toggle>
+                          (dateInput)="onDateChange($event)" [readonly]="viewMode"  autocomplete="off"  />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="viewMode" ></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
+                      <!-- [disabled]="hideReqBtns" -->
                   </div>
                   </div>
                 </div>
@@ -104,30 +106,32 @@
                   <button mat-button class="syncBtn" type="submit" [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" (click)="openDialog()">
                     Re-Use Past Template
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT002'" [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button  class="syncBtn" type="submit"
+                  <button *ngIf="userDetails?.cntrlType === 'CNT002'"  mat-button  class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
+                    <!-- [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" -->
                     Sync to Shore
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT001'" [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" mat-button class="syncBtn" type="submit"
+                  <button *ngIf="userDetails?.cntrlType === 'CNT001'"  mat-button class="syncBtn" type="submit"
                     (click)="onSubmit('syncToStore',$event)">
+                    <!-- [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" -->
                     Sync to Ship
                   </button>
-                  <div [class.hideReqBtns]="hideReqBtns" [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
-                    <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'">
-                      <button mat-button class="sub" type="submit" (click)="onSubmit('submit',$event)"
+                  <div  [class.hideFlowBtns]="getWorkFlowAction==='Approved'" style="display: flex;">
+                    <div *ngIf="getWorkFlowAction=='Inprogress'|| getWorkFlowAction=='ReAssigned'" [class.hideReqBtns]="hideReqBtns">
+                      <button  mat-button class="sub" type="submit" (click)="onSubmit('submit',$event)"
                         [disabled]="disableSubFlowBtn"  [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'">
                         Submit
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                     </div>
-                    <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
+                    <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'&& this.getResAprWrkFlowRank === userDetails?.rankCode">
                       <button mat-button class="rsn" (click)="onWorkflow('reassign',$event)" type="submit"
                         [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'rsn' : 'disableWrkFlowBtn'" >
                         Reassign
                       </button>
                       <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
                     </div>
-                    <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001'">
+                    <div *ngIf="getWorkFlowAction=='Submitted' && userDetails?.cntrlType === 'CNT001' && this.getResAprWrkFlowRank === userDetails?.rankCode">
                       <button mat-button class="apr" (click)="onWorkflow('approve',$event)" type="submit"
                         [disabled]="disableResAprFlowBtn" [ngClass]="!disableResAprFlowBtn ? 'apr' : 'disableWrkFlowBtn'">
                         Approve
@@ -140,7 +144,7 @@
               <div class="row">
                 <div class="col-sm-12" style="padding-top: 8px;">
                   <span class="table-header">Add Remarks</span><span style="color: red;"> *</span>
-                  <textarea id="float-input" id="remarks" [readonly]="viewMode" [readonly]="hideReqBtns" [ngClass]="{ 'read-only': viewMode }" [ngClass]="{ 'read-only': hideReqBtns }" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
+                  <textarea id="float-input" id="remarks" [readonly]="viewMode"  [ngClass]="{ 'read-only': viewMode }" autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30"
                     placeholder="Workflow Remarks" maxlength="1000" [(ngModel)]="remarks" style="height: 41px;padding: 0 5px;"
                     formControlName="wrkFlowTextArea"></textarea>
                   <div class="text-right">
@@ -156,7 +160,8 @@
             <div class="col-sm-12">
               <span class="p-float-label">
                 <span class="table-header">Quick Notes</span>
-                <textarea id="float-input" autoResize="true" [readonly]="viewMode" [readonly]="hideReqBtns"  [ngClass]="{ 'read-only': hideReqBtns }" [ngClass]="{ 'read-only': viewMode }" class="w-100" rows="3" #textArea cols="30"
+                <!-- [readonly]="hideReqBtns" -->
+                <textarea id="float-input" autoResize="true" [readonly]="viewMode"   [ngClass]="{ 'read-only': hideReqBtns }" [ngClass]="{ 'read-only': viewMode }" class="w-100" rows="3" #textArea cols="30"
                   placeholder="Quick notes" maxlength="1000" formControlName="TextAreaField" (blur)="onInputBlur()"
                   [(ngModel)]="quickNotesInput" pInputTextarea></textarea>
               </span>

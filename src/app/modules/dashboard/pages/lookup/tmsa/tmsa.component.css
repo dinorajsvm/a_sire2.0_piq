@@ -86,3 +86,7 @@
   padding: 0px 10px;
   font-size: 12px;
 }
+
+.hideReqBtns{
+  display: none !important;
+}

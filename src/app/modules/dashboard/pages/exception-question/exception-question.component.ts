@@ -70,6 +70,7 @@ export class ExceptionQuestionComponent implements OnInit {
   public rowGroupPanelShow:any  = 'always';
   remarksCount: any;
   hideReqBtns: boolean = false;
+  disableBtns: boolean = false;
   constructor(
     private BudgetService: BudgetService,
     private _snackBarService: SnackbarService,
@@ -85,6 +86,18 @@ export class ExceptionQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.userDetails = this._storage.getUserDetails();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    if (this.route.snapshot.paramMap.get('type') == 'view') {
+      this.disableBtns = true;
+    }
+    this.BudgetService.getEnableBtn().subscribe((res: any) => {
+      console.log("1111");
+      
+      if (res == false) {
+        this.disableBtns = res;
+      } else {
+        this.disableBtns = true;
+      }
+    });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       if (res == true) {
         this.hideReqBtns = res;

@@ -60,3 +60,7 @@
 .header {
   margin: 0;
 }
+
+.hideReqBtns{
+  display: none !important;
+}

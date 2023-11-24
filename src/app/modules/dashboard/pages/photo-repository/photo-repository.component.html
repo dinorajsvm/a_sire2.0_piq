@@ -5,7 +5,7 @@
         <label class="charCount" style="font-size: 12px; font-weight: 500">
           Checklist Instance ID
         </label>
-        <button class="searchTable" style="margin-left: 5px;" mat-raised-button [class.hideReqBtns]="hideReqBtns" (click)="openDialog()">
+        <button class="searchTable" style="margin-left: 5px;" [disabled]="disableBtns" [class.disableBtns]="disableBtns" mat-raised-button [class.hideReqBtns]="hideReqBtns" (click)="openDialog()">
           <mat-icon>search</mat-icon>
         </button>
       </div>
@@ -29,10 +29,10 @@
           <button mat-button class="downloadAllBtn" matTooltip="Download All Images" (click)="downloadAll()">
             <i class="fa fa-arrow-circle-o-down icn" style="font-size: 18px;color: white"></i>
           </button>
-          <img src="assets/question/reset-password.svg" class="defNameIcn" [class.hideReqBtns]="hideReqBtns"
+          <img src="assets/question/reset-password.svg"  class="defNameIcn" [class.hideReqBtns]="hideReqBtns"
             style="height: 25px;width: 25px;margin-left: 5px;" matTooltip="Set Default Name To All Images"
             (click)="resetAllImageFilenames(listDatas)" />
-          <button mat-button class="save" type="submit" (click)="savePhoto()" [class.hideReqBtns]="hideReqBtns" [disabled]="invalidImg">Save</button>
+          <button mat-button class="save" type="submit" (click)="savePhoto()" [class.hideReqBtns]="hideReqBtns" [class.disableBtns]="invalidImg" [disabled]="invalidImg">Save</button>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
             </span>
             <div class="upDownBtnWrap">
               <div class="attachBtn" style="margin: 0 3px">
-                <button class="imgUpload" mat-button color="primary" [class.hideReqBtns]="hideReqBtns" matTooltip="Upload Image"
+                <button class="imgUpload" mat-button color="primary" [disabled]="disableBtns" [class.disableBtns]="disableBtns" [class.hideReqBtns]="hideReqBtns" matTooltip="Upload Image"
                   (click)="selectFile(subHead,selectedInstanceID,head.topic,$event)">
                   <mat-icon>attach_file</mat-icon>
                   <input type="file" (change)="onFileSelected($event)" accept=".png, .jpg" style="display: none"

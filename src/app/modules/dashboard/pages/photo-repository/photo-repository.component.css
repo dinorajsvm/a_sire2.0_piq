@@ -108,6 +108,11 @@
   display: none !important;
 }
 
+.disableBtns{
+  background-color: gray !important;
+  color: black !important;
+  }
+
 .img {
   position: relative;
   top: 0px;
