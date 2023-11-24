@@ -3,21 +3,33 @@
     <div class="row">
       <div class="col-sm-8">
         <h4 class="header">2.8. General Information</h4>
-        <p class="descHeader">
-          (List of External Inspection Data in last 18 months)
-        </p>
+        <p class="descHeader">(List of Inspection Data in last 18 months)</p>
       </div>
 
       <div class="col-sm-3 text-center" style="padding: 15px 0 0 0">
-        <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
-          <mat-chip-option color="primary" [selected]="!isChecked && !isViewAll" (click)="changeToggle('Suggested')">
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Color selection"
+        >
+          <mat-chip-option
+            color="primary"
+            [selected]="!isChecked && !isViewAll"
+            (click)="changeToggle('Suggested')"
+          >
             Suggested
           </mat-chip-option>
-          <mat-chip-option color="primary" [selected]="isChecked && !isViewAll"
-            (click)="changeToggle('All Inspection')">
+          <mat-chip-option
+            color="primary"
+            [selected]="isChecked && !isViewAll"
+            (click)="changeToggle('All Inspection')"
+          >
             All Inspection
           </mat-chip-option>
-          <mat-chip-option color="primary" (click)="changeToggle('ViewAll')" [selected]="isChecked && isViewAll">
+          <mat-chip-option
+            color="primary"
+            (click)="changeToggle('ViewAll')"
+            [selected]="isChecked && isViewAll"
+          >
             View All
           </mat-chip-option>
         </mat-chip-listbox>
@@ -29,51 +41,116 @@
   </div>
 </div>
 <div mat-dialog-content class="mat-typography">
-  <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
-    style="margin-top:10px;">
-    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+  <div
+    class="col-sm-12 justify-content-end ag-toolBar"
+    *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
+    style="margin-top: 10px"
+  >
+    <span class="m-0">Total Records: {{ rowData && rowData.length }}</span>
   </div>
-  <div class="row" *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)">
+  <div
+    class="row"
+    *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
+  >
     <div class="col-sm-12">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 345px)" [rowData]="rowData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [tooltipShowDelay]="tooltipShowDelay" [groupDisplayType]="groupDisplayType"
-        [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow"
-        [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents"
-        (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 345px)"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [rowClassRules]="rowClassRules"
+        [defaultColDef]="defaultColDef"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
-  <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="isChecked && isViewAll" style="margin-top:10px;">
-    <span class="m-0">Total Records: {{rowPscData && rowPscData.length}}</span>
+  <div
+    class="col-sm-12 justify-content-end ag-toolBar"
+    *ngIf="isChecked && isViewAll"
+    style="margin-top: 10px"
+  >
+    <span class="m-0"
+      >Total Records: {{ rowPscData && rowPscData.length }}</span
+    >
   </div>
   <div class="row" *ngIf="isChecked && isViewAll">
     <div class="col-sm-12">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 345px)" [rowData]="rowPscData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
-        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)" [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 345px)"
+        [rowData]="rowPscData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [rowClassRules]="rowClassRules"
+        [groupDisplayType]="groupDisplayType"
+        [defaultColDef]="defaultColDef"
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;" *ngIf="isChecked && isViewAll">
-    <span class="m-0">Total Records: {{rowNonPscData && rowNonPscData.length}}</span>
+  <div
+    class="col-sm-12 justify-content-end ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isChecked && isViewAll"
+  >
+    <span class="m-0"
+      >Total Records: {{ rowNonPscData && rowNonPscData.length }}</span
+    >
   </div>
   <div class="row" *ngIf="isChecked && isViewAll">
     <div class="col-sm-12">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 345px)" [rowData]="rowNonPscData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
-        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)" [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 345px)"
+        [rowData]="rowNonPscData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [rowClassRules]="rowClassRules"
+        [groupDisplayType]="groupDisplayType"
+        [defaultColDef]="defaultColDef"
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
     </div>
   </div>
-  <button mat-button (click)="onDialogClose()" class="cancel btnCan mt-2" style="float: right" [class.hideReqBtns]="hideReqBtns" [mat-dialog-close]="true">Cancel</button>
-  <button mat-button class="syncBtn mt-2" style="float: right" type="submit" [class.hideReqBtns]="hideReqBtns" (click)="onReset()">
+  <button
+    mat-button
+    (click)="onDialogClose()"
+    class="cancel btnCan mt-2"
+    style="float: right"
+    [class.hideReqBtns]="hideReqBtns"
+    [mat-dialog-close]="true"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    style="float: right"
+    type="submit"
+    [class.hideReqBtns]="hideReqBtns"
+    (click)="onReset()"
+  >
     Reset
   </button>
 </div>

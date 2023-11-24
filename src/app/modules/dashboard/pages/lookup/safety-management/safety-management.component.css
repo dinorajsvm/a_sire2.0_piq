@@ -8,7 +8,7 @@
 }
 
 ::ng-deep .sm-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content{
-  height: calc(100vh - 270px) !important;
+  height: calc(100vh - 200px) !important;
   padding-bottom: 0;
   max-height: unset !important;
   font-size: 12px;
@@ -31,7 +31,7 @@
 }
 
 ::ng-deep .sm-Dailog ::ng-deep .mat-mdc-tab-body-wrapper{
-height: calc(100vh - 320px) !important;
+height: calc(100vh - 220px) !important;
 }
 
 .close_mark {

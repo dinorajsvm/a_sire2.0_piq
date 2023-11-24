@@ -4,7 +4,6 @@ import {
   GridApi,
   RowClassRules,
   RowGroupingDisplayType,
-  StatusPanelDef,
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
@@ -88,16 +87,6 @@ export class PmsLookupComponent {
     'highlighted-row': (params) => {
       return params.data.highlight;
     },
-  };
-  public statusBar: {
-    statusPanels: StatusPanelDef[];
-  } = {
-    statusPanels: [
-      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
-    ],
   };
   userDetails: any;
   constructor(

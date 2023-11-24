@@ -17,20 +17,44 @@
 
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-12 justify-content-end ag-toolBar">
-    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+    <span class="m-0">Total Records: {{ rowData && rowData.length }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 270px)" [rowData]="rowData"
-        [columnDefs]="columnDefs" [rowSelection]="multiRowSelection" [defaultColDef]="defaultColDef" [groupDisplayType]="groupDisplayType"
-        [rowGroupPanelShow]="rowGroupPanelShow" [tooltipShowDelay]="tooltipShowDelay" [rowClassRules]="rowClassRules"
-        [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)" [components]="frameworkComponents">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 270px)"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [defaultColDef]="defaultColDef"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [rowClassRules]="rowClassRules"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
-  <button mat-button (click)="onDialogClose()" class="cancel btnCan mt-2" style="float: right" [class.hideReqBtns]="hideReqBtns" [mat-dialog-close]="true">Cancel</button>
-  <button mat-button class="syncBtn mt-2" [class.hideReqBtns]="hideReqBtns" style="float: right" type="submit" (click)="onReset()">
+  <button
+    mat-button
+    (click)="onDialogClose()"
+    class="cancel btnCan mt-2"
+    style="float: right"
+    [class.hideReqBtns]="hideReqBtns"
+    [mat-dialog-close]="true"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    [class.hideReqBtns]="hideReqBtns"
+    style="float: right"
+    type="submit"
+    (click)="onReset()"
+  >
     Reset
   </button>
 </mat-dialog-content>

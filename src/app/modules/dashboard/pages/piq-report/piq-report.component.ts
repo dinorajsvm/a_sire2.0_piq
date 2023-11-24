@@ -879,10 +879,8 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
+    //  let multi1 = document.getElementById('Q104')
 
-  //  let multi1 = document.getElementById('Q104')
-
-   
     if (entryorgin.qid == 'Q104' && this.initialMultiAns == true) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
@@ -2712,14 +2710,17 @@ export class PiqReportComponent implements OnInit {
         }
 
         if (questionId === '3.2.1') {
-          if (lookUpInternalDate) {
+          if (lookUpInternalDate && lookUpInternalDate.auditfromdate) {
             lookUpFromDate = lookUpInternalDate.auditfromdate
               ? this.datePipe.transform(
                   new Date(lookUpInternalDate.auditfromdate),
                   'dd-MMM-yyyy HH:mm'
                 )
               : '';
-          } else {
+          } else if (
+            lookUpShipVisitDate &&
+            lookUpShipVisitDate.actualfromdate
+          ) {
             lookUpFromDate = lookUpShipVisitDate.actualfromdate
               ? this.datePipe.transform(
                   new Date(lookUpShipVisitDate.actualfromdate),
@@ -2727,7 +2728,6 @@ export class PiqReportComponent implements OnInit {
                 )
               : '';
           }
-
           if (!(lookUpFromDate === fromDate)) {
             if (fromDate !== '') {
               this.exceptionDateFn(subQues, mquest, subq);
@@ -2894,7 +2894,7 @@ export class PiqReportComponent implements OnInit {
     mQuest: any,
     allValues: any,
     mQuestIndex: any,
-    question: any
+    question?: any
   ) {
     this.selectValue(allValues.subHeaders, allValues);
     setTimeout(() => {
@@ -2930,11 +2930,13 @@ export class PiqReportComponent implements OnInit {
           var flag = entrylogin === 'Office';
           return flag;
         } else if (
-          (this.getOrigination == 'CNT001' && this.getStatus == 'Submitted' &&
-          this.getApproveRank != this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT001' &&
+            this.getStatus == 'Submitted' &&
+            this.getApproveRank != this.userDetails?.rankCode) ||
           (this.getOrigination == 'CNT002' &&
             this.getStatus != 'Inprogress' &&
-            this.getApproveRank != this.userDetails?.rankCode) || (this.getOrigination == 'CNT001' && this.getStatus == 'Approved')
+            this.getApproveRank != this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT001' && this.getStatus == 'Approved')
         ) {
           // this.viewMode = false;
           var flag = false;

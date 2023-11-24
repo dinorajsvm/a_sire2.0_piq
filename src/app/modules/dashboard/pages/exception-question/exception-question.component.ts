@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
-import { GridOptions, LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
+import {
+  GridOptions,
+  LicenseManager,
+  RowGroupingDisplayType,
+} from 'ag-grid-enterprise';
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
@@ -57,7 +61,7 @@ export class ExceptionQuestionComponent implements OnInit {
       wrapText: true,
       cellEditor: 'agLargeTextCellEditor',
       cellEditorPopup: true,
-   flex:1
+      flex: 1,
     },
   ];
   referenceNumber: any;
@@ -67,7 +71,7 @@ export class ExceptionQuestionComponent implements OnInit {
   private gridColumnApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
   remarksCount: any;
   hideReqBtns: boolean = false;
   disableBtns: boolean = false;
@@ -113,7 +117,6 @@ export class ExceptionQuestionComponent implements OnInit {
       this.gridApi!.setRowData(this.rowData);
       if (this.rowData && this.rowData.length != 0) {
         this.BudgetService.setExceptionRowData(this.rowData);
-          
       }
     });
   }
@@ -137,8 +140,8 @@ export class ExceptionQuestionComponent implements OnInit {
     // Assuming you have a unique identifier in your rowData
     const selectedItemId = event.data.subHeaders;
     const targetColumnName = 'subHeaders';
-    if(event.colDef.field === targetColumnName){
-      const tab=1;
+    if (event.colDef.field === targetColumnName) {
+      const tab = 1;
       this.BudgetService.setTabChangeData(tab);
     }
   }

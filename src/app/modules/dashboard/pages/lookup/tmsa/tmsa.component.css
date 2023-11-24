@@ -25,7 +25,7 @@
   .mat-mdc-dialog-container
   ::ng-deep
   .mdc-dialog__content {
-  height: calc(100vh - 250px) !important;
+  height: calc(100vh - 200px) !important;
   max-height: unset !important;
 }
 
@@ -33,6 +33,11 @@
   margin: 0;
 }
 
+
+.right-float {
+  position: absolute;
+  right: 10px;
+}
 .close_mark {
   border-radius: 10px;
   background: #dee1f0;

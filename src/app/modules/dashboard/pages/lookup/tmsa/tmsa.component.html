@@ -30,20 +30,39 @@
       </div>
 
       <div class="col-sm-4 text-center" style="padding: 15px 0 0 0">
-        <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
-          <mat-chip-option color="primary" [selected]="isShowShip" (click)="changeToggle('Ship Visit Report')"
-            *ngIf="isShowInternalShip">
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Color selection"
+        >
+          <mat-chip-option
+            color="primary"
+            [selected]="isShowShip"
+            (click)="changeToggle('Ship Visit Report')"
+            *ngIf="isShowInternalShip"
+          >
             Ship Visit Report
           </mat-chip-option>
-          <mat-chip-option color="primary" [selected]="isShowExternal" (click)="changeToggle('External Audit Report')"
-            *ngIf="isShowInternalExternal">
+          <mat-chip-option
+            color="primary"
+            [selected]="isShowExternal"
+            (click)="changeToggle('External Audit Report')"
+            *ngIf="isShowInternalExternal"
+          >
             External Audit Report
           </mat-chip-option>
 
-          <mat-chip-option color="primary" [selected]="isShowInternal" (click)="changeToggle('Internal Audit Report')">
+          <mat-chip-option
+            color="primary"
+            [selected]="isShowInternal"
+            (click)="changeToggle('Internal Audit Report')"
+          >
             Internal Audit Report
           </mat-chip-option>
-          <mat-chip-option color="primary" (click)="changeToggle('ViewAll')" [selected]="isShowView">
+          <mat-chip-option
+            color="primary"
+            (click)="changeToggle('ViewAll')"
+            [selected]="isShowView"
+          >
             View All
           </mat-chip-option>
         </mat-chip-listbox>
@@ -56,115 +75,223 @@
 </div>
 
 <mat-dialog-content class="mat-typography">
-
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;" *ngIf="isShowInternal">
-    <span class="m-0">Total Records: {{rowInternalData && rowInternalData.length}}</span>
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternal"
+  >
+    <span class="m-0">Internal Audit Report</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ rowInternalData.length }}</span
+    >
   </div>
+
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowInternal">
-      <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowInternalData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
-        [columnDefs]="columnInternalDefs" [gridOptions]="gridOptions" [tooltipShowDelay]="tooltipShowDelay"
-        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
-        (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowInternalData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnInternalDefs"
+        [gridOptions]="gridOptions"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
-
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;" *ngIf="isShowShip">
-    <span class="m-0">Total Records: {{rowShipData && rowShipData.length}}</span>
+  <div class="col-sm-12 ag-toolBar" style="margin-top: 10px" *ngIf="isShowShip">
+    <span class="m-0">Ship Visit Report</span>
+    <span class="m-0 right-float">Total Records: {{ rowShipData.length }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowShip">
-      <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowShipData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
-        [tooltipShowDelay]="tooltipShowDelay" [columnDefs]="columnShipDefs" [gridOptions]="gridOptions"
-        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
-        (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowShipData"
+        [rowClassRules]="rowClassRules"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="columnShipDefs"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
-
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;" *ngIf="isShowInternal">
-    <span class="m-0">Total Records: {{rowExternalData && rowExternalData.length}}</span>
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowExternal"
+  >
+    <span class="m-0">External Audit Report</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ rowExternalData.length }}</span
+    >
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowExternal">
-      <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowExternalData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
-        [columnDefs]="columnExternalDefs" [gridOptions]="gridOptions" [defaultColDef]="defaultColDef"
-        [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
-        (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowExternalData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnExternalDefs"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
-
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;"
-    *ngIf="isShowInternalShip && isShowView">
-    <span class="m-0">Total Records: {{rowInternalData && rowInternalData.length}}</span>
+  <div class="col-sm-12 ag-toolBar" *ngIf="isShowInternalShip && isShowView">
+    <span class="m-0">Internal Audit Report</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ rowInternalData.length }}</span
+    >
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowInternalShip && isShowView">
-      <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowInternalData" [rowClassRules]="rowClassRules" [groupDisplayType]="groupDisplayType"
-        [columnDefs]="columnInternalDefs" [gridOptions]="gridOptions" [defaultColDef]="defaultColDef"
-        [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
-        (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowInternalData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnInternalDefs"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;">
-    <span class="m-0">Total Records: {{rowShipData && rowShipData.length}}</span>
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternalShip && isShowView"
+  >
+    <span class="m-0">Ship Visit Report</span>
+    <span class="m-0 right-float">Total Records: {{ rowShipData.length }}</span>
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <ag-grid-angular #agGrid class="ag-theme-balham mt-4" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowShipData" [rowClassRules]="rowClassRules" [columnDefs]="columnShipDefs"
-        [gridOptions]="gridOptions" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow"
-        [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
+    <div class="col-sm-12" *ngIf="isShowInternalShip && isShowView">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowShipData"
+        [rowClassRules]="rowClassRules"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="columnShipDefs"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;"
-    *ngIf="isShowInternalExternal && isShowView">
-    <span class="m-0">Total Records: {{rowInternalData && rowInternalData.length}}</span>
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternalExternal && isShowView"
+  >
+    <span class="m-0">Internal Audit Report</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ rowInternalData.length }}</span
+    >
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowInternalExternal && isShowView">
-      <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowInternalData" [rowClassRules]="rowClassRules"
-        [columnDefs]="columnInternalDefs" [gridOptions]="gridOptions" [defaultColDef]="defaultColDef"
-        [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
-        (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowInternalData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnInternalDefs"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top:10px;">
-    <span class="m-0">Total Records: {{rowExternalData && rowExternalData.length}}</span>
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternalExternal && isShowView"
+  >
+    <span class="m-0">External Audit Report</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ rowExternalData.length }}</span
+    >
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <ag-grid-angular #agGrid class="ag-theme-balham mt-4" style="height: calc(100vh - 320px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowExternalData" [rowClassRules]="rowClassRules"
-        [tooltipShowDelay]="tooltipShowDelay" [columnDefs]="columnExternalDefs" [gridOptions]="gridOptions"
-        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [components]="frameworkComponents"
-        (cellClicked)="onCellClicked($event)">
+    <div class="col-sm-12" *ngIf="isShowInternalExternal && isShowView">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowExternalData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnExternalDefs"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
-  <button mat-button (click)="onDialogClose()" class="cancel btnCan mt-2"  style="float: right" [class.hideReqBtns]="hideReqBtns" [mat-dialog-close]="true">Cancel</button>
-  <button mat-button class="syncBtn mt-2" style="float: right" type="submit" [class.hideReqBtns]="hideReqBtns" (click)="onReset()">
+  <button
+    mat-button
+    (click)="onDialogClose()"
+    class="cancel btnCan mt-2"
+    style="float: right"
+    [class.hideReqBtns]="hideReqBtns"
+    [mat-dialog-close]="true"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    style="float: right"
+    type="submit"
+    [class.hideReqBtns]="hideReqBtns"
+    (click)="onReset()"
+  >
     Reset
   </button>
 </mat-dialog-content>

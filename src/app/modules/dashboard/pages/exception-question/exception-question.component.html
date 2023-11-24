@@ -26,6 +26,8 @@
         [rowData]="rowData"
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
+        [stopEditingWhenCellsLoseFocus]="true"
+        [singleClickEdit]="true"
         >
       </ag-grid-angular>
       <!-- [rowSelection]="singleRowSelection" -->

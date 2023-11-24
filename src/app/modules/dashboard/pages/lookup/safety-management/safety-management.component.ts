@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
-import { ColDef, GridOptions, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-community';
+import { ColDef, GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { BudgetService } from '../../../services/budget.service';
 import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
@@ -73,7 +73,7 @@ export class SafetyManagementComponent implements OnInit {
         return params.data.incidentdate === params.data.incidentdate
           ? this.datePipe.transform(
               params.data.incidentdate,
-              'dd-MMM-yyyy  HH:mm:ss'
+              'dd-MMM-yyyy  HH:mm'
             )
           : '';
       },
@@ -489,16 +489,7 @@ export class SafetyManagementComponent implements OnInit {
   ];
   private gridApi: any;
   private gridColumnApi: any;
-  public statusBar: {
-    statusPanels: StatusPanelDef[];
-  } = {
-    statusPanels: [
-      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
-    ],
-  };
+ 
   selectedColumnDefs: ColDef[] = [
     {
       headerName: 'Ref No',
@@ -539,7 +530,7 @@ export class SafetyManagementComponent implements OnInit {
         return params.data.incidentdate === params.data.incidentdate
           ? this.datePipe.transform(
               params.data.incidentdate,
-              'dd-MMM-yyyy  HH:mm:ss'
+              'dd-MMM-yyyy  HH:mm'
             )
           : '';
       },

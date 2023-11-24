@@ -13,8 +13,6 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ReuseConfirmationDialogComponent } from '../reuse-confirmation-dialog/reuse-confirmation-dialog.component';
 import { DatePipe } from '@angular/common';
-import { Location } from '@angular/common';
-import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -24,7 +22,7 @@ import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
 export const MY_DATE_FORMATS = {
   parse: {
@@ -314,7 +312,7 @@ export class PIQSummaryComponent implements OnInit {
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
     private datePipe: DatePipe,
-    private fb: FormBuilder,private location: Location
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -424,10 +422,15 @@ export class PIQSummaryComponent implements OnInit {
       if (res === 0) {
         this.remarksCounts = 0;
       } else {
-        const rowsWithRemarks = this.remarksGridData.filter(
-          (row: any) => row.remark !== ''
-        );
-        this.remarksCounts = rowsWithRemarks.length;
+        if (this.remarksGridData && this.remarksGridData.length > 0) {
+          const rowsWithRemarks = this.remarksGridData.filter(
+            (row: any) => row.remark !== ''
+          );
+          this.remarksCounts =
+            rowsWithRemarks && rowsWithRemarks.length > 0
+              ? rowsWithRemarks.length
+              : 0;
+        }
       }
     });
 
@@ -466,7 +469,7 @@ export class PIQSummaryComponent implements OnInit {
   onFormChanges() {
     this.dateSelected = this.autoSaveForm.controls['dateField'].value;
     this.quickNotes = this.autoSaveForm.controls['TextAreaField'].value;
-    
+
     if (this.dateSelected != null && this.quickNotes != '') {
       this.onSubmitQuickNotes();
     }
@@ -488,12 +491,14 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId = item.wfid;
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
-
-        
       });
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
-          if ((this.getSubWrkFlowRank == this.getRank || this.getResAprWrkFlowRank == this.getRank) && res == false) {
+          if (
+            (this.getSubWrkFlowRank == this.getRank ||
+              this.getResAprWrkFlowRank == this.getRank) &&
+            res == false
+          ) {
             this.disableSubFlowBtn = false;
           } else {
             this.disableSubFlowBtn = true;
@@ -505,7 +510,10 @@ export class PIQSummaryComponent implements OnInit {
           }
         });
       } else {
-        if (this.getSubWrkFlowRank == this.getRank || this.getResAprWrkFlowRank == this.getRank) {
+        if (
+          this.getSubWrkFlowRank == this.getRank ||
+          this.getResAprWrkFlowRank == this.getRank
+        ) {
           this.disableSubFlowBtn = false;
         } else {
           this.disableSubFlowBtn = true;
@@ -564,6 +572,14 @@ export class PIQSummaryComponent implements OnInit {
         this.quickNotesInput = res.quicknotes;
       }
 
+      // if (
+      //   this.getOriginator == 'CNT001' &&
+      //   this.userDetails?.cntrlType === 'CNT002'
+      // ) {
+      //   this.hideReqBtns = true;
+      //   this.hideBtns = true;
+      //   this.BudgetService.setEditVisible(this.hideBtns);
+      // }
       if (data && data) {
         this.modifiedrowData = data;
       }
@@ -573,22 +589,34 @@ export class PIQSummaryComponent implements OnInit {
         this.expectedRowData = data;
       }
 
-      if(this.getOriginator == 'CNT002'){
-        if((this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT002') || (this.getWorkFlowAction != 'Inprogress' && this.userDetails?.cntrlType === 'CNT001' && this.getResAprWrkFlowRank!=this.userDetails?.rankCode) ){
+      if (this.getOriginator == 'CNT002') {
+        if (
+          (this.getWorkFlowAction === 'Submitted' &&
+            this.userDetails?.cntrlType === 'CNT002') ||
+          (this.getWorkFlowAction != 'Inprogress' &&
+            this.userDetails?.cntrlType === 'CNT001' &&
+            this.getResAprWrkFlowRank != this.userDetails?.rankCode)
+        ) {
           // (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001') || (this.getWorkFlowAction === 'Approved' && this.userDetails?.cntrlType === 'CNT001')
-          this.hideBtns=true
-        this.BudgetService.setEditVisible(this.hideBtns);
-        this.hideReqBtns = true;
-        this.viewMode = true;
-        }
-      }else if(this.getOriginator == 'CNT001'){
-        if((this.userDetails?.cntrlType === 'CNT002') || (this.getWorkFlowAction == 'Submitted' && this.userDetails?.cntrlType === 'CNT001' && this.getResAprWrkFlowRank!=this.userDetails?.rankCode)|| (this.getWorkFlowAction == 'Approved' && this.userDetails?.cntrlType === 'CNT001')){
+          this.hideBtns = true;
+          this.BudgetService.setEditVisible(this.hideBtns);
           this.hideReqBtns = true;
-          this.hideBtns=true
+          this.viewMode = true;
+        }
+      } else if (this.getOriginator == 'CNT001') {
+        if (
+          this.userDetails?.cntrlType === 'CNT002' ||
+          (this.getWorkFlowAction == 'Submitted' &&
+            this.userDetails?.cntrlType === 'CNT001' &&
+            this.getResAprWrkFlowRank != this.userDetails?.rankCode) ||
+          (this.getWorkFlowAction == 'Approved' &&
+            this.userDetails?.cntrlType === 'CNT001')
+        ) {
+          this.hideReqBtns = true;
+          this.hideBtns = true;
           this.viewMode = true;
           this.BudgetService.setEditVisible(this.hideBtns);
         }
-
       }
 
       // if (
@@ -602,9 +630,9 @@ export class PIQSummaryComponent implements OnInit {
 
       // if (
       //   this.getWorkFlowAction === 'Submitted' && this.getOriginator == 'CNT002' &&
-      //   this.userDetails?.cntrlType === 'CNT002' 
+      //   this.userDetails?.cntrlType === 'CNT002'
       // ) {
-        
+
       //   this.hideBtns=true
       //   this.BudgetService.setEditVisible(this.hideBtns);
       //   this.hideReqBtns = true;
@@ -615,7 +643,7 @@ export class PIQSummaryComponent implements OnInit {
         this.userDetails?.cntrlType === 'CNT001' &&
         this.getWorkFlowAction === 'Approved'
       ) {
-        this.hideBtns=true
+        this.hideBtns = true;
         this.BudgetService.setEditVisible(this.hideBtns);
         this.hideReqBtns = true;
       }
@@ -796,7 +824,6 @@ export class PIQSummaryComponent implements OnInit {
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-
       if (res && res.response) {
         let object = JSON.parse(res.response);
         this.getAllDatas = object;
@@ -920,12 +947,13 @@ export class PIQSummaryComponent implements OnInit {
         setTimeout(() => {
           window.location.reload();
         }, 100);
-        // window.location.reload();  
+        // window.location.reload();
         this._snackBarService.loadSnackBar(
           'Submitted Successfully',
           colorCodes.INFO
         );
-      }else if (type == 'reassign') {
+      } else if (type == 'reassign') {
+        this.getMasterDetails();
         window.location.reload();
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(

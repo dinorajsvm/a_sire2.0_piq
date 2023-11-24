@@ -12,8 +12,6 @@ import {
   GridApi,
   LicenseManager,
   RowClassRules,
-  RowGroupingDisplayType,
-  StatusPanelDef,
 } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef } from 'src/app/core/constants';
@@ -54,6 +52,8 @@ export class TMSAComponent implements OnInit {
     {
       headerName: 'Auto Sync',
       flex: 1,
+      sortable: false,
+      filter: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -146,6 +146,8 @@ export class TMSAComponent implements OnInit {
     {
       headerName: 'Auto Sync',
       flex: 1,
+      sortable: false,
+      filter: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -230,6 +232,8 @@ export class TMSAComponent implements OnInit {
       headerName: 'Auto Sync',
       flex: 1,
       cellRenderer: 'buttonRenderer',
+      sortable: false,
+      filter: false,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
       },
@@ -301,22 +305,7 @@ export class TMSAComponent implements OnInit {
       flex: 1,
     },
   ];
-
-  public statusBar: {
-    statusPanels: StatusPanelDef[];
-  } = {
-    statusPanels: [
-      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
-    ],
-  };
-  public singleRowSelection: 'single' | 'multiple' = 'single';
-  public multiRowSelection: 'single' | 'multiple' = 'multiple';
   defaultColDef = DefaultColDef;
-  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
@@ -359,17 +348,21 @@ export class TMSAComponent implements OnInit {
           this.showShip();
         } else if (chipType === 'ViewAll') {
           this.showView();
-        } else {
+        } else if (chipType === 'Internal Audit Report') {
           this.showInternal();
         }
+        this.isShowInternalShip = true;
+        this.isShowInternalExternal = false;
       } else if (this.data.qid === '3.2.3' || this.data.qid === '3.2.4') {
         if (chipType === 'External Audit Report') {
           this.showExternal();
         } else if (chipType === 'ViewAll') {
           this.showView();
-        } else {
+        } else if (chipType === 'Internal Audit Report') {
           this.showInternal();
         }
+        this.isShowInternalShip = false;
+        this.isShowInternalExternal = true;
       }
     }
   }
@@ -471,5 +464,4 @@ export class TMSAComponent implements OnInit {
       }, 2500);
     }
   }
-
 }
