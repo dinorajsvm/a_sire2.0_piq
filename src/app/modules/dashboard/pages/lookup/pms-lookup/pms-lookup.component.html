@@ -8,9 +8,9 @@
         <p class="descHeader">(List of PMS Overview)</p>
       </div>
 
-      <div class="col-sm-1 text-right closeIcn">
+      <!-- <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -29,6 +29,7 @@
       <!-- [statusBar]="statusBar" -->
     </div>
   </div>
+  <button mat-button (click)="onDialogClose()" class="cancel btnCan mt-2" style="float: right" [class.hideReqBtns]="hideReqBtns" [mat-dialog-close]="true">Cancel</button>
   <button mat-button class="syncBtn mt-2" [class.hideReqBtns]="hideReqBtns" style="float: right" type="submit" (click)="onReset()">
     Reset
   </button>
