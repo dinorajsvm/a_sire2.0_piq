@@ -305,7 +305,6 @@ export class LookupDialogComponent implements OnInit {
         this.rowInternalData = this.getRowDatas.Internal;
       }
       this.BudgetService.getEditVisible().subscribe((res: any) => {
-        console.log("res",res);
         if (res == true) {
           this.hideReqBtns = res;
         } else {

@@ -72,7 +72,7 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Company Name',
       tooltipField: 'companyName',
     },
-    { field: 'fleetname', headerName: 'Fleet Name', tooltipField: 'fleetName' },
+    { field: 'fleetname', headerName: 'Fleet Name', tooltipField: 'fleetName',cellStyle: { textalign: 'left' }, },
     {
       field: 'vesselName',
       headerName: 'Vessel Name',
@@ -176,6 +176,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'fleetname',
       headerName: 'Fleet Name',
       tooltipField: 'fleetname',
+      cellStyle: { textalign: 'left' },
     },
     {
       field: 'vesselName',
@@ -260,6 +261,15 @@ export class PIQLandingPageComponent implements OnInit {
     this.frameWorkShoreComponent = {
       actionRenderer: AgGridMenuShoreComponent,
     };
+  }
+
+  onCellDoubleClicked(event: any): void {
+    const instanceid=event.value
+    if (event.colDef.field === 'serialNumber') {
+      this.router.navigate([
+        '/sire/piq-report/' + instanceid + '/' + EFormMode.VIEW,
+      ]);
+    }
   }
 
   ngOnInit(): void {

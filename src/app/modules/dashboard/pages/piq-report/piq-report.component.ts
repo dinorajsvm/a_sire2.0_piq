@@ -294,7 +294,6 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
       val.forEach((item: any) => {
-        console.log('item', item);
         this.getApproveRank = item.approver;
       });
     });
@@ -880,6 +879,10 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
+
+  //  let multi1 = document.getElementById('Q104')
+
+   
     if (entryorgin.qid == 'Q104' && this.initialMultiAns == true) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;

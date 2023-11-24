@@ -458,13 +458,15 @@ export class PIQSummaryComponent implements OnInit {
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
-      'yyyy-MM-dd HH:mm'
+      'yyyy-MM-dd HH:mm:ss'
     );
+    this.autoSaveForm.get('dateField')?.setValue(this.plannedSubDate);
     this.onFormChanges();
   }
   onFormChanges() {
     this.dateSelected = this.autoSaveForm.controls['dateField'].value;
     this.quickNotes = this.autoSaveForm.controls['TextAreaField'].value;
+    
     if (this.dateSelected != null && this.quickNotes != '') {
       this.onSubmitQuickNotes();
     }
@@ -486,7 +488,7 @@ export class PIQSummaryComponent implements OnInit {
         this.getWrkFlowId = item.wfid;
         this.getSubWrkFlowRank = item.submitter;
         this.getResAprWrkFlowRank = item.approver;
-        console.log("this.getResAprWrkFlowRank");
+
         
       });
       if (this.route.snapshot.paramMap.get('type') == 'view') {
@@ -794,7 +796,7 @@ export class PIQSummaryComponent implements OnInit {
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      console.log('test', type);
+
       if (res && res.response) {
         let object = JSON.parse(res.response);
         this.getAllDatas = object;
@@ -840,7 +842,7 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       usercode: this.userDetails.userCode,
       quicknotes: this.quickNotesInput,
-      plannedsubdate: this.plannedSubDate,
+      plannedsubdate: this.dateSelected,
     };
     this.BudgetService.saveQuickNotes(payload).subscribe((res) => {
       this.getplannedDate();

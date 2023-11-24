@@ -90,7 +90,7 @@ export class ExceptionQuestionComponent implements OnInit {
       this.disableBtns = true;
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
-      console.log("1111");
+
       
       if (res == false) {
         this.disableBtns = res;

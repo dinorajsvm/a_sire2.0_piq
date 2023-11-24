@@ -42,6 +42,7 @@
           <span class="flowPeriod">{{data.submitteddate | date : "dd/MM/yyyy HH:mm"}}</span>
           <span>{{ data.submitteduser }}</span>
           <span>{{ data.rankname }}</span>
+          <span>{{ data.remarks }}</span>
           <div class="flowStatus" [ngClass]="{'wrkfl-INP': data.wfstatus === 'Inprogress',
             'wrkfl-SUB': data.wfstatus === 'Submitted',
             'wrkfl-RSN': data.wfstatus === 'ReAssigned',
@@ -227,7 +228,7 @@
                           </div>
                           <div class="sub-ques" *ngFor="let Mquest of quest.question;let index1 = index">
                             <mat-accordion class="card_container"
-                              *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)">
+                              *ngIf="searchText === '' || Mquest.mainQuestion.toLowerCase().includes(searchText)|| Mquest.mainQuestion.includes(searchText)">
                               <mat-expansion-panel [id]="Mquest.qid" [expanded]="!quest['expand'+index]">
                                 <mat-expansion-panel-header>
                                   <mat-panel-title>
@@ -613,7 +614,7 @@
                             <div class="sub-ques"
                               *ngFor="let allQuestValues of allQuest.question;let indexAllQ = index">
                               <mat-accordion class="card_container" style="margin: 5px 0; cursor: default"
-                                *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)">
+                                *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)||allQuestValues.mainQuestion.includes(searchText)">
                                 <mat-expansion-panel [expanded]="allExpansionPanelsExpanded"
                                   *ngIf="allQuestValues.selected == false">
                                   <mat-expansion-panel-header>
@@ -1031,7 +1032,7 @@
                           <div *ngFor="let allQuest of quest.values">
                             <div *ngFor=" let allQuestValues of allQuest.question;let indexAllQ = index">
                               <mat-card appearance="outlined" style="margin: 5px 0; cursor: default"
-                                *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)"
+                                *ngIf="searchText === '' || allQuestValues.mainQuestion.toLowerCase().includes(searchText)||allQuestValues.mainQuestion.includes(searchText)"
                                 (click)="openOriginalQuest(allQuestValues.mainQuestion,allQuest,indexAllQ,allQuestValues)">
                                 <mat-card-header>
                                   <mat-card-title>
