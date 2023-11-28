@@ -46,13 +46,11 @@ export class PhotoRepositoryComponent implements OnInit {
   userDetails: any;
   referenceNumber: any;
   getFilteredTopic: any;
-  isDialogOpen = false;
   subTopicCounts: any;
   getvslCode: any;
   getTopicList: any;
   trimmedVslType: any;
   isVslTypeSame!: boolean;
-  companyCode: any;
   getImagesCount: any;
   hideReqBtns: boolean = false;
   disableBtns: boolean = false;
@@ -83,132 +81,176 @@ export class PhotoRepositoryComponent implements OnInit {
         this.invalidImg = true;
       }
     });
-    this.companyCode = 'NYKSG';
+    this.getSelectedCheckListId();
     this.getDefaultImageName();
     this.getSavedPRData();
     // this.getImageName();
     this.getVesselTypeData();
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
-      if (res == true) {
-        this.hideReqBtns = res;
-      } else {
-        this.hideReqBtns = false;
-      }
-    });
-  }
-  getVesselTypeData() {
-    this.BudgetService.getVesselTypeData().subscribe((res: any) => {
-      this.getvslCode = res;
-      if (this.getvslCode == undefined || this.getvslCode === '') {
-      } else {
-        this.trimmedVslType = this.getvslCode.split(' ')[0];
-        if (this.selectedInstanceID == undefined) {
-          this.getSavedPRData();
-        } else {
-          this.getPRImgLists();
-        }
-      }
-    });
   }
 
-  getPRImgLists() {
+  getSelectedCheckListId() {
     let getSelectedCheckListID: any = localStorage.getItem(
       'getSelectedCheckListID'
     );
     const getinstanceID = JSON.parse(getSelectedCheckListID);
     this.selectedInstanceID = getinstanceID;
-    const payload = { instanceid: getinstanceID };
+  }
+  getVesselTypeData() {
+    this.getSelectedCheckListId();
+    this.BudgetService.getVesselTypeData().subscribe((res: any) => {
+      this.getvslCode = res;
+      this.trimmedVslType = this.getvslCode.split(' ')[0];
+      if (this.selectedInstanceID) {
+        this.getPRImgLists();
+      } else {
+        this.getSavedPRData();
+      }
+    });
+  }
+
+  getPRImgLists() {
+    let oldData = this.listDatas;
+    this.getSelectedCheckListId();
+
+    const payload = { instanceid: this.selectedInstanceID };
+
     this.BudgetService.getPhotoRepGridListImg(payload).subscribe((res: any) => {
-      // this.listDatas = [];
-      if (getinstanceID && getinstanceID?.length != 0) {
-        this.loadPhotoRep = JSON.parse(res.response);
-        this.listDatas = JSON.parse(res.response);
+      if (this.selectedInstanceID && this.selectedInstanceID.length > 0) {
+        // this.loadPhotoRep = JSON.parse(res.response);
+        // this.listDatas = JSON.parse(res.response);
+        // var mergedImg = this.listDatas.reduce(
+        //   (acc, obj) => acc.concat(obj.topiclist),
+        //   []
+        // );
+        // let getNewData: any = [];
+        // this.getTopicList = mergedImg;
+        // this.getTopicList.forEach((item: any) => {
+        //   if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
+        //   } else {
+        //     this.isVslTypeSame = item.topic.includes(this.trimmedVslType);
+        //   }
+        //   if (
+        //     item.topic === 'Core photograph set' ||
+        //     this.isVslTypeSame == true
+        //   ) {
+        //     getNewData.push(item);
+        //   }
+        // });
+        // var imageCombined: any = [];
+        // const groupedData: any = {};
+        // for (const item of getNewData) {
+        //   if (!groupedData[item.topic]) {
+        //     groupedData[item.topic] = [];
+        //   }
+        //   groupedData[item.topic].push(...item.subTopics);
+        // }
 
-        var mergedImg = this.listDatas.reduce(
-          (acc, obj) => acc.concat(obj.topiclist),
-          []
-        );
-        let getNewData: any = [];
-        this.getTopicList = mergedImg;
-        this.getTopicList.forEach((item: any) => {
-          if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
-          } else {
-            this.isVslTypeSame = item.topic.includes(this.trimmedVslType);
-          }
-          if (
-            item.topic === 'Core photograph set' ||
-            this.isVslTypeSame == true
-          ) {
-            getNewData.push(item);
-          }
-        });
-        var imageCombined: any = [];
-        const groupedData: any = {};
-        for (const item of getNewData) {
-          if (!groupedData[item.topic]) {
-            groupedData[item.topic] = [];
-          }
-          groupedData[item.topic].push(...item.subTopics);
-        }
+        // for (const topic of Object.keys(groupedData)) {
+        //   const mergedObject = {
+        //     topic,
+        //     subTopics: groupedData[topic],
+        //   };
+        //   imageCombined.push(mergedObject);
+        // }
 
-        for (const topic of Object.keys(groupedData)) {
-          const mergedObject = {
-            topic,
-            subTopics: groupedData[topic],
-          };
-          imageCombined.push(mergedObject);
-        }
+        // this.getSubTopicTitle = [];
+        // imageCombined.forEach((element: any) => {
+        //   element.subTopics.forEach((subtitle: any, index: any) => {
+        //     this.getSubTopicTitle.push(subtitle.subTopicTitle);
 
-        this.getSubTopicTitle = [];
-        imageCombined.forEach((element: any) => {
-          element.subTopics.forEach((subtitle: any, index: any) => {
-            this.getSubTopicTitle.push(subtitle.subTopicTitle);
+        //     const subheader: any = element.subTopics.find(
+        //       (sub: any) => sub.subTopicTitle === subtitle.subTopicTitle
+        //     );
+        //     subtitle['imagelist'] = [...subheader.relImages];
+        //     const unique = element.subTopics.filter((obj: any, index: any) => {
+        //       return (
+        //         index ===
+        //         element.subTopics.findIndex(
+        //           (o: any) => obj.subTopicTitle === o.subTopicTitle
+        //         )
+        //       );
+        //     });
+        //     element.subTopics = unique;
+        //   });
+        // });
+        // this.subTopicCounts = this.getSubTopicTitle.length;
+        // this.BudgetService.setPhotoRepData(this.subTopicCounts);
 
-            const subheader: any = element.subTopics.find(
-              (sub: any) => sub.subTopicTitle === subtitle.subTopicTitle
+        // this.listDatas = imageCombined;
+        // this.imageNames.forEach((data: any) => {
+        //   this.listDatas.forEach((res: any) => {
+        //     res.subTopics.forEach((sub: any, index: any) => {
+        //       if (data.subtopic === sub.subTopicTitle) {
+        //         sub.imagelist.forEach((list: any) => {
+        //           const formattedName = list.localfilename.split('.')[0];
+        //           const formattedExtension = list.localfilename.split('.')[1];
+        //           const formattedDefName = data.imagename.split('.')[0];
+        //           list['formattedName'] = formattedName;
+        //           list['formattedExtension'] = formattedExtension;
+        //           list['formattedDefName'] = formattedDefName;
+        //           list['defaultImageName'] = data.imagename;
+        //         });
+        //       }
+        //     });
+        //   });
+        // });
+        // this.createPRDetails();
+        // this.listDatas.forEach((data) => {
+        //   data.subTopics.forEach((data1: any) => {
+        //     let invalidImg: any;
+        //     if (data1 && data1.imagelist && data1.imagelist.lenght > 0) {
+        //       invalidImg = data1.imagelist.find((x: any) => {
+        //         x.sizeinMB > 100 * 1024 * 1024;
+        //       });
+        //     }
+        //     if (invalidImg) {
+        //       this.invalidImg = true;
+        //       return;
+        //     }
+        //   });
+        // });
+
+        const response = JSON.parse(res.response);
+
+        response.forEach((element: any) => {
+          let newData: any[] = element.topiclist;
+
+          newData.forEach((newRes) => {
+            const findValue = oldData.find((x) =>
+              x.topic.includes(newRes.topic.split(' ')[0])
             );
-            subtitle['imagelist'] = [...subheader.relImages];
-            const unique = element.subTopics.filter((obj: any, index: any) => {
-              return (
-                index ===
-                element.subTopics.findIndex(
-                  (o: any) => obj.subTopicTitle === o.subTopicTitle
-                )
-              );
-            });
-            element.subTopics = unique;
-          });
-        });
-        this.subTopicCounts = this.getSubTopicTitle.length;
-        this.BudgetService.setPhotoRepData(this.subTopicCounts);
-
-        this.listDatas = imageCombined;
-        this.imageNames.forEach((data: any) => {
-          this.listDatas.forEach((res: any) => {
-            res.subTopics.forEach((sub: any, index: any) => {
-              if (data.subtopic === sub.subTopicTitle) {
-                sub.imagelist.forEach((list: any) => {
-                  const formattedName = list.localfilename.split('.')[0];
-                  const formattedExtension = list.localfilename.split('.')[1];
-                  const formattedDefName = data.imagename.split('.')[0];
-                  list['formattedName'] = formattedName;
-                  list['formattedExtension'] = formattedExtension;
-                  list['formattedDefName'] = formattedDefName;
-                  list['defaultImageName'] = data.imagename;
-                });
-              }
-            });
-          });
-        });
-        this.createPRDetails();
-        this.listDatas.forEach((data) => {
-          data.subTopics.forEach((data1: any) => {
-            const invalidImg = data1.imagelist.find((x: any) => {
-              x.sizeinMB > 100 * 1024 * 1024;
-            });
-            if (invalidImg) {
-              this.invalidImg = true;
-              return;
+            if (
+              findValue &&
+              findValue.subTopics &&
+              findValue.subTopics.length > 0
+            ) {
+              newRes.subTopics.forEach((mapRes: any) => {
+                const findOldValue = findValue.subTopics.find(
+                  (y: any) => y.subTopicTitle === mapRes.subTopicTitle
+                );
+                if (
+                  findOldValue &&
+                  findOldValue.imagelist &&
+                  findOldValue.imagelist.length > 0
+                ) {
+                  findOldValue.imagelist.forEach((image: any) => {
+                    mapRes.relImages.push(image);
+                  });
+                  mapRes['imagelist'] = [...mapRes.relImages];
+                }
+              });
+              // this.listDatas = newData.filter((resData) => {
+              //   return (
+              //     resData.topic === 'Core photograph set' ||
+              //     resData.topic === this.trimmedVslType
+              //   );
+              // });
+              this.listDatas = newData.filter((resData) => {
+                return (
+                  resData.topic === 'Core photograph set' ||
+                  resData.topic.includes(this.trimmedVslType)
+                );
+              });
             }
           });
         });
@@ -292,14 +334,13 @@ export class PhotoRepositoryComponent implements OnInit {
   //   });
   // }
   getDefaultImageName() {
-    this.BudgetService.getPRImagename(this.companyCode).subscribe(
-      (res: any) => {
-        if (res && res.Response) {
-          let object = JSON.parse(res.Response);
-          this.imageNames = object;
-        }
+    const companyCode = this.userDetails.companyCode;
+    this.BudgetService.getPRImagename(companyCode).subscribe((res: any) => {
+      if (res && res.Response) {
+        let object = JSON.parse(res.Response);
+        this.imageNames = object;
       }
-    );
+    });
   }
   getSavedPRData() {
     this.BudgetService.getSavedPRData(this.referenceNumber).subscribe(
@@ -331,11 +372,10 @@ export class PhotoRepositoryComponent implements OnInit {
       this.listDatas = [];
       const staticData = JSON.parse(res.response);
       staticData.forEach((res: any) => {
-        if (this.trimmedVslType == undefined || this.trimmedVslType === '') {
-        } else {
+        if (this.trimmedVslType) {
           this.isVslTypeSame = res.topic.includes(this.trimmedVslType);
         }
-        if (res.topic === 'Core photograph set' || this.isVslTypeSame == true) {
+        if (res.topic === 'Core photograph set' || this.isVslTypeSame) {
           this.listDatas.push(res);
         }
       });
@@ -350,9 +390,12 @@ export class PhotoRepositoryComponent implements OnInit {
       this.BudgetService.setPhotoRepData(this.subTopicCounts);
       this.subheads.forEach((data) => {
         data.forEach((data1: any) => {
-          const invalidImg = data1.imagelist.find(
-            (x: any) => x.sizeinMB > 100 * 1024 * 1024
-          );
+          let invalidImg: any;
+          if (data1 && data1.imagelist && data1.imagelist.length > 0) {
+            invalidImg = data1.imagelist.find(
+              (x: any) => x.sizeinMB > 100 * 1024 * 1024
+            );
+          }
           if (invalidImg) {
             this.invalidImg = true;
             return;
@@ -548,35 +591,33 @@ export class PhotoRepositoryComponent implements OnInit {
     });
   }
 
-  getBase64ImageFromCache(imageName: string): string {
-    const uploadedImage = this.images.find((img) => img.name === imageName);
-    return uploadedImage ? uploadedImage.url : '';
-  }
-
   selectFile(subHead: any, selectedID: any, topic: any, event: any) {
-    if (selectedID && selectedID?.lenght != 0) {
-      this.isDialogOpen = true;
-      const dialogRef = this.dialog.open(SelectIdDialogComponent, {
-        data: { instanceID: selectedID, subHead, topic },
-        panelClass: 'select-dialog-container',
-      });
-      dialogRef.afterClosed().subscribe((result) => {
-        this.isDialogOpen = false;
-        if (result) {
-          this.getFilteredID = result?.id;
-          this.getFilteredSubHeading = result?.subHeading;
-          this.getFilteredTopic = result?.topic;
-          if (this.getFilteredID) {
-            this.fileInput.nativeElement.click();
-            this.onFileSelected(event);
-          }
-        }
-      });
-    } else {
-      this.fileInput.nativeElement.click();
-      this.onFileSelected(event);
-      this.selectedSubTopic = subHead;
-    }
+    this.fileInput.nativeElement.value = '';
+    this.fileInput.nativeElement.click();
+    this.selectedSubTopic = subHead;
+    // if (selectedID && selectedID.length > 0) {
+
+    //   const dialogRef = this.dialog.open(SelectIdDialogComponent, {
+    //     data: { instanceID: selectedID, subHead, topic },
+    //     panelClass: 'select-dialog-container',
+    //   });
+    //   dialogRef.afterClosed().subscribe((result) => {
+    //     if (result) {
+
+    //       this.getFilteredID = result?.id;
+    //       this.getFilteredSubHeading = result?.subHeading;
+    //       this.getFilteredTopic = result?.topic;
+    //       if (this.getFilteredID) {
+    //         this.fileInput.nativeElement.click();
+    //         this.dialog.closeAll();
+    //         this.selectedSubTopic = subHead;
+    //       }
+    //     }
+    //   });
+    // } else {
+    // this.fileInput.nativeElement.click();
+    // this.selectedSubTopic = subHead;
+    // }
   }
 
   savePhoto() {
@@ -587,7 +628,6 @@ export class PhotoRepositoryComponent implements OnInit {
     };
     this.BudgetService.setPrGridData(this.getPRGriddetails);
     this.BudgetService.savePhotoRep(payload).subscribe((res: any) => {
-      const data = res;
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       this.getSavedPRData();
     });
@@ -607,11 +647,11 @@ export class PhotoRepositoryComponent implements OnInit {
         imgElement.src = base64Image;
       };
       reader.readAsDataURL(this.selectedFile);
-      const files = event.target.files;
-      if (this.selectedSubTopic) {
-        this.handleFiles(files, this.selectedSubTopic); // Pass the selected subTopic to the handleFiles function
-      } else {
-      }
+      // const files = event.target.files;
+      // if (this.selectedSubTopic) {
+      //   this.handleFiles(files, this.selectedSubTopic); // Pass the selected subTopic to the handleFiles function
+      // } else {
+      // }
       const formData = new FormData();
       formData.append('file', this.selectedFile);
       this.http
@@ -635,151 +675,126 @@ export class PhotoRepositoryComponent implements OnInit {
       usercode: this.userDetails?.userCode,
       type: 'photo',
     };
-    // this.uploadedImgDatas.push({
-    //   relImages: [],
-    //   subTopics: [],
-    //   topiclist: [],
-    //   filesize: '',
-    //   filename: '',
-    //   instanceid: this.getFilteredID,
-    //   filepath: '',
-    //   localfilename: 'cascasccccccccccc',
-    //   sizeinbytes: '',
-    //   sizeinMB: '',
-    // });
+
     this.BudgetService.getUploadData(payload).subscribe((res: any) => {
       var data = JSON.parse(res.responsse);
+      this.listDatas.forEach((res: any) => {
+        res.subTopics.forEach((sub: any, index: any) => {
+          if (this.selectedSubTopic.subTopicTitle === sub.subTopicTitle) {
+            const image = {
+              filepath: data.filepath, // Extract the base64 data from the result
+              formattedName: data.localfilename,
+              // docsize: this.formatSize(data.sizeinbytes),
+              sizeinbytes: data.sizeinkb,
+            };
 
-      this.uploadedImgDatas.push({
-        relImages: [],
-        subTopics: [],
-        topiclist: [],
-        filesize: '',
-        filename: '',
-        instanceid: this.getFilteredID,
-        filepath: data.filepath,
-        localfilename: data.localfilename,
-        sizeinbytes: data.sizeinbytes,
-        sizeinMB: data.sizeinmb,
-      });
-
-      const filterInstanceId = this.loadPhotoRep.find(
-        (res: any) => res.instanceid == this.getFilteredID
-      );
-      const filteredTopic = filterInstanceId.topiclist.find(
-        (item: any) => item.topic == this.getFilteredTopic
-      );
-
-      // const subtopicData = {
-      //   subid: '',
-      //   subTopicTitle: this.getFilteredSubHeading,
-      //   relImages: this.uploadedImgDatas,
-      //   subTopics: '',
-      //   topiclist: '',
-      //   sizeinbytes: '',
-      //   sizeinMB: '',
-      // };
-      // filteredTopic.subTopics.push(subtopicData);
-
-      var mergedImg = this.loadPhotoRep.reduce(
-        (acc, obj) => acc.concat(obj.topiclist),
-        []
-      );
-      var imageCombined: any = [];
-      const groupedData: any = {};
-      for (const item of mergedImg) {
-        if (!groupedData[item.topic]) {
-          groupedData[item.topic] = [];
-        }
-        groupedData[item.topic].push(...item.subTopics);
-      }
-
-      for (const topic of Object.keys(groupedData)) {
-        const mergedObject = {
-          topic,
-          subTopics: groupedData[topic],
-        };
-        imageCombined.push(mergedObject);
-      }
-      imageCombined.forEach((element: any) => {
-        element.subTopics.forEach((subtitle: any, index: any) => {
-          const subheader: any = element.subTopics.find(
-            (sub: any) => sub.subTopicTitle === subtitle.subTopicTitle
-          );
-          subtitle['imagelist'] = [...subheader.relImages];
-          if (subtitle.subTopicTitle === this.getFilteredSubHeading) {
-            subtitle.imagelist.push(...this.uploadedImgDatas);
-            this.uploadedImgDatas = [];
+            sub.imagelist = sub.imagelist || [];
+            sub.imagelist.push(image);
           }
-
-          const unique = element.subTopics.filter((obj: any, index: any) => {
-            return (
-              index ===
-              element.subTopics.findIndex(
-                (o: any) => obj.subTopicTitle === o.subTopicTitle
-              )
-            );
-          });
-          element.subTopics = unique;
         });
       });
-      this.listDatas = imageCombined;
-      this.imageNames.forEach((data: any) => {
-        this.listDatas.forEach((res: any) => {
-          res.subTopics.forEach((sub: any, index: any) => {
-            if (data.subTopicName === sub.subTopicTitle) {
-              sub.imagelist.forEach((list: any) => {
-                list['defaultImageName'] = data.imageName;
-              });
-            }
-          });
-        });
-      });
+      // this.uploadedImgDatas.push({
+      //   relImages: [],
+      //   subTopics: [],
+      //   topiclist: [],
+      //   filesize: '',
+      //   filename: '',
+      //   instanceid: this.getFilteredID,
+      //   filepath: data.filepath,
+      //   localfilename: data.localfilename,
+      //   sizeinbytes: data.sizeinbytes,
+      //   sizeinMB: data.sizeinmb,
+      // });
     });
+    // const filterInstanceId = this.loadPhotoRep.find(
+    //   (res: any) => res.instanceid == this.getFilteredID
+    // );
+    // const filteredTopic = filterInstanceId.topiclist.find(
+    //   (item: any) => item.topic == this.getFilteredTopic
+    // );
 
-    this.listDatas.forEach((data) => {
-      data.subTopics.forEach((data1: any) => {
-        const invalidImg = data1.imagelist.find((x: any) => {
-          x.sizeinMB > 100 * 1024 * 1024;
-        });
-        if (invalidImg) {
-          this.invalidImg = true;
-          return;
-        }
-      });
-    });
-  }
+    // const subtopicData = {
+    //   subid: '',
+    //   subTopicTitle: this.getFilteredSubHeading,
+    //   relImages: this.uploadedImgDatas,
+    //   subTopics: '',
+    //   topiclist: '',
+    //   sizeinbytes: '',
+    //   sizeinMB: '',
+    // };
+    // filteredTopic.subTopics.push(subtopicData);
 
-  onSubmit() {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('image', this.selectedFile);
+    //   var mergedImg = this.loadPhotoRep.reduce(
+    //     (acc, obj) => acc.concat(obj.topiclist),
+    //     []
+    //   );
+    //   var imageCombined: any = [];
+    //   const groupedData: any = {};
+    //   for (const item of mergedImg) {
+    //     if (!groupedData[item.topic]) {
+    //       groupedData[item.topic] = [];
+    //     }
+    //     groupedData[item.topic].push(...item.subTopics);
+    //   }
 
-      this.http.post('your-server-upload-endpoint', formData).subscribe(
-        (response) => {
-          // Handle success, e.g., show a success message
-        },
-        (error) => {
-          // Handle error, e.g., show an error message
-        }
-      );
-    }
-  }
+    //   for (const topic of Object.keys(groupedData)) {
+    //     const mergedObject = {
+    //       topic,
+    //       subTopics: groupedData[topic],
+    //     };
+    //     imageCombined.push(mergedObject);
+    //   }
+    //   imageCombined.forEach((element: any) => {
+    //     element.subTopics.forEach((subtitle: any, index: any) => {
+    //       const subheader: any = element.subTopics.find(
+    //         (sub: any) => sub.subTopicTitle === subtitle.subTopicTitle
+    //       );
+    //       subtitle['imagelist'] = [...subheader.relImages];
+    //       if (subtitle.subTopicTitle === this.getFilteredSubHeading) {
+    //         subtitle.imagelist.push(...this.uploadedImgDatas);
+    //         this.uploadedImgDatas = [];
+    //       }
 
-  handleFileInput(event: any) {
-    const inputElement = event.target as HTMLInputElement;
+    //       const unique = element.subTopics.filter((obj: any, index: any) => {
+    //         return (
+    //           index ===
+    //           element.subTopics.findIndex(
+    //             (o: any) => obj.subTopicTitle === o.subTopicTitle
+    //           )
+    //         );
+    //       });
+    //       element.subTopics = unique;
+    //     });
+    //   });
+    //   this.listDatas = imageCombined;
+    //   this.imageNames.forEach((data: any) => {
+    //     this.listDatas.forEach((res: any) => {
+    //       res.subTopics.forEach((sub: any, index: any) => {
+    //         if (data.subTopicName === sub.subTopicTitle) {
+    //           sub.imagelist.forEach((list: any) => {
+    //             list['defaultImageName'] = data.imageName;
+    //           });
+    //         }
+    //       });
+    //     });
+    //   });
+    // });
 
-    const file = inputElement.files?.[0];
+    // this.listDatas.forEach((data) => {
+    //   data.subTopics.forEach((data1: any) => {
+    //     let invalidImg: any;
+    //     if (data1 && data1.imagelist && data1.imagelist.lenght > 0) {
+    //       invalidImg = data1.imagelist.find((x: any) => {
+    //         x.sizeinMB > 100 * 1024 * 1024;
+    //       });
+    //     }
 
-    if (file && file.size <= 100 * 1024 * 1024) {
-      const files = event.target.files;
-      if (this.selectedSubTopic) {
-        this.handleFiles(files, this.selectedSubTopic); // Pass the selected subTopic to the handleFiles function
-      } else {
-      }
-    } else {
-      return;
-    }
+    //     if (invalidImg) {
+    //       this.invalidImg = true;
+    //       return;
+    //     }
+    //   });
+    // });
   }
 
   handleFiles(files: FileList | null, subHead: any) {
@@ -792,11 +807,9 @@ export class PhotoRepositoryComponent implements OnInit {
           filename: files[i].name,
           docsize: this.formatSize(files[i].size),
         };
-        if (subHead.imagelist) {
-          subHead.imagelist.push(image);
-        } else {
-          subHead['imagelist'].push(image);
-        }
+
+        subHead.imagelist = subHead.imagelist || [];
+        subHead.imagelist.push(image);
       };
       reader.readAsDataURL(files[i]);
     }
@@ -807,7 +820,6 @@ export class PhotoRepositoryComponent implements OnInit {
     const files = event.dataTransfer?.files || null;
     if (this.selectedSubTopic && files) {
       this.handleFiles(files, this.selectedSubTopic); // Pass the selected subTopic to the handleFiles function
-    } else {
     }
     this.showDragDropZone = false;
   }
@@ -827,7 +839,9 @@ export class PhotoRepositoryComponent implements OnInit {
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2))
+      ? parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+      : '0 KB';
   }
 
   convertFileSize(bytes: number): string {
@@ -842,15 +856,12 @@ export class PhotoRepositoryComponent implements OnInit {
   }
 
   updateImageName(subHead: any, imgIndex: number) {
-    // You can save the updated filename here, for example:
     subHead.imagelist[imgIndex].filename = this.sanitizedFileName(
       subHead.imagelist[imgIndex].filename
     );
   }
 
   sanitizedFileName(filename: string): string {
-    // Implement any sanitization logic you need for the filename here
-    // For example, you can remove special characters or limit the length
     return filename;
   }
 }
