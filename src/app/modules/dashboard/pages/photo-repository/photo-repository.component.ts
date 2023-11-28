@@ -65,9 +65,10 @@ export class PhotoRepositoryComponent implements OnInit {
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
-
+  
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    this.getDefaultImageName();
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableBtns = true;
       this.invalidImg = true;
@@ -82,7 +83,6 @@ export class PhotoRepositoryComponent implements OnInit {
       }
     });
     this.getSelectedCheckListId();
-    this.getDefaultImageName();
     this.getSavedPRData();
     // this.getImageName();
     this.getVesselTypeData();
@@ -339,6 +339,9 @@ export class PhotoRepositoryComponent implements OnInit {
       if (res && res.Response) {
         let object = JSON.parse(res.Response);
         this.imageNames = object;
+        // mk
+        console.log("imgName",this.imageNames);
+        
       }
     });
   }
@@ -370,8 +373,15 @@ export class PhotoRepositoryComponent implements OnInit {
   getPrDataLists() {
     this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
       this.listDatas = [];
+      
       const staticData = JSON.parse(res.response);
+      console.log("res",staticData);
+      
+       
       staticData.forEach((res: any) => {
+        res.subTopics.forEach((sub: any) => {
+          sub['imagelist']=[]
+        })
         if (this.trimmedVslType) {
           this.isVslTypeSame = res.topic.includes(this.trimmedVslType);
         }
@@ -379,6 +389,25 @@ export class PhotoRepositoryComponent implements OnInit {
           this.listDatas.push(res);
         }
       });
+      // mk
+      this.imageNames.forEach((data: any) => {
+        staticData.forEach((res: any) => {
+          console.log("res2",res)
+            res.subTopics.forEach((sub: any, index: any) => {
+              if (data && data.subtopic === sub && sub.subTopicTitle) {
+                sub.imagelist.forEach((list: any) => {
+                  const formattedName = list.localfilename.split('.')[0];
+                  const formattedExtension = list.localfilename.split('.')[1];
+                  const formattedDefName = data.imagename.split('.')[0];
+                  list['formattedName'] = formattedName;
+                  list['formattedExtension'] = formattedExtension;
+                  list['formattedDefName'] = formattedDefName;
+                  list['defaultImageName'] = data.imagename;
+                });
+              }
+            });
+          });
+        });
       this.getSubTopicTitle = [];
       this.listDatas.forEach((res: any) => {
         res.subTopics.forEach((item: any) => {
@@ -681,18 +710,45 @@ export class PhotoRepositoryComponent implements OnInit {
       this.listDatas.forEach((res: any) => {
         res.subTopics.forEach((sub: any, index: any) => {
           if (this.selectedSubTopic.subTopicTitle === sub.subTopicTitle) {
+            const formattedName = data.localfilename.split('.')[0];
+            const formattedExtension = data.localfilename.split('.')[1];
             const image = {
               filepath: data.filepath, // Extract the base64 data from the result
-              formattedName: data.localfilename,
+              // mk
+              localfilename: data.localfilename,
+              formattedName:formattedName,
+              formattedExtension:formattedExtension,
               // docsize: this.formatSize(data.sizeinbytes),
               sizeinbytes: data.sizeinkb,
             };
+            
+            console.log("image",image);
+            
 
             sub.imagelist = sub.imagelist || [];
             sub.imagelist.push(image);
           }
         });
       });
+      // mk
+      this.imageNames.forEach((data: any) => {
+        this.listDatas.forEach((res: any) => {
+          console.log("res2",res)
+            res.subTopics.forEach((sub: any, index: any) => {
+              if (data && data.subtopic === sub && sub.subTopicTitle) {
+                sub.imagelist.forEach((list: any) => {
+                  const formattedName = list.localfilename.split('.')[0];
+                  const formattedExtension = list.localfilename.split('.')[1];
+                  const formattedDefName = data.imagename.split('.')[0];
+                  list['formattedName'] = formattedName;
+                  list['formattedExtension'] = formattedExtension;
+                  list['formattedDefName'] = formattedDefName;
+                  list['defaultImageName'] = data.imagename;
+                });
+              }
+            });
+          });
+        });
       // this.uploadedImgDatas.push({
       //   relImages: [],
       //   subTopics: [],

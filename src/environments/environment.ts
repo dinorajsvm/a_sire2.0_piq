@@ -29,7 +29,7 @@ export const environment = {
   //devApiUrl : "http://70.205.1.4",
   // apiUrl: "https://www.nyk-nibiki.com/managementDashboard/api/v1/mgntDb",
   //  authUrl: "https://www.nyk-nibiki.com/auth/api/v1/mack/auth",
-  projectType: Roles.SHORE,
+  projectType: Roles.SHIP,
 };
 
 /*
