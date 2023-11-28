@@ -18,7 +18,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   columnDefs: ColDef[] = [
     {
       field: 'instanceid',
-      headerName: 'Ref.Id',
+      headerName: 'S.No',
       tooltipField: 'instanceid',
       width: 300,
       resizable: true,

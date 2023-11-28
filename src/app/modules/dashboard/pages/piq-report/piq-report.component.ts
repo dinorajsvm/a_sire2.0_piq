@@ -200,6 +200,7 @@ export class PiqReportComponent implements OnInit {
           this.getAllDatas.forEach((value1: any) => {
             value1.values.forEach((value: any) => {
               value.question.forEach((subHeader: any) => {
+                console.log("sub",subHeader);
                 subHeader.subQuestion.forEach((mainQus: any) => {
                   if (response === mainQus.qid) {
                     mainQus.answer = data[response];
@@ -461,6 +462,10 @@ export class PiqReportComponent implements OnInit {
         value1.values.forEach((value: any) => {
           this.panelExpansionStates = value.question.map(() => true);
           value.question.forEach((subHeader: any) => {
+     
+            if (subHeader && subHeader.qid) {
+              formGroupFields[subHeader.qid] = new FormControl(subHeader.answer);
+            }
             this.getMainQuestCounts.push(subHeader);
             this.checkboxBoolean.push(subHeader.selected);
             this.pendingCount = this.checkboxBoolean.filter(
