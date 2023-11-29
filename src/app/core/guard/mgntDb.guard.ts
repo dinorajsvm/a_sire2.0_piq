@@ -27,7 +27,7 @@ export class mgntdbGuard implements CanLoad {
   ) {
     const navigationUrl = this._router.getCurrentNavigation();
     this.mackToken = navigationUrl?.extractedUrl.queryParams['token'];
-    console.log('PIQ 28-11-2023 Pre-Inspection Questionnaire :) MK');
+    console.log('PIQ 30-11-2023 Pre-Inspection Questionnaire :) MK');
   }
   canLoad(
     route: Route,

@@ -63,6 +63,7 @@ export class VesselSelectionDialogComponent {
   getWrkFlowId: any;
   toolTipVal: any;
   toolTipValType: any;
+  filterInputValue: any;
 
   ngOnInit(): void {
     this.vesselSelectionForms = this.fb.group({
@@ -228,5 +229,9 @@ export class VesselSelectionDialogComponent {
 
   onProceed(forms: any) {
     this.getNewRef();
+  }
+
+  onFilterInputBlur() {
+    this.filterInputValue = ''; 
   }
 }
