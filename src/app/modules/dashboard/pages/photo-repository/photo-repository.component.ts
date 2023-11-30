@@ -299,10 +299,6 @@ export class PhotoRepositoryComponent implements OnInit {
   }
 
   setDefaultName(img: any, defaultName: string, formattedname: any) {
-    console.log("img",img);
-    console.log("defaultName",defaultName);
-    console.log("formattedname",formattedname);
-    
     img.localfilename = formattedname;
     img.formattedName = defaultName;
     this.createPRDetails();
@@ -383,25 +379,6 @@ export class PhotoRepositoryComponent implements OnInit {
           this.listDatas.push(res);
         }
       });
-      // mk
-      // this.imageNames.forEach((data: any) => {
-      //   staticData.forEach((res: any) => {
-      //     console.log("res2",res)
-      //       res.subTopics.forEach((sub: any, index: any) => {
-      //         if (data && data.subtopic === sub && sub.subTopicTitle) {
-      //           sub.imagelist.forEach((list: any) => {
-      //             const formattedName = list.localfilename.split('.')[0];
-      //             const formattedExtension = list.localfilename.split('.')[1];
-      //             const formattedDefName = data.imagename.split('.')[0];
-      //             list['formattedName'] = formattedName;
-      //             list['formattedExtension'] = formattedExtension;
-      //             list['formattedDefName'] = formattedDefName;
-      //             list['defaultImageName'] = data.imagename;
-      //           });
-      //         }
-      //       });
-      //     });
-      //   });
       this.getSubTopicTitle = [];
       this.listDatas.forEach((res: any) => {
         res.subTopics.forEach((item: any) => {
@@ -715,10 +692,6 @@ export class PhotoRepositoryComponent implements OnInit {
               // docsize: this.formatSize(data.sizeinbytes),
               sizeinbytes: data.sizeinkb,
             };
-            
-            console.log("image",image);
-            
-
             sub.imagelist = sub.imagelist || [];
             sub.imagelist.push(image);
           }
@@ -726,13 +699,9 @@ export class PhotoRepositoryComponent implements OnInit {
       });
       // mk
       this.imageNames.forEach((data: any) => {
-        console.log("res12321",data)
         this.listDatas.forEach((res: any) => {
           res.subTopics.forEach((sub: any, index: any) => {
-              console.log("res2",sub)
               if (data.subtopic === sub.subTopicTitle) {
-                console.log("vvvvv");
-                
                 sub.imagelist.forEach((list: any) => {
                   const formattedExtension = list.localfilename.split('.')[1];
                   const formattedDefName = data.imagename +"."+formattedExtension
@@ -743,10 +712,6 @@ export class PhotoRepositoryComponent implements OnInit {
             });
           });
         });
-
-        console.log("this.listDatas",this.listDatas);
-        
-      // mk
       
       // this.uploadedImgDatas.push({
       //   relImages: [],

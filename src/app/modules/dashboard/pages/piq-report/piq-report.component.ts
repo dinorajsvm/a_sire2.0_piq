@@ -200,7 +200,6 @@ export class PiqReportComponent implements OnInit {
           this.getAllDatas.forEach((value1: any) => {
             value1.values.forEach((value: any) => {
               value.question.forEach((subHeader: any) => {
-                console.log("sub",subHeader);
                 subHeader.subQuestion.forEach((mainQus: any) => {
                   if (response === mainQus.qid) {
                     mainQus.answer = data[response];
