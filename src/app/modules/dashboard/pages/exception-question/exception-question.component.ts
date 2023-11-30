@@ -30,6 +30,7 @@ export class ExceptionQuestionComponent implements OnInit {
     {
       headerName: 'Auto Sync',
       width: 100,
+      field: 'autoSync',
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -130,7 +131,7 @@ export class ExceptionQuestionComponent implements OnInit {
     // Assuming you have a unique identifier in your rowData
     const selectedItemId = event.data.subHeaders;
     const targetColumnName = 'subHeaders';
-    if (event.colDef.field === targetColumnName) {
+    if (!(event.colDef.field === 'autoSync' || event.colDef.field === 'remark')) {
       const tab = 1;
       this.BudgetService.setTabChangeData(tab);
     }

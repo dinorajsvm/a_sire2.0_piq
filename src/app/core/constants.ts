@@ -1,4 +1,4 @@
-import { agGridTooltipComponent } from "../modules/dashboard/pages/renderer/ag-grid-tooltip.component";
+import { agGridTooltipComponent } from '../modules/dashboard/pages/renderer/ag-grid-tooltip.component';
 
 export enum ApiMethod {
   GET = 'GET',
@@ -110,6 +110,8 @@ export const DefaultColDef: any = {
       return { textAlign: 'right' };
     } else if (value instanceof Date || Date.parse(value)) {
       return { textAlign: 'right' };
+    } else if (typeof value === 'string') {
+      return { textAlign: 'left' };
     } else {
       return { textAlign: 'left' };
     }
@@ -118,7 +120,7 @@ export const DefaultColDef: any = {
 
 export const CellStatus = (params: any) => {
   const status = params.value;
-  if (status === 'SUBMITTED') {
+  if (status === 'Submitted') {
     return {
       backgroundColor: '#ff7c25',
       color: 'white',
@@ -128,7 +130,7 @@ export const CellStatus = (params: any) => {
       borderBottom: '1px solid white',
       borderTop: '1px solid white',
     };
-  } else if (status === 'INPROGRESS') {
+  } else if (status === 'Inprogress') {
     return {
       backgroundColor: '#39b7cd',
       color: 'white',
@@ -138,7 +140,7 @@ export const CellStatus = (params: any) => {
       borderBottom: '1px solid white',
       borderTop: '1px solid white',
     };
-  } else if (status === 'RE-ASSIGNED') {
+  } else if (status === 'Reassigned') {
     return {
       backgroundColor: '#0e2350',
       color: 'white',
@@ -148,7 +150,7 @@ export const CellStatus = (params: any) => {
       borderBottom: '1px solid white',
       borderTop: '1px solid white',
     };
-  } else if (status === 'APPROVED') {
+  } else if (status === 'Approved') {
     return {
       backgroundColor: '#00a65a',
       color: 'white',
