@@ -94,20 +94,10 @@ export class ExceptionQuestionComponent implements OnInit {
       this.disableBtns = true;
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
-
-      
-      if (res == false) {
-        this.disableBtns = res;
-      } else {
-        this.disableBtns = true;
-      }
+      this.disableBtns = res;
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
-      if (res == true) {
-        this.hideReqBtns = res;
-      } else {
-        this.hideReqBtns = false;
-      }
+      this.hideReqBtns = res;
     });
     this.BudgetService.getExceptionData().subscribe((data) => {
       this.rowData = data;

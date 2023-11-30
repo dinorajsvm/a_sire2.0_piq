@@ -69,6 +69,8 @@ export class VesselSelectionDialogComponent {
     this.vesselSelectionForms = this.fb.group({
       vesselName: [''],
       vesselType: [''],
+      vesselTypeFilter: [''],
+      vesselNameFilter: [''],
       datePick: ['', [this.dateValidator()]],
     });
     this.getworkflowStatus();
@@ -97,6 +99,10 @@ export class VesselSelectionDialogComponent {
         this.vesselname = res.response;
       }
     );
+  }
+
+  clearFilter(){
+    this.vesselSelectionForms.value.datePick
   }
 
   onKeyChange(event: any): void {
@@ -232,6 +238,7 @@ export class VesselSelectionDialogComponent {
   }
 
   onFilterInputBlur() {
-    this.filterInputValue = ''; 
+    this.vesselSelectionForms.get('vesselTypeFilter')?.setValue("");
+    this.vesselSelectionForms.get('vesselNameFilter')?.setValue("");
   }
 }

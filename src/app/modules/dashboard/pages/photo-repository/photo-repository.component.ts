@@ -74,13 +74,8 @@ export class PhotoRepositoryComponent implements OnInit {
       this.invalidImg = true;
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
-      if (res == false) {
-        this.disableBtns = res;
+      this.disableBtns = res;
         this.invalidImg = res;
-      } else {
-        this.disableBtns = true;
-        this.invalidImg = true;
-      }
     });
     this.getSelectedCheckListId();
     this.getSavedPRData();
@@ -304,8 +299,12 @@ export class PhotoRepositoryComponent implements OnInit {
   }
 
   setDefaultName(img: any, defaultName: string, formattedname: any) {
-    img.localfilename = defaultName;
-    img.formattedName = formattedname;
+    console.log("img",img);
+    console.log("defaultName",defaultName);
+    console.log("formattedname",formattedname);
+    
+    img.localfilename = formattedname;
+    img.formattedName = defaultName;
     this.createPRDetails();
   }
 
@@ -318,8 +317,8 @@ export class PhotoRepositoryComponent implements OnInit {
         allListData.forEach((sub: any) => {
           sub.subTopics.forEach((img: any) => {
             img.imagelist.forEach((data: any) => {
-              data.localfilename = data.defaultImageName;
-              data.formattedName = data.formattedDefName;
+              data.localfilename = data.formattedDefName;
+              data.formattedName = data.defaultImageName;
             });
           });
         });
@@ -339,8 +338,6 @@ export class PhotoRepositoryComponent implements OnInit {
       if (res && res.Response) {
         let object = JSON.parse(res.Response);
         this.imageNames = object;
-        // mk
-        console.log("imgName",this.imageNames);
         
       }
     });
@@ -349,7 +346,7 @@ export class PhotoRepositoryComponent implements OnInit {
     this.BudgetService.getSavedPRData(this.referenceNumber).subscribe(
       (res: any) => {
         let object = res.response;
-        if (res && res.response) {
+        if (res && res.response && res.response.length > 0) {
           this.getSubTopicTitle = [];
           object.forEach((item: any) => {
             let prData = JSON.parse(item.photorepojson);
@@ -375,9 +372,6 @@ export class PhotoRepositoryComponent implements OnInit {
       this.listDatas = [];
       
       const staticData = JSON.parse(res.response);
-      console.log("res",staticData);
-      
-       
       staticData.forEach((res: any) => {
         res.subTopics.forEach((sub: any) => {
           sub['imagelist']=[]
@@ -390,24 +384,24 @@ export class PhotoRepositoryComponent implements OnInit {
         }
       });
       // mk
-      this.imageNames.forEach((data: any) => {
-        staticData.forEach((res: any) => {
-          console.log("res2",res)
-            res.subTopics.forEach((sub: any, index: any) => {
-              if (data && data.subtopic === sub && sub.subTopicTitle) {
-                sub.imagelist.forEach((list: any) => {
-                  const formattedName = list.localfilename.split('.')[0];
-                  const formattedExtension = list.localfilename.split('.')[1];
-                  const formattedDefName = data.imagename.split('.')[0];
-                  list['formattedName'] = formattedName;
-                  list['formattedExtension'] = formattedExtension;
-                  list['formattedDefName'] = formattedDefName;
-                  list['defaultImageName'] = data.imagename;
-                });
-              }
-            });
-          });
-        });
+      // this.imageNames.forEach((data: any) => {
+      //   staticData.forEach((res: any) => {
+      //     console.log("res2",res)
+      //       res.subTopics.forEach((sub: any, index: any) => {
+      //         if (data && data.subtopic === sub && sub.subTopicTitle) {
+      //           sub.imagelist.forEach((list: any) => {
+      //             const formattedName = list.localfilename.split('.')[0];
+      //             const formattedExtension = list.localfilename.split('.')[1];
+      //             const formattedDefName = data.imagename.split('.')[0];
+      //             list['formattedName'] = formattedName;
+      //             list['formattedExtension'] = formattedExtension;
+      //             list['formattedDefName'] = formattedDefName;
+      //             list['defaultImageName'] = data.imagename;
+      //           });
+      //         }
+      //       });
+      //     });
+      //   });
       this.getSubTopicTitle = [];
       this.listDatas.forEach((res: any) => {
         res.subTopics.forEach((item: any) => {
@@ -732,16 +726,16 @@ export class PhotoRepositoryComponent implements OnInit {
       });
       // mk
       this.imageNames.forEach((data: any) => {
+        console.log("res12321",data)
         this.listDatas.forEach((res: any) => {
-          console.log("res2",res)
-            res.subTopics.forEach((sub: any, index: any) => {
-              if (data && data.subtopic === sub && sub.subTopicTitle) {
+          res.subTopics.forEach((sub: any, index: any) => {
+              console.log("res2",sub)
+              if (data.subtopic === sub.subTopicTitle) {
+                console.log("vvvvv");
+                
                 sub.imagelist.forEach((list: any) => {
-                  const formattedName = list.localfilename.split('.')[0];
                   const formattedExtension = list.localfilename.split('.')[1];
-                  const formattedDefName = data.imagename.split('.')[0];
-                  list['formattedName'] = formattedName;
-                  list['formattedExtension'] = formattedExtension;
+                  const formattedDefName = data.imagename +"."+formattedExtension
                   list['formattedDefName'] = formattedDefName;
                   list['defaultImageName'] = data.imagename;
                 });
@@ -749,6 +743,11 @@ export class PhotoRepositoryComponent implements OnInit {
             });
           });
         });
+
+        console.log("this.listDatas",this.listDatas);
+        
+      // mk
+      
       // this.uploadedImgDatas.push({
       //   relImages: [],
       //   subTopics: [],

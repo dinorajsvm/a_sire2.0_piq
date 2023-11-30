@@ -374,11 +374,8 @@ export class TMSAComponent implements OnInit {
   ngOnInit(): void {
     this.getTmsaDetail();
     this.BudgetService.getEditVisible().subscribe((res: any) => {
-      if (res == true) {
-        this.hideReqBtns = res;
-      } else {
-        this.hideReqBtns = false;
-      }})
+      this.hideReqBtns = res;
+    })
 
     if (
       this.data.qid === '3.2.1' ||

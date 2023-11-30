@@ -206,7 +206,7 @@
                       class="charCount"
                       [(ngModel)]="img.formattedName"
                       [class.nameHighlight]="
-                        img?.formattedName != img.formattedDefName
+                        img?.formattedName != img.defaultImageName
                       "
                       (blur)="updateImageName(subHead, imgIndex)"
                     />

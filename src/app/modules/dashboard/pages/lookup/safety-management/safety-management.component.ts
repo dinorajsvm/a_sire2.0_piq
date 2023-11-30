@@ -571,11 +571,8 @@ export class SafetyManagementComponent implements OnInit {
   ngOnInit() {
     this.safetyManagementDetails();
     this.BudgetService.getEditVisible().subscribe((res: any) => {
-      if (res == true) {
-        this.hideReqBtns = res;
-      } else {
-        this.hideReqBtns = false;
-      }})
+      this.hideReqBtns = res;
+    })
   }
   getEditFlag(event: any) {
     return true;

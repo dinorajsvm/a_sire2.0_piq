@@ -118,11 +118,8 @@ export class PmsLookupComponent {
   ngOnInit(): void {
     this.getLookUpVisit();
     this.BudgetService.getEditVisible().subscribe((res: any) => {
-      if (res == true) {
-        this.hideReqBtns = res;
-      } else {
-        this.hideReqBtns = false;
-      }})
+      this.hideReqBtns = res;
+    })
   }
 
   onReset() {

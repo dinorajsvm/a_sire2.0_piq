@@ -305,11 +305,7 @@ export class LookupDialogComponent implements OnInit {
         this.rowInternalData = this.getRowDatas.Internal;
       }
       this.BudgetService.getEditVisible().subscribe((res: any) => {
-        if (res == true) {
-          this.hideReqBtns = res;
-        } else {
-          this.hideReqBtns = false;
-        }
+        this.hideReqBtns = res;
       });
     });
   }
