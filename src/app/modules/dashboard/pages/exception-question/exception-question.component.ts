@@ -101,8 +101,6 @@ export class ExceptionQuestionComponent implements OnInit {
       this.hideReqBtns = res;
     });
     this.BudgetService.getExceptionData().subscribe((data) => {
-      console.log("data",data);
-      
       this.rowData = data;
       this.getRowdataCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;

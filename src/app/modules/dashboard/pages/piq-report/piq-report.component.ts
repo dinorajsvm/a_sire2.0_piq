@@ -352,6 +352,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   exceptionCount() {
+    
     this.BudgetService.setExceptionData(this.exceptionList);
     const rowCount =
       this.exceptionList && this.exceptionList.length > 0
@@ -373,6 +374,7 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.exceptionlist != '') {
+        
         let exceptionData = JSON.parse(res.exceptionlist);
         this.BudgetService.setExceptionData(exceptionData);
       }
@@ -1009,6 +1011,7 @@ export class PiqReportComponent implements OnInit {
     };
     this.exceptionList.push(exceptionData);
     this.BudgetService.setExceptionData(this.exceptionList);
+    
     this.exceptionCount();
   }
 
