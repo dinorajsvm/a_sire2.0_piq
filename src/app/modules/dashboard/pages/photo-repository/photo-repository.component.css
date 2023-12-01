@@ -288,6 +288,15 @@
   cursor: pointer;
 }
 
+.saveDisable{
+  background-color: gray !important;
+  color: black !important;
+  }
+
+  .hideReqBtns{
+    display: none;
+  }
+
 .searchTable ::ng-deep .material-icons {
   font-size: 20px;
   display: flex;

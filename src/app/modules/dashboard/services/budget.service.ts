@@ -382,9 +382,9 @@ export class BudgetService {
     );
   }
 
-  getReferenceList(vesselcode: any, companycode: any) {
+  getReferenceList(vesselcode: any, companycode: any,instanceid:any) {
     return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getreferncetab?vesselcode=${vesselcode}&companycode=${companycode}`
+      `${this.globalUrl}/PIQ/event/getreferncetab?vesselcode=${vesselcode}&companycode=${companycode}&instanceid=${instanceid}`
     );
   }
 
@@ -434,10 +434,10 @@ export class BudgetService {
       .pipe(map((res: any) => res));
   }
 
-  getPRImagename(companycode: any) {
+  getPRImagename(companycode: any,instanceid:any) {
     return this.client
       .get<any>(
-        `${this.globalUrl}/PIQ/event/getimagename?companycode=${companycode}`
+        `${this.globalUrl}/PIQ/event/getimagename?companycode=${companycode}&instanceid=${instanceid}`
       )
       .pipe(map((res: any) => res));
   }

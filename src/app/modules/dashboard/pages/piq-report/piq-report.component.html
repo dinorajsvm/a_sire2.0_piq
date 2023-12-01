@@ -11,7 +11,7 @@
         <h5 class="moduleTitle">Pre-Inspection Questionnaire</h5>
       </div>
       <div class="col-sm-2 text-right" style="padding-right: 0; white-space: nowrap">
-        <span class="sNumber">Ref ID: {{ referenceNumber }}</span>
+        <span class="sNumber">S.No: {{ referenceNumber }}</span>
       </div>
       <div class="col-sm-1 text-right topBtnWrapper" style="padding: 0">
         <button matTooltip="Edit" [disabled]="disableEditMode" *ngIf="getStatus != 'Approved'"
@@ -620,7 +620,7 @@
                                     <fieldset>
                                       <legend>Memo</legend>
                                       <div class="col-sm-12" style="padding: 0">
-                                        <mat-form-field class="textArea charCount">
+                                        <mat-form-field class="textArea charCount" [ngClass]="{ 'read-only': viewMode }">
                                           <textarea matInput [formControlName]="Mquest.qid" #memoTextArea
                                             maxlength="100" [readonly]="viewMode">
                                           </textarea>

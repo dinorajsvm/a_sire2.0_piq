@@ -7,12 +7,14 @@ import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { DefaultColDef } from 'src/app/core/constants';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-reference',
   templateUrl: './reference.component.html',
   styleUrls: ['./reference.component.css'],
 })
 export class ReferenceComponent implements OnInit {
+  referenceNumber: any;
   rowSelection = 'single';
   public tooltipShowDelay = 0;
   columnDefs: any[] = [
@@ -66,7 +68,8 @@ export class ReferenceComponent implements OnInit {
   constructor(
     private BudgetService: BudgetService,
     private _storage: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private route: ActivatedRoute,
   ) {
     this.frameworkComponents = {
       buttonRenderer: DownloadBtnRendererComponent,
@@ -74,6 +77,7 @@ export class ReferenceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
     this.getCertificateRepoList();
   }
@@ -123,7 +127,8 @@ export class ReferenceComponent implements OnInit {
   getCertificateRepoList() {
     const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     const companyCode = this.userDetails.companyCode;
-    this.BudgetService.getReferenceList(vesselCode, companyCode).subscribe(
+
+    this.BudgetService.getReferenceList(vesselCode, companyCode,this.referenceNumber).subscribe(
       (res: any) => {
         res.response.forEach((element: any) => {
           const output_string = element.filepath.replaceAll(/\\/g, '/');

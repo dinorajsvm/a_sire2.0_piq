@@ -89,6 +89,7 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'actualfromdate',
       headerName: 'Actual From Date',
+      cellStyle: { textAlign: 'right' },
       tooltipField: 'actualfromdate',
       flex: 1,
       resizable: true,
@@ -101,6 +102,7 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'actualtodate',
       headerName: 'Actual To Date',
+      cellStyle: { textAlign: 'right' },
       tooltipField: 'actualtodate',
       flex: 1,
       resizable: true,
@@ -174,6 +176,7 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'auditfromdate',
       headerName: 'Audit From Date',
+      cellStyle: { textAlign: 'right' },
       tooltipField: 'auditfromdate',
       flex: 1,
       resizable: true,
@@ -186,6 +189,7 @@ export class LookupDialogComponent implements OnInit {
     {
       field: 'audittodate',
       headerName: 'Audit To Date',
+      cellStyle: { textAlign: 'right' },
       tooltipField: 'audittodate',
       flex: 1,
       resizable: true,

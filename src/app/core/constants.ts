@@ -106,11 +106,20 @@ export const DefaultColDef: any = {
   tooltipComponent: agGridTooltipComponent,
   cellStyle: (params: any) => {
     const value = params.value;
-    if (typeof value === 'number') {
+    // if (typeof value === 'number') {
+    //   return { textAlign: 'right' };
+    // } else if (value instanceof Date || Date.parse(value)) {
+    //   return { textAlign: 'right' };
+    // } else if (typeof value === 'string') {
+    //   return { textAlign: 'left' };
+    // } else {
+    //   return { textAlign: 'left' };
+    // }
+    if (!isNaN(Number(value))) {
       return { textAlign: 'right' };
-    } else if (value instanceof Date || Date.parse(value)) {
+    } else if (value instanceof Date && !isNaN(value.getTime())) {
       return { textAlign: 'right' };
-    } else if (typeof value === 'string') {
+    } else if (typeof value === 'string' && !isNaN(Number(value))) {
       return { textAlign: 'left' };
     } else {
       return { textAlign: 'left' };

@@ -31,6 +31,7 @@ export class PrDialogComponent implements OnInit {
     {
       field: 'lastupdatedate',
       headerName: 'CheckList Date',
+      cellStyle: { textAlign: 'right' },
       tooltipField: 'lastupdatedate',
     },
   ];

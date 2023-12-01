@@ -66,6 +66,7 @@ export class SafetyManagementComponent implements OnInit {
       headerName: 'Date and Time of Incident',
       field: 'incidentdate',
       tooltipField: 'placeofissue',
+      cellStyle: { textAlign: 'right' },
       resizable: true,
       width: 125,
       pinned: 'left',
@@ -524,6 +525,7 @@ export class SafetyManagementComponent implements OnInit {
       headerName: 'Date and Time of Incident',
       tooltipField: 'incidentdate',
       field: 'incidentdate',
+      cellStyle: { textAlign: 'right' },
       width: 120,
       resizable: true,
       valueGetter: (params) => {

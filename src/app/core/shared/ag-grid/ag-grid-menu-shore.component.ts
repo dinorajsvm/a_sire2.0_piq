@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 
 @Component({
   template: `<ng-container *ngFor="let menu of params.menu">
-                <span class="cursor-pointer mr-2" *ngIf = "menu.link && menu.image && !(menu.name == 'Edit' && params.data.status && params.data.status =='APPROVED') " (click)="navigate(menu.link, menu.id ?  params.data[menu.id] : id)" [matTooltip]="menu.tooltip">
+                <span class="cursor-pointer mr-2" *ngIf = "menu.link && menu.image && !(menu.name == 'Edit' && params.data.status && params.data.status =='Approved') " (click)="navigate(menu.link, menu.id ?  params.data[menu.id] : id)" [matTooltip]="menu.tooltip">
                     <img src="{{ menu.image }}" alt="" width="14" *ngIf="menu.image"/>
                     <!-- <span *ngIf="menu.name">{{menu.name}}</span> -->
                 </span>
-                <span class="cursor-pointer mr-2" *ngIf = "!menu.link && menu.image && !menu.workflowIndication && !(menu.name == 'Delete' && params.data.status && params.data.status !='INPROGRESS') " (click)="menu.onMenuAction(params.data)" [matTooltip]="menu.tooltip">
+                <span class="cursor-pointer mr-2" *ngIf = "!menu.link && menu.image && !menu.workflowIndication && !(menu.name == 'Delete' && params.data.status && params.data.status !='Inprogress') " (click)="menu.onMenuAction(params.data)" [matTooltip]="menu.tooltip">
                     <img src="{{ menu.image }}" alt="" width="14" *ngIf="menu.image"/>
                     <!-- <span *ngIf="menu.name">{{menu.name}}</span> -->
                 </span>

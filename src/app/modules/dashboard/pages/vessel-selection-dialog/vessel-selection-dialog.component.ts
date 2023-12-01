@@ -167,7 +167,7 @@ export class VesselSelectionDialogComponent {
 
   getCodes() {
     if (this.userDetails?.cntrlType === 'CNT001') {
-      this.compVslCode = this.userDetails.companyCode;
+      this.compVslCode = this.vesselSelectionForms.value.vesselName;
     } else if (this.userDetails?.cntrlType === 'CNT002') {
       this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     } else {
@@ -188,9 +188,9 @@ export class VesselSelectionDialogComponent {
   }
   getNewRef() {
     const payload = {
-      locationcode: this.compVslCode,
+      locationcode: this.userDetails?.companyCode,
       user: this.userDetails?.userCode,
-      vesselcode: this.vesselSelectionForms.value.vesselName,
+      vesselcode: this.compVslCode,
       planndesubdate: this.sendFormattedDate,
       vesseltype: this.vesselSelectionForms.value.vesselType,
       wfaction: 'INP',

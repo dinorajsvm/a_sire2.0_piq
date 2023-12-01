@@ -70,6 +70,7 @@ export class ManualLookUpComponent implements OnInit {
       field: 'dateofissue',
       headerName: 'Date Of Issue',
       tooltipField: 'dateofissue',
+      cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
       valueGetter: (params) => {

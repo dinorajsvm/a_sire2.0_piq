@@ -61,6 +61,7 @@ export class CertificateRepositoryComponent implements OnInit {
       field: 'dateofissue',
       headerName: 'Issue Date',
       tooltipField: 'dateofissue',
+      cellStyle: { textAlign: 'right' },
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue
@@ -72,6 +73,7 @@ export class CertificateRepositoryComponent implements OnInit {
       field: 'validfrom',
       headerName: 'Valid From',
       tooltipField: 'validfrom',
+      cellStyle: { textAlign: 'right' },
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue
@@ -83,6 +85,7 @@ export class CertificateRepositoryComponent implements OnInit {
       field: 'validto',
       headerName: 'Valid To',
       tooltipField: 'validto',
+      cellStyle: { textAlign: 'right' },
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue
@@ -94,6 +97,7 @@ export class CertificateRepositoryComponent implements OnInit {
       field: 'anniversarydate',
       headerName: 'Last Annual',
       tooltipField: 'anniversarydate',
+      cellStyle: { textAlign: 'right' },
       flex: 1,
       valueGetter: (params) => {
         return params.data.dateofissue

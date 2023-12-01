@@ -57,6 +57,7 @@ export class PscComponent {
     {
       field: 'q156',
       headerName: 'Date of inspection',
+      cellStyle: { textAlign: 'right' },
       tooltipField: 'q156',
       resizable: true,
       flex: 1,

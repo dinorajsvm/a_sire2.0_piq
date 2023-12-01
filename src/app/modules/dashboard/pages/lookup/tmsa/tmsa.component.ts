@@ -114,6 +114,7 @@ export class TMSAComponent implements OnInit {
       field: 'auditfromdate',
       headerName: 'Audit From Date',
       tooltipField: 'auditfromdate',
+      cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -126,6 +127,7 @@ export class TMSAComponent implements OnInit {
       field: 'audittodate',
       headerName: 'Audit To Date',
       tooltipField: 'audittodate',
+      cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -206,6 +208,7 @@ export class TMSAComponent implements OnInit {
       field: 'actualfromdate',
       headerName: 'Actual From Date',
       tooltipField: 'actualfromdate',
+      cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -218,6 +221,7 @@ export class TMSAComponent implements OnInit {
       field: 'actualtodate',
       headerName: 'Actual To Date',
       tooltipField: 'actualtodate',
+      cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
       valueGetter: (params) => {
@@ -263,6 +267,7 @@ export class TMSAComponent implements OnInit {
       field: 'inspectiondate',
       headerName: 'Date Of Inspection',
       tooltipField: 'inspectiondate',
+      cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
     },

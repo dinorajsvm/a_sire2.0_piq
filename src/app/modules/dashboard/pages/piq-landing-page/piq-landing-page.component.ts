@@ -95,6 +95,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
+      cellStyle: { textAlign: 'right' },
       valueGetter: (params: any) => {
         return params.data.createdDate
           ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy HH:mm')
@@ -110,6 +111,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
+      cellStyle: { textAlign: 'right' },
       valueGetter: (params: any) => {
         return params.data.updatedDate
           ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
@@ -203,6 +205,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
+      cellStyle: { textAlign: 'right' },
       valueGetter: (params: any) => {
         return params.data.createdDate
           ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy HH:mm')
@@ -218,6 +221,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
+      cellStyle: { textAlign: 'right' },
       valueGetter: (params: any) => {
         return params.data.updatedDate
           ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')

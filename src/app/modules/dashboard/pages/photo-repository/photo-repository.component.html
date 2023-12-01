@@ -70,6 +70,8 @@
             class="save"
             type="submit"
             (click)="savePhoto()"
+            [class.hideReqBtns]="hideReqBtns"
+                  [class.saveDisable]="invalidImg"
             [disabled]="invalidImg"
           >
             Save

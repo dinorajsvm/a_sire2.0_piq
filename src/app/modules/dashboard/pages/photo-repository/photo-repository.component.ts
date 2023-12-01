@@ -330,7 +330,7 @@ export class PhotoRepositoryComponent implements OnInit {
   // }
   getDefaultImageName() {
     const companyCode = this.userDetails.companyCode;
-    this.BudgetService.getPRImagename(companyCode).subscribe((res: any) => {
+    this.BudgetService.getPRImagename(companyCode,this.referenceNumber).subscribe((res: any) => {
       if (res && res.Response) {
         let object = JSON.parse(res.Response);
         this.imageNames = object;

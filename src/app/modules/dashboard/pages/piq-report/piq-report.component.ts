@@ -2955,6 +2955,7 @@ export class PiqReportComponent implements OnInit {
         //   return flag;
         // }
         if (this.getOrigination == 'CNT001' || this.getStatus == 'Submitted') {
+          this.viewMode = true;
           var flag = false;
           return flag;
         } else {
@@ -3000,6 +3001,7 @@ export class PiqReportComponent implements OnInit {
           this.viewMode = false;
           this.saveDisable = false;
         } else {
+          
         }
       } else if (this.userDetails?.cntrlType === 'CNT001') {
         if (this.getOrigination === 'CNT001' && this.getStatus != 'Approved') {
