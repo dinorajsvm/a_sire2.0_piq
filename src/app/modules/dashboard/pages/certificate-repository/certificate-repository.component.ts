@@ -128,11 +128,13 @@ export class CertificateRepositoryComponent implements OnInit {
           field: 'docrefno',
           headerName: 'Document No',
           tooltipField: 'docrefno',
+          flex: 1,
         },
         {
           field: 'localfilename',
           headerName: 'File Name',
           tooltipField: 'localfilename',
+          flex: 1,
         },
         {
           field: 'filesize',
@@ -143,13 +145,15 @@ export class CertificateRepositoryComponent implements OnInit {
               ? this.convertFileSize(params.data.filesize)
               : '0 Bytes';
           },
+          flex: 1,
         },
         {
           headerName: 'Certificate Download',
           cellRenderer: DownloadBtnRendererComponent,
           cellRendererParams: {
-            onClick: this.onBtnClick1.bind(this),
+            onClick: this.downloadFile.bind(this),
           },
+          flex: 1,
         },
       ],
     },
@@ -243,31 +247,16 @@ export class CertificateRepositoryComponent implements OnInit {
     const unit = sizes[i];
     return size ? `${size} ${unit}` : '0 KB';
   }
-  onBtnClick1(event: any) {
+  downloadFile(event: any) {
     const fileUrl = event.rowData.filepath;
-    this.fetchImageBlob(fileUrl).then(
-      (blob: any) => {
-        const filename = this.getFilenameFromUrl(fileUrl);
-        saveAs(blob, filename);
+    this.BudgetService.downloadFile(fileUrl).then(
+      (Blob: any) => {
+        const filename = event.rowData.localfilename;
+        saveAs(Blob, filename);
       },
       (error) => {
         this.snackBarService.loadSnackBar('File Not found.', colorCodes.ERROR);
       }
     );
-  }
-  getFilenameFromUrl(url: string): string {
-    if (!url) {
-      return '';
-    }
-    const urlParts = url.split('/');
-    return urlParts[urlParts.length - 1];
-  }
-  fetchImageBlob(fileUrl: string): Promise<Blob> {
-    return fetch(fileUrl).then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch image: ${response.statusText}`);
-      }
-      return response.blob();
-    });
   }
 }

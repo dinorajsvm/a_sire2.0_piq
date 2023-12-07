@@ -101,8 +101,8 @@ export class VesselSelectionDialogComponent {
     );
   }
 
-  clearFilter(){
-    this.vesselSelectionForms.value.datePick
+  clearFilter() {
+    this.vesselSelectionForms.value.datePick;
   }
 
   onKeyChange(event: any): void {
@@ -133,12 +133,12 @@ export class VesselSelectionDialogComponent {
   }
   onSelectVessel(event: any): void {
     this.selectedVesselName = event.value;
-    this.toolTipVal=event.source.selected.viewValue;
+    this.toolTipVal = event.source.selected.viewValue;
     this.enableProceedButton();
   }
   onSelectVesselType(event: any): void {
     this.selectedVesselName = event.value;
-    this.toolTipValType=event.source.selected.viewValue;
+    this.toolTipValType = event.source.selected.viewValue;
     this.enableProceedButton();
   }
 
@@ -166,6 +166,12 @@ export class VesselSelectionDialogComponent {
   }
 
   getCodes() {
+    console.log(this.vesselSelectionForms.value.vesselName, 'vesselName');
+    console.log(
+      this.userDetails.userData.mdata.appInfo.vesselCode,
+      'vesslCode'
+    );
+
     if (this.userDetails?.cntrlType === 'CNT001') {
       this.compVslCode = this.vesselSelectionForms.value.vesselName;
     } else if (this.userDetails?.cntrlType === 'CNT002') {
@@ -190,7 +196,10 @@ export class VesselSelectionDialogComponent {
     const payload = {
       locationcode: this.userDetails?.companyCode,
       user: this.userDetails?.userCode,
-      vesselcode: this.compVslCode,
+      vesselcode:
+        this.userDetails?.cntrlType === 'CNT001'
+          ? this.vesselSelectionForms.value.vesselName
+          : this.userDetails.userData.mdata.appInfo.vesselCode,
       planndesubdate: this.sendFormattedDate,
       vesseltype: this.vesselSelectionForms.value.vesselType,
       wfaction: 'INP',
@@ -217,8 +226,7 @@ export class VesselSelectionDialogComponent {
     this.dialogRef.close();
   }
 
-
-  closeDialog(event:any){
+  closeDialog(event: any) {
     this.dialogRef.close();
     event.preventDefault();
     event.stopPropagation();
@@ -238,7 +246,7 @@ export class VesselSelectionDialogComponent {
   }
 
   onFilterInputBlur() {
-    this.vesselSelectionForms.get('vesselTypeFilter')?.setValue("");
-    this.vesselSelectionForms.get('vesselNameFilter')?.setValue("");
+    this.vesselSelectionForms.get('vesselTypeFilter')?.setValue('');
+    this.vesselSelectionForms.get('vesselNameFilter')?.setValue('');
   }
 }

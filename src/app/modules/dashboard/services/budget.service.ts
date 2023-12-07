@@ -20,6 +20,7 @@ export class BudgetService {
   apikey: any;
   private getAllPreviousPresetData = new BehaviorSubject<any>(0);
   private getSummaryGridDataList = new Subject<any>();
+  private getSummaryGridList = new Subject<any>();
   private getViewMode = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
   private getPhotoRepGridData = new Subject<any>();
@@ -39,7 +40,7 @@ export class BudgetService {
   private getExcepData = new Subject<any>();
   private getTabIndexCount = new Subject<any>();
   private hideEditButton = new Subject<any>();
-  private enableDisableButtons  = new Subject<any>();
+  private enableDisableButtons = new Subject<any>();
 
   constructor(private client: HttpClient) {}
 
@@ -136,6 +137,12 @@ export class BudgetService {
     return this.client
       .get<any>('assets/question/certificateDropDownList.json')
       .pipe(map((res: any) => res));
+  }
+
+  downloadFile(fileUrl: any): Promise<Blob> {
+    return fetch(`${this.globalUrl}` + '/' + fileUrl).then((res: any) => {
+      return res.blob();
+    });
   }
 
   getsummaryGridList() {
@@ -303,6 +310,13 @@ export class BudgetService {
     return this.getSummaryGridDataList.asObservable();
   }
 
+  setSummaryGrid(message: any) {
+    this.getSummaryGridList.next(message);
+  }
+  getSummaryGrid() {
+    return this.getSummaryGridList.asObservable();
+  }
+
   setCertificateGridData(message: any) {
     this.getCertificateGridDataList.next(message);
   }
@@ -382,7 +396,7 @@ export class BudgetService {
     );
   }
 
-  getReferenceList(vesselcode: any, companycode: any,instanceid:any) {
+  getReferenceList(vesselcode: any, companycode: any, instanceid: any) {
     return this.client.get<any>(
       `${this.globalUrl}/PIQ/event/getreferncetab?vesselcode=${vesselcode}&companycode=${companycode}&instanceid=${instanceid}`
     );
@@ -434,7 +448,7 @@ export class BudgetService {
       .pipe(map((res: any) => res));
   }
 
-  getPRImagename(companycode: any,instanceid:any) {
+  getPRImagename(companycode: any, instanceid: any) {
     return this.client
       .get<any>(
         `${this.globalUrl}/PIQ/event/getimagename?companycode=${companycode}&instanceid=${instanceid}`

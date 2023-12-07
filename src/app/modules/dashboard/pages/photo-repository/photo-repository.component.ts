@@ -637,6 +637,14 @@ export class PhotoRepositoryComponent implements OnInit {
   onFileSelected(event: any) {
     if (event && event.target && event.target.files && event.target.files[0]) {
       this.selectedFile = event.target.files[0];
+      console.log(event.target.files[0].name.length, 'filess');
+      if (event.target.files[0].name.length >= 80) {
+        this._snackBarService.loadSnackBar(
+          'File Name length should be or less than 80 Characters.',
+          colorCodes.INFO
+        );
+        return;
+      }
     }
     if (this.selectedFile) {
       const reader = new FileReader();

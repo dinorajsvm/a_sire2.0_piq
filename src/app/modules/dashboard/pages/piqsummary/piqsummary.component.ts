@@ -361,6 +361,7 @@ export class PIQSummaryComponent implements OnInit {
       // this.getLastModifiedDatas();
       // this.getSSDatas();
       this.rowData = [];
+      this.rowData = res;
       this.certficateGridDatas();
       if (res) {
         res.forEach((data: any) => {
@@ -371,7 +372,22 @@ export class PIQSummaryComponent implements OnInit {
           let totalQuestCount = 0;
           let filledQuestionCount = 0;
           let answerQuestionCount = 0;
-          data.values.forEach((filledQus: any) => {
+          let time: any;
+          data.values.forEach((filledQus: any, index: any) => {
+            if (!(filledQus && filledQus.lastModified)) {
+              filledQus.lastModified = '';
+            }
+            if (
+              data &&
+              data.values &&
+              data.values[index] &&
+              data.values[index].lastModified
+            ) {
+              time = Math.max(
+                new Date(data.values[index].lastModified).getTime()
+              );
+            }
+
             filledQus.question.forEach((question: any) => {
               totalQuest.push(question.subQuestion.length);
               questions.push(
@@ -404,10 +420,12 @@ export class PIQSummaryComponent implements OnInit {
             totalQuestion: totalQuestCount,
             filledQuestion: filledQuestionCount,
             pendingQuestion: totalQuestCount - filledQuestionCount,
-            lastModified: '04-Sep-2023',
+            lastModified: time
+              ? this.datePipe.transform(new Date(time), 'yyyy-MM-dd HH:mm')
+                ? this.datePipe.transform(new Date(time), 'yyyy-MM-dd HH:mm')
+                : ''
+              : '',
           });
-          // this.gridApi!.setRowData(this.rowData);
-          // this.gridApi.refreshCells();
         });
       }
     });
@@ -464,7 +482,7 @@ export class PIQSummaryComponent implements OnInit {
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
-      'yyyy-MM-dd HH:mm:ss'
+      'yyyy-MM-dd HH:mm'
     );
     this.autoSaveForm.get('dateField')?.setValue(this.plannedSubDate);
     this.onFormChanges();
@@ -566,7 +584,7 @@ export class PIQSummaryComponent implements OnInit {
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
-
+      this.rowData = JSON.parse(res.chapterdata);
       const data = JSON.parse(res.lastMod);
 
       if (res.quicknotes === 'null') {
@@ -792,6 +810,7 @@ export class PIQSummaryComponent implements OnInit {
           if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
             this.setFlowAction = 'SUB';
             ansPayload = {
+              chapterdata: JSON.stringify(this.rowData),
               instanceid: this.referenceNumber,
               action: 'S',
               user: this.userDetails.userCode,
@@ -848,11 +867,6 @@ export class PIQSummaryComponent implements OnInit {
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
-
-    // if (type == 'submit' && ) {
-
-    // }
-
     event.preventDefault();
     event.stopPropagation();
   }

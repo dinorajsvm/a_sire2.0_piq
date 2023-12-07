@@ -5,9 +5,10 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
-import { DefaultColDef } from 'src/app/core/constants';
+import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 @Component({
   selector: 'app-reference',
   templateUrl: './reference.component.html',
@@ -26,7 +27,7 @@ export class ReferenceComponent implements OnInit {
       cellStyle: { textalign: 'left' },
     },
     {
-      field: 'remark',
+      field: 'remarks',
       headerName: 'Remarks',
       tooltipField: 'remark',
       flex: 1,
@@ -50,7 +51,7 @@ export class ReferenceComponent implements OnInit {
       cellRenderer: 'buttonRenderer',
       cellStyle: { textalign: 'center' },
       cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
+        onClick: this.downloadFile.bind(this),
       },
     },
   ];
@@ -62,7 +63,7 @@ export class ReferenceComponent implements OnInit {
   private gridColumnApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
 
   public gridOptions: GridOptions = {};
   constructor(
@@ -70,6 +71,7 @@ export class ReferenceComponent implements OnInit {
     private _storage: StorageService,
     private http: HttpClient,
     private route: ActivatedRoute,
+    private snackBarService: SnackbarService
   ) {
     this.frameworkComponents = {
       buttonRenderer: DownloadBtnRendererComponent,
@@ -82,28 +84,20 @@ export class ReferenceComponent implements OnInit {
     this.getCertificateRepoList();
   }
 
-  // Helper function to extract the filename from a URL
 
-  extractFilename(url: string): string {
-    const segments = url.split('/');
-    return segments[segments.length - 1];
-  }
-
-  onBtnClick1(event: any) {
+  downloadFile(event: any) {
     const fileUrl = event.rowData.filepath;
-    this.fetchImageBlob(fileUrl).then((blob: any) => {
-      const filename = this.getFilenameFromUrl(fileUrl);
-      saveAs(blob, filename);
-    });
+    this.fetchImageBlob(fileUrl).then(
+      (blob: any) => {
+        const filename = event.rowData.localfilename;
+        saveAs(blob, filename);
+      },
+      (error) => {
+        this.snackBarService.loadSnackBar('File Not Found.', colorCodes.ERROR);
+      }
+    );
   }
 
-  getFilenameFromUrl(url: string): string {
-    if (!url) {
-      return '';
-    }
-    const urlParts = url.split('/');
-    return urlParts[urlParts.length - 1];
-  }
 
   fetchImageBlob(fileUrl: string): Promise<Blob> {
     return fetch(fileUrl).then((response) => {
@@ -132,7 +126,7 @@ export class ReferenceComponent implements OnInit {
       (res: any) => {
         res.response.forEach((element: any) => {
           const output_string = element.filepath.replaceAll(/\\/g, '/');
-          (element.filesize = this.convertFileSize(element.filesize)),
+          (element.filesize = element.fileSize),
             (element.filepath = `${environment.apiUrl}/` + output_string);
         });
         this.rowData = res.response;

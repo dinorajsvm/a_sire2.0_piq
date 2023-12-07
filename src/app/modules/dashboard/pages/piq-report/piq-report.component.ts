@@ -70,7 +70,7 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
-
+  rowSummaryData: any[] = [];
   locationCode: any;
   isContentVisible: boolean[] = [];
   selectedValue: string = '';
@@ -159,10 +159,6 @@ export class PiqReportComponent implements OnInit {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
 
     this.getworkflowStatus();
-    // if (this.route.snapshot.paramMap.get('type') == 'new') {
-    //   this.saveWorkFlowAction();
-    // } else {
-    // }
     this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
@@ -266,6 +262,10 @@ export class PiqReportComponent implements OnInit {
           }, 100);
         }
       });
+
+    // this.BudgetService.getSummaryGrid().subscribe((grid) => {
+    //   console.log(grid, 'grid');
+    // });
   }
 
   getTopBarDatas() {
@@ -329,6 +329,7 @@ export class PiqReportComponent implements OnInit {
       });
     });
     var ansPayload = {
+      chapterdata: JSON.stringify(this.rowSummaryData),
       instanceid: this.referenceNumber,
       action: 'I',
       user: this.userDetails?.userCode,
@@ -352,7 +353,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   exceptionCount() {
-    
     this.BudgetService.setExceptionData(this.exceptionList);
     const rowCount =
       this.exceptionList && this.exceptionList.length > 0
@@ -374,7 +374,6 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.exceptionlist != '') {
-        
         let exceptionData = JSON.parse(res.exceptionlist);
         this.BudgetService.setExceptionData(exceptionData);
       }
@@ -463,9 +462,10 @@ export class PiqReportComponent implements OnInit {
         value1.values.forEach((value: any) => {
           this.panelExpansionStates = value.question.map(() => true);
           value.question.forEach((subHeader: any) => {
-     
             if (subHeader && subHeader.qid) {
-              formGroupFields[subHeader.qid] = new FormControl(subHeader.answer);
+              formGroupFields[subHeader.qid] = new FormControl(
+                subHeader.answer
+              );
             }
             this.getMainQuestCounts.push(subHeader);
             this.checkboxBoolean.push(subHeader.selected);
@@ -571,7 +571,7 @@ export class PiqReportComponent implements OnInit {
     if (this.headerListContainer) {
       this.headerListContainer = false;
       this.descriptionContainer = true;
-    } else if (this.descriptionContainer == true) {
+    } else if (this.descriptionContainer) {
       this.headerListContainer = true;
       this.descriptionContainer = false;
     }
@@ -645,6 +645,7 @@ export class PiqReportComponent implements OnInit {
   closeLookup() {
     if (this.lookupContainer) {
       this.headerListContainer = true;
+      this.descriptionContainer = false;
       this.lookupContainer = false;
     }
   }
@@ -692,7 +693,7 @@ export class PiqReportComponent implements OnInit {
             value.inprogress = true;
             subHeader.selected = false;
           }
-          if (subHeader.selected == true) {
+          if (subHeader.selected) {
             const index = this.getMainQuestCounts.findIndex(
               (section: any) => section.mainQuestion === subHeader.mainQuestion
             );
@@ -730,6 +731,70 @@ export class PiqReportComponent implements OnInit {
             }
           });
         });
+      });
+    });
+    this.rowSummaryData = [];
+
+    this.getAllDatas.forEach((data: any) => {
+      let questions: any[] = [];
+      let questions1: any[] = [];
+      let totalQuest: any[] = [];
+      let status: any;
+      let totalQuestCount = 0;
+      let filledQuestionCount = 0;
+      let answerQuestionCount = 0;
+      let time: any;
+
+      data.values.forEach((filledQus: any, index: any) => {
+        if (!(filledQus && filledQus.lastModified)) {
+          filledQus.lastModified = '';
+        }
+        if (
+          data &&
+          data.values &&
+          data.values[index] &&
+          data.values[index].lastModified
+        ) {
+          time = Math.max(new Date(data.values[index].lastModified).getTime());
+        }
+
+        filledQus.question.forEach((question: any) => {
+          totalQuest.push(question.subQuestion.length);
+          questions.push(
+            question.subQuestion.filter((x: any) => x.answer !== '').length
+          );
+          questions1.push(
+            question.subQuestion.filter((y: any) => y.answer === '').length
+          );
+        });
+      });
+      totalQuest.forEach((count: any) => {
+        totalQuestCount = totalQuestCount + count;
+      });
+      questions.forEach((count: any) => {
+        filledQuestionCount = filledQuestionCount + count;
+      });
+      questions1.forEach((count: any) => {
+        answerQuestionCount = answerQuestionCount + count;
+      });
+      if (totalQuestCount - filledQuestionCount == 0) {
+        status = 'Completed';
+      } else {
+        status = 'Inprogress';
+      }
+      const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
+      this.rowSummaryData.push({
+        serialNumber: data.id,
+        topics: data.header.replace(pattern, ''),
+        status: status,
+        totalQuestion: totalQuestCount,
+        filledQuestion: filledQuestionCount,
+        pendingQuestion: totalQuestCount - filledQuestionCount,
+        lastModified: time
+          ? this.datePipe.transform(new Date(time), 'yyyy-MM-dd HH:mm')
+            ? this.datePipe.transform(new Date(time), 'yyyy-MM-dd HH:mm')
+            : ''
+          : '',
       });
     });
   }
@@ -946,9 +1011,12 @@ export class PiqReportComponent implements OnInit {
     value: string,
     ques: any,
     mainQue: any,
-    subQue: any,
-    allValues: any
+    subQue: any
   ): void {
+    ques.lastModified = this.datePipe.transform(
+      new Date(),
+      'dd-MMM-yyyy HH:mm'
+    );
     const mQuestion = mainQue.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -1011,7 +1079,7 @@ export class PiqReportComponent implements OnInit {
     };
     this.exceptionList.push(exceptionData);
     this.BudgetService.setExceptionData(this.exceptionList);
-    
+
     this.exceptionCount();
   }
 
@@ -2927,7 +2995,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   isQuestionShow(entrylogin: any): boolean | undefined {
-    debugger;
     if (entrylogin) {
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.lookUpEnable = false;
@@ -3004,7 +3071,6 @@ export class PiqReportComponent implements OnInit {
           this.viewMode = false;
           this.saveDisable = false;
         } else {
-          
         }
       } else if (this.userDetails?.cntrlType === 'CNT001') {
         if (this.getOrigination === 'CNT001' && this.getStatus != 'Approved') {

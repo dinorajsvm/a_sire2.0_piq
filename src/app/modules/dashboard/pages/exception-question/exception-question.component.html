@@ -1,18 +1,26 @@
 <div class="col-sm-12" id="exceptionWrapper">
   <div class="row">
     <div class="col-sm-12 text-right">
-        <button mat-button class="save"[disabled]="disableBtns" [class.disableBtns]="disableBtns" [class.hideReqBtns]="hideReqBtns" type="submit" (click)="onSubmit()">
-          Save
-        </button>
+      <button
+        mat-button
+        class="save"
+        [disabled]="disableBtns || (rowData && rowData.length === 0)"
+        [class.disableBtns]="disableBtns || (rowData && rowData.length === 0)"
+        [class.hideReqBtns]="hideReqBtns"
+        type="submit"
+        (click)="onSubmit()"
+      >
+        Save
+      </button>
     </div>
   </div>
-  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top: 5px;">
-    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+  <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top: 5px">
+    <span class="m-0">Total Records: {{ rowData && rowData.length }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12">
       <ag-grid-angular
-        style="height: calc(100vh - 230px);"
+        style="height: calc(100vh - 230px)"
         class="ag-theme-balham charCount excepGrid"
         [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef"
@@ -28,10 +36,8 @@
         [components]="frameworkComponents"
         [stopEditingWhenCellsLoseFocus]="true"
         [singleClickEdit]="true"
-        >
+      >
       </ag-grid-angular>
-      <!-- [rowSelection]="singleRowSelection" -->
-      <!-- (rowSelected)="onRowSelected($event)" -->
     </div>
   </div>
 </div>
