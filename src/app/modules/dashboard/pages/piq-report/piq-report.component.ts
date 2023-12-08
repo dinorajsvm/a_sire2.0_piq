@@ -79,6 +79,9 @@ export class PiqReportComponent implements OnInit {
   dynamicForms!: FormGroup;
   selectedVsl: any[] = [];
   isErrorSelected: boolean = false;
+  findResponse: any;
+  qids: any[] = [];
+  tempDatas: any[] = [];
   completedQuestionCount: number = 0;
   SelectedDate: any;
   expandAll: boolean = true;
@@ -142,7 +145,7 @@ export class PiqReportComponent implements OnInit {
   saveMappedCertificateData: any;
   getSearch: any;
   hideReqBtns: boolean = false;
-  gridApi: any
+  gridApi: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -229,25 +232,28 @@ export class PiqReportComponent implements OnInit {
     });
     this.BudgetService.getExceptionResetData().subscribe((resetData) => {
       this.getAllDatas.forEach((value1: any) => {
-        value1.values.forEach((value: any) => {
-          value.question.forEach((subHeader: any) => {
-            subHeader.subQuestion.forEach((mainQus: any) => {
-              if (resetData === mainQus.qid) {
-                mainQus.answer = mainQus.presetvalue;
-                if (mainQus.answer) {
-                  mainQus.inprogress = false;
-                  mainQus.completed = true;
-                } else {
-                  mainQus.inprogress = true;
-                  mainQus.completed = false;
+        if (value1 && value1.values) {
+          value1.values.forEach((value: any) => {
+            value.question.forEach((subHeader: any) => {
+              subHeader.subQuestion.forEach((mainQus: any) => {
+                if (resetData === mainQus.qid) {
+                  mainQus.answer = mainQus.presetvalue;
+                  if (mainQus.answer) {
+                    mainQus.inprogress = false;
+                    mainQus.completed = true;
+                  } else {
+                    mainQus.inprogress = true;
+                    mainQus.completed = false;
+                  }
+
+                  this.dynamicForms.controls[resetData].patchValue(
+                    mainQus.presetvalue
+                  );
                 }
-                this.dynamicForms.controls[resetData].patchValue(
-                  mainQus.presetvalue
-                );
-              }
+              });
             });
           });
-        });
+        }
       });
       this.subHeaderCount();
     });
@@ -264,10 +270,6 @@ export class PiqReportComponent implements OnInit {
           }, 100);
         }
       });
-
-    // this.BudgetService.getSummaryGrid().subscribe((grid) => {
-    //   console.log(grid, 'grid');
-    // });
   }
 
   getTopBarDatas() {
@@ -724,7 +726,6 @@ export class PiqReportComponent implements OnInit {
             ? filledCountDetails.length
             : 0;
       }
-   
     });
     this.getAllDatas.forEach((ids: any) => {
       if (ids && ids.values) {
@@ -755,30 +756,34 @@ export class PiqReportComponent implements OnInit {
       let filledQuestionCount = 0;
       let answerQuestionCount = 0;
       let time: any;
+      if (data && data.values) {
+        data.values.forEach((filledQus: any, index: any) => {
+          if (!(filledQus && filledQus.lastModified)) {
+            filledQus.lastModified = '';
+          }
+          if (
+            data &&
+            data.values &&
+            data.values[index] &&
+            data.values[index].lastModified
+          ) {
+            time = Math.max(
+              new Date(data.values[index].lastModified).getTime()
+            );
+          }
 
-      data.values.forEach((filledQus: any, index: any) => {
-        if (!(filledQus && filledQus.lastModified)) {
-          filledQus.lastModified = '';
-        }
-        if (
-          data &&
-          data.values &&
-          data.values[index] &&
-          data.values[index].lastModified
-        ) {
-          time = Math.max(new Date(data.values[index].lastModified).getTime());
-        }
-
-        filledQus.question.forEach((question: any) => {
-          totalQuest.push(question.subQuestion.length);
-          questions.push(
-            question.subQuestion.filter((x: any) => x.answer !== '').length
-          );
-          questions1.push(
-            question.subQuestion.filter((y: any) => y.answer === '').length
-          );
+          filledQus.question.forEach((question: any) => {
+            totalQuest.push(question.subQuestion.length);
+            questions.push(
+              question.subQuestion.filter((x: any) => x.answer !== '').length
+            );
+            questions1.push(
+              question.subQuestion.filter((y: any) => y.answer === '').length
+            );
+          });
         });
-      });
+      }
+
       totalQuest.forEach((count: any) => {
         totalQuestCount = totalQuestCount + count;
       });
@@ -796,7 +801,7 @@ export class PiqReportComponent implements OnInit {
       const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
       this.rowSummaryData.push({
         serialNumber: data.id,
-        topics: data.header.replace(pattern, ''),
+        topics: data && data.header ? data.header.replace(pattern, '') : '',
         status: status,
         totalQuestion: totalQuestCount,
         filledQuestion: filledQuestionCount,
@@ -857,15 +862,6 @@ export class PiqReportComponent implements OnInit {
     }
   }
 
-  getDefaultSelectedValue(): string {
-    return this.getAllDatas &&
-      this.getAllDatas.length > 0 &&
-      this.getAllDatas[0].values &&
-      this.getAllDatas[0].values.length > 0
-      ? this.getAllDatas[0].values[0]
-      : '';
-  }
-
   toggleContent(index: number, value: any) {
     for (let i = 0; i < this.selectedQuestion.length; i++) {
       if (i === index && value === this.selectedQuestion[i].mainQuestion) {
@@ -915,40 +911,6 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  submitForm() {
-    var getCounts: any[] = [];
-    getCounts.push({
-      value: this.selectedValue,
-      completedQuestionCount: this.completedQuestionCount,
-      remaining: this.selectedQuestion.length - this.completedQuestionCount,
-    });
-  }
-
-  saveValues() {
-    if (this.subAnswers.length != 0) {
-      this.completedSign = false;
-    }
-    if (this.selectedVsl.length === 0) {
-      this.isErrorSelected = true;
-    } else {
-      this.isErrorSelected = false;
-
-      if (this.completedQuestionCount < this.selectedQuestion.length) {
-        this.completedQuestionCount += 1;
-        this.completedSign = true;
-      }
-    }
-
-    this.selectedQuestion.forEach((data: any, index: any) => {
-      const cc: any = document.getElementById(index);
-      if (this.isErrorSelected) {
-        cc.classList.add('colorAdd');
-      } else {
-        cc.classList.remove('colorAdd');
-      }
-    });
-  }
-
   isOptionSelected(selecVal: any, answer: any): boolean {
     return answer.includes(selecVal);
   }
@@ -963,19 +925,19 @@ export class PiqReportComponent implements OnInit {
   ) {
     //  let multi1 = document.getElementById('Q104')
 
-    if (entryorgin.qid == 'Q104' && this.initialMultiAns == true) {
+    if (entryorgin.qid == 'Q104' && this.initialMultiAns) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
-    } else if (entryorgin.qid == 'Q110' && this.initialMultiAns == true) {
+    } else if (entryorgin.qid == 'Q110' && this.initialMultiAns) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
-    } else if (entryorgin.qid == 'Q113' && this.initialMultiAns == true) {
+    } else if (entryorgin.qid == 'Q113' && this.initialMultiAns) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
-    } else if (entryorgin.qid == 'Q119' && this.initialMultiAns == true) {
+    } else if (entryorgin.qid == 'Q119' && this.initialMultiAns) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
-    } else if (entryorgin.qid == 'Q124' && this.initialMultiAns == true) {
+    } else if (entryorgin.qid == 'Q124' && this.initialMultiAns) {
       this.selectedMultiAns = true;
       this.initialMultiAns = false;
     } else {
@@ -1015,7 +977,11 @@ export class PiqReportComponent implements OnInit {
     this.selectedValue = quest.subHeaders;
 
     this.subHeaderCount();
-    this.exceptionFn(subq, mquest, quest);
+    if (subq && subq.presetvalue === subq.answer) {
+      this.restoreOriginal(subq);
+    } else {
+      this.exceptionFn(subq, mquest, quest);
+    }
   }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
@@ -1072,7 +1038,11 @@ export class PiqReportComponent implements OnInit {
       subQue.completed = false;
     }
     this.selectedValue = ques.subHeaders;
-    this.exceptionFn(ques, mainQue, subQue);
+    if (subQue && subQue.presetvalue === subQue.answer) {
+      this.restoreOriginal(subQue);
+    } else {
+      this.exceptionFn(ques, mainQue, subQue);
+    }
     this.dynamicForms.controls[subQue.qid].setValue(value);
     this.subHeaderCount();
   }
@@ -1196,22 +1166,6 @@ export class PiqReportComponent implements OnInit {
   expandAllMainquestions(event: any, quest: any, index: any) {
     quest['expand' + index] = !quest['expand' + index];
   }
-
-  areAllQuestionsExpanded() {
-    return this.isContentVisible.every((isVisible) => isVisible);
-  }
-
-  isSelected(vessels: any, id: any): boolean {
-    return this.selectedVsl.includes(vessels);
-  }
-
-  navigateToPath() {
-    this.router.navigateByUrl('/path');
-  }
-
-  findResponse: any;
-  qids: any[] = [];
-  tempDatas: any[] = [];
 
   openLookUp(event: any, quest: any, mainQuest?: any) {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
@@ -2340,6 +2294,12 @@ export class PiqReportComponent implements OnInit {
       subq.inprogress = true;
       subq.completed = false;
     }
+    if (subq && subq.presetvalue === subq.answer) {
+      this.restoreOriginal(subq);
+    } else {
+      this.exceptionFn(quest, mquest, subq);
+    }
+
     this.selectedValue = quest.subHeaders;
     this.subHeaderCount();
   }
@@ -2415,7 +2375,6 @@ export class PiqReportComponent implements OnInit {
       subq.completed = false;
     }
     this.subHeaderCount();
-    // this.exceptionFn(subQues, mquest, subq);
     this.dateCount(mquest);
   }
 

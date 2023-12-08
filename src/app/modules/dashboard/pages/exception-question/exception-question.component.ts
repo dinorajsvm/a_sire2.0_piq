@@ -122,10 +122,6 @@ export class ExceptionQuestionComponent implements OnInit {
       this.gridApi!.setRowData(this.rowData);
     }
   }
-  // onRowSelected(event: any) {
-  //   const tab=1;
-  //   this.BudgetService.setTabChangeData(tab);
-  // }
 
   onCellClicked(event: any): void {
     // Assuming you have a unique identifier in your rowData
@@ -140,6 +136,7 @@ export class ExceptionQuestionComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
   }
 
   onSubmit() {
