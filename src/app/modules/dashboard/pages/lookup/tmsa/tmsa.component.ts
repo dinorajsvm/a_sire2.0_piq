@@ -35,6 +35,12 @@ LicenseManager.setLicenseKey(
 })
 export class TMSAComponent implements OnInit {
   private gridApi!: GridApi;
+  gridInternalApi: any;
+  gridExternalApi: any;
+  gridShipApi: any;
+  totalRowInternalCount = 0;
+  totalRowExternalCount = 0;
+  totalRowShipCount = 0;
   isChecked = true;
   public tooltipShowDelay = 0;
   isShowInternalShip = false;
@@ -372,15 +378,35 @@ export class TMSAComponent implements OnInit {
     }
   }
 
-  onGridReady(params: any) {
-    this.gridApi = params.api;
+  onGridInternalReady(params: any) {
+    this.gridInternalApi = params.api;
+    this.gridInternalApi.addEventListener(
+      'filterChanged',
+      this.onFilterInternalChanged.bind(this)
+    );
+  }
+
+  onGridShipReady(params: any) {
+    this.gridShipApi = params.api;
+    this.gridShipApi.addEventListener(
+      'filterChanged',
+      this.onFilterShipChanged.bind(this)
+    );
+  }
+
+  onGridExternalReady(params: any) {
+    this.gridExternalApi = params.api;
+    this.gridExternalApi.addEventListener(
+      'filterChanged',
+      this.onFilterExternalChanged.bind(this)
+    );
   }
   hideReqBtns: boolean = false;
   ngOnInit(): void {
     this.getTmsaDetail();
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
-    })
+    });
 
     if (
       this.data.qid === '3.2.1' ||
@@ -409,11 +435,6 @@ export class TMSAComponent implements OnInit {
       this.showInternal();
     });
   }
-  gridOptions = {
-    onGridReady: (params: any) => {
-      params.api.sizeColumnsToFit();
-    },
-  };
 
   showInternal() {
     this.isShowView = false;
@@ -421,6 +442,10 @@ export class TMSAComponent implements OnInit {
     this.isShowExternal = false;
     this.isShowInternal = true;
     this.rowInternalData = this.apiResponse.Internal;
+    this.totalRowInternalCount =
+    this.rowInternalData && this.rowInternalData.length > 0
+    ? this.rowInternalData.length
+    : 0;
   }
 
   showShip() {
@@ -429,6 +454,10 @@ export class TMSAComponent implements OnInit {
     this.isShowInternal = false;
     this.isShowShip = true;
     this.rowShipData = this.apiResponse.ShipVisit;
+    this.totalRowShipCount =
+    this.rowShipData && this.rowShipData.length > 0
+    ? this.rowShipData.length
+    : 0;
   }
   showExternal() {
     this.isShowView = false;
@@ -436,6 +465,10 @@ export class TMSAComponent implements OnInit {
     this.isShowShip = false;
     this.isShowExternal = true;
     this.rowExternalData = this.apiResponse.External;
+    this.totalRowExternalCount =
+      this.rowExternalData && this.rowExternalData.length > 0
+        ? this.rowExternalData.length
+        : 0;
   }
   showView() {
     this.isShowView = true;
@@ -445,6 +478,18 @@ export class TMSAComponent implements OnInit {
     this.rowExternalData = this.apiResponse.External;
     this.rowInternalData = this.apiResponse.Internal;
     this.rowShipData = this.apiResponse.ShipVisit;
+    this.totalRowInternalCount =
+    this.rowInternalData && this.rowInternalData.length > 0
+    ? this.rowInternalData.length
+    : 0;
+    this.totalRowExternalCount =
+    this.rowExternalData && this.rowExternalData.length > 0
+    ? this.rowExternalData.length
+    : 0;
+    this.totalRowShipCount =
+    this.rowShipData && this.rowShipData.length > 0
+    ? this.rowShipData.length
+    : 0;
   }
 
   onReset() {
@@ -465,5 +510,17 @@ export class TMSAComponent implements OnInit {
         this._loaderService.loaderHide();
       }, 2500);
     }
+  }
+
+  onFilterInternalChanged() {
+    this.totalRowInternalCount = this.gridInternalApi.getDisplayedRowCount();
+  }
+
+  onFilterExternalChanged() {
+    this.totalRowExternalCount = this.gridExternalApi.getDisplayedRowCount();
+  }
+
+  onFilterShipChanged() {
+    this.totalRowShipCount = this.gridShipApi.getDisplayedRowCount();
   }
 }

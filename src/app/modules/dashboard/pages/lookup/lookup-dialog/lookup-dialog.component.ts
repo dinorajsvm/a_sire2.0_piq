@@ -34,7 +34,10 @@ declare function mdldmsnavigatenewtab(
 })
 export class LookupDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
+  totalRowCount = 0;
+  totalRowInternalData = 0;
   private gridApi!: GridApi;
+  gridInternalApi: any
   isChecked = false;
   isViewAll = false;
   frameworkComponents: any;
@@ -280,11 +283,24 @@ export class LookupDialogComponent implements OnInit {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
+    this.gridApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
+  }
+
+
+
+  onGridReadyInternal(params: any) {
+    this.gridInternalApi = params.api;
+    this.gridInternalApi.addEventListener(
+      'filterChanged',
+      this.onFilterInternalChanged.bind(this)
+    );
   }
 
   ngOnInit(): void {
     this.getLookUpVisit();
-    
   }
 
   getLookUpVisit() {
@@ -308,12 +324,26 @@ export class LookupDialogComponent implements OnInit {
         this.isChecked = false;
         this.rowInternalData = this.getRowDatas.Internal;
       }
+      this.totalRowCount =
+        this.rowShipData && this.rowShipData.length > 0
+          ? this.rowShipData.length
+          : 0;
+      this.totalRowInternalData =
+        this.rowInternalData && this.rowInternalData.length > 0
+          ? this.rowInternalData.length
+          : 0;
       this.BudgetService.getEditVisible().subscribe((res: any) => {
         this.hideReqBtns = res;
       });
     });
   }
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
 
+  onFilterInternalChanged() {
+    this.totalRowInternalData = this.gridInternalApi.getDisplayedRowCount();
+  }
   changeToggle(chipType: string) {
     if (chipType === 'InternalAudit') {
       this.isChecked = false;
@@ -335,8 +365,15 @@ export class LookupDialogComponent implements OnInit {
       this.rowShipData = this.getRowDatas.ShipVisit;
       this.rowInternalData = this.getRowDatas.Internal;
     }
+    this.totalRowCount =
+      this.rowShipData && this.rowShipData.length > 0
+        ? this.rowShipData.length
+        : 0;
+    this.totalRowInternalData =
+      this.rowInternalData && this.rowInternalData.length > 0
+        ? this.rowInternalData.length
+        : 0;
   }
-
 
   onCellClicked(event: any) {
     if (event.colDef.field === 'refno') {

@@ -18,6 +18,7 @@ export class ReferenceComponent implements OnInit {
   referenceNumber: any;
   rowSelection = 'single';
   public tooltipShowDelay = 0;
+  totalRowCount = 0;
   columnDefs: any[] = [
     {
       field: 'topic',
@@ -98,7 +99,9 @@ export class ReferenceComponent implements OnInit {
     );
   }
 
-
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
   fetchImageBlob(fileUrl: string): Promise<Blob> {
     return fetch(fileUrl).then((response) => {
       if (!response.ok) {
@@ -130,6 +133,8 @@ export class ReferenceComponent implements OnInit {
             (element.filepath = `${environment.apiUrl}/` + output_string);
         });
         this.rowData = res.response;
+        this.totalRowCount =
+        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       }
     );
   }

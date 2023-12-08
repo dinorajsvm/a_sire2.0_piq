@@ -22,16 +22,34 @@
           for last 18 months)
         </p>
       </div>
-      <div class="col-sm-4 text-center" style="padding: 15px 0 0 0" *ngIf="isShowToggle">
-        <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
-          <mat-chip-option color="primary" [selected]="!isChecked && !isViewAll"
-            (click)="changeToggle('InternalAudit')">
+      <div
+        class="col-sm-4 text-center"
+        style="padding: 15px 0 0 0"
+        *ngIf="isShowToggle"
+      >
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Color selection"
+        >
+          <mat-chip-option
+            color="primary"
+            [selected]="!isChecked && !isViewAll"
+            (click)="changeToggle('InternalAudit')"
+          >
             Internal Audit Report
           </mat-chip-option>
-          <mat-chip-option color="primary" [selected]="isChecked && !isViewAll" (click)="changeToggle('ShipVisit')">
+          <mat-chip-option
+            color="primary"
+            [selected]="isChecked && !isViewAll"
+            (click)="changeToggle('ShipVisit')"
+          >
             Ship Visit Report
           </mat-chip-option>
-          <mat-chip-option color="primary" (click)="changeToggle('ViewAll')" [selected]="isChecked && isViewAll">
+          <mat-chip-option
+            color="primary"
+            (click)="changeToggle('ViewAll')"
+            [selected]="isChecked && isViewAll"
+          >
             View All
           </mat-chip-option>
         </mat-chip-listbox>
@@ -44,36 +62,81 @@
 </div>
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="isOnlyShipVisit">
-    <span class="m-0">Total Records: {{rowShipData && rowShipData.length}}</span>
+    <span class="m-0"
+      >Total Records: {{ totalRowCount  }}</span
+    >
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isOnlyShipVisit">
-      
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 320px)" [rowData]="rowShipData"
-        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
-        [tooltipShowDelay]="tooltipShowDelay" [rowClassRules]="rowClassRules" [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)" [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [rowData]="rowShipData"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [groupDisplayType]="groupDisplayType"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [rowClassRules]="rowClassRules"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
     </div>
   </div>
-  <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="this.isOnlyInterVisit" style="margin-top: 10px;">
-    <span class="m-0">Total Records: {{rowInternalData && rowInternalData.length}}</span>
+  <div
+    class="col-sm-12 justify-content-end ag-toolBar"
+    *ngIf="this.isOnlyInterVisit"
+    style="margin-top: 10px"
+  >
+    <span class="m-0"
+      >Total Records: {{ totalRowInternalData  }}</span
+    >
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="this.isOnlyInterVisit">
-      <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 320px)" [rowData]="rowInternalData"
-        [columnDefs]="internalColumnDefs" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" [groupDisplayType]="groupDisplayType"
-        [rowGroupPanelShow]="rowGroupPanelShow" [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)"
-        [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [rowData]="rowInternalData"
+        [columnDefs]="internalColumnDefs"
+        [rowClassRules]="rowClassRules"
+        [defaultColDef]="defaultColDef"
+        [groupDisplayType]="groupDisplayType"
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReadyInternal($event)"
+        [components]="frameworkComponents"
+        (filterChanged)="onFilterInternalChanged()"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
-
-  <button mat-button (click)="onDialogClose()" class="cancel btnCan mt-2" style="float: right" [class.hideReqBtns]="hideReqBtns" [mat-dialog-close]="true">Cancel</button>
-  <button mat-button class="syncBtn mt-2" style="float: right" [class.hideReqBtns]="hideReqBtns" type="submit" (click)="onReset()">
+  <button
+    mat-button
+    (click)="onDialogClose()"
+    class="cancel btnCan mt-2"
+    style="float: right"
+    [class.hideReqBtns]="hideReqBtns"
+    [mat-dialog-close]="true"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    class="syncBtn mt-2"
+    style="float: right"
+    [class.hideReqBtns]="hideReqBtns"
+    type="submit"
+    (click)="onReset()"
+  >
     Reset
   </button>
 </mat-dialog-content>

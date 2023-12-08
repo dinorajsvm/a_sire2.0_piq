@@ -9,8 +9,6 @@ import { MackModule } from 'src/app/core/modules/mack/mack.module';
 import { LayoutModule } from 'src/app/layout/layout.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { DashboardRoutingModule } from './dashboard-routing.component';
-
-import { MasterScreenComponent } from './pages/Components-List/master-screen/master-screen.component';
 import { GlobalSearchComponent } from './pages/global-search/global-search.component';
 import { PiqReportComponent } from './pages/piq-report/piq-report.component';
 import { PhotoRepositoryComponent } from './pages/photo-repository/photo-repository.component';
@@ -48,7 +46,6 @@ import { selectSearchVslPipe } from './services/select-search-vsl-filter.pipe';
 @NgModule({
   declarations: [
     DashboardComponent,
-    MasterScreenComponent,
     GlobalSearchComponent,
     PiqReportComponent,
     ChipFilterPipe,

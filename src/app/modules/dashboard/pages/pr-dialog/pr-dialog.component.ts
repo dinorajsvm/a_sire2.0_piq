@@ -15,7 +15,7 @@ export class PrDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
   public tooltipShowDelay = 0;
-
+  totalRowCount = 0;
   columnDefs: ColDef[] = [
     { field: 'chkid', headerName: 'CheckList ID', tooltipField: 'chkid' },
     {
@@ -67,6 +67,8 @@ export class PrDialogComponent implements OnInit {
     this.BudgetService.getPhotoRepGridList(payload).subscribe((res: any) => {
       let obj = res.response;
       this.rowData = obj;
+      this.totalRowCount =
+      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       this.highlightRow();
     });
   }
@@ -136,7 +138,9 @@ export class PrDialogComponent implements OnInit {
       getSelectedCheckListIDValue: this.getSelectedCheckListID,
     });
   }
-
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
   onGridReady(params: any) {
     this.gridApi = params.api;
   }

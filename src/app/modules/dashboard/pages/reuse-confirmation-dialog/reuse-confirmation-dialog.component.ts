@@ -15,6 +15,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   private gridApi!: GridApi;
   frameworkComponents: any;
   public tooltipShowDelay = 0;
+  totalRowCount = 0;
   columnDefs: ColDef[] = [
     {
       field: 'instanceid',
@@ -56,7 +57,9 @@ export class ReuseConfirmationDialogComponent implements OnInit {
       this.disableBtn = true;
     }
   }
-
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
   onGridReady(params: any) {
     this.gridApi = params.api;
   }
@@ -72,6 +75,8 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   getReuseReferenceList() {
     this.BudgetService.getRefnImport().subscribe((data) => {
       this.rowData = data && data.response.length > 0 ? data.response : [];
+      this.totalRowCount =
+      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
 }

@@ -1,22 +1,42 @@
+<div mat-dialog-title>
+  <!-- <h2>Confirm Action</h2> -->
+  <h5 class="moduleTitle">Re-Use Past Template</h5>
+</div>
 
-  <div mat-dialog-title>
-    <!-- <h2>Confirm Action</h2> -->
-    <h5 class="moduleTitle">Re-Use Past Template</h5>
+<div mat-dialog-content class="mat-typography">
+  Do you intend to override the previous answer with the current one?
+  <hr />
+  <div class="example-header">
+    Selection: {{ instanceId }}
+    <span id="selectedRows"></span>
   </div>
-
-  <div mat-dialog-content class="mat-typography">
-    Do you intend to override the previous answer with the current one?
-    <hr>
-    <div class="example-header">
-      Selection: {{instanceId}}
-      <span id="selectedRows"></span>
-    </div>
-    <ag-grid-angular class="ag-theme-balham" style="height: calc(100vh - 340px)" [rowData]="rowData"
-      [columnDefs]="columnDefs" [rowSelection]="rowSelection" [defaultColDef]="defaultColDef" [groupDisplayType]="groupDisplayType" [rowGroupPanelShow]="rowGroupPanelShow" [tooltipShowDelay]="tooltipShowDelay" (selectionChanged)="onSelectionChanged($event)"
-      (gridReady)="onGridReady($event)" [components]="frameworkComponents">
-    </ag-grid-angular>
-  </div>
-  <div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close [disabled]="disableBtn" [ngClass]="{'disableBtn': disableBtn}" class="yesBtn" (click)="onSubmit()">Yes</button>
-    <button mat-button mat-dialog-close class="cancel">No</button>
-  </div>  
+  <ag-grid-angular
+    class="ag-theme-balham"
+    style="height: calc(100vh - 340px)"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [rowSelection]="rowSelection"
+    [defaultColDef]="defaultColDef"
+    [groupDisplayType]="groupDisplayType"
+    [rowGroupPanelShow]="rowGroupPanelShow"
+    [tooltipShowDelay]="tooltipShowDelay"
+    (selectionChanged)="onSelectionChanged($event)"
+    (gridReady)="onGridReady($event)"
+    (filterChanged)="onFilterChanged()"
+    [components]="frameworkComponents"
+  >
+  </ag-grid-angular>
+</div>
+<div mat-dialog-actions align="end">
+  <button
+    mat-button
+    mat-dialog-close
+    [disabled]="disableBtn"
+    [ngClass]="{ disableBtn: disableBtn }"
+    class="yesBtn"
+    (click)="onSubmit()"
+  >
+    Yes
+  </button>
+  <button mat-button mat-dialog-close class="cancel">No</button>
+</div>

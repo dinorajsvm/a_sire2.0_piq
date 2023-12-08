@@ -28,7 +28,7 @@ declare function mdldmsnavigatenewtab(
 export class ManualLookUpComponent implements OnInit {
   private gridApi!: GridApi;
   public tooltipShowDelay = 0;
-
+  totalRowCount = 0;
   columnDefs: ColDef[] = [
     {
       field: 'refid',
@@ -112,16 +112,6 @@ export class ManualLookUpComponent implements OnInit {
     },
   ];
 
-  // public statusBar: {
-  //   statusPanels: StatusPanelDef[];
-  // } = {
-  //   statusPanels: [
-  //     { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-  //     { statusPanel: 'agFilteredRowCountComponent' },
-  //     { statusPanel: 'agSelectedRowCountComponent' },
-  //     { statusPanel: 'agAggregationComponent' },
-  //   ],
-  // };
   rowData: any = [];
   userDetails: any;
   defaultColDef = DefaultColDef;
@@ -146,6 +136,7 @@ export class ManualLookUpComponent implements OnInit {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
   }
 
   ngOnInit(): void {
@@ -159,11 +150,15 @@ export class ManualLookUpComponent implements OnInit {
           data && data.response && data.response.length > 0
             ? data.response
             : [];
+            this.totalRowCount =
+            this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       },
       (error) => {}
     );
   }
-
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
   onCellClicked(event: any) {
     if (event.colDef.field === 'refid') {
       mdldmsnavigatenewtab('PIQ', 'VCT', event.data.refid, 'true', 'true');

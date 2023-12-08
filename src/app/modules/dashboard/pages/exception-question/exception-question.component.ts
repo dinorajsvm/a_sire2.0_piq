@@ -24,6 +24,7 @@ export class ExceptionQuestionComponent implements OnInit {
   emptyRemark = '';
   public tooltipShowDelay = 0;
   getRowdataCount: any = [];
+  totalRowCount = 0;
   columnDefs: any[] = [
     {
       headerName: 'Auto Sync',
@@ -99,6 +100,8 @@ export class ExceptionQuestionComponent implements OnInit {
     });
     this.BudgetService.getExceptionData().subscribe((data) => {
       this.rowData = data;
+      this.totalRowCount =
+      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       this.getRowdataCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       this.BudgetService.setExceptionGridData(this.getRowdataCount);
@@ -156,5 +159,8 @@ export class ExceptionQuestionComponent implements OnInit {
     this.BudgetService.saveExceptionList(payload).subscribe((res) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
     });
+  }
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
 }

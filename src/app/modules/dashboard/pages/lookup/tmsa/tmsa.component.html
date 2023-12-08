@@ -82,7 +82,7 @@
   >
     <span class="m-0">Internal Audit Report</span>
     <span class="m-0 right-float"
-      >Total Records: {{ rowInternalData.length }}</span
+      >Total Records: {{ totalRowInternalCount }}</span
     >
   </div>
 
@@ -97,18 +97,19 @@
         [rowData]="rowInternalData"
         [rowClassRules]="rowClassRules"
         [columnDefs]="columnInternalDefs"
-        [gridOptions]="gridOptions"
         [tooltipShowDelay]="tooltipShowDelay"
         [defaultColDef]="defaultColDef"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterInternalChanged()"
+        (gridReady)="onGridInternalReady($event)"
       >
       </ag-grid-angular>
     </div>
   </div>
   <div class="col-sm-12 ag-toolBar" style="margin-top: 10px" *ngIf="isShowShip">
     <span class="m-0">Ship Visit Report</span>
-    <span class="m-0 right-float">Total Records: {{ rowShipData.length }}</span>
+    <span class="m-0 right-float">Total Records: {{ totalRowShipCount }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowShip">
@@ -122,10 +123,11 @@
         [rowClassRules]="rowClassRules"
         [tooltipShowDelay]="tooltipShowDelay"
         [columnDefs]="columnShipDefs"
-        [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterShipChanged()"
+        (gridReady)="onGridShipReady($event)"
       >
       </ag-grid-angular>
     </div>
@@ -137,7 +139,7 @@
   >
     <span class="m-0">External Audit Report</span>
     <span class="m-0 right-float"
-      >Total Records: {{ rowExternalData.length }}</span
+      >Total Records: {{ totalRowExternalCount }}</span
     >
   </div>
   <div class="row">
@@ -151,10 +153,11 @@
         [rowData]="rowExternalData"
         [rowClassRules]="rowClassRules"
         [columnDefs]="columnExternalDefs"
-        [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterExternalChanged()"
+        (gridReady)="onGridExternalReady($event)"
       >
       </ag-grid-angular>
     </div>
@@ -162,7 +165,7 @@
   <div class="col-sm-12 ag-toolBar" *ngIf="isShowInternalShip && isShowView">
     <span class="m-0">Internal Audit Report</span>
     <span class="m-0 right-float"
-      >Total Records: {{ rowInternalData.length }}</span
+      >Total Records: {{ totalRowInternalCount }}</span
     >
   </div>
   <div class="row">
@@ -176,10 +179,11 @@
         [rowData]="rowInternalData"
         [rowClassRules]="rowClassRules"
         [columnDefs]="columnInternalDefs"
-        [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterInternalChanged()"
+        (gridReady)="onGridInternalReady($event)"
       >
       </ag-grid-angular>
     </div>
@@ -191,7 +195,7 @@
     *ngIf="isShowInternalShip && isShowView"
   >
     <span class="m-0">Ship Visit Report</span>
-    <span class="m-0 right-float">Total Records: {{ rowShipData.length }}</span>
+    <span class="m-0 right-float">Total Records: {{ totalRowShipCount }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isShowInternalShip && isShowView">
@@ -205,10 +209,11 @@
         [rowClassRules]="rowClassRules"
         [tooltipShowDelay]="tooltipShowDelay"
         [columnDefs]="columnShipDefs"
-        [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterShipChanged()"
+        (gridReady)="onGridShipReady($event)"
       >
       </ag-grid-angular>
     </div>
@@ -221,7 +226,7 @@
   >
     <span class="m-0">Internal Audit Report</span>
     <span class="m-0 right-float"
-      >Total Records: {{ rowInternalData.length }}</span
+      >Total Records: {{ totalRowInternalCount }}</span
     >
   </div>
   <div class="row">
@@ -235,10 +240,11 @@
         [rowData]="rowInternalData"
         [rowClassRules]="rowClassRules"
         [columnDefs]="columnInternalDefs"
-        [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (gridReady)="onGridInternalReady($event)"
+        (filterChanged)="onFilterInternalChanged()"
       >
       </ag-grid-angular>
     </div>
@@ -251,7 +257,7 @@
   >
     <span class="m-0">External Audit Report</span>
     <span class="m-0 right-float"
-      >Total Records: {{ rowExternalData.length }}</span
+      >Total Records: {{ totalRowExternalCount }}</span
     >
   </div>
   <div class="row">
@@ -265,10 +271,11 @@
         [rowData]="rowExternalData"
         [rowClassRules]="rowClassRules"
         [columnDefs]="columnExternalDefs"
-        [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterExternalChanged()"
+        (gridReady)="onGridExternalReady($event)"
       >
       </ag-grid-angular>
     </div>

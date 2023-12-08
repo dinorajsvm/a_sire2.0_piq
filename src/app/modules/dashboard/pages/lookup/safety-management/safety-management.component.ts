@@ -26,8 +26,10 @@ export class SafetyManagementComponent implements OnInit {
   selectedIndex: number = 0;
   frameworkComponents: any;
   gridOptions!: GridOptions;
+  gridSecondApi: any
   public tooltipShowDelay = 0;
-
+  totalRowCount = 0;
+  totalRowSecondCount = 0;
   columnDefs: ColDef[] = [
     {
       headerName: 'Ref No',
@@ -490,7 +492,7 @@ export class SafetyManagementComponent implements OnInit {
   ];
   private gridApi: any;
   private gridColumnApi: any;
- 
+
   selectedColumnDefs: ColDef[] = [
     {
       headerName: 'Ref No',
@@ -547,7 +549,7 @@ export class SafetyManagementComponent implements OnInit {
   ];
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
   rowData: any[] = [];
   selectedRowData: any[] = [];
   userDetails: any;
@@ -574,7 +576,7 @@ export class SafetyManagementComponent implements OnInit {
     this.safetyManagementDetails();
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
-    })
+    });
   }
   getEditFlag(event: any) {
     return true;
@@ -589,6 +591,8 @@ export class SafetyManagementComponent implements OnInit {
       this.data.referenceId
     ).subscribe((data) => {
       this.rowData = JSON.parse(data.response);
+      this.totalRowCount =
+        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
   onBtnClick1(event?: any) {
@@ -633,6 +637,10 @@ export class SafetyManagementComponent implements OnInit {
         response.datePicker = '';
       });
       this.selectedRowData = trueKeys;
+      this.totalRowSecondCount =
+        this.selectedRowData && this.selectedRowData.length > 0
+          ? this.selectedRowData.length
+          : 0;
     }
   }
   onDialogClose(): void {
@@ -641,6 +649,12 @@ export class SafetyManagementComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+  }
+
+  onGridSecondReady(params: any) {
+    this.gridSecondApi = params.api;
+    this.gridSecondApi.addEventListener('filterChanged', this.onFilterSecondChanged.bind(this));
   }
   onTabChanged(event: any) {
     if (event && event.index === 0) {
@@ -648,6 +662,8 @@ export class SafetyManagementComponent implements OnInit {
       this.rowData = [];
       setTimeout(() => {
         this.rowData = tempData;
+        this.totalRowCount =
+          this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       }, 100);
       this.gridOptions = {
         onGridReady: this.onGridReady.bind(this), // Bind the event handler to the component context
@@ -658,6 +674,10 @@ export class SafetyManagementComponent implements OnInit {
 
       setTimeout(() => {
         this.selectedRowData = tempSelectedData;
+        this.totalRowSecondCount =
+          this.selectedRowData && this.selectedRowData.length > 0
+            ? this.selectedRowData.length
+            : 0;
         this.onBtnClick1();
       }, 100);
     }
@@ -675,5 +695,13 @@ export class SafetyManagementComponent implements OnInit {
         this._loaderService.loaderHide();
       }, 2500);
     }
+  }
+
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
+
+  onFilterSecondChanged() {
+    this.totalRowSecondCount = this.gridSecondApi.getDisplayedRowCount();
   }
 }

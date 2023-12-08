@@ -24,8 +24,8 @@ import { DatePipe } from '@angular/common';
 })
 export class PIQLandingPageComponent implements OnInit {
   frameWorkComponent: any;
-  frameWorkShoreComponent: any;
-  totalRecords:number=0;
+  frameWorkShoreComponent: any; totalRowCount = 0;
+  gridApi: any
   shipColumnDefs: any[] = [
     {
       field: 'action',
@@ -343,6 +343,8 @@ export class PIQLandingPageComponent implements OnInit {
     this.BudgetService.getPIQLndPgDatas(payload).subscribe((res: any) => {
       let object = res.response;
       this.rowData = object;
+      this.totalRowCount =
+      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
 
@@ -371,5 +373,12 @@ export class PIQLandingPageComponent implements OnInit {
     this.dialog.open(VesselSelectionDialogComponent, {
       panelClass: 'vesselSelection-dialog-container',
     });
+  }
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+  }
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
 }

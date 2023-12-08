@@ -165,6 +165,8 @@ export class CertificateRepositoryComponent implements OnInit {
   totalCertificateCount: any;
   getvesselcode: any;
   hideReqBtns: boolean = false;
+  gridApi: any;
+  totalRowCount = 0;
   constructor(
     private BudgetService: BudgetService,
     private snackBarService: SnackbarService,
@@ -185,6 +187,8 @@ export class CertificateRepositoryComponent implements OnInit {
   }
   onFirstDataRendered(params: FirstDataRenderedEvent) {}
   onGridReady(params: GridReadyEvent) {
+    this.gridApi = params.api;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
     this.BudgetService.getVslCodeData().subscribe((res: any) => {
       this.getvesselcode = res;
       this.BudgetService.getCertificateList(
@@ -204,7 +208,8 @@ export class CertificateRepositoryComponent implements OnInit {
           res && res.response && res.response.piqmappinglist
             ? res.response.piqmappinglist
             : [];
-
+        this.totalRowCount =
+          this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
         this.totalCertificateCount = this.rowData.length;
         const mappingCercodeValues = this.rowData.map(
           (item) => item.mackcertificatename
@@ -218,6 +223,9 @@ export class CertificateRepositoryComponent implements OnInit {
         this.setSaveCertificateAction();
       });
     });
+  }
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
   setSaveCertificateAction() {
     let payLoad: any[] = [];

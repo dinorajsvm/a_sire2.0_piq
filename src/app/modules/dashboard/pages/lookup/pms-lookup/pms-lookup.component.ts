@@ -24,6 +24,7 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 export class PmsLookupComponent {
   private gridApi!: GridApi;
   public tooltipShowDelay = 0;
+  totalRowCount = 0;
   frameworkComponents: any;
   columnDefs: ColDef[] = [
     {
@@ -113,6 +114,7 @@ export class PmsLookupComponent {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
   }
 
   ngOnInit(): void {
@@ -121,7 +123,9 @@ export class PmsLookupComponent {
       this.hideReqBtns = res;
     })
   }
-
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
   onReset() {
     this.dialogRef.close('Reset');
   }
@@ -148,6 +152,8 @@ export class PmsLookupComponent {
         filterResponse.jobList.length > 0
           ? filterResponse.jobList
           : [];
+          this.totalRowCount =
+          this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
 }

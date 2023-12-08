@@ -43,7 +43,7 @@
     </div>
 
     <div class="col-sm-12 justify-content-end ag-toolBar" >
-      <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+      <span class="m-0">Total Records: {{ totalRowCount }}</span>
     </div>
     <div class="row">
       <div class="col-sm-12">
@@ -59,6 +59,7 @@
           [tooltipShowDelay]="tooltipShowDelay"
           (selectionChanged)="onSelectedRowData($event)"
           (gridReady)="onGridReady($event)"
+          (filterChanged)="onFilterChanged()"
         >
         </ag-grid-angular>
       </div>

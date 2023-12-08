@@ -15,7 +15,7 @@
     </div>
   </div>
   <div class="col-sm-12 justify-content-end ag-toolBar" style="margin-top: 5px">
-    <span class="m-0">Total Records: {{ rowData && rowData.length }}</span>
+    <span class="m-0">Total Records: {{ totalRowCount }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12">
@@ -33,6 +33,7 @@
         [embedFullWidthRows]="true"
         [rowData]="rowData"
         (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()"
         [components]="frameworkComponents"
         [stopEditingWhenCellsLoseFocus]="true"
         [singleClickEdit]="true"

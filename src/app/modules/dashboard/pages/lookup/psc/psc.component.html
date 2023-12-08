@@ -46,7 +46,7 @@
     *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
     style="margin-top: 10px"
   >
-    <span class="m-0">Total Records: {{ rowData && rowData.length }}</span>
+    <span class="m-0">Total Records: {{ totalRowCount }}</span>
   </div>
   <div
     class="row"
@@ -66,6 +66,7 @@
         (gridReady)="onGridReady($event)"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterChanged()"
       >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
@@ -78,7 +79,7 @@
     style="margin-top: 10px"
   >
     <span class="m-0"
-      >Total Records: {{ rowPscData && rowPscData.length }}</span
+      >Total Records: {{ totalPSCRowCount }}</span
     >
   </div>
   <div class="row" *ngIf="isChecked && isViewAll">
@@ -94,9 +95,10 @@
         [defaultColDef]="defaultColDef"
         [rowGroupPanelShow]="rowGroupPanelShow"
         [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)"
+        (gridReady)="onGridPSCReady($event)"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterPSCChanged()"
       >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
@@ -109,7 +111,7 @@
     *ngIf="isChecked && isViewAll"
   >
     <span class="m-0"
-      >Total Records: {{ rowNonPscData && rowNonPscData.length }}</span
+      >Total Records: {{ totalNonPSCRowCount }}</span
     >
   </div>
   <div class="row" *ngIf="isChecked && isViewAll">
@@ -125,9 +127,10 @@
         [defaultColDef]="defaultColDef"
         [rowGroupPanelShow]="rowGroupPanelShow"
         [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)"
+        (gridReady)="onGridNonPSCReady($event)"
         [components]="frameworkComponents"
         (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterNonPSCChanged()"
       >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->

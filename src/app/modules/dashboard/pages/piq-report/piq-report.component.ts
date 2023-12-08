@@ -71,6 +71,7 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
   rowSummaryData: any[] = [];
+  totalRowCount = 0;
   locationCode: any;
   isContentVisible: boolean[] = [];
   selectedValue: string = '';
@@ -141,6 +142,7 @@ export class PiqReportComponent implements OnInit {
   saveMappedCertificateData: any;
   getSearch: any;
   hideReqBtns: boolean = false;
+  gridApi: any
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -679,60 +681,68 @@ export class PiqReportComponent implements OnInit {
 
   subHeaderCount() {
     this.getAllDatas.forEach((value1: any) => {
-      value1.values.forEach((value: any) => {
-        value.isException = false;
-        value.question.forEach((subHeader: any) => {
-          const filterResponse = subHeader.subQuestion.filter((a: any) => {
-            return a.completed === true;
-          });
-          if (filterResponse.length === subHeader.subQuestion.length) {
-            value.completed = true;
-            value.inprogress = false;
-            subHeader.selected = true;
-          } else {
-            value.completed = false;
-            value.inprogress = true;
-            subHeader.selected = false;
-          }
-          if (subHeader.selected) {
-            const index = this.getMainQuestCounts.findIndex(
-              (section: any) => section.mainQuestion === subHeader.mainQuestion
-            );
-            this.getMainQuestCounts[index] = subHeader;
-            var booleanCount: any = [];
-            this.getMainQuestCounts.forEach((element: any) => {
-              booleanCount.push(element.selected);
+      if (value1 && value1.values) {
+        value1.values.forEach((value: any) => {
+          value.isException = false;
+          value.question.forEach((subHeader: any) => {
+            const filterResponse = subHeader.subQuestion.filter((a: any) => {
+              return a.completed === true;
             });
-            this.pendingCount = booleanCount.filter(
-              (value: any) => value === false
-            ).length;
-          }
-        });
-      });
-      // filledCount
-      const filledCountDetails = value1.values.filter((a1: any) => {
-        return a1.completed === true;
-      });
-      value1.filledCount =
-        filledCountDetails && filledCountDetails.length > 0
-          ? filledCountDetails.length
-          : 0;
-    });
-    this.getAllDatas.forEach((ids: any) => {
-      ids.values.forEach((ids1: any) => {
-        ids1.question.forEach((subHeader: any) => {
-          subHeader.subQuestion.forEach((que: any) => {
-            if (
-              (que.entryorgin === 'Auto or Preset' ||
-                que.entryorgin === 'Preset') &&
-              que.presetvalue &&
-              que.answer !== que.presetvalue
-            ) {
-              ids1.isException = true;
+            if (filterResponse.length === subHeader.subQuestion.length) {
+              value.completed = true;
+              value.inprogress = false;
+              subHeader.selected = true;
+            } else {
+              value.completed = false;
+              value.inprogress = true;
+              subHeader.selected = false;
+            }
+            if (subHeader.selected) {
+              const index = this.getMainQuestCounts.findIndex(
+                (section: any) =>
+                  section.mainQuestion === subHeader.mainQuestion
+              );
+              this.getMainQuestCounts[index] = subHeader;
+              var booleanCount: any = [];
+              this.getMainQuestCounts.forEach((element: any) => {
+                booleanCount.push(element.selected);
+              });
+              this.pendingCount = booleanCount.filter(
+                (value: any) => value === false
+              ).length;
             }
           });
         });
-      });
+      }
+      // filledCount
+      if (value1 && value1.values) {
+        const filledCountDetails = value1.values.filter((a1: any) => {
+          return a1.completed === true;
+        });
+        value1.filledCount =
+          filledCountDetails && filledCountDetails.length > 0
+            ? filledCountDetails.length
+            : 0;
+      }
+   
+    });
+    this.getAllDatas.forEach((ids: any) => {
+      if (ids && ids.values) {
+        ids.values.forEach((ids1: any) => {
+          ids1.question.forEach((subHeader: any) => {
+            subHeader.subQuestion.forEach((que: any) => {
+              if (
+                (que.entryorgin === 'Auto or Preset' ||
+                  que.entryorgin === 'Preset') &&
+                que.presetvalue &&
+                que.answer !== que.presetvalue
+              ) {
+                ids1.isException = true;
+              }
+            });
+          });
+        });
+      }
     });
     this.rowSummaryData = [];
 
@@ -1007,7 +1017,9 @@ export class PiqReportComponent implements OnInit {
     this.subHeaderCount();
     this.exceptionFn(subq, mquest, quest);
   }
-
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
   toggleSingleSelection(
     value: string,
     ques: any,

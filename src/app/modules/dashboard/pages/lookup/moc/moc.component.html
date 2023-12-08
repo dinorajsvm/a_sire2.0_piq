@@ -15,14 +15,28 @@
 
 <div mat-dialog-content class="mat-typography">
   <div class="col-sm-12 justify-content-end ag-toolBar">
-    <span class="m-0">Total Records: {{rowData && rowData.length}}</span>
+    <span class="m-0">Total Records: {{ totalRowCount }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <ag-grid-angular #agGrid class="ag-theme-balham" style="height: calc(100vh - 305px)" enableSorting="true"
-        enableFilter="true" [rowData]="rowData" [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
-        [tooltipShowDelay]="tooltipShowDelay" [columnDefs]="columnDefs" [gridOptions]="gridOptions"
-        [components]="frameworkComponents" (cellClicked)="onCellClicked($event)">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 305px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowData"
+        [defaultColDef]="defaultColDef"
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [groupDisplayType]="groupDisplayType"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
       </ag-grid-angular>
       <!-- [statusBar]="statusBar" -->
     </div>
@@ -30,6 +44,21 @@
 </div>
 
 <div mat-dialog-actions align="end" style="padding: 8px 15px">
-  <button mat-button class="showBtn btnCan" (click)="applyMocDetails()" [class.hideReqBtns]="hideReqBtns">Apply</button>
-  <button mat-button (click)="onDialogClose()" class="cancel btnCan" [class.hideReqBtns]="hideReqBtns"[mat-dialog-close]="true">Cancel</button>
+  <button
+    mat-button
+    class="showBtn btnCan"
+    (click)="applyMocDetails()"
+    [class.hideReqBtns]="hideReqBtns"
+  >
+    Apply
+  </button>
+  <button
+    mat-button
+    (click)="onDialogClose()"
+    class="cancel btnCan"
+    [class.hideReqBtns]="hideReqBtns"
+    [mat-dialog-close]="true"
+  >
+    Cancel
+  </button>
 </div>

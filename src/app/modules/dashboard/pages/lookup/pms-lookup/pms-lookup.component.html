@@ -17,7 +17,7 @@
 
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-12 justify-content-end ag-toolBar">
-    <span class="m-0">Total Records: {{ rowData && rowData.length }}</span>
+    <span class="m-0">Total Records: {{ totalRowCount }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12">
@@ -32,6 +32,7 @@
         [rowClassRules]="rowClassRules"
         [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()"
         [components]="frameworkComponents"
       >
       </ag-grid-angular>

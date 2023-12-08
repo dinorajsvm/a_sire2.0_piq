@@ -28,9 +28,11 @@ declare function mdldmsnavigatenewtab(
 })
 export class MocComponent {
   frameworkComponents: any;
+  totalRowCount = 0;
   userDetails: any;
   hideReqBtns: boolean = false;
   public tooltipShowDelay = 0;
+  gridApi: any
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
@@ -160,6 +162,8 @@ export class MocComponent {
       this.data.questionId
     ).subscribe((data) => {
       this.rowData = data.response;
+      this.totalRowCount =
+      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
   onDialogClose(): void {
@@ -174,5 +178,12 @@ export class MocComponent {
         this._loaderService.loaderHide();
       }, 2500);
     }
+  }
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+  }
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
 }

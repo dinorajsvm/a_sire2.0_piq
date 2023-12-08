@@ -1,5 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ColDef, GridApi, RowClassRules, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  RowClassRules,
+  RowGroupingDisplayType,
+  StatusPanelDef,
+} from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -28,6 +34,11 @@ declare function mdldmsnavigatenewtab(
 export class PscComponent {
   getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
+  gridPSCApi: any;
+  gridNonPSCApi: any;
+  totalRowCount = 0;
+  totalPSCRowCount = 0;
+  totalNonPSCRowCount = 0;
   public tooltipShowDelay = 0;
   isChecked = true;
   frameworkComponents: any;
@@ -117,7 +128,7 @@ export class PscComponent {
   defaultColDef = DefaultColDef;
   hideReqBtns: boolean = false;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
@@ -147,7 +158,15 @@ export class PscComponent {
     this.syncData = e.rowData;
     this.dialogRef.close(e.rowData);
   }
-
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
+  onFilterPSCChanged() {
+    this.totalPSCRowCount = this.gridPSCApi.getDisplayedRowCount();
+  }
+  onFilterNonPSCChanged() {
+    this.totalNonPSCRowCount = this.gridNonPSCApi.getDisplayedRowCount();
+  }
   changeToggle(chipType: string) {
     if (chipType === 'Suggested') {
       this.isChecked = false;
@@ -163,17 +182,46 @@ export class PscComponent {
       this.rowPscData = this.apiResponse.PSC;
       this.rowNonPscData = this.apiResponse['Non-sPSC'];
     }
+    this.totalRowCount =
+      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+    this.totalPSCRowCount =
+      this.rowPscData && this.rowPscData.length > 0
+        ? this.rowPscData.length
+        : 0;
+    this.totalNonPSCRowCount =
+      this.rowNonPscData && this.rowNonPscData.length > 0
+        ? this.rowNonPscData.length
+        : 0;
   }
 
   onGridReady(params: any) {
     this.gridApi = params.api;
+    this.gridApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
+  }
+
+  onGridPSCReady(params: any) {
+    this.gridPSCApi = params.api;
+    this.gridPSCApi.addEventListener(
+      'filterChanged',
+      this.onFilterPSCChanged.bind(this)
+    );
+  }
+  onGridNonPSCReady(params: any) {
+    this.gridNonPSCApi = params.api;
+    this.gridNonPSCApi.addEventListener(
+      'filterChanged',
+      this.onFilterNonPSCChanged.bind(this)
+    );
   }
 
   ngOnInit(): void {
     this.getPscDetail();
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
-    })
+    });
   }
 
   onReset() {
@@ -189,6 +237,8 @@ export class PscComponent {
     ).subscribe((data) => {
       this.apiResponse = data.response;
       this.rowData = this.apiResponse.PSC;
+      this.totalRowCount =
+        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
 
