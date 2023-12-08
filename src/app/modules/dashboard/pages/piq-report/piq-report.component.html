@@ -143,17 +143,9 @@
                 >Show All Questions</span
               >
             </div>
-            <div
-              class="questIndicator"
-              *ngIf="
-                getOrigination === 'CNT002' &&
-                userDetails?.cntrlType === 'CNT002'
-              "
-            >
-              <div
-                class="indicators"
-                *ngIf="userDetails?.cntrlType === 'CNT002'"
-              >
+            <div class="questIndicator"
+              *ngIf="getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT002'">
+              <div class="indicators" *ngIf="userDetails?.cntrlType === 'CNT002'">
                 <span class="indCol shore"></span>
                 <span class="charCount">Shore</span>
               </div>
@@ -166,26 +158,28 @@
                 <span class="charCount">Changed Preset Questions</span>
               </div>
             </div>
-            <div
-              class="questIndicator"
-              *ngIf="
-                getOrigination === 'CNT001' &&
-                userDetails?.cntrlType === 'CNT002'
-              "
-            >
+            <div class="questIndicator" *ngIf="getOrigination === 'CNT001' && userDetails?.cntrlType === 'CNT002'">
               <div class="indicators">
                 <span class="indCol shore"></span>
-                <span class="charCount">All Question</span>
+                <span class="charCount">All Questions</span>
               </div>
             </div>
-            <div
-              class="questIndicator"
-              *ngIf="
-                getOrigination === 'CNT002' &&
-                userDetails?.cntrlType === 'CNT001' &&
-                getStatus === 'Inprogress'
-              "
-            >
+            <div class="questIndicator"*ngIf="getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT001' && getStatus === 'Inprogress'">
+              <!-- <div class="indicators">
+                <span class="indCol shore"></span>
+                <span class="charCount">Ship</span>
+              </div> -->
+              <!-- Rathish Changes -->
+              <div class="indicators">
+                <span class="indCol preset"></span>
+                <span class="charCount">Preset</span>
+              </div>
+              <div class="indicators">
+                <span class="indCol presetChanged"></span>
+                <span class="charCount">Changed Preset Questions</span>
+              </div>
+            </div>
+            <div class="questIndicator"*ngIf="getOrigination === 'CNT001' && userDetails?.cntrlType === 'CNT001'">
               <!-- <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">Ship</span>

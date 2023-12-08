@@ -609,8 +609,20 @@ export class PiqReportComponent implements OnInit {
     let pending = document.getElementById('pendingArea');
     let contentArea = document.getElementById('contentArea');
     let expColl = document.getElementById('expCol');
+    let guidance = document.getElementById('guidanceWrapper');
     sideBar?.classList.add('sideCollapse');
-    if (
+
+    if (contentArea?.classList.contains('col-sm-9' && 'test')) {
+      contentArea?.classList.remove('col-sm-12', 'expandedContent');
+      expColl?.classList.remove('hideCol');
+      contentArea?.classList.add('col-sm-9');
+      pending?.classList.remove('col-sm-12', 'expandedContent');
+      pending?.classList.add('col-sm-9');
+      contentArea?.classList.remove('test');
+      guidance?.classList.add('guideWrap');
+      guidance?.classList.remove('guideWrapExpanded');
+      sideBar?.classList.remove('sideCollapse');
+    }else if (
       contentArea?.classList.contains('col-sm-9') ||
       pending?.classList.contains('col-sm-9')
     ) {
@@ -2999,6 +3011,8 @@ export class PiqReportComponent implements OnInit {
         //   return flag;
         // }
         if (this.getOrigination == 'CNT001' || this.getStatus == 'Submitted') {
+          const disableFields = true
+          this.BudgetService.setEnableBtn(disableFields);
           this.viewMode = true;
           var flag = false;
           return flag;

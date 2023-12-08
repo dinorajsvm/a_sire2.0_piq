@@ -77,6 +77,9 @@ export class PhotoRepositoryComponent implements OnInit {
       this.disableBtns = res;
         this.invalidImg = res;
     });
+    this.BudgetService.getEditVisible().subscribe((res: any) => {
+      this.hideReqBtns = res;
+    });
     this.getSelectedCheckListId();
     this.getSavedPRData();
     // this.getImageName();

@@ -20,7 +20,7 @@
             <div><span style="color: black;">Select Vessel</span><span style="color: red;"> *</span></div>
             <mat-form-field class="selectDropdown" appearance="outline" >
               <mat-select [(ngModel)]="selectedValue" formControlName="vesselName" [matTooltip]="toolTipVal" (selectionChange)="onSelectVessel($event)" name="food">
-                <input (blur)="onFilterInputBlur()" formControlName="vesselNameFilter"  placeholder="Search Vessel" class="filterSearch" #filterVesselNameInput  />
+                <input (blur)="onFilterInputBlur()" formControlName="vesselNameFilter"  placeholder="Search Vessel" class="filterSearchShore" #filterVesselNameInput  />
                 <mat-option *ngFor="let vsl of vesselname | selectSearchFilter: filterVesselNameInput.value" [value]="vsl.vesselcode">
                   {{vsl.vesselname}}
                 </mat-option>
@@ -31,7 +31,7 @@
             <div><span style="color: black;">Select Vessel Type</span><span style="color: red;"> *</span></div>
             <mat-form-field class="selectDropdown" appearance="outline" >
               <mat-select [(ngModel)]="selectedVslTypeValue" formControlName="vesselType" [matTooltip]="toolTipValType" (selectionChange)="onSelectVesselType($event)" name="food">
-                <input (blur)="onFilterInputBlur()" formControlName="vesselTypeFilter" placeholder="Search Vessel" class="filterSearch" #filterVesselTypeInput  />
+                <input (blur)="onFilterInputBlur()" formControlName="vesselTypeFilter" placeholder="Search Vessel" class="filterSearchShore" #filterVesselTypeInput  />
                 <mat-option *ngFor="let vsltype of vesselTypeCode | selectSearchVslFilter: filterVesselTypeInput.value" [value]="vsltype.vesseltypecode">
                   {{vsltype.vesseltypename}}
                 </mat-option>
