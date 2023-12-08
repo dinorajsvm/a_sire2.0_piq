@@ -399,6 +399,7 @@
                           >
                             <mat-accordion
                               class="card_container"
+                              [id]="Mquest.qid"
                               *ngIf="
                                 searchText === '' ||
                                 Mquest.mainQuestion.includes(searchText) ||

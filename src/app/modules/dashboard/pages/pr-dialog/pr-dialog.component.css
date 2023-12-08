@@ -91,3 +91,7 @@
       background-color: #c1c1c1 !important;
       color: black !important;
   }
+
+  .btnHeight{
+    height: 30px;
+  }

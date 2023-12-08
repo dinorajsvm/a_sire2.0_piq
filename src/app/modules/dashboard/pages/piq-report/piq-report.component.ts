@@ -555,12 +555,12 @@ export class PiqReportComponent implements OnInit {
       guidance?.classList.add('guideWrapExpanded');
       guidance?.classList.remove('guideWrap');
     } else if (contentArea?.classList.contains('col-sm-9' && 'test')) {
-      guidance?.classList.remove('guideWrapExpanded');
-      guidance?.classList.add('guideWrap');
+      guidance?.classList.add('guideWrapExpanded');
+      guidance?.classList.remove('guideWrap');
       sideBar?.classList.add('sideCollapse');
-      contentArea?.classList.add('col-sm-12', 'expandedContent');
-      contentArea?.classList.remove('col-sm-9');
-      contentArea?.classList.remove('test');
+      // contentArea?.classList.add('col-sm-12', 'expandedContent');
+      // contentArea?.classList.remove('col-sm-9');
+      // contentArea?.classList.remove('test');
     } else if (contentArea?.classList.contains('col-sm-9')) {
       sideBar?.classList.add('sideCollapse');
       contentArea?.classList.add('test');
@@ -2941,8 +2941,10 @@ export class PiqReportComponent implements OnInit {
     mQuest: any,
     allValues: any,
     mQuestIndex: any,
-    question?: any
+    question: any
   ) {
+    console.log("question",question);
+    
     this.selectValue(allValues.subHeaders, allValues);
     setTimeout(() => {
       this.scrollToElement(question.qid);

@@ -491,7 +491,7 @@ export class PIQSummaryComponent implements OnInit {
     this.dateSelected = this.autoSaveForm.controls['dateField'].value;
     this.quickNotes = this.autoSaveForm.controls['TextAreaField'].value;
 
-    if (this.dateSelected != null && this.quickNotes != '') {
+    if (this.dateSelected != null || this.quickNotes != '') {
       this.onSubmitQuickNotes();
     }
   }
