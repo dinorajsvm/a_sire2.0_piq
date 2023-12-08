@@ -653,6 +653,7 @@ export class PiqReportComponent implements OnInit {
   selectValue(value: string, allvalues?: any) {
     this.selectedValue = value;
     const targetSubHeaders = value;
+    this.AllQuestions = true;
     const foundObject = this.getAllDatas.find((section: any) => {
       return section.values.find(
         (subSection: any) => subSection.subHeaders === targetSubHeaders

@@ -25,6 +25,7 @@ import { DatePipe } from '@angular/common';
 export class PIQLandingPageComponent implements OnInit {
   frameWorkComponent: any;
   frameWorkShoreComponent: any;
+  totalRecords:number=0;
   shipColumnDefs: any[] = [
     {
       field: 'action',

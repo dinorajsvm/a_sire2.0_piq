@@ -135,6 +135,7 @@ export class VesselSelectionDialogComponent {
     this.selectedVesselName = event.value;
     this.toolTipVal = event.source.selected.viewValue;
     this.enableProceedButton();
+    this.getCodes();
   }
   onSelectVesselType(event: any): void {
     this.selectedVesselName = event.value;
