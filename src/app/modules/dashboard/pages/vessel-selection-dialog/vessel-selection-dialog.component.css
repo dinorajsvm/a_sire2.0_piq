@@ -54,7 +54,14 @@
 
 .filterSearch {
   padding: 5px 10px;
-  width: 100%;
+  width: 94.5%;
   border: none;
   outline: none;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+::ng-deep .mat-mdc-select-panel{  
+  padding-top: 30px !important;
 }
