@@ -348,6 +348,10 @@
   cursor: pointer;
 }
 
+.right-float {
+  position: absolute;
+  right: 10px;
+}
 .ag-toolBar {
   background-color: #f5f7f7;
   border: 1px solid #bdc3c7;

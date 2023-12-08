@@ -30,6 +30,7 @@ export class PmsLookupComponent {
     {
       headerName: 'Auto Sync',
       width: 100,
+      hide: false,
       sortable: false,
       filter: false,
       cellRenderer: 'buttonRenderer',
@@ -97,6 +98,7 @@ export class PmsLookupComponent {
     public dialog: MatDialog,
     public _storage: StorageService
   ) {
+    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
@@ -119,9 +121,7 @@ export class PmsLookupComponent {
 
   ngOnInit(): void {
     this.getLookUpVisit();
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
-      this.hideReqBtns = res;
-    })
+   this.columnDefs[0].hide = this.hideReqBtns
   }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();

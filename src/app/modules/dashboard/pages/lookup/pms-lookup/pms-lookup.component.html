@@ -8,16 +8,17 @@
         <p class="descHeader">(List of PMS Overview)</p>
       </div>
 
-      <!-- <div class="col-sm-1 text-right closeIcn">
+      <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
 
 <mat-dialog-content class="mat-typography">
-  <div class="col-sm-12 justify-content-end ag-toolBar">
-    <span class="m-0">Total Records: {{ totalRowCount }}</span>
+  <div class="col-sm-12  ag-toolBar">
+    <span class="m-0">{{data.moduleName}}</span>
+    <span class="m-0 right-float">Total Records: {{ totalRowCount }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12">

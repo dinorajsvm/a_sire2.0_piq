@@ -34,6 +34,8 @@ declare function mdldmsnavigatenewtab(
 })
 export class LookupDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
+  hideReqBtns: boolean = false;
+
   totalRowCount = 0;
   totalRowInternalData = 0;
   private gridApi!: GridApi;
@@ -48,6 +50,7 @@ export class LookupDialogComponent implements OnInit {
       headerName: 'Auto Sync',
       sortable: false,
       filter: false,
+      hide: this.hideReqBtns,
       flex: 1,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
@@ -135,6 +138,7 @@ export class LookupDialogComponent implements OnInit {
       headerName: 'Auto Sync',
       flex: 1,
       sortable: false,
+      hide: this.hideReqBtns,
       filter: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
@@ -217,16 +221,6 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
   ];
-  public statusBar: {
-    statusPanels: StatusPanelDef[];
-  } = {
-    statusPanels: [
-      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
-    ],
-  };
   rowShipData: any = [];
   rowInternalData: any = [];
   getRowDatas: any = [];
@@ -235,9 +229,7 @@ export class LookupDialogComponent implements OnInit {
   isOnlyInterVisit = false;
   enableDiv: boolean = false;
   userDetails: any;
-  hideReqBtns: boolean = false;
   public singleRowSelection: 'single' | 'multiple' = 'single';
-
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
@@ -258,6 +250,7 @@ export class LookupDialogComponent implements OnInit {
     private _storage: StorageService,
     private _loaderService: LoaderService
   ) {
+    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.referenceId = this.route.snapshot.paramMap.get('id');
     this.frameworkComponents = {
@@ -301,6 +294,8 @@ export class LookupDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLookUpVisit();
+    this.columnDefs[0].hide = this.hideReqBtns;
+    this.internalColumnDefs[0].hide = this.hideReqBtns   
   }
 
   getLookUpVisit() {
@@ -332,9 +327,7 @@ export class LookupDialogComponent implements OnInit {
         this.rowInternalData && this.rowInternalData.length > 0
           ? this.rowInternalData.length
           : 0;
-      this.BudgetService.getEditVisible().subscribe((res: any) => {
-        this.hideReqBtns = res;
-      });
+    
     });
   }
   onFilterChanged() {

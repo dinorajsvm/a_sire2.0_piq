@@ -370,7 +370,6 @@ export class PiqReportComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
-      // vesseltypecode: 'vt002',
     };
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
@@ -582,26 +581,6 @@ export class PiqReportComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
   }
-
-  // prTabEnabling(alldata: any) {
-  //   alldata.forEach((item: any) => {
-  //     item.values.forEach((val: any) => {
-  //       val.question.forEach((ques: any) => {
-  //         ques.subQuestion.forEach((subQues: any) => {
-  //           if (subQues.subName === 'Vessel Type' && subQues.qid === 'Q133') {
-  //             this.vesselSelection = subQues.answer;
-  //             if (this.vesselSelection != '') {
-  //               this.enablePRTab = false;
-  //               this.BudgetService.setVesselTypeData(this.vesselSelection);
-  //             } else {
-  //               this.enablePRTab = true;
-  //             }
-  //           }
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
 
   hideSideBar(event: any) {
     this.isLeftIcon = !this.isLeftIcon;
@@ -3046,6 +3025,8 @@ export class PiqReportComponent implements OnInit {
 
   home() {
     this.router.navigate(['/sire/piq-landing/']);
+    this.BudgetService.setEditVisible(false);
+    localStorage.setItem('setEditVisible', 'false')
   }
   disableBtn = false;
   edit() {

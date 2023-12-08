@@ -3,7 +3,15 @@
     <div class="row">
       <div class="col-sm-8">
         <h4 class="header">2.8. General Information</h4>
-        <p class="descHeader">(List of Inspection Data in last 18 months)</p>
+        <p class="descHeader" *ngIf="isChecked && !isViewAll">
+          (List of inspection in last 18 months)
+        </p>
+        <p class="descHeader" *ngIf="!isChecked && !isViewAll">
+          (List of external inspection in last 18 months)
+        </p>
+        <p class="descHeader" *ngIf="isChecked && isViewAll">
+          (List of inspection and external inspection in last 18 months)
+        </p>
       </div>
 
       <div class="col-sm-3 text-center" style="padding: 15px 0 0 0">
@@ -34,19 +42,21 @@
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
-      <!-- <div class="col-sm-1 text-right closeIcn">
+      <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
 <div mat-dialog-content class="mat-typography">
   <div
-    class="col-sm-12 justify-content-end ag-toolBar"
+    class="col-sm-12  ag-toolBar"
     *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
     style="margin-top: 10px"
   >
-    <span class="m-0">Total Records: {{ totalRowCount }}</span>
+    <span class="m-0" *ngIf="!isChecked && !isViewAll">Suggested</span>
+    <span class="m-0" *ngIf="isChecked && !isViewAll">All Inspection</span>
+    <span class="m-0 right-float">Total Records: {{ totalRowCount }}</span>
   </div>
   <div
     class="row"
@@ -69,18 +79,16 @@
         (filterChanged)="onFilterChanged()"
       >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
   <div
-    class="col-sm-12 justify-content-end ag-toolBar"
+    class="col-sm-12  ag-toolBar"
     *ngIf="isChecked && isViewAll"
     style="margin-top: 10px"
   >
-    <span class="m-0"
-      >Total Records: {{ totalPSCRowCount }}</span
-    >
+    <span class="m-0">All Inspection</span>
+    <span class="m-0 right-float">Total Records: {{ totalPSCRowCount }}</span>
   </div>
   <div class="row" *ngIf="isChecked && isViewAll">
     <div class="col-sm-12">
@@ -106,11 +114,12 @@
   </div>
 
   <div
-    class="col-sm-12 justify-content-end ag-toolBar"
+    class="col-sm-12  ag-toolBar"
     style="margin-top: 10px"
     *ngIf="isChecked && isViewAll"
   >
-    <span class="m-0"
+    <span class="m-0">Suggested</span>
+    <span class="m-0 right-float"
       >Total Records: {{ totalNonPSCRowCount }}</span
     >
   </div>

@@ -5,8 +5,10 @@
         <h4 class="header">2.1 Certificate</h4>
         <p class="descHeader">(List of Vessel Certificate for last 18 month)</p>
       </div>
-
-      <div class="col-sm-1 text-right closeIcn" style="padding-top: 10px;padding-right: 0;">
+      <div
+        class="col-sm-1 text-right closeIcn"
+        style="padding-top: 10px; padding-right: 0"
+      >
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
     </div>
@@ -14,8 +16,9 @@
 </div>
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-12">
-    <div class="col-sm-12 justify-content-end ag-toolBar" >
-      <span class="m-0">Total Records: {{ totalRowCount }}</span>
+    <div class="col-sm-12  ag-toolBar">
+      <span class="m-0">Vessel Certificate</span>
+      <span class="m-0 right-float">Total Records: {{ totalRowCount }}</span>
     </div>
     <div class="row">
       <div class="col-sm-12">
@@ -26,13 +29,13 @@
           [columnDefs]="columnDefs"
           [defaultColDef]="defaultColDef"
           [rowGroupPanelShow]="rowGroupPanelShow"
-          [tooltipShowDelay]="tooltipShowDelay" [groupDisplayType]="groupDisplayType"
+          [tooltipShowDelay]="tooltipShowDelay"
+          [groupDisplayType]="groupDisplayType"
           (gridReady)="onGridReady($event)"
           (cellClicked)="onCellClicked($event)"
           (filterChanged)="onFilterChanged()"
-          >
+        >
         </ag-grid-angular>
-        <!-- [statusBar]="statusBar" -->
       </div>
     </div>
   </div>

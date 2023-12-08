@@ -273,7 +273,12 @@
                             <!-- [innerHTML]="highlightSearchText(heading.header)" -->
                             {{ heading.header }}
                           </div>
-                          <div class="wte-spc">
+                          <div
+                            class="wte-spc"
+                            *ngIf="
+                              heading && heading.values && heading.values.length > 0
+                            "
+                          >
                             ({{ heading.filledCount }} /
                             {{
                               heading && heading.values && heading.values.length

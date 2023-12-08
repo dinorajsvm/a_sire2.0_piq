@@ -30,6 +30,8 @@ export class ExceptionQuestionComponent implements OnInit {
       headerName: 'Auto Sync',
       width: 100,
       field: 'autoSync',
+      sortable: false,
+      filter: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),

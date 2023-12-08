@@ -46,6 +46,9 @@ export class PscComponent {
     {
       headerName: 'Auto Sync',
       width: 100,
+      sortable: false,
+      filter: false,
+      hide: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -107,16 +110,6 @@ export class PscComponent {
       flex: 1,
     },
   ];
-  public statusBar: {
-    statusPanels: StatusPanelDef[];
-  } = {
-    statusPanels: [
-      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
-    ],
-  };
   syncData: any[] = [];
   rowData: any[] = [];
   isViewAll = false;
@@ -143,7 +136,8 @@ export class PscComponent {
     private datePipe: DatePipe,
     private _storage: StorageService,
     private _loaderService: LoaderService
-  ) {
+  ) {    
+    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ApplyRendererComponent,
@@ -219,9 +213,7 @@ export class PscComponent {
 
   ngOnInit(): void {
     this.getPscDetail();
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
-      this.hideReqBtns = res;
-    });
+    this.columnDefs[0].hide = this.hideReqBtns;
   }
 
   onReset() {

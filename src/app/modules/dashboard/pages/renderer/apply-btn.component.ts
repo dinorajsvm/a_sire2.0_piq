@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -24,10 +23,12 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 export class ApplyRendererComponent implements ICellRendererAngularComp {
   params: any;
   label!: string;
+  hideReqBtns = false
 
   agInit(params: any): void {
     this.params = params;
     this.label = this.params.label || null;
+    console.log(localStorage.getItem('setEditVisible'), '989');
   }
 
   refresh(params?: any): boolean {

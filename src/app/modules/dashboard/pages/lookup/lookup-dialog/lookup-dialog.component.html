@@ -7,6 +7,13 @@
           (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
       </div>
+      <div
+        *ngIf="enableDiv"
+        class="col-sm-1 text-right closeIcn"
+        style="padding-top: 10px; padding-right: 0"
+      >
+        <mat-icon (click)="onDialogClose()">close</mat-icon>
+      </div>
       <div class="col-sm-7" *ngIf="!enableDiv">
         <h4 class="header">2.2. Management Oversight</h4>
         <p class="descHeader" *ngIf="isOnlyShipVisit && !isViewAll">
@@ -54,17 +61,20 @@
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
-      <!-- <div class="col-sm-1 text-right closeIcn">
+      <div
+        *ngIf="!enableDiv"
+        class="col-sm-1 text-right closeIcn"
+        style="padding-top: 10px; padding-right: 0"
+      >
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
 <mat-dialog-content class="mat-typography">
-  <div class="col-sm-12 justify-content-end ag-toolBar" *ngIf="isOnlyShipVisit">
-    <span class="m-0"
-      >Total Records: {{ totalRowCount  }}</span
-    >
+  <div class="col-sm-12 ag-toolBar" *ngIf="isOnlyShipVisit">
+    <span class="m-0">Ship Visit Report</span>
+    <span class="m-0 right-float">Total Records: {{ totalRowCount }}</span>
   </div>
   <div class="row">
     <div class="col-sm-12" *ngIf="isOnlyShipVisit">
@@ -85,16 +95,16 @@
         (cellClicked)="onCellClicked($event)"
       >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
   <div
-    class="col-sm-12 justify-content-end ag-toolBar"
+    class="col-sm-12 ag-toolBar"
     *ngIf="this.isOnlyInterVisit"
     style="margin-top: 10px"
   >
-    <span class="m-0"
-      >Total Records: {{ totalRowInternalData  }}</span
+    <span class="m-0">Internal Audit Report</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ totalRowInternalData }}</span
     >
   </div>
   <div class="row">
@@ -115,7 +125,6 @@
         (cellClicked)="onCellClicked($event)"
       >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 

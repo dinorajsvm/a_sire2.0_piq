@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -16,7 +15,12 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
         border: 1px solid #19c37d;
       }
     </style>
-    <button mat-button class="downloadBtn" type="submit" (click)="onClick($event)">
+    <button
+      mat-button
+      class="downloadBtn"
+      type="submit"
+      (click)="onClick($event)"
+    >
       Apply
     </button>
   `,
@@ -24,22 +28,26 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 export class ButtonRendererComponent implements ICellRendererAngularComp {
   params: any;
   label!: string;
+  hideReqBtns = false;
 
   agInit(params: any): void {
     this.params = params;
     this.label = this.params.label || null;
+    console.log(localStorage.getItem('setEditVisible'), 'poip');
+    
+   
   }
 
   refresh(params?: any): boolean {
     return true;
   }
 
-
   onClick($event: any) {
     if (this.params.onClick instanceof Function) {
       this.params.node.data.visitfromdate = new Date(
         this.params.node.data.visitfromdate
-      );   this.params.node.data.visittodate = new Date(
+      );
+      this.params.node.data.visittodate = new Date(
         this.params.node.data.visittodate
       );
       // put anything into params u want pass into parents component

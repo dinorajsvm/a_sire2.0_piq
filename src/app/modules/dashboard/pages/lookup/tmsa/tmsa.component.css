@@ -33,11 +33,6 @@
   margin: 0;
 }
 
-
-.right-float {
-  position: absolute;
-  right: 10px;
-}
 .close_mark {
   border-radius: 10px;
   background: #dee1f0;

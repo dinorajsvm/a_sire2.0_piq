@@ -67,7 +67,7 @@ export class PIQSummaryComponent implements OnInit {
   private gridApi!: GridApi;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow:any  = 'always';
+ 
   enableViewMode: boolean = true;
   hideReqBtns: boolean = false;
 
@@ -75,7 +75,6 @@ export class PIQSummaryComponent implements OnInit {
   public tooltipHideDelay = 20000;
   public gridOptions: GridOptions = {};
   columnDefs: ColDef[] = [
-    // { field: 'serialNumber', headerName: 'S.No', width: 70 },
     {
       field: 'topics',
       headerName: 'Header Topics',
@@ -202,9 +201,7 @@ export class PIQSummaryComponent implements OnInit {
   photoRepImgCounts: any;
   getPlannedSubDate: any;
   getOriginator: any;
-  // dateFormat(event: any) {
-  //   return this.datePipe.transform(event.crdate, 'dd-MMM-yyyy HH:mm:ss');
-  // }
+
   dateFormat(params: any) {
     const crdate = params.data.crdate;
     return crdate
@@ -473,7 +470,6 @@ export class PIQSummaryComponent implements OnInit {
       dateField: [''],
       TextAreaField: [''],
       wrkFlowTextArea: [''],
-      // Initialize with an initial or default value
     });
   }
   onInputBlur() {
@@ -498,6 +494,10 @@ export class PIQSummaryComponent implements OnInit {
   onWorkflow(type?: any, event?: any) {
     if (type == 'approve') {
       this.BudgetService.setEditVisible(this.hideEdit);
+      localStorage.setItem('setEditVisible', 'true')
+    } else {
+      this.BudgetService.setEditVisible(false);
+      localStorage.setItem('setEditVisible', 'false')
     }
     this.getAnswerValue(type);
     event.preventDefault();
@@ -545,20 +545,6 @@ export class PIQSummaryComponent implements OnInit {
           this.disableResAprFlowBtn = true;
         }
       }
-
-      // this.BudgetService.getEnableBtn().subscribe((res: any) => {
-      //   this.disableSubFlowBtn = res;
-      //   // if (this.getSubWrkFlowRank == this.getRank) {
-      //   //   this.disableSubFlowBtn = false;
-      //   // } else {
-      //   //   this.disableSubFlowBtn = true;
-      //   // }
-      //   if (this.getResAprWrkFlowRank == this.getRank) {
-      //     this.disableResAprFlowBtn = false;
-      //   } else {
-      //     this.disableResAprFlowBtn = true;
-      //   }
-      // });
     });
   }
 
@@ -579,6 +565,8 @@ export class PIQSummaryComponent implements OnInit {
   getMasterDetails() {
     const payload = {
       instanceid: this.referenceNumber,
+      presettype: 'n',
+      companycode: this.userDetails.companyCode,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.getWorkFlowAction = res.wrkflow;
@@ -593,14 +581,6 @@ export class PIQSummaryComponent implements OnInit {
         this.quickNotesInput = res.quicknotes;
       }
 
-      // if (
-      //   this.getOriginator == 'CNT001' &&
-      //   this.userDetails?.cntrlType === 'CNT002'
-      // ) {
-      //   this.hideReqBtns = true;
-      //   this.hideBtns = true;
-      //   this.BudgetService.setEditVisible(this.hideBtns);
-      // }
       if (data && data) {
         this.modifiedrowData = data;
       }
@@ -609,7 +589,8 @@ export class PIQSummaryComponent implements OnInit {
         const data = JSON.parse(res.datasyncgrid);
         this.expectedRowData = data;
       }
-
+      this.BudgetService.setEditVisible(false);
+      localStorage.setItem('setEditVisible', 'false')
       if (this.getOriginator == 'CNT002') {
         if (
           (this.getWorkFlowAction === 'Submitted' &&
@@ -618,9 +599,9 @@ export class PIQSummaryComponent implements OnInit {
             this.userDetails?.cntrlType === 'CNT001' &&
             this.getResAprWrkFlowRank != this.userDetails?.rankCode)
         ) {
-          // (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001') || (this.getWorkFlowAction === 'Approved' && this.userDetails?.cntrlType === 'CNT001')
           this.hideBtns = true;
-          this.BudgetService.setEditVisible(this.hideBtns);
+          this.BudgetService.setEditVisible(true);
+          localStorage.setItem('setEditVisible', 'true')
           this.hideReqBtns = true;
           this.viewMode = true;
         }
@@ -636,70 +617,24 @@ export class PIQSummaryComponent implements OnInit {
           this.hideReqBtns = true;
           this.hideBtns = true;
           this.viewMode = true;
-          this.BudgetService.setEditVisible(this.hideBtns);
+          this.BudgetService.setEditVisible(true);
+          localStorage.setItem('setEditVisible', 'true')
         }
       }
 
-      // if (
-      //   this.getOriginator == 'CNT001' &&
-      //   this.userDetails?.cntrlType === 'CNT002'
-      // ) {
-      //   this.hideReqBtns = true;
-      //   this.hideBtns=true
-      //   this.BudgetService.setEditVisible(this.hideBtns);
-      // }
-
-      // if (
-      //   this.getWorkFlowAction === 'Submitted' && this.getOriginator == 'CNT002' &&
-      //   this.userDetails?.cntrlType === 'CNT002'
-      // ) {
-
-      //   this.hideBtns=true
-      //   this.BudgetService.setEditVisible(this.hideBtns);
-      //   this.hideReqBtns = true;
-      //   this.viewMode = true;
-      // }
       if (
         this.getOriginator == 'CNT001' &&
         this.userDetails?.cntrlType === 'CNT001' &&
         this.getWorkFlowAction === 'Approved'
       ) {
         this.hideBtns = true;
-        this.BudgetService.setEditVisible(this.hideBtns);
+        this.BudgetService.setEditVisible(true);
+        localStorage.setItem('setEditVisible', 'true')
         this.hideReqBtns = true;
       }
-
-      // if (this.route.snapshot.paramMap.get('type') == 'view') {
-      //   this.viewMode = true;
-      // }
     });
   }
 
-  // getLastModifiedDatas() {
-  //   const payload = {
-  //     instanceid: this.referenceNumber,
-  //   };
-  //   this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-  //     if (res.quicknotes === 'null') {
-  //       this.quickNotesInput = '';
-  //     } else {
-  //       this.quickNotesInput = res.quicknotes;
-  //     }
-  //     this.getWorkFlowAction = res.wrkflow;
-  //     this.getVesselCode = res.vesselcode;
-  //     this.getOriginator = res.orginator;
-  //     if (
-  //       this.getOriginator == 'CNT001' &&
-  //       this.userDetails?.cntrlType === 'CNT002'
-  //     ) {
-  //       this.hideReqBtns = true;
-  //     }
-  //     const data = JSON.parse(res.lastMod);
-  //     if (data && data) {
-  //       this.modifiedrowData = data;
-  //     }
-  //   });
-  // }
   certficateGridDatas() {
     this.BudgetService.getCertificateList(
       this.userDetails.companyCode,
@@ -730,8 +665,6 @@ export class PIQSummaryComponent implements OnInit {
       (res: any) => {
         this.submitData = res.response.MergedData;
         this.answerDetails = res.response;
-
-        // this.quickNotesInput = this.answerDetails.QuickNotes.Value;
         const isNotNull = Object.values(this.answerDetails).every(
           (value) => value !== ''
         );
@@ -841,8 +774,8 @@ export class PIQSummaryComponent implements OnInit {
   getQuestionAnswerDatas(type?: any) {
     const payload = {
       instanceid: this.referenceNumber,
-      presettype: 'N',
-      // "usercode": this.userDetails.userCode
+      presettype: 'n',
+      companycode: this.userDetails.companyCode,
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
@@ -870,17 +803,7 @@ export class PIQSummaryComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
   }
-  // getSSDatas() {
-  //   const payload = {
-  //     instanceid: this.referenceNumber,
-  //   };
-  //   this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-  //     if (res && res.datasyncgrid && res.datasyncgrid != '') {
-  //       const data = JSON.parse(res.datasyncgrid);
-  //       this.expectedRowData = data;
-  //     }
-  //   });
-  // }
+
   onSubmitQuickNotes() {
     const payload = {
       instanceid: this.referenceNumber,
@@ -895,6 +818,8 @@ export class PIQSummaryComponent implements OnInit {
   getplannedDate() {
     const payload = {
       instanceid: this.referenceNumber,
+      presettype: 'n',
+      companycode: this.userDetails.companyCode,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.getPlannedSubDate = this.datePipe.transform(

@@ -561,6 +561,7 @@ export class SafetyManagementComponent implements OnInit {
     private _storage: StorageService,
     private _loaderService: LoaderService
   ) {
+    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       myDateEditor: DateRendererComponent,
@@ -574,9 +575,6 @@ export class SafetyManagementComponent implements OnInit {
   hideReqBtns: boolean = false;
   ngOnInit() {
     this.safetyManagementDetails();
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
-      this.hideReqBtns = res;
-    });
   }
   getEditFlag(event: any) {
     return true;

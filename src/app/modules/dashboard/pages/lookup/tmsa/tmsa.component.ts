@@ -60,6 +60,7 @@ export class TMSAComponent implements OnInit {
       flex: 1,
       sortable: false,
       filter: false,
+      hide: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -156,6 +157,7 @@ export class TMSAComponent implements OnInit {
       flex: 1,
       sortable: false,
       filter: false,
+      hide: false,
       cellRenderer: 'buttonRenderer',
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -241,6 +243,7 @@ export class TMSAComponent implements OnInit {
     {
       headerName: 'Auto Sync',
       flex: 1,
+      hide: false,
       cellRenderer: 'buttonRenderer',
       sortable: false,
       filter: false,
@@ -332,6 +335,7 @@ export class TMSAComponent implements OnInit {
     private _storage: StorageService,
     private _loaderService: LoaderService
   ) {
+    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ApplyRendererComponent,
@@ -365,7 +369,7 @@ export class TMSAComponent implements OnInit {
         this.isShowInternalShip = true;
         this.isShowInternalExternal = false;
       } else if (this.data.qid === '3.2.3' || this.data.qid === '3.2.4') {
-        if (chipType === 'External Audit Report') {
+        if (chipType === 'External Inspection Report') {
           this.showExternal();
         } else if (chipType === 'ViewAll') {
           this.showView();
@@ -404,10 +408,9 @@ export class TMSAComponent implements OnInit {
   hideReqBtns: boolean = false;
   ngOnInit(): void {
     this.getTmsaDetail();
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
-      this.hideReqBtns = res;
-    });
-
+    this.columnExternalDefs[0].hide = this.hideReqBtns;
+    this.columnInternalDefs[0].hide = this.hideReqBtns;
+    this.columnShipDefs[0].hide = this.hideReqBtns;
     if (
       this.data.qid === '3.2.1' ||
       this.data.qid === '3.2.2' ||

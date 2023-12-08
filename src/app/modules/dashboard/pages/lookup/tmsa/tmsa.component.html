@@ -25,7 +25,7 @@
         </p>
 
         <p class="descHeader" *ngIf="isShowView && isShowInternalExternal">
-          (List of Internal Audit and External Audit Report for last 24 months)
+          (List of Internal Audit and External Inspection Report for last 24 months)
         </p>
       </div>
 
@@ -45,10 +45,10 @@
           <mat-chip-option
             color="primary"
             [selected]="isShowExternal"
-            (click)="changeToggle('External Audit Report')"
+            (click)="changeToggle('External Inspection Report')"
             *ngIf="isShowInternalExternal"
           >
-            External Audit Report
+            External Inspection Report
           </mat-chip-option>
 
           <mat-chip-option
@@ -67,9 +67,9 @@
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
-      <!-- <div class="col-sm-1 text-right">
+      <div class="col-sm-1 text-right">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
@@ -137,7 +137,7 @@
     style="margin-top: 10px"
     *ngIf="isShowExternal"
   >
-    <span class="m-0">External Audit Report</span>
+    <span class="m-0">External Inspection Report</span>
     <span class="m-0 right-float"
       >Total Records: {{ totalRowExternalCount }}</span
     >
@@ -255,7 +255,7 @@
     style="margin-top: 10px"
     *ngIf="isShowInternalExternal && isShowView"
   >
-    <span class="m-0">External Audit Report</span>
+    <span class="m-0">External Inspection Report</span>
     <span class="m-0 right-float"
       >Total Records: {{ totalRowExternalCount }}</span
     >
