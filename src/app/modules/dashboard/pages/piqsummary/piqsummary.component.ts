@@ -575,6 +575,13 @@ export class PIQSummaryComponent implements OnInit {
       this.rowData = JSON.parse(res.chapterdata);
       const data = JSON.parse(res.lastMod);
 
+      if (this.route.snapshot.paramMap.get('type') == 'view') {
+        if(this.getOriginator=='CNT002'&& this.getWorkFlowAction == 'Inprogress' &&
+        this.userDetails?.cntrlType === 'CNT001'){
+          this.BudgetService.setEnableViewMode(false);
+        }
+      }
+
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';
       } else {
@@ -594,10 +601,11 @@ export class PIQSummaryComponent implements OnInit {
       if (this.getOriginator == 'CNT002') {
         if (
           (this.getWorkFlowAction === 'Submitted' &&
-            this.userDetails?.cntrlType === 'CNT002') ||
+            this.userDetails?.cntrlType === 'CNT002') || (this.getWorkFlowAction === 'ReAssigned' &&
+            this.userDetails?.cntrlType === 'CNT001')||
           (this.getWorkFlowAction != 'Inprogress' &&
             this.userDetails?.cntrlType === 'CNT001' &&
-            this.getResAprWrkFlowRank != this.userDetails?.rankCode)
+            this.getResAprWrkFlowRank != this.userDetails?.rankCode)||this.getWorkFlowAction === 'Approved'
         ) {
           this.hideBtns = true;
           this.BudgetService.setEditVisible(true);

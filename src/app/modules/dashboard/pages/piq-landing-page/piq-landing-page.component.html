@@ -10,62 +10,34 @@
       </div>
     </div>
   </div>
-  <div
-    class="col-sm-12 justify-content-end ag-toolBar"
-    *ngIf="userDetails?.cntrlType === 'CNT002'"
-  >
+  <div class="col-sm-12 justify-content-end ag-toolBar"
+    *ngIf="userDetails?.cntrlType === 'CNT002'|| userDetails?.cntrlType === 'CNT001'">
     <span class="m-0">Total Records: {{ totalRowCount }}</span>
-  </div>
-  <div
-    class="col-sm-12 justify-content-end ag-toolBar"
-    *ngIf="userDetails?.cntrlType === 'CNT001'"
-  >
-    <span class="m-0">Total Records: {{ totalRowCount }}</span>
+    <div>
+      <mat-icon class="cursor-pointer ag-menuIcn" [matMenuTriggerFor]="agToolbar">apps</mat-icon>
+      <mat-menu class="mat-menu-panel myMenu" #agToolbar="matMenu" xPosition="before">
+        <app-ag-grid-toolbar [agGridToolbar]="agGridToolbar"></app-ag-grid-toolbar>
+      </mat-menu>
+    </div>
   </div>
   <div class="row">
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <ag-grid-angular
-        style="height: calc(100vh - 140px)"
-        class="ag-theme-balham"
-        [columnDefs]="shipColumnDefs"
-        [defaultColDef]="defaultColDef"
-        [rowGroupPanelShow]="rowGroupPanelShow"
-        [groupDisplayType]="groupDisplayType"
-        [gridOptions]="gridOptions"
-        [tooltipShowDelay]="tooltipShowDelay"
-        [animateRows]="true"
-        [suppressMenuHide]="true"
-        [masterDetail]="true"
-        [embedFullWidthRows]="true"
-        (cellDoubleClicked)="onCellDoubleClicked($event)"
-        [rowData]="rowData"
-        [components]="frameWorkComponent"
-        (gridReady)="onGridReady($event)"
-        (filterChanged)="onFilterChanged()"
-      >
+      <ag-grid-angular style="height: calc(100vh - 140px)" class="ag-theme-balham" [columnDefs]="shipColumnDefs"
+        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
+        [gridOptions]="gridOptions" [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true"
+        [masterDetail]="true" [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)"
+        [rowData]="rowData" [components]="frameWorkComponent" (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()">
       </ag-grid-angular>
     </div>
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <ag-grid-angular
-        style="height: calc(100vh - 140px)"
-        class="ag-theme-balham"
-        [columnDefs]="shoreColumnDefs"
-        [defaultColDef]="defaultColDef"
-        [rowGroupPanelShow]="rowGroupPanelShow"
-        [groupDisplayType]="groupDisplayType"
-        [gridOptions]="gridOptions"
-        [animateRows]="true"
-        [suppressMenuHide]="true"
-        [masterDetail]="true"
-        [embedFullWidthRows]="true"
-        (cellDoubleClicked)="onCellDoubleClicked($event)"
-        [rowData]="rowData"
-        [components]="frameWorkShoreComponent"
-        (gridReady)="onGridReady($event)"
-        (filterChanged)="onFilterChanged()"
-      >
+      <ag-grid-angular style="height: calc(100vh - 140px)" class="ag-theme-balham" [columnDefs]="shoreColumnDefs"
+        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
+        [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
+        [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData"
+        [components]="frameWorkShoreComponent" (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">
       </ag-grid-angular>
     </div>
   </div>

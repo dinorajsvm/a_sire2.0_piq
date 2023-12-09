@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
 import { AgGridMenuShoreComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu-shore.component';
 import { DatePipe } from '@angular/common';
+import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
 
 @Component({
   selector: 'app-piq-landing-page',
@@ -24,8 +25,10 @@ import { DatePipe } from '@angular/common';
 })
 export class PIQLandingPageComponent implements OnInit {
   frameWorkComponent: any;
-  frameWorkShoreComponent: any; totalRowCount = 0;
-  gridApi: any
+  frameWorkShoreComponent: any; 
+  totalRowCount = 0;
+  gridApi: any;
+  agGridToolbar: any = {};
   shipColumnDefs: any[] = [
     {
       field: 'action',
@@ -241,6 +244,38 @@ export class PIQLandingPageComponent implements OnInit {
   public rowGroupPanelShow: any = 'always';
 
   public gridOptions: GridOptions = {};
+  gridColumnApi: any;
+
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+    this.agGridToolbar['exportAsCSV'] = this._agGridService.exportAsCSV.bind(
+      this,
+      this.gridApi,
+      'PIQ'
+    );
+    this.agGridToolbar['exportAsExcel'] = this._agGridService.exportAsExcel.bind(
+      this,
+      this.gridApi,
+      'PIQ'
+    );
+    this.agGridToolbar['columnFilter'] = this._agGridService.columnFilter.bind(
+      this,
+      this.gridApi
+    );
+    this.agGridToolbar['filter'] = this._agGridService.filter.bind(
+      this,
+      this.gridApi
+    );
+    // this.agGridToolbar['saveTemplate'] = this.updateTemplate.bind(this);
+
+    // this.agGridToolbar['saveAsTemplate'] = this.saveAsTemplate.bind(this,this.gridColumnApi,this.saveAsTemplateList);
+    // this.agGridToolbar['deleteTemplate'] = this.deleteTemplate.bind(this);
+    // this.agGridToolbar['resetTemplate'] = this.resetTemplate.bind(this);
+    // this._utils.autosizeColumnsIfNeeded(this.gridApi);
+    // this.gridApi.setSideBarVisible(true);
+  }
 
   rowData: any[] = [];
   getRefNo: any;
@@ -257,7 +292,7 @@ export class PIQLandingPageComponent implements OnInit {
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
     public dialog: MatDialog,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,private _agGridService:AgGridService,
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameWorkComponent = {
@@ -374,10 +409,7 @@ export class PIQLandingPageComponent implements OnInit {
       panelClass: 'vesselSelection-dialog-container',
     });
   }
-  onGridReady(params: any) {
-    this.gridApi = params.api;
-    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
-  }
+
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }

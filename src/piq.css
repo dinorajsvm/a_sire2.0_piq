@@ -358,10 +358,13 @@
   display: flex;
   padding: 3px 15px;
   border-bottom: none;
+  padding-right: 10px !important;
 }
+
 .ag-toolBar span {
   font-size: 12px;
   font-weight: 500;
+  padding-right: 5px;
 }
 /* AG-GRID STYLE END */
 
