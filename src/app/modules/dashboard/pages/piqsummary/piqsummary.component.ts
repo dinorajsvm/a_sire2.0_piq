@@ -64,10 +64,11 @@ export class PIQSummaryComponent implements OnInit {
   checkboxBoolean: any[] = [];
   pendingCount = 0;
   photoRowData: any[] = [];
+  tempRowData: any[] = [];
   private gridApi!: GridApi;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
- 
+
   enableViewMode: boolean = true;
   hideReqBtns: boolean = false;
 
@@ -353,78 +354,17 @@ export class PIQSummaryComponent implements OnInit {
         this.photoRowData.push(resp);
       });
     });
-    this.BudgetService.getSummaryGridData().subscribe((res: any) => {
-      this.getMasterDetails();
-      // this.getLastModifiedDatas();
-      // this.getSSDatas();
-      this.rowData = [];
-      this.rowData = res;
-      this.certficateGridDatas();
-      if (res) {
-        res.forEach((data: any) => {
-          let questions: any[] = [];
-          let questions1: any[] = [];
-          let totalQuest: any[] = [];
-          let status: any;
-          let totalQuestCount = 0;
-          let filledQuestionCount = 0;
-          let answerQuestionCount = 0;
-          let time: any;
-          data.values.forEach((filledQus: any, index: any) => {
-            if (!(filledQus && filledQus.lastModified)) {
-              filledQus.lastModified = '';
-            }
-            if (
-              data &&
-              data.values &&
-              data.values[index] &&
-              data.values[index].lastModified
-            ) {
-              time = Math.max(
-                new Date(data.values[index].lastModified).getTime()
-              );
-            }
+    this.getMasterDetails();
 
-            filledQus.question.forEach((question: any) => {
-              totalQuest.push(question.subQuestion.length);
-              questions.push(
-                question.subQuestion.filter((x: any) => x.answer !== '').length
-              );
-              questions1.push(
-                question.subQuestion.filter((y: any) => y.answer === '').length
-              );
-            });
-          });
-          totalQuest.forEach((count: any) => {
-            totalQuestCount = totalQuestCount + count;
-          });
-          questions.forEach((count: any) => {
-            filledQuestionCount = filledQuestionCount + count;
-          });
-          questions1.forEach((count: any) => {
-            answerQuestionCount = answerQuestionCount + count;
-          });
-          if (totalQuestCount - filledQuestionCount == 0) {
-            status = 'Completed';
-          } else {
-            status = 'Inprogress';
-          }
-          const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
-          this.rowData.push({
-            serialNumber: data.id,
-            topics: data.header.replace(pattern, ''),
-            status: status,
-            totalQuestion: totalQuestCount,
-            filledQuestion: filledQuestionCount,
-            pendingQuestion: totalQuestCount - filledQuestionCount,
-            lastModified: time
-              ? this.datePipe.transform(new Date(time), 'yyyy-MM-dd HH:mm')
-                ? this.datePipe.transform(new Date(time), 'yyyy-MM-dd HH:mm')
-                : ''
-              : '',
-          });
-        });
-      }
+    this.BudgetService.getSummaryGridData().subscribe((res: any) => {
+      // console.log(this.tempRowData, 'tempRowData');
+
+      // if (this.tempRowData && this.tempRowData.length === 0) {
+      this.rowData = res;
+      //   console.log(this.rowData, 'row');
+
+      // }
+      this.certficateGridDatas();
     });
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
@@ -494,10 +434,10 @@ export class PIQSummaryComponent implements OnInit {
   onWorkflow(type?: any, event?: any) {
     if (type == 'approve') {
       this.BudgetService.setEditVisible(this.hideEdit);
-      localStorage.setItem('setEditVisible', 'true')
+      localStorage.setItem('setEditVisible', 'true');
     } else {
       this.BudgetService.setEditVisible(false);
-      localStorage.setItem('setEditVisible', 'false')
+      localStorage.setItem('setEditVisible', 'false');
     }
     this.getAnswerValue(type);
     event.preventDefault();
@@ -562,6 +502,8 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
+  
+
   getMasterDetails() {
     const payload = {
       instanceid: this.referenceNumber,
@@ -573,11 +515,15 @@ export class PIQSummaryComponent implements OnInit {
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
       this.rowData = JSON.parse(res.chapterdata);
+      this.tempRowData = JSON.parse(res.chapterdata);
       const data = JSON.parse(res.lastMod);
 
       if (this.route.snapshot.paramMap.get('type') == 'view') {
-        if(this.getOriginator=='CNT002'&& this.getWorkFlowAction == 'Inprogress' &&
-        this.userDetails?.cntrlType === 'CNT001'){
+        if (
+          this.getOriginator == 'CNT002' &&
+          this.getWorkFlowAction == 'Inprogress' &&
+          this.userDetails?.cntrlType === 'CNT001'
+        ) {
           this.BudgetService.setEnableViewMode(false);
         }
       }
@@ -597,19 +543,21 @@ export class PIQSummaryComponent implements OnInit {
         this.expectedRowData = data;
       }
       this.BudgetService.setEditVisible(false);
-      localStorage.setItem('setEditVisible', 'false')
+      localStorage.setItem('setEditVisible', 'false');
       if (this.getOriginator == 'CNT002') {
         if (
           (this.getWorkFlowAction === 'Submitted' &&
-            this.userDetails?.cntrlType === 'CNT002') || (this.getWorkFlowAction === 'ReAssigned' &&
-            this.userDetails?.cntrlType === 'CNT001')||
+            this.userDetails?.cntrlType === 'CNT002') ||
+          (this.getWorkFlowAction === 'ReAssigned' &&
+            this.userDetails?.cntrlType === 'CNT001') ||
           (this.getWorkFlowAction != 'Inprogress' &&
             this.userDetails?.cntrlType === 'CNT001' &&
-            this.getResAprWrkFlowRank != this.userDetails?.rankCode)||this.getWorkFlowAction === 'Approved'
+            this.getResAprWrkFlowRank != this.userDetails?.rankCode) ||
+          this.getWorkFlowAction === 'Approved'
         ) {
           this.hideBtns = true;
           this.BudgetService.setEditVisible(true);
-          localStorage.setItem('setEditVisible', 'true')
+          localStorage.setItem('setEditVisible', 'true');
           this.hideReqBtns = true;
           this.viewMode = true;
         }
@@ -626,7 +574,7 @@ export class PIQSummaryComponent implements OnInit {
           this.hideBtns = true;
           this.viewMode = true;
           this.BudgetService.setEditVisible(true);
-          localStorage.setItem('setEditVisible', 'true')
+          localStorage.setItem('setEditVisible', 'true');
         }
       }
 
@@ -637,7 +585,7 @@ export class PIQSummaryComponent implements OnInit {
       ) {
         this.hideBtns = true;
         this.BudgetService.setEditVisible(true);
-        localStorage.setItem('setEditVisible', 'true')
+        localStorage.setItem('setEditVisible', 'true');
         this.hideReqBtns = true;
       }
     });

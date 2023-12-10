@@ -65,7 +65,7 @@ export class PhotoRepositoryComponent implements OnInit {
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
-  
+
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getDefaultImageName();
@@ -75,7 +75,7 @@ export class PhotoRepositoryComponent implements OnInit {
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
-        this.invalidImg = res;
+      this.invalidImg = res;
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
@@ -326,18 +326,19 @@ export class PhotoRepositoryComponent implements OnInit {
     });
   }
 
-  // getImageName() {
-  //   this.BudgetService.getPRImageName().subscribe((res: any) => {
-  //     this.imageNames = res;
-  //   });
-  // }
   getDefaultImageName() {
     const companyCode = this.userDetails.companyCode;
-    this.BudgetService.getPRImagename(companyCode,this.referenceNumber).subscribe((res: any) => {
-      if (res && res.Response) {
+    this.BudgetService.getPRImagename(
+      companyCode,
+      this.referenceNumber
+    ).subscribe((res: any) => {
+      if (
+        res &&
+        ((res.Response && res.Response.length && res.Response.length > 0) ||
+          res.Response)
+      ) {
         let object = JSON.parse(res.Response);
         this.imageNames = object;
-        
       }
     });
   }
@@ -369,12 +370,12 @@ export class PhotoRepositoryComponent implements OnInit {
   getPrDataLists() {
     this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
       this.listDatas = [];
-      
+
       const staticData = JSON.parse(res.response);
       staticData.forEach((res: any) => {
         res.subTopics.forEach((sub: any) => {
-          sub['imagelist']=[]
-        })
+          sub['imagelist'] = [];
+        });
         if (this.trimmedVslType) {
           this.isVslTypeSame = res.topic.includes(this.trimmedVslType);
         }
@@ -698,8 +699,8 @@ export class PhotoRepositoryComponent implements OnInit {
               filepath: data.filepath, // Extract the base64 data from the result
               // mk
               localfilename: data.localfilename,
-              formattedName:formattedName,
-              formattedExtension:formattedExtension,
+              formattedName: formattedName,
+              formattedExtension: formattedExtension,
               // docsize: this.formatSize(data.sizeinbytes),
               sizeinbytes: data.sizeinkb,
             };
@@ -712,18 +713,19 @@ export class PhotoRepositoryComponent implements OnInit {
       this.imageNames.forEach((data: any) => {
         this.listDatas.forEach((res: any) => {
           res.subTopics.forEach((sub: any, index: any) => {
-              if (data.subtopic === sub.subTopicTitle) {
-                sub.imagelist.forEach((list: any) => {
-                  const formattedExtension = list.localfilename.split('.')[1];
-                  const formattedDefName = data.imagename +"."+formattedExtension
-                  list['formattedDefName'] = formattedDefName;
-                  list['defaultImageName'] = data.imagename;
-                });
-              }
-            });
+            if (data.subtopic === sub.subTopicTitle) {
+              sub.imagelist.forEach((list: any) => {
+                const formattedExtension = list.localfilename.split('.')[1];
+                const formattedDefName =
+                  data.imagename + '.' + formattedExtension;
+                list['formattedDefName'] = formattedDefName;
+                list['defaultImageName'] = data.imagename;
+              });
+            }
           });
         });
-      
+      });
+
       // this.uploadedImgDatas.push({
       //   relImages: [],
       //   subTopics: [],

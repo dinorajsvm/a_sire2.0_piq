@@ -1,5 +1,5 @@
 <div style="height: calc(100vh - 45px); padding: 0 5px">
-  <div *ngIf="!isForm" class="overlay">
+  <div *ngIf="isLoader" class="overlay">
     <div class="progress-spinner">
       <mat-spinner></mat-spinner>
     </div>
@@ -143,9 +143,18 @@
                 >Show All Questions</span
               >
             </div>
-            <div class="questIndicator"
-              *ngIf="getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT002' && (getStatus === 'Inprogress'|| getStatus === 'ReAssigned')">
-              <div class="indicators" *ngIf="userDetails?.cntrlType === 'CNT002'">
+            <div
+              class="questIndicator"
+              *ngIf="
+                getOrigination === 'CNT002' &&
+                userDetails?.cntrlType === 'CNT002' &&
+                (getStatus === 'Inprogress' || getStatus === 'ReAssigned')
+              "
+            >
+              <div
+                class="indicators"
+                *ngIf="userDetails?.cntrlType === 'CNT002'"
+              >
                 <span class="indCol shore"></span>
                 <span class="charCount">Shore</span>
               </div>
@@ -158,13 +167,30 @@
                 <span class="charCount">Changed Preset Questions</span>
               </div>
             </div>
-            <div class="questIndicator" *ngIf="(getOrigination === 'CNT001' && userDetails?.cntrlType === 'CNT002')||(getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT002' && getStatus === 'Submitted')||getStatus === 'Approved'">
+            <div
+              class="questIndicator"
+              *ngIf="
+                (getOrigination === 'CNT001' &&
+                  userDetails?.cntrlType === 'CNT002') ||
+                (getOrigination === 'CNT002' &&
+                  userDetails?.cntrlType === 'CNT002' &&
+                  getStatus === 'Submitted') ||
+                getStatus === 'Approved'
+              "
+            >
               <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">All Questions</span>
               </div>
             </div>
-            <div class="questIndicator"*ngIf="getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT001' && getStatus === 'Inprogress'">
+            <div
+              class="questIndicator"
+              *ngIf="
+                getOrigination === 'CNT002' &&
+                userDetails?.cntrlType === 'CNT001' &&
+                getStatus === 'Inprogress'
+              "
+            >
               <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">Ship</span>
@@ -179,7 +205,13 @@
                 <span class="charCount">Changed Preset Questions</span>
               </div>
             </div>
-            <div class="questIndicator"*ngIf="getOrigination === 'CNT001' && userDetails?.cntrlType === 'CNT001'">
+            <div
+              class="questIndicator"
+              *ngIf="
+                getOrigination === 'CNT001' &&
+                userDetails?.cntrlType === 'CNT001'
+              "
+            >
               <!-- <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">Ship</span>
@@ -276,7 +308,9 @@
                           <div
                             class="wte-spc"
                             *ngIf="
-                              heading && heading.values && heading.values.length > 0
+                              heading &&
+                              heading.values &&
+                              heading.values.length > 0
                             "
                           >
                             ({{ heading.filledCount }} /
@@ -358,7 +392,7 @@
                     [class.hidden]="isSearchActive"
                     *ngIf="AllQuestions"
                   >
-                    <div class="content_load_wrap" *ngIf="isForm">
+                    <div class="content_load_wrap">
                       <div
                         class="card-contents"
                         *ngFor="
@@ -995,7 +1029,7 @@
                                             [readonly]="viewMode"
                                             autocomplete="off"
                                             [formControlName]="subq.qid"
-                                            (input)="
+                                            (ngModelChange)="
                                               inputChanges(
                                                 $event,
                                                 subq,
@@ -2472,51 +2506,6 @@
                               {{ guides.guideline }}
                             </div>
                           </div>
-
-                          <!-- <div class="col-sm-3 guideWrap" *ngIf="lookupContainer">
-                            <div class="row">
-                              <div class="col-sm-12 guidLines">
-                                <div class="row">
-                                  <div class="col-sm-10 descTitle">
-                                    Lookup >> 2.1. Certification
-                                  </div>
-                                  <div class="col-sm-2 text-right" style="padding-right: 10px">
-                                    <mat-icon (click)="closeLookup()">close</mat-icon>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-12 p-0">
-                                <div *ngFor="let lookup of manualLookupData">
-                                  <mat-accordion class="card_container">
-                                    <mat-expansion-panel>
-                                      <mat-expansion-panel-header class="content_header">
-                                        <mat-panel-title>
-                                          {{ lookup.certificatename }}
-                                        </mat-panel-title>
-                                      </mat-expansion-panel-header>
-
-                                      <div class="ml-3">
-                                        <span style="font-weight: 500">Reference Id:- </span>
-                                        {{ lookup.refid }}
-                                      </div>
-                                      <div class="ml-3">
-                                        <span style="font-weight: 500">Authority Name:- </span>
-                                        {{ lookup.authorityname}}
-                                      </div>
-                                      <div class="ml-3">
-                                        <span style="font-weight: 500">Date of Issued:- </span>
-                                        {{ lookup.dateofissue }}
-                                      </div>
-                                      <div class="ml-3">
-                                        <span style="font-weight: 500">Valid From:- </span>
-                                        {{ lookup.validfrom }}
-                                      </div>
-                                    </mat-expansion-panel>
-                                  </mat-accordion>
-                                </div>
-                              </div>
-                            </div>
-                          </div> -->
                         </div>
                       </div>
                     </div>
@@ -2582,61 +2571,6 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-3 guideWrap" *ngIf="lookupContainer">
-                <div class="row">
-                  <div class="col-sm-12 guidLines">
-                    <div class="row">
-                      <div class="col-sm-10 descTitle">
-                        Lookup - 2.1. Certification
-                      </div>
-                      <div
-                        class="col-sm-2 text-right"
-                        style="padding-right: 10px"
-                      >
-                        <mat-icon (click)="closeLookup()">close</mat-icon>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 p-0">
-                    <div *ngFor="let lookup of manualLookupData">
-                      <mat-accordion class="card_container">
-                        <mat-expansion-panel>
-                          <mat-expansion-panel-header class="content_header">
-                            <mat-panel-title>
-                              {{ lookup.certificatename }}
-                            </mat-panel-title>
-                          </mat-expansion-panel-header>
-
-                          <div class="ml-3">
-                            <span style="font-weight: 500">Reference Id:- </span
-                            >{{ lookup.refid }}
-                          </div>
-                          <div class="ml-3">
-                            <span style="font-weight: 500"
-                              >Certificate No:- </span
-                            >{{ lookup.certificatenumber }}
-                          </div>
-                          <div class="ml-3">
-                            <span style="font-weight: 500"
-                              >Authority Name:- </span
-                            >{{ lookup.authorityname }}
-                          </div>
-                          <div class="ml-3">
-                            <span style="font-weight: 500"
-                              >Date of Issued:- </span
-                            >{{ lookup.dateofissue }}
-                          </div>
-                          <div class="ml-3">
-                            <span style="font-weight: 500">Valid From:- </span
-                            >{{ lookup.validfrom }}
-                          </div>
-                        </mat-expansion-panel>
-                      </mat-accordion>
                     </div>
                   </div>
                 </div>

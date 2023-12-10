@@ -442,12 +442,6 @@ export class BudgetService {
     return ba;
   }
 
-  getPRImageName() {
-    return this.client
-      .get<any>('assets/question/getImageName.json')
-      .pipe(map((res: any) => res));
-  }
-
   getPRImagename(companycode: any, instanceid: any) {
     return this.client
       .get<any>(
