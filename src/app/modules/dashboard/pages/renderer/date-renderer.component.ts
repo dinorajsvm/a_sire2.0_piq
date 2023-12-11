@@ -1,7 +1,5 @@
 import { DatePipe } from '@angular/common';
-import {
-  Component,
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -15,6 +13,7 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
           class="input-field"
           [(ngModel)]="inputDate"
           [matDatepicker]="picker"
+          [readonly]="true"
           (click)="picker.open()"
         />
         <mat-datepicker-toggle matSuffix [for]="picker">
@@ -50,6 +49,8 @@ export class DateRendererComponent implements ICellEditorAngularComp {
   }
 
   getValue() {
-    return this.inputDate ? this.datePipe.transform(this.inputDate, 'dd-MMM-yyyy') : '';
+    return this.inputDate
+      ? this.datePipe.transform(this.inputDate, 'dd-MMM-yyyy')
+      : '';
   }
 }

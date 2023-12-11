@@ -130,7 +130,7 @@
                           [matDatepicker]="picker"
                           formControlName="dateField"
                           (dateInput)="onDateChange($event)"
-                          [readonly]="viewMode"
+                          [readonly]="true"
                           autocomplete="off"
                         />
                         <mat-datepicker-toggle
@@ -140,7 +140,6 @@
                         ></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
-                      <!-- [disabled]="hideReqBtns" -->
                     </div>
                   </div>
                 </div>

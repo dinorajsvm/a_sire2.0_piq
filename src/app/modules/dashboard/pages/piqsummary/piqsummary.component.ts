@@ -56,6 +56,8 @@ export class PIQSummaryComponent implements OnInit {
   @Input() totalQuestCount: any;
   @Input() presetQuestCounts: any;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+  getExceptionGrid: any;
+  emptyRemark: any;
   getSelectedDate: any = '';
   quickNotesInput = '';
   remarks = '';
@@ -286,11 +288,9 @@ export class PIQSummaryComponent implements OnInit {
   modifiedrowData: any[] = [];
   referenceNumber: any = '';
   userDetails: any;
-  answerDetails: any;
   locationCode: any;
   getMainQuestCounts: any[] = [];
   getAllDatas: any[] = [];
-  isNotNull = false;
   certificateCounts: any;
   exceptionCounts: any;
   remarksCounts: any;
@@ -356,7 +356,9 @@ export class PIQSummaryComponent implements OnInit {
     });
     this.getMasterDetails();
     this.certficateGridDatas();
-
+    this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
+      this.submitData = res;
+    });
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
       this.rowData = res;
     });
@@ -368,6 +370,10 @@ export class PIQSummaryComponent implements OnInit {
     });
     this.BudgetService.getExceptionGridData().subscribe((res: any) => {
       this.exceptionCounts = res;
+    });
+    this.BudgetService.getExceptionRowData().subscribe((res: any) => {
+      this.getExceptionGrid = [];
+      this.getExceptionGrid = res && res.length > 0 ? res : [];
     });
     this.BudgetService.getRemarksCountsData().subscribe((res: any) => {
       this.remarksGridData = res;
@@ -616,115 +622,126 @@ export class PIQSummaryComponent implements OnInit {
   }
 
   getAnswerValue(type?: any) {
-    this.BudgetService.getsavedAnswers(this.referenceNumber).subscribe(
-      (res: any) => {
-        this.submitData = res.response.MergedData;
-        this.answerDetails = res.response;
-        const isNotNull = Object.values(this.answerDetails).every(
-          (value) => value !== ''
+    if (
+      type != 'reUse' &&
+      this.getExceptionGrid &&
+      this.getExceptionGrid.length > 0
+    ) {
+      this.emptyRemark = this.getExceptionGrid.find(
+        (x: any) => x.remark === ''
+      );
+      if (this.emptyRemark) {
+        this._snackBarService.loadSnackBar(
+          'Exception Remarks Mandatory',
+          colorCodes.ERROR
         );
-        this.isNotNull = isNotNull;
-        let ansPayload: any;
-        var pendingResult: any = [];
-        this.getMainQuestCounts.forEach((element: any) => {
-          pendingResult.push({
-            mainQuesId: element.qid,
-            checkbox: element.checkbox,
-          });
-        });
-        if (type === 'syncToStore') {
-          ansPayload = {
-            instanceid: this.referenceNumber,
-            action: 'SS',
-            user: this.userDetails.userCode,
-            tenantIdentifier: '',
-            answerdata: this.submitData,
-            locationcode: this.locationCode,
-            mainQuestCheckbox: pendingResult,
-            lastmodifieddata: JSON.stringify(this.modifiedrowData),
-            wfaction: '',
-          };
-        } else if (type === 'reassign') {
-          if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
-            this.setFlowAction = 'RSN';
-            ansPayload = {
-              instanceid: this.referenceNumber,
-              action: 'SS',
-              user: this.userDetails.userCode,
-              tenantIdentifier: '',
-              answerdata: this.submitData,
-              locationcode: this.locationCode,
-              mainQuestCheckbox: pendingResult,
-              lastmodifieddata: JSON.stringify(this.modifiedrowData),
-              wfaction: 'RSN',
-            };
-            this.BudgetService.setEnableViewMode(this.enableViewMode);
-            let remarks = document.getElementById('remarks');
-            remarks?.classList.remove('remError');
-            this.disableResAprFlowBtn = true;
-            this.saveWorkFlowAction(this.setFlowAction);
-          } else {
-            let remarks = document.getElementById('remarks');
-            remarks?.classList.add('remError');
-            this.disableResAprFlowBtn = false;
-            this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
-          }
-        } else if (type === 'approve') {
-          if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
-            this.setFlowAction = 'APR';
-            ansPayload = {
-              instanceid: this.referenceNumber,
-              action: 'SS',
-              user: this.userDetails.userCode,
-              tenantIdentifier: '',
-              answerdata: this.submitData,
-              locationcode: this.locationCode,
-              mainQuestCheckbox: pendingResult,
-              lastmodifieddata: JSON.stringify(this.modifiedrowData),
-              wfaction: 'APR',
-            };
-            this.BudgetService.setEnableViewMode(this.enableViewMode);
-            let remarks = document.getElementById('remarks');
-            remarks?.classList.remove('remError');
-            this.disableResAprFlowBtn = true;
-            this.saveWorkFlowAction(this.setFlowAction);
-          } else {
-            let remarks = document.getElementById('remarks');
-            remarks?.classList.add('remError');
-            this.disableResAprFlowBtn = false;
-            this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
-          }
-        } else if (type === 'submit') {
-          if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
-            this.setFlowAction = 'SUB';
-            ansPayload = {
-              chapterdata: JSON.stringify(this.rowData),
-              instanceid: this.referenceNumber,
-              action: 'S',
-              user: this.userDetails.userCode,
-              tenantIdentifier: '',
-              answerdata: this.submitData,
-              locationcode: this.locationCode,
-              mainQuestCheckbox: pendingResult,
-              lastmodifieddata: JSON.stringify(this.modifiedrowData),
-              wfaction: 'SUB',
-            };
-            this.BudgetService.setEnableViewMode(this.enableViewMode);
-            let remarks = document.getElementById('remarks');
-            remarks?.classList.remove('remError');
-            this.saveWorkFlowAction(this.setFlowAction);
-            this.disableSubFlowBtn = true;
-          } else {
-            let remarks = document.getElementById('remarks');
-            remarks?.classList.add('remError');
-            this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
-          }
-        } else {
-          return;
-        }
-        this.saveMethodCall(ansPayload, type);
+        return;
       }
-    );
+    }
+
+    let ansPayload: any;
+    var pendingResult: any = [];
+    this.getMainQuestCounts.forEach((element: any) => {
+      pendingResult.push({
+        mainQuesId: element.qid,
+        checkbox: element.checkbox,
+      });
+    });
+    if (type === 'syncToStore') {
+      ansPayload = {
+        instanceid: this.referenceNumber,
+        action: 'SS',
+        user: this.userDetails.userCode,
+        tenantIdentifier: '',
+        answerdata: this.submitData,
+        locationcode: this.locationCode,
+        exceptionjson: this.getExceptionGrid,
+        mainQuestCheckbox: pendingResult,
+        lastmodifieddata: JSON.stringify(this.modifiedrowData),
+        wfaction: '',
+      };
+    } else if (type === 'reassign') {
+      if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
+        this.setFlowAction = 'RSN';
+        ansPayload = {
+          instanceid: this.referenceNumber,
+          action: 'SS',
+          user: this.userDetails.userCode,
+          tenantIdentifier: '',
+          answerdata: this.submitData,
+          locationcode: this.locationCode,
+          exceptionjson: this.getExceptionGrid,
+          mainQuestCheckbox: pendingResult,
+          lastmodifieddata: JSON.stringify(this.modifiedrowData),
+          wfaction: 'RSN',
+        };
+        this.BudgetService.setEnableViewMode(this.enableViewMode);
+        let remarks = document.getElementById('remarks');
+        remarks?.classList.remove('remError');
+        this.disableResAprFlowBtn = true;
+        this.saveWorkFlowAction(this.setFlowAction);
+      } else {
+        let remarks = document.getElementById('remarks');
+        remarks?.classList.add('remError');
+        this.disableResAprFlowBtn = false;
+        this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
+      }
+    } else if (type === 'approve') {
+      if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
+        this.setFlowAction = 'APR';
+        ansPayload = {
+          instanceid: this.referenceNumber,
+          action: 'SS',
+          user: this.userDetails.userCode,
+          tenantIdentifier: '',
+          answerdata: this.submitData,
+          locationcode: this.locationCode,
+          exceptionjson: this.getExceptionGrid,
+          mainQuestCheckbox: pendingResult,
+          lastmodifieddata: JSON.stringify(this.modifiedrowData),
+          wfaction: 'APR',
+        };
+        this.BudgetService.setEnableViewMode(this.enableViewMode);
+        let remarks = document.getElementById('remarks');
+        remarks?.classList.remove('remError');
+        this.disableResAprFlowBtn = true;
+        this.saveWorkFlowAction(this.setFlowAction);
+      } else {
+        let remarks = document.getElementById('remarks');
+        remarks?.classList.add('remError');
+        this.disableResAprFlowBtn = false;
+        this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
+      }
+    } else if (type === 'submit') {
+      if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
+        this.setFlowAction = 'SUB';
+        ansPayload = {
+          chapterdata: JSON.stringify(this.rowData),
+          instanceid: this.referenceNumber,
+          action: 'S',
+          user: this.userDetails.userCode,
+          tenantIdentifier: '',
+          answerdata: this.submitData,
+          locationcode: this.locationCode,
+          exceptionjson: this.getExceptionGrid,
+          mainQuestCheckbox: pendingResult,
+          lastmodifieddata: JSON.stringify(this.modifiedrowData),
+          wfaction: 'SUB',
+        };
+        this.BudgetService.setEnableViewMode(this.enableViewMode);
+        let remarks = document.getElementById('remarks');
+        remarks?.classList.remove('remError');
+        this.saveWorkFlowAction(this.setFlowAction);
+        this.disableSubFlowBtn = true;
+      } else {
+        let remarks = document.getElementById('remarks');
+        remarks?.classList.add('remError');
+        this._snackBarService.loadSnackBar('Add Remarks', colorCodes.ERROR);
+      }
+    } else {
+      return;
+    }
+    this.saveMethodCall(ansPayload, type);
   }
   getQuestionAnswerDatas(type?: any) {
     const payload = {
@@ -752,6 +769,7 @@ export class PIQSummaryComponent implements OnInit {
   onSubmit(type: string, event: any) {
     this.setFlowAction = '';
     this.getQuestionAnswerDatas(type);
+
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
@@ -801,9 +819,10 @@ export class PIQSummaryComponent implements OnInit {
       });
       if (this.pendingCount === getMainQuestCounts.length) {
         this.BudgetService.setPreviousPresetData(data.response);
-      } else {
       }
     });
+    const exceptionList: any = [];
+    this.BudgetService.setExceptionData(exceptionList);
   }
   openDialog(): void {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();

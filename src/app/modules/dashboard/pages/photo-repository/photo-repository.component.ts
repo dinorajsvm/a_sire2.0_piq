@@ -670,12 +670,10 @@ export class PhotoRepositoryComponent implements OnInit {
         .post(this.dynamicImageURL + 'PIQ/event/attachmentupload', formData)
         .subscribe(
           (response) => {
-            this.uploadedData();
-            // Handle success, e.g., show a success message
+              this.uploadedData();
           },
           (error) => {
             console.error('Image upload failed', error);
-            // Handle error, e.g., show an error message
           }
         );
     }

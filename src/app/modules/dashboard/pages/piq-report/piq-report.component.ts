@@ -71,6 +71,7 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
   rowSummaryData: any[] = [];
+  emptyRemark: any;
   totalRowCount = 0;
   locationCode: any;
   selectedValue: string = '';
@@ -167,7 +168,7 @@ export class PiqReportComponent implements OnInit {
     this.onTabChanged(event);
     this.BudgetService.getExceptionRowData().subscribe((res: any) => {
       this.getExceptionGridData = [];
-      this.getExceptionGridData = res;
+      this.getExceptionGridData = res && res.length > 0 ? res : [];
     });
 
     this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
@@ -255,7 +256,7 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getTopBarData(this.vesselCode).subscribe((res: any) => {
       const data = res.response;
       this.topbarData = data;
-      this.destroyLoader();
+      this.isLoader = false;
     });
   }
 
@@ -268,7 +269,7 @@ export class PiqReportComponent implements OnInit {
           this.getApproveRank = item.approver;
         });
       }
-      this.destroyLoader();
+      this.isLoader = false;
     });
   }
   getWrkFlSummary() {
@@ -276,7 +277,7 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
       (res: any) => {
         this.getWrkFlSummaryData = res.response;
-        this.destroyLoader();
+        this.isLoader = false;
       }
     );
   }
@@ -286,7 +287,7 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getGuidelineData().subscribe((res: any) => {
       const data = res;
       this.getGuideLines = data;
-      this.destroyLoader();
+      this.isLoader = false;
     });
   }
 
@@ -298,6 +299,18 @@ export class PiqReportComponent implements OnInit {
   }
 
   submitFormAll(value: any) {
+    if (this.getExceptionGridData && this.getExceptionGridData.length > 0) {
+      this.emptyRemark = this.getExceptionGridData.find(
+        (x: any) => x.remark === ''
+      );
+      if (this.emptyRemark) {
+        this._snackBarService.loadSnackBar(
+          'Exception Remarks Mandatory',
+          colorCodes.ERROR
+        );
+        return;
+      }
+    }
     this.isLoader = true;
     var pendingResult: any = [];
     this.getMainQuestCounts.forEach((element: any) => {
@@ -306,6 +319,7 @@ export class PiqReportComponent implements OnInit {
         selected: element.selected,
       });
     });
+    this.BudgetService.setPiqQuestionData(value.value)
     var ansPayload = {
       chapterdata: JSON.stringify(this.rowSummaryData),
       instanceid: this.referenceNumber,
@@ -324,7 +338,7 @@ export class PiqReportComponent implements OnInit {
     this.chapterGrid();
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
-      this.destroyLoader();
+      this.isLoader = false;
     });
   }
 
@@ -532,7 +546,7 @@ export class PiqReportComponent implements OnInit {
       });
       this.vesselCode = this.getVesselCode;
       this.getTopBarDatas();
-      this.destroyLoader();
+      this.isLoader = false;
     });
   }
 
@@ -713,6 +727,8 @@ export class PiqReportComponent implements OnInit {
         });
       }
     });
+    this.BudgetService.setPiqQuestionData(this.dynamicForms.value)
+    
   }
 
   exceptionFn(ques: any, mquest: any, quest: any) {
@@ -814,18 +830,17 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
-    console.log("multi ans check 3", this.dynamicForms.controls[controlname])
     quest.lastModified = this.datePipe.transform(
       new Date(),
       'dd-MMM-yyyy HH:mm'
-      );
+    );
     if (Array.isArray(entryorgin.answer)) {
       if (entryorgin.answer.includes(value)) {
         entryorgin.answer = entryorgin.answer.filter(
           (item: any) => item !== value
         );
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
-      } 
+      }
       // else {
       //   entryorgin.answer.push(value);
       //   const ans = entryorgin.answer;
@@ -916,7 +931,6 @@ export class PiqReportComponent implements OnInit {
     this.dynamicForms.controls[subQue.qid].setValue(value);
     this.subHeaderCount();
     this.chapterGrid();
-    // console.log(ques, 'ques');
   }
 
   exception(ques: any, mainQue: any, subQue: any) {
@@ -2153,10 +2167,7 @@ export class PiqReportComponent implements OnInit {
       subq.inprogress = true;
       subq.completed = false;
     }
-    // console.log(subq, 'subq.answer');
-
     this.subHeaderCount();
-
     this.chapterGrid();
     this.dateCount(mquest);
   }
@@ -2366,7 +2377,6 @@ export class PiqReportComponent implements OnInit {
       this.referenceNumber,
       questionId
     ).subscribe((data) => {
-      // this.destroyLoader();
       if (questionId === '2.2.1') {
         let findLookUpDate: any;
         if (
@@ -2495,7 +2505,6 @@ export class PiqReportComponent implements OnInit {
       this.referenceNumber,
       questionId
     ).subscribe((data) => {
-      // this.destroyLoader();
       if (questionId === '2.8.2') {
         let lookUpPSCDate: any;
         let lookUpNonPSCDate: any;
@@ -2582,7 +2591,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   getTmsaDetail(questionId: any, subQues: any, mquest: any, subq: any) {
-    // this.isLoader = true;
     const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupDetail(
       questionId,
@@ -2590,7 +2598,6 @@ export class PiqReportComponent implements OnInit {
       questionId,
       this.referenceNumber
     ).subscribe((data) => {
-      // this.destroyLoader();
       let lookUpInternalDate: any;
       let lookUpShipVisitDate: any;
 
@@ -3024,12 +3031,7 @@ export class PiqReportComponent implements OnInit {
       user: this.userDetails?.userCode,
     };
     this.BudgetService.saveLookUp(payload).subscribe((data) => {
-      this.destroyLoader();
-    });
-  }
-  destroyLoader() {
-    setTimeout(() => {
       this.isLoader = false;
-    }, 300);
+    });
   }
 }

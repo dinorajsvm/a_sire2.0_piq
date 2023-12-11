@@ -41,6 +41,7 @@ export class BudgetService {
   private getTabIndexCount = new Subject<any>();
   private hideEditButton = new Subject<any>();
   private enableDisableButtons = new Subject<any>();
+  private setPiqQuestion = new Subject<any>();
 
   constructor(private client: HttpClient) {}
 
@@ -50,6 +51,14 @@ export class BudgetService {
 
   getEnableBtn() {
     return this.enableDisableButtons.asObservable();
+  }
+
+  setPiqQuestionData(message: any) {
+    this.setPiqQuestion.next(message);
+  }
+
+  getPiqQuestionData() {
+    return this.setPiqQuestion.asObservable();
   }
   setEnableViewMode(message: any) {
     this.getViewMode.next(message);
@@ -203,16 +212,6 @@ export class BudgetService {
       `${this.globalUrl}/PIQ/event/deletereference`,
       payload
     );
-    return ba;
-  }
-
-  getsavedAnswers(refno: any) {
-    var payload: any = {
-      instanceid: refno,
-    };
-    let ba = this.client
-      .get<any>(`${this.globalUrl}/PIQ/event/getMergeddata?instanceid=${refno}`)
-      .pipe(map((res: any) => res));
     return ba;
   }
 
