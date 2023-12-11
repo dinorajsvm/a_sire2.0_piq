@@ -83,6 +83,7 @@ export class ManualLookUpComponent implements OnInit {
       field: 'validfrom',
       headerName: 'Valid From',
       tooltipField: 'validfrom',
+      cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
       valueGetter: (params) => {
@@ -95,6 +96,7 @@ export class ManualLookUpComponent implements OnInit {
       field: 'validto',
       headerName: 'Valid To',
       tooltipField: 'validto',
+      cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
       valueGetter: (params) => {

@@ -519,7 +519,6 @@ export class SafetyManagementComponent implements OnInit {
       width: 120,
       resizable: true,
     },
-
     {
       headerName: 'Date and Time of Incident',
       tooltipField: 'incidentdate',
@@ -537,6 +536,7 @@ export class SafetyManagementComponent implements OnInit {
       field: 'dateSelection',
       cellEditor: 'myDateEditor',
       tooltipField: 'dateSelection',
+      cellStyle: { textAlign: 'right' },
       editable: true,
       sortable: false,
       filter: false,

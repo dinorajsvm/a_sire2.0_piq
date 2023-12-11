@@ -276,6 +276,11 @@ export class TMSAComponent implements OnInit {
       field: 'inspectiondate',
       headerName: 'Date Of Inspection',
       tooltipField: 'inspectiondate',
+      valueGetter: (params) => {
+        return params.data.inspectiondate
+          ? this.datePipe.transform(params.data.inspectiondate, 'dd-MMM-yyyy')
+          : '';
+      },
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
