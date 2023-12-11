@@ -60,9 +60,11 @@ export class PrDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   getCheckListGridDatas() {
+    const vesselCode = localStorage.getItem('masterVesselCode');
     const payload = {
       chklisttype: 'SAF',
       chklistname: 'PIQ',
+      vesselcode:vesselCode
     };
     this.BudgetService.getPhotoRepGridList(payload).subscribe((res: any) => {
       let obj = res.response;

@@ -64,7 +64,7 @@ export class PIQLandingPageComponent implements OnInit {
     {
       field: 'serialNumber',
       headerName: 'S.No',
-      tooltipField: 'serialNumber',
+      tooltipField: 'serialNumber',pinned: 'left',
     },
     {
       field: 'referenceNumber',
@@ -126,7 +126,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'status',
       headerName: 'Status',
       cellStyle: CellStatus,
-      tooltipField: 'status',
+      tooltipField: 'status',pinned: 'left',
     },
   ];
 

@@ -227,8 +227,8 @@ export class BudgetService {
       .pipe(map((res: any) => res));
   }
 
-  getRefnImport() {
-    return this.client.get<any>(`${this.globalUrl}/PIQ/event/getrefnotoimport`);
+  getRefnImport(userCode: any) {
+    return this.client.get<any>(`${this.globalUrl}/PIQ/event/getrefnotoimport?usercode=${userCode}`);
   }
   getworkFlowStatus() {
     return this.client.get<any>(

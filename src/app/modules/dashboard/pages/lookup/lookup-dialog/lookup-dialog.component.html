@@ -2,7 +2,7 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-11" *ngIf="enableDiv">
-        <h4 class="header">2.2. Management Oversight</h4>
+        <h5 class="moduleTitle">2.2. Management Oversight</h5>
         <p class="descHeader">
           (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
@@ -15,7 +15,7 @@
         <mat-icon (click)="onDialogClose()">close</mat-icon>
       </div>
       <div class="col-sm-7" *ngIf="!enableDiv">
-        <h4 class="header">2.2. Management Oversight</h4>
+        <h5 class="moduleTitle">2.2. Management Oversight</h5>
         <p class="descHeader" *ngIf="isOnlyShipVisit && !isViewAll">
           (List of Inspections from Ship Visit Report Module for last 18 months)
         </p>
@@ -131,7 +131,7 @@
   <button
     mat-button
     (click)="onDialogClose()"
-    class="cancel btnCan mt-2"
+    class="cancel btnHeight mt-2"
     style="float: right"
     [mat-dialog-close]="true"
   >

@@ -5,6 +5,7 @@ import { BudgetService } from '../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../renderer/button-renderer.component';
 import { DefaultColDef } from 'src/app/core/constants';
+import { StorageService } from 'src/app/core/services/storage/storage.service';
 
 @Component({
   selector: 'app-reuse-confirmation-dialog',
@@ -14,6 +15,7 @@ import { DefaultColDef } from 'src/app/core/constants';
 export class ReuseConfirmationDialogComponent implements OnInit {
   private gridApi!: GridApi;
   frameworkComponents: any;
+  userDetails: any;
   public tooltipShowDelay = 0;
   totalRowCount = 0;
   columnDefs: ColDef[] = [
@@ -37,8 +39,10 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   constructor(
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<ReuseConfirmationDialogComponent>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _storage: StorageService,
   ) {
+    this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
     };
@@ -65,6 +69,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.getReuseReferenceList();
   }
 
@@ -73,7 +78,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   }
 
   getReuseReferenceList() {
-    this.BudgetService.getRefnImport().subscribe((data) => {
+    this.BudgetService.getRefnImport(this.userDetails.userCode).subscribe((data) => {
       this.rowData = data && data.response.length > 0 ? data.response : [];
       this.totalRowCount =
       this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;

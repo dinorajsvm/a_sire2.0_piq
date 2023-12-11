@@ -6,7 +6,7 @@
 .syncBtn.mat-mdc-button.mat-mdc-button-base {
   background-color: #19c37d;
   color: white;
-  height: 26px;
+  height: 30px;
   margin: 0 5px;
   padding: 0px 10px;
   font-size: 12px;
@@ -17,6 +17,10 @@
   margin: 0 5px;
   padding: 0px 10px;
   font-size: 12px;
+}
+
+.btnHeight{
+  height: 30px;
 }
 
 ::ng-deep .lookUp-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content{

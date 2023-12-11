@@ -17,6 +17,10 @@
   max-height: unset !important;
 }
 
+.btnHeight{
+  height: 30px;
+}
+
 .close_mark {
   border-radius: 10px;
   background: #dee1f0;

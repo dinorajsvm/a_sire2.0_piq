@@ -1,3 +1,5 @@
+@import"../../../../../piq.css";
+
 ::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container {
     width: 25vw !important;
     height: 145px !important;
@@ -32,7 +34,7 @@
 
   ::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-actions{
     min-height: 25px !important;
-    padding: 0;
+    padding: 0 10px;
   }
   .yesBtn {
     background-color: #19c37d;
@@ -42,4 +44,8 @@
   .disableBtn{
       background-color: #c1c1c1 !important;
       color: black !important;
+  }
+
+  .btnHeight{
+    height: 30px;
   }

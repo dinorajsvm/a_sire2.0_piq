@@ -26,6 +26,10 @@
   margin-top: 10px;
 }
 
+.btnHeight{
+  height: 30px;
+}
+
 ::ng-deep .mat-mdc-dialog-title {
   margin: 0;
 }

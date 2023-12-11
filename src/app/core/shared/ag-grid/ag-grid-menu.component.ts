@@ -1,14 +1,15 @@
 import { Component, NgZone } from '@angular/core';
 import { AgRendererComponent } from 'ag-grid-angular';
 import { Router } from '@angular/router';
+import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
   template: `<ng-container *ngFor="let menu of params.menu">
-                <span class="cursor-pointer mr-2" *ngIf = "menu.link && menu.image && !(menu.name == 'Edit' && params.data.status && (params.data.status =='Submitted' || params.data.status =='Approved')) " (click)="navigate(menu.link, menu.id ?  params.data[menu.id] : id)" [matTooltip]="menu.tooltip">
+                <span class="cursor-pointer mr-2" *ngIf = "menu.link && menu.image && !(menu.name == 'Edit' && params.data.status && (params.data.status =='Submitted' || params.data.status =='Approved') || ((params.data.status !='Inprogress' || params.data.status !='Submitted'|| params.data.status !='Reassigned' || params.data.status !='Approved') && formOrigin =='CNT001')) " (click)="navigate(menu.link, menu.id ?  params.data[menu.id] : id)" [matTooltip]="menu.tooltip">
                     <img src="{{ menu.image }}" alt="" width="14" *ngIf="menu.image"/>
                     <!-- <span *ngIf="menu.name">{{menu.name}}</span> -->
                 </span>
-                <span class="cursor-pointer mr-2" *ngIf = "!menu.link && menu.image && !menu.workflowIndication && !(menu.name == 'Delete' && params.data.status && params.data.status !='Inprogress') " (click)="menu.onMenuAction(params.data)" [matTooltip]="menu.tooltip">
+                <span class="cursor-pointer mr-2" *ngIf = "!menu.link && menu.image && !menu.workflowIndication && !(menu.name == 'Delete' && params.data.status && formOrigin && (params.data.status !='Inprogress' && formOrigin =='CNT002')) " (click)="menu.onMenuAction(params.data)" [matTooltip]="menu.tooltip">
                     <img src="{{ menu.image }}" alt="" width="14" *ngIf="menu.image"/>
                     <!-- <span *ngIf="menu.name">{{menu.name}}</span> -->
                 </span>
@@ -27,10 +28,14 @@ import { Router } from '@angular/router';
 export class AgGridMenuComponent implements AgRendererComponent {
   params: any;
   public id: any;
+  userDetails: any;
   toShow:boolean = false;
   toShowLikeDisLike:boolean = true;
-  constructor(private ngZone: NgZone,
-    private router: Router) { }
+  formOrigin: any;
+  constructor(private ngZone: NgZone,private _storage: StorageService,
+    private router: Router) { 
+      this.userDetails = this._storage.getUserDetails();
+    }
 
     filteredMenu: any[] = [];
 
@@ -39,6 +44,9 @@ export class AgGridMenuComponent implements AgRendererComponent {
   }
   agInit(params: import("ag-grid-community").ICellRendererParams): void {
     this.params = params;
+    console.log("params",this.params.data);
+    this.formOrigin=this.params.data.createdin
+    console.log("this.formOrigin",this.formOrigin)
     this.params.menu.forEach((value: any, index: any) => {
    if (value.hasOwnProperty("workflowIndication")) {
         this.toShow = value.isVisible(params.data);
@@ -53,10 +61,13 @@ export class AgGridMenuComponent implements AgRendererComponent {
   }
 
   filterMenuItems() {
+    console.log("111");
+    
     // Check the 'Status' value in params.data.status and decide whether to show the "Delete" menu item
     const status = this.params.data.status;
     
-    if (status === 'SUBMITTED') {
+    if (status === 'Submitted') {
+      console.log("222");
       // Hide the "Delete" menu item if the 'Status' is 'synced'
       return this.params.menu.filter((menuItem:any) => menuItem.name !== 'Delete');
     }

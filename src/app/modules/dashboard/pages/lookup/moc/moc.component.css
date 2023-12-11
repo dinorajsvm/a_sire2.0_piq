@@ -55,6 +55,9 @@
 .header {
   margin: 0;
 }
+.btnHeight{
+  height: 30px;
+}
 
 .hideReqBtns {
   display: none !important;

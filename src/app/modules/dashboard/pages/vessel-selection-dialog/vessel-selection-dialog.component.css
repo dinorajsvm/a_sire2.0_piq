@@ -47,6 +47,16 @@
   color: white;
 }
 
+.btnCan{
+  height: 26px;
+  margin: 0 5px;
+  padding: 0px 10px;
+  font-size: 12px;
+}
+
+.btnHeight{
+  height: 30px;
+}
 .disableBtn{
     background-color: #c1c1c1 !important;
     color: black !important;

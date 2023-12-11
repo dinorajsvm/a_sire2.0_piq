@@ -33,6 +33,10 @@
   min-height: 25px;
 }
 
+.btnHeight{
+  height: 30px;
+}
+
 .yesBtn {
   background-color: #19c37d;
   color: white;
@@ -41,4 +45,8 @@
 .disableBtn{
     background-color: #c1c1c1 !important;
     color: black !important;
+}
+
+.btnHeight{
+  height: 30px;
 }
