@@ -418,7 +418,7 @@ export class PIQSummaryComponent implements OnInit {
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
-      'yyyy-MM-dd HH:mm'
+      'yyyy-MM-dd HH:mm:ss'
     );
     this.autoSaveForm.get('dateField')?.setValue(this.plannedSubDate);
     this.onFormChanges();

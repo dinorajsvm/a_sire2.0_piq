@@ -812,21 +812,23 @@ export class PiqReportComponent implements OnInit {
     subq: any,
     quest: any
   ) {
+    console.log("multi ans check 3", this.dynamicForms.controls[controlname])
     quest.lastModified = this.datePipe.transform(
       new Date(),
       'dd-MMM-yyyy HH:mm'
-    );
+      );
     if (Array.isArray(entryorgin.answer)) {
       if (entryorgin.answer.includes(value)) {
         entryorgin.answer = entryorgin.answer.filter(
           (item: any) => item !== value
         );
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
-      } else {
-        entryorgin.answer.push(value);
-        const ans = entryorgin.answer;
-        this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
-      }
+      } 
+      // else {
+      //   entryorgin.answer.push(value);
+      //   const ans = entryorgin.answer;
+      //   this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
+      // }
     } else {
       entryorgin.answer = [value];
       this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
@@ -2902,7 +2904,7 @@ export class PiqReportComponent implements OnInit {
           (this.getOrigination == 'CNT002' &&
             (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
         ) {
-          // this.viewMode = false;
+          this.viewMode = true;
           var flag = false;
           return flag;
         } else {

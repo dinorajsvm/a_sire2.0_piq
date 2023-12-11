@@ -37,24 +37,24 @@ export class ExceptionQuestionComponent implements OnInit {
         onClick: this.onBtnClick1.bind(this),
       },
     },
-    { field: 'subHeaders', headerName: 'Chapter', resizable: true },
+    { field: 'subHeaders', headerName: 'Chapter', resizable: true,tooltipField: 'subHeaders', },
     {
       field: 'mainQuestion',
       headerName: 'Main Question',
-      resizable: true,
+      resizable: true,tooltipField: 'mainQuestion',
     },
-    { field: 'subName', headerName: 'Sub Question', resizable: true },
+    { field: 'subName', headerName: 'Sub Question', resizable: true,tooltipField: 'subName', },
     {
       field: 'presetValue',
       headerName: 'Preset Value',
       resizable: true,
-      width: 150,
+      width: 150,tooltipField: 'presetValue',
     },
     {
       field: 'answer',
       headerName: 'Answer',
       resizable: true,
-      width: 100,
+      width: 100,tooltipField: 'answer',
     },
     {
       field: 'remark',
@@ -63,7 +63,7 @@ export class ExceptionQuestionComponent implements OnInit {
       wrapText: true,
       cellEditor: 'agLargeTextCellEditor',
       cellEditorPopup: true,
-      flex: 1,
+      flex: 1,tooltipField: 'remark',
     },
   ];
   referenceNumber: any;

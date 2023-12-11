@@ -143,18 +143,9 @@
                 >Show All Questions</span
               >
             </div>
-            <div
-              class="questIndicator"
-              *ngIf="
-                getOrigination === 'CNT002' &&
-                userDetails?.cntrlType === 'CNT002' &&
-                (getStatus === 'Inprogress' || getStatus === 'ReAssigned')
-              "
-            >
-              <div
-                class="indicators"
-                *ngIf="userDetails?.cntrlType === 'CNT002'"
-              >
+            <div class="questIndicator"
+              *ngIf="getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT002' && (getStatus === 'Inprogress' || getStatus === 'ReAssigned')">
+              <div class="indicators" *ngIf="userDetails?.cntrlType === 'CNT002'">
                 <span class="indCol shore"></span>
                 <span class="charCount">Shore</span>
               </div>
@@ -167,30 +158,24 @@
                 <span class="charCount">Changed Preset Questions</span>
               </div>
             </div>
-            <div
-              class="questIndicator"
-              *ngIf="
-                (getOrigination === 'CNT001' &&
-                  userDetails?.cntrlType === 'CNT002') ||
-                (getOrigination === 'CNT002' &&
-                  userDetails?.cntrlType === 'CNT002' &&
-                  getStatus === 'Submitted') ||
-                getStatus === 'Approved'
-              "
+            <div class="questIndicator" 
+            *ngIf="(getOrigination === 'CNT001' && userDetails?.cntrlType === 'CNT002') || (getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT002' && getStatus === 'Submitted') || getStatus === 'Approved'"
             >
               <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">All Questions</span>
               </div>
             </div>
-            <div
-              class="questIndicator"
-              *ngIf="
-                getOrigination === 'CNT002' &&
-                userDetails?.cntrlType === 'CNT001' &&
-                getStatus === 'Inprogress'
-              "
+            <div class="questIndicator" 
+            *ngIf="(getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT001'  && getApproveRank != userDetails?.rankCode && (getStatus === 'Submitted'||getStatus === 'ReAssigned'))"
             >
+              <div class="indicators">
+                <span class="indCol shore"></span>
+                <span class="charCount">All Questions</span>
+              </div>
+            </div>
+            <div class="questIndicator"
+              *ngIf="getOrigination === 'CNT002' && userDetails?.cntrlType === 'CNT001' && getStatus === 'Inprogress'">
               <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">Ship</span>
@@ -205,13 +190,7 @@
                 <span class="charCount">Changed Preset Questions</span>
               </div>
             </div>
-            <div
-              class="questIndicator"
-              *ngIf="
-                getOrigination === 'CNT001' &&
-                userDetails?.cntrlType === 'CNT001'
-              "
-            >
+            <div class="questIndicator" *ngIf="getOrigination === 'CNT001' && userDetails?.cntrlType === 'CNT001'">
               <!-- <div class="indicators">
                 <span class="indCol shore"></span>
                 <span class="charCount">Ship</span>
@@ -782,10 +761,8 @@
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
                                               <span style="font-weight: 500"
-                                                >Selected Answer:</span
-                                              >
-                                              <!-- <span
-                                              >
+                                                >Selected Answer:</span>
+                                              <!-- <span>
                                                 {{ subq.answer }}
                                               </span> -->
                                               <span
@@ -1257,12 +1234,7 @@
                                               <span style="font-weight: 500"
                                                 >Selected Answer:</span
                                               >
-                                              <!-- <span
-                                                style="display: none"
-                                                [ngClass]="{
-                                                  showInitial: initialMultiAns
-                                                }"
-                                              >
+                                              <!-- <span>
                                                 {{ subq.answer }}
                                               </span> -->
                                               <span
@@ -1815,12 +1787,7 @@
                                                 <span style="font-weight: 500"
                                                   >Selected Answer:</span
                                                 >
-                                                <!-- <span
-                                                  style="display: none"
-                                                  [ngClass]="{
-                                                    showInitial: initialMultiAns
-                                                  }"
-                                                >
+                                                <!-- <span>
                                                   {{ subq.answer }}
                                                 </span> -->
                                                 <span
@@ -2284,12 +2251,7 @@
                                                 <span style="font-weight: 500"
                                                   >Selected Answer:</span
                                                 >
-                                                <!-- <span
-                                                  style="display: none"
-                                                  [ngClass]="{
-                                                    showInitial: initialMultiAns
-                                                  }"
-                                                >
+                                                <!-- <span>
                                                   {{ subq.answer }}
                                                 </span> -->
                                                 <span
