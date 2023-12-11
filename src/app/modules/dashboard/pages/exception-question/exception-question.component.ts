@@ -96,6 +96,13 @@ export class ExceptionQuestionComponent implements OnInit {
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
+      this.columnDefs[6].editable =
+        !this.disableBtns;
+        this.columnDefs[6].cellEditorPopup =
+        !this.disableBtns;
+        this.columnDefs[6].wrapText =
+        !this.disableBtns;
+        this.gridApi.setColumnDefs(this.columnDefs);
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
@@ -103,7 +110,7 @@ export class ExceptionQuestionComponent implements OnInit {
     this.BudgetService.getExceptionData().subscribe((data) => {
       this.rowData = data;
       this.totalRowCount =
-      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       this.getRowdataCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       this.BudgetService.setExceptionGridData(this.getRowdataCount);
@@ -129,7 +136,9 @@ export class ExceptionQuestionComponent implements OnInit {
     // Assuming you have a unique identifier in your rowData
     const selectedItemId = event.data.subHeaders;
     const targetColumnName = 'subHeaders';
-    if (!(event.colDef.field === 'autoSync' || event.colDef.field === 'remark')) {
+    if (
+      !(event.colDef.field === 'autoSync' || event.colDef.field === 'remark')
+    ) {
       const tab = 1;
       this.BudgetService.setTabChangeData(tab);
     }
@@ -138,7 +147,10 @@ export class ExceptionQuestionComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+    this.gridApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
   }
 
   onSubmit() {

@@ -7,7 +7,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
-import { ColDef, LicenseManager, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-enterprise';
+import { ColDef, LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
@@ -33,30 +33,7 @@ export class MocComponent {
   hideReqBtns: boolean = false;
   public tooltipShowDelay = 0;
   gridApi: any
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private BudgetService: BudgetService,
-    private dialogRef: MatDialogRef<MocComponent>,
-    public dialog: MatDialog,
-    public _storage: StorageService,
-    private _loaderService: LoaderService
-  ) {
-    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
-    this.userDetails = this._storage.getUserDetails();
-    this.frameworkComponents = {
-      checkboxRenderer: AgGridCheckboxComponent,
-    };
-  }
-  public statusBar: {
-    statusPanels: StatusPanelDef[];
-  } = {
-    statusPanels: [
-      { statusPanel: 'agTotalRowCountComponent', align: 'right' },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
-    ],
-  };
+  
   columnDefs: ColDef[] = [
     {
       headerName: 'Ref Id',
@@ -82,24 +59,32 @@ export class MocComponent {
       field: 'q136',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
+      sortable: false,
+      filter: false,
     },
     {
       headerName: '2.5.1.2',
       field: 'q139',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
+      sortable: false,
+      filter: false,
     },
     {
       headerName: '2.5.1.3',
       field: 'q142',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
+      sortable: false,
+      filter: false,
     },
     {
       headerName: '2.5.1.4',
       field: 'q145',
       flex: 1,
       cellRenderer: 'checkboxRenderer',
+      sortable: false,
+      filter: false,
     },
   ];
 
@@ -114,6 +99,21 @@ export class MocComponent {
       params.api.sizeColumnsToFit();
     },
   };
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private BudgetService: BudgetService,
+    private dialogRef: MatDialogRef<MocComponent>,
+    public dialog: MatDialog,
+    public _storage: StorageService,
+    private _loaderService: LoaderService
+  ) {
+    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
+    this.userDetails = this._storage.getUserDetails();
+    this.frameworkComponents = {
+      checkboxRenderer: AgGridCheckboxComponent,
+    };
+  }
+
 
   applyMocDetails() {
     const response: any = [

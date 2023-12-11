@@ -8,9 +8,9 @@
         </p>
       </div>
 
-      <!-- <div class="col-sm-1 text-right closeIcn">
+      <div class="col-sm-1 text-right closeIcn">
         <mat-icon (click)="onDialogClose()">close</mat-icon>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
@@ -82,7 +82,7 @@
             mat-button
             class="showBtn btnHeight"
             (click)="onApply()"
-            [class.hideReqBtns]="hideReqBtns"
+            [class.hideReqBtns]="hideReqBtns || selectedRowData && selectedRowData.length === 0"
           >
             Apply
           </button>

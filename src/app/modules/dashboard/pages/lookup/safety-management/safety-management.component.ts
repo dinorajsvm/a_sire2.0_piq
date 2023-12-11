@@ -26,7 +26,7 @@ export class SafetyManagementComponent implements OnInit {
   selectedIndex: number = 0;
   frameworkComponents: any;
   gridOptions!: GridOptions;
-  gridSecondApi: any
+  gridSecondApi: any;
   public tooltipShowDelay = 0;
   totalRowCount = 0;
   totalRowSecondCount = 0;
@@ -74,10 +74,7 @@ export class SafetyManagementComponent implements OnInit {
       pinned: 'left',
       valueGetter: (params) => {
         return params.data.incidentdate === params.data.incidentdate
-          ? this.datePipe.transform(
-              params.data.incidentdate,
-              'dd-MMM-yyyy  HH:mm'
-            )
+          ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
           : '';
       },
     },
@@ -532,10 +529,7 @@ export class SafetyManagementComponent implements OnInit {
       resizable: true,
       valueGetter: (params) => {
         return params.data.incidentdate === params.data.incidentdate
-          ? this.datePipe.transform(
-              params.data.incidentdate,
-              'dd-MMM-yyyy  HH:mm'
-            )
+          ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
           : '';
       },
     },
@@ -544,8 +538,20 @@ export class SafetyManagementComponent implements OnInit {
       cellEditor: 'myDateEditor',
       tooltipField: 'dateSelection',
       editable: true,
+      sortable: false,
+      filter: false,
+      valueGetter: (params) => {
+        return params.data.dateSelection === params.data.dateSelection
+          ? this.datePipe.transform(params.data.dateSelection, 'dd-MMM-yyyy')
+          : '';
+      },
     },
-    { field: 'dropdown', cellRenderer: 'dropdown' },
+    {
+      field: 'dropdown',
+      cellRenderer: 'dropdown',
+      sortable: false,
+      filter: false,
+    },
   ];
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
@@ -561,7 +567,7 @@ export class SafetyManagementComponent implements OnInit {
     private _storage: StorageService,
     private _loaderService: LoaderService
   ) {
-    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
+    this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       myDateEditor: DateRendererComponent,
@@ -632,7 +638,7 @@ export class SafetyManagementComponent implements OnInit {
 
     if (trueKeys && trueKeys.length > 0) {
       trueKeys.forEach((response: any) => {
-        response.datePicker = '';
+        response.datePicker = null;
       });
       this.selectedRowData = trueKeys;
       this.totalRowSecondCount =
@@ -647,12 +653,18 @@ export class SafetyManagementComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+    this.gridApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
   }
 
   onGridSecondReady(params: any) {
     this.gridSecondApi = params.api;
-    this.gridSecondApi.addEventListener('filterChanged', this.onFilterSecondChanged.bind(this));
+    this.gridSecondApi.addEventListener(
+      'filterChanged',
+      this.onFilterSecondChanged.bind(this)
+    );
   }
   onTabChanged(event: any) {
     if (event && event.index === 0) {

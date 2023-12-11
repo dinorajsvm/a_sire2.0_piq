@@ -355,16 +355,10 @@ export class PIQSummaryComponent implements OnInit {
       });
     });
     this.getMasterDetails();
+    this.certficateGridDatas();
 
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
-      // console.log(this.tempRowData, 'tempRowData');
-
-      // if (this.tempRowData && this.tempRowData.length === 0) {
       this.rowData = res;
-      //   console.log(this.rowData, 'row');
-
-      // }
-      this.certficateGridDatas();
     });
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
@@ -448,11 +442,13 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let data = res.workflowmapping;
       let val = res.workflowmaster;
-      val.forEach((item: any) => {
-        this.getWrkFlowId = item.wfid;
-        this.getSubWrkFlowRank = item.submitter;
-        this.getResAprWrkFlowRank = item.approver;
-      });
+      if (val) {
+        val.forEach((item: any) => {
+          this.getWrkFlowId = item.wfid;
+          this.getSubWrkFlowRank = item.submitter;
+          this.getResAprWrkFlowRank = item.approver;
+        });
+      }
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
           if (
@@ -502,8 +498,6 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
-  
-
   getMasterDetails() {
     const payload = {
       instanceid: this.referenceNumber,
@@ -514,10 +508,12 @@ export class PIQSummaryComponent implements OnInit {
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
-      this.rowData = JSON.parse(res.chapterdata);
-      this.tempRowData = JSON.parse(res.chapterdata);
-      const data = JSON.parse(res.lastMod);
-
+      this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
+      // this.tempRowData = JSON.parse(res.chapterdata);
+      const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
+      const exceptionList =
+        res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
+      this.BudgetService.setExceptionData(exceptionList);
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         if (
           this.getOriginator == 'CNT002' &&
@@ -534,7 +530,7 @@ export class PIQSummaryComponent implements OnInit {
         this.quickNotesInput = res.quicknotes;
       }
 
-      if (data && data) {
+      if (data) {
         this.modifiedrowData = data;
       }
 
@@ -598,7 +594,10 @@ export class PIQSummaryComponent implements OnInit {
       this.referenceNumber
     ).subscribe((res: any) => {
       this.certificateRowData =
-        res && res.response && res.response.piqmappinglist
+        res &&
+        res.response &&
+        res.response.piqmappinglist &&
+        res.response.piqmappinglist.length > 0
           ? res.response.piqmappinglist
           : [];
     });
@@ -736,7 +735,7 @@ export class PIQSummaryComponent implements OnInit {
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.response) {
-        let object = JSON.parse(res.response);
+        let object = res && res.response ? JSON.parse(res.response) : [];
         this.getAllDatas = object;
         object.forEach((value1: any) => {
           value1.values.forEach((value: any) => {
@@ -825,7 +824,6 @@ export class PIQSummaryComponent implements OnInit {
   saveMethodCall(ansPayload: any, type?: any) {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
-        // this.getSSDatas();
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(
           'Sync to Shore Initiated Successfully',
@@ -835,7 +833,6 @@ export class PIQSummaryComponent implements OnInit {
         type === 'syncToStore' &&
         this.userDetails?.cntrlType === 'CNT001'
       ) {
-        // this.getSSDatas();
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(
           'Sync to Ship Initiated Successfully',

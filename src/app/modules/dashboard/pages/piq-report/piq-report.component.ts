@@ -263,9 +263,11 @@ export class PiqReportComponent implements OnInit {
     this.isLoader = true;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-      val.forEach((item: any) => {
-        this.getApproveRank = item.approver;
-      });
+      if (val) {
+        val.forEach((item: any) => {
+          this.getApproveRank = item.approver;
+        });
+      }
       this.destroyLoader();
     });
   }
@@ -915,7 +917,6 @@ export class PiqReportComponent implements OnInit {
     this.subHeaderCount();
     this.chapterGrid();
     // console.log(ques, 'ques');
-    
   }
 
   exception(ques: any, mainQue: any, subQue: any) {
@@ -2261,8 +2262,8 @@ export class PiqReportComponent implements OnInit {
       lastModified: '',
     };
     this.inputChanges(daysDifference, subq, quest);
-    this.chapterGrid()
-    this.subHeaderCount()
+    this.chapterGrid();
+    this.subHeaderCount();
   }
 
   q24FromDateAuto(daysDifference: any) {
@@ -2292,8 +2293,8 @@ export class PiqReportComponent implements OnInit {
       lastModified: '',
     };
     this.inputChanges(daysDifference, subq, quest);
-    this.chapterGrid()
-    this.subHeaderCount()
+    this.chapterGrid();
+    this.subHeaderCount();
   }
 
   q103FromDateAuto(daysDifference: any) {
@@ -2323,8 +2324,8 @@ export class PiqReportComponent implements OnInit {
       lastModified: '',
     };
     this.inputChanges(daysDifference, subq, quest);
-    this.chapterGrid()
-    this.subHeaderCount()
+    this.chapterGrid();
+    this.subHeaderCount();
   }
 
   q109FromDateAuto(daysDifference: any) {
@@ -2354,8 +2355,8 @@ export class PiqReportComponent implements OnInit {
       lastModified: '',
     };
     this.inputChanges(daysDifference, subq, quest);
-    this.chapterGrid()
-    this.subHeaderCount()
+    this.chapterGrid();
+    this.subHeaderCount();
   }
   getLookUpVisit(questionId: any, subQues: any, mquest: any, subq: any) {
     // this.isLoader = true;
