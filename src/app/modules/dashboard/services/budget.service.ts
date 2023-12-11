@@ -12,7 +12,7 @@ export class BudgetService {
   // private globalUrl = "https://macktesting.solverminds.net"
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
-  //  private globalUrl = document.location.protocol + '//' + document.location.hostname;
+  // private globalUrl = document.location.protocol + '//' + document.location.hostname;
   private globalUrl = environment.apiUrl;
 
   currencyValue: any = 'BaseCurrency';
@@ -212,6 +212,16 @@ export class BudgetService {
       `${this.globalUrl}/PIQ/event/deletereference`,
       payload
     );
+    return ba;
+  }
+
+  getsavedAnswers(refno: any) {
+    var payload: any = {
+      instanceid: refno,
+    };
+    let ba = this.client
+      .get<any>(`${this.globalUrl}/PIQ/event/getMergeddata?instanceid=${refno}`)
+      .pipe(map((res: any) => res));
     return ba;
   }
 
