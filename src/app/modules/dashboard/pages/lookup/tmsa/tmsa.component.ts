@@ -124,11 +124,11 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.auditfromdate === params.data.auditfromdate
-          ? this.datePipe.transform(params.data.auditfromdate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.auditfromdate === params.data.auditfromdate
+      //     ? this.datePipe.transform(params.data.auditfromdate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'audittodate',
@@ -137,11 +137,11 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.audittodate === params.data.audittodate
-          ? this.datePipe.transform(params.data.audittodate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.audittodate === params.data.audittodate
+      //     ? this.datePipe.transform(params.data.audittodate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'remote',
@@ -219,11 +219,11 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.actualfromdate === params.data.actualfromdate
-          ? this.datePipe.transform(params.data.actualfromdate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.actualfromdate === params.data.actualfromdate
+      //     ? this.datePipe.transform(params.data.actualfromdate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'actualtodate',
@@ -232,11 +232,11 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.actualtodate === params.data.actualtodate
-          ? this.datePipe.transform(params.data.actualtodate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.actualtodate === params.data.actualtodate
+      //     ? this.datePipe.transform(params.data.actualtodate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
   ];
   columnExternalDefs: ColDef[] = [
@@ -276,11 +276,11 @@ export class TMSAComponent implements OnInit {
       field: 'inspectiondate',
       headerName: 'Date Of Inspection',
       tooltipField: 'inspectiondate',
-      valueGetter: (params) => {
-        return params.data.inspectiondate
-          ? this.datePipe.transform(params.data.inspectiondate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.inspectiondate
+      //     ? this.datePipe.transform(params.data.inspectiondate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,

@@ -75,11 +75,11 @@ export class PscComponent {
       tooltipField: 'q156',
       resizable: true,
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.q156 === params.data.q156
-          ? this.datePipe.transform(params.data.q156, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.q156 === params.data.q156
+      //     ? this.datePipe.transform(params.data.q156, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'inspectioncode',

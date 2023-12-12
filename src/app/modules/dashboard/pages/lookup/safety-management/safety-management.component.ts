@@ -72,11 +72,11 @@ export class SafetyManagementComponent implements OnInit {
       resizable: true,
       width: 125,
       pinned: 'left',
-      valueGetter: (params) => {
-        return params.data.incidentdate === params.data.incidentdate
-          ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.incidentdate === params.data.incidentdate
+      //     ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       headerName: '5.7.1.1',
@@ -526,11 +526,11 @@ export class SafetyManagementComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       width: 120,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.incidentdate === params.data.incidentdate
-          ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.incidentdate === params.data.incidentdate
+      //     ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'dateSelection',
@@ -540,11 +540,11 @@ export class SafetyManagementComponent implements OnInit {
       editable: true,
       sortable: false,
       filter: false,
-      valueGetter: (params) => {
-        return params.data.dateSelection === params.data.dateSelection
-          ? this.datePipe.transform(params.data.dateSelection, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.dateSelection === params.data.dateSelection
+      //     ? this.datePipe.transform(params.data.dateSelection, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'dropdown',

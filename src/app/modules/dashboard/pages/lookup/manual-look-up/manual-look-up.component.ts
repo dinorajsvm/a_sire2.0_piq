@@ -73,11 +73,11 @@ export class ManualLookUpComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.dateofissue
-          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.dateofissue
+      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'validfrom',
@@ -86,11 +86,11 @@ export class ManualLookUpComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.validfrom
-          ? this.datePipe.transform(params.data.validfrom, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.validfrom
+      //     ? this.datePipe.transform(params.data.validfrom, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'validto',
@@ -99,11 +99,11 @@ export class ManualLookUpComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.validto
-          ? this.datePipe.transform(params.data.validto, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.validto
+      //     ? this.datePipe.transform(params.data.validto, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'placeofissue',

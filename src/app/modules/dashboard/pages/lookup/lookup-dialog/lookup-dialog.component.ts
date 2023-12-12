@@ -99,11 +99,11 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'actualfromdate',
       flex: 1,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.actualfromdate
-          ? this.datePipe.transform(params.data.actualfromdate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.actualfromdate
+      //     ? this.datePipe.transform(params.data.actualfromdate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'actualtodate',
@@ -112,11 +112,11 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'actualtodate',
       flex: 1,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.actualtodate
-          ? this.datePipe.transform(params.data.actualtodate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.actualtodate
+      //     ? this.datePipe.transform(params.data.actualtodate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'fromport',
@@ -187,11 +187,11 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'auditfromdate',
       flex: 1,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.auditfromdate
-          ? this.datePipe.transform(params.data.auditfromdate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.auditfromdate
+      //     ? this.datePipe.transform(params.data.auditfromdate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'audittodate',
@@ -200,11 +200,11 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'audittodate',
       flex: 1,
       resizable: true,
-      valueGetter: (params) => {
-        return params.data.audittodate
-          ? this.datePipe.transform(params.data.audittodate, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.audittodate
+      //     ? this.datePipe.transform(params.data.audittodate, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'auditfromport',

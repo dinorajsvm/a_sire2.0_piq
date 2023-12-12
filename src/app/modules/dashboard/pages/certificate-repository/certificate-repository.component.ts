@@ -63,11 +63,11 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'dateofissue',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.dateofissue
-          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.dateofissue
+      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'validfrom',
@@ -75,11 +75,11 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'validfrom',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.dateofissue
-          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.dateofissue
+      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'validto',
@@ -87,11 +87,11 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'validto',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.dateofissue
-          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.dateofissue
+      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'anniversarydate',
@@ -99,11 +99,11 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'anniversarydate',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      valueGetter: (params) => {
-        return params.data.dateofissue
-          ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-          : '';
-      },
+      // valueGetter: (params) => {
+      //   return params.data.dateofissue
+      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
+      //     : '';
+      // },
     },
     {
       field: 'categoryname',
@@ -140,11 +140,11 @@ export class CertificateRepositoryComponent implements OnInit {
           field: 'filesize',
           headerName: 'File Size',
           tooltipField: 'filesize',
-          valueGetter: (params) => {
-            return params.data.filesize
-              ? this.convertFileSize(params.data.filesize)
-              : '0 Bytes';
-          },
+          // valueGetter: (params) => {
+          //   return params.data.filesize
+          //     ? this.convertFileSize(params.data.filesize)
+          //     : '0 Bytes';
+          // },
           flex: 1,
         },
         {
