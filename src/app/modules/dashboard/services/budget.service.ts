@@ -42,7 +42,7 @@ export class BudgetService {
   private hideEditButton = new Subject<any>();
   private enableDisableButtons = new Subject<any>();
   private setPiqQuestion = new Subject<any>();
-
+  private setDeleteBtn = new Subject<any>();
   constructor(private client: HttpClient) {}
 
   setEnableBtn(message: any) {
@@ -51,6 +51,14 @@ export class BudgetService {
 
   getEnableBtn() {
     return this.enableDisableButtons.asObservable();
+  }
+
+  setDeleteAction(message: any) {
+    this.setDeleteBtn.next(message);
+  }
+
+  getDeleteAction() {
+    return this.setDeleteBtn.asObservable();
   }
 
   setPiqQuestionData(message: any) {
@@ -237,7 +245,9 @@ export class BudgetService {
   }
 
   getRefnImport(userCode: any) {
-    return this.client.get<any>(`${this.globalUrl}/PIQ/event/getrefnotoimport?usercode=${userCode}`);
+    return this.client.get<any>(
+      `${this.globalUrl}/PIQ/event/getrefnotoimport?usercode=${userCode}`
+    );
   }
   getworkFlowStatus() {
     return this.client.get<any>(

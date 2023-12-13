@@ -24,13 +24,11 @@ import {MatListModule} from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { AgGridMenuShoreComponent } from './core/shared/ag-grid/ag-grid-menu-shore.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AgGridMenuComponent,
-    AgGridMenuShoreComponent,
     AgGridChipComponent,
     AgGridLinkComponent
   ],

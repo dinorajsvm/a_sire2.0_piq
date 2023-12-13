@@ -13,7 +13,6 @@ import {
 } from 'src/app/core/constants';
 import { MatDialog } from '@angular/material/dialog';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
-import { AgGridMenuShoreComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu-shore.component';
 import { DatePipe } from '@angular/common';
 import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
 
@@ -25,7 +24,6 @@ import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
 })
 export class PIQLandingPageComponent implements OnInit {
   frameWorkComponent: any;
-  frameWorkShoreComponent: any; 
   totalRowCount = 0;
   gridApi: any;
   agGridToolbar: any = {};
@@ -37,29 +35,6 @@ export class PIQLandingPageComponent implements OnInit {
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
         innerRendererFramework: AgGridMenuComponent,
-        menu: [
-          {
-            name: 'View',
-            image: 'assets/icon-images/view.png',
-            link: '',
-            head:'',
-            tooltip: 'View',
-            onMenuAction: this.viewForm.bind(this),
-          },
-          {
-            name: 'Edit',
-            image: 'assets/icon-images/edit.png',
-            link: '/sire/piq-report/',
-            tooltip: 'Edit',
-          },
-          {
-            name: 'Delete',
-            image: 'assets/icon-images/delete.png',
-            link: '',
-            tooltip: 'Delete',
-            onMenuAction: this.deleteRowData.bind(this),
-          },
-        ],
       },
     },
     {
@@ -77,7 +52,12 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Company Name',
       tooltipField: 'companyName',
     },
-    { field: 'fleetname', headerName: 'Fleet Name', tooltipField: 'fleetName',cellStyle: { textalign: 'left' }, },
+    {
+      field: 'fleetname',
+      headerName: 'Fleet Name',
+      tooltipField: 'fleetName',
+      cellStyle: { textalign: 'left' },
+    },
     {
       field: 'vesselName',
       headerName: 'Vessel Name',
@@ -88,14 +68,17 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'vesseltype',
       headerName: 'Vessel Type',
       tooltipField: 'vesseltype',
-
     },
     {
       field: 'flag',
       headerName: 'Flag Name',
       tooltipField: 'flag',
     },
-    { field: 'createdBy', headerName: 'Created User', tooltipField: 'createdBy' },
+    {
+      field: 'createdBy',
+      headerName: 'Created User',
+      tooltipField: 'createdBy',
+    },
     {
       field: 'createdDate',
       headerName: 'Created Date',
@@ -140,29 +123,8 @@ export class PIQLandingPageComponent implements OnInit {
       filter: false,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
-        innerRendererFramework: AgGridMenuShoreComponent,
-        menu: [
-          {
-            name: 'View',
-            image: 'assets/icon-images/view.png',
-            link: '',
-            tooltip: 'View',
-            onMenuAction: this.viewForm.bind(this),
-          },
-          {
-            name: 'Edit',
-            image: 'assets/icon-images/edit.png',
-            link: '/sire/piq-report/',
-            tooltip: 'Edit',
-          },
-          {
-            name: 'Delete',
-            image: 'assets/icon-images/delete.png',
-            link: '',
-            tooltip: 'Delete',
-            onMenuAction: this.deleteRowData.bind(this),
-          },
-        ],
+        innerRendererFramework: AgGridMenuComponent,
+        
       },
     },
     {
@@ -174,7 +136,8 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'referenceNumber',
       headerName: 'Ref.Id',
       tooltipField: 'referenceNumber',
-    },{
+    },
+    {
       field: 'companyName',
       headerName: 'Company Name',
       tooltipField: 'companyName',
@@ -250,17 +213,17 @@ export class PIQLandingPageComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+    this.gridApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
     this.agGridToolbar['exportAsCSV'] = this._agGridService.exportAsCSV.bind(
       this,
       this.gridApi,
       'PIQ'
     );
-    this.agGridToolbar['exportAsExcel'] = this._agGridService.exportAsExcel.bind(
-      this,
-      this.gridApi,
-      'PIQ'
-    );
+    this.agGridToolbar['exportAsExcel'] =
+      this._agGridService.exportAsExcel.bind(this, this.gridApi, 'PIQ');
     this.agGridToolbar['columnFilter'] = this._agGridService.columnFilter.bind(
       this,
       this.gridApi
@@ -269,13 +232,6 @@ export class PIQLandingPageComponent implements OnInit {
       this,
       this.gridApi
     );
-    // this.agGridToolbar['saveTemplate'] = this.updateTemplate.bind(this);
-
-    // this.agGridToolbar['saveAsTemplate'] = this.saveAsTemplate.bind(this,this.gridColumnApi,this.saveAsTemplateList);
-    // this.agGridToolbar['deleteTemplate'] = this.deleteTemplate.bind(this);
-    // this.agGridToolbar['resetTemplate'] = this.resetTemplate.bind(this);
-    // this._utils.autosizeColumnsIfNeeded(this.gridApi);
-    // this.gridApi.setSideBarVisible(true);
   }
 
   rowData: any[] = [];
@@ -290,22 +246,20 @@ export class PIQLandingPageComponent implements OnInit {
   constructor(
     private router: Router,
     private BudgetService: BudgetService,
-    private _storage: StorageService,
     private _snackBarService: SnackbarService,
+    private _storage: StorageService,
     public dialog: MatDialog,
-    public datePipe: DatePipe,private _agGridService:AgGridService,
+    public datePipe: DatePipe,
+    private _agGridService: AgGridService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameWorkComponent = {
       actionRenderer: AgGridMenuComponent,
     };
-    this.frameWorkShoreComponent = {
-      actionRenderer: AgGridMenuShoreComponent,
-    };
   }
 
   onCellDoubleClicked(event: any): void {
-    const instanceid=event.value
+    const instanceid = event.value;
     if (event.colDef.field === 'serialNumber') {
       this.router.navigate([
         '/sire/piq-report/' + instanceid + '/' + EFormMode.VIEW,
@@ -318,6 +272,11 @@ export class PIQLandingPageComponent implements OnInit {
     // this.getNewRef();
     this.getLndPgDatas();
     this.getworkflowStatus();
+    this.BudgetService.getDeleteAction().subscribe(res => {
+      console.log(res, 'res');
+      
+      this.getLndPgDatas()
+    })
   }
 
   viewForm(event: any) {
@@ -341,12 +300,12 @@ export class PIQLandingPageComponent implements OnInit {
           let refNo = res;
           const getRefNumber = res.response;
           this.getRefNo = refNo;
+          localStorage.removeItem('getSelectedCheckListID');
           getRefNumber != ''
             ? this.router.navigate([
                 '/sire/piq-report/' + getRefNumber + '/new',
               ])
             : '';
-          localStorage.removeItem('getSelectedCheckListID');
         } else {
           this._snackBarService.loadSnackBar(
             res.error.errorMessage,
@@ -369,7 +328,6 @@ export class PIQLandingPageComponent implements OnInit {
       this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     } else {
     }
-    
   }
 
   getLndPgDatas() {
@@ -378,13 +336,64 @@ export class PIQLandingPageComponent implements OnInit {
     };
     this.BudgetService.getPIQLndPgDatas(payload).subscribe((res: any) => {
       let object = res.response;
+      this.rowData = [];
+     
+      object.forEach((data: any) => {
+        data.isView = true;
+        let submitttedCheck = false;
+        if (this.userDetails?.cntrlType === 'CNT001') {
+          const submittedData = ['RNK003', 'RNK079'];
+          let submittedFlag: any = '';
+
+          if (submittedData && submittedData.length > 0) {
+            submittedFlag = submittedData.find(
+              (y) => y === this.userDetails?.rankCode
+            );
+          }
+          submitttedCheck = !(
+            submittedFlag === '' || submittedFlag === undefined
+          );
+        }
+        data.isEdit =
+          this.userDetails?.cntrlType === 'CNT002'
+            ? ((data.status === 'Inprogress' || data.status === 'Reassigned') &&
+                data.createdin === this.userDetails?.cntrlType) ||
+              !(
+                data.status === 'Submitted' ||
+                data.status === 'Approved' ||
+                ((data.status === 'Inprogress' ||
+                  data.status === 'Reassigned') &&
+                  data.createdin === 'CNT001')
+              )
+            : submitttedCheck
+            ? data.status === 'Inprogress' ||
+              (data.status === 'Reassigned' &&
+                data.createdin === this.userDetails?.cntrlType) ||
+              !(
+                data.status === 'Submitted' ||
+                data.status === 'Approved' ||
+                (data.status === 'Reassigned' && data.createdin === 'CNT002')
+              )
+            : data.status === 'Inprogress' ||
+              data.status === 'Submitted' ||
+              (data.status === 'Reassigned' &&
+                data.createdin === this.userDetails?.cntrlType) ||
+              !(
+                data.status === 'Approved' ||
+                (data.status === 'Reassigned' && data.createdin === 'CNT002')
+              );
+
+        data.isDelete = data.status === 'Inprogress';
+      });
       this.rowData = object;
       this.totalRowCount =
-      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+      object && object.length > 0 ? object.length : 0;
+      console.log(this.rowData, 'rathish');
+      
     });
   }
 
-  deleteRowData(event: any) {
+  deleteRowData(event: any) { 
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {
