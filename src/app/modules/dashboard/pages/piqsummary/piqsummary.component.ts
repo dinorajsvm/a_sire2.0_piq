@@ -314,9 +314,11 @@ export class PIQSummaryComponent implements OnInit {
     private _snackBarService: SnackbarService,
     private datePipe: DatePipe,
     private fb: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
+    ) {
+      this.getworkflowStatus();
+    }
+    
+    ngOnInit(): void {
     this.buildForm();
     if (
       this.pendingQuestCount == undefined ||
@@ -343,7 +345,6 @@ export class PIQSummaryComponent implements OnInit {
     } else {
       this.disableSyncBtn = false;
     }
-    this.getworkflowStatus();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
@@ -354,7 +355,6 @@ export class PIQSummaryComponent implements OnInit {
         this.photoRowData.push(resp);
       });
     });
-    this.getMasterDetails();
     this.certficateGridDatas();
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
@@ -362,6 +362,7 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
       this.rowData = res;
     });
+    this.getMasterDetails();
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
     });
@@ -446,15 +447,17 @@ export class PIQSummaryComponent implements OnInit {
 
   getworkflowStatus() {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
+      console.log("res1");
+      
       let data = res.workflowmapping;
       let val = res.workflowmaster;
-      if (val) {
         val.forEach((item: any) => {
           this.getWrkFlowId = item.wfid;
           this.getSubWrkFlowRank = item.submitter;
           this.getResAprWrkFlowRank = item.approver;
         });
-      }
+        
+
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
           if (
@@ -511,7 +514,9 @@ export class PIQSummaryComponent implements OnInit {
       companycode: this.userDetails.companyCode,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      console.log("res2");
       this.getWorkFlowAction = res.wrkflow;
+      
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
       this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
@@ -547,36 +552,39 @@ export class PIQSummaryComponent implements OnInit {
       this.BudgetService.setEditVisible(false);
       localStorage.setItem('setEditVisible', 'false');
       if (this.getOriginator == 'CNT002') {
-        if (
-          (this.getWorkFlowAction === 'Submitted' &&
-            this.userDetails?.cntrlType === 'CNT002') ||
-          (this.getWorkFlowAction === 'ReAssigned' &&
-            this.userDetails?.cntrlType === 'CNT001') ||
-          (this.getWorkFlowAction != 'Inprogress' &&
-            this.userDetails?.cntrlType === 'CNT001' &&
-            this.getResAprWrkFlowRank != this.userDetails?.rankCode) ||
-          this.getWorkFlowAction === 'Approved'
-        ) {
+        
+        if ((this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT002') || 
+        (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001') ||
+        (this.getWorkFlowAction != 'Inprogress' && this.userDetails?.cntrlType === 'CNT001' && this.getResAprWrkFlowRank != this.userDetails?.rankCode) || 
+        this.getWorkFlowAction === 'Approved') {
           this.hideBtns = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
           this.hideReqBtns = true;
           this.viewMode = true;
+        }else{
+          this.hideBtns = false;
+          this.BudgetService.setEditVisible(false);
+          localStorage.setItem('setEditVisible', 'true');
+          this.hideReqBtns = false;
+          this.viewMode = false;
         }
       } else if (this.getOriginator == 'CNT001') {
-        if (
-          this.userDetails?.cntrlType === 'CNT002' ||
-          (this.getWorkFlowAction == 'Submitted' &&
-            this.userDetails?.cntrlType === 'CNT001' &&
-            this.getResAprWrkFlowRank != this.userDetails?.rankCode) ||
-          (this.getWorkFlowAction == 'Approved' &&
-            this.userDetails?.cntrlType === 'CNT001')
+        if (this.userDetails?.cntrlType === 'CNT002' || (this.getResAprWrkFlowRank != this.userDetails?.rankCode && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001') ||
+        (this.getWorkFlowAction == 'Approved' && this.userDetails?.cntrlType === 'CNT001')
         ) {
           this.hideReqBtns = true;
           this.hideBtns = true;
           this.viewMode = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
+        }
+        else{
+          this.hideBtns = false;
+          this.BudgetService.setEditVisible(false);
+          localStorage.setItem('setEditVisible', 'true');
+          this.hideReqBtns = false;
+          this.viewMode = false;
         }
       }
 

@@ -272,9 +272,7 @@ export class PIQLandingPageComponent implements OnInit {
     // this.getNewRef();
     this.getLndPgDatas();
     this.getworkflowStatus();
-    this.BudgetService.getDeleteAction().subscribe(res => {
-      console.log(res, 'res');
-      
+    this.BudgetService.getDeleteAction().subscribe(res => {      
       this.getLndPgDatas()
     })
   }
@@ -387,9 +385,7 @@ export class PIQLandingPageComponent implements OnInit {
       });
       this.rowData = object;
       this.totalRowCount =
-      object && object.length > 0 ? object.length : 0;
-      console.log(this.rowData, 'rathish');
-      
+      object && object.length > 0 ? object.length : 0;      
     });
   }
 

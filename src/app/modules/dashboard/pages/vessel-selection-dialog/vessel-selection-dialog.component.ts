@@ -167,17 +167,10 @@ export class VesselSelectionDialogComponent {
   }
 
   getCodes() {
-    console.log(this.vesselSelectionForms.value.vesselName, 'vesselName');
-    console.log(
-      this.userDetails.userData.mdata.appInfo.vesselCode,
-      'vesslCode'
-    );
-
     if (this.userDetails?.cntrlType === 'CNT001') {
       this.compVslCode = this.vesselSelectionForms.value.vesselName;
     } else if (this.userDetails?.cntrlType === 'CNT002') {
       this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
-    } else {
     }
   }
 

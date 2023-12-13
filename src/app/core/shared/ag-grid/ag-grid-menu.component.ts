@@ -59,8 +59,6 @@ export class AgGridMenuComponent implements AgRendererComponent {
     this.router.navigate(['/sire/piq-report/' + id + '/' + EFormMode.VIEW]);
   }
   deleteRowData(event: any,id:any) {
-    console.log('work');
-    
     const instanceid = id;
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {
