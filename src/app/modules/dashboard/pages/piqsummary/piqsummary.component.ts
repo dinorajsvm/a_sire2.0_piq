@@ -887,14 +887,14 @@ export class PIQSummaryComponent implements OnInit {
         window.location.reload();
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(
-          'Form Reassigned Successfully',
+          'Reassigned Successfully',
           colorCodes.INFO
         );
       } else if (type == 'approve') {
         window.location.reload();
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(
-          'Form Aprroved Successfully',
+          'Aprroved Successfully',
           colorCodes.INFO
         );
       }

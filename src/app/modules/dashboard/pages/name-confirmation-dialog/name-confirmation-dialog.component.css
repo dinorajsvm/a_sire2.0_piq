@@ -7,7 +7,7 @@
   padding: 5px 10px;
 } */
 ::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container {
-  width: 25vw !important;
+  width: 35vw !important;
   height: 140px !important;
   padding: 0 24px !important;
 }
@@ -29,7 +29,7 @@
 }
 
 ::ng-deep .confirm-dialog-container ::ng-deep .mdc-dialog__actions {
-  padding: 0 5px;
+  padding: 0 15px;
   min-height: 25px;
 }
 

@@ -497,7 +497,6 @@ export class PiqReportComponent implements OnInit {
                 const trimedAns = ans.replace(/\[|\]/g, '');
                 mainQus.answer = trimedAns;
 
-                // const tempValue  = JSON.parse(ans);
               }
               this.getMainQuestCounts[index] = subHeader;
               var booleanCount: any = [];

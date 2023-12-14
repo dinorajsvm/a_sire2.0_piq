@@ -1,6 +1,7 @@
 @import "../../../../../piq.css";
 ::ng-deep .gridSelection-dialog-container ::ng-deep .mat-mdc-dialog-container {
     width: 69vw !important;
+    padding: 0 24px !important;
 }
 
 ::ng-deep .gridSelection-dialog-container ::ng-deep .mat-mdc-dialog-content {

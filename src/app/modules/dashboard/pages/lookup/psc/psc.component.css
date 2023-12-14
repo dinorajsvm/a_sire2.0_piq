@@ -1,6 +1,7 @@
 @import "../../../../../../piq.css";
 ::ng-deep .psc-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 100vw !important;
+  padding: 0 24px !important;
 }
 
 ::ng-deep .psc-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content{

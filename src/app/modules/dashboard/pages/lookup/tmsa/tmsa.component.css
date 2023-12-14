@@ -1,6 +1,7 @@
 @import "../../../../../../piq.css";
 ::ng-deep .tmsa-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 100vw !important;
+  padding: 0 24px !important;
 }
 
 ::ng-deep .highlighted-row {

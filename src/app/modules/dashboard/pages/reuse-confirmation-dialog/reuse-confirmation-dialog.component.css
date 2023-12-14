@@ -1,6 +1,7 @@
 @import "../../../../../piq.css";
 ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 50vw !important;
+  padding: 0 24px !important;
 }
 
 ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-content {
@@ -13,6 +14,7 @@
 
 ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-actions {
   min-height: 40px !important;
+  padding: 0 15px;
 }
 
 ::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{

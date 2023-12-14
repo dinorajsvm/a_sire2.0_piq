@@ -1,6 +1,7 @@
 @import "../../../../../../piq.css";
 ::ng-deep .lookUp-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 100vw !important;
+  padding: 0 24px !important;
 }
 
 .syncBtn.mat-mdc-button.mat-mdc-button-base {

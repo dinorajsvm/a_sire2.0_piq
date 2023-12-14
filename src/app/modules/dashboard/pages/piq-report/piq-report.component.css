@@ -22,6 +22,7 @@
 /* Mk style */
 .content_wrapper {
   border: 1px solid #b1aeae;
+  overflow-x: hidden;
 }
 
 .list_wrapper ul {
@@ -335,7 +336,7 @@
 
 .list_wrapper {
   border-right: 1px solid #b1aeae;
-  height: calc(100vh - 230px);
+  height: calc(100vh - 215px);
   overflow: auto;
   overflow-x: hidden;
 }
@@ -440,7 +441,7 @@
 }
 
 .content_load_wrap {
-  height: calc(100vh - 230px);
+  height: calc(100vh - 215px);
   overflow: auto;
   /* background: #dee1f0; */
   background: white;
@@ -448,7 +449,7 @@
 }
 
 .content_load_wrappen {
-  height: calc(100vh - 230px);
+  height: calc(100vh - 215px);
   overflow: auto;
   background: white;
   padding: 5px;
@@ -701,6 +702,7 @@
   padding: 0;
   max-width: 73.1%;
   transition: max-width 0.7s ease-in-out;
+  
 }
 .pendingQuest {
   padding: 0;
@@ -710,7 +712,7 @@
 
 .expandedContent {
   max-width: 98% !important;
-  transition: max-width 0.7s ease-in-out;
+  /* transition: max-width 0.7s ease-in-out; */
 }
 
 .selected-chip {
@@ -1099,8 +1101,9 @@ legend {
 }
 
 .description {
-  height: calc(100vh - 255px);
-  overflow: auto;
+  height: calc(100vh - 260px);
+  overflow-y: auto;
+  overflow-x: hidden;
   cursor: pointer;
   /* box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
     -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12); */
@@ -1108,17 +1111,29 @@ legend {
 
 .guideWrap {
   max-width: 0;
-  display: none;
+  padding: 0;
   transition: max-width 0.7s ease-in-out;
   box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
     -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
+.guide-content-Wrap{
+  height: calc(100vh - 215px);
+}
+
+.guideWrap .guideHide {
+ display: none;
+}
+.guideWrapExpanded .guideShow {
+  display: block !important;
+}
+
+
 .guideWrapExpanded {
   max-width: 25% !important;
-  display: block !important;
-  transition: max-width 0.7s ease-in-out;
-  box-shadow: -2px 0px 1px -1px rgba(0, 0, 0, 0.2),
+  padding: 0;
+  transition: max-width 0.9s ease-in-out;
+  box-shadow: 2px 0px 1px -1px rgba(0, 0, 0, 0.2),
     -1px 0px 1px 0px rgba(0, 0, 0, 0.14), -1px 0px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
