@@ -204,6 +204,9 @@ export class PIQSummaryComponent implements OnInit {
   photoRepImgCounts: any;
   getPlannedSubDate: any;
   getOriginator: any;
+  getApproverRanks: any;
+  getSubmitterRanks: any;
+  matchedApprRank: any;
 
   dateFormat(params: any) {
     const crdate = params.data.crdate;
@@ -314,25 +317,27 @@ export class PIQSummaryComponent implements OnInit {
     private _snackBarService: SnackbarService,
     private datePipe: DatePipe,
     private fb: FormBuilder
-    ) {
-      this.getworkflowStatus();
-    }
+  ) {
     
-    ngOnInit(): void {
+  }
+
+  ngOnInit(): void {
+    this.userDetails = this._storage.getUserDetails();
+    this.locationCode = localStorage.getItem('locationCode');
     this.buildForm();
     if (
       this.pendingQuestCount == undefined ||
       this.totalQuestCount == undefined
-    ) {
-      this.pendingQuestCount = 0;
-      this.totalQuestCount = 0;
-    }
+      ) {
+        this.pendingQuestCount = 0;
+        this.totalQuestCount = 0;
+      }
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableSubFlowBtn = true;
       this.disableResAprFlowBtn = true;
       this.viewMode = true;
-
+      
       this.BudgetService.getEnableBtn().subscribe((res: any) => {
         if (res == false) {
           this.disableSyncBtn = res;
@@ -345,10 +350,9 @@ export class PIQSummaryComponent implements OnInit {
     } else {
       this.disableSyncBtn = false;
     }
+    this.getworkflowStatus();
     this.getAnswerValue();
-    this.userDetails = this._storage.getUserDetails();
-    this.locationCode = localStorage.getItem('locationCode');
-    this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
+    
     this.photoRowData = [];
     this.photoData.forEach((res: any) => {
       res.subTopics.forEach((resp: any) => {
@@ -362,7 +366,6 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getSummaryGridData().subscribe((res: any) => {
       this.rowData = res;
     });
-    this.getMasterDetails();
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
     });
@@ -446,30 +449,38 @@ export class PIQSummaryComponent implements OnInit {
   }
 
   getworkflowStatus() {
+    this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
-      console.log("res1");
-      
       let data = res.workflowmapping;
       let val = res.workflowmaster;
-        val.forEach((item: any) => {
-          this.getWrkFlowId = item.wfid;
-          this.getSubWrkFlowRank = item.submitter;
-          this.getResAprWrkFlowRank = item.approver;
-        });
-        
+      // val.forEach((item: any) => {
+      //   item.approvers=["RNK079","RNK080","RNK081"];
+      //   item.submiters=["RNK001","RNK002","RNK003"];
+      //   this.getApproverRanks = item.approvers;
+      //   this.getSubmitterRanks = item.submiters;
+      // });
 
+      this.getWrkFlowId = val[0].wfid;
+      this.getSubWrkFlowRank = val[0].submitter;
+      this.getResAprWrkFlowRank = val[0].approver;
+      val[0].approvers = ['RNK079', 'RNK080', 'RNK081'];
+      val[0].submiters = ['RNK001', 'RNK002', 'RNK003','RNK079','RNK076'];
+      const getAppRank = val[0].approvers.find((x: any) => x === this.getRank);
+      const getSubRank = val[0].submiters.find((x: any) => x === this.getRank);
+      this.getApproverRanks = getAppRank !== undefined ? getAppRank : 0;
+      this.getSubmitterRanks = getSubRank !== undefined ? getSubRank : 0;
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
           if (
-            (this.getSubWrkFlowRank == this.getRank ||
-              this.getResAprWrkFlowRank == this.getRank) &&
+            (this.getSubmitterRanks == this.getRank ||
+              this.getApproverRanks == this.getRank) &&
             res == false
           ) {
             this.disableSubFlowBtn = false;
           } else {
             this.disableSubFlowBtn = true;
           }
-          if (this.getResAprWrkFlowRank == this.getRank && res == false) {
+          if (this.getApproverRanks == this.getRank && res == false) {
             this.disableResAprFlowBtn = false;
           } else {
             this.disableResAprFlowBtn = true;
@@ -477,19 +488,20 @@ export class PIQSummaryComponent implements OnInit {
         });
       } else {
         if (
-          this.getSubWrkFlowRank == this.getRank ||
-          this.getResAprWrkFlowRank == this.getRank
+          this.getSubmitterRanks == this.getRank ||
+          this.getApproverRanks == this.getRank
         ) {
           this.disableSubFlowBtn = false;
         } else {
           this.disableSubFlowBtn = true;
         }
-        if (this.getResAprWrkFlowRank == this.getRank) {
+        if (this.getApproverRanks == this.getRank) {
           this.disableResAprFlowBtn = false;
         } else {
           this.disableResAprFlowBtn = true;
         }
       }
+      this.getMasterDetails();
     });
   }
 
@@ -514,9 +526,8 @@ export class PIQSummaryComponent implements OnInit {
       companycode: this.userDetails.companyCode,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      console.log("res2");
       this.getWorkFlowAction = res.wrkflow;
-      
+
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
       this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
@@ -551,41 +562,38 @@ export class PIQSummaryComponent implements OnInit {
       }
       this.BudgetService.setEditVisible(false);
       localStorage.setItem('setEditVisible', 'false');
-      if (this.getOriginator == 'CNT002') {
-        
-        if ((this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT002') || 
-        (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001') ||
-        (this.getWorkFlowAction != 'Inprogress' && this.userDetails?.cntrlType === 'CNT001' && this.getResAprWrkFlowRank != this.userDetails?.rankCode) || 
-        this.getWorkFlowAction === 'Approved') {
+      if (this.getOriginator == 'CNT002') {        
+        if (
+          (this.getWorkFlowAction === 'Submitted' &&
+            this.userDetails?.cntrlType === 'CNT002') ||
+          (this.getWorkFlowAction === 'ReAssigned' &&
+            this.userDetails?.cntrlType === 'CNT001') ||
+          (this.getWorkFlowAction != 'Inprogress' &&
+            this.userDetails?.cntrlType === 'CNT001' &&
+            this.getApproverRanks != this.userDetails?.rankCode) ||
+          this.getWorkFlowAction === 'Approved'
+        ) {
           this.hideBtns = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
           this.hideReqBtns = true;
           this.viewMode = true;
-        }else{
-          this.hideBtns = false;
-          this.BudgetService.setEditVisible(false);
-          localStorage.setItem('setEditVisible', 'true');
-          this.hideReqBtns = false;
-          this.viewMode = false;
-        }
+        } 
       } else if (this.getOriginator == 'CNT001') {
-        if (this.userDetails?.cntrlType === 'CNT002' || (this.getResAprWrkFlowRank != this.userDetails?.rankCode && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001') ||
-        (this.getWorkFlowAction == 'Approved' && this.userDetails?.cntrlType === 'CNT001')
+        if (
+          this.userDetails?.cntrlType === 'CNT002' ||
+          (this.getApproverRanks != this.userDetails?.rankCode &&
+            this.getWorkFlowAction === 'Submitted' &&
+            this.userDetails?.cntrlType === 'CNT001') ||
+          (this.getWorkFlowAction == 'Approved' &&
+            this.userDetails?.cntrlType === 'CNT001')
         ) {
           this.hideReqBtns = true;
           this.hideBtns = true;
           this.viewMode = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
-        }
-        else{
-          this.hideBtns = false;
-          this.BudgetService.setEditVisible(false);
-          localStorage.setItem('setEditVisible', 'true');
-          this.hideReqBtns = false;
-          this.viewMode = false;
-        }
+        } 
       }
 
       if (

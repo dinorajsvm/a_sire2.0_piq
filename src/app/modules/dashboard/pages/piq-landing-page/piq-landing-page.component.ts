@@ -340,7 +340,7 @@ export class PIQLandingPageComponent implements OnInit {
         data.isView = true;
         let submitttedCheck = false;
         if (this.userDetails?.cntrlType === 'CNT001') {
-          const submittedData = ['RNK003', 'RNK079'];
+          const submittedData = ['RNK001', 'RNK076'];
           let submittedFlag: any = '';
 
           if (submittedData && submittedData.length > 0) {
