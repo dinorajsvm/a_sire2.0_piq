@@ -65,27 +65,27 @@
         <div class="vesselParticuler" *ngFor="let topbar of topbarData">
           <div class="marg_LR">
             <label>Vessel Name :</label>
-            <span>{{ topbar.vesselname }} </span>
+            <span [matTooltip]="topbar.vesselname">{{ topbar.vesselname }} </span>
           </div>
           <div class="marg_LR">
             <label>Vessel Type :</label>
-            <span> {{ topbar.vesseltypedesc }}</span>
+            <span [matTooltip]="topbar.vesseltypedesc"> {{ topbar.vesseltypedesc }}</span>
           </div>
           <div class="marg_LR">
             <label>Class :</label>
-            <span>{{ topbar.classname }}</span>
+            <span [matTooltip]="topbar.classname">{{ topbar.classname }}</span>
           </div>
           <div class="marg_LR">
             <label>Flag :</label>
-            <span>{{ topbar.countryname }}</span>
+            <span [matTooltip]="topbar.countryname"> {{ topbar.countryname }}</span>
           </div>
           <div class="marg_LR">
             <label>IMO Number :</label>
-            <span>{{ topbar.imono }}</span>
+            <span [matTooltip]="topbar.imono">{{ topbar.imono }}</span>
           </div>
           <div class="marg_LR">
             <label>Port Of Registry :</label>
-            <span>{{ topbar.port_reg }}</span>
+            <span [matTooltip]="topbar.port_reg">{{ topbar.port_reg }}</span>
           </div>
           <div class="marg_LR">
             <label>Date Of Build :</label>

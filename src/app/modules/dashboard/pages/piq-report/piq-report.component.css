@@ -946,10 +946,15 @@ p {
 }
 
 .vesselParticuler span {
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-weight: unset;
   padding: 0 5px;
-  font-size: 12px;
 }
+
+
 
 .list-header {
   font-size: 12px;
