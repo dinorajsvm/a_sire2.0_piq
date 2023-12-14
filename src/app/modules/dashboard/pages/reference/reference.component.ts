@@ -111,16 +111,6 @@ export class ReferenceComponent implements OnInit {
     });
   }
 
-  convertFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    const size = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
-    const unit = sizes[i];
-    return size ? `${size} ${unit}` : '0 KB';
-  }
-
   getCertificateRepoList() {
     const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     const companyCode = this.userDetails.companyCode;

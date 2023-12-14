@@ -31,7 +31,7 @@ export class BudgetService {
   private saveMappedCertificate = new Subject<any>();
   private getExceptionGridDataList = new BehaviorSubject<any>(0);
   private getImageCount = new BehaviorSubject<any>(0);
-  private getPhotoRepList = new BehaviorSubject<any>(0);
+  private getPhotoRepList = new Subject<any>();
   private getRemarksCount = new BehaviorSubject<any>(0);
   private exceptionList = new Subject<any>();
   private guidelineList = new Subject<any>();

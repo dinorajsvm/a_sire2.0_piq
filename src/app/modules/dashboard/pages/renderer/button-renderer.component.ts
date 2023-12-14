@@ -33,9 +33,6 @@ export class ButtonRendererComponent implements ICellRendererAngularComp {
   agInit(params: any): void {
     this.params = params;
     this.label = this.params.label || null;
-    console.log(localStorage.getItem('setEditVisible'), 'poip');
-    
-   
   }
 
   refresh(params?: any): boolean {

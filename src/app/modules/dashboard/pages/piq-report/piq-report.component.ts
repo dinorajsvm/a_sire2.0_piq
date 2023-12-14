@@ -2506,8 +2506,8 @@ export class PiqReportComponent implements OnInit {
         let lookUpPSCDate: any;
         let lookUpNonPSCDate: any;
         if (data && data.response) {
-          lookUpPSCDate = data.response.PSC.find((x: any) => x.highlight);
-          lookUpNonPSCDate = data.response['Non-sPSC'].find(
+          lookUpPSCDate = data.response['Non-sPSC'].find((x: any) => x.highlight);
+          lookUpNonPSCDate = data.response['PSC'].find(
             (x: any) => x.highlight
           );
         }
@@ -2960,9 +2960,11 @@ export class PiqReportComponent implements OnInit {
   }
 
   home() {
-    this.router.navigate(['/sire/piq-landing/']);
+    localStorage.removeItem('getSelectedCheckListID')
     this.BudgetService.setEditVisible(false);
     localStorage.setItem('setEditVisible', 'false');
+    this.router.navigate(['/sire/piq-landing/']);
+ 
   }
   disableBtn = false;
   edit() {

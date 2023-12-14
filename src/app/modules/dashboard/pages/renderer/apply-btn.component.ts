@@ -28,7 +28,6 @@ export class ApplyRendererComponent implements ICellRendererAngularComp {
   agInit(params: any): void {
     this.params = params;
     this.label = this.params.label || null;
-    console.log(localStorage.getItem('setEditVisible'), '989');
   }
 
   refresh(params?: any): boolean {

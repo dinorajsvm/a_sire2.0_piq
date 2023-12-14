@@ -165,16 +165,16 @@ export class PscComponent {
     if (chipType === 'Suggested') {
       this.isChecked = false;
       this.isViewAll = false;
-      this.rowData = this.apiResponse['Non-sPSC'];
+      this.rowData = this.apiResponse['PSC'];
     } else if (chipType === 'All Inspection') {
       this.isChecked = true;
       this.isViewAll = false;
-      this.rowData = this.apiResponse.PSC;
+      this.rowData = this.apiResponse['Non-sPSC'];
     } else if (chipType === 'ViewAll') {
       this.isViewAll = true;
       this.isChecked = true;
-      this.rowPscData = this.apiResponse.PSC;
-      this.rowNonPscData = this.apiResponse['Non-sPSC'];
+      this.rowPscData = this.apiResponse['Non-sPSC'];
+      this.rowNonPscData = this.apiResponse['PSC'];
     }
     this.totalRowCount =
       this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;

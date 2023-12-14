@@ -129,23 +129,23 @@ export class PIQSummaryComponent implements OnInit {
   ];
   photoColumnDefs: ColDef[] = [
     {
-      field: 'subTopicTitle',
+      field: 'topic',
       headerName: 'Sub Topic Title',
-      tooltipComponent: 'subTopicTitle',
+      tooltipField: 'topic',
       flex: 1,
       floatingFilter: false,
     },
     {
-      field: 'photoAvailable',
+      field: 'image',
       headerName: 'Photo Available',
-      tooltipField: 'photoAvailable',
+      tooltipField: 'image',
       flex: 1,
       floatingFilter: false,
     },
     {
-      field: 'isNotMatching',
+      field: 'nameMismatch',
       headerName: 'Is Not Matching',
-      tooltipField: 'isNotMatching',
+      tooltipField: 'nameMismatch',
       flex: 1,
       floatingFilter: false,
     },
@@ -352,13 +352,10 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.getworkflowStatus();
     this.getAnswerValue();
-    
-    this.photoRowData = [];
-    this.photoData.forEach((res: any) => {
-      res.subTopics.forEach((resp: any) => {
-        this.photoRowData.push(resp);
-      });
-    });
+    this.userDetails = this._storage.getUserDetails();
+    this.locationCode = localStorage.getItem('locationCode');
+    this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
+    this.getMasterDetails();
     this.certficateGridDatas();
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
@@ -403,8 +400,7 @@ export class PIQSummaryComponent implements OnInit {
       this.photoRepImgCounts = res;
     });
     this.BudgetService.getPrGridData().subscribe((res: any) => {
-      this.photoRowData = [];
-      this.photoRowData = [...this.photoRowData, ...res];
+      this.photoRowData = res
     });
     this.getplannedDate();
   }

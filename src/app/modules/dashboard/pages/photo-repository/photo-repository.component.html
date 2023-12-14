@@ -169,7 +169,7 @@
                             img.filepath,
                             head.topic,
                             subHead.subTopicTitle,
-                            getFilenameFromUrl(img.localfilename)
+                            getFilenameFromUrl(img.formattedName , img.localfilename)
                           )
                         "
                       >
@@ -202,7 +202,7 @@
                   </div>
                   <div class="img_Size">
                     <span class="charCount"
-                      >Size:{{ convertFileSize(img.sizeinbytes) }}</span
+                      >Size:{{ img.sizeinbytes }}</span
                     >
                   </div>
                   <div class="img_name">

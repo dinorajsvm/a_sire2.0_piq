@@ -374,7 +374,7 @@ export class TMSAComponent implements OnInit {
         this.isShowInternalShip = true;
         this.isShowInternalExternal = false;
       } else if (this.data.qid === '3.2.3' || this.data.qid === '3.2.4') {
-        if (chipType === 'External Inspection Report') {
+        if (chipType === 'External Inspection') {
           this.showExternal();
         } else if (chipType === 'ViewAll') {
           this.showView();

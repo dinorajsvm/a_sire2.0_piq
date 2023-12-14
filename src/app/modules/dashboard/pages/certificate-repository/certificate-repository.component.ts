@@ -140,11 +140,6 @@ export class CertificateRepositoryComponent implements OnInit {
           field: 'filesize',
           headerName: 'File Size',
           tooltipField: 'filesize',
-          // valueGetter: (params) => {
-          //   return params.data.filesize
-          //     ? this.convertFileSize(params.data.filesize)
-          //     : '0 Bytes';
-          // },
           flex: 1,
         },
         {
@@ -246,15 +241,7 @@ export class CertificateRepositoryComponent implements OnInit {
   isString(input: any): input is string {
     return typeof input === 'string';
   }
-  convertFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    const size = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
-    const unit = sizes[i];
-    return size ? `${size} ${unit}` : '0 KB';
-  }
+
   downloadFile(event: any) {
     const fileUrl = event.rowData.filepath;
     this.BudgetService.downloadFile(fileUrl).then(
