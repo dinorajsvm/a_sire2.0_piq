@@ -37,24 +37,37 @@ export class ExceptionQuestionComponent implements OnInit {
         onClick: this.onBtnClick1.bind(this),
       },
     },
-    { field: 'subHeaders', headerName: 'Chapter', resizable: true,tooltipField: 'subHeaders', },
+    {
+      field: 'subHeaders',
+      headerName: 'Chapter',
+      resizable: true,
+      tooltipField: 'subHeaders',
+    },
     {
       field: 'mainQuestion',
       headerName: 'Main Question',
-      resizable: true,tooltipField: 'mainQuestion',
+      resizable: true,
+      tooltipField: 'mainQuestion',
     },
-    { field: 'subName', headerName: 'Sub Question', resizable: true,tooltipField: 'subName', },
+    {
+      field: 'subName',
+      headerName: 'Sub Question',
+      resizable: true,
+      tooltipField: 'subName',
+    },
     {
       field: 'presetValue',
       headerName: 'Preset Value',
       resizable: true,
-      width: 150,tooltipField: 'presetValue',
+      width: 150,
+      tooltipField: 'presetValue',
     },
     {
       field: 'answer',
       headerName: 'Answer',
       resizable: true,
-      width: 100,tooltipField: 'answer',
+      width: 100,
+      tooltipField: 'answer',
     },
     {
       field: 'remark',
@@ -63,7 +76,8 @@ export class ExceptionQuestionComponent implements OnInit {
       wrapText: true,
       cellEditor: 'agLargeTextCellEditor',
       cellEditorPopup: true,
-      flex: 1,tooltipField: 'remark',
+      flex: 1,
+      tooltipField: 'remark',
     },
   ];
   referenceNumber: any;
@@ -96,13 +110,10 @@ export class ExceptionQuestionComponent implements OnInit {
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
-      this.columnDefs[6].editable =
-        !this.disableBtns;
-        this.columnDefs[6].cellEditorPopup =
-        !this.disableBtns;
-        this.columnDefs[6].wrapText =
-        !this.disableBtns;
-        this.gridApi.setColumnDefs(this.columnDefs);
+      this.columnDefs[6].editable = !this.disableBtns;
+      this.columnDefs[6].cellEditorPopup = !this.disableBtns;
+      this.columnDefs[6].wrapText = !this.disableBtns;
+      this.gridApi.setColumnDefs(this.columnDefs);
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
@@ -133,14 +144,11 @@ export class ExceptionQuestionComponent implements OnInit {
   }
 
   onCellClicked(event: any): void {
-    // Assuming you have a unique identifier in your rowData
-    const selectedItemId = event.data.subHeaders;
-    const targetColumnName = 'subHeaders';
     if (
       !(event.colDef.field === 'autoSync' || event.colDef.field === 'remark')
     ) {
-      const tab = 1;
-      this.BudgetService.setTabChangeData(tab);
+      event.data.tab = 1;
+      this.BudgetService.setTabChangeData(event.data);
     }
   }
 

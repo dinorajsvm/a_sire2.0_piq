@@ -241,9 +241,9 @@ export class PiqReportComponent implements OnInit {
       )
       .subscribe((event: NavigationEnd) => {
         if (event.url === '/sire/piq-landing') {
-          setTimeout(() => {
-            window.location.reload();
-          }, 100);
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 100);
         }
       });
   }
@@ -313,7 +313,7 @@ export class PiqReportComponent implements OnInit {
         selected: element.selected,
       });
     });
-    this.BudgetService.setPiqQuestionData(value.value)
+    this.BudgetService.setPiqQuestionData(value.value);
     var ansPayload = {
       chapterdata: JSON.stringify(this.rowSummaryData),
       instanceid: this.referenceNumber,
@@ -490,7 +490,6 @@ export class PiqReportComponent implements OnInit {
                 const ans = mainQus.answer.replace(/\[|\]/g, '');
                 const trimedAns = ans.replace(/\[|\]/g, '');
                 mainQus.answer = trimedAns;
-
               }
               this.getMainQuestCounts[index] = subHeader;
               var booleanCount: any = [];
@@ -718,8 +717,7 @@ export class PiqReportComponent implements OnInit {
         });
       }
     });
-    this.BudgetService.setPiqQuestionData(this.dynamicForms.value)
-    
+    this.BudgetService.setPiqQuestionData(this.dynamicForms.value);
   }
 
   exceptionFn(ques: any, mquest: any, quest: any) {
@@ -2500,10 +2498,10 @@ export class PiqReportComponent implements OnInit {
         let lookUpPSCDate: any;
         let lookUpNonPSCDate: any;
         if (data && data.response) {
-          lookUpPSCDate = data.response['Non-sPSC'].find((x: any) => x.highlight);
-          lookUpNonPSCDate = data.response['PSC'].find(
+          lookUpPSCDate = data.response['Non-sPSC'].find(
             (x: any) => x.highlight
           );
+          lookUpNonPSCDate = data.response['PSC'].find((x: any) => x.highlight);
         }
 
         if (lookUpPSCDate || lookUpNonPSCDate) {
@@ -2848,10 +2846,10 @@ export class PiqReportComponent implements OnInit {
   }
 
   highlightSearchText(text: string): string {
-    if (this.searchText.length > 0) {
-      const regex = new RegExp(this.searchText, 'gi');
-      return text.replace(regex, '<span class="highlight">$&</span>');
-    }
+    // if (this.searchText.length > 0) {
+    //   const regex = new RegExp(this.searchText, 'gi');
+    //   return text.replace(regex, '<span class="highlight">$&</span>');
+    // }
     return text;
   }
 
@@ -2949,11 +2947,10 @@ export class PiqReportComponent implements OnInit {
   }
 
   home() {
-    localStorage.removeItem('getSelectedCheckListID')
+    localStorage.removeItem('getSelectedCheckListID');
     this.BudgetService.setEditVisible(false);
     localStorage.setItem('setEditVisible', 'false');
     this.router.navigate(['/sire/piq-landing/']);
- 
   }
   disableBtn = false;
   edit() {
@@ -3002,7 +2999,8 @@ export class PiqReportComponent implements OnInit {
 
   onTabChanged(event: any) {
     this.BudgetService.getTabChangeData().subscribe((res: any) => {
-      this.tabGroup.selectedIndex = res;
+      this.tabGroup.selectedIndex = res.tab;
+      this.selectValue(res.subHeaders, res);
     });
     if (event && event.index === 0) {
       this.BudgetService.setRemarksCountData(this.getExceptionGridData);

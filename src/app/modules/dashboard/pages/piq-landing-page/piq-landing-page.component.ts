@@ -270,6 +270,8 @@ export class PIQLandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getworkflowStatus();
+  //  = this.router.url;
+    console.log(this.router.url, 'browser url');
     this.getCodes();
     // this.getNewRef();
     this.getLndPgDatas();
