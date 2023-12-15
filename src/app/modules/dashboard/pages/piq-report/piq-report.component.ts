@@ -2909,7 +2909,7 @@ export class PiqReportComponent implements OnInit {
           (this.getOrigination == 'CNT002' &&
             (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
         ) {
-          this.viewMode = true;
+          // this.viewMode = true;
           var flag = false;
           return flag;
         } else {

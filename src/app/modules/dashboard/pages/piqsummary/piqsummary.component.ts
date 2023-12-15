@@ -465,6 +465,8 @@ export class PIQSummaryComponent implements OnInit {
       const getSubRank = val[0].submiters.find((x: any) => x === this.getRank);
       this.getApproverRanks = getAppRank !== undefined ? getAppRank : 0;
       this.getSubmitterRanks = getSubRank !== undefined ? getSubRank : 0;
+      console.log("this.getApproverRanks",this.getApproverRanks);
+      console.log("this.getSubmitterRanks",this.getSubmitterRanks);
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
           if (
@@ -586,7 +588,7 @@ export class PIQSummaryComponent implements OnInit {
         ) {
           this.hideReqBtns = true;
           this.hideBtns = true;
-          this.viewMode = true;
+          // this.viewMode = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
         } 

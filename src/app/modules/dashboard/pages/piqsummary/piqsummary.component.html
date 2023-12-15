@@ -211,7 +211,7 @@
                       *ngIf="
                         getWorkFlowAction == 'Submitted' &&
                         userDetails?.cntrlType === 'CNT001' &&
-                        this.getResAprWrkFlowRank === userDetails?.rankCode
+                        this.getApproverRanks === userDetails?.rankCode
                       "
                     >
                       <button
@@ -236,7 +236,7 @@
                       *ngIf="
                         getWorkFlowAction == 'Submitted' &&
                         userDetails?.cntrlType === 'CNT001' &&
-                        this.getResAprWrkFlowRank === userDetails?.rankCode
+                        this.getApproverRanks === userDetails?.rankCode
                       "
                     >
                       <button
@@ -299,7 +299,6 @@
                   id="float-input"
                   autoResize="true"
                   [readonly]="viewMode"
-                  [ngClass]="{ 'read-only': hideReqBtns }"
                   [ngClass]="{ 'read-only': viewMode }"
                   class="w-100"
                   rows="3"
