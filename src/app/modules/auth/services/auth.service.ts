@@ -14,11 +14,12 @@ export class AuthService {
     private _http: HttpService,
     private _storageService: StorageService,
     private _router: Router
-  ) { }
+  ) {}
 
   login(loginPayload: any, errorResponseCallback: any): void {
     loginPayload.projectType = environment.projectType;
-    this._http.requestCall(
+    this._http
+      .requestCall(
         Endpoints.LOGIN,
         ApiMethod.POST,
         loginPayload,
@@ -34,6 +35,11 @@ export class AuthService {
           //   this._storageService.setRoleCode(roleDetails.result.roleCode);
           //   this.redirect();
           // });
+          console.log(Endpoints.LOGIN, 'login');
+          console.log(ApiMethod.POST, 'post');
+          console.log(loginPayload, 'loginPayload');
+          console.log(environment.authUrl, 'url');
+
           this.redirect();
         },
         (error: any) => {
@@ -66,6 +72,7 @@ export class AuthService {
         environment.authUrl
       )
       .subscribe((res: any) => {
+        console.log(res, 'Success response');
         successCallback(res);
       });
   }
@@ -92,6 +99,8 @@ export class AuthService {
   }
 
   redirect() {
+    console.log('redirect');
+
     this._router.navigate(['sire']);
   }
 

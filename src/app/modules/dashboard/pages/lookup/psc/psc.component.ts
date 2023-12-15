@@ -228,7 +228,7 @@ export class PscComponent {
       this.data.questionId
     ).subscribe((data) => {
       this.apiResponse = data.response;
-      this.rowData = this.apiResponse.PSC;
+      this.rowData = this.apiResponse['Non-sPSC'];
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });

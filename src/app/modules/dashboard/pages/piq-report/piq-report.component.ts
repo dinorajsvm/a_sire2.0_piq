@@ -243,6 +243,8 @@ export class PiqReportComponent implements OnInit {
         )
       )
       .subscribe((event: NavigationEnd) => {
+        console.log(event, 'event');
+        
         if (event.url === '/sire/piq-landing') {
           setTimeout(() => {
             window.location.reload();
@@ -2845,7 +2847,7 @@ export class PiqReportComponent implements OnInit {
       this.renderer.setProperty(expandIcon, 'textContent', 'chevron_right');
     }
   }
-  onSearchTextChanged(searchValue: string) {
+  onSearchTextChanged(searchValue: string) {    
     this.searchText = searchValue;
     this.isSearchActive = searchValue.length > 0;
     this.getAllDatas.forEach((heading: any) => {
@@ -2854,10 +2856,12 @@ export class PiqReportComponent implements OnInit {
   }
 
   highlightSearchText(text: string): string {
-    if (this.searchText.length > 0) {
-      const regex = new RegExp(this.searchText, 'gi');
-      return text.replace(regex, '<span class="highlight">$&</span>');
-    }
+    // console.log(text, 'searchValue');
+
+    // if (this.searchText.length > 0) {
+    //   const regex = new RegExp(this.searchText, 'gi');
+    //   return text.replace(regex, '<span class="highlight">$&</span>');
+    // }
     return text;
   }
 
