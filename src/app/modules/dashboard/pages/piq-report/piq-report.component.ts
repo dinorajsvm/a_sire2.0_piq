@@ -266,8 +266,8 @@ export class PiqReportComponent implements OnInit {
     this.isLoader = true;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-      val[0].approvers = ['RNK079', 'RNK080', 'RNK081'];
-      const getAppRank = val[0].approvers.find((x: any) => x === this.userDetails?.rankCode);
+      // val[0].approvers = ['RNK079', 'RNK080', 'RNK081'];
+      const getAppRank = val&& val[0]&&val[0].approvers?val[0].approvers.find((x: any) => x === this.userDetails?.rankCode):""
       this.getApproveRank = getAppRank !== undefined ? getAppRank : 0;
       this.isLoader = false;
     });

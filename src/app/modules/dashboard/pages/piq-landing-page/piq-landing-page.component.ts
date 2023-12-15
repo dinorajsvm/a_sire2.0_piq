@@ -209,6 +209,7 @@ export class PIQLandingPageComponent implements OnInit {
 
   public gridOptions: GridOptions = {};
   gridColumnApi: any;
+  getSubmitterRank: any;
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -268,10 +269,10 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getworkflowStatus();
     this.getCodes();
     // this.getNewRef();
     this.getLndPgDatas();
-    this.getworkflowStatus();
     this.BudgetService.getDeleteAction().subscribe(res => {      
       this.getLndPgDatas()
     })
@@ -340,16 +341,16 @@ export class PIQLandingPageComponent implements OnInit {
         data.isView = true;
         let submitttedCheck = false;
         if (this.userDetails?.cntrlType === 'CNT001') {
-          const submittedData = ['RNK001', 'RNK076'];
-          let submittedFlag: any = '';
+          // const submittedData = ['RNK001', 'RNK076'];
+          // let submittedFlag: any = '';
 
-          if (submittedData && submittedData.length > 0) {
-            submittedFlag = submittedData.find(
-              (y) => y === this.userDetails?.rankCode
-            );
-          }
+          // if (submittedData && submittedData.length > 0) {
+          //   submittedFlag = submittedData.find(
+          //     (y) => y === this.userDetails?.rankCode
+          //   );
+          // }
           submitttedCheck = !(
-            submittedFlag === '' || submittedFlag === undefined
+            this.getSubmitterRank === '' || this.getSubmitterRank === undefined
           );
         }
         data.isEdit =
@@ -394,7 +395,7 @@ export class PIQLandingPageComponent implements OnInit {
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar(
-        'Form Deleted Successfully',
+        'Deleted Successfully',
         colorCodes.INFO
       );
       this.getLndPgDatas();
@@ -404,6 +405,10 @@ export class PIQLandingPageComponent implements OnInit {
   getworkflowStatus() {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
+      console.log("val",val);
+      
+      this.getSubmitterRank = val && val[0] && val[0].submitters?val[0].submitters.find((x: any) => x === this.userDetails?.rankCode):""
+      console.log("getsubrank",this.getSubmitterRank);
       val.forEach((item: any) => {
         this.getWrkFlowUser = item.creater;
       });

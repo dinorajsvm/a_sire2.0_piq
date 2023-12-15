@@ -449,6 +449,8 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let data = res.workflowmapping;
       let val = res.workflowmaster;
+      console.log("val",val);
+      
       // val.forEach((item: any) => {
       //   item.approvers=["RNK079","RNK080","RNK081"];
       //   item.submiters=["RNK001","RNK002","RNK003"];
@@ -459,10 +461,10 @@ export class PIQSummaryComponent implements OnInit {
       this.getWrkFlowId = val[0].wfid;
       this.getSubWrkFlowRank = val[0].submitter;
       this.getResAprWrkFlowRank = val[0].approver;
-      val[0].approvers = ['RNK079', 'RNK080', 'RNK081'];
-      val[0].submiters = ['RNK001', 'RNK002', 'RNK003','RNK079','RNK076'];
-      const getAppRank = val[0].approvers.find((x: any) => x === this.getRank);
-      const getSubRank = val[0].submiters.find((x: any) => x === this.getRank);
+      // val[0].approvers = ['RNK079', 'RNK080', 'RNK081'];
+      // val[0].submiters = ['RNK001', 'RNK002', 'RNK003','RNK079','RNK076'];
+      const getAppRank = val && val[0] && val[0].approvers?val[0].approvers.find((x: any) => x === this.getRank):""
+      const getSubRank = val && val[0] && val[0].submitters?val[0].submitters.find((x: any) => x === this.getRank):""
       this.getApproverRanks = getAppRank !== undefined ? getAppRank : 0;
       this.getSubmitterRanks = getSubRank !== undefined ? getSubRank : 0;
       console.log("this.getApproverRanks",this.getApproverRanks);
@@ -575,7 +577,7 @@ export class PIQSummaryComponent implements OnInit {
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
           this.hideReqBtns = true;
-          this.viewMode = true;
+          // this.viewMode = true;
         } 
       } else if (this.getOriginator == 'CNT001') {
         if (
