@@ -149,7 +149,6 @@ export class PiqReportComponent implements OnInit {
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
-      // this.viewMode = res;
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.disableEditMode = res;
       }
@@ -206,8 +205,6 @@ export class PiqReportComponent implements OnInit {
           this.getAllDatas[0].values[0]
         );
       }
-
-      // this.BudgetService.setSummaryGridData(this.getAllDatas);
     });
     this.BudgetService.getExceptionResetData().subscribe((resetData) => {
       this.getAllDatas.forEach((value1: any) => {
@@ -243,8 +240,6 @@ export class PiqReportComponent implements OnInit {
         )
       )
       .subscribe((event: NavigationEnd) => {
-        console.log(event, 'event');
-        
         if (event.url === '/sire/piq-landing') {
           setTimeout(() => {
             window.location.reload();
@@ -266,7 +261,6 @@ export class PiqReportComponent implements OnInit {
     this.isLoader = true;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-      // val[0].approvers = ['RNK079', 'RNK080', 'RNK081'];
       const getAppRank = val&& val[0]&&val[0].approvers?val[0].approvers.find((x: any) => x === this.userDetails?.rankCode):""
       this.getApproveRank = getAppRank !== undefined ? getAppRank : 0;
       this.isLoader = false;
@@ -388,7 +382,6 @@ export class PiqReportComponent implements OnInit {
         this.userDetails?.cntrlType === 'CNT002'
       ) {
         this.hideReqBtns = true;
-        // this.viewMode = false;
       }
 
       this.BudgetService.setVesselTypeData(this.vesselSelection);
@@ -405,7 +398,6 @@ export class PiqReportComponent implements OnInit {
           this.viewMode = true;
         }
         this.saveDisable = true;
-        // mani
         if (this.userDetails?.cntrlType === 'CNT002') {
           if (
             this.getOrigination == 'CNT002' &&
@@ -2847,7 +2839,7 @@ export class PiqReportComponent implements OnInit {
       this.renderer.setProperty(expandIcon, 'textContent', 'chevron_right');
     }
   }
-  onSearchTextChanged(searchValue: string) {    
+  onSearchTextChanged(searchValue: string) {
     this.searchText = searchValue;
     this.isSearchActive = searchValue.length > 0;
     this.getAllDatas.forEach((heading: any) => {
@@ -2856,12 +2848,10 @@ export class PiqReportComponent implements OnInit {
   }
 
   highlightSearchText(text: string): string {
-    // console.log(text, 'searchValue');
-
-    // if (this.searchText.length > 0) {
-    //   const regex = new RegExp(this.searchText, 'gi');
-    //   return text.replace(regex, '<span class="highlight">$&</span>');
-    // }
+    if (this.searchText.length > 0) {
+      const regex = new RegExp(this.searchText, 'gi');
+      return text.replace(regex, '<span class="highlight">$&</span>');
+    }
     return text;
   }
 
@@ -2913,7 +2903,6 @@ export class PiqReportComponent implements OnInit {
           (this.getOrigination == 'CNT002' &&
             (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
         ) {
-          // this.viewMode = true;
           var flag = false;
           return flag;
         } else {
@@ -2921,10 +2910,6 @@ export class PiqReportComponent implements OnInit {
           return flag;
         }
       } else if (this.userDetails?.cntrlType === 'CNT002') {
-        // if(this.getStatus == 'Submitted'){
-        //   var flag = false;
-        //   return flag;
-        // }
         if (
           this.getOrigination == 'CNT001' ||
           this.getStatus == 'Submitted' ||
