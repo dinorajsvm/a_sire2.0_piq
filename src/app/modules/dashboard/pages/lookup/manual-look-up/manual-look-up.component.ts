@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ColDef, GridApi, RowGroupingDisplayType, StatusPanelDef } from 'ag-grid-community';
+import { ColDef, GridApi, RowGroupingDisplayType } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
 import {
@@ -7,7 +7,6 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
@@ -22,14 +21,20 @@ declare function mdldmsnavigatenewtab(
 @Component({
   selector: 'app-manual-look-up',
   templateUrl: './manual-look-up.component.html',
-  styleUrls: ['./manual-look-up.component.css'],
-  providers: [DatePipe],
+  styleUrls: ['./manual-look-up.component.css']
 })
 export class ManualLookUpComponent implements OnInit {
   private gridApi!: GridApi;
   public tooltipShowDelay = 0;
   totalRowCount = 0;
   columnDefs: ColDef[] = [
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
+    },
     {
       field: 'refid',
       headerName: 'Ref.Id',
@@ -73,11 +78,6 @@ export class ManualLookUpComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.dateofissue
-      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'validfrom',
@@ -86,11 +86,6 @@ export class ManualLookUpComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.validfrom
-      //     ? this.datePipe.transform(params.data.validfrom, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'validto',
@@ -99,11 +94,6 @@ export class ManualLookUpComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       flex: 1,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.validto
-      //     ? this.datePipe.transform(params.data.validto, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'placeofissue',
@@ -125,7 +115,6 @@ export class ManualLookUpComponent implements OnInit {
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<ManualLookUpComponent>,
     public dialog: MatDialog,
-    private datePipe: DatePipe,
     private _storage: StorageService,
     private _loaderService: LoaderService
   ) {
@@ -162,8 +151,8 @@ export class ManualLookUpComponent implements OnInit {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
   onCellClicked(event: any) {
-    if (event.colDef.field === 'refid') {
-      mdldmsnavigatenewtab('PIQ', 'VCT', event.data.refid, 'true', 'true');
+    if (event.colDef.field === 'sid') {
+      mdldmsnavigatenewtab('PIQ', 'VCT', event.data.sid, 'true', 'true');
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

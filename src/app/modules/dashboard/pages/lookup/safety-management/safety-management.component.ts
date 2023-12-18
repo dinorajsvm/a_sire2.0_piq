@@ -5,7 +5,6 @@ import { ColDef, GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { BudgetService } from '../../../services/budget.service';
 import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
-import { DatePipe } from '@angular/common';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
@@ -20,7 +19,6 @@ declare function mdldmsnavigatenewtab(
   selector: 'app-safety-management',
   templateUrl: './safety-management.component.html',
   styleUrls: ['./safety-management.component.css'],
-  providers: [DatePipe],
 })
 export class SafetyManagementComponent implements OnInit {
   selectedIndex: number = 0;
@@ -31,6 +29,14 @@ export class SafetyManagementComponent implements OnInit {
   totalRowCount = 0;
   totalRowSecondCount = 0;
   columnDefs: ColDef[] = [
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      resizable: true,
+      pinned: 'left',
+      width: 125,
+    },
     {
       headerName: 'Ref No',
       field: 'ivrid',
@@ -72,11 +78,6 @@ export class SafetyManagementComponent implements OnInit {
       resizable: true,
       width: 125,
       pinned: 'left',
-      // valueGetter: (params) => {
-      //   return params.data.incidentdate === params.data.incidentdate
-      //     ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       headerName: '5.7.1.1',
@@ -492,6 +493,13 @@ export class SafetyManagementComponent implements OnInit {
 
   selectedColumnDefs: ColDef[] = [
     {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
+    },
+    {
       headerName: 'Ref No',
       field: 'ivrid',
       tooltipField: 'ivrid',
@@ -526,11 +534,6 @@ export class SafetyManagementComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       width: 120,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.incidentdate === params.data.incidentdate
-      //     ? this.datePipe.transform(params.data.incidentdate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'dateSelection',
@@ -540,11 +543,6 @@ export class SafetyManagementComponent implements OnInit {
       editable: true,
       sortable: false,
       filter: false,
-      // valueGetter: (params) => {
-      //   return params.data.dateSelection === params.data.dateSelection
-      //     ? this.datePipe.transform(params.data.dateSelection, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'dropdown',
@@ -563,7 +561,6 @@ export class SafetyManagementComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<SafetyManagementComponent>,
     private BudgetService: BudgetService,
-    private datePipe: DatePipe,
     private _storage: StorageService,
     private _loaderService: LoaderService
   ) {
@@ -698,8 +695,8 @@ export class SafetyManagementComponent implements OnInit {
   }
 
   onCellClicked(event: any) {
-    if (event.colDef.field === 'ivrid') {
-      mdldmsnavigatenewtab('PIQ', 'IVR', event.data.ivrid, 'true', 'true');
+    if (event.colDef.field === 'sid') {
+      mdldmsnavigatenewtab('PIQ', 'IVR', event.data.sid, 'true', 'true');
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

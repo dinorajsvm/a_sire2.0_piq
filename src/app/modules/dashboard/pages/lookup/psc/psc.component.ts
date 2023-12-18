@@ -3,8 +3,7 @@ import {
   ColDef,
   GridApi,
   RowClassRules,
-  RowGroupingDisplayType,
-  StatusPanelDef,
+  RowGroupingDisplayType
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
@@ -13,7 +12,6 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -28,8 +26,7 @@ declare function mdldmsnavigatenewtab(
 @Component({
   selector: 'app-psc',
   templateUrl: './psc.component.html',
-  styleUrls: ['./psc.component.css'],
-  providers: [DatePipe],
+  styleUrls: ['./psc.component.css']
 })
 export class PscComponent {
   getSelectedCheckListID: any[] = [];
@@ -55,6 +52,13 @@ export class PscComponent {
       },
     },
     {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
+    },
+    {
       field: 'extrfid',
       headerName: 'Ref.Id',
       tooltipField: 'extrfid',
@@ -74,12 +78,7 @@ export class PscComponent {
       cellStyle: { textAlign: 'right' },
       tooltipField: 'q156',
       resizable: true,
-      flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.q156 === params.data.q156
-      //     ? this.datePipe.transform(params.data.q156, 'dd-MMM-yyyy')
-      //     : '';
-      // },
+      flex: 1
     },
     {
       field: 'inspectioncode',
@@ -133,7 +132,6 @@ export class PscComponent {
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<PscComponent>,
     public dialog: MatDialog,
-    private datePipe: DatePipe,
     private _storage: StorageService,
     private _loaderService: LoaderService
   ) {    
@@ -235,8 +233,8 @@ export class PscComponent {
   }
 
   onCellClicked(event: any) {
-    if (event.colDef.field === 'extrfid') {
-      mdldmsnavigatenewtab('PIQ', 'EXT', event.data.extrfid, 'true', 'true');
+    if (event.colDef.field === 'sid') {
+      mdldmsnavigatenewtab('PIQ', 'EXT', event.data.sid, 'true', 'true');
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

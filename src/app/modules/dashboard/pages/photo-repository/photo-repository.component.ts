@@ -73,6 +73,7 @@ export class PhotoRepositoryComponent implements OnInit {
     this.getSelectedCheckListId();
     this.getSavedPRData();
     this.getVesselTypeData();
+    this.summaryGridCount();
   }
 
   getSelectedCheckListId() {
@@ -111,10 +112,10 @@ export class PhotoRepositoryComponent implements OnInit {
               resData.topic.includes(this.trimmedVslType)
             );
           });
+          this.summaryGridCount();
         });
       }
     });
-    this.summaryGridCount();
     this.allExpanded = true;
   }
 
@@ -174,6 +175,7 @@ export class PhotoRepositoryComponent implements OnInit {
     this.subTopicCounts = 0;
     this.actualPhotoCount = 0;
     this.getPRGriddetails = [];
+
     this.listDatas.forEach((res: any, index: any) => {
       this.subTopicCounts =
         this.subTopicCounts +
@@ -206,6 +208,7 @@ export class PhotoRepositoryComponent implements OnInit {
         this.getPRGriddetails.push(photoDetails);
       });
     });
+
     this.BudgetService.setPrGridData(this.getPRGriddetails);
     this.BudgetService.setImgCount(this.actualPhotoCount);
     this.BudgetService.setPhotoRepData(this.subTopicCounts);
@@ -224,10 +227,10 @@ export class PhotoRepositoryComponent implements OnInit {
         }
         if (res.topic === 'Core photograph set' || this.isVslTypeSame) {
           this.listDatas.push(res);
+          this.summaryGridCount();
         }
       });
     });
-    this.summaryGridCount();
 
     this.allExpanded = true;
   }
@@ -456,7 +459,7 @@ export class PhotoRepositoryComponent implements OnInit {
           (response) => {
             setTimeout(() => {
               this.uploadedData();
-            }, 300);
+            }, 100);
           },
           (error) => {
             console.error('Image upload failed', error);
@@ -495,6 +498,7 @@ export class PhotoRepositoryComponent implements OnInit {
             }
           }
         });
+        this.summaryGridCount();
         // mk
         if (this.imageNames) {
           this.imageNames.forEach((data: any) => {
@@ -511,11 +515,11 @@ export class PhotoRepositoryComponent implements OnInit {
                 }
               });
             });
+            this.summaryGridCount();
           });
         }
       }
     });
-    this.summaryGridCount();
   }
   handleImageError(event: Event) {
     // Handle image loading error
@@ -528,6 +532,8 @@ export class PhotoRepositoryComponent implements OnInit {
     file.forEach((element: any, index: any) => {
       const reader = new FileReader();
       reader.onload = (e: any) => {
+        console.log(file, 'file');
+
         const image = {
           filepath: e.target.result.split(',')[1], // Extract the base64 data from the result
           filename: files[index].name,

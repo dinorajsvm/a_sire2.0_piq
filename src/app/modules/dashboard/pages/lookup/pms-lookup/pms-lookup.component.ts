@@ -15,7 +15,14 @@ import {
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
+declare function mdldmsnavigatenewtab(
+  params: any,
+  params1: any,
+  params2: any,
+  params3: any,
+  param4s: any
+): any;
 @Component({
   selector: 'app-pms-lookup',
   templateUrl: './pms-lookup.component.html',
@@ -38,6 +45,13 @@ export class PmsLookupComponent {
         onClick: this.onBtnClick1.bind(this),
       },
     },
+    // {
+    //   field: 'sid',
+    //   headerName: 'S.No',
+    //   tooltipField: 'sid',
+    //   flex: 1,
+    //   resizable: true,
+    // },
     {
       field: 'pmsCode',
       headerName: 'PMS Component',
@@ -96,7 +110,8 @@ export class PmsLookupComponent {
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<PmsLookupComponent>,
     public dialog: MatDialog,
-    public _storage: StorageService
+    public _storage: StorageService,
+    public _loaderService: LoaderService
   ) {
     this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
@@ -142,9 +157,11 @@ export class PmsLookupComponent {
       const filterResponse = data.Response.find(
         (x: any) => x.compname === this.data.moduleName
       );
-      filterResponse.jobList.forEach((res: any) => {
-        res.pmsCode = filterResponse.pmscompcode;
-      });
+      if (filterResponse && filterResponse.jobList) {
+        filterResponse  .jobList.forEach((res: any) => {
+          res.pmsCode = filterResponse.pmscompcode;
+        });
+      }
       this.rowData = [];
       this.rowData =
         filterResponse &&
@@ -156,4 +173,15 @@ export class PmsLookupComponent {
           this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
+
+  // onCellClicked(event: any) {
+  //   if (event.colDef.field === 'sid') {
+  //     console.log(event.data, 'looku asdp');
+  //     mdldmsnavigatenewtab('PIQ', 'PSH', event.data.sid, 'true', 'true');
+  //     this._loaderService.loaderShow();
+  //     setTimeout(() => {
+  //       this._loaderService.loaderHide();
+  //     }, 2500);
+  //   }
+  // }
 }

@@ -52,6 +52,8 @@
             class="downloadAllBtn"
             matTooltip="Download All Images"
             (click)="downloadAll()"
+            [disabled]="actualPhotoCount === 0"
+            [class.disableBtns]="actualPhotoCount ===  0"
           >
             <i
               class="fa fa-arrow-circle-o-down icn"
@@ -134,6 +136,8 @@
                   class="downAllBtn"
                   mat-button
                   matTooltip="Download Subtopic Images"
+                  [disabled]="subHead && subHead.imagelist.length === 0"
+                  [class.disableBtns]="subHead && subHead.imagelist.length ===  0"
                   (click)="
                     downloadAllSubTopicImages(
                       subHead.subTopicTitle,

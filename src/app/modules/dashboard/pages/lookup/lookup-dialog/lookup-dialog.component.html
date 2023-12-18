@@ -81,6 +81,7 @@
       <ag-grid-angular
         class="ag-theme-balham"
         style="height: calc(100vh - 320px)"
+        [suppressRowHoverHighlight]="suppressRowHoverHighlight"
         [rowData]="rowShipData"
         [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef"
@@ -113,6 +114,7 @@
         class="ag-theme-balham"
         style="height: calc(100vh - 320px)"
         [rowData]="rowInternalData"
+        [suppressRowHoverHighlight]="suppressRowHoverHighlight"
         [columnDefs]="internalColumnDefs"
         [rowClassRules]="rowClassRules"
         [defaultColDef]="defaultColDef"

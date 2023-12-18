@@ -6,7 +6,6 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 import {
   ColDef,
   GridApi,
@@ -14,9 +13,10 @@ import {
   RowClassRules,
 } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
-import { DefaultColDef } from 'src/app/core/constants';
+import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
+import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 declare function mdldmsnavigatenewtab(
   params: any,
   params1: any,
@@ -31,7 +31,6 @@ LicenseManager.setLicenseKey(
   selector: 'app-tmsa',
   templateUrl: './tmsa.component.html',
   styleUrls: ['./tmsa.component.css'],
-  providers: [DatePipe],
 })
 export class TMSAComponent implements OnInit {
   private gridApi!: GridApi;
@@ -65,6 +64,13 @@ export class TMSAComponent implements OnInit {
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
       },
+    },
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
     },
     {
       field: 'refno',
@@ -124,11 +130,6 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.auditfromdate === params.data.auditfromdate
-      //     ? this.datePipe.transform(params.data.auditfromdate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'audittodate',
@@ -137,11 +138,6 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.audittodate === params.data.audittodate
-      //     ? this.datePipe.transform(params.data.audittodate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'remote',
@@ -162,6 +158,13 @@ export class TMSAComponent implements OnInit {
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
       },
+    },
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
     },
     {
       field: 'refno',
@@ -219,11 +222,6 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.actualfromdate === params.data.actualfromdate
-      //     ? this.datePipe.transform(params.data.actualfromdate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'actualtodate',
@@ -232,11 +230,6 @@ export class TMSAComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.actualtodate === params.data.actualtodate
-      //     ? this.datePipe.transform(params.data.actualtodate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
   ];
   columnExternalDefs: ColDef[] = [
@@ -250,6 +243,13 @@ export class TMSAComponent implements OnInit {
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
       },
+    },
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
     },
     {
       field: 'extrfid',
@@ -276,11 +276,6 @@ export class TMSAComponent implements OnInit {
       field: 'inspectiondate',
       headerName: 'Date Of Inspection',
       tooltipField: 'inspectiondate',
-      // valueGetter: (params) => {
-      //   return params.data.inspectiondate
-      //     ? this.datePipe.transform(params.data.inspectiondate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
       cellStyle: { textAlign: 'right' },
       resizable: true,
       flex: 1,
@@ -336,11 +331,11 @@ export class TMSAComponent implements OnInit {
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<TMSAComponent>,
     public dialog: MatDialog,
-    private datePipe: DatePipe,
     private _storage: StorageService,
-    private _loaderService: LoaderService
+    private _loaderService: LoaderService,
+    private _snackBarService: SnackbarService
   ) {
-    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
+    this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ApplyRendererComponent,
@@ -451,9 +446,9 @@ export class TMSAComponent implements OnInit {
     this.isShowInternal = true;
     this.rowInternalData = this.apiResponse.Internal;
     this.totalRowInternalCount =
-    this.rowInternalData && this.rowInternalData.length > 0
-    ? this.rowInternalData.length
-    : 0;
+      this.rowInternalData && this.rowInternalData.length > 0
+        ? this.rowInternalData.length
+        : 0;
   }
 
   showShip() {
@@ -463,9 +458,9 @@ export class TMSAComponent implements OnInit {
     this.isShowShip = true;
     this.rowShipData = this.apiResponse.ShipVisit;
     this.totalRowShipCount =
-    this.rowShipData && this.rowShipData.length > 0
-    ? this.rowShipData.length
-    : 0;
+      this.rowShipData && this.rowShipData.length > 0
+        ? this.rowShipData.length
+        : 0;
   }
   showExternal() {
     this.isShowView = false;
@@ -487,17 +482,17 @@ export class TMSAComponent implements OnInit {
     this.rowInternalData = this.apiResponse.Internal;
     this.rowShipData = this.apiResponse.ShipVisit;
     this.totalRowInternalCount =
-    this.rowInternalData && this.rowInternalData.length > 0
-    ? this.rowInternalData.length
-    : 0;
+      this.rowInternalData && this.rowInternalData.length > 0
+        ? this.rowInternalData.length
+        : 0;
     this.totalRowExternalCount =
-    this.rowExternalData && this.rowExternalData.length > 0
-    ? this.rowExternalData.length
-    : 0;
+      this.rowExternalData && this.rowExternalData.length > 0
+        ? this.rowExternalData.length
+        : 0;
     this.totalRowShipCount =
-    this.rowShipData && this.rowShipData.length > 0
-    ? this.rowShipData.length
-    : 0;
+      this.rowShipData && this.rowShipData.length > 0
+        ? this.rowShipData.length
+        : 0;
   }
 
   onReset() {
@@ -505,14 +500,20 @@ export class TMSAComponent implements OnInit {
   }
 
   onCellClicked(event: any) {
-    if (event.colDef.field === 'refno') {
-      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.refno, 'true', 'true');
-      this._loaderService.loaderShow();
-      setTimeout(() => {
-        this._loaderService.loaderHide();
-      }, 2500);
-    } else if (event.colDef.field === 'extrfid') {
-      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.extrfid, 'true', 'true');
+    if (event.colDef.field === 'sid') {
+      if (!event.data.refno) {
+        this._snackBarService.loadSnackBar(
+          'Ref ID not found',
+          colorCodes.ERROR
+        );
+      }
+      const raf = event.data.refno.toLowerCase().includes('raf');
+      if (raf) {
+        mdldmsnavigatenewtab('PIQ', 'RAF', event.data.sid, 'true', 'true');
+      } else {
+        mdldmsnavigatenewtab('PIQ', 'TSI', event.data.sid, 'true', 'true');
+      }
+      //  mdldmsnavigatenewtab('PIQ', 'MOC', event.data.sid, 'true', 'true');
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

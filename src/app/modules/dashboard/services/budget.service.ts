@@ -12,8 +12,8 @@ export class BudgetService {
   // private globalUrl = "https://macktesting.solverminds.net"
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
-  // private globalUrl = document.location.protocol + '//' + document.location.hostname;
-  private globalUrl = environment.apiUrl;
+  private globalUrl = document.location.protocol + '//' + document.location.hostname;
+  // private globalUrl = environment.apiUrl;
 
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;

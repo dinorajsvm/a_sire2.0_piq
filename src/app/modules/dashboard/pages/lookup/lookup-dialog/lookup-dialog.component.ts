@@ -4,7 +4,6 @@ import {
   GridApi,
   RowClassRules,
   RowGroupingDisplayType,
-  StatusPanelDef,
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
@@ -14,11 +13,11 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
-import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { DefaultColDef } from 'src/app/core/constants';
+import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
+import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 declare function mdldmsnavigatenewtab(
   params: any,
   params1: any,
@@ -30,7 +29,6 @@ declare function mdldmsnavigatenewtab(
   selector: 'app-lookup-dialog',
   templateUrl: './lookup-dialog.component.html',
   styleUrls: ['./lookup-dialog.component.css'],
-  providers: [DatePipe],
 })
 export class LookupDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
@@ -39,7 +37,7 @@ export class LookupDialogComponent implements OnInit {
   totalRowCount = 0;
   totalRowInternalData = 0;
   private gridApi!: GridApi;
-  gridInternalApi: any
+  gridInternalApi: any;
   isChecked = false;
   isViewAll = false;
   frameworkComponents: any;
@@ -56,6 +54,13 @@ export class LookupDialogComponent implements OnInit {
       cellRendererParams: {
         onClick: this.onShipBtnClick.bind(this),
       },
+    },
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
     },
     {
       field: 'refno',
@@ -99,11 +104,6 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'actualfromdate',
       flex: 1,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.actualfromdate
-      //     ? this.datePipe.transform(params.data.actualfromdate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'actualtodate',
@@ -112,11 +112,6 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'actualtodate',
       flex: 1,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.actualtodate
-      //     ? this.datePipe.transform(params.data.actualtodate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'fromport',
@@ -144,6 +139,13 @@ export class LookupDialogComponent implements OnInit {
       cellRendererParams: {
         onClick: this.onInternalBtnClick.bind(this),
       },
+    },
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
     },
     {
       field: 'refno',
@@ -187,11 +189,6 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'auditfromdate',
       flex: 1,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.auditfromdate
-      //     ? this.datePipe.transform(params.data.auditfromdate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'audittodate',
@@ -200,11 +197,6 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'audittodate',
       flex: 1,
       resizable: true,
-      // valueGetter: (params) => {
-      //   return params.data.audittodate
-      //     ? this.datePipe.transform(params.data.audittodate, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'auditfromport',
@@ -229,7 +221,10 @@ export class LookupDialogComponent implements OnInit {
   isOnlyInterVisit = false;
   enableDiv: boolean = false;
   userDetails: any;
-  public singleRowSelection: 'single' | 'multiple' = 'single';
+
+  // turns OFF row hover, it's on by default
+  suppressRowHoverHighlight = false;
+
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
@@ -245,12 +240,12 @@ export class LookupDialogComponent implements OnInit {
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<LookupDialogComponent>,
     public dialog: MatDialog,
-    private datePipe: DatePipe,
     private route: ActivatedRoute,
     private _storage: StorageService,
-    private _loaderService: LoaderService
+    private _loaderService: LoaderService,
+    private _snackBarService: SnackbarService
   ) {
-    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
+    this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.referenceId = this.route.snapshot.paramMap.get('id');
     this.frameworkComponents = {
@@ -282,8 +277,6 @@ export class LookupDialogComponent implements OnInit {
     );
   }
 
-
-
   onGridReadyInternal(params: any) {
     this.gridInternalApi = params.api;
     this.gridInternalApi.addEventListener(
@@ -295,7 +288,7 @@ export class LookupDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getLookUpVisit();
     this.columnDefs[0].hide = this.hideReqBtns;
-    this.internalColumnDefs[0].hide = this.hideReqBtns   
+    this.internalColumnDefs[0].hide = this.hideReqBtns;
   }
 
   getLookUpVisit() {
@@ -327,7 +320,6 @@ export class LookupDialogComponent implements OnInit {
         this.rowInternalData && this.rowInternalData.length > 0
           ? this.rowInternalData.length
           : 0;
-    
     });
   }
   onFilterChanged() {
@@ -369,8 +361,19 @@ export class LookupDialogComponent implements OnInit {
   }
 
   onCellClicked(event: any) {
-    if (event.colDef.field === 'refno') {
-      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.refno, 'true', 'true');
+    if (event.colDef.field === 'sid') {
+      if (!event.data.refno) {
+        this._snackBarService.loadSnackBar(
+          'Ref ID not found',
+          colorCodes.ERROR
+        );
+      }
+      const raf = event.data.refno.toLowerCase().includes('raf');
+      if (raf) {
+        mdldmsnavigatenewtab('PIQ', 'RAF', event.data.sid, 'true', 'true');
+      } else {
+        mdldmsnavigatenewtab('PIQ', 'TSI', event.data.sid, 'true', 'true');
+      }
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

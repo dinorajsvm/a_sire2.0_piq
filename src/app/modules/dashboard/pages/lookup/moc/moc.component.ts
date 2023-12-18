@@ -7,7 +7,11 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
-import { ColDef, LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
+import {
+  ColDef,
+  LicenseManager,
+  RowGroupingDisplayType,
+} from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 LicenseManager.setLicenseKey(
@@ -32,9 +36,16 @@ export class MocComponent {
   userDetails: any;
   hideReqBtns: boolean = false;
   public tooltipShowDelay = 0;
-  gridApi: any
-  
+  gridApi: any;
+
   columnDefs: ColDef[] = [
+    {
+      field: 'sid',
+      headerName: 'S.No',
+      tooltipField: 'sid',
+      flex: 1,
+      resizable: true,
+    },
     {
       headerName: 'Ref Id',
       field: 'mgcreferenceid',
@@ -90,7 +101,7 @@ export class MocComponent {
 
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
 
   rowData = [];
 
@@ -107,13 +118,12 @@ export class MocComponent {
     public _storage: StorageService,
     private _loaderService: LoaderService
   ) {
-    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
+    this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       checkboxRenderer: AgGridCheckboxComponent,
     };
   }
-
 
   applyMocDetails() {
     const response: any = [
@@ -150,8 +160,6 @@ export class MocComponent {
   }
   ngOnInit() {
     this.mocDetails();
-   
-
   }
 
   mocDetails() {
@@ -163,7 +171,7 @@ export class MocComponent {
     ).subscribe((data) => {
       this.rowData = data.response;
       this.totalRowCount =
-      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
   onDialogClose(): void {
@@ -171,8 +179,8 @@ export class MocComponent {
   }
 
   onCellClicked(event: any) {
-    if (event.colDef.field === 'mgcreferenceid') {
-      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.mgcreferenceid, 'true', 'true');
+    if (event.colDef.field === 'sid') {
+      mdldmsnavigatenewtab('PIQ', 'MOC', event.data.sid, 'true', 'true');
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();
@@ -181,7 +189,10 @@ export class MocComponent {
   }
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+    this.gridApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
   }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();

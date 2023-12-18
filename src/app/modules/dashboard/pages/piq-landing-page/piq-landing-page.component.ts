@@ -13,14 +13,12 @@ import {
 } from 'src/app/core/constants';
 import { MatDialog } from '@angular/material/dialog';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
-import { DatePipe } from '@angular/common';
 import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
 
 @Component({
   selector: 'app-piq-landing-page',
   templateUrl: './piq-landing-page.component.html',
   styleUrls: ['./piq-landing-page.component.css'],
-  providers: [DatePipe],
 })
 export class PIQLandingPageComponent implements OnInit {
   frameWorkComponent: any;
@@ -84,11 +82,6 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Created Date',
       tooltipField: 'createdDate',
       cellStyle: { textAlign: 'right' },
-      // valueGetter: (params: any) => {
-      //   return params.data.createdDate
-      //     ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy HH:mm')
-      //     : '';
-      // },
     },
     {
       field: 'updatedBy',
@@ -100,11 +93,6 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
       cellStyle: { textAlign: 'right' },
-      // valueGetter: (params: any) => {
-      //   return params.data.updatedDate
-      //     ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
-      //     : '';
-      // },
     },
     {
       field: 'status',
@@ -174,11 +162,6 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Created Date',
       tooltipField: 'createdDate',
       cellStyle: { textAlign: 'right' },
-      // valueGetter: (params: any) => {
-      //   return params.data.createdDate
-      //     ? this.datePipe.transform(params.data.createdDate, 'dd-MMM-yyyy HH:mm')
-      //     : '';
-      // },
     },
     {
       field: 'updatedBy',
@@ -190,11 +173,6 @@ export class PIQLandingPageComponent implements OnInit {
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
       cellStyle: { textAlign: 'right' },
-      // valueGetter: (params: any) => {
-      //   return params.data.updatedDate
-      //     ? this.datePipe.transform(params.data.updatedDate, 'dd-MMM-yyyy HH:mm')
-      //     : '';
-      // },
     },
     {
       field: 'status',
@@ -250,7 +228,6 @@ export class PIQLandingPageComponent implements OnInit {
     private _snackBarService: SnackbarService,
     private _storage: StorageService,
     public dialog: MatDialog,
-    public datePipe: DatePipe,
     private _agGridService: AgGridService
   ) {
     this.userDetails = this._storage.getUserDetails();
@@ -270,10 +247,8 @@ export class PIQLandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getworkflowStatus();
-  //  = this.router.url;
-    console.log(this.router.url, 'browser url');
+    this.router.navigate(['/sire/piq-landing'])
     this.getCodes();
-    // this.getNewRef();
     this.getLndPgDatas();
     this.BudgetService.getDeleteAction().subscribe(res => {      
       this.getLndPgDatas()
@@ -407,10 +382,7 @@ export class PIQLandingPageComponent implements OnInit {
   getworkflowStatus() {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-      console.log("val",val);
-      
       this.getSubmitterRank = val && val[0] && val[0].submitters?val[0].submitters.find((x: any) => x === this.userDetails?.rankCode):""
-      console.log("getsubrank",this.getSubmitterRank);
       val.forEach((item: any) => {
         this.getWrkFlowUser = item.creater;
       });
