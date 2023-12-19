@@ -3,7 +3,7 @@ import {
   ColDef,
   GridApi,
   RowClassRules,
-  RowGroupingDisplayType
+  RowGroupingDisplayType,
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
@@ -26,7 +26,7 @@ declare function mdldmsnavigatenewtab(
 @Component({
   selector: 'app-psc',
   templateUrl: './psc.component.html',
-  styleUrls: ['./psc.component.css']
+  styleUrls: ['./psc.component.css'],
 })
 export class PscComponent {
   getSelectedCheckListID: any[] = [];
@@ -78,7 +78,7 @@ export class PscComponent {
       cellStyle: { textAlign: 'right' },
       tooltipField: 'q156',
       resizable: true,
-      flex: 1
+      flex: 1,
     },
     {
       field: 'inspectioncode',
@@ -134,8 +134,8 @@ export class PscComponent {
     public dialog: MatDialog,
     private _storage: StorageService,
     private _loaderService: LoaderService
-  ) {    
-    this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
+  ) {
+    this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ApplyRendererComponent,
@@ -234,7 +234,13 @@ export class PscComponent {
 
   onCellClicked(event: any) {
     if (event.colDef.field === 'sid') {
-      mdldmsnavigatenewtab('PIQ', 'EXT', event.data.sid, 'true', 'true');
+      mdldmsnavigatenewtab(
+        'PIQ',
+        event.data.mdlcode,
+        event.data.sid,
+        'true',
+        'true'
+      );
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

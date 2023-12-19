@@ -10,7 +10,10 @@
         </label>
         <button
           class="searchTable"
-          [disabled]="disableBtns" [class.disableBtns]="disableBtns" mat-raised-button [class.hideReqBtns]="hideReqBtns"
+          [disabled]="disableBtns"
+          [class.disableBtns]="disableBtns"
+          mat-raised-button
+          [class.hideReqBtns]="hideReqBtns"
           style="margin-left: 5px"
           mat-raised-button
           (click)="openDialog()"
@@ -53,7 +56,7 @@
             matTooltip="Download All Images"
             (click)="downloadAll()"
             [disabled]="actualPhotoCount === 0"
-            [class.disableBtns]="actualPhotoCount ===  0"
+            [class.disableBtns]="actualPhotoCount === 0"
           >
             <i
               class="fa fa-arrow-circle-o-down icn"
@@ -116,7 +119,9 @@
                   mat-button
                   color="primary"
                   matTooltip="Upload Image"
-                  [disabled]="disableBtns" [class.disableBtns]="disableBtns" [class.hideReqBtns]="hideReqBtns" 
+                  [disabled]="disableBtns"
+                  [class.disableBtns]="disableBtns"
+                  [class.hideReqBtns]="hideReqBtns"
                   (click)="
                     selectFile(subHead, selectedInstanceID, head.topic, $event)
                   "
@@ -136,8 +141,18 @@
                   class="downAllBtn"
                   mat-button
                   matTooltip="Download Subtopic Images"
-                  [disabled]="subHead && subHead.imagelist.length === 0"
-                  [class.disableBtns]="subHead && subHead.imagelist.length ===  0"
+                  [disabled]="
+                    (subHead && subHead.imagelist === undefined) ||
+                    (subHead &&
+                      subHead.imagelist &&
+                      subHead.imagelist.length === 0)
+                  "
+                  [class.disableBtns]="
+                    (subHead && subHead.imagelist === undefined) ||
+                    (subHead &&
+                      subHead.imagelist &&
+                      subHead.imagelist.length === 0)
+                  "
                   (click)="
                     downloadAllSubTopicImages(
                       subHead.subTopicTitle,
@@ -173,7 +188,10 @@
                             img.filepath,
                             head.topic,
                             subHead.subTopicTitle,
-                            getFilenameFromUrl(img.formattedName , img.localfilename)
+                            getFilenameFromUrl(
+                              img.formattedName,
+                              img.localfilename
+                            )
                           )
                         "
                       >
@@ -205,9 +223,7 @@
                     />
                   </div>
                   <div class="img_Size">
-                    <span class="charCount"
-                      >Size:{{ img.sizeinbytes }}</span
-                    >
+                    <span class="charCount">Size:{{ img.sizeinbytes }}</span>
                   </div>
                   <div class="img_name">
                     <input

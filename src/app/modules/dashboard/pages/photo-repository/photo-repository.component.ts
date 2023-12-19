@@ -532,8 +532,6 @@ export class PhotoRepositoryComponent implements OnInit {
     file.forEach((element: any, index: any) => {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        console.log(file, 'file');
-
         const image = {
           filepath: e.target.result.split(',')[1], // Extract the base64 data from the result
           filename: files[index].name,

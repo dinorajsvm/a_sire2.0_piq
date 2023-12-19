@@ -151,8 +151,8 @@ export class ManualLookUpComponent implements OnInit {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
   onCellClicked(event: any) {
-    if (event.colDef.field === 'sid') {
-      mdldmsnavigatenewtab('PIQ', 'VCT', event.data.sid, 'true', 'true');
+    if (event.colDef.field === 'sid') {      
+      mdldmsnavigatenewtab('PIQ', event.data.mdlcode, event.data.sid, 'true', 'true');
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

@@ -110,9 +110,9 @@ export class ExceptionQuestionComponent implements OnInit {
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
-      this.columnDefs[6].editable = !this.disableBtns;
-      this.columnDefs[6].cellEditorPopup = !this.disableBtns;
-      this.columnDefs[6].wrapText = !this.disableBtns;
+      this.columnDefs[6].editable = !this.hideReqBtns;
+      this.columnDefs[6].cellEditorPopup = !this.hideReqBtns;
+      this.columnDefs[6].wrapText = !this.hideReqBtns;
       this.gridApi.setColumnDefs(this.columnDefs);
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {

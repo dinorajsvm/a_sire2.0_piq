@@ -696,7 +696,13 @@ export class SafetyManagementComponent implements OnInit {
 
   onCellClicked(event: any) {
     if (event.colDef.field === 'sid') {
-      mdldmsnavigatenewtab('PIQ', 'IVR', event.data.sid, 'true', 'true');
+      mdldmsnavigatenewtab(
+        'PIQ',
+        event.data.mdlcode,
+        event.data.sid,
+        'true',
+        'true'
+      );
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

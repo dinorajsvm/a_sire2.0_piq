@@ -50,7 +50,7 @@
 </div>
 <div mat-dialog-content class="mat-typography">
   <div
-    class="col-sm-12  ag-toolBar"
+    class="col-sm-12 ag-toolBar"
     *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
     style="margin-top: 10px"
   >
@@ -58,10 +58,7 @@
     <span class="m-0" *ngIf="isChecked && !isViewAll">All Inspection</span>
     <span class="m-0 right-float">Total Records: {{ totalRowCount }}</span>
   </div>
-  <div
-    class="row"
-    *ngIf="(isChecked && !isViewAll) || (!isChecked && !isViewAll)"
-  >
+  <div class="row" *ngIf="isChecked && !isViewAll">
     <div class="col-sm-12">
       <ag-grid-angular
         class="ag-theme-balham"
@@ -81,9 +78,28 @@
       </ag-grid-angular>
     </div>
   </div>
-
+  <div class="row" *ngIf="!isChecked && !isViewAll">
+    <div class="col-sm-12">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 350px)"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [rowSelection]="multiRowSelection"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [rowClassRules]="rowClassRules"
+        [defaultColDef]="defaultColDef"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterChanged()"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
   <div
-    class="col-sm-12  ag-toolBar"
+    class="col-sm-12 ag-toolBar"
     *ngIf="isChecked && isViewAll"
     style="margin-top: 10px"
   >
@@ -109,12 +125,11 @@
         (filterChanged)="onFilterPSCChanged()"
       >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
 
   <div
-    class="col-sm-12  ag-toolBar"
+    class="col-sm-12 ag-toolBar"
     style="margin-top: 10px"
     *ngIf="isChecked && isViewAll"
   >
@@ -142,7 +157,6 @@
         (filterChanged)="onFilterNonPSCChanged()"
       >
       </ag-grid-angular>
-      <!-- [statusBar]="statusBar" -->
     </div>
   </div>
   <button

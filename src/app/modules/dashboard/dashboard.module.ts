@@ -42,6 +42,7 @@ import { DDCellRendererComponent } from './pages/renderer/dd-renderer.component'
 import { PmsLookupComponent } from './pages/lookup/pms-lookup/pms-lookup.component';
 import { ManualLookUpComponent } from './pages/lookup/manual-look-up/manual-look-up.component';
 import { selectSearchVslPipe } from './services/select-search-vsl-filter.pipe';
+import { UnsaveConfirmationDialogPopupComponent } from './pages/unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { selectSearchVslPipe } from './services/select-search-vsl-filter.pipe';
     SafetyManagementComponent,
     DateRendererComponent,
     PmsLookupComponent,
-    ManualLookUpComponent
+    ManualLookUpComponent,
+    UnsaveConfirmationDialogPopupComponent
   ],
   imports: [
     DashboardRoutingModule,

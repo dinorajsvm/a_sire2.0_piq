@@ -12,8 +12,8 @@ export class BudgetService {
   // private globalUrl = "https://macktesting.solverminds.net"
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
-  private globalUrl = document.location.protocol + '//' + document.location.hostname;
-  // private globalUrl = environment.apiUrl;
+  // private globalUrl = document.location.protocol + '//' + document.location.hostname;
+  private globalUrl = environment.apiUrl;
 
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;
@@ -43,6 +43,7 @@ export class BudgetService {
   private enableDisableButtons = new Subject<any>();
   private setPiqQuestion = new Subject<any>();
   private setDeleteBtn = new Subject<any>();
+  private setUnSave =  new BehaviorSubject<any>(false);
   constructor(private client: HttpClient) {}
 
   setEnableBtn(message: any) {
@@ -51,6 +52,15 @@ export class BudgetService {
 
   getEnableBtn() {
     return this.enableDisableButtons.asObservable();
+  }
+
+
+  setUnSaveAction(message: any) {
+    this.setUnSave.next(message);
+  }
+
+  getUnSaveAction() {
+    return this.setUnSave.asObservable();
   }
 
   setDeleteAction(message: any) {

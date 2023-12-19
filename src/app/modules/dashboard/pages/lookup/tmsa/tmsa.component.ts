@@ -501,19 +501,13 @@ export class TMSAComponent implements OnInit {
 
   onCellClicked(event: any) {
     if (event.colDef.field === 'sid') {
-      if (!event.data.refno) {
-        this._snackBarService.loadSnackBar(
-          'Ref ID not found',
-          colorCodes.ERROR
-        );
-      }
-      const raf = event.data.refno.toLowerCase().includes('raf');
-      if (raf) {
-        mdldmsnavigatenewtab('PIQ', 'RAF', event.data.sid, 'true', 'true');
-      } else {
-        mdldmsnavigatenewtab('PIQ', 'TSI', event.data.sid, 'true', 'true');
-      }
-      //  mdldmsnavigatenewtab('PIQ', 'MOC', event.data.sid, 'true', 'true');
+      mdldmsnavigatenewtab(
+        'PIQ',
+        event.data.mdlcode,
+        event.data.sid,
+        'true',
+        'true'
+      );
       this._loaderService.loaderShow();
       setTimeout(() => {
         this._loaderService.loaderHide();

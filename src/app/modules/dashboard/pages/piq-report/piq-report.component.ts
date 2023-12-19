@@ -37,6 +37,7 @@ import { PmsLookupComponent } from '../lookup/pms-lookup/pms-lookup.component';
 import { ManualLookUpComponent } from '../lookup/manual-look-up/manual-look-up.component';
 import { MatTabGroup } from '@angular/material/tabs';
 import { filter } from 'rxjs/operators';
+import { UnsaveConfirmationDialogPopupComponent } from '../unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -70,6 +71,7 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+
   rowSummaryData: any[] = [];
   emptyRemark: any;
   totalRowCount = 0;
@@ -127,6 +129,7 @@ export class PiqReportComponent implements OnInit {
   hideReqBtns: boolean = false;
   gridApi: any;
   isLoader = false;
+  unSavedData = false;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -161,6 +164,9 @@ export class PiqReportComponent implements OnInit {
       if (this.getSearch == false) {
         this.onSearchTextChanged('');
       }
+    });
+    this.BudgetService.getUnSaveAction().subscribe((res: any) => {
+      this.unSavedData = res;
     });
 
     this.onTabChanged(event);
@@ -233,6 +239,10 @@ export class PiqReportComponent implements OnInit {
           // }, 100);
         }
       });
+  }
+
+  onChangeMemo() {
+    this.BudgetService.setUnSaveAction(true);
   }
 
   getTopBarDatas() {
@@ -323,6 +333,7 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       this.isLoader = false;
+      this.dialog.closeAll()
     });
   }
 
@@ -515,11 +526,11 @@ export class PiqReportComponent implements OnInit {
           this.getAllDatas[0].values[0].question[0],
           this.getAllDatas[0].values[0].question[0].subQuestion[0]
         );
+
+        this.BudgetService.setUnSaveAction(false);
       }, 500);
       this.mainQuestCounts = this.getMainQuestCounts.length;
-      this.getAllDatas.forEach((heading: any) => {
-        heading.expanded = true;
-      });
+      this.expandMethod();
       this.vesselCode = this.getVesselCode;
       this.getTopBarDatas();
       this.isLoader = false;
@@ -810,6 +821,7 @@ export class PiqReportComponent implements OnInit {
       new Date(),
       'dd-MMM-yyyy HH:mm'
     );
+    this.BudgetService.setUnSaveAction(true);
     if (Array.isArray(entryorgin.answer)) {
       if (entryorgin.answer.includes(value)) {
         entryorgin.answer = entryorgin.answer.filter(
@@ -850,6 +862,7 @@ export class PiqReportComponent implements OnInit {
       new Date(),
       'dd-MMM-yyyy HH:mm'
     );
+    this.BudgetService.setUnSaveAction(true);
     const mQuestion = mainQue.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -923,6 +936,7 @@ export class PiqReportComponent implements OnInit {
   resetDate(event: any, subq: any, quest: any, mquest: any) {
     var getresetID = event.target.id;
     var getId = subq.qid;
+    this.BudgetService.setUnSaveAction(true);
     const areIdsEqual = getresetID === getId;
     if (areIdsEqual == true) {
       this.dynamicForms.controls[subq.qid].setValue('');
@@ -993,7 +1007,7 @@ export class PiqReportComponent implements OnInit {
     }
     this.dynamicForms.controls[subq.qid].setValue(subq.presetvalue);
     subq.answer = subq.presetvalue;
-
+    this.BudgetService.setUnSaveAction(true);
     this.answerStatus(subq);
     this.countDetails();
   }
@@ -1007,7 +1021,7 @@ export class PiqReportComponent implements OnInit {
       this.exceptionCount();
     }
     subq.answer = '';
-
+    this.BudgetService.setUnSaveAction(true);
     this.answerStatus(subq);
     this.countDetails();
   }
@@ -1965,7 +1979,7 @@ export class PiqReportComponent implements OnInit {
     );
 
     subq.answer = value;
-
+    this.BudgetService.setUnSaveAction(true);
     this.answerStatus(subq);
     if (subq && subq.presetvalue === subq.answer) {
       this.restoreOriginal(subq);
@@ -1995,6 +2009,7 @@ export class PiqReportComponent implements OnInit {
       new Date(),
       'dd-MMM-yyyy HH:mm'
     );
+    this.BudgetService.setUnSaveAction(true);
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
       userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -2723,6 +2738,10 @@ export class PiqReportComponent implements OnInit {
   onSearchTextChanged(searchValue: string) {
     this.searchText = searchValue;
     this.isSearchActive = searchValue.length > 0;
+    this.expandMethod();
+  }
+
+  expandMethod() {
     this.getAllDatas.forEach((heading: any) => {
       heading.expanded = true;
     });
@@ -2881,6 +2900,26 @@ export class PiqReportComponent implements OnInit {
   }
 
   onTabChanged(event: any) {
+    if (this.unSavedData) {
+      this.tabGroup.selectedIndex = 1;
+      const dialogRef = this.dialog.open(
+        UnsaveConfirmationDialogPopupComponent,
+        {
+          panelClass: 'confirm-dialog-container',
+        }
+      );
+      dialogRef.afterClosed().subscribe((result) => {        
+        if (result) {
+          this.BudgetService.setUnSaveAction(false);
+          this.submitFormAll(this.dynamicForms);
+          this.tabGroup.selectedIndex = 1;
+        } else {
+          this.tabGroup.selectedIndex = 1;
+          this.dialog.closeAll()
+        }
+      });
+      return;
+    }
     this.BudgetService.getTabChangeData().subscribe((res: any) => {
       this.tabGroup.selectedIndex = res.tab;
       this.selectValue(res.subHeaders, res);

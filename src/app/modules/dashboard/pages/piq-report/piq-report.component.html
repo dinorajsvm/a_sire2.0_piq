@@ -978,7 +978,7 @@
                                         <mat-form-field class="textArea charCount"
                                           [ngClass]="{ 'read-only': viewMode }">
                                           <textarea matInput [formControlName]="Mquest.qid" #memoTextArea
-                                            maxlength="100" [readonly]="viewMode">
+                                            maxlength="100" [readonly]="viewMode" (change)="onChangeMemo()">
                                           </textarea>
                                         </mat-form-field>
                                         <div class="text-right">

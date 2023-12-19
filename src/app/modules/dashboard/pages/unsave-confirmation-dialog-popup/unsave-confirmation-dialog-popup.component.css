@@ -1,0 +1,52 @@
+@import '../../../../../piq.css';
+
+/* ::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__title {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+} */
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container {
+  width: 25vw !important;
+  height: 140px !important;
+  padding: 0 24px !important;
+}
+
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content {
+  font-size: 12px;
+}
+
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-content {
+  max-height: 100px !important;
+  height: 50px !important;
+  padding: 0 24px;
+  font-size: 12px;
+  color: black;
+}
+
+::ng-deep .confirm-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
+  overflow: hidden !important;
+}
+
+::ng-deep .confirm-dialog-container ::ng-deep .mdc-dialog__actions {
+  padding: 0 5px;
+  min-height: 25px;
+}
+
+.btnHeight{
+  height: 30px;
+}
+
+.showBtn {
+  background-color: #19c37d;
+  color: white;
+}
+
+.disableBtn{
+    background-color: #c1c1c1 !important;
+    color: black !important;
+}
+
+.btnHeight{
+  height: 30px;
+}
