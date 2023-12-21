@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import {
-  GridOptions,
   LicenseManager,
   RowGroupingDisplayType,
 } from 'ag-grid-enterprise';
-import { DefaultColDef, colorCodes } from 'src/app/core/constants';
-import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
+import { DefaultColDef } from 'src/app/core/constants';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -84,7 +82,6 @@ export class ExceptionQuestionComponent implements OnInit {
   frameworkComponents: any;
   rowData: any[] = [];
   private gridApi: any;
-  private gridColumnApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
@@ -93,7 +90,6 @@ export class ExceptionQuestionComponent implements OnInit {
   disableBtns: boolean = false;
   constructor(
     private BudgetService: BudgetService,
-    private _snackBarService: SnackbarService,
     private route: ActivatedRoute,
     private _storage: StorageService
   ) {
@@ -110,10 +106,6 @@ export class ExceptionQuestionComponent implements OnInit {
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
-      this.columnDefs[6].editable = !this.hideReqBtns;
-      this.columnDefs[6].cellEditorPopup = !this.hideReqBtns;
-      this.columnDefs[6].wrapText = !this.hideReqBtns;
-      this.gridApi.setColumnDefs(this.columnDefs);
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
@@ -130,6 +122,12 @@ export class ExceptionQuestionComponent implements OnInit {
         this.BudgetService.setExceptionRowData(this.rowData);
       }
     });
+    this.columnDefs[6].editable = !this.hideReqBtns;
+    this.columnDefs[6].cellEditorPopup = !this.hideReqBtns;
+    this.columnDefs[6].wrapText = !this.hideReqBtns;
+    if (this.gridApi) {
+      this.gridApi.setColumnDefs(this.columnDefs);
+    }
   }
 
   onBtnClick1(e: any) {
@@ -154,31 +152,12 @@ export class ExceptionQuestionComponent implements OnInit {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
     this.gridApi.addEventListener(
       'filterChanged',
       this.onFilterChanged.bind(this)
     );
   }
 
-  onSubmit() {
-    this.emptyRemark = this.rowData.find((x) => x.remark === '');
-    if (this.emptyRemark) {
-      this._snackBarService.loadSnackBar('Remark Mandatory', colorCodes.ERROR);
-      return;
-    }
-    const payload = {
-      instanceid: this.referenceNumber,
-      user: this.userDetails?.userCode,
-      exceptionjson: {
-        response: this.rowData,
-      },
-    };
-    this.BudgetService.setExceptionRowData(this.rowData);
-    this.BudgetService.saveExceptionList(payload).subscribe((res) => {
-      this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
-    });
-  }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }

@@ -71,7 +71,6 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
-
   rowSummaryData: any[] = [];
   emptyRemark: any;
   totalRowCount = 0;
@@ -169,7 +168,6 @@ export class PiqReportComponent implements OnInit {
       this.unSavedData = res;
     });
 
-    this.onTabChanged(event);
     this.BudgetService.getExceptionRowData().subscribe((res: any) => {
       this.getExceptionGridData = [];
       this.getExceptionGridData = res && res.length > 0 ? res : [];
@@ -247,11 +245,13 @@ export class PiqReportComponent implements OnInit {
 
   getTopBarDatas() {
     this.isLoader = true;
-    this.BudgetService.getTopBarData(this.vesselCode).subscribe((res: any) => {
-      const data = res.response;
-      this.topbarData = data;
-      this.isLoader = false;
-    });
+    this.BudgetService.getTopBarData(this.referenceNumber).subscribe(
+      (res: any) => {
+        const data = res.response;
+        this.topbarData = data;
+        this.isLoader = false;
+      }
+    );
   }
 
   getworkflowStatus() {
@@ -333,7 +333,9 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       this.isLoader = false;
-      this.dialog.closeAll()
+      this.BudgetService.setUnSaveAction(false);
+      this.unSavedData = false;
+      this.dialog.closeAll();
     });
   }
 
@@ -355,6 +357,7 @@ export class PiqReportComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
+      username: this.userDetails.empCode
     };
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
@@ -2844,15 +2847,45 @@ export class PiqReportComponent implements OnInit {
   }
 
   home() {
+    if (this.unSavedData) {
+      const dialogRef = this.dialog.open(
+        UnsaveConfirmationDialogPopupComponent,
+        {
+          disableClose: true,
+          panelClass: 'confirm-dialog-container',
+        }
+      );
+      dialogRef.afterClosed().subscribe((result) => {
+        this.unSavedData = false;
+        this.BudgetService.setUnSaveAction(false);
+        if (result) {
+          this.dialog.closeAll();
+          this.navigateLandingPage();
+        } else {
+          this.dialog.closeAll();
+          setTimeout(() => {
+            this.unSavedData = true;
+            this.BudgetService.setUnSaveAction(true);
+          }, 1000);
+        }
+      });
+      return;
+    } else {
+      this.navigateLandingPage();
+    }
+  }
+
+  navigateLandingPage() {
     localStorage.removeItem('getSelectedCheckListID');
+    localStorage.removeItem('previousTabIndex');
     this.BudgetService.setEditVisible(false);
     localStorage.setItem('setEditVisible', 'false');
     this.router.navigate(['/sire/piq-landing/']);
   }
-  disableBtn = false;
+
   edit() {
     if (this.route.snapshot.paramMap.get('type') == 'view') {
-      this.BudgetService.setEnableBtn(this.disableBtn);
+      this.BudgetService.setEnableBtn(false);
       if (this.userDetails?.cntrlType === 'CNT002') {
         if (
           this.getOrigination == 'CNT002' &&
@@ -2880,7 +2913,7 @@ export class PiqReportComponent implements OnInit {
       this.viewMode = false;
       this.disableEditMode = false;
       this.saveDisable = false;
-      this.BudgetService.setEnableBtn(this.disableBtn);
+      this.BudgetService.setEnableBtn(false);
     }
   }
 
@@ -2895,32 +2928,48 @@ export class PiqReportComponent implements OnInit {
   }
 
   onTabChanged(event: any) {
-    if (this.unSavedData) {
-      this.tabGroup.selectedIndex = 1;
-      const dialogRef = this.dialog.open(
-        UnsaveConfirmationDialogPopupComponent,
-        {
-          panelClass: 'confirm-dialog-container',
-        }
-      );
-      dialogRef.afterClosed().subscribe((result) => {        
-        if (result) {
+    if (event && event.index != 1) {
+      if (this.unSavedData) {
+        this.tabGroup.selectedIndex = 1;
+        const dialogRef = this.dialog.open(
+          UnsaveConfirmationDialogPopupComponent,
+          {
+            disableClose: true,
+            panelClass: 'confirm-dialog-container',
+          }
+        );
+        dialogRef.afterClosed().subscribe((result) => {
+          this.unSavedData = false;
           this.BudgetService.setUnSaveAction(false);
-          this.submitFormAll(this.dynamicForms);
-          this.tabGroup.selectedIndex = 1;
-        } else {
-          this.tabGroup.selectedIndex = 1;
-          this.dialog.closeAll()
-        }
+          if (result) {
+            const index = localStorage.getItem('previousTabIndex');
+            if (index != '1') {
+              this.dialog.closeAll();
+              this.tabGroup.selectedIndex = index;
+            }
+          } else {
+            this.dialog.closeAll();
+            setTimeout(() => {
+              this.unSavedData = true;
+              this.BudgetService.setUnSaveAction(true);
+            }, 1000);
+          }
+        });
+        return;
+      }
+      this.BudgetService.getTabChangeData().subscribe((res: any) => {
+        this.tabGroup.selectedIndex = res.tab;
+        this.selectValue(res.subHeaders, res);
       });
-      return;
+      if (event && event.index === 0) {
+        this.BudgetService.setRemarksCountData(this.getExceptionGridData);
+      }
     }
-    this.BudgetService.getTabChangeData().subscribe((res: any) => {
-      this.tabGroup.selectedIndex = res.tab;
-      this.selectValue(res.subHeaders, res);
-    });
-    if (event && event.index === 0) {
-      this.BudgetService.setRemarksCountData(this.getExceptionGridData);
+  }
+
+  myTabSelectedIndexChange(event: any) {
+    if (event != 1) {
+      localStorage.setItem('previousTabIndex', event);
     }
   }
 

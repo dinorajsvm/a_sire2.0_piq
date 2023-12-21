@@ -447,8 +447,6 @@ export class PIQSummaryComponent implements OnInit {
       let data = res.workflowmapping;
       let val = res.workflowmaster;
 
-
-
       this.getWrkFlowId = val[0].wfid;
       this.getSubWrkFlowRank = val[0].submitter;
       this.getResAprWrkFlowRank = val[0].approver;
@@ -517,6 +515,7 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
+      username: this.userDetails.empCode
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.getWorkFlowAction = res.wrkflow;
@@ -769,6 +768,7 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
+      username: this.userDetails.empCode
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
@@ -794,8 +794,6 @@ export class PIQSummaryComponent implements OnInit {
     if (type === 'reUse') {
       this.getRefnImportDetails(this.instanceId);
     }
-    event.preventDefault();
-    event.stopPropagation();
   }
 
   onSubmitQuickNotes() {
@@ -814,6 +812,7 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
+      username: this.userDetails.empCode
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.getPlannedSubDate = this.datePipe.transform(

@@ -45,17 +45,10 @@ export class PmsLookupComponent {
         onClick: this.onBtnClick1.bind(this),
       },
     },
-    // {
-    //   field: 'sid',
-    //   headerName: 'S.No',
-    //   tooltipField: 'sid',
-    //   flex: 1,
-    //   resizable: true,
-    // },
     {
-      field: 'pmsCode',
+      field: 'compcode',
       headerName: 'PMS Component',
-      tooltipField: 'pmsCode',
+      tooltipField: 'compcode',
       flex: 1,
       resizable: true,
     },
@@ -157,11 +150,6 @@ export class PmsLookupComponent {
       const filterResponse = data.Response.find(
         (x: any) => x.compname === this.data.moduleName
       );
-      if (filterResponse && filterResponse.jobList) {
-        filterResponse  .jobList.forEach((res: any) => {
-          res.pmsCode = filterResponse.pmscompcode;
-        });
-      }
       this.rowData = [];
       this.rowData =
         filterResponse &&
@@ -173,15 +161,4 @@ export class PmsLookupComponent {
           this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
-
-  // onCellClicked(event: any) {
-  //   if (event.colDef.field === 'sid') {
-  //     console.log(event.data, 'looku asdp');
-  //     mdldmsnavigatenewtab('PIQ', 'PSH', event.data.sid, 'true', 'true');
-  //     this._loaderService.loaderShow();
-  //     setTimeout(() => {
-  //       this._loaderService.loaderHide();
-  //     }, 2500);
-  //   }
-  // }
 }

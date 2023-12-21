@@ -20,10 +20,7 @@ export class HttpService {
   requestCall(api: string, method: ApiMethod, data?: any, definedApiUrl?:string) { 
     let response:any;
     let apiUrl = definedApiUrl ? definedApiUrl : environment.apiUrl; 
-    console.log(apiUrl, 'apiUrl');
-    console.log(definedApiUrl, 'definedApiUrl');
-    console.log(method, 'method');
-    
+  
     switch (method) { 
       
       case ApiMethod.GET:
@@ -76,8 +73,6 @@ export class HttpService {
         break;
 
     }
-    console.log(response, 'API Check response');
-    
     return response;
   }
 

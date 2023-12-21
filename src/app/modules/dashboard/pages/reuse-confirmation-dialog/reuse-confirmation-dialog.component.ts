@@ -23,7 +23,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
       field: 'instanceid',
       headerName: 'S.No',
       tooltipField: 'instanceid',
-      width: 300,
+      flex: 1,
       resizable: true,
     },
   ];
@@ -34,13 +34,13 @@ export class ReuseConfirmationDialogComponent implements OnInit {
 
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
+  public rowGroupPanelShow: any = 'always';
 
   constructor(
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<ReuseConfirmationDialogComponent>,
     public dialog: MatDialog,
-    private _storage: StorageService,
+    private _storage: StorageService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
@@ -69,7 +69,6 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getReuseReferenceList();
   }
 
@@ -78,10 +77,12 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   }
 
   getReuseReferenceList() {
-    this.BudgetService.getRefnImport(this.userDetails.userCode).subscribe((data) => {
-      this.rowData = data && data.response.length > 0 ? data.response : [];
-      this.totalRowCount =
-      this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-    });
+    this.BudgetService.getRefnImport(this.userDetails.userCode).subscribe(
+      (data) => {
+        this.rowData = data && data.response.length > 0 ? data.response : [];
+        this.totalRowCount =
+          this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+      }
+    );
   }
 }

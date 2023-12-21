@@ -459,13 +459,10 @@ export class BudgetService {
     );
   }
 
-  getTopBarData(vslCode: any) {
-    var payload: any = {
-      vesselcode: vslCode,
-    };
+  getTopBarData(instanceid: any) {
     let ba = this.client
       .get<any>(
-        `${this.globalUrl}/PIQ/event/getvesseldetails?vesselcode=${vslCode}`
+        `${this.globalUrl}/PIQ/event/getvesseldetails?instanceid=${instanceid}`
       )
       .pipe(map((res: any) => res));
     return ba;

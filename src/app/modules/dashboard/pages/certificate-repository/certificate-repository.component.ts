@@ -16,6 +16,7 @@ import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
+import { MatDialog } from '@angular/material/dialog';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -63,11 +64,6 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'dateofissue',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.dateofissue
-      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'validfrom',
@@ -75,11 +71,6 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'validfrom',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.dateofissue
-      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'validto',
@@ -87,11 +78,6 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'validto',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.dateofissue
-      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'anniversarydate',
@@ -99,11 +85,6 @@ export class CertificateRepositoryComponent implements OnInit {
       tooltipField: 'anniversarydate',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      // valueGetter: (params) => {
-      //   return params.data.dateofissue
-      //     ? this.datePipe.transform(params.data.dateofissue, 'dd-MMM-yyyy')
-      //     : '';
-      // },
     },
     {
       field: 'categoryname',
@@ -165,10 +146,10 @@ export class CertificateRepositoryComponent implements OnInit {
   constructor(
     private BudgetService: BudgetService,
     private snackBarService: SnackbarService,
-    private datePipe: DatePipe,
     private route: ActivatedRoute,
     private _storage: StorageService
   ) {
+  
     this.frameworkComponents = {
       buttonRenderer: DownloadBtnRendererComponent,
     };
@@ -183,7 +164,10 @@ export class CertificateRepositoryComponent implements OnInit {
   onFirstDataRendered(params: FirstDataRenderedEvent) {}
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
-    this.gridApi.addEventListener('filterChanged', this.onFilterChanged.bind(this));
+    this.gridApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
     this.BudgetService.getVslCodeData().subscribe((res: any) => {
       this.getvesselcode = res;
       this.BudgetService.getCertificateList(
