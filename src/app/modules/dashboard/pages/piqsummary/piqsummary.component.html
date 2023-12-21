@@ -137,8 +137,28 @@
                       <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
                     </div>
                   </div>
+
+                  <div *ngIf="this.getApproverRanks === userDetails?.rankCode && userDetails?.cntrlType === 'CNT001' && getOriginator==='CNT002'"
+                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
+                    <div *ngIf="getWorkFlowAction == 'Submitted'">
+                      <button mat-button class="rsn" (click)="onWorkflow('reassign', $event)" type="submit"
+                        [disabled]="disableResAprFlowBtn"
+                        [ngClass]="!disableResAprFlowBtn ? 'rsn' : 'disableWrkFlowBtn'">
+                        Reassign
+                      </button>
+                      <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
+                    </div>
+                    <div *ngIf="getWorkFlowAction == 'Submitted'">
+                      <button mat-button class="apr" (click)="onWorkflow('approve', $event)" type="submit"
+                        [disabled]="disableResAprFlowBtn"
+                        [ngClass]="!disableResAprFlowBtn ? 'apr' : 'disableWrkFlowBtn'">
+                        Approve
+                      </button>
+                      <img class="btnImg" id="subBtn" src="assets/question/APR.svg" />
+                    </div>
+                  </div>
                   
-                  <div *ngIf="this.getApproverRanks === userDetails?.rankCode && userDetails?.cntrlType === 'CNT001'&& getOriginator==='CNT001'"
+                  <div *ngIf="this.getApproverRanks === userDetails?.rankCode && userDetails?.cntrlType === 'CNT001' && getOriginator==='CNT001'"
                     [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
                     <div *ngIf="getWorkFlowAction == 'Submitted'">
                       <button mat-button class="rsn" (click)="onWorkflow('reassign', $event)" type="submit"

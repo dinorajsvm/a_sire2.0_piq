@@ -542,6 +542,10 @@ export class PIQSummaryComponent implements OnInit {
         }
       }
 
+      if(this.getWorkFlowAction == 'Submitted' || ((this.getWorkFlowAction == 'ReAssigned'||this.getWorkFlowAction == 'Approved') && this.getApproverRanks == this.userDetails?.rankCode)){
+        this.viewMode=true;
+      }
+
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';
       } else {
@@ -576,13 +580,8 @@ export class PIQSummaryComponent implements OnInit {
           // this.viewMode = true;
         }
       } else if (this.getOriginator == 'CNT001') {
-        if (
-          this.userDetails?.cntrlType === 'CNT002' ||
-          (this.getApproverRanks != this.userDetails?.rankCode &&
-            this.getWorkFlowAction === 'Submitted' &&
-            this.userDetails?.cntrlType === 'CNT001') ||
-          (this.getWorkFlowAction == 'Approved' &&
-            this.userDetails?.cntrlType === 'CNT001')
+        if (this.userDetails?.cntrlType === 'CNT002' || (this.getApproverRanks != this.userDetails?.rankCode && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001') ||
+          (this.getWorkFlowAction == 'Approved' && this.userDetails?.cntrlType === 'CNT001') || (this.getApproverRanks === this.userDetails?.rankCode && this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001')
         ) {
           this.hideReqBtns = true;
           this.hideBtns = true;
@@ -697,6 +696,7 @@ export class PIQSummaryComponent implements OnInit {
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
         remarks?.classList.remove('remError');
+        this.viewMode = true;
         this.disableResAprFlowBtn = true;
         this.saveWorkFlowAction(this.setFlowAction);
       } else {
@@ -710,7 +710,7 @@ export class PIQSummaryComponent implements OnInit {
         this.setFlowAction = 'APR';
         ansPayload = {
           instanceid: this.referenceNumber,
-          action: 'SS',
+          action: 'S',
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
@@ -723,6 +723,7 @@ export class PIQSummaryComponent implements OnInit {
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
         remarks?.classList.remove('remError');
+        this.viewMode = true;
         this.disableResAprFlowBtn = true;
         this.saveWorkFlowAction(this.setFlowAction);
       } else {
@@ -750,6 +751,7 @@ export class PIQSummaryComponent implements OnInit {
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
         remarks?.classList.remove('remError');
+        this.viewMode = true;
         this.saveWorkFlowAction(this.setFlowAction);
         this.disableSubFlowBtn = true;
       } else {

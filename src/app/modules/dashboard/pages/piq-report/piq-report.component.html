@@ -205,7 +205,7 @@
                 </div>
               </div>
               
-              <div style="display: flex;" *ngIf="(getStatus === 'ReAssigned' && getOrigination === 'CNT002')|| getStatus === 'Approved'">
+              <div style="display: flex;" *ngIf="getStatus === 'ReAssigned' || getStatus === 'Approved'">
                 <div class="indicators">
                   <span class="indCol shore"></span>
                   <span class="charCount">All Questions</span>

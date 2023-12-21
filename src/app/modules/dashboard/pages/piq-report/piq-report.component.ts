@@ -2793,15 +2793,10 @@ export class PiqReportComponent implements OnInit {
           var flag = entrylogin === 'Office';
           return flag;
         } else if (
-          (this.getOrigination == 'CNT001' &&
-            this.getStatus == 'Submitted' &&
-            this.getApproveRank != this.userDetails?.rankCode) ||
-          (this.getOrigination == 'CNT002' &&
-            this.getStatus != 'Inprogress' &&
-            this.getApproveRank != this.userDetails?.rankCode) ||
-          (this.getOrigination == 'CNT001' && this.getStatus == 'Approved') ||
-          (this.getOrigination == 'CNT002' &&
-            (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
+          (this.getOrigination == 'CNT001' && (this.getStatus == 'Submitted' || this.getStatus == 'Approved') && this.getApproveRank != this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT002' && this.getStatus != 'Inprogress' && this.getApproveRank != this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT001' && (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved') && this.getApproveRank === this.userDetails?.rankCode) || 
+          (this.getOrigination == 'CNT002' && (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
         ) {
           var flag = false;
           return flag;
