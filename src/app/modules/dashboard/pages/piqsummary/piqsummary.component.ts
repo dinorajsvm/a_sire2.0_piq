@@ -323,6 +323,7 @@ export class PIQSummaryComponent implements OnInit {
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
     this.buildForm();
+    this.getworkflowStatus();
     if (
       this.pendingQuestCount == undefined ||
       this.totalQuestCount == undefined
@@ -348,12 +349,10 @@ export class PIQSummaryComponent implements OnInit {
     } else {
       this.disableSyncBtn = false;
     }
-    this.getworkflowStatus();
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
-    this.getMasterDetails();
     this.certficateGridDatas();
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
@@ -399,7 +398,6 @@ export class PIQSummaryComponent implements OnInit {
       this.photoRowData = res;
     });
     this.getplannedDate();
-    this.getMasterDetails();
   }
 
   buildForm() {
@@ -454,6 +452,8 @@ export class PIQSummaryComponent implements OnInit {
         val && val[0] && val[0].approvers
           ? val[0].approvers.find((x: any) => x === this.getRank)
           : '';
+          console.log("");
+          
       const getSubRank =
         val && val[0] && val[0].submitters
           ? val[0].submitters.find((x: any) => x === this.getRank)
@@ -542,14 +542,16 @@ export class PIQSummaryComponent implements OnInit {
       }
 
       if((this.getWorkFlowAction == 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || ((this.getWorkFlowAction == 'ReAssigned' || this.getWorkFlowAction == 'Approved') && this.getApproverRanks == this.userDetails?.rankCode)){
-        this.viewMode=true;
+        console.log("true",this.getApproverRanks);
+        
+        this.viewMode = true
       }
       // this.BudgetService.getDeleteAction().subscribe((res:any) => {   
       //   console.log("res",res);  
       //   this.viewMode=res;
       // })
 
-      if((this.getOriginator == 'CNT002' && this.getWorkFlowAction === 'Submitted') || (this.getOriginator == 'CNT001' && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001') || (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks === this.userDetails?.rankCode)|| this.getWorkFlowAction === 'Approved'){
+      if((this.getOriginator == 'CNT002' && this.getWorkFlowAction === 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || (this.getOriginator == 'CNT001' && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks != this.userDetails?.rankCode) || (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks === this.userDetails?.rankCode)|| this.getWorkFlowAction === 'Approved'){
         this.hideReqBtns = true;
       }
 

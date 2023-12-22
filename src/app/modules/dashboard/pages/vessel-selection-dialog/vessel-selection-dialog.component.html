@@ -30,9 +30,9 @@
               <span style="color: black">Select Vessel</span
               ><span style="color: red"> *</span>
             </div>
+            <!-- [(ngModel)]="selectedValue" -->
             <mat-form-field class="selectDropdown" appearance="outline">
               <mat-select
-                [(ngModel)]="selectedValue"
                 formControlName="vesselName"
                 [matTooltip]="toolTipVal"
                 (selectionChange)="onSelectVessel($event)"
@@ -64,7 +64,6 @@
             </div>
             <mat-form-field class="selectDropdown" appearance="outline">
               <mat-select
-                [(ngModel)]="selectedVslTypeValue"
                 formControlName="vesselType"
                 [matTooltip]="toolTipValType"
                 (selectionChange)="onSelectVesselType($event)"
@@ -126,9 +125,9 @@
               ><span style="color: red"> *</span>
             </div>
             <!-- [matTooltip]="vsltype.vesseltypename" -->
+            <!-- [(ngModel)]="selectedVslTypeValue" -->
             <mat-form-field class="selectDropdown" appearance="outline">
               <mat-select
-                [(ngModel)]="selectedVslTypeValue"
                 formControlName="vesselType"
                 [matTooltip]="toolTipValType"
                 (selectionChange)="onSelectVesselType($event)"

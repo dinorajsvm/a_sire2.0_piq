@@ -134,12 +134,19 @@ export class VesselSelectionDialogComponent {
   onSelectVessel(event: any): void {
     this.selectedVesselName = event.value;
     this.toolTipVal = event.source.selected.viewValue;
+    this.vesselSelectionForms.controls['vesselName'].setValue(event.value);
+    console.log("event.value",event.value);
+    console.log("ev",this.vesselSelectionForms.value.vesselName);
+    
     this.enableProceedButton();
     this.getCodes();
   }
   onSelectVesselType(event: any): void {
     this.selectedVesselName = event.value;
     this.toolTipValType = event.source.selected.viewValue;
+    this.vesselSelectionForms.controls['vesselType'].setValue(event.value);
+    console.log("event.value",event.value);
+    console.log("ev",this.vesselSelectionForms.value.vesselName);
     this.enableProceedButton();
   }
 
