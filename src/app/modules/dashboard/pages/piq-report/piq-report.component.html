@@ -102,8 +102,11 @@
     <mat-tab-group (selectedTabChange)="onTabChanged($event)" (selectedIndexChange)="myTabSelectedIndexChange($event)"
       #tabGroup>
       <mat-tab label="Summary">
-        <app-piqsummary [getAllData]="getAllDatas" [pendingQuestCount]="pendingCount"
-          [totalQuestCount]="mainQuestCounts" [presetQuestCounts]="presetQuestCount">
+        <app-piqsummary
+          [pendingQuestCount]="pendingCount"
+          [totalQuestCount]="mainQuestCounts"
+          [presetQuestCounts]="presetQuestCount"
+        >
         </app-piqsummary>
       </mat-tab>
 

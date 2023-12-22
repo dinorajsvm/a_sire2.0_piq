@@ -332,13 +332,6 @@ export class BudgetService {
     return this.getExcepData.asObservable();
   }
 
-  setSummaryGridData(message: any) {
-    this.getSummaryGridDataList.next(message);
-  }
-  getSummaryGridData() {
-    return this.getSummaryGridDataList.asObservable();
-  }
-
   setSummaryGrid(message: any) {
     this.getSummaryGridList.next(message);
   }

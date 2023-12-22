@@ -586,9 +586,9 @@ export class SafetyManagementComponent implements OnInit {
   safetyManagementDetails() {
     const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupDetail(
-      this.data.qid,
+      "5.7",
       vesselCode,
-      this.data.questionId,
+      "5.7",
       this.data.referenceId
     ).subscribe((data) => {
       this.rowData = JSON.parse(data.response);

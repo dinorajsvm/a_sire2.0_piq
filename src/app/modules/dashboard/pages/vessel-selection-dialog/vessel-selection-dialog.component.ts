@@ -144,9 +144,10 @@ export class VesselSelectionDialogComponent {
   onSelectVesselType(event: any): void {
     this.selectedVesselName = event.value;
     this.toolTipValType = event.source.selected.viewValue;
-    this.vesselSelectionForms.controls['vesselType'].setValue(event.value);
-    console.log("event.value",event.value);
-    console.log("ev",this.vesselSelectionForms.value.vesselName);
+    this.vesselSelectionForms.patchValue({
+      vesselTypeFilter: '',
+      vesselNameFilter: ''
+    })
     this.enableProceedButton();
   }
 
@@ -244,10 +245,5 @@ export class VesselSelectionDialogComponent {
 
   onProceed(forms: any) {
     this.getNewRef();
-  }
-
-  onFilterInputBlur() {
-    this.vesselSelectionForms.get('vesselTypeFilter')?.setValue('');
-    this.vesselSelectionForms.get('vesselNameFilter')?.setValue('');
   }
 }

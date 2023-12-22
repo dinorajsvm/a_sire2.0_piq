@@ -1,8 +1,7 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {  Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ColDef,
   GridApi,
-  GridOptions,
   RowGroupingDisplayType,
 } from 'ag-grid-community';
 import { BudgetService } from '../../services/budget.service';
@@ -51,32 +50,24 @@ export const MY_DATE_FORMATS = {
 })
 export class PIQSummaryComponent implements OnInit {
   autoSaveForm!: FormGroup;
-  @Input() getAllData: any;
   @Input() pendingQuestCount: any;
   @Input() totalQuestCount: any;
   @Input() presetQuestCounts: any;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
   getExceptionGrid: any;
   emptyRemark: any;
-  getSelectedDate: any = '';
   quickNotesInput = '';
   remarks = '';
-  photoData: any[] = [];
   instanceId = '';
   checkboxBoolean: any[] = [];
   pendingCount = 0;
   photoRowData: any[] = [];
-  tempRowData: any[] = [];
   private gridApi!: GridApi;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-
   enableViewMode: boolean = true;
   hideReqBtns: boolean = false;
-
   public tooltipShowDelay = 0;
-  public tooltipHideDelay = 20000;
-  public gridOptions: GridOptions = {};
   columnDefs: ColDef[] = [
     {
       field: 'topics',
@@ -86,7 +77,6 @@ export class PIQSummaryComponent implements OnInit {
       flex: 1,
       floatingFilter: false,
     },
-
     {
       field: 'totalQuestion',
       headerName: 'Total Sub Questions',
@@ -190,7 +180,6 @@ export class PIQSummaryComponent implements OnInit {
     },
   ];
   plannedSubDate: any;
-  getDate: any;
   getWorkFlowAction: any;
   getWrkFlowId: any;
   getSubWrkFlowRank: any;
@@ -206,7 +195,6 @@ export class PIQSummaryComponent implements OnInit {
   getOriginator: any;
   getApproverRanks: any;
   getSubmitterRanks: any;
-  matchedApprRank: any;
 
   dateFormat(params: any) {
     const crdate = params.data.crdate;
@@ -320,10 +308,14 @@ export class PIQSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.buildForm();
+    this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
-    this.buildForm();
     this.getworkflowStatus();
+    this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
+    this.certficateGridDatas();
+
     if (
       this.pendingQuestCount == undefined ||
       this.totalQuestCount == undefined
@@ -331,7 +323,6 @@ export class PIQSummaryComponent implements OnInit {
       this.pendingQuestCount = 0;
       this.totalQuestCount = 0;
     }
-    this.referenceNumber = this.route.snapshot.paramMap.get('id');
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableSubFlowBtn = true;
       this.disableResAprFlowBtn = true;
@@ -353,7 +344,6 @@ export class PIQSummaryComponent implements OnInit {
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
-    this.certficateGridDatas();
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
     });
@@ -387,7 +377,6 @@ export class PIQSummaryComponent implements OnInit {
         }
       }
     });
-
     this.BudgetService.getPhotoRepData().subscribe((res: any) => {
       this.photoRepCounts = res;
     });
@@ -442,7 +431,6 @@ export class PIQSummaryComponent implements OnInit {
   getworkflowStatus() {
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
-      let data = res.workflowmapping;
       let val = res.workflowmaster;
 
       this.getWrkFlowId = val[0].wfid;
@@ -515,18 +503,15 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
-      username: this.userDetails.empCode
+      username: this.userDetails.empCode,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      this.setPlannedDate(res);
       this.getWorkFlowAction = res.wrkflow;
-
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
+      this.rowData = []
       this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
-      if (this.rowData && this.rowData.length === 0) {
-        this.defaultGridChanges();
-      }
-      // this.tempRowData = JSON.parse(res.chapterdata);
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
@@ -593,11 +578,18 @@ export class PIQSummaryComponent implements OnInit {
           // this.viewMode = true;
         }
       } else if (this.getOriginator == 'CNT001') {
-        if (this.userDetails?.cntrlType === 'CNT002' || (this.getApproverRanks != this.userDetails?.rankCode && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001') ||
-          (this.getWorkFlowAction == 'Approved' && this.userDetails?.cntrlType === 'CNT001') || (this.getApproverRanks === this.userDetails?.rankCode && this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001')
+        if (
+          this.userDetails?.cntrlType === 'CNT002' ||
+          (this.getApproverRanks != this.userDetails?.rankCode &&
+            this.getWorkFlowAction === 'Submitted' &&
+            this.userDetails?.cntrlType === 'CNT001') ||
+          (this.getWorkFlowAction == 'Approved' &&
+            this.userDetails?.cntrlType === 'CNT001') ||
+          (this.getApproverRanks === this.userDetails?.rankCode &&
+            this.getWorkFlowAction === 'ReAssigned' &&
+            this.userDetails?.cntrlType === 'CNT001')
         ) {
           this.hideBtns = true;
-          // this.viewMode = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
         }
@@ -615,12 +607,7 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
 
-  defaultGridChanges() {
-    this.BudgetService.getSummaryGridData().subscribe((res: any) => {
-      this.rowData = [];
-      this.rowData = res;
-    });
-  }
+  defaultGridChanges() {}
 
   certficateGridDatas() {
     this.BudgetService.getCertificateList(
@@ -646,7 +633,7 @@ export class PIQSummaryComponent implements OnInit {
   }
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.gridApi!.setRowData(this.rowData);
+    // this.gridApi!.setRowData(this.rowData);
     this.gridApi.refreshCells(params);
   }
 
@@ -669,7 +656,7 @@ export class PIQSummaryComponent implements OnInit {
     }
 
     let ansPayload: any;
-    var pendingResult: any = [];
+    let pendingResult: any = [];
     this.getMainQuestCounts.forEach((element: any) => {
       pendingResult.push({
         mainQuesId: element.qid,
@@ -780,12 +767,14 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
-      username: this.userDetails.empCode
+      username: this.userDetails.empCode,
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.response) {
         let object = res && res.response ? JSON.parse(res.response) : [];
+        this.rowData = [];
+        this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
         this.getAllDatas = object;
         object.forEach((value1: any) => {
           value1.values.forEach((value: any) => {
@@ -824,16 +813,20 @@ export class PIQSummaryComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
-      username: this.userDetails.empCode
+      username: this.userDetails.empCode,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      this.getPlannedSubDate = this.datePipe.transform(
-        res.plannedsubdate,
-        'dd-MMM-yyyy'
-      );
-      const resDate = res.plannedsubdate;
-      this.autoSaveForm.get('dateField')?.setValue(resDate);
+      this.setPlannedDate(res);
     });
+  }
+
+  setPlannedDate(res: any) {
+    this.getPlannedSubDate = this.datePipe.transform(
+      res.plannedsubdate,
+      'dd-MMM-yyyy'
+    );
+    const resDate = res.plannedsubdate;
+    this.autoSaveForm.get('dateField')?.setValue(resDate);
   }
   getRefnImportDetails(instanceid: any) {
     let getMainQuestCounts: any[] = [];

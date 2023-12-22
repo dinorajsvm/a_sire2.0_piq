@@ -104,15 +104,11 @@ export class PhotoRepositoryComponent implements OnInit {
     this.BudgetService.getPhotoRepGridListImg(payload).subscribe((res: any) => {
       if (this.selectedInstanceID && this.selectedInstanceID.length > 0) {
         const response = JSON.parse(res.response);
-        response.forEach((element: any) => {
-          let newData: any[] = element.topiclist;
-          this.listDatas = newData.filter((resData) => {
-            return (
-              resData.topic === 'Core photograph set' ||
-              resData.topic.includes(this.trimmedVslType)
-            );
-          });
-          this.summaryGridCount();
+        this.listDatas = response[0].topiclist.filter((resData: any) => {
+          return (
+            resData.topic === 'Core photograph set' ||
+            resData.topic.includes(this.trimmedVslType)
+          );
         });
       }
     });
@@ -493,6 +489,8 @@ export class PhotoRepositoryComponent implements OnInit {
               formattedExtension: formattedExtension,
               sizeinbytes: data.sizeinkb.toFixed(2) + ' ' + 'KB',
             };
+            console.log(image);
+
             if (findValue && findValue.imagelist) {
               findValue.imagelist.push(image);
             }

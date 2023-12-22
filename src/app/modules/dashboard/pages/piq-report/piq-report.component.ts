@@ -224,19 +224,19 @@ export class PiqReportComponent implements OnInit {
       });
       this.countDetails();
     });
-    this.router.events
-      .pipe(
-        filter(
-          (event): event is NavigationEnd => event instanceof NavigationEnd
-        )
-      )
-      .subscribe((event: NavigationEnd) => {
-        if (event.url === '/sire/piq-landing') {
-          // setTimeout(() => {
-          //   window.location.reload();
-          // }, 100);
-        }
-      });
+    // this.router.events
+    //   .pipe(
+    //     filter(
+    //       (event): event is NavigationEnd => event instanceof NavigationEnd
+    //     )
+    //   )
+    //   .subscribe((event: NavigationEnd) => {
+    //     if (event.url === '/sire/piq-landing') {
+    //       // setTimeout(() => {
+    //       //   window.location.reload();
+    //       // }, 100);
+    //     }
+    //   });
   }
 
   onChangeMemo() {
@@ -305,6 +305,7 @@ export class PiqReportComponent implements OnInit {
         return;
       }
     }
+    this.chapterGrid()
     this.isLoader = true;
     var pendingResult: any = [];
     this.getMainQuestCounts.forEach((element: any) => {
@@ -313,6 +314,7 @@ export class PiqReportComponent implements OnInit {
         selected: element.selected,
       });
     });
+    
     this.BudgetService.setPiqQuestionData(value.value);
     var ansPayload = {
       chapterdata: JSON.stringify(this.rowSummaryData),
@@ -515,6 +517,7 @@ export class PiqReportComponent implements OnInit {
         });
       });
       this.getAllDatas = object;
+      this.chapterGrid();
 
       this.countDetails();
       this.presetQuestCount = this.getPresetQuestCounts.length;
@@ -696,7 +699,6 @@ export class PiqReportComponent implements OnInit {
             : 0;
       }
     });
-    this.chapterGrid();
 
     this.getAllDatas.forEach((ids: any) => {
       if (ids && ids.values) {
@@ -716,8 +718,6 @@ export class PiqReportComponent implements OnInit {
         });
       }
     });
-    this.chapterGrid();
-
     this.BudgetService.setPiqQuestionData(this.dynamicForms.value);
   }
 
@@ -914,7 +914,6 @@ export class PiqReportComponent implements OnInit {
 
   countDetails() {
     this.subHeaderCount();
-    this.chapterGrid();
   }
 
   exception(ques: any, mainQue: any, subQue: any) {
@@ -1934,7 +1933,6 @@ export class PiqReportComponent implements OnInit {
       }
       const pattern = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\|]/g;
       this.rowSummaryData.push({
-        // serialNumber: data.id,
         topics: data && data.header ? data.header.replace(pattern, '') : '',
         status: status,
         totalQuestion: totalQuestCount,
@@ -1946,7 +1944,6 @@ export class PiqReportComponent implements OnInit {
             : ''
           : '',
       });
-      this.BudgetService.setSummaryGridData(this.rowSummaryData);
     });
   }
 
