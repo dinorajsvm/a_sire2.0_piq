@@ -318,6 +318,8 @@ export class PIQLandingPageComponent implements OnInit {
         data.isView = true;
         let submitttedCheck = false;
         if (this.userDetails?.cntrlType === 'CNT001') {
+          console.log("this.getSubmitterRank",this.getSubmitterRank);
+          
           // const submittedData = ['RNK001', 'RNK076'];
           // let submittedFlag: any = '';
 
@@ -330,9 +332,11 @@ export class PIQLandingPageComponent implements OnInit {
             this.getSubmitterRank === '' || this.getSubmitterRank === undefined
           );
         }
+        console.log("submitttedCheck",submitttedCheck);
         data.isEdit =
           this.userDetails?.cntrlType === 'CNT002'
-            ? ((data.status === 'Inprogress' || data.status === 'Reassigned') &&
+            ? // If the user's control type is 'CNT002'
+            ((data.status === 'Inprogress' || data.status === 'Reassigned') &&
                 data.createdin === this.userDetails?.cntrlType) ||
               !(
                 data.status === 'Submitted' ||
@@ -341,8 +345,10 @@ export class PIQLandingPageComponent implements OnInit {
                   data.status === 'Reassigned') &&
                   data.createdin === 'CNT001')
               )
-            : submitttedCheck
-            ? data.status === 'Inprogress' ||
+            : // If the user's control type is not 'CNT002'
+            submitttedCheck
+            ? // If submitttedCheck is true
+            data.status === 'Inprogress' ||
               (data.status === 'Reassigned' &&
                 data.createdin === this.userDetails?.cntrlType) ||
               !(
@@ -350,13 +356,11 @@ export class PIQLandingPageComponent implements OnInit {
                 data.status === 'Approved' ||
                 (data.status === 'Reassigned' && data.createdin === 'CNT002')
               )
-            : data.status === 'Inprogress' ||
-              data.status === 'Submitted' ||
-              (data.status === 'Reassigned' &&
-                data.createdin === this.userDetails?.cntrlType) ||
+            : // If submitttedCheck is false
+            data.status === 'Inprogress' ||
+              data.status === 'Submitted' 
               !(
-                data.status === 'Approved' ||
-                (data.status === 'Reassigned' && data.createdin === 'CNT002')
+                data.status === 'Approved' || data.status === 'Reassigned'
               );
 
         data.isDelete = data.status === 'Inprogress';
