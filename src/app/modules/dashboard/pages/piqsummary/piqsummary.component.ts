@@ -541,9 +541,21 @@ export class PIQSummaryComponent implements OnInit {
         }
       }
 
-      if(this.getWorkFlowAction == 'Submitted' || ((this.getWorkFlowAction == 'ReAssigned'||this.getWorkFlowAction == 'Approved') && this.getApproverRanks == this.userDetails?.rankCode)){
+      if((this.getWorkFlowAction == 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || ((this.getWorkFlowAction == 'ReAssigned' || this.getWorkFlowAction == 'Approved') && this.getApproverRanks == this.userDetails?.rankCode)){
         this.viewMode=true;
       }
+      // this.BudgetService.getDeleteAction().subscribe((res:any) => {   
+      //   console.log("res",res);  
+      //   this.viewMode=res;
+      // })
+
+      if((this.getOriginator == 'CNT002' && this.getWorkFlowAction === 'Submitted') || (this.getOriginator == 'CNT001' && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001') || (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks === this.userDetails?.rankCode)|| this.getWorkFlowAction === 'Approved'){
+        this.hideReqBtns = true;
+      }
+
+
+     
+      
 
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';
@@ -575,14 +587,13 @@ export class PIQSummaryComponent implements OnInit {
           this.hideBtns = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
-          this.hideReqBtns = true;
+          
           // this.viewMode = true;
         }
       } else if (this.getOriginator == 'CNT001') {
         if (this.userDetails?.cntrlType === 'CNT002' || (this.getApproverRanks != this.userDetails?.rankCode && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001') ||
           (this.getWorkFlowAction == 'Approved' && this.userDetails?.cntrlType === 'CNT001') || (this.getApproverRanks === this.userDetails?.rankCode && this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001')
         ) {
-          this.hideReqBtns = true;
           this.hideBtns = true;
           // this.viewMode = true;
           this.BudgetService.setEditVisible(true);
@@ -598,7 +609,6 @@ export class PIQSummaryComponent implements OnInit {
         this.hideBtns = true;
         this.BudgetService.setEditVisible(true);
         localStorage.setItem('setEditVisible', 'true');
-        this.hideReqBtns = true;
       }
     });
   }

@@ -126,10 +126,9 @@
                     <!-- [class.hideReqBtns]="hideReqBtns" [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" -->
                     Sync to Ship
                   </button>
-                  <div *ngIf="userDetails?.cntrlType === 'CNT002'&& this.getSubmitterRanks === userDetails?.rankCode && getOriginator==='CNT002'"
+                  <div *ngIf="userDetails?.cntrlType === 'CNT002' && this.getSubmitterRanks === userDetails?.rankCode && getOriginator==='CNT002'"
                     [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
-                    <div *ngIf="getWorkFlowAction == 'Inprogress' || getWorkFlowAction == 'ReAssigned'"
-                      [class.hideReqBtns]="hideReqBtns">
+                    <div *ngIf="getWorkFlowAction == 'Inprogress' || getWorkFlowAction == 'ReAssigned'">
                       <button mat-button class="sub" type="submit" (click)="onSubmit('submit', $event)"
                         [disabled]="disableSubFlowBtn" [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'">
                         Submit
@@ -179,8 +178,7 @@
                   </div>
                   <div *ngIf="this.getSubmitterRanks === userDetails?.rankCode && userDetails?.cntrlType === 'CNT001' && getOriginator==='CNT001'"
                     [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
-                    <div *ngIf="getWorkFlowAction == 'Inprogress' || getWorkFlowAction == 'ReAssigned'"
-                      [class.hideReqBtns]="hideReqBtns">
+                    <div *ngIf="getWorkFlowAction == 'Inprogress' || getWorkFlowAction == 'ReAssigned'">
                       <button mat-button class="sub" type="submit" (click)="onSubmit('submit', $event)"
                         [disabled]="disableSubFlowBtn" [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'">
                         Submit
