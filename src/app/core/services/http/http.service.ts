@@ -77,6 +77,14 @@ export class HttpService {
   }
 
   handleError(error: HttpErrorResponse, self:any) { 
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      this._snackBar.loadSnackBar(
+        'Failed to fetch the User Details',
+        colorCodes.ERROR
+      );
+      this._storage.clearStorageRedirect();
+    }
     if (error.error instanceof ErrorEvent) {
       console.error('Error occured', error.error.message);
       return throwError({ error: error.message, status: error.status })

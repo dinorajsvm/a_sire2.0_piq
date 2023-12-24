@@ -224,19 +224,6 @@ export class PiqReportComponent implements OnInit {
       });
       this.countDetails();
     });
-    // this.router.events
-    //   .pipe(
-    //     filter(
-    //       (event): event is NavigationEnd => event instanceof NavigationEnd
-    //     )
-    //   )
-    //   .subscribe((event: NavigationEnd) => {
-    //     if (event.url === '/sire/piq-landing') {
-    //       // setTimeout(() => {
-    //       //   window.location.reload();
-    //       // }, 100);
-    //     }
-    //   });
   }
 
   onChangeMemo() {
@@ -305,7 +292,7 @@ export class PiqReportComponent implements OnInit {
         return;
       }
     }
-    this.chapterGrid()
+    this.chapterGrid();
     this.isLoader = true;
     var pendingResult: any = [];
     this.getMainQuestCounts.forEach((element: any) => {
@@ -314,7 +301,7 @@ export class PiqReportComponent implements OnInit {
         selected: element.selected,
       });
     });
-    
+
     this.BudgetService.setPiqQuestionData(value.value);
     var ansPayload = {
       chapterdata: JSON.stringify(this.rowSummaryData),
@@ -359,7 +346,7 @@ export class PiqReportComponent implements OnInit {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
-      username: this.userDetails.empCode
+      username: this.userDetails.empCode,
     };
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
@@ -2794,10 +2781,17 @@ export class PiqReportComponent implements OnInit {
           var flag = entrylogin === 'Office';
           return flag;
         } else if (
-          (this.getOrigination == 'CNT001' && (this.getStatus == 'Submitted' || this.getStatus == 'Approved') && this.getApproveRank != this.userDetails?.rankCode) ||
-          (this.getOrigination == 'CNT002' && this.getStatus != 'Inprogress' && this.getApproveRank != this.userDetails?.rankCode) ||
-          (this.getOrigination == 'CNT001' && (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved') && this.getApproveRank === this.userDetails?.rankCode) || 
-          (this.getOrigination == 'CNT002' && (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
+          (this.getOrigination == 'CNT001' &&
+            (this.getStatus == 'Submitted' || this.getStatus == 'Approved') &&
+            this.getApproveRank != this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT002' &&
+            this.getStatus != 'Inprogress' &&
+            this.getApproveRank != this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT001' &&
+            (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved') &&
+            this.getApproveRank === this.userDetails?.rankCode) ||
+          (this.getOrigination == 'CNT002' &&
+            (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
         ) {
           var flag = false;
           return flag;
@@ -2944,6 +2938,13 @@ export class PiqReportComponent implements OnInit {
             if (index != '1') {
               this.dialog.closeAll();
               this.tabGroup.selectedIndex = index;
+              // if (event && event.index === 0) {
+              //   this.isLoader = true;
+              //   window.location.reload();
+              //   setTimeout(() => {
+              //     this.isLoader = false;
+              //   }, 200);
+              // }
             }
           } else {
             this.dialog.closeAll();
@@ -2955,6 +2956,13 @@ export class PiqReportComponent implements OnInit {
         });
         return;
       }
+      // if (event && event.index === 0) {
+      //   this.isLoader = true;
+      //   window.location.reload();
+      //   setTimeout(() => {
+      //     this.isLoader = false;
+      //   }, 200);
+      // }
       this.BudgetService.getTabChangeData().subscribe((res: any) => {
         this.tabGroup.selectedIndex = res.tab;
         this.selectValue(res.subHeaders, res);

@@ -53,9 +53,7 @@ export class StorageService {
   }
 
   deleteToken(): void {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    localStorage.removeItem('roleCode');
+    localStorage.clear();
   }
 
   checkUserDetails() {
