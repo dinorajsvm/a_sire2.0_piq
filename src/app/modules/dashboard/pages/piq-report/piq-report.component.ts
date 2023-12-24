@@ -2876,6 +2876,9 @@ export class PiqReportComponent implements OnInit {
   }
 
   edit() {
+    this.router.navigate([
+      '/sire/piq-report/' + this.referenceNumber ,
+    ]);
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.BudgetService.setEnableBtn(false);
       if (this.userDetails?.cntrlType === 'CNT002') {
