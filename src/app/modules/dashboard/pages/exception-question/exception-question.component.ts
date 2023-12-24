@@ -103,9 +103,13 @@ export class ExceptionQuestionComponent implements OnInit {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableBtns = true;
+      console.log("this.disableBtnsV",this.disableBtns);
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
+      console.log("this.disableBtnsE",this.disableBtns);
+      console.log("res",res);
+      
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
@@ -122,12 +126,28 @@ export class ExceptionQuestionComponent implements OnInit {
         this.BudgetService.setExceptionRowData(this.rowData);
       }
     });
-    this.columnDefs[6].editable = !this.disableBtns;
-    this.columnDefs[6].cellEditorPopup = !this.disableBtns;
-    this.columnDefs[6].wrapText = !this.disableBtns;
+    console.log("this.",this.columnDefs[6])
     if (this.gridApi) {
       this.gridApi.setColumnDefs(this.columnDefs);
+      console.log("1111");
     }
+  }
+
+  changeAgRemCell(){
+    this.columnDefs[6].editable = false;
+    this.columnDefs[6].cellEditorPopup = false;
+    this.columnDefs[6].wrapText = false;
+    this.gridApi.refreshHeader();
+  this.gridApi.refreshCells();
+    console.log("thisRem",this.columnDefs[6])
+  }
+  changeAgCell(){
+    this.columnDefs[6].editable = true;
+    this.columnDefs[6].cellEditorPopup = true;
+    this.columnDefs[6].wrapText = true;
+    this.gridApi.refreshHeader();
+  this.gridApi.refreshCells();
+    console.log("thisAg",this.columnDefs[6])
   }
 
   onBtnClick1(e: any) {
@@ -151,11 +171,18 @@ export class ExceptionQuestionComponent implements OnInit {
   }
 
   onGridReady(params: any) {
+    console.log("aaaa");
+    
     this.gridApi = params.api;
     this.gridApi.addEventListener(
       'filterChanged',
       this.onFilterChanged.bind(this)
     );
+    if (this.disableBtns) {
+      this.changeAgRemCell();
+    } else {
+      this.changeAgCell();
+    }
   }
 
   onFilterChanged() {

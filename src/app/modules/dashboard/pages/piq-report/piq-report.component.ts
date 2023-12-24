@@ -2748,10 +2748,11 @@ export class PiqReportComponent implements OnInit {
   }
 
   highlightSearchText(text: string): string {
-    // if (this.searchText.length > 0) {
-    //   const regex = new RegExp(this.searchText, 'gi');
-    //   return text.replace(regex, '<span class="highlight">$&</span>');
-    // }
+    if (this.searchText.length > 0) {
+      const escapedSearchText = this.searchText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escapedSearchText, 'gi');
+      return document.createElement('div').textContent = text.replace(regex, '<span class="highlight">$&</span>');
+    }
     return text;
   }
 

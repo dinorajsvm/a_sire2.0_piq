@@ -1711,7 +1711,7 @@
                                 let indexAllQ = index
                               ">
                               <mat-card appearance="outlined" style="margin: 5px 0; cursor: default"
-                                *ngIf="searchText === '' || allQuestValues.mainQuestion.includes(searchText) || allQuestValues.mainQuestion.toLowerCase().includes(searchText)"
+                                *ngIf="searchText === '' || allQuestValues.mainQuestion.includes(searchText) || allQuestValues.mainQuestion.toLowerCase().includes(searchText.toLowerCase()) || allQuestValues.mainQuestion.trim().toLowerCase().includes(searchText.trim().toLowerCase())"
                                 (click)="
                                   openOriginalQuest(
                                     allQuestValues.mainQuestion,
