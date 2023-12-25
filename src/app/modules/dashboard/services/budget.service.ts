@@ -54,6 +54,13 @@ export class BudgetService {
     return this.enableDisableButtons.asObservable();
   }
 
+  setGridSummary(message: any) {
+    this.getSummaryGridDataList.next(message);
+  }
+
+  getGridSummary() {
+    return this.getSummaryGridDataList.asObservable();
+  }
 
   setUnSaveAction(message: any) {
     this.setUnSave.next(message);

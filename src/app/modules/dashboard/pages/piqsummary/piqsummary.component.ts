@@ -307,7 +307,7 @@ export class PIQSummaryComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {   
     this.buildForm();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
@@ -347,7 +347,9 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
     });
-
+    this.BudgetService.getGridSummary().subscribe((res: any) => {
+      this.rowData = res;
+    })
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
     });
@@ -509,8 +511,8 @@ export class PIQSummaryComponent implements OnInit {
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
-      this.rowData = []
-      this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
+      // this.rowData = []
+      // this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
@@ -766,8 +768,8 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.response) {
         let object = res && res.response ? JSON.parse(res.response) : [];
-        this.rowData = [];
-        this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
+        // this.rowData = [];
+        // this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
         this.getAllDatas = object;
         object.forEach((value1: any) => {
           value1.values.forEach((value: any) => {

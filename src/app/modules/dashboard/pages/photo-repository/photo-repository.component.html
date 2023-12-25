@@ -172,7 +172,7 @@
                 <div
                   class="imgContainer"
                   [ngClass]="{
-                    invalidImgContainer: img.sizeinbytes > 100 * 1024 * 1024
+                    invalidImgContainer: img.sizeCheck > 10000000
                   }"
                   (mouseenter)="showIcons[imgIndex] = true"
                   (mouseleave)="showIcons[imgIndex] = false"

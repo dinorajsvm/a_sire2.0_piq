@@ -110,6 +110,17 @@ export class PhotoRepositoryComponent implements OnInit {
             resData.topic.includes(this.trimmedVslType)
           );
         });
+
+        this.listDatas.forEach((list) => {
+          list.subTopics.forEach((subTopics: any) => {
+            subTopics['imagelist'] = subTopics.relImages;
+            subTopics['imagelist'].forEach((img: any) => {
+              img.sizeCheck = img.sizeinbytes;
+              (img.formattedName = img.localfilename),
+                (img.sizeinbytes = img.sizeinMB.toFixed(2) + ' ' + 'MB');
+            });
+          });
+        });
       }
     });
     this.allExpanded = true;
@@ -455,7 +466,7 @@ export class PhotoRepositoryComponent implements OnInit {
           (response) => {
             setTimeout(() => {
               this.uploadedData();
-            }, 100);
+            }, 300);
           },
           (error) => {
             console.error('Image upload failed', error);
@@ -487,7 +498,7 @@ export class PhotoRepositoryComponent implements OnInit {
               localfilename: data.localfilename,
               formattedName: formattedName,
               formattedExtension: formattedExtension,
-              sizeinbytes: data.sizeinkb.toFixed(2) + ' ' + 'KB',
+              sizeinbytes: data.sizeinMB.toFixed(2) + ' ' + 'MB',
             };
             if (findValue && findValue.imagelist) {
               findValue.imagelist.push(image);

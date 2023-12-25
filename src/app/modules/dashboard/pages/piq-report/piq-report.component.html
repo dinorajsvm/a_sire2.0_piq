@@ -321,8 +321,7 @@
                               <div class="exceptionBorder" *ngIf="value.isException">
                                 <span class="exceptionText">e</span>
                               </div>
-                              <div class="inProgress" *ngIf="value.inprogress"></div>
-                              <div class="completed" *ngIf="value.completed"></div>
+                              <div [ngClass]="value.selected ? 'completed' : 'inProgress'"></div>
                               <div class="completed_wrap" *ngIf="value.subHeaders === selectedValue"></div>
                             </div>
                           </div>
@@ -569,7 +568,8 @@
                                                       selecVal,
                                                       quest,
                                                       Mquest,
-                                                      subq
+                                                      subq,
+                                                      ''
                                                     )
                                                   ">
                                                   <span>{{ selecVal }}</span>
@@ -870,7 +870,8 @@
                                                       selecVal,
                                                       quest,
                                                       Mquest,
-                                                      subq
+                                                      subq, 
+                                                      ''
                                                     )
                                                   ">
                                                   <span>{{ selecVal }}</span>
@@ -1231,7 +1232,8 @@
                                                         selecVal,
                                                         quest,
                                                         allQuestValues,
-                                                        subq
+                                                        subq,
+                                                        ''
                                                       )
                                                     ">
                                                     <span>{{ selecVal }}</span>
@@ -1526,7 +1528,8 @@
                                                         selecVal,
                                                         quest,
                                                         allQuestValues,
-                                                        subq
+                                                        subq,
+                                                        ''
                                                       )
                                                     ">
                                                     <span>{{ selecVal }}</span>

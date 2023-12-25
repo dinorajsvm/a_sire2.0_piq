@@ -36,8 +36,8 @@ import { SafetyManagementComponent } from '../lookup/safety-management/safety-ma
 import { PmsLookupComponent } from '../lookup/pms-lookup/pms-lookup.component';
 import { ManualLookUpComponent } from '../lookup/manual-look-up/manual-look-up.component';
 import { MatTabGroup } from '@angular/material/tabs';
-import { filter } from 'rxjs/operators';
 import { UnsaveConfirmationDialogPopupComponent } from '../unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
+import { ConfirmationDialogPopupComponent } from '../confirmation-dialog-popup/confirmation-dialog-popup.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -155,9 +155,9 @@ export class PiqReportComponent implements OnInit {
       }
     });
 
-    this.BudgetService.getExceptionData().subscribe((res:any)=>{
-      this.exceptionList=res;
-    })
+    this.BudgetService.getExceptionData().subscribe((res: any) => {
+      this.exceptionList = res;
+    });
 
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideEditbutton = res;
@@ -190,7 +190,7 @@ export class PiqReportComponent implements OnInit {
                 subHeader.subQuestion.forEach((mainQus: any) => {
                   if (response === mainQus.qid) {
                     mainQus.answer = data[response];
-                    this.answerStatus(mainQus);
+                    this.countDetails();
                     this.dynamicForms.controls[response].patchValue(
                       data[response]
                     );
@@ -199,7 +199,6 @@ export class PiqReportComponent implements OnInit {
               });
             });
           });
-          this.countDetails();
         }
       });
       if (this.getAllDatas) {
@@ -217,7 +216,7 @@ export class PiqReportComponent implements OnInit {
               subHeader.subQuestion.forEach((mainQus: any) => {
                 if (resetData === mainQus.qid) {
                   mainQus.answer = mainQus.presetvalue;
-                  this.answerStatus(mainQus);
+                  this.countDetails();
                   this.dynamicForms.controls[resetData].patchValue(
                     mainQus.presetvalue
                   );
@@ -227,7 +226,6 @@ export class PiqReportComponent implements OnInit {
           });
         }
       });
-      this.countDetails();
     });
   }
 
@@ -330,6 +328,7 @@ export class PiqReportComponent implements OnInit {
       this.BudgetService.setUnSaveAction(false);
       this.unSavedData = false;
       this.dialog.closeAll();
+      this.getQuestionAnswerDatas();
     });
   }
 
@@ -356,14 +355,17 @@ export class PiqReportComponent implements OnInit {
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
     this.getPresetQuestCounts = [];
-    
+
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      this.rowSummaryData =
+        res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
+      this.BudgetService.setGridSummary(this.rowSummaryData);
       if (res && res.exceptionlist != '') {
         let exceptionData = JSON.parse(res.exceptionlist);
-        this.exceptionList=exceptionData;
+        this.exceptionList = exceptionData;
         // this.BudgetService.setExceptionData(exceptionData);
       }
-     
+
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
@@ -470,15 +472,9 @@ export class PiqReportComponent implements OnInit {
                 this.getPresetQuestCounts.push(mainQus.qid);
                 if (mainQus.answer === '') {
                   mainQus.answer = mainQus.presetvalue;
+                  this.countDetails();
                 }
               }
-
-              if (mainQus && mainQus.answer) {
-                subHeader.selected = true;
-              } else {
-                subHeader.selected = false;
-              }
-              this.answerStatus(mainQus);
               const index = this.getMainQuestCounts.findIndex(
                 (section: any) =>
                   section.mainQuestion === subHeader.mainQuestion
@@ -489,16 +485,11 @@ export class PiqReportComponent implements OnInit {
                 const trimedAns = ans.replace(/\[|\]/g, '');
                 mainQus.answer = trimedAns;
                 mainQus['multiSelectedAns'] = trimedAns;
+                this.countDetails();
               }
 
               this.getMainQuestCounts[index] = subHeader;
-              var booleanCount: any = [];
-              this.getMainQuestCounts.forEach((element: any) => {
-                booleanCount.push(element.selected);
-              });
-              this.pendingCount = booleanCount.filter(
-                (value: any) => value === false
-              ).length;
+              this.piqPendingCount()
               if (mainQus && mainQus.qid) {
                 formGroupFields[mainQus.qid] = new FormControl(mainQus.answer);
               }
@@ -509,14 +500,13 @@ export class PiqReportComponent implements OnInit {
 
             if (subHeader && subHeader.qid === 'MQ1') {
               subHeader.answer = this.vesselSelection;
+              this.countDetails();
             }
           });
         });
       });
       this.getAllDatas = object;
-      this.chapterGrid();
 
-      this.countDetails();
       this.presetQuestCount = this.getPresetQuestCounts.length;
       this.selectValue(
         this.getAllDatas[0].values[0].subHeaders,
@@ -527,7 +517,8 @@ export class PiqReportComponent implements OnInit {
           this.vesselSelection,
           this.getAllDatas[0].values[0],
           this.getAllDatas[0].values[0].question[0],
-          this.getAllDatas[0].values[0].question[0].subQuestion[0]
+          this.getAllDatas[0].values[0].question[0].subQuestion[0],
+          'initial'
         );
 
         this.BudgetService.setUnSaveAction(false);
@@ -653,71 +644,6 @@ export class PiqReportComponent implements OnInit {
     this.countDetails();
   }
 
-  subHeaderCount() {
-    this.getAllDatas.forEach((value1: any) => {
-      if (value1 && value1.values) {
-        value1.values.forEach((value: any) => {
-          value.isException = false;
-          value.question.forEach((subHeader: any) => {
-            const filterResponse = subHeader.subQuestion.filter((a: any) => {
-              return a.completed === true;
-            });
-            if (filterResponse.length === subHeader.subQuestion.length) {
-              subHeader.selected = true;
-            } else {
-              subHeader.selected = false;
-            }
-            this.answerStatus(value);
-            if (subHeader && subHeader.selected) {
-              const index = this.getMainQuestCounts.findIndex(
-                (section: any) =>
-                  section.mainQuestion === subHeader.mainQuestion
-              );
-              this.getMainQuestCounts[index] = subHeader;
-              var booleanCount: any = [];
-              this.getMainQuestCounts.forEach((element: any) => {
-                booleanCount.push(element.selected);
-              });
-              this.pendingCount = booleanCount.filter(
-                (value: any) => value === false
-              ).length;
-            }
-          });
-        });
-      }
-      // filledCount
-      if (value1 && value1.values) {
-        const filledCountDetails = value1.values.filter((a1: any) => {
-          return a1.completed === true;
-        });
-        value1.filledCount =
-          filledCountDetails && filledCountDetails.length > 0
-            ? filledCountDetails.length
-            : 0;
-      }
-    });
-
-    this.getAllDatas.forEach((ids: any) => {
-      if (ids && ids.values) {
-        ids.values.forEach((ids1: any) => {
-          ids1.question.forEach((subHeader: any) => {
-            subHeader.subQuestion.forEach((que: any) => {
-              if (
-                (que.entryorgin === 'Auto or Preset' ||
-                  que.entryorgin === 'Preset') &&
-                que.presetvalue &&
-                que.answer !== que.presetvalue
-              ) {
-                ids1.isException = true;
-              }
-            });
-          });
-        });
-      }
-    });
-    this.BudgetService.setPiqQuestionData(this.dynamicForms.value);
-  }
-
   exceptionFn(ques: any, mquest: any, quest: any) {
     if (quest && quest.hasOwnProperty('presetvalue')) {
       const duplicateResponse = this.exceptionList.find(
@@ -727,6 +653,7 @@ export class PiqReportComponent implements OnInit {
         this.exception(ques, mquest, quest);
       } else {
         duplicateResponse.answer = quest.answer;
+        this.countDetails();
       }
       this.exceptionCount();
     }
@@ -735,7 +662,7 @@ export class PiqReportComponent implements OnInit {
   exceptionDateFn(ques: any, mquest: any, quest: any) {
     if (quest && quest.type === 'Date') {
       quest.answer = this.datePipe.transform(quest.answer, 'dd-MMM-yyyy');
-
+      this.countDetails();
       const duplicateResponse = this.exceptionList.find(
         (x) => x.qid === quest.qid
       );
@@ -827,26 +754,24 @@ export class PiqReportComponent implements OnInit {
         entryorgin.answer = entryorgin.answer.filter(
           (item: any) => item !== value
         );
+        this.countDetails();
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
-      }
-      else {
+      } else {
         entryorgin.answer.push(value);
         const ans = entryorgin.answer;
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
       }
     } else {
       entryorgin.answer = [value];
+      this.countDetails();
       this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
     }
 
     const ans = entryorgin.answer;
     const stringAns = entryorgin.answer.toString();
-    entryorgin['multiSelectedAns']=stringAns;   
-
-    this.answerStatus(entryorgin);
+    entryorgin['multiSelectedAns'] = stringAns;
 
     this.selectedValue = quest.subHeaders;
-    this.countDetails();
     if (subq && subq.presetvalue === subq.answer) {
       this.restoreOriginal(subq);
     } else {
@@ -860,7 +785,8 @@ export class PiqReportComponent implements OnInit {
     value: string,
     ques: any,
     mainQue: any,
-    subQue: any
+    subQue: any,
+    type?: any
   ): void {
     ques.lastModified = this.datePipe.transform(
       new Date(),
@@ -900,9 +826,9 @@ export class PiqReportComponent implements OnInit {
       this.lastModifiedData.splice(5);
     }
     subQue.answer = value;
+    this.countDetails();
     this.vesselSelection = subQue.answer;
 
-    this.answerStatus(subQue);
     this.selectedValue = ques.subHeaders;
     if (subQue && subQue.presetvalue === subQue.answer) {
       this.restoreOriginal(subQue);
@@ -910,13 +836,100 @@ export class PiqReportComponent implements OnInit {
       this.exceptionFn(ques, mainQue, subQue);
     }
     this.dynamicForms.controls[subQue.qid].setValue(value);
-    this.countDetails();
+
+    // if (subQue && subQue.qid === 'Q133' && type === '') {
+    //   const dialogRef = this.dialog.open(ConfirmationDialogPopupComponent, {
+    //     disableClose: true,
+    //     panelClass: 'confirm-dialog-container',
+    //   });
+    //   dialogRef.afterClosed().subscribe((result) => {
+    //     if (result) {
+    //       this.vesselSelection = value;
+    //       this.BudgetService.setVesselTypeData(this.vesselSelection);
+    //     }
+    //   });
+    // }
   }
 
   countDetails() {
-    this.subHeaderCount();
+    if (this.getAllDatas && this.getAllDatas.length > 0) {
+      this.getAllDatas.forEach((value1: any) => {
+        let filterResponse: any;
+
+        if (value1 && value1.values) {
+          value1.values.forEach((value: any) => {
+            value.isException = false;
+            let totalSubQuestions = 0;
+            let filterQuestins = 0;
+            value.question.forEach((subHeader: any) => {
+              filterResponse = subHeader.subQuestion.filter((a: any) => {
+                return (
+                  a.answer != '' &&
+                  a.answer != undefined &&
+                  a.answer != null &&
+                  a.answer
+                );
+              });
+              filterQuestins += filterResponse.length;
+              totalSubQuestions += subHeader.subQuestion.length;
+              subHeader.selected =
+                filterResponse.length === subHeader.subQuestion.length;
+
+              if (subHeader && subHeader.selected) {
+                const index = this.getMainQuestCounts.findIndex(
+                  (section: any) =>
+                    section.mainQuestion === subHeader.mainQuestion
+                );
+                this.getMainQuestCounts[index] = subHeader;
+                this.piqPendingCount();
+              }
+            });
+            value.selected = totalSubQuestions === filterQuestins;
+          });
+        }
+        // filledCount
+        if (value1 && value1.values) {
+          const filledCountDetails = value1.values.filter((a1: any) => {
+            return a1.completed === true;
+          });
+          value1.filledCount =
+            filledCountDetails && filledCountDetails.length > 0
+              ? filledCountDetails.length
+              : 0;
+        }
+      });
+
+      this.getAllDatas.forEach((ids: any) => {
+        if (ids && ids.values) {
+          ids.values.forEach((ids1: any) => {
+            ids1.question.forEach((subHeader: any) => {
+              subHeader.subQuestion.forEach((que: any) => {
+                if (
+                  (que.entryorgin === 'Auto or Preset' ||
+                    que.entryorgin === 'Preset') &&
+                  que.presetvalue &&
+                  que.answer !== que.presetvalue
+                ) {
+                  ids1.isException = true;
+                }
+              });
+            });
+          });
+        }
+      });
+      this.BudgetService.setPiqQuestionData(this.dynamicForms.value);
+    }
   }
 
+  piqPendingCount() {
+    var booleanCount: any = [];
+    this.getMainQuestCounts.forEach((element: any) => {
+      booleanCount.push(element.selected);
+    });
+    this.pendingCount = booleanCount.filter(
+      (value: any) => value === false
+    ).length;
+  }
   exception(ques: any, mainQue: any, subQue: any) {
     const sqid = subQue.sid;
     const splitValue = sqid.split('.');
@@ -930,23 +943,19 @@ export class PiqReportComponent implements OnInit {
       answer: subQue.answer,
       remark: '',
     };
-    this.exceptionList.push(exceptionData);    
+    this.exceptionList.push(exceptionData);
     this.BudgetService.setExceptionData(this.exceptionList);
-
     this.exceptionCount();
   }
 
   resetDate(event: any, subq: any, quest: any, mquest: any) {
-    var getresetID = event.target.id;
-    var getId = subq.qid;
+    // var getresetID = event.target.id;
+    // var getId = subq.qid;
     this.BudgetService.setUnSaveAction(true);
-    const areIdsEqual = getresetID === getId;
-    if (areIdsEqual == true) {
-      this.dynamicForms.controls[subq.qid].setValue('');
-      subq.answer = '';
-      subq.completed = false;
-      mquest.selected = false;
-    }
+    this.dynamicForms.controls[subq.qid].setValue('');
+    subq.answer = '';
+    subq.completed = false;
+    mquest.selected = false;
 
     if (mquest.qid == 'MQ6') {
       const getFromDate = this.dynamicForms.value.Q8;
@@ -986,13 +995,7 @@ export class PiqReportComponent implements OnInit {
               (section: any) => section.mainQuestion === subHeader.mainQuestion
             );
             this.getMainQuestCounts[index] = subHeader;
-            var booleanCount: any = [];
-            this.getMainQuestCounts.forEach((element: any) => {
-              booleanCount.push(element.selected);
-            });
-            this.pendingCount = booleanCount.filter(
-              (value: any) => value === false
-            ).length;
+            this.piqPendingCount()
           });
         });
       });
@@ -1010,9 +1013,8 @@ export class PiqReportComponent implements OnInit {
     }
     this.dynamicForms.controls[subq.qid].setValue(subq.presetvalue);
     subq.answer = subq.presetvalue;
-    this.BudgetService.setUnSaveAction(true);
-    this.answerStatus(subq);
     this.countDetails();
+    this.BudgetService.setUnSaveAction(true);
   }
 
   restoreLookUp(subq: any) {
@@ -1024,9 +1026,8 @@ export class PiqReportComponent implements OnInit {
       this.exceptionCount();
     }
     subq.answer = '';
-    this.BudgetService.setUnSaveAction(true);
-    this.answerStatus(subq);
     this.countDetails();
+    this.BudgetService.setUnSaveAction(true);
   }
   expandAllMainquestions(event: any, quest: any, index: any) {
     quest['expand' + index] = !quest['expand' + index];
@@ -1377,10 +1378,10 @@ export class PiqReportComponent implements OnInit {
                     result.value ? 'Yes' : 'No'
                   );
                   response.answer = result.value ? 'Yes' : 'No';
+                  this.countDetails();
                 }
               });
             }
-            this.answerStatus(response);
           });
         });
       }
@@ -1475,8 +1476,7 @@ export class PiqReportComponent implements OnInit {
                 ) {
                   response.answer = dateCount;
                 }
-
-                this.answerStatus(response);
+                this.countDetails();
               });
             }
           }
@@ -1551,8 +1551,7 @@ export class PiqReportComponent implements OnInit {
                   response.answer =
                     result.deficiencycount === '1' ? 'Yes' : 'No';
                 }
-
-                this.answerStatus(response);
+                this.countDetails();
               });
             }
           });
@@ -1625,8 +1624,7 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q118') {
           response.answer = result.audittodate;
         }
-
-        this.answerStatus(response);
+        this.countDetails();
       });
     } else if (result && result.hasOwnProperty('actualfromdate')) {
       this.dynamicForms.patchValue({
@@ -1640,7 +1638,7 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q118') {
           response.answer = result.actualtodate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     }
   }
@@ -1656,7 +1654,7 @@ export class PiqReportComponent implements OnInit {
         if (response && response.qid === 'Q99') {
           response.answer = result.actualfromdate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     } else {
       this.dynamicForms.patchValue({
@@ -1667,7 +1665,7 @@ export class PiqReportComponent implements OnInit {
         if (response && response.qid === 'Q99') {
           response.answer = result.auditfromdate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     }
   }
@@ -1695,7 +1693,7 @@ export class PiqReportComponent implements OnInit {
           } else if (response && response.qid === 'Q103') {
             response.answer = dateCount;
           }
-          this.answerStatus(response);
+          this.countDetails();
         });
       }
     } else if (result.hasOwnProperty('auditfromdate')) {
@@ -1718,7 +1716,7 @@ export class PiqReportComponent implements OnInit {
           } else if (response && response.qid === 'Q103') {
             response.answer = dateCount;
           }
-          this.answerStatus(response);
+          this.countDetails();
         });
       }
     }
@@ -1746,7 +1744,7 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q109') {
           response.answer = dateCount;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     } else if (result.hasOwnProperty('auditfromdate')) {
       this.lookupReset(questionId, result.extrfid, '');
@@ -1769,7 +1767,7 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q109') {
           response.answer = dateCount;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     }
   }
@@ -1786,7 +1784,7 @@ export class PiqReportComponent implements OnInit {
         if (response && response.qid === 'Q113') {
           response.answer = result.actualfromdate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     } else if (result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
@@ -1797,7 +1795,7 @@ export class PiqReportComponent implements OnInit {
         if (response && response.qid === 'Q113') {
           response.answer = result.auditfromdate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     }
   }
@@ -1816,7 +1814,7 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q123') {
           response.answer = result.actualtodate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     } else if (result && result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
@@ -1830,8 +1828,7 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q123') {
           response.answer = result.audittodate;
         }
-
-        this.answerStatus(response);
+        this.countDetails();
       });
     }
   }
@@ -1850,7 +1847,7 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q128') {
           response.answer = result.actualtodate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
     } else if (result && result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
@@ -1864,17 +1861,8 @@ export class PiqReportComponent implements OnInit {
         } else if (response && response.qid === 'Q128') {
           response.answer = result.audittodate;
         }
-        this.answerStatus(response);
+        this.countDetails();
       });
-    }
-  }
-  answerStatus(response: any) {
-    if (response && response.answer) {
-      response.inprogress = false;
-      response.completed = true;
-    } else {
-      response.inprogress = true;
-      response.completed = false;
     }
   }
 
@@ -1945,6 +1933,7 @@ export class PiqReportComponent implements OnInit {
             : ''
           : '',
       });
+      this.BudgetService.setGridSummary(this.rowSummaryData);
     });
   }
 
@@ -1978,18 +1967,18 @@ export class PiqReportComponent implements OnInit {
       new Date(),
       'dd-MMM-yyyy HH:mm'
     );
-
     subq.answer = value;
+    if (typeof value === 'object') {
+      subq.answer = '';
+    }
+    this.countDetails();
     this.BudgetService.setUnSaveAction(true);
-    this.answerStatus(subq);
     if (subq && subq.presetvalue === subq.answer) {
       this.restoreOriginal(subq);
     } else {
       this.exceptionFn(quest, mquest, subq);
     }
-
     this.selectedValue = quest.subHeaders;
-    this.countDetails();
   }
 
   onInputChange(event: Event) {
@@ -2059,7 +2048,6 @@ export class PiqReportComponent implements OnInit {
 
     subq.answer = this.datePipe.transform(event.value, 'dd-MMM-yyyy');
     this.selectedValue = subQues.subHeaders;
-    this.answerStatus(subq);
     this.countDetails();
     this.dateCount(mquest);
   }
@@ -2750,9 +2738,15 @@ export class PiqReportComponent implements OnInit {
 
   highlightSearchText(text: string): string {
     if (this.searchText.length > 0) {
-      const escapedSearchText = this.searchText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escapedSearchText = this.searchText.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        '\\$&'
+      );
       const regex = new RegExp(escapedSearchText, 'gi');
-      return document.createElement('div').textContent = text.replace(regex, '<span class="highlight">$&</span>');
+      return (document.createElement('div').textContent = text.replace(
+        regex,
+        '<span class="highlight">$&</span>'
+      ));
     }
     return text;
   }
@@ -2890,9 +2884,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate([
-      '/sire/piq-report/' + this.referenceNumber ,
-    ]);
+    this.router.navigate(['/sire/piq-report/' + this.referenceNumber]);
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.BudgetService.setEnableBtn(false);
       if (this.userDetails?.cntrlType === 'CNT002') {
@@ -2955,13 +2947,6 @@ export class PiqReportComponent implements OnInit {
             if (index != '1') {
               this.dialog.closeAll();
               this.tabGroup.selectedIndex = index;
-              // if (event && event.index === 0) {
-              //   this.isLoader = true;
-              //   window.location.reload();
-              //   setTimeout(() => {
-              //     this.isLoader = false;
-              //   }, 200);
-              // }
             }
           } else {
             this.dialog.closeAll();
@@ -2973,13 +2958,6 @@ export class PiqReportComponent implements OnInit {
         });
         return;
       }
-      // if (event && event.index === 0) {
-      //   this.isLoader = true;
-      //   window.location.reload();
-      //   setTimeout(() => {
-      //     this.isLoader = false;
-      //   }, 200);
-      // }
       this.BudgetService.getTabChangeData().subscribe((res: any) => {
         this.tabGroup.selectedIndex = res.tab;
         this.selectValue(res.subHeaders, res);

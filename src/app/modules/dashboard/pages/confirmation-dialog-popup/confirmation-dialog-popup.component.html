@@ -1,0 +1,11 @@
+<div mat-dialog-title>
+    <h5 class="moduleTitle">Confirm Action</h5>
+  </div>
+    <mat-dialog-content>
+      Do you want to change the Default Vessel Type? Changes will Overwrite the Existing Data
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="saveData()" cdkFocusInitial class="showBtn btnHeight">Yes</button>
+      <button mat-button (click)="cancel()" mat-dialog-close class="cancel btnHeight" style="margin-left:8px;">No</button>
+    </mat-dialog-actions>
+    
