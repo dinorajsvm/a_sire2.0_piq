@@ -135,9 +135,6 @@ export class VesselSelectionDialogComponent {
     this.selectedVesselName = event.value;
     this.toolTipVal = event.source.selected.viewValue;
     this.vesselSelectionForms.controls['vesselName'].setValue(event.value);
-    console.log("event.value",event.value);
-    console.log("ev",this.vesselSelectionForms.value.vesselName);
-    
     this.enableProceedButton();
     this.getCodes();
   }

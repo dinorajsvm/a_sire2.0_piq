@@ -317,9 +317,7 @@ export class PIQLandingPageComponent implements OnInit {
       object.forEach((data: any) => {
         data.isView = true;
         let submitttedCheck = false;
-        if (this.userDetails?.cntrlType === 'CNT001') {
-          console.log("this.getSubmitterRank",this.getSubmitterRank);
-          
+        if (this.userDetails?.cntrlType === 'CNT001') {          
           // const submittedData = ['RNK001', 'RNK076'];
           // let submittedFlag: any = '';
 
@@ -332,7 +330,6 @@ export class PIQLandingPageComponent implements OnInit {
             this.getSubmitterRank === '' || this.getSubmitterRank === undefined
           );
         }
-        console.log("submitttedCheck",submitttedCheck);
         data.isEdit =
           this.userDetails?.cntrlType === 'CNT002'
             ? // If the user's control type is 'CNT002'

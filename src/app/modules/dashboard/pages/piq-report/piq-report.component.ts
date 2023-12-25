@@ -154,6 +154,11 @@ export class PiqReportComponent implements OnInit {
         this.disableEditMode = res;
       }
     });
+
+    this.BudgetService.getExceptionData().subscribe((res:any)=>{
+      this.exceptionList=res;
+    })
+
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideEditbutton = res;
       this.hideReqBtns = res;
@@ -351,11 +356,14 @@ export class PiqReportComponent implements OnInit {
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
     this.getPresetQuestCounts = [];
+    
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.exceptionlist != '') {
         let exceptionData = JSON.parse(res.exceptionlist);
-        this.BudgetService.setExceptionData(exceptionData);
+        this.exceptionList=exceptionData;
+        // this.BudgetService.setExceptionData(exceptionData);
       }
+     
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
@@ -480,7 +488,9 @@ export class PiqReportComponent implements OnInit {
                 const ans = mainQus.answer.replace(/\[|\]/g, '');
                 const trimedAns = ans.replace(/\[|\]/g, '');
                 mainQus.answer = trimedAns;
+                mainQus['multiSelectedAns'] = trimedAns;
               }
+
               this.getMainQuestCounts[index] = subHeader;
               var booleanCount: any = [];
               this.getMainQuestCounts.forEach((element: any) => {
@@ -819,15 +829,19 @@ export class PiqReportComponent implements OnInit {
         );
         this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
       }
-      // else {
-      //   entryorgin.answer.push(value);
-      //   const ans = entryorgin.answer;
-      //   this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
-      // }
+      else {
+        entryorgin.answer.push(value);
+        const ans = entryorgin.answer;
+        this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
+      }
     } else {
       entryorgin.answer = [value];
       this.dynamicForms.controls[controlname].setValue(entryorgin.answer);
     }
+
+    const ans = entryorgin.answer;
+    const stringAns = entryorgin.answer.toString();
+    entryorgin['multiSelectedAns']=stringAns;   
 
     this.answerStatus(entryorgin);
 
@@ -916,7 +930,7 @@ export class PiqReportComponent implements OnInit {
       answer: subQue.answer,
       remark: '',
     };
-    this.exceptionList.push(exceptionData);
+    this.exceptionList.push(exceptionData);    
     this.BudgetService.setExceptionData(this.exceptionList);
 
     this.exceptionCount();

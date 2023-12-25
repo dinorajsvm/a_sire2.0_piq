@@ -489,8 +489,6 @@ export class PhotoRepositoryComponent implements OnInit {
               formattedExtension: formattedExtension,
               sizeinbytes: data.sizeinkb.toFixed(2) + ' ' + 'KB',
             };
-            console.log(image);
-
             if (findValue && findValue.imagelist) {
               findValue.imagelist.push(image);
             }

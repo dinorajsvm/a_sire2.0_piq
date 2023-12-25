@@ -440,7 +440,6 @@ export class PIQSummaryComponent implements OnInit {
         val && val[0] && val[0].approvers
           ? val[0].approvers.find((x: any) => x === this.getRank)
           : '';
-          console.log("");
           
       const getSubRank =
         val && val[0] && val[0].submitters
@@ -526,15 +525,9 @@ export class PIQSummaryComponent implements OnInit {
         }
       }
 
-      if((this.getWorkFlowAction == 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || ((this.getWorkFlowAction == 'ReAssigned' || this.getWorkFlowAction == 'Approved') && this.getApproverRanks == this.userDetails?.rankCode)){
-        console.log("true",this.getApproverRanks);
-        
+      if((this.getWorkFlowAction == 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || ((this.getWorkFlowAction == 'ReAssigned' || this.getWorkFlowAction == 'Approved') && this.getApproverRanks == this.userDetails?.rankCode)){        
         this.viewMode = true
       }
-      // this.BudgetService.getDeleteAction().subscribe((res:any) => {   
-      //   console.log("res",res);  
-      //   this.viewMode=res;
-      // })
 
       if((this.getOriginator == 'CNT002' && this.getWorkFlowAction === 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || (this.getOriginator == 'CNT001' && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks != this.userDetails?.rankCode) || (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks === this.userDetails?.rankCode)|| this.getWorkFlowAction === 'Approved'){
         this.hideReqBtns = true;
