@@ -149,6 +149,7 @@ export class PiqReportComponent implements OnInit {
     this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
+    this.chapterGrid();
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.disableEditMode = res;
@@ -283,8 +284,8 @@ export class PiqReportComponent implements OnInit {
   }
 
   submitFormAll(value: any) {
-    if (this.getExceptionGridData && this.getExceptionGridData.length > 0) {
-      this.emptyRemark = this.getExceptionGridData.find(
+    if (this.exceptionList && this.exceptionList.length > 0) {
+      this.emptyRemark = this.exceptionList.find(
         (x: any) => x.remark === ''
       );
       if (this.emptyRemark) {
@@ -304,7 +305,6 @@ export class PiqReportComponent implements OnInit {
         selected: element.selected,
       });
     });
-
     this.BudgetService.setPiqQuestionData(value.value);
     var ansPayload = {
       chapterdata: JSON.stringify(this.rowSummaryData),
@@ -315,7 +315,7 @@ export class PiqReportComponent implements OnInit {
       answerdata: value.value,
       location: this.locationCode,
       mainQuestCheckbox: pendingResult,
-      exceptionjson: this.getExceptionGridData,
+      exceptionjson: this.exceptionList,
       wfaction: '',
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
       duplicateDetails: this.arrayObj,
@@ -337,7 +337,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   exceptionCount() {
-    this.BudgetService.setExceptionData(this.exceptionList);
     const rowCount =
       this.exceptionList && this.exceptionList.length > 0
         ? this.exceptionList.length
@@ -357,13 +356,14 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
 
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      
       this.rowSummaryData =
-        res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
+      res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
       this.BudgetService.setGridSummary(this.rowSummaryData);
       if (res && res.exceptionlist != '') {
         let exceptionData = JSON.parse(res.exceptionlist);
         this.exceptionList = exceptionData;
-        // this.BudgetService.setExceptionData(exceptionData);
+        this.BudgetService.setExceptionData(exceptionData);
       }
 
       let object = JSON.parse(res.response);
@@ -777,6 +777,7 @@ export class PiqReportComponent implements OnInit {
     } else {
       this.exceptionFn(subq, mquest, quest);
     }
+    this.chapterGrid();
   }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
@@ -836,19 +837,7 @@ export class PiqReportComponent implements OnInit {
       this.exceptionFn(ques, mainQue, subQue);
     }
     this.dynamicForms.controls[subQue.qid].setValue(value);
-
-    // if (subQue && subQue.qid === 'Q133' && type === '') {
-    //   const dialogRef = this.dialog.open(ConfirmationDialogPopupComponent, {
-    //     disableClose: true,
-    //     panelClass: 'confirm-dialog-container',
-    //   });
-    //   dialogRef.afterClosed().subscribe((result) => {
-    //     if (result) {
-    //       this.vesselSelection = value;
-    //       this.BudgetService.setVesselTypeData(this.vesselSelection);
-    //     }
-    //   });
-    // }
+    this.chapterGrid();
   }
 
   countDetails() {
@@ -887,7 +876,6 @@ export class PiqReportComponent implements OnInit {
             value.selected = totalSubQuestions === filterQuestins;
           });
         }
-        // filledCount
         if (value1 && value1.values) {
           const filledCountDetails = value1.values.filter((a1: any) => {
             return a1.completed === true;
@@ -949,8 +937,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   resetDate(event: any, subq: any, quest: any, mquest: any) {
-    // var getresetID = event.target.id;
-    // var getId = subq.qid;
     this.BudgetService.setUnSaveAction(true);
     this.dynamicForms.controls[subq.qid].setValue('');
     subq.answer = '';
@@ -1001,6 +987,7 @@ export class PiqReportComponent implements OnInit {
       });
     });
     this.countDetails();
+    this.chapterGrid();
   }
 
   restoreOriginal(subq: any) {
@@ -1959,6 +1946,7 @@ export class PiqReportComponent implements OnInit {
     if (this.lastModifiedData.length > 5) {
       this.lastModifiedData.splice(5);
     }
+    this.chapterGrid();
   }
   inputChanges(event?: any, subq?: any, quest?: any, mquest?: any, type?: any) {
     let value =
@@ -1979,6 +1967,7 @@ export class PiqReportComponent implements OnInit {
       this.exceptionFn(quest, mquest, subq);
     }
     this.selectedValue = quest.subHeaders;
+    this.chapterGrid();
   }
 
   onInputChange(event: Event) {
@@ -2050,6 +2039,7 @@ export class PiqReportComponent implements OnInit {
     this.selectedValue = subQues.subHeaders;
     this.countDetails();
     this.dateCount(mquest);
+    this.chapterGrid();
   }
 
   dateCount(mquest?: any) {
@@ -2246,7 +2236,6 @@ export class PiqReportComponent implements OnInit {
     this.countDetails();
   }
   getLookUpVisit(questionId: any, subQues: any, mquest: any, subq: any) {
-    // this.isLoader = true;
     const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getLookupVisitData(
       vesselCode,
@@ -2374,7 +2363,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   getPscDetail(questionId: any, subQues: any, mquest: any, subq: any) {
-    // this.isLoader = true;
     const vesselCode = localStorage.getItem('masterVesselCode');
     this.BudgetService.getPscDetails(
       vesselCode,

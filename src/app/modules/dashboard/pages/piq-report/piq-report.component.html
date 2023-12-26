@@ -102,11 +102,8 @@
     <mat-tab-group (selectedTabChange)="onTabChanged($event)" (selectedIndexChange)="myTabSelectedIndexChange($event)"
       #tabGroup>
       <mat-tab label="Summary">
-        <app-piqsummary
-          [pendingQuestCount]="pendingCount"
-          [totalQuestCount]="mainQuestCounts"
-          [presetQuestCounts]="presetQuestCount"
-        >
+        <app-piqsummary [pendingQuestCount]="pendingCount" [totalQuestCount]="mainQuestCounts"
+          [presetQuestCounts]="presetQuestCount">
         </app-piqsummary>
       </mat-tab>
 
@@ -223,8 +220,7 @@
               <div style="display: flex" *ngIf="
                   (getOrigination === 'CNT001' &&
                     (getStatus === 'Inprogress' ||
-                      getStatus === 'Submitted' ||
-                      getStatus === 'ReAssigned')) ||
+                      getStatus === 'Submitted' )) ||
                   (getOrigination === 'CNT002' && getStatus === 'Submitted')
                 ">
                 <div class="indicators">
@@ -290,9 +286,7 @@
                     <div class="list_wrapper">
                       <div *ngFor="let heading of getAllDatas">
                         <div class="header_list charCount" (click)="toggleExpandHeader(heading)">
-                          <!-- *ngIf="searchText === '' || heading.header.toLowerCase().includes(searchText)" -->
                           <div>
-                            <!-- [innerHTML]="highlightSearchText(heading.header)" -->
                             {{ heading.header }}
                           </div>
                           <div class="wte-spc" *ngIf="
@@ -313,9 +307,7 @@
                               value.subHeaders === selectedValue
                             ">
                             <div class="list_val_wrap" id="{{ value.subheadid }}">
-                              <!-- *ngIf="searchText === '' || value.subHeaders.toLowerCase().includes(searchText)" -->
                               <div class="head_list charCount" (click)="selectValue(value.subHeaders, value)">
-                                <!-- [innerHTML]="highlightSearchText(value.subHeaders)" -->
                                 {{ value.subHeaders }}
                               </div>
                               <div class="exceptionBorder" *ngIf="value.isException">
@@ -891,11 +883,6 @@
                                               <span>
                                                 {{ subq.multiSelectedAns}}
                                               </span>
-                                              <!-- <span *ngFor="
-                                                  let selected of subq.answer
-                                                ">
-                                                {{ selected }},
-                                              </span> -->
                                               <mat-form-field class="filter" [ngClass]="{
                                                   'read-only-input': viewMode
                                                 }" [hidden]="
@@ -1253,11 +1240,6 @@
                                                 <span>
                                                   {{ subq.multiSelectedAns}}
                                                 </span>
-                                                <!-- <span *ngFor="
-                                                    let selected of subq.answer
-                                                  ">
-                                                  {{ selected }},
-                                                </span> -->
                                                 <mat-form-field class="filter" [ngClass]="{
                                                     'read-only-input': viewMode
                                                   }" [hidden]="
@@ -1550,11 +1532,6 @@
                                                 <span>
                                                   {{ subq.multiSelectedAns}}
                                                 </span>
-                                                <!-- <span *ngFor="
-                                                    let selected of subq.answer
-                                                  ">
-                                                  {{ selected }},
-                                                </span> -->
                                                 <mat-form-field class="filter" [ngClass]="{
                                                     'read-only-input': viewMode
                                                   }" [hidden]="

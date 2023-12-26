@@ -506,7 +506,6 @@ export class PhotoRepositoryComponent implements OnInit {
           }
         });
         this.summaryGridCount();
-        // mk
         if (this.imageNames) {
           this.imageNames.forEach((data: any) => {
             this.listDatas.forEach((res: any) => {

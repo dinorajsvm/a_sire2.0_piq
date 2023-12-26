@@ -511,8 +511,6 @@ export class PIQSummaryComponent implements OnInit {
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
       this.getOriginator = res.orginator;
-      // this.rowData = []
-      // this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
@@ -569,8 +567,6 @@ export class PIQSummaryComponent implements OnInit {
           this.hideBtns = true;
           this.BudgetService.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
-          
-          // this.viewMode = true;
         }
       } else if (this.getOriginator == 'CNT001') {
         if (
@@ -628,7 +624,6 @@ export class PIQSummaryComponent implements OnInit {
   }
   onGridReady(params: any) {
     this.gridApi = params.api;
-    // this.gridApi!.setRowData(this.rowData);
     this.gridApi.refreshCells(params);
   }
 
@@ -768,8 +763,6 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.response) {
         let object = res && res.response ? JSON.parse(res.response) : [];
-        // this.rowData = [];
-        // this.rowData = res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
         this.getAllDatas = object;
         object.forEach((value1: any) => {
           value1.values.forEach((value: any) => {
@@ -881,7 +874,6 @@ export class PIQSummaryComponent implements OnInit {
         setTimeout(() => {
           window.location.reload();
         }, 100);
-        // window.location.reload();
         this._snackBarService.loadSnackBar(
           'Submitted Successfully',
           colorCodes.INFO
