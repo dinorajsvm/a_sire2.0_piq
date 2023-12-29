@@ -69,6 +69,7 @@ export class MocComponent {
       headerName: '2.5.1.1',
       field: 'q136',
       flex: 1,
+      hide: this.hideReqBtns,
       cellRenderer: 'checkboxRenderer',
       sortable: false,
       filter: false,
@@ -77,6 +78,7 @@ export class MocComponent {
       headerName: '2.5.1.2',
       field: 'q139',
       flex: 1,
+      hide: this.hideReqBtns,
       cellRenderer: 'checkboxRenderer',
       sortable: false,
       filter: false,
@@ -85,6 +87,7 @@ export class MocComponent {
       headerName: '2.5.1.3',
       field: 'q142',
       flex: 1,
+      hide: this.hideReqBtns,
       cellRenderer: 'checkboxRenderer',
       sortable: false,
       filter: false,
@@ -93,6 +96,7 @@ export class MocComponent {
       headerName: '2.5.1.4',
       field: 'q145',
       flex: 1,
+      hide: this.hideReqBtns,
       cellRenderer: 'checkboxRenderer',
       sortable: false,
       filter: false,
@@ -160,6 +164,11 @@ export class MocComponent {
   }
   ngOnInit() {
     this.mocDetails();
+    this.columnDefs[5].hide = this.hideReqBtns;
+    this.columnDefs[6].hide = this.hideReqBtns;
+    this.columnDefs[7].hide = this.hideReqBtns;
+    this.columnDefs[8].hide = this.hideReqBtns;
+    
   }
 
   mocDetails() {

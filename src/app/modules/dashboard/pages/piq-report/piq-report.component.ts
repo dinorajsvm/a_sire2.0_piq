@@ -1569,8 +1569,6 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      console.log("result",result);
-      
       if (result !== 'Reset') {
         if (mainQuest && mainQuest.qid === 'MQ115') {
           this.mq115LookUp(mainQuest, result, questionId);
@@ -1690,8 +1688,6 @@ export class PiqReportComponent implements OnInit {
         Q102: result && result.audittodate ? new Date(result.audittodate):'',
         Q103: dateCount,
       });
-      console.log(this.dynamicForms.value.Q101,"1111");
-      
       if (mainQuest && mainQuest.qid === 'MQ100') {
         mainQuest.subQuestion.forEach((response: any) => {
           this.restoreLookUp(response);
