@@ -624,6 +624,7 @@ export class PIQSummaryComponent implements OnInit {
   }
   onGridReady(params: any) {
     this.gridApi = params.api;
+    this.gridApi!.setRowData(this.rowData);
     this.gridApi.refreshCells(params);
   }
 

@@ -117,6 +117,7 @@ export class ExceptionQuestionComponent implements OnInit {
       this.getRowdataCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
       this.BudgetService.setExceptionGridData(this.getRowdataCount);
+      this.gridApi!.setRowData(this.rowData);
       if (this.rowData && this.rowData.length > 0) {
         this.BudgetService.setExceptionRowData(this.rowData);
       }

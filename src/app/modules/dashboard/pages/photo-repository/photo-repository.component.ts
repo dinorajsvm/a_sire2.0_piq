@@ -90,8 +90,11 @@ export class PhotoRepositoryComponent implements OnInit {
   getVesselTypeData() {
     this.getSelectedCheckListId();
     this.BudgetService.getVesselTypeData().subscribe((res: any) => {
+      console.log("res",res);
       this.getvslCode = res;
-      this.trimmedVslType = this.getvslCode.split(' ')[0];
+      this.trimmedVslType = this.getvslCode.split(' ');
+      console.log("this.trimmedVslType",this.trimmedVslType);
+      
       if (this.selectedInstanceID) {
         this.getPRImgLists();
       }
@@ -105,6 +108,8 @@ export class PhotoRepositoryComponent implements OnInit {
       if (this.selectedInstanceID && this.selectedInstanceID.length > 0) {
         const response = JSON.parse(res.response);
         this.listDatas = response[0].topiclist.filter((resData: any) => {
+          console.log("resData.topic",resData.topic);
+          
           return (
             resData.topic === 'Core photograph set' ||
             resData.topic.includes(this.trimmedVslType)
@@ -232,6 +237,8 @@ export class PhotoRepositoryComponent implements OnInit {
         if (this.trimmedVslType) {
           this.isVslTypeSame = res.topic.includes(this.trimmedVslType);
         }
+        console.log("res.topic",res.topic);
+        
         if (res.topic === 'Core photograph set' || this.isVslTypeSame) {
           this.listDatas.push(res);
           this.summaryGridCount();

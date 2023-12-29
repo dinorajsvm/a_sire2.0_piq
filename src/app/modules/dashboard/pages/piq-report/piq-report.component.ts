@@ -149,7 +149,6 @@ export class PiqReportComponent implements OnInit {
     this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
-    this.chapterGrid();
     this.BudgetService.getEnableViewMode().subscribe((res: any) => {
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.disableEditMode = res;
@@ -285,9 +284,7 @@ export class PiqReportComponent implements OnInit {
 
   submitFormAll(value: any) {
     if (this.exceptionList && this.exceptionList.length > 0) {
-      this.emptyRemark = this.exceptionList.find(
-        (x: any) => x.remark === ''
-      );
+      this.emptyRemark = this.exceptionList.find((x: any) => x.remark === '');
       if (this.emptyRemark) {
         this._snackBarService.loadSnackBar(
           'Exception Remarks Mandatory',
@@ -356,9 +353,8 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
 
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
-      
       this.rowSummaryData =
-      res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
+        res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
       this.BudgetService.setGridSummary(this.rowSummaryData);
       if (res && res.exceptionlist != '') {
         let exceptionData = JSON.parse(res.exceptionlist);
@@ -489,7 +485,7 @@ export class PiqReportComponent implements OnInit {
               }
 
               this.getMainQuestCounts[index] = subHeader;
-              this.piqPendingCount()
+              this.piqPendingCount();
               if (mainQus && mainQus.qid) {
                 formGroupFields[mainQus.qid] = new FormControl(mainQus.answer);
               }
@@ -981,7 +977,7 @@ export class PiqReportComponent implements OnInit {
               (section: any) => section.mainQuestion === subHeader.mainQuestion
             );
             this.getMainQuestCounts[index] = subHeader;
-            this.piqPendingCount()
+            this.piqPendingCount();
           });
         });
       });
@@ -1073,7 +1069,7 @@ export class PiqReportComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result: any) => {
         if (result !== 'Reset') {
-          this.lookupReset(questionId, '', result);
+          this.lookupReset('5.7', '', result);
           const rowKeys = [
             'MQ337',
             'MQ343',
@@ -1387,21 +1383,20 @@ export class PiqReportComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result !== 'Reset') {
         this.lookupReset(questionId, result.refno, '');
-        const timeDifference = result.auditfromdate
-          ? result && result.audittodate
-            ? new Date(result.audittodate).getTime()
-            : 0 - result && result.auditfromdate
-            ? new Date(result.auditfromdate).getTime()
-            : 0
-          : result && result.actualtodate
-          ? new Date(result.actualtodate).getTime()
-          : 0 - result && result.actualfromdate
-          ? new Date(result.actualfromdate).getTime()
-          : 0;
+        const timeDifference =
+          result &&
+          (result.auditfromdate && result.audittodate
+            ? new Date(result.audittodate).getTime() -
+              new Date(result.auditfromdate).getTime()
+            : result.actualtodate && result.actualfromdate
+            ? new Date(result.actualtodate).getTime() -
+              new Date(result.actualfromdate).getTime()
+            : 0);
 
         const dateCount = timeDifference
-          ? Math.floor(timeDifference / (1000 * 3600 * 24))
+          ? Math.floor(timeDifference / (1000 * 60 * 60 * 24))
           : 0;
+
         if (
           (mainQuest && mainQuest.qid === 'MQ6') ||
           mainQuest.qid === 'MQ20'
@@ -1574,6 +1569,8 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
+      console.log("result",result);
+      
       if (result !== 'Reset') {
         if (mainQuest && mainQuest.qid === 'MQ115') {
           this.mq115LookUp(mainQuest, result, questionId);
@@ -1600,8 +1597,8 @@ export class PiqReportComponent implements OnInit {
     this.lookupReset(questionId, result.refno, '');
     if (result && result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
-        Q117: result.auditfromdate,
-        Q118: result.audittodate,
+        Q117: result && result.auditfromdate ? new Date(result.auditfromdate):'',
+        Q118: result && result.audittodate ? new Date(result.audittodate):'',
       });
 
       mainQuest.subQuestion.forEach((response: any) => {
@@ -1645,7 +1642,7 @@ export class PiqReportComponent implements OnInit {
       });
     } else {
       this.dynamicForms.patchValue({
-        Q99: result.auditfromdate,
+        Q99: result && result.auditfromdate ? new Date(result.auditfromdate):'',
       });
       mainQuest.subQuestion.forEach((response: any) => {
         this.restoreLookUp(response);
@@ -1664,10 +1661,10 @@ export class PiqReportComponent implements OnInit {
       const timeDifference =
         new Date(result.actualtodate).getTime() -
         new Date(result.actualfromdate).getTime();
-      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      const dateCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       this.dynamicForms.patchValue({
-        Q101: result.actualfromdate,
-        Q102: result.actualtodate,
+        Q101: result && result.actualfromdate ? new Date(result.actualfromdate):'',
+        Q102: result && result.actualtodate ? new Date(result.actualtodate):'',
         Q103: dateCount,
       });
       if (mainQuest && mainQuest.qid === 'MQ100') {
@@ -1687,12 +1684,14 @@ export class PiqReportComponent implements OnInit {
       const timeDifference =
         new Date(result.audittodate).getTime() -
         new Date(result.auditfromdate).getTime();
-      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      const dateCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       this.dynamicForms.patchValue({
-        Q101: result.auditfromdate,
-        Q102: result.audittodate,
+        Q101: result && result.auditfromdate ? new Date(result.auditfromdate):'',
+        Q102: result && result.audittodate ? new Date(result.audittodate):'',
         Q103: dateCount,
       });
+      console.log(this.dynamicForms.value.Q101,"1111");
+      
       if (mainQuest && mainQuest.qid === 'MQ100') {
         mainQuest.subQuestion.forEach((response: any) => {
           this.restoreLookUp(response);
@@ -1716,7 +1715,7 @@ export class PiqReportComponent implements OnInit {
       const timeDifference =
         new Date(result.actualtodate).getTime() -
         new Date(result.actualfromdate).getTime();
-      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      const dateCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       this.dynamicForms.patchValue({
         Q107: result.actualfromdate,
         Q108: result.actualtodate,
@@ -1739,10 +1738,10 @@ export class PiqReportComponent implements OnInit {
       const timeDifference =
         new Date(result.audittodate).getTime() -
         new Date(result.auditfromdate).getTime();
-      const dateCount = Math.floor(timeDifference / (1000 * 3600 * 24));
+      const dateCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       this.dynamicForms.patchValue({
-        Q107: result.auditfromdate,
-        Q108: result.audittodate,
+        Q107: result && result.auditfromdate ? new Date(result.auditfromdate):'',
+        Q108: result && result.audittodate ? new Date(result.audittodate):'',
         Q109: dateCount,
       });
       mainQuest.subQuestion.forEach((response: any) => {
@@ -1775,7 +1774,7 @@ export class PiqReportComponent implements OnInit {
       });
     } else if (result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
-        Q113: result.auditfromdate,
+        Q113: result && result.auditfromdate ? new Date(result.auditfromdate):'',
       });
       mainQuest.subQuestion.forEach((response: any) => {
         this.restoreLookUp(response);
@@ -1805,8 +1804,8 @@ export class PiqReportComponent implements OnInit {
       });
     } else if (result && result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
-        Q122: result.auditfromdate,
-        Q123: result.audittodate,
+        Q122: result && result.auditfromdate ? new Date(result.auditfromdate):'',
+        Q123: result && result.audittodate ? new Date(result.audittodate):'',
       });
       mainQuest.subQuestion.forEach((response: any) => {
         this.restoreLookUp(response);
@@ -1838,8 +1837,8 @@ export class PiqReportComponent implements OnInit {
       });
     } else if (result && result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
-        Q127: result.auditfromdate,
-        Q128: result.audittodate,
+        Q127: result && result.auditfromdate ? new Date(result.auditfromdate):'',
+        Q128: result && result.audittodate ? new Date(result.audittodate):'',
       });
       mainQuest.subQuestion.forEach((response: any) => {
         this.restoreLookUp(response);

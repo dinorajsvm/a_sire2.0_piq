@@ -14,9 +14,9 @@
         <span class="sNumber">S.No: {{ referenceNumber }}</span>
       </div>
       <div class="col-sm-1 text-right topBtnWrapper" style="padding: 0">
-        <button matTooltip="Edit" [disabled]="disableEditMode" *ngIf="getStatus != 'Approved'"
-          [class.hideEdit]="hideEditbutton" [class.hideReqBtns]="hideReqBtns" [class.disabledEdit]="disableEditMode"
-          mat-button class="edit" (click)="edit()">
+        <button matTooltip="Edit" [disabled]="disableEditMode"
+          *ngIf="((((userDetails?.cntrlType === 'CNT002' && getOrigination === 'CNT002') || (userDetails?.cntrlType === 'CNT001' && getApproveRank != userDetails?.rankCode && getOrigination === 'CNT001')) && (getStatus === 'Inprogress' || getStatus === 'ReAssigned')) || ((userDetails?.cntrlType === 'CNT001' && getApproveRank === userDetails?.rankCode) && (getStatus === 'Inprogress' || getStatus === 'Submitted')) || (userDetails?.cntrlType === 'CNT001' && getApproveRank != userDetails?.rankCode && getOrigination === 'CNT002' && getStatus === 'Inprogress')) "
+          [class.disabledEdit]="disableEditMode" mat-button class="edit" (click)="edit()">
           <img src="assets/question/edit.svg" />
         </button>
         <button matTooltip="Back To HomePage" mat-button class="home" (click)="home()">
