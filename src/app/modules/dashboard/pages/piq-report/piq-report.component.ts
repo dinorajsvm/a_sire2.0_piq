@@ -76,6 +76,7 @@ export class PiqReportComponent implements OnInit {
   totalRowCount = 0;
   locationCode: any;
   selectedValue: string = '';
+  disableBtns =  false
   selectedQuestion: any;
   dynamicForms!: FormGroup;
   findResponse: any;
@@ -253,6 +254,7 @@ export class PiqReportComponent implements OnInit {
           ? val[0].approvers.find((x: any) => x === this.userDetails?.rankCode)
           : '';
       this.getApproveRank = getAppRank !== undefined ? getAppRank : 0;
+      
       this.isLoader = false;
     });
   }
@@ -353,6 +355,7 @@ export class PiqReportComponent implements OnInit {
     this.getPresetQuestCounts = [];
 
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      this.getStatus = res.wrkflow;
       this.rowSummaryData =
         res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
       this.BudgetService.setGridSummary(this.rowSummaryData);
@@ -366,6 +369,10 @@ export class PiqReportComponent implements OnInit {
       this.getOrigination = res.orginator;
       this.getVesselCode = res.vesselcode;
       localStorage.setItem('masterVesselCode', res.vesselcode);
+      
+      this.BudgetService.setStatus(this.getStatus);
+      
+
       this.vesselSelection = res.vesseltypename;
       this.selectedMultiAns = false;
       this.initialMultiAns = true;
@@ -385,7 +392,6 @@ export class PiqReportComponent implements OnInit {
 
       this.BudgetService.setVesselTypeData(this.vesselSelection);
       this.BudgetService.setVslCodeData(this.getVesselCode);
-      this.getStatus = res.wrkflow;
 
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         if (
@@ -2784,6 +2790,7 @@ export class PiqReportComponent implements OnInit {
           (this.getOrigination == 'CNT002' &&
             (this.getStatus == 'ReAssigned' || this.getStatus == 'Approved'))
         ) {
+          this.viewMode = true;
           var flag = false;
           return flag;
         } else {
@@ -2854,6 +2861,7 @@ export class PiqReportComponent implements OnInit {
       });
       return;
     } else {
+      localStorage.removeItem('setDisable');
       this.navigateLandingPage();
     }
   }
@@ -2867,6 +2875,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   edit() {
+    localStorage.setItem('setDisable', 'false');
     this.router.navigate(['/sire/piq-report/' + this.referenceNumber]);
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.BudgetService.setEnableBtn(false);

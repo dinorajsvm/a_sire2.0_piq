@@ -1,9 +1,5 @@
-import {  Component, Input, OnInit, ViewChild } from '@angular/core';
-import {
-  ColDef,
-  GridApi,
-  RowGroupingDisplayType,
-} from 'ag-grid-community';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ColDef, GridApi, RowGroupingDisplayType } from 'ag-grid-community';
 import { BudgetService } from '../../services/budget.service';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -307,14 +303,13 @@ export class PIQSummaryComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.buildForm();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
     this.getworkflowStatus();
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
-    this.certficateGridDatas();
 
     if (
       this.pendingQuestCount == undefined ||
@@ -349,7 +344,7 @@ export class PIQSummaryComponent implements OnInit {
     });
     this.BudgetService.getGridSummary().subscribe((res: any) => {
       this.rowData = res;
-    })
+    });
     this.BudgetService.getCertificateGridData().subscribe((res: any) => {
       this.certificateCounts = res;
     });
@@ -442,13 +437,14 @@ export class PIQSummaryComponent implements OnInit {
         val && val[0] && val[0].approvers
           ? val[0].approvers.find((x: any) => x === this.getRank)
           : '';
-          
+
       const getSubRank =
         val && val[0] && val[0].submitters
           ? val[0].submitters.find((x: any) => x === this.getRank)
           : '';
       this.getApproverRanks = getAppRank !== undefined ? getAppRank : 0;
       this.getSubmitterRanks = getSubRank !== undefined ? getSubRank : 0;
+      localStorage.setItem('AppRank', this.getSubmitterRanks);
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
           if (
@@ -510,7 +506,14 @@ export class PIQSummaryComponent implements OnInit {
       this.setPlannedDate(res);
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
+      this.certficateGridDatas();
       this.getOriginator = res.orginator;
+      if (
+        this.getWorkFlowAction == 'Submitted' ||
+        this.getWorkFlowAction == 'Approved'
+      ) {
+        this.BudgetService.setEnableBtn(true);
+      }
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
@@ -525,17 +528,31 @@ export class PIQSummaryComponent implements OnInit {
         }
       }
 
-      if((this.getWorkFlowAction == 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || ((this.getWorkFlowAction == 'ReAssigned' || this.getWorkFlowAction == 'Approved') && this.getApproverRanks == this.userDetails?.rankCode)){        
-        this.viewMode = true
+      if (
+        (this.getWorkFlowAction == 'Submitted' &&
+          this.getApproverRanks != this.userDetails?.rankCode) ||
+        ((this.getWorkFlowAction == 'ReAssigned' ||
+          this.getWorkFlowAction == 'Approved') &&
+          this.getApproverRanks == this.userDetails?.rankCode)
+      ) {
+        this.viewMode = true;
       }
 
-      if((this.getOriginator == 'CNT002' && this.getWorkFlowAction === 'Submitted' && this.getApproverRanks != this.userDetails?.rankCode) || (this.getOriginator == 'CNT001' && this.getWorkFlowAction === 'Submitted' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks != this.userDetails?.rankCode) || (this.getWorkFlowAction === 'ReAssigned' && this.userDetails?.cntrlType === 'CNT001' && this.getApproverRanks === this.userDetails?.rankCode)|| this.getWorkFlowAction === 'Approved'){
+      if (
+        (this.getOriginator == 'CNT002' &&
+          this.getWorkFlowAction === 'Submitted' &&
+          this.getApproverRanks != this.userDetails?.rankCode) ||
+        (this.getOriginator == 'CNT001' &&
+          this.getWorkFlowAction === 'Submitted' &&
+          this.userDetails?.cntrlType === 'CNT001' &&
+          this.getApproverRanks != this.userDetails?.rankCode) ||
+        (this.getWorkFlowAction === 'ReAssigned' &&
+          this.userDetails?.cntrlType === 'CNT001' &&
+          this.getApproverRanks === this.userDetails?.rankCode) ||
+        this.getWorkFlowAction === 'Approved'
+      ) {
         this.hideReqBtns = true;
       }
-
-
-     
-      
 
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';
@@ -684,6 +701,7 @@ export class PIQSummaryComponent implements OnInit {
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
+        localStorage.setItem('setDisable', 'true');
         remarks?.classList.remove('remError');
         this.viewMode = true;
         this.disableResAprFlowBtn = true;
@@ -710,6 +728,7 @@ export class PIQSummaryComponent implements OnInit {
           wfaction: 'APR',
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
+        localStorage.setItem('setDisable', 'true');
         let remarks = document.getElementById('remarks');
         remarks?.classList.remove('remError');
         this.viewMode = true;
@@ -739,6 +758,7 @@ export class PIQSummaryComponent implements OnInit {
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
+        localStorage.setItem('setDisable', 'true');
         remarks?.classList.remove('remError');
         this.viewMode = true;
         this.saveWorkFlowAction(this.setFlowAction);

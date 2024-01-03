@@ -37,7 +37,10 @@ export class ResetBtnRendererComponent implements ICellRendererAngularComp {
   params: any;
   label!: string;
   disableBtns = false;
-  constructor(private BudgetService: BudgetService) {}
+  constructor(private BudgetService: BudgetService) {
+
+    this.disableBtns = localStorage.getItem('setDisable') === 'true';
+  }
 
   agInit(params: any): void {
     this.params = params;

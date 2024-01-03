@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
-import {
-  LicenseManager,
-  RowGroupingDisplayType,
-} from 'ag-grid-enterprise';
+import { LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
 import { ActivatedRoute } from '@angular/router';
@@ -103,12 +100,18 @@ export class ExceptionQuestionComponent implements OnInit {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableBtns = true;
+      localStorage.setItem('setDisable', 'true');
+    } else {
+      this.disableBtns = false;
+      localStorage.setItem('setDisable', 'false');
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
+
+      localStorage.setItem('setDisable', res);
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
-      this.hideReqBtns = res;
+      this.disableBtns = res;
     });
     this.BudgetService.getExceptionData().subscribe((data) => {
       this.rowData = data;
@@ -128,6 +131,7 @@ export class ExceptionQuestionComponent implements OnInit {
     if (this.gridApi) {
       this.gridApi.setColumnDefs(this.columnDefs);
     }
+    
   }
 
   onBtnClick1(e: any) {
@@ -151,6 +155,9 @@ export class ExceptionQuestionComponent implements OnInit {
   }
 
   onGridReady(params: any) {
+    // this.gridColumnApi.getColumn('remark').getColDef().editable = false;
+    //     this.gridColumnApi.getColumn('remark').getColDef().wrapText = false;
+    //     this.gridColumnApi.getColumn('remark').getColDef().cellEditorPopup = false;
     this.gridApi = params.api;
     this.gridApi.addEventListener(
       'filterChanged',

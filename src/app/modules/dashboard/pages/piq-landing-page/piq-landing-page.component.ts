@@ -347,7 +347,7 @@ export class PIQLandingPageComponent implements OnInit {
               )
             : // If submitttedCheck is false
             data.status === 'Inprogress' ||
-              data.status === 'Submitted' 
+              data.status === 'Submitted'||
               !(
                 data.status === 'Approved' || data.status === 'Reassigned'
               );
@@ -383,6 +383,7 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   navigatePiq() {
+    this.BudgetService.setEnableBtn(false);
     this.dialog.open(VesselSelectionDialogComponent, {
       panelClass: 'vesselSelection-dialog-container',
     });

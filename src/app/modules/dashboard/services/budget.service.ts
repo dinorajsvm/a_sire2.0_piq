@@ -21,6 +21,8 @@ export class BudgetService {
   private getAllPreviousPresetData = new BehaviorSubject<any>(0);
   private getSummaryGridDataList = new Subject<any>();
   private getSummaryGridList = new Subject<any>();
+  private getFormStatus = new Subject<any>();
+  private getRankCode = new Subject<any>();
   private getViewMode = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
   private getPhotoRepGridData = new Subject<any>();
@@ -52,6 +54,20 @@ export class BudgetService {
 
   getEnableBtn() {
     return this.enableDisableButtons.asObservable();
+  }
+  setStatus(message: any) {
+    this.getFormStatus.next(message);
+  }
+
+  getStatus() {
+    return this.getFormStatus.asObservable();
+  }
+  setRank(message: any) {
+    this.getRankCode.next(message);
+  }
+
+  getRank() {
+    return this.getRankCode.asObservable();
   }
 
   setGridSummary(message: any) {
