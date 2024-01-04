@@ -444,7 +444,7 @@ export class PIQSummaryComponent implements OnInit {
           : '';
       this.getApproverRanks = getAppRank !== undefined ? getAppRank : 0;
       this.getSubmitterRanks = getSubRank !== undefined ? getSubRank : 0;
-      localStorage.setItem('AppRank', this.getSubmitterRanks);
+      
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
           if (
@@ -508,12 +508,12 @@ export class PIQSummaryComponent implements OnInit {
       this.getVesselCode = res.vesselcode;
       this.certficateGridDatas();
       this.getOriginator = res.orginator;
-      if (
-        this.getWorkFlowAction == 'Submitted' ||
-        this.getWorkFlowAction == 'Approved'
-      ) {
-        this.BudgetService.setEnableBtn(true);
-      }
+      // if (
+      //   this.getWorkFlowAction == 'Submitted' ||
+      //   this.getWorkFlowAction == 'Approved'
+      // ) {
+      //   this.BudgetService.setEnableBtn(true);
+      // }
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];

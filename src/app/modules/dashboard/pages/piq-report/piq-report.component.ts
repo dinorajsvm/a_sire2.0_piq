@@ -254,7 +254,7 @@ export class PiqReportComponent implements OnInit {
           ? val[0].approvers.find((x: any) => x === this.userDetails?.rankCode)
           : '';
       this.getApproveRank = getAppRank !== undefined ? getAppRank : 0;
-      
+      localStorage.setItem('AppRank', this.getApproveRank);
       this.isLoader = false;
     });
   }
@@ -367,6 +367,7 @@ export class PiqReportComponent implements OnInit {
 
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
+      localStorage.setItem('Origination', res.orginator);
       this.getVesselCode = res.vesselcode;
       localStorage.setItem('masterVesselCode', res.vesselcode);
       
@@ -2862,6 +2863,8 @@ export class PiqReportComponent implements OnInit {
       return;
     } else {
       localStorage.removeItem('setDisable');
+      localStorage.removeItem('AppRank');
+      localStorage.removeItem('Origination');
       this.navigateLandingPage();
     }
   }

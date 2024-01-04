@@ -143,8 +143,15 @@ export class VesselSelectionDialogComponent {
     this.toolTipValType = event.source.selected.viewValue;
     this.vesselSelectionForms.patchValue({
       vesselTypeFilter: '',
-      vesselNameFilter: ''
+      vesselNameFilter: '',
+      vesselType: this.selectedVesselName
     })
+
+
+    console.log(this.selectedVesselName, 'select');
+    console.log(this.vesselSelectionForms.value.vesselType, 'vesselType');
+    
+    
     this.enableProceedButton();
   }
 

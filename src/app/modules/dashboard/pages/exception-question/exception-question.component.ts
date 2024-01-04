@@ -85,6 +85,7 @@ export class ExceptionQuestionComponent implements OnInit {
   remarksCount: any;
   hideReqBtns: boolean = false;
   disableBtns: boolean = false;
+  gridColumnApi: any;
   constructor(
     private BudgetService: BudgetService,
     private route: ActivatedRoute,
@@ -108,7 +109,9 @@ export class ExceptionQuestionComponent implements OnInit {
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
 
-      localStorage.setItem('setDisable', res);
+      if (res && res == 'false') {
+        localStorage.setItem('setDisable', res);
+      }
     });
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.disableBtns = res;
@@ -131,7 +134,6 @@ export class ExceptionQuestionComponent implements OnInit {
     if (this.gridApi) {
       this.gridApi.setColumnDefs(this.columnDefs);
     }
-    
   }
 
   onBtnClick1(e: any) {
@@ -155,9 +157,53 @@ export class ExceptionQuestionComponent implements OnInit {
   }
 
   onGridReady(params: any) {
-    // this.gridColumnApi.getColumn('remark').getColDef().editable = false;
-    //     this.gridColumnApi.getColumn('remark').getColDef().wrapText = false;
-    //     this.gridColumnApi.getColumn('remark').getColDef().cellEditorPopup = false;
+    this.gridColumnApi = params.columnApi;
+    this.BudgetService.getStatus().subscribe((res: any) => {
+      const status = res;
+      const rank = localStorage.getItem('AppRank');
+      const origin = localStorage.getItem('Origination');
+        if (this.gridColumnApi && this.gridColumnApi.getColumn('remark') && this.gridColumnApi.getColumn('remark').getColDef()) {
+          if (status != null || rank != null || origin != null) {
+            if (
+              this.route.snapshot.paramMap.get('type') == 'view' ||
+              (this.userDetails?.cntrlType === 'CNT002' &&
+                origin == 'CNT002' &&
+                (status === 'Submitted' || status === 'Approved')) ||
+              (this.userDetails?.cntrlType === 'CNT002' &&
+                origin == 'CNT001') ||
+              (this.userDetails?.cntrlType === 'CNT001' &&
+                origin == 'CNT001' &&
+                this.userDetails.rankCode == rank &&
+                (status === 'ReAssigned' || status === 'Approved')) ||
+              (this.userDetails?.cntrlType === 'CNT001' &&
+                origin == 'CNT001' &&
+                this.userDetails.rankCode != rank &&
+                (status === 'Submitted' || status === 'Approved')) ||
+              (this.userDetails?.cntrlType === 'CNT001' &&
+                origin == 'CNT002' &&
+                this.userDetails.rankCode == rank &&
+                (status === 'Approved' || status === 'ReAssigned'))
+            ) {
+              this.gridColumnApi.getColumn('remark').getColDef().editable =
+                false;
+              // this.gridColumnApi.getColumn('remark').getColDef().wrapText =
+              //   false;
+              // this.gridColumnApi
+              //   .getColumn('remark')
+              //   .getColDef().cellEditorPopup = false;
+            } else {
+              this.gridColumnApi.getColumn('remark').getColDef().editable =
+                true;
+              // this.gridColumnApi.getColumn('remark').getColDef().wrapText =
+              //   true;
+              // this.gridColumnApi
+              //   .getColumn('remark')
+              //   .getColDef().cellEditorPopup = true;
+            }
+          }
+        }
+    });
+
     this.gridApi = params.api;
     this.gridApi.addEventListener(
       'filterChanged',
