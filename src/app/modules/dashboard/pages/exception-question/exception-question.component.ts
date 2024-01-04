@@ -104,7 +104,6 @@ export class ExceptionQuestionComponent implements OnInit {
       localStorage.setItem('setDisable', 'true');
     } else {
       this.disableBtns = false;
-      localStorage.setItem('setDisable', 'false');
     }
     this.BudgetService.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
