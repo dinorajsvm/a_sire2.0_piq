@@ -19,6 +19,13 @@
           class="mat-mdc-chip-set-stacked"
           aria-label="Color selection"
         >
+        <mat-chip-option
+            color="primary"
+            [selected]="isChecked && !isViewAll"
+            (click)="changeToggle('All Inspection')"
+          >
+            All Inspection
+          </mat-chip-option>
           <mat-chip-option
             color="primary"
             [selected]="!isChecked && !isViewAll"
@@ -26,13 +33,7 @@
           >
             Suggested
           </mat-chip-option>
-          <mat-chip-option
-            color="primary"
-            [selected]="isChecked && !isViewAll"
-            (click)="changeToggle('All Inspection')"
-          >
-            All Inspection
-          </mat-chip-option>
+          
           <mat-chip-option
             color="primary"
             (click)="changeToggle('ViewAll')"

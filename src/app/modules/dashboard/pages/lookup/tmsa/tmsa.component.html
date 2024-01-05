@@ -34,6 +34,13 @@
           class="mat-mdc-chip-set-stacked"
           aria-label="Color selection"
         >
+        <mat-chip-option
+            color="primary"
+            [selected]="isShowInternal"
+            (click)="changeToggle('Internal Audit Report')"
+          >
+            Internal Audit Report
+          </mat-chip-option>
           <mat-chip-option
             color="primary"
             [selected]="isShowShip"
@@ -51,13 +58,7 @@
             External Inspection
           </mat-chip-option>
 
-          <mat-chip-option
-            color="primary"
-            [selected]="isShowInternal"
-            (click)="changeToggle('Internal Audit Report')"
-          >
-            Internal Audit Report
-          </mat-chip-option>
+          
           <mat-chip-option
             color="primary"
             (click)="changeToggle('ViewAll')"

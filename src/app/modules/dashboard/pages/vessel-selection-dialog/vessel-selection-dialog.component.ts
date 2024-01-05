@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { colorCodes } from 'src/app/core/constants';
@@ -49,6 +49,7 @@ export const MY_DATE_FORMATS = {
   ],
 })
 export class VesselSelectionDialogComponent {
+  @ViewChild('vesselSelect') vesselSelect!: ElementRef;
   selectedValue: any;
   selectedVslTypeValue: any;
   vesselSelectionForms!: FormGroup;
@@ -77,6 +78,12 @@ export class VesselSelectionDialogComponent {
     this.getCodes();
     this.getVesselNames();
     this.getvesseltype();
+    this.renderer.listen('document', 'click', (event) => {
+      const isClickedInside = this.el.nativeElement.contains(event.target);
+      if (!isClickedInside) {
+        this.clearFilter();
+      }
+    });
   }
 
   // Custom validator for DD-MMM-YYYY format
@@ -102,7 +109,10 @@ export class VesselSelectionDialogComponent {
   }
 
   clearFilter() {
-    this.vesselSelectionForms.value.datePick;
+    this.vesselSelectionForms.patchValue({
+      vesselTypeFilter: '',
+      vesselNameFilter: '',
+    })
   }
 
   onKeyChange(event: any): void {
@@ -136,22 +146,19 @@ export class VesselSelectionDialogComponent {
     this.toolTipVal = event.source.selected.viewValue;
     this.vesselSelectionForms.controls['vesselName'].setValue(event.value);
     this.enableProceedButton();
+    this.vesselSelectionForms.patchValue({
+      vesselNameFilter: '',
+    })
     this.getCodes();
   }
   onSelectVesselType(event: any): void {
     this.selectedVesselName = event.value;
     this.toolTipValType = event.source.selected.viewValue;
+    this.vesselSelectionForms.controls['vesselType'].setValue(event.value);
     this.vesselSelectionForms.patchValue({
       vesselTypeFilter: '',
       vesselNameFilter: '',
-      vesselType: this.selectedVesselName
-    })
-
-
-    console.log(this.selectedVesselName, 'select');
-    console.log(this.vesselSelectionForms.value.vesselType, 'vesselType');
-    
-    
+    })  
     this.enableProceedButton();
   }
 
@@ -194,7 +201,8 @@ export class VesselSelectionDialogComponent {
     private _snackBarService: SnackbarService,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private dialogRef: MatDialogRef<VesselSelectionDialogComponent>
+    private dialogRef: MatDialogRef<VesselSelectionDialogComponent>,private renderer: Renderer2,
+    private el: ElementRef
   ) {
     this.userDetails = this._storage.getUserDetails();
   }

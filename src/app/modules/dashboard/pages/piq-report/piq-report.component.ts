@@ -175,8 +175,9 @@ export class PiqReportComponent implements OnInit {
     });
 
     this.BudgetService.getExceptionRowData().subscribe((res: any) => {
-      this.getExceptionGridData = [];
+      // this.getExceptionGridData = [];
       this.getExceptionGridData = res && res.length > 0 ? res : [];
+      this.exceptionList = res && res.length > 0 ? res : [];
     });
 
     this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
@@ -360,6 +361,7 @@ export class PiqReportComponent implements OnInit {
         res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
       this.BudgetService.setGridSummary(this.rowSummaryData);
       if (res && res.exceptionlist != '') {
+        
         let exceptionData = JSON.parse(res.exceptionlist);
         this.exceptionList = exceptionData;
         this.BudgetService.setExceptionData(exceptionData);
@@ -438,13 +440,6 @@ export class PiqReportComponent implements OnInit {
           this.getAllDatas[0].values[0].subHeaders,
           this.getAllDatas[0].values[0]
         );
-      }
-      if (res && res.exceptionlist) {
-        let exceptionListObject = JSON.parse(res.exceptionlist);
-        this.exceptionList = exceptionListObject.response
-          ? exceptionListObject.response
-          : [];
-        this.exceptionCount();
       }
 
       if (res && res.guidence) {
@@ -652,10 +647,12 @@ export class PiqReportComponent implements OnInit {
       const duplicateResponse = this.exceptionList.find(
         (x) => x.qid === quest.qid
       );
+      
       if (duplicateResponse === undefined) {
         this.exception(ques, mquest, quest);
       } else {
         duplicateResponse.answer = quest.answer;
+      this.BudgetService.setExceptionData(this.exceptionList);
         this.countDetails();
       }
       this.exceptionCount();

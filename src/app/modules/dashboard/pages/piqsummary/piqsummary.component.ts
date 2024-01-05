@@ -355,7 +355,7 @@ export class PIQSummaryComponent implements OnInit {
       this.exceptionCounts = res;
     });
     this.BudgetService.getExceptionRowData().subscribe((res: any) => {
-      this.getExceptionGrid = [];
+      // this.getExceptionGrid = [];
       this.getExceptionGrid = res && res.length > 0 ? res : [];
     });
     this.BudgetService.getRemarksCountsData().subscribe((res: any) => {
