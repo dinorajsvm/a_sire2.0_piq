@@ -85,11 +85,10 @@ export class ReferenceComponent implements OnInit {
     this.getCertificateRepoList();
   }
 
-
   downloadFile(event: any) {
-    const fileUrl = event.rowData.filepath;
-    this.fetchImageBlob(fileUrl).then(
-      (blob: any) => {
+    const fileUrl = event.rowData.systemfilename;
+    this.BudgetService.getServerFileFromStream(fileUrl).subscribe(
+      (blob: Blob) => {
         const filename = event.rowData.localfilename;
         saveAs(blob, filename);
       },
@@ -115,18 +114,18 @@ export class ReferenceComponent implements OnInit {
     const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     const companyCode = this.userDetails.companyCode;
 
-    this.BudgetService.getReferenceList(vesselCode, companyCode,this.referenceNumber).subscribe(
-      (res: any) => {
-        res.response.forEach((element: any) => {
-          const output_string = element.filepath.replaceAll(/\\/g, '/');
-          (element.filesize = element.fileSize),
-            (element.filepath = `${environment.apiUrl}/` + output_string);
-        });
-        this.rowData = res.response;
-        this.totalRowCount =
+    this.BudgetService.getReferenceList(
+      vesselCode,
+      companyCode,
+      this.referenceNumber
+    ).subscribe((res: any) => {
+      res.response.forEach((element: any) => {
+        element.filesize = element.fileSize;
+      });
+      this.rowData = res.response;
+      this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-      }
-    );
+    });
   }
 
   onGridReady(params: any) {

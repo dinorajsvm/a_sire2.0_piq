@@ -19,24 +19,12 @@
                 <div class="col-sm-12 fullScreen_imgWrap">
                     <div class="image-container" [style.transform]="'scale(' + (imageScale / 100) + ')'"
                         [style.transform-origin]="imageScale >= 100 ? 'center' : 'top left'">
-                        <img [src]="dynamicImageURL+data.imageUrl" alt="Fullscreen Image"
+                        <img [src]="data.imagePreviewSrc" alt="Fullscreen Image"
                             style="width: 100%; margin: auto; display: block;">
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div style="display: flex;flex-direction: column;">
-            <button mat-icon-button class="arrow-btn left" (click)="goToPreviousImage()">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </button>
-            <div class="image-container" [style.transform]="'scale(' + (imageScale / 100) + ')'"
-                [style.transform-origin]="imageScale >= 100 ? 'center' : 'top left'">
-                <img [src]="data.imageUrl" alt="Fullscreen Image" style="width: 100%; margin: auto; display: block;">
-            </div>
-            <button mat-icon-button class="arrow-btn right" (click)="goToNextImage()">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </button>
-        </div> -->
     </mat-dialog-content>
     <p style="text-align: center;font-size: 14px;font-weight: 500;margin: 0;padding: 5px 0;">{{ data.filename }}</p>
     <div mat-dialog-actions>

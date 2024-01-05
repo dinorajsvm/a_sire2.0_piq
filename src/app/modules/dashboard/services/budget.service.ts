@@ -45,7 +45,7 @@ export class BudgetService {
   private enableDisableButtons = new Subject<any>();
   private setPiqQuestion = new Subject<any>();
   private setDeleteBtn = new Subject<any>();
-  private setUnSave =  new BehaviorSubject<any>(false);
+  private setUnSave = new BehaviorSubject<any>(false);
   constructor(private client: HttpClient) {}
 
   setEnableBtn(message: any) {
@@ -502,6 +502,12 @@ export class BudgetService {
     return this.client.post<any>(
       `${this.globalUrl}/PIQ/event/attachmentupload`,
       payload
+    );
+  }
+
+  getServerFileFromStream(fileName: any) {
+    return this.client.get(
+      `${this.globalUrl}/PIQ/event/getdocument?filename=${fileName}`,{responseType: 'blob'}
     );
   }
 

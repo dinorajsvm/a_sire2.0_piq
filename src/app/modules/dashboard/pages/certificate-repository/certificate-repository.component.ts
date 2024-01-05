@@ -149,7 +149,6 @@ export class CertificateRepositoryComponent implements OnInit {
     private route: ActivatedRoute,
     private _storage: StorageService
   ) {
-  
     this.frameworkComponents = {
       buttonRenderer: DownloadBtnRendererComponent,
     };
@@ -227,9 +226,9 @@ export class CertificateRepositoryComponent implements OnInit {
   }
 
   downloadFile(event: any) {
-    const fileUrl = event.rowData.filepath;
-    this.BudgetService.downloadFile(fileUrl).then(
-      (Blob: any) => {
+    const fileUrl = event.rowData.systemfilename;
+    this.BudgetService.getServerFileFromStream(fileUrl).subscribe(
+      (Blob: Blob) => {
         const filename = event.rowData.localfilename;
         saveAs(Blob, filename);
       },

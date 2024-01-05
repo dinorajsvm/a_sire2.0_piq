@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrDialogComponent } from '../pr-dialog/pr-dialog.component';
 import { BudgetService } from '../../services/budget.service';
@@ -31,6 +31,7 @@ export class PhotoRepositoryComponent implements OnInit {
   getSubTopicTitle: any = [];
   allExpanded: boolean = false;
   selectedSubTopic: any | null = null; // Add this property to store the selected subTopic
+  expandedSectionIndex: number = -1;
   selectedInstanceID: any;
   imageNames: any;
   actualPhotoCount = 0;
@@ -108,7 +109,9 @@ export class PhotoRepositoryComponent implements OnInit {
         this.listDatas = response[0].topiclist.filter((resData: any) => {
           return (
             resData.topic === 'Core photograph set' ||
-            resData.topic.toLowerCase().includes(this.trimmedVslType.toString().toLowerCase())
+            resData.topic
+              .toLowerCase()
+              .includes(this.trimmedVslType.toString().toLowerCase())
           );
         });
 
@@ -116,9 +119,17 @@ export class PhotoRepositoryComponent implements OnInit {
           list.subTopics.forEach((subTopics: any) => {
             subTopics['imagelist'] = subTopics.relImages;
             subTopics['imagelist'].forEach((img: any) => {
-              img.sizeCheck = img.sizeinbytes;
-              (img.formattedName = img.localfilename),
-                (img.sizeinbytes = img.sizeinMB.toFixed(2) + ' ' + 'MB');
+              let srcUrl: any;
+              this.BudgetService.getServerFileFromStream(
+                img.filename
+              ).subscribe((res: Blob) => {
+                const blob = new Blob([res]);
+                srcUrl = URL.createObjectURL(blob);
+                (img.imagePreviewSrc = srcUrl),
+                  (img.sizeCheck = img.sizeinbytes);
+                (img.formattedName = img.localfilename),
+                  (img.sizeinbytes = img.sizeinMB.toFixed(2) + ' ' + 'MB');
+              });
             });
           });
         });
@@ -128,8 +139,8 @@ export class PhotoRepositoryComponent implements OnInit {
   }
 
   setDefaultName(img: any, defaultName: string, formattedname: any) {
-    img.localfilename = formattedname;
-    img.formattedName = defaultName;
+    img.localfilename = formattedname ? formattedname : '';
+    img.formattedName = defaultName ? defaultName : '';
     this.summaryGridCount();
   }
 
@@ -161,6 +172,24 @@ export class PhotoRepositoryComponent implements OnInit {
       if (res && typeof res.Response === 'string') {
         let object = JSON.parse(res.Response);
         this.imageNames = object;
+        if (this.imageNames) {
+          this.imageNames.forEach((data: any) => {
+            this.listDatas.forEach((res: any) => {
+              res.subTopics.forEach((sub: any, index: any) => {
+                if (data.subtopic === sub.subTopicTitle) {
+                  sub.imagelist.forEach((list: any) => {
+                    const formattedExtension = list.localfilename.split('.')[1];
+                    const formattedDefName =
+                      data.imagename + '.' + formattedExtension;
+                    list['formattedDefName'] = formattedDefName;
+                    list['defaultImageName'] = data.imagename;
+                  });
+                }
+              });
+            });
+            this.summaryGridCount();
+          });
+        }
       }
     });
   }
@@ -231,7 +260,9 @@ export class PhotoRepositoryComponent implements OnInit {
           sub['imagelist'] = [];
         });
         if (this.trimmedVslType) {
-          this.isVslTypeSame = res.topic.toLowerCase().includes(this.trimmedVslType.toString().toLowerCase());
+          this.isVslTypeSame = res.topic
+            .toLowerCase()
+            .includes(this.trimmedVslType.toString().toLowerCase());
         }
         if (res.topic === 'Core photograph set' || this.isVslTypeSame) {
           this.listDatas.push(res);
@@ -262,18 +293,19 @@ export class PhotoRepositoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         imagesArray.splice(index, 1);
+        this.summaryGridCount()
       }
-    });
+    });    
   }
 
   openFullscreenDialog(
-    imageUrl: string,
+    imagePreviewSrc: string,
     topic: string,
     subTopicTitle: string,
     filename: string
   ): void {
     this.dialog.open(ImageDialogComponent, {
-      data: { imageUrl, topic, subTopicTitle, filename },
+      data: { imagePreviewSrc, topic, subTopicTitle, filename },
       panelClass: 'fullscreen-dialog-container',
     });
   }
@@ -282,47 +314,43 @@ export class PhotoRepositoryComponent implements OnInit {
   downloadAllTopicImages(topic: any, subTopicTitle: string, imagelist: any[]) {
     const zip = new JSZip();
     const promises: Promise<void>[] = [];
-
-    for (const image of imagelist) {
-      const imageUrl = image.filepath
-        ? this.dynamicImageURL + image.filepath
-        : image.url;
-      promises.push(
-        this.addImageToZip(
-          zip,
-          imageUrl,
-          this.getFilenameFromUrl(image.formattedName, image.localfilename)
-        )
-      );
-    }
-
-    // Wait for all promises to resolve, then generate and trigger the download of the zip file
-    Promise.all(promises).then(() => {
-      zip.generateAsync({ type: 'blob' }).then((content) => {
-        const folderName = `${topic}`;
-        const filename = `${folderName}/${subTopicTitle}.zip`;
-        saveAs(content, filename);
+    if (imagelist && imagelist.length > 0) {
+      imagelist.forEach((image) => {
+        promises.push(
+          this.addImageToZip(
+            zip,
+            image.imagePreviewSrc,
+            this.getFilenameFromUrl(image.formattedName, image.localfilename),
+            image.formattedExtension
+          )
+        );
       });
-    });
+
+      // Wait for all promises to resolve, then generate and trigger the download of the zip file
+      Promise.all(promises).then(() => {
+        zip.generateAsync({ type: 'blob' }).then((content) => {
+          const folderName = `${topic}`;
+          const filename = `${folderName}/${subTopicTitle}.zip`;
+          saveAs(content, filename);
+        });
+      });
+    }
   }
 
   // download all subtopic images
   downloadAllSubTopicImages(subTopicTitle: string, imagelist: any[]) {
     const zip = new JSZip();
     const promises: Promise<void>[] = [];
-
-    for (const image of imagelist) {
-      const imageUrl = image.filepath
-        ? this.dynamicImageURL + image.filepath
-        : image.url;
+    imagelist.forEach((image) => {
       promises.push(
         this.addImageToZip(
           zip,
-          imageUrl,
-          this.getFilenameFromUrl(image.formattedName, image.localfilename)
+          image.imagePreviewSrc,
+          this.getFilenameFromUrl(image.formattedName, image.localfilename),
+          image.formattedExtension
         )
       );
-    }
+    });
 
     // Wait for all promises to resolve, then generate and trigger the download of the zip file
     Promise.all(promises).then(() => {
@@ -333,7 +361,15 @@ export class PhotoRepositoryComponent implements OnInit {
     });
   }
 
-  addImageToZip(zip: JSZip, imageUrl: string, filename: string): Promise<void> {
+  addImageToZip(
+    zip: JSZip,
+    imageUrl: string,
+    filename: string,
+    extension?: any
+  ): Promise<void> {
+    if (!filename) {
+      filename = 'empty_default_name' + '.' + extension;
+    }
     return this.getImageData(imageUrl).then((blob) => {
       zip.file(filename, blob, { binary: true });
     });
@@ -358,20 +394,16 @@ export class PhotoRepositoryComponent implements OnInit {
     }
     const splitExtension = extension.split('.');
     const urlParts = url.split('/');
-    return urlParts[urlParts.length - 1] + '.' + splitExtension[1];
+    const finalValue = urlParts[urlParts.length - 1] + '.' + splitExtension[1];
+    return finalValue ? finalValue : '';
   }
 
   downloadImage(image: any) {
-    const imageUrl = image.filepath
-      ? this.dynamicImageURL + image.filepath
-      : image.url;
-    this.fetchImageBlob(imageUrl).then((blob) => {
-      const filename = this.getFilenameFromUrl(
-        image.formattedName,
-        image.localfilename
-      );
-      saveAs(blob, filename);
-    });
+    this.BudgetService.getServerFileFromStream(image.systemfilename).subscribe(
+      (res: Blob) => {
+        saveAs(res, image.localfilename);
+      }
+    );
   }
 
   fetchImageBlob(imageUrl: string): Promise<Blob> {
@@ -404,8 +436,6 @@ export class PhotoRepositoryComponent implements OnInit {
       this.expandedSectionIndex = -1; // Expand all topics
     }
   }
-
-  expandedSectionIndex: number = -1;
 
   toggleExpand(index: number) {
     this.expandedSectionIndex =
@@ -451,7 +481,6 @@ export class PhotoRepositoryComponent implements OnInit {
     }
     if (this.selectedFile) {
       const reader = new FileReader();
-
       reader.onload = (e: any) => {
         const base64Image = e.target.result;
         const imgElement = new Image();
@@ -494,19 +523,27 @@ export class PhotoRepositoryComponent implements OnInit {
 
             const formattedName = data.localfilename.split('.')[0];
             const formattedExtension = data.localfilename.split('.')[1];
-            const image = {
-              filepath: data.filepath,
-              localfilename: data.localfilename,
-              formattedName: formattedName,
-              formattedExtension: formattedExtension,
-              sizeinbytes: data.sizeinMB.toFixed(2) + ' ' + 'MB',
-            };
-            if (findValue && findValue.imagelist) {
-              findValue.imagelist.push(image);
-            }
+            let srcUrl: any;
+            this.BudgetService.getServerFileFromStream(
+              data.systemfilename
+            ).subscribe((res: Blob) => {
+              const blob = new Blob([res]);
+              srcUrl = URL.createObjectURL(blob);
+              const image = {
+                imagePreviewSrc: srcUrl,
+                systemfilename: data.systemfilename,
+                localfilename: data.localfilename,
+                formattedName: formattedName,
+                formattedExtension: formattedExtension,
+                sizeinbytes: data.sizeinMB.toFixed(2) + ' ' + 'MB',
+              };
+              if (findValue && findValue.imagelist) {
+                findValue.imagelist.push(image);
+              }
+              this.summaryGridCount();
+            });
           }
         });
-        this.summaryGridCount();
         if (this.imageNames) {
           this.imageNames.forEach((data: any) => {
             this.listDatas.forEach((res: any) => {
@@ -528,54 +565,20 @@ export class PhotoRepositoryComponent implements OnInit {
       }
     });
   }
-  handleImageError(event: Event) {
-    // Handle image loading error
-    console.error('Image failed to load:', event);
-  }
-
-  handleFiles(files: FileList | null, subHead: any) {
-    if (!files) return;
-    const file: any = files;
-    file.forEach((element: any, index: any) => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const image = {
-          filepath: e.target.result.split(',')[1], // Extract the base64 data from the result
-          filename: files[index].name,
-          docsize: this.formatSize(files[index].size),
-        };
-
-        subHead.imagelist = subHead.imagelist || [];
-        subHead.imagelist.push(image);
-      };
-      reader.readAsDataURL(files[index]);
-    });
-  }
 
   handleDrop(event: DragEvent) {
     event.preventDefault();
-    const files = event.dataTransfer?.files || null;
-    if (this.selectedSubTopic && files) {
-      this.handleFiles(files, this.selectedSubTopic); // Pass the selected subTopic to the handleFiles function
-    }
+    return;
   }
 
   handleDragOver(event: DragEvent) {
     event.preventDefault();
+    return;
   }
 
   handleDragLeave(event: DragEvent) {
     event.preventDefault();
-  }
-
-  formatSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2))
-      ? parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-      : '0 KB';
+    return;
   }
 
   updateImageName(subHead: any, imgIndex: number) {

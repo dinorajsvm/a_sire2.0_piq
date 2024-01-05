@@ -185,7 +185,7 @@
                         matTooltip="FullScreen"
                         (click)="
                           openFullscreenDialog(
-                            img.filepath,
+                            img.imagePreviewSrc,
                             head.topic,
                             subHead.subTopicTitle,
                             getFilenameFromUrl(
@@ -215,12 +215,7 @@
                     </div>
                   </div>
                   <div class="img">
-                    <img
-                      id="{{ imgIndex }}"
-                      [src]="
-                        img.filepath ? dynamicImageURL + img.filepath : img.url
-                      "
-                    />
+                    <img id="{{ imgIndex }}" [src]="img.imagePreviewSrc" />
                   </div>
                   <div class="img_Size">
                     <span class="charCount">Size:{{ img.sizeinbytes }}</span>
