@@ -45,6 +45,7 @@ export class MocComponent {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
+      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
     },
     {
       headerName: 'Ref Id',

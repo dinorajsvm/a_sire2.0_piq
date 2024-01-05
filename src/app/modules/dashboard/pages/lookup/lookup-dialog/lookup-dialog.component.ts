@@ -61,6 +61,7 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
+      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
     },
     {
       field: 'refno',
@@ -146,6 +147,7 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
+      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
     },
     {
       field: 'refno',

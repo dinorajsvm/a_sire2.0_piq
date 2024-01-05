@@ -37,6 +37,7 @@ export class SafetyManagementComponent implements OnInit {
       resizable: true,
       pinned: 'left',
       width: 125,
+      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
     },
     {
       headerName: 'Ref No',
@@ -500,6 +501,7 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
+      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
     },
     {
       headerName: 'Ref No',
