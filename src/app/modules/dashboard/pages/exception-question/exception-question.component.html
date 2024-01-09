@@ -22,7 +22,9 @@
         [components]="frameworkComponents"
         [stopEditingWhenCellsLoseFocus]="true"
         [singleClickEdit]="true"
-      >
+        (cellEditingStopped)="onCellEditingStopped($event)"
+        >
+        <!-- (cellValueChanged)="onCellValueChanged($event)" -->
       </ag-grid-angular>
     </div>
   </div>

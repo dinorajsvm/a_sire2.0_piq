@@ -45,7 +45,7 @@
             }}</span>
           <span>{{ data.submitteduser }}</span>
           <span>{{ data.rankname }}</span>
-          <span>{{ data.remarks }}</span>
+          <div *ngIf="data.remarks !=''"><span style="font-weight: 500;">Remarks:</span><span>{{ data.remarks }}</span></div>
           <div class="flowStatus" [ngClass]="{
               'wrkfl-INP': data.wfstatus === 'Inprogress',
               'wrkfl-SUB': data.wfstatus === 'Submitted',

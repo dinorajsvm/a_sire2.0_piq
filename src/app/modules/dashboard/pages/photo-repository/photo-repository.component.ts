@@ -59,7 +59,7 @@ export class PhotoRepositoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    this.getDefaultImageName();
+    this.getSavedPRData();
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableBtns = true;
       this.invalidImg = true;
@@ -72,9 +72,9 @@ export class PhotoRepositoryComponent implements OnInit {
       this.hideReqBtns = res;
     });
     this.getSelectedCheckListId();
-    this.getSavedPRData();
     this.getVesselTypeData();
     this.summaryGridCount();
+    this.getDefaultImageName();
   }
 
   getSelectedCheckListId() {
@@ -180,7 +180,7 @@ export class PhotoRepositoryComponent implements OnInit {
                   sub.imagelist.forEach((list: any) => {
                     const formattedExtension = list.localfilename.split('.')[1];
                     const formattedDefName =
-                      data.imagename + '.' + formattedExtension;
+                    data.imagename + '.' + formattedExtension;
                     list['formattedDefName'] = formattedDefName;
                     list['defaultImageName'] = data.imagename;
                   });
@@ -540,28 +540,30 @@ export class PhotoRepositoryComponent implements OnInit {
               if (findValue && findValue.imagelist) {
                 findValue.imagelist.push(image);
               }
+              if (this.imageNames) {
+                this.imageNames.forEach((data: any) => {
+                  this.listDatas.forEach((res: any) => {
+                    res.subTopics.forEach((sub: any, index: any) => {
+                      if (data.subtopic === sub.subTopicTitle) {
+                        sub.imagelist.forEach((list: any) => {
+                          const formattedExtension = list.localfilename.split('.')[1];
+                          const formattedDefName =
+                            data.imagename + '.' + formattedExtension;
+                          list['formattedDefName'] = formattedDefName;
+                          list['defaultImageName'] = data.imagename;
+                        });
+                      }
+                    });
+                  });
+                  this.summaryGridCount();
+                });
+              }
               this.summaryGridCount();
             });
           }
         });
-        if (this.imageNames) {
-          this.imageNames.forEach((data: any) => {
-            this.listDatas.forEach((res: any) => {
-              res.subTopics.forEach((sub: any, index: any) => {
-                if (data.subtopic === sub.subTopicTitle) {
-                  sub.imagelist.forEach((list: any) => {
-                    const formattedExtension = list.localfilename.split('.')[1];
-                    const formattedDefName =
-                      data.imagename + '.' + formattedExtension;
-                    list['formattedDefName'] = formattedDefName;
-                    list['defaultImageName'] = data.imagename;
-                  });
-                }
-              });
-            });
-            this.summaryGridCount();
-          });
-        }
+        
+        
       }
     });
   }

@@ -178,6 +178,8 @@ export class PiqReportComponent implements OnInit {
       // this.getExceptionGridData = [];
       this.getExceptionGridData = res && res.length > 0 ? res : [];
       this.exceptionList = res && res.length > 0 ? res : [];
+      console.log("exceptionList",this.exceptionList);
+      
     });
 
     this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
@@ -287,7 +289,7 @@ export class PiqReportComponent implements OnInit {
 
   submitFormAll(value: any) {
     if (this.exceptionList && this.exceptionList.length > 0) {
-      this.emptyRemark = this.exceptionList.find((x: any) => x.remark === '');
+      this.emptyRemark = this.exceptionList.find((x: any) => x.remark === '' || null);
       if (this.emptyRemark) {
         this._snackBarService.loadSnackBar(
           'Exception Remarks Mandatory',
@@ -1002,6 +1004,8 @@ export class PiqReportComponent implements OnInit {
     subq.answer = subq.presetvalue;
     this.countDetails();
     this.BudgetService.setUnSaveAction(true);
+    console.log("this.exceptionList",this.exceptionList);
+    this.BudgetService.setExceptionData(this.exceptionList);
   }
 
   restoreLookUp(subq: any) {

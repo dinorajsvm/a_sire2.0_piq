@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
-import { LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
+import { GridOptions, LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
 import { ActivatedRoute } from '@angular/router';
@@ -146,10 +146,20 @@ export class ExceptionQuestionComponent implements OnInit {
     }
   }
 
+  // onCellValueChanged(event: any): void {
+  //   console.log("xxxxxxxxxx");
+  //   if (event.colDef.field === 'remark') {
+      
+  //     console.log('Remarks column edited. New value:', event.newValue);
+  //   }
+  // }
+  onCellEditingStopped(event: any) {
+    this.BudgetService.setExceptionRowData(this.rowData);
+    }
   onCellClicked(event: any): void {
     if (
       !(event.colDef.field === 'autoSync' || event.colDef.field === 'remark')
-    ) {
+    ) {  
       event.data.tab = 1;
       this.BudgetService.setTabChangeData(event.data);
     }
@@ -185,19 +195,9 @@ export class ExceptionQuestionComponent implements OnInit {
             ) {
               this.gridColumnApi.getColumn('remark').getColDef().editable =
                 false;
-              // this.gridColumnApi.getColumn('remark').getColDef().wrapText =
-              //   false;
-              // this.gridColumnApi
-              //   .getColumn('remark')
-              //   .getColDef().cellEditorPopup = false;
             } else {
               this.gridColumnApi.getColumn('remark').getColDef().editable =
                 true;
-              // this.gridColumnApi.getColumn('remark').getColDef().wrapText =
-              //   true;
-              // this.gridColumnApi
-              //   .getColumn('remark')
-              //   .getColDef().cellEditorPopup = true;
             }
           }
         }
