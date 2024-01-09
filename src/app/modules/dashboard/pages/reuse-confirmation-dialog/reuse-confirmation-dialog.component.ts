@@ -4,7 +4,7 @@ import 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../renderer/button-renderer.component';
-import { DefaultColDef } from 'src/app/core/constants';
+import { CellStatus, DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 
 @Component({
@@ -26,6 +26,14 @@ export class ReuseConfirmationDialogComponent implements OnInit {
       flex: 1,
       resizable: true,
     },
+    {
+      field: 'status',
+      headerName: 'Status',
+      tooltipField: 'status',
+      flex: 1,
+      cellStyle: CellStatus,
+      resizable: true,
+    },
   ];
   rowData: any = [];
   instanceId = '';
@@ -34,7 +42,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
 
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public rowGroupPanelShow: any = 'always';
 
   constructor(
     private BudgetService: BudgetService,
@@ -79,6 +87,8 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   getReuseReferenceList() {
     this.BudgetService.getRefnImport(this.userDetails.userCode).subscribe(
       (data) => {
+        console.log("data",data);
+        
         this.rowData = data && data.response.length > 0 ? data.response : [];
         this.totalRowCount =
           this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;

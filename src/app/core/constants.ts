@@ -101,7 +101,7 @@ export const DefaultColDef: any = {
   resizable: true,
   filter: 'agTextColumnFilter',
   floatingFilter: true,
-  enableRowGroup: true,
+  suppressMovable:true,
   sortable: true,
   tooltipComponent: agGridTooltipComponent,
   cellStyle: (params: any) => {

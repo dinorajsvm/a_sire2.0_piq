@@ -103,15 +103,15 @@ export class PIQSummaryComponent implements OnInit {
       tooltipField: 'status',
       floatingFilter: false,
     },
-    {
-      field: 'lastModified',
-      headerName: 'Last Modified',
-      tooltipField: 'lastModified',
-      cellStyle: { textAlign: 'right' },
-      width: 160,
-      flex: 1,
-      floatingFilter: false,
-    },
+    // {
+    //   field: 'lastModified',
+    //   headerName: 'Last Modified',
+    //   tooltipField: 'lastModified',
+    //   cellStyle: { textAlign: 'right' },
+    //   width: 160,
+    //   flex: 1,
+    //   floatingFilter: false,
+    // },
   ];
   photoColumnDefs: ColDef[] = [
     {

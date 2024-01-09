@@ -289,7 +289,7 @@ export class PiqReportComponent implements OnInit {
 
   submitFormAll(value: any) {
     if (this.exceptionList && this.exceptionList.length > 0) {
-      this.emptyRemark = this.exceptionList.find((x: any) => x.remark === '' || null);
+      this.emptyRemark = this.exceptionList.find((x: any) => x.remark === '' || x.remark === null);
       if (this.emptyRemark) {
         this._snackBarService.loadSnackBar(
           'Exception Remarks Mandatory',
@@ -1917,11 +1917,11 @@ export class PiqReportComponent implements OnInit {
         totalQuestion: totalQuestCount,
         filledQuestion: filledQuestionCount,
         pendingQuestion: totalQuestCount - filledQuestionCount,
-        lastModified: time
-          ? this.datePipe.transform(new Date(time), 'dd-MMM-yyyy HH:mm')
-            ? this.datePipe.transform(new Date(time), 'dd-MMM-yyyy HH:mm')
-            : ''
-          : '',
+        // lastModified: time
+        //   ? this.datePipe.transform(new Date(time), 'dd-MMM-yyyy HH:mm')
+        //     ? this.datePipe.transform(new Date(time), 'dd-MMM-yyyy HH:mm')
+        //     : ''
+        //   : '',
       });
       this.BudgetService.setGridSummary(this.rowSummaryData);
     });

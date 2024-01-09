@@ -81,7 +81,7 @@ export class ExceptionQuestionComponent implements OnInit {
   private gridApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public rowGroupPanelShow: any = 'always';
   remarksCount: any;
   hideReqBtns: boolean = false;
   disableBtns: boolean = false;
@@ -155,6 +155,8 @@ export class ExceptionQuestionComponent implements OnInit {
   // }
   onCellEditingStopped(event: any) {
     this.BudgetService.setExceptionRowData(this.rowData);
+    console.log("this.rowData",this.rowData);
+    
     }
   onCellClicked(event: any): void {
     if (

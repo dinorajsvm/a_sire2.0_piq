@@ -557,7 +557,7 @@ export class SafetyManagementComponent implements OnInit {
   ];
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public rowGroupPanelShow: any = 'always';
   rowData: any[] = [];
   selectedRowData: any[] = [];
   userDetails: any;

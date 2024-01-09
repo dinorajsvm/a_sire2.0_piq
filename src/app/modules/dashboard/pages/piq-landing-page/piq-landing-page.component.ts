@@ -14,6 +14,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
 import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
+import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
 
 @Component({
   selector: 'app-piq-landing-page',
@@ -181,7 +182,26 @@ export class PIQLandingPageComponent implements OnInit {
       tooltipField: 'status',
     },
   ];
-  defaultColDef = DefaultColDef;
+  public defaultColDef: any = {
+  resizable: true,
+  filter: 'agTextColumnFilter',
+  floatingFilter: true,
+  enableRowGroup: true,
+  sortable: true,
+  tooltipComponent: agGridTooltipComponent,
+  cellStyle: (params: any) => {
+    const value = params.value;
+    if (!isNaN(Number(value))) {
+      return { textAlign: 'right' };
+    } else if (value instanceof Date && !isNaN(value.getTime())) {
+      return { textAlign: 'right' };
+    } else if (typeof value === 'string' && !isNaN(Number(value))) {
+      return { textAlign: 'left' };
+    } else {
+      return { textAlign: 'left' };
+    }
+  },
+  };
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
 

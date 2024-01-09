@@ -229,7 +229,7 @@ export class LookupDialogComponent implements OnInit {
 
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     // row style function
     'highlighted-row': (params) => {

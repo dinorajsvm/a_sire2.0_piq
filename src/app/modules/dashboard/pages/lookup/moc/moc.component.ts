@@ -106,7 +106,7 @@ export class MocComponent {
 
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public rowGroupPanelShow: any = 'always';
 
   rowData = [];
 

@@ -64,7 +64,7 @@ export class ReferenceComponent implements OnInit {
   private gridColumnApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public rowGroupPanelShow: any = 'always';
 
   public gridOptions: GridOptions = {};
   constructor(

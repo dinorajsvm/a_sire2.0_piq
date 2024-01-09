@@ -90,8 +90,8 @@ export class PmsLookupComponent {
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
 
   defaultColDef = DefaultColDef;
-  public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public groupDisplayType: RowGroupingDisplayType = 'groupRows';
+  // public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;

@@ -109,7 +109,7 @@ export class ManualLookUpComponent implements OnInit {
   userDetails: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow:any  = 'always';
+  // public rowGroupPanelShow:any  = 'always';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

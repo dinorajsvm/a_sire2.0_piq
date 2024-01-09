@@ -121,7 +121,7 @@ export class PscComponent {
   defaultColDef = DefaultColDef;
   hideReqBtns: boolean = false;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  public rowGroupPanelShow: any = 'always';
+  // public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
