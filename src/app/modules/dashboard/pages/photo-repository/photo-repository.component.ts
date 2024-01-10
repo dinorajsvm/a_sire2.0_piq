@@ -477,6 +477,8 @@ export class PhotoRepositoryComponent implements OnInit {
     };
     this.BudgetService.savePhotoRep(payload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
+      localStorage.removeItem('getSelectedCheckListID')
+      this.selectedInstanceID = [];
       this.getSavedPRData();
     });
   }
