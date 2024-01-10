@@ -832,6 +832,30 @@
                                       </div>
                                     </div>
                                     <div class="row">
+                                      <div class="col-sm-5" *ngIf="subq.type == 'Numeric' && subq.qid==='Q189'">
+                                        <mat-form-field appearance="outline" class="input charCount"
+                                          [ngClass]="{ 'read-only': viewMode }">
+                                          <input matInput type="text" digitDirective
+                                            placeholder="mani" name="inputField" autocomplete="off"
+                                            [formControlName]="subq.qid" [readonly]="viewMode" (input)="
+                                              inputChanges(
+                                                $event,
+                                                subq,
+                                                quest,
+                                                Mquest
+                                              )
+                                            " (blur)="
+                                              lastinputChanges(
+                                                $event,
+                                                subq,
+                                                quest,
+                                                Mquest
+                                              )
+                                            " />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <div class="row">
                                       <div class="col-sm-12" *ngIf="subq.type == 'Select'">
                                         <div class="col-sm-12 select_wrapper">
                                           <div class="row">

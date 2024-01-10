@@ -1952,6 +1952,14 @@ export class PiqReportComponent implements OnInit {
     this.chapterGrid();
   }
   inputChanges(event?: any, subq?: any, quest?: any, mquest?: any, type?: any) {
+    console.log("event",event);
+    console.log("subq",subq);
+    console.log("quest",quest);
+    console.log("mquest",mquest);
+    console.log("type",type);
+    // if(subq.qid === "Q189"){
+
+    // }
     let value =
       event && event.target && event.target.value ? event.target.value : event;
     quest.lastModified = this.datePipe.transform(
