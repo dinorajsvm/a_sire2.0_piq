@@ -44,6 +44,7 @@ import { ManualLookUpComponent } from './pages/lookup/manual-look-up/manual-look
 import { selectSearchVslPipe } from './services/select-search-vsl-filter.pipe';
 import { UnsaveConfirmationDialogPopupComponent } from './pages/unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
 import { ConfirmationDialogPopupComponent } from './pages/confirmation-dialog-popup/confirmation-dialog-popup.component';
+import { NumberSpecDirective } from './pages/directives/numberSpec.directives';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { ConfirmationDialogPopupComponent } from './pages/confirmation-dialog-po
     LookupDialogComponent,
     ReuseConfirmationDialogComponent,
     NewmericDirective,
+    NumberSpecDirective,
     TwoDigitDecimaNumberDirective,
     OneDigitDecimaNumberDirective,
     DigitDirective,
