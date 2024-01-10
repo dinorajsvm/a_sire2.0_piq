@@ -122,6 +122,11 @@ export class CertificateRepositoryComponent implements OnInit {
           headerName: 'File Size',
           tooltipField: 'filesize',
           flex: 1,
+          valueGetter: (params) => {
+            return params.data.sizeinMB
+              ? params.data.sizeinMB.toFixed(2) + ' ' + 'MB'
+              : '0 MB';
+          },
         },
         {
           headerName: 'Certificate Download',

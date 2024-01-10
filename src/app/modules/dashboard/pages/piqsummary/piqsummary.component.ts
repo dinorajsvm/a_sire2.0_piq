@@ -615,8 +615,6 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
 
-  defaultGridChanges() {}
-
   certficateGridDatas() {
     this.BudgetService.getCertificateList(
       this.userDetails.companyCode,
