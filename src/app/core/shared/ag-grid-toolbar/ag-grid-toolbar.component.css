@@ -7,4 +7,9 @@
 
 .ag-menu-name{
   font-size: 12px;
+  line-height: normal;
+}
+
+.ag-menu-spacing{
+  padding: 10px;
 }

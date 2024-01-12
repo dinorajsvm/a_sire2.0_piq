@@ -20,6 +20,11 @@
   width: 14px !important;
 }
 
+.myMenu .mat-mdc-menu-content{
+  padding: 0 !important;
+
+}
+
 /* .page_Title {
     font-size: 20px;
     font-weight: 500;

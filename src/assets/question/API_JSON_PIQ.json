@@ -1,13 +1,13 @@
 [
   {
     "uniqueid": "H1",
-    "header": "1. General Information",
+    "header": "1.General Information",
     "values": [
       {
-        "subHeaders": "1.1. General",
+        "subHeaders": "1.1.General",
         "question": [
           {
-            "mainQuestion": "1.1.1. Vessel Type",
+            "mainQuestion": "1.1.1.Vessel Type",
             "type": "Select",
             "subQuestion": [
               {
@@ -18,22 +18,22 @@
                 "entryorgin": "Vessel",
                 "responsearry": [
                   "Crude Tanker",
-                  "Crude/Products Tanker",
+                  "Crude / Products Tanker",
                   "Products Tanker",
-                  "Products/Chemical Tanker",
+                  "Products / Chemical Tanker",
                   "Chemical Carrier type 1",
                   "Checmical Carrier type 2",
                   "Chemical Carrier Type 3",
                   "LPG Type 1G",
                   "LPG Type 2PG",
                   "LPG Type 3G",
-                  "LNG SPB/Moss Type",
+                  "LNG SPB / Moss Type",
                   "LNG Membrane",
                   "LNG Type C",
                   "OBO",
-                  "Ore-Oil",
+                  "Ore - Oil",
                   "DP Shuttle(bow loading)",
-                  "Shuttle(bow loading)",
+                  "Shuttle (bow loading)",
                   "Bitumen Tanker",
                   "Sulphur tanker",
                   "Others"
@@ -116,13 +116,13 @@
   },
   {
     "uniqueid": "H2",
-    "header": "2. Certification and Documentation",
+    "header": "2.Certification and Documentation",
     "values": [
       {
-        "subHeaders": "2.1. Certification",
+        "subHeaders": "2.1.Certification",
         "question": [
           {
-            "mainQuestion": "2.1.1. What was the date of last visit by a Classification Society surveyor?",
+            "mainQuestion": "2.1.1.What was the date of last visit by a Classification Society surveyor?",
             "type": "formGroup1",
             "subQuestion": [
               {
@@ -131,7 +131,8 @@
                 "sid": "subq.2.1.1.1",
                 "information": "TSI",
                 "entrymethod": "Manual",
-                "response": "30-11-2023",
+                "entryorgin": "Vessel",
+                "response": "12-01-2024",
                 "qid": "Q3",
                 "controlname": "date1",
                 "subcheckbox": false,
@@ -152,6 +153,7 @@
                 "sid": "subq.2.1.1.2",
                 "information": "TSI",
                 "entrymethod": "Manual",
+                "entryorgin": "Vessel",
                 "specification": "Backend Table",
                 "responsearry": [
                   "Damage Survey",
@@ -179,6 +181,7 @@
                 "sid": "subq.2.1.1.3",
                 "information": "TSI",
                 "entrymethod": "Manual",
+                "entryorgin": "Vessel",
                 "specification": "100",
                 "qid": "Q5",
                 "controlname": "textarea1",
@@ -195,7 +198,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "VCT",
             "qid": "MQ2",
             "inprogress": false,
             "completed": false,
@@ -203,7 +207,7 @@
             "isinternal": false,
             "isexternal": false,
             "ismanagment": false,
-            "isvslcertificate": false,
+            "isvslcertificate": true,
             "isincident": false,
             "ispms": false,
             "answer": ""
@@ -222,10 +226,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "2.2. Management Oversight",
+        "subHeaders": "2.2.Management Oversight",
         "question": [
           {
-            "mainQuestion": "2.2.1.  Has a Technical Superintendent with a senior marine engineer, naval architect or mechanical engineering background attended the vessel and completed a full inspection of the vessel during the preceding eighteen months",
+            "mainQuestion": "2.2.1. Has a Technical Superintendent with a senior marine engineer, naval architect or mechanical engineering background attended the vessel and completed a full inspection of the vessel during the preceding eighteen months",
             "type": "formGroup2",
             "subQuestion": [
               {
@@ -257,7 +261,7 @@
                 "information": "TSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q8",
                 "controlname": "date2",
                 "subcheckbox": false,
@@ -279,7 +283,7 @@
                 "information": "TSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q9",
                 "controlname": "date3",
                 "subcheckbox": false,
@@ -339,12 +343,13 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
             "entryorgin": "Vessel",
+            "specification": "TSI",
             "qid": "MQ6",
             "inprogress": false,
             "completed": false,
-            "isshipvisit": false,
+            "isshipvisit": true,
             "isinternal": false,
             "isexternal": false,
             "ismanagment": false,
@@ -354,7 +359,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "2.2.2. Has a Marine Superintendent (possessing a senior deck officeru0027s license and having sailed in a senior rank on tankers) attended the vessel and completed a full inspection of the vessel during the preceding eighteen months",
+            "mainQuestion": "2.2.2.Has a Marine Superintendent (possessing a senior deck officeru0027s license and having sailed in a senior rank on tankers) attended the vessel and completed a full inspection of the vessel during the preceding eighteen months",
             "type": "formGroup3",
             "subQuestion": [
               {
@@ -386,7 +391,7 @@
                 "information": "MSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q22",
                 "controlname": "date8",
                 "subcheckbox": false,
@@ -408,7 +413,7 @@
                 "information": "MSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q23",
                 "controlname": "date9",
                 "subcheckbox": false,
@@ -468,13 +473,14 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
             "entryorgin": "Vessel",
+            "specification": "RAF,TSI",
             "qid": "MQ20",
             "inprogress": false,
             "completed": false,
-            "isshipvisit": false,
-            "isinternal": false,
+            "isshipvisit": true,
+            "isinternal": true,
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
@@ -496,10 +502,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "2.3. Structural Assessment",
+        "subHeaders": "2.3.Structural Assessment",
         "question": [
           {
-            "mainQuestion": "2.3.3.1. What is the required frequency of inspection for cargo tanks?",
+            "mainQuestion": "2.3.3.1.What is the required frequency of inspection for cargo tanks?",
             "type": "formGroup4",
             "subQuestion": [
               {
@@ -522,7 +528,6 @@
                 "qid": "Q27",
                 "controlname": "select9",
                 "subcheckbox": false,
-                "presetvalue": "18 months",
                 "inprogress": false,
                 "completed": false,
                 "isshipvisit": false,
@@ -541,7 +546,7 @@
                 "information": "Vessel ",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q28",
                 "controlname": "date10",
                 "subcheckbox": false,
@@ -557,8 +562,9 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
             "entryorgin": "Mapping",
+            "specification": "PJO",
             "qid": "MQ26",
             "inprogress": false,
             "completed": false,
@@ -568,11 +574,11 @@
             "ismanagment": false,
             "isvslcertificate": false,
             "isincident": false,
-            "ispms": false,
+            "ispms": true,
             "answer": ""
           },
           {
-            "mainQuestion": "2.3.3.2. What is the required frequency of inspection for ballast tanks?",
+            "mainQuestion": "2.3.3.2.What is the required frequency of inspection for ballast tanks?",
             "type": "formGroup5",
             "subQuestion": [
               {
@@ -613,7 +619,7 @@
                 "information": "Vessel ",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q31",
                 "controlname": "date11",
                 "subcheckbox": false,
@@ -629,8 +635,9 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
             "entryorgin": "Mapping",
+            "specification": "PJO",
             "qid": "MQ29",
             "inprogress": false,
             "completed": false,
@@ -640,11 +647,11 @@
             "ismanagment": false,
             "isvslcertificate": false,
             "isincident": false,
-            "ispms": false,
+            "ispms": true,
             "answer": ""
           },
           {
-            "mainQuestion": "2.3.3.3. What is the required frequency of inspection for void* spaces?",
+            "mainQuestion": "2.3.3.3.What is the required frequency of inspection for void* spaces?",
             "type": "formGroup6",
             "subQuestion": [
               {
@@ -685,7 +692,7 @@
                 "information": "Vessel ",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q34",
                 "controlname": "date12",
                 "subcheckbox": false,
@@ -701,8 +708,9 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
             "entryorgin": "Mapping",
+            "specification": "PJO",
             "qid": "MQ32",
             "inprogress": false,
             "completed": false,
@@ -712,11 +720,11 @@
             "ismanagment": false,
             "isvslcertificate": false,
             "isincident": false,
-            "ispms": false,
+            "ispms": true,
             "answer": ""
           },
           {
-            "mainQuestion": "2.3.5.1. Is the vessel enrolled in a condition assessment programme (CAP)",
+            "mainQuestion": "2.3.5.1.Is the vessel enrolled in a condition assessment programme (CAP)",
             "type": "formGroup7",
             "subQuestion": [
               {
@@ -940,7 +948,45 @@
             "answer": ""
           },
           {
-            "mainQuestion": "2.3.5.3. What is the date range for the survey for issue of the CAP ratings?",
+            "mainQuestion": "2.3.5.2.Did the hull structure assessment include a fatigue assessment?",
+            "subQuestion": [
+              {
+                "subName": "Did the hull structure assessment include a fatigue assessment?",
+                "type": "TextArea",
+                "sid": "subq.2.3.5.2.1",
+                "information": "TSI",
+                "entrymethod": "Manual",
+                "entryorgin": "Vessel",
+                "specification": "100",
+                "qid": "Q512",
+                "controlname": "textarea3",
+                "subcheckbox": false,
+                "inprogress": false,
+                "completed": false,
+                "isshipvisit": false,
+                "isinternal": false,
+                "isexternal": false,
+                "ismanagment": false,
+                "isvslcertificate": false,
+                "isincident": false,
+                "ispms": false,
+                "answer": ""
+              }
+            ],
+            "qid": "MQ45",
+            "inprogress": false,
+            "completed": false,
+            "isshipvisit": false,
+            "isinternal": false,
+            "isexternal": false,
+            "ismanagment": false,
+            "isvslcertificate": false,
+            "isincident": false,
+            "ispms": false,
+            "answer": ""
+          },
+          {
+            "mainQuestion": "2.3.5.3.What is the date range for the survey for issue of the CAP ratings?",
             "type": "formGroup8",
             "subQuestion": [
               {
@@ -950,7 +996,7 @@
                 "information": "TSI",
                 "entrymethod": "Manual",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q47",
                 "controlname": "date13",
                 "subcheckbox": false,
@@ -972,7 +1018,7 @@
                 "information": "TSI",
                 "entrymethod": "Manual",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q48",
                 "controlname": "date14",
                 "subcheckbox": false,
@@ -1001,7 +1047,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "2.3.5.4. Which classification society issued the CAP rating certificate?",
+            "mainQuestion": "2.3.5.4.Which classification society issued the CAP rating certificate?",
             "type": "formGroup9",
             "subQuestion": [
               {
@@ -1088,44 +1134,6 @@
             "isincident": false,
             "ispms": false,
             "answer": ""
-          },
-          {
-            "mainQuestion": "2.3.5.2. Did the hull structure assessment include a fatigue assessment?",
-            "subQuestion": [
-              {
-                "subName": "Did the hull structure assessment include a fatigue assessment?",
-                "type": "TextArea",
-                "sid": "subq.2.3.5.2.1",
-                "information": "TSI",
-                "entrymethod": "Manual",
-                "entryorgin": "Vessel",
-                "specification": "100",
-                "qid": "Q512",
-                "controlname": "textarea3",
-                "subcheckbox": false,
-                "inprogress": false,
-                "completed": false,
-                "isshipvisit": false,
-                "isinternal": false,
-                "isexternal": false,
-                "ismanagment": false,
-                "isvslcertificate": false,
-                "isincident": false,
-                "ispms": false,
-                "answer": ""
-              }
-            ],
-            "qid": "MQ45",
-            "inprogress": false,
-            "completed": false,
-            "isshipvisit": false,
-            "isinternal": false,
-            "isexternal": false,
-            "ismanagment": false,
-            "isvslcertificate": false,
-            "isincident": false,
-            "ispms": false,
-            "answer": ""
           }
         ],
         "formGroup": "FormGroup2",
@@ -1141,10 +1149,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "2.5. Management of Change",
+        "subHeaders": "2.5.Management of Change",
         "question": [
           {
-            "mainQuestion": "2.5.1.1. Have any structural changes been made to the vessel and/or its fittings during the preceding twelve months?",
+            "mainQuestion": "2.5.1.1.Have any structural changes been made to the vessel and/or its fittings during the preceding twelve months?",
             "type": "formGroup24",
             "subQuestion": [
               {
@@ -1193,21 +1201,22 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "MGC",
             "qid": "MQ135",
             "inprogress": false,
             "completed": false,
             "isshipvisit": false,
             "isinternal": false,
             "isexternal": false,
-            "ismanagment": false,
+            "ismanagment": true,
             "isvslcertificate": false,
             "isincident": false,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "2.5.1.2. Has any equipment been retrofitted to the vessel during the previous twelve months?",
+            "mainQuestion": "2.5.1.2.Has any equipment been retrofitted to the vessel during the previous twelve months?",
             "type": "formGroup25",
             "subQuestion": [
               {
@@ -1254,6 +1263,7 @@
                 "answer": ""
               }
             ],
+            "specification": "MGC",
             "qid": "MQ138",
             "inprogress": false,
             "completed": false,
@@ -1267,7 +1277,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "2.5.1.3. Has any equipment listed on Safety Equipment Certificate form E, Safety Radio Certificate form R, IOPP Certificate form A/B been replaced on a non like for like basis during the preceding twelve months?",
+            "mainQuestion": "2.5.1.3.Has any equipment listed on Safety Equipment Certificate form E, Safety Radio Certificate form R, IOPP Certificate form A/B been replaced on a non like for like basis during the preceding twelve months?",
             "type": "formGroup26",
             "subQuestion": [
               {
@@ -1313,6 +1323,7 @@
                 "answer": ""
               }
             ],
+            "specification": "MGC",
             "qid": "MQ141",
             "inprogress": false,
             "completed": false,
@@ -1326,7 +1337,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "2.5.1.4. Has any equipment been decommissioned during the preceding twelve months?",
+            "mainQuestion": "2.5.1.4.Has any equipment been decommissioned during the preceding twelve months?",
             "type": "formGroup27",
             "subQuestion": [
               {
@@ -1372,6 +1383,7 @@
                 "answer": ""
               }
             ],
+            "specification": "MGC",
             "qid": "MQ144",
             "inprogress": false,
             "completed": false,
@@ -1398,10 +1410,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "2.6. Statutory Management Plans",
+        "subHeaders": "2.6.Statutory Management Plans",
         "question": [
           {
-            "mainQuestion": "2.6.2.  Is the vessel provided with a Volatile Organic Compounds (VOC) Management Plan?",
+            "mainQuestion": "2.6.2. Is the vessel provided with a Volatile Organic Compounds (VOC) Management Plan?",
             "type": "formGroup113",
             "subQuestion": [
               {
@@ -1409,6 +1421,7 @@
                 "type": "Select",
                 "sid": "subq.2.6.2.1",
                 "information": "",
+                "entryorgin": "Vessel",
                 "specification": "MSI",
                 "responsearry": ["Yes", "No"],
                 "qid": "Q148",
@@ -1452,10 +1465,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "2.7. Safety Management System",
+        "subHeaders": "2.7.Safety Management System",
         "question": [
           {
-            "mainQuestion": "2.7.1.1. In what language(s) is the SMS provided on board?",
+            "mainQuestion": "2.7.1.1.In what language(s) is the SMS provided on board?",
             "type": "formGroup28",
             "subQuestion": [
               {
@@ -1588,7 +1601,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "2.7.1.2. What is the common working language onboard?",
+            "mainQuestion": "2.7.1.2.What is the common working language onboard?",
             "type": "formGroup29",
             "subQuestion": [
               {
@@ -1676,10 +1689,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "2.8. General Information",
+        "subHeaders": "2.8.General Information",
         "question": [
           {
-            "mainQuestion": "2.8.2.  Please specify the last three Port State Control (PSC) inspections",
+            "mainQuestion": "2.8.2. Please specify the last three Port State Control (PSC) inspections",
             "type": "formGroup30",
             "subQuestion": [
               {
@@ -1709,7 +1722,7 @@
                 "sid": "subq.2.8.2.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q156",
                 "controlname": "date27",
                 "subcheckbox": false,
@@ -2664,6 +2677,7 @@
                   "TARTUS OIL TERMINAL",
                   "GRAND TURK ISLAND",
                   "PROVIDENCIALES",
+                  "st.johnsd",
                   "KPEME",
                   "LOME",
                   "BANGKOK",
@@ -2983,13 +2997,14 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "EXT",
             "qid": "MQ154",
             "inprogress": false,
             "completed": false,
             "isshipvisit": false,
             "isinternal": false,
-            "isexternal": false,
+            "isexternal": true,
             "ismanagment": false,
             "isvslcertificate": false,
             "isincident": false,
@@ -3022,13 +3037,13 @@
   },
   {
     "uniqueid": "H3",
-    "header": "3. Crew Management",
+    "header": "3.Crew Management",
     "values": [
       {
-        "subHeaders": "3.1. Crew Management",
+        "subHeaders": "3.1.Crew Management",
         "question": [
           {
-            "mainQuestion": "3.1.1.1. What is the minimum complement required by the Minimum Safe Manning Document?",
+            "mainQuestion": "3.1.1.1.What is the minimum complement required by the Minimum Safe Manning Document?",
             "type": "formGroup112",
             "subQuestion": [
               {
@@ -3277,7 +3292,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.1.3.2.  What is the company standard manning level for the vessel during routine operations?",
+            "mainQuestion": "3.1.3.2. What is the company standard manning level for the vessel during routine operations?",
             "type": "formGroup10",
             "subQuestion": [
               {
@@ -3348,7 +3363,7 @@
                 "answer": ""
               },
               {
-                "subName": "Electricians, ETO’s and specialist cargo engineers?",
+                "subName": "Electricians, ETO’s  and specialist cargo engineers?",
                 "type": "Select",
                 "sid": "subq.3.1.3.2.4",
                 "information": "MSI",
@@ -3515,7 +3530,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.1.3.3. Does the SMS include the provision of additional manning, over and above the company standard complement, for continous/extended/repeated STS operations?",
+            "mainQuestion": "3.1.3.3.Does the SMS include the provision of additional manning, over and above the company standard complement, for continous/extended/repeated STS operations?",
             "type": "formGroup11",
             "subQuestion": [
               {
@@ -3634,7 +3649,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.1.3.4. Does the SMS include the provision of additional manning, over and above the company standard complement for continuous/extended/repeated inter-harbour operations and/or short voyages of less than 24 hours?",
+            "mainQuestion": "3.1.3.4.Does the SMS include the provision of additional manning, over and above the company standard complement for continuous/extended/repeated inter-harbour operations and/or short voyages of less than 24 hours?",
             "type": "formGroup12",
             "subQuestion": [
               {
@@ -3759,7 +3774,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.1.3.5. Does the SMS inclue the provision of additional manning, over and above company standard manning level, for operations requiring implementation of additional security measures?",
+            "mainQuestion": "3.1.3.5.Does the SMS inclue the provision of additional manning, over and above company standard manning level, for operations requiring implementation of additional security measures?",
             "type": "formGroup13",
             "subQuestion": [
               {
@@ -3884,7 +3899,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.1.3.6. Does the SMS include the provision for additional manning for any other operations?",
+            "mainQuestion": "3.1.3.6.Does the SMS include the provision for additional manning for any other operations?",
             "type": "formGroup14",
             "subQuestion": [
               {
@@ -4034,7 +4049,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.1.3.7. What is the minimum interval required between the relief of the senior officers from the same department",
+            "mainQuestion": "3.1.3.7.What is the minimum interval required between the relief of the senior officers from the same department",
             "type": "formGroup15",
             "subQuestion": [
               {
@@ -4089,10 +4104,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "3.2. Crew Evaluation",
+        "subHeaders": "3.2.Crew Evaluation",
         "question": [
           {
-            "mainQuestion": "3.2.1. Has a static navigational assessment been conducted by a member of the shore staff during the preceding twelve months?",
+            "mainQuestion": "3.2.1.Has a static navigational assessment been conducted by a member of the shore staff during the preceding twelve months?",
             "type": "formGroup16",
             "subQuestion": [
               {
@@ -4124,7 +4139,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q99",
                 "controlname": "date15",
                 "subcheckbox": false,
@@ -4140,12 +4155,13 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "RAF,TSI",
             "qid": "MQ97",
             "inprogress": false,
             "completed": false,
-            "isshipvisit": false,
-            "isinternal": false,
+            "isshipvisit": true,
+            "isinternal": true,
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
@@ -4154,7 +4170,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.2.2. Has a dynamic navigational assessment been conducted by a member of the shore staff during the preceding twenty four months?",
+            "mainQuestion": "3.2.2.Has a dynamic navigational assessment been conducted by a member of the shore staff during the preceding twenty four months?",
             "type": "formGroup17",
             "subQuestion": [
               {
@@ -4164,7 +4180,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q101",
                 "controlname": "date16",
                 "subcheckbox": false,
@@ -4186,7 +4202,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q102",
                 "controlname": "date17",
                 "subcheckbox": false,
@@ -4246,6 +4262,7 @@
                 "qid": "Q104",
                 "controlname": "multiSelect1",
                 "subcheckbox": false,
+                "multiAnswer": [],
                 "inprogress": false,
                 "completed": false,
                 "isshipvisit": false,
@@ -4280,12 +4297,13 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "RAF,TSI",
             "qid": "MQ100",
             "inprogress": false,
             "completed": false,
-            "isshipvisit": false,
-            "isinternal": false,
+            "isshipvisit": true,
+            "isinternal": true,
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
@@ -4294,7 +4312,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.2.3. Has a dynamic navigational assessment been conducted by a third party contractor during the preceding twelve months?",
+            "mainQuestion": "3.2.3.Has a dynamic navigational assessment been conducted by a third party contractor during the preceding twelve months?",
             "type": "formGroup18",
             "subQuestion": [
               {
@@ -4326,7 +4344,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q107",
                 "controlname": "date18",
                 "subcheckbox": false,
@@ -4348,7 +4366,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q108",
                 "controlname": "date19",
                 "subcheckbox": false,
@@ -4408,6 +4426,7 @@
                 "qid": "Q110",
                 "controlname": "multiSelect2",
                 "subcheckbox": false,
+                "multiAnswer": [],
                 "inprogress": false,
                 "completed": false,
                 "isshipvisit": false,
@@ -4420,13 +4439,14 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "EXT,RAF",
             "qid": "MQ105",
             "inprogress": false,
             "completed": false,
             "isshipvisit": false,
-            "isinternal": false,
-            "isexternal": false,
+            "isinternal": true,
+            "isexternal": true,
             "ismanagment": false,
             "isvslcertificate": false,
             "isincident": false,
@@ -4434,7 +4454,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.2.4. Has an unannounced remote navigational assessment, which included review of VDR u0026 ECDIS data, been conducted by an independent contractor or specialist company representative during the preceding twelve months",
+            "mainQuestion": "3.2.4.Has an unannounced remote navigational assessment, which included review of VDR u0026 ECDIS data, been conducted by an independent contractor or specialist company representative during the preceding twelve months",
             "type": "formGroup19",
             "subQuestion": [
               {
@@ -4465,7 +4485,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q113",
                 "controlname": "date20",
                 "subcheckbox": false,
@@ -4502,6 +4522,7 @@
                 "qid": "Q113",
                 "controlname": "multiSelect3",
                 "subcheckbox": false,
+                "multiAnswer": [],
                 "inprogress": false,
                 "completed": false,
                 "isshipvisit": false,
@@ -4514,13 +4535,14 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "EXT,RAF",
             "qid": "MQ111",
             "inprogress": false,
             "completed": false,
             "isshipvisit": false,
-            "isinternal": false,
-            "isexternal": false,
+            "isinternal": true,
+            "isexternal": true,
             "ismanagment": false,
             "isvslcertificate": false,
             "isincident": false,
@@ -4528,7 +4550,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.2.5. Has a comprehensive cargo audit in accordance with TMSA 6.4.2 been conducted by a member of the shore staff during the preceding twelve months? (include all operations observed and evaluated)",
+            "mainQuestion": "3.2.5.Has a comprehensive cargo audit in accordance with TMSA 6.4.2 been conducted by a member of the shore staff during the preceding twelve months? (include all operations observed and evaluated)",
             "type": "formGroup20",
             "subQuestion": [
               {
@@ -4560,7 +4582,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q117",
                 "controlname": "date21",
                 "subcheckbox": false,
@@ -4582,7 +4604,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q118",
                 "controlname": "date22",
                 "subcheckbox": false,
@@ -4624,6 +4646,7 @@
                 "qid": "Q119",
                 "controlname": "multiSelect4",
                 "subcheckbox": false,
+                "multiAnswer": [],
                 "inprogress": false,
                 "completed": false,
                 "isshipvisit": false,
@@ -4636,12 +4659,13 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "RAF,TSI",
             "qid": "MQ115",
             "inprogress": false,
             "completed": false,
-            "isshipvisit": false,
-            "isinternal": false,
+            "isshipvisit": true,
+            "isinternal": true,
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
@@ -4650,7 +4674,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.2.6. Has a comprehensive engineering audit in accordance with TMSA 4.4.5 been conducted by a member of the shore staff during the preceding twelve months? (include all operations observed and evaluated)",
+            "mainQuestion": "3.2.6.Has a comprehensive engineering audit in accordance with TMSA 4.4.5 been conducted by a member of the shore staff during the preceding twelve months? (include all operations observed and evaluated)",
             "type": "formGroup21",
             "subQuestion": [
               {
@@ -4682,7 +4706,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q122",
                 "controlname": "date23",
                 "subcheckbox": false,
@@ -4704,7 +4728,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q123",
                 "controlname": "date24",
                 "subcheckbox": false,
@@ -4740,6 +4764,7 @@
                 "qid": "Q124",
                 "controlname": "multiSelect5",
                 "subcheckbox": false,
+                "multiAnswer": [],
                 "inprogress": false,
                 "completed": false,
                 "isshipvisit": false,
@@ -4752,12 +4777,13 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "RAF,TSI",
             "qid": "MQ120",
             "inprogress": false,
             "completed": false,
-            "isshipvisit": false,
-            "isinternal": false,
+            "isshipvisit": true,
+            "isinternal": true,
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
@@ -4766,7 +4792,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.2.7. Has a comprehensive mooring and anchoring audit in accordance with TMSA 6A.4.3 been conducted by a member of theshore staff during the preceding twelve months? (include all operations observed and evaluated)",
+            "mainQuestion": "3.2.7.Has a comprehensive mooring and anchoring audit in accordance with TMSA 6A.4.3 been conducted by a member of theshore staff during the preceding twelve months? (include all operations observed and evaluated)",
             "type": "formGroup22",
             "subQuestion": [
               {
@@ -4798,7 +4824,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q127",
                 "controlname": "date25",
                 "subcheckbox": false,
@@ -4820,7 +4846,7 @@
                 "information": "QCG",
                 "entrymethod": "Auto",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q128",
                 "controlname": "date26",
                 "subcheckbox": false,
@@ -4871,12 +4897,13 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "RAF,TSI",
             "qid": "MQ125",
             "inprogress": false,
             "completed": false,
-            "isshipvisit": false,
-            "isinternal": false,
+            "isshipvisit": true,
+            "isinternal": true,
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
@@ -4885,7 +4912,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.2.8. Has a Behavioural Competency Assessment and Verification process (in alignment with the OCIMF / INTERTANKO best practice guidance) been instigated onboard?",
+            "mainQuestion": "3.2.8.Has a Behavioural Competency Assessment and Verification process (in alignment with the OCIMF / INTERTANKO best practice guidance) been instigated onboard?",
             "type": "formGroup23",
             "subQuestion": [
               {
@@ -4964,10 +4991,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "3.3. Crew Training",
+        "subHeaders": "3.3.Crew Training",
         "question": [
           {
-            "mainQuestion": "3.3.1. Have the master and all navigation officers onboard at the time of the inspection attended a BTM/BRM training course which included navigational exercises conducted within a Bridge Simulator within the past five years?",
+            "mainQuestion": "3.3.1.Have the master and all navigation officers onboard at the time of the inspection attended a BTM/BRM training course which included navigational exercises conducted within a Bridge Simulator within the past five years?",
             "type": "formGroup31",
             "subQuestion": [
               {
@@ -5047,7 +5074,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.3.3. Have the master, all deck officers and cargo engineers onboard at the time of the inspection attended a shore-based cargo simulator course appropriate to the vessel type in the previous five years?",
+            "mainQuestion": "3.3.3.Have the master, all deck officers and cargo engineers onboard at the time of the inspection attended a shore-based cargo simulator course appropriate to the vessel type in the previous five years?",
             "type": "formGroup32",
             "subQuestion": [
               {
@@ -5107,7 +5134,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.3.4. Had the Chief Engineer and all engineer officers attended a shore-based engine room management simulator course covering routine and emergency machinery operations within the previous five years?",
+            "mainQuestion": "3.3.4.Had the Chief Engineer and all engineer officers attended a shore-based engine room management simulator course covering routine and emergency machinery operations within the previous five years?",
             "type": "formGroup33",
             "subQuestion": [
               {
@@ -5179,10 +5206,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "3.4. Crew Compliance",
+        "subHeaders": "3.4.Crew Compliance",
         "question": [
           {
-            "mainQuestion": "3.4.2.1. What was the date of the last drug test conducted onboard by a third party testing organisation or by onboard collecting of samples for later analysis?",
+            "mainQuestion": "3.4.2.1.What was the date of the last drug test conducted onboard by a third party testing organisation or by onboard collecting of samples for later analysis?",
             "type": "formGroup34",
             "subQuestion": [
               {
@@ -5191,7 +5218,7 @@
                 "sid": "subq.3.4.2.1.1",
                 "entrymethod": "Manual",
                 "entryorgin": "Vessel",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q173",
                 "controlname": "date28",
                 "subcheckbox": false,
@@ -5242,14 +5269,15 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.4.2.2. What was the date of the last unannounced alcohol test initiated by the vessel operator?",
+            "mainQuestion": "3.4.2.2.What was the date of the last unannounced alcohol test initiated by the vessel operator?",
             "type": "formGroup35",
             "subQuestion": [
               {
                 "subName": "Date of last unannounced alcohol test ?",
                 "type": "Date",
                 "sid": "subq.3.4.2.2.1",
-                "response": "30-11-2023",
+                "entryorgin": "Vessel",
+                "response": "12-01-2024",
                 "qid": "Q176",
                 "controlname": "date29",
                 "subcheckbox": false,
@@ -5268,6 +5296,7 @@
                 "subName": "What percentage of those onboard at the time were tested?",
                 "type": "Integer",
                 "sid": "subq.3.4.2.2.2",
+                "entryorgin": "Vessel",
                 "response": "Percentage",
                 "qid": "Q177",
                 "controlname": "integer4",
@@ -5298,7 +5327,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.4.2.3.  What is the maximum permitted BAC while onboard?",
+            "mainQuestion": "3.4.2.3. What is the maximum permitted BAC while onboard?",
             "type": "formGroup36",
             "subQuestion": [
               {
@@ -5336,7 +5365,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "3.4.2.4. Did any drug or alcohol tests conducted onboard during the previous twelve months result in a confirmed positive result for prohibited substances?",
+            "mainQuestion": "3.4.2.4.Did any drug or alcohol tests conducted onboard during the previous twelve months result in a confirmed positive result for prohibited substances?",
             "type": "formGroup37",
             "subQuestion": [
               {
@@ -5408,10 +5437,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "3.5. Crew Familiarisation",
+        "subHeaders": "3.5.Crew Familiarisation",
         "question": [
           {
-            "mainQuestion": "3.5.1.  How does the company ensure ECDIS type specific training is effectively delivered to the Master and navigation officers?",
+            "mainQuestion": "3.5.1. How does the company ensure ECDIS type specific training is effectively delivered to the Master and navigation officers?",
             "type": "formGroup38",
             "subQuestion": [
               {
@@ -5519,13 +5548,13 @@
   },
   {
     "uniqueid": "H4",
-    "header": "4. Navigation and Communication",
+    "header": "4.Navigation and Communication",
     "values": [
       {
-        "subHeaders": "4.1. Navigational Equipment",
+        "subHeaders": "4.1.Navigational Equipment",
         "question": [
           {
-            "mainQuestion": "4.1.1.  What is the primary means of navigation?",
+            "mainQuestion": "4.1.1. What is the primary means of navigation?",
             "type": "formGroup39",
             "subQuestion": [
               {
@@ -5568,7 +5597,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "4.1.11.  What is the primary means of navigation?",
+            "mainQuestion": "4.1.11. What is the primary means of navigation?",
             "type": "formGroup114",
             "subQuestion": [
               {
@@ -5620,10 +5649,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "4.2. Navigational Procedure",
+        "subHeaders": "4.2.Navigational Procedure",
         "question": [
           {
-            "mainQuestion": "4.2.2. Minimum dynamic under keel clearance",
+            "mainQuestion": "4.2.2.Minimum dynamic under keel clearance",
             "type": "formGroup40",
             "subQuestion": [
               {
@@ -5917,13 +5946,13 @@
   },
   {
     "uniqueid": "H5",
-    "header": "5. Safety Management",
+    "header": "5.Safety Management",
     "values": [
       {
-        "subHeaders": "5.2. Fixed Fire Protection Systems",
+        "subHeaders": "5.2.Fixed Fire Protection Systems",
         "question": [
           {
-            "mainQuestion": "5.2.4. What type of fixed fire extinguishing system is fitted in the machinery space?",
+            "mainQuestion": "5.2.4.What type of fixed fire extinguishing system is fitted in the machinery space?",
             "type": "formGroup41",
             "subQuestion": [
               {
@@ -5961,7 +5990,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "5.2.5. What type of fixed fire extinguishing system was fitted in the cargo pumproom, where fitted",
+            "mainQuestion": "5.2.5.What type of fixed fire extinguishing system was fitted in the cargo pumproom, where fitted",
             "type": "formGroup115",
             "subQuestion": [
               {
@@ -6000,7 +6029,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "5.2.13.  Is the vessel fitted with a machinery space fixed local application fire extinguishing system (generally, vessels of u003e2000 grt and with machinery space u003e500m3)",
+            "mainQuestion": "5.2.13. Is the vessel fitted with a machinery space fixed local application fire extinguishing system (generally, vessels of u003e2000 grt and with machinery space u003e500m3)",
             "type": "formGroup42",
             "subQuestion": [
               {
@@ -6052,10 +6081,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "5.6. Fixed and portable gas detecting systems",
+        "subHeaders": "5.6.Fixed and portable gas detecting systems",
         "question": [
           {
-            "mainQuestion": "5.6.4. Is the vessel outfitted in accordance with the IGF Code to use LNG as fuel?",
+            "mainQuestion": "5.6.4.Is the vessel outfitted in accordance with the IGF Code to use LNG as fuel?",
             "type": "formGroup43",
             "subQuestion": [
               {
@@ -6094,7 +6123,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "5.6.6. Are fixed O2 alarms fitted in inert gas generating spaces (chemical tankers only)",
+            "mainQuestion": "5.6.6.Are fixed O2 alarms fitted in inert gas generating spaces (chemical tankers only)",
             "type": "formGroup44",
             "subQuestion": [
               {
@@ -6146,10 +6175,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "5.7. Safety Management",
+        "subHeaders": "5.7.Safety Management",
         "question": [
           {
-            "mainQuestion": "5.7.2. How many near-miss reports have been submitted by vessel staff during the previous 12 months?",
+            "mainQuestion": "5.7.2.How many near-miss reports have been submitted by vessel staff during the previous 12 months?",
             "type": "formGroup82",
             "subQuestion": [
               {
@@ -6187,7 +6216,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.1. Have any of the following Incidents occurred during previous 12 months - A pollution incident that resulted in release to the environment of any substance covered by MARPOL Annex I, II, IV, V and VI in excess of that permitted by the applicable regulations.",
+            "mainQuestion": "5.7.1.1.Have any of the following Incidents occurred during previous 12 months - A pollution incident that resulted in release to the environment of any substance covered by MARPOL Annex I, II, IV, V and VI in excess of that permitted by the applicable regulations.",
             "type": "formGroup83",
             "subQuestion": [
               {
@@ -6217,7 +6246,7 @@
                 "sid": "subq.5.7.1.1.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q339",
                 "controlname": "date30",
                 "subcheckbox": false,
@@ -6280,7 +6309,7 @@
                 "sid": "subq.5.7.1.1.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q342",
                 "controlname": "date31",
                 "subcheckbox": false,
@@ -6296,7 +6325,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ337",
             "inprogress": false,
             "completed": false,
@@ -6305,12 +6335,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.2. Have any of the following Incidents occurred during previous 12 months - An uncontrolled release of LNG/LPG vapour.",
+            "mainQuestion": "5.7.1.2.Have any of the following Incidents occurred during previous 12 months - An uncontrolled release of LNG/LPG vapour.",
             "type": "formGroup84",
             "subQuestion": [
               {
@@ -6342,7 +6372,7 @@
                 "information": "MSI",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q345",
                 "controlname": "date32",
                 "subcheckbox": false,
@@ -6408,7 +6438,7 @@
                 "information": "MSI",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q348",
                 "controlname": "date33",
                 "subcheckbox": false,
@@ -6424,7 +6454,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ343",
             "inprogress": false,
             "completed": false,
@@ -6433,12 +6464,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.3. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been hard aground",
+            "mainQuestion": "5.7.1.3.Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been hard aground",
             "type": "formGroup85",
             "subQuestion": [
               {
@@ -6468,7 +6499,7 @@
                 "sid": "subq.5.7.1.3.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q351",
                 "controlname": "date34",
                 "subcheckbox": false,
@@ -6531,7 +6562,7 @@
                 "sid": "subq.5.7.1.3.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q354",
                 "controlname": "date35",
                 "subcheckbox": false,
@@ -6547,7 +6578,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ349",
             "inprogress": false,
             "completed": false,
@@ -6556,12 +6588,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.4. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had touched bottom",
+            "mainQuestion": "5.7.1.4.Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had touched bottom",
             "type": "formGroup86",
             "subQuestion": [
               {
@@ -6591,7 +6623,7 @@
                 "sid": "subq.5.7.1.4.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q357",
                 "controlname": "date36",
                 "subcheckbox": false,
@@ -6654,7 +6686,7 @@
                 "sid": "subq.5.7.1.4.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q360",
                 "controlname": "date37",
                 "subcheckbox": false,
@@ -6670,8 +6702,9 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
             "entryorgin": "",
+            "specification": "IVR",
             "qid": "MQ355",
             "inprogress": false,
             "completed": false,
@@ -6680,12 +6713,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.5. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been suspected of touching bottom.",
+            "mainQuestion": "5.7.1.5.Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been suspected of touching bottom.",
             "type": "formGroup87",
             "subQuestion": [
               {
@@ -6715,7 +6748,7 @@
                 "sid": "subq.5.7.1.5.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q363",
                 "controlname": "date38",
                 "subcheckbox": false,
@@ -6778,7 +6811,7 @@
                 "sid": "subq.5.7.1.5.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q366",
                 "controlname": "date39",
                 "subcheckbox": false,
@@ -6794,7 +6827,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ361",
             "inprogress": false,
             "completed": false,
@@ -6803,12 +6837,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.6. Have any of the following Incidents occurred during previous 12 months - A collision/allision with another vessel irrespective of whether damage had been caused to either vessel",
+            "mainQuestion": "5.7.1.6.Have any of the following Incidents occurred during previous 12 months - A collision/allision with another vessel irrespective of whether damage had been caused to either vessel",
             "type": "formGroup88",
             "subQuestion": [
               {
@@ -6838,7 +6872,7 @@
                 "sid": "subq.5.7.1.6.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q369",
                 "controlname": "date40",
                 "subcheckbox": false,
@@ -6901,7 +6935,7 @@
                 "sid": "subq.5.7.1.6.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q372",
                 "controlname": "date41",
                 "subcheckbox": false,
@@ -6917,7 +6951,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ367",
             "inprogress": false,
             "completed": false,
@@ -6926,12 +6961,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.7. Have any of the following Incidents occurred during previous 12 months - An allision with a fixed or floating structure or navigation mark irrespective of whether damage had been caused to the vessel or the fixed or floating structure or navigation mark.",
+            "mainQuestion": "5.7.1.7.Have any of the following Incidents occurred during previous 12 months - An allision with a fixed or floating structure or navigation mark irrespective of whether damage had been caused to the vessel or the fixed or floating structure or navigation mark.",
             "type": "formGroup89",
             "subQuestion": [
               {
@@ -6961,7 +6996,7 @@
                 "sid": "subq.5.7.1.7.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q375",
                 "controlname": "date42",
                 "subcheckbox": false,
@@ -7024,7 +7059,7 @@
                 "sid": "subq.5.7.1.7.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q378",
                 "controlname": "date43",
                 "subcheckbox": false,
@@ -7040,7 +7075,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ373",
             "inprogress": false,
             "completed": false,
@@ -7049,12 +7085,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.8. Have any of the following Incidents occurred during previous 12 months - An allision with a terminal during a berthing manoeuvre which resulted in damage to either the vessel or the terminal structure.",
+            "mainQuestion": "5.7.1.8.Have any of the following Incidents occurred during previous 12 months - An allision with a terminal during a berthing manoeuvre which resulted in damage to either the vessel or the terminal structure.",
             "type": "formGroup90",
             "subQuestion": [
               {
@@ -7084,7 +7120,7 @@
                 "sid": "subq.5.7.1.8.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q381",
                 "controlname": "date44",
                 "subcheckbox": false,
@@ -7147,7 +7183,7 @@
                 "sid": "subq.5.7.1.8.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q384",
                 "controlname": "date45",
                 "subcheckbox": false,
@@ -7163,7 +7199,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ379",
             "inprogress": false,
             "completed": false,
@@ -7172,12 +7209,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.9. Have any of the following Incidents occurred during previous 12 months - A breach of the hull plating which did not result in flooding.",
+            "mainQuestion": "5.7.1.9.Have any of the following Incidents occurred during previous 12 months - A breach of the hull plating which did not result in flooding.",
             "type": "formGroup91",
             "subQuestion": [
               {
@@ -7207,7 +7244,7 @@
                 "sid": "subq.5.7.1.9.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q387",
                 "controlname": "date46",
                 "subcheckbox": false,
@@ -7270,7 +7307,7 @@
                 "sid": "subq.5.7.1.9.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q390",
                 "controlname": "date47",
                 "subcheckbox": false,
@@ -7286,7 +7323,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ385",
             "inprogress": false,
             "completed": false,
@@ -7295,12 +7333,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.10. Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in open waters.",
+            "mainQuestion": "5.7.1.10.Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in open waters.",
             "type": "formGroup92",
             "subQuestion": [
               {
@@ -7330,7 +7368,7 @@
                 "sid": "subq.5.7.1.10.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q393",
                 "controlname": "date48",
                 "subcheckbox": false,
@@ -7393,7 +7431,7 @@
                 "sid": "subq.5.7.1.10.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q396",
                 "controlname": "date49",
                 "subcheckbox": false,
@@ -7409,7 +7447,9 @@
                 "answer": ""
               }
             ],
-            "qid": "Q391",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
+            "qid": "MQ391",
             "inprogress": false,
             "completed": false,
             "isshipvisit": false,
@@ -7417,12 +7457,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.11. Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in open waters.",
+            "mainQuestion": "5.7.1.11.Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in open waters.",
             "type": "formGroup93",
             "subQuestion": [
               {
@@ -7452,7 +7492,7 @@
                 "sid": "subq.5.7.1.11.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q399",
                 "controlname": "date50",
                 "subcheckbox": false,
@@ -7515,7 +7555,7 @@
                 "sid": "subq.5.7.1.11.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q402",
                 "controlname": "date51",
                 "subcheckbox": false,
@@ -7531,7 +7571,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ397",
             "inprogress": false,
             "completed": false,
@@ -7540,12 +7581,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.12. Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in territorial waters or within 12 miles of land.",
+            "mainQuestion": "5.7.1.12.Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in territorial waters or within 12 miles of land.",
             "type": "formGroup94",
             "subQuestion": [
               {
@@ -7575,7 +7616,7 @@
                 "sid": "subq.5.7.1.12.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q405",
                 "controlname": "date52",
                 "subcheckbox": false,
@@ -7638,7 +7679,7 @@
                 "sid": "subq.5.7.1.12.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q408",
                 "controlname": "date53",
                 "subcheckbox": false,
@@ -7654,7 +7695,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ403",
             "inprogress": false,
             "completed": false,
@@ -7663,12 +7705,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.13. Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in territorial waters or within 12 miles of land.",
+            "mainQuestion": "5.7.1.13.Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in territorial waters or within 12 miles of land.",
             "type": "formGroup95",
             "subQuestion": [
               {
@@ -7698,7 +7740,7 @@
                 "sid": "subq.5.7.1.13.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q411",
                 "controlname": "date54",
                 "subcheckbox": false,
@@ -7761,7 +7803,7 @@
                 "sid": "subq.5.7.1.13.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q414",
                 "controlname": "date55",
                 "subcheckbox": false,
@@ -7777,7 +7819,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ409",
             "inprogress": false,
             "completed": false,
@@ -7786,12 +7829,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.14. Have any of the following Incidents occurred during previous 12 months - Blackout while at a berth or at anchor.",
+            "mainQuestion": "5.7.1.14.Have any of the following Incidents occurred during previous 12 months - Blackout while at a berth or at anchor.",
             "type": "formGroup96",
             "subQuestion": [
               {
@@ -7821,7 +7864,7 @@
                 "sid": "subq.5.7.1.14.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q417",
                 "controlname": "date56",
                 "subcheckbox": false,
@@ -7884,7 +7927,7 @@
                 "sid": "subq.5.7.1.14.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q420",
                 "controlname": "date57",
                 "subcheckbox": false,
@@ -7900,7 +7943,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ415",
             "inprogress": false,
             "completed": false,
@@ -7909,12 +7953,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.15. Have any of the following Incidents occurred during previous 12 months - Total loss, even momentarily, of steering capability at any time while the vessel was underway.",
+            "mainQuestion": "5.7.1.15.Have any of the following Incidents occurred during previous 12 months - Total loss, even momentarily, of steering capability at any time while the vessel was underway.",
             "type": "formGroup97",
             "subQuestion": [
               {
@@ -7944,7 +7988,7 @@
                 "sid": "subq.5.7.1.15.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q423",
                 "controlname": "date58",
                 "subcheckbox": false,
@@ -8007,7 +8051,7 @@
                 "sid": "subq.5.7.1.15.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q426",
                 "controlname": "date59",
                 "subcheckbox": false,
@@ -8023,7 +8067,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ421",
             "inprogress": false,
             "completed": false,
@@ -8032,12 +8077,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.16. Have any of the following Incidents occurred during previous 12 months - Contained hydrocarbon/chemical spill greater than 1.0m3 anywhere onboard (deck, pumproom, machinery spaces, mooring deck, etc.)",
+            "mainQuestion": "5.7.1.16.Have any of the following Incidents occurred during previous 12 months - Contained hydrocarbon/chemical spill greater than 1.0m3 anywhere onboard (deck, pumproom, machinery spaces, mooring deck, etc.)",
             "type": "formGroup98",
             "subQuestion": [
               {
@@ -8067,7 +8112,7 @@
                 "sid": "subq.5.7.1.16.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q429",
                 "controlname": "date60",
                 "subcheckbox": false,
@@ -8130,7 +8175,7 @@
                 "sid": "subq.5.7.1.16.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q432",
                 "controlname": "date61",
                 "subcheckbox": false,
@@ -8146,7 +8191,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ427",
             "inprogress": false,
             "completed": false,
@@ -8155,12 +8201,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.17. Have any of the following Incidents occurred during previous 12 months - Loss of one or both anchors",
+            "mainQuestion": "5.7.1.17.Have any of the following Incidents occurred during previous 12 months - Loss of one or both anchors",
             "type": "formGroup99",
             "subQuestion": [
               {
@@ -8190,7 +8236,7 @@
                 "sid": "subq.5.7.1.17.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q435",
                 "controlname": "date62",
                 "subcheckbox": false,
@@ -8253,7 +8299,7 @@
                 "sid": "subq.5.7.1.17.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q438",
                 "controlname": "date63",
                 "subcheckbox": false,
@@ -8269,7 +8315,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ433",
             "inprogress": false,
             "completed": false,
@@ -8278,12 +8325,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.18. Have any of the following Incidents occurred during previous 12 months - Damage to a windlass restricting the ability to recover an anchor without repairs.",
+            "mainQuestion": "5.7.1.18.Have any of the following Incidents occurred during previous 12 months - Damage to a windlass restricting the ability to recover an anchor without repairs.",
             "type": "formGroup100",
             "subQuestion": [
               {
@@ -8313,7 +8360,7 @@
                 "sid": "subq.5.7.1.18.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q441",
                 "controlname": "date64",
                 "subcheckbox": false,
@@ -8376,7 +8423,7 @@
                 "sid": "subq.5.7.1.18.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q444",
                 "controlname": "date65",
                 "subcheckbox": false,
@@ -8392,7 +8439,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ439",
             "inprogress": false,
             "completed": false,
@@ -8401,12 +8449,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.19. Have any of the following Incidents occurred during previous 12 months - Mooring tail/line (ship supplied) failure while moored at a conventional/CBM berth or while conducting STS operations",
+            "mainQuestion": "5.7.1.19.Have any of the following Incidents occurred during previous 12 months - Mooring tail/line (ship supplied) failure while moored at a conventional/CBM berth or while conducting STS operations",
             "type": "formGroup101",
             "subQuestion": [
               {
@@ -8436,7 +8484,7 @@
                 "sid": "subq.5.7.1.19.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q447",
                 "controlname": "date66",
                 "subcheckbox": false,
@@ -8499,7 +8547,7 @@
                 "sid": "subq.5.7.1.19.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q450",
                 "controlname": "date67",
                 "subcheckbox": false,
@@ -8515,7 +8563,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ445",
             "inprogress": false,
             "completed": false,
@@ -8524,12 +8573,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.20. Have any of the following Incidents occurred during previous 12 months - Break out/away from a berth resulting in the vessel being out of the normal operating envelope for the Marine Loading Arms (MLA) or hoses.",
+            "mainQuestion": "5.7.1.20.Have any of the following Incidents occurred during previous 12 months - Break out/away from a berth resulting in the vessel being out of the normal operating envelope for the Marine Loading Arms (MLA) or hoses.",
             "type": "formGroup102",
             "subQuestion": [
               {
@@ -8559,7 +8608,7 @@
                 "sid": "subq.5.7.1.20.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q453",
                 "controlname": "date68",
                 "subcheckbox": false,
@@ -8622,7 +8671,7 @@
                 "sid": "subq.5.7.1.20.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q456",
                 "controlname": "date69",
                 "subcheckbox": false,
@@ -8638,7 +8687,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ451",
             "inprogress": false,
             "completed": false,
@@ -8647,12 +8697,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.21. Have any of the following Incidents occurred during previous 12 months - Cargo hose crane wire failure while connecting or disconnecting hoses at a terminal.",
+            "mainQuestion": "5.7.1.21.Have any of the following Incidents occurred during previous 12 months - Cargo hose crane wire failure while connecting or disconnecting hoses at a terminal.",
             "type": "formGroup103",
             "subQuestion": [
               {
@@ -8682,7 +8732,7 @@
                 "sid": "subq.5.7.1.21.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q459",
                 "controlname": "date70",
                 "subcheckbox": false,
@@ -8745,7 +8795,7 @@
                 "sid": "subq.5.7.1.21.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q462",
                 "controlname": "date71",
                 "subcheckbox": false,
@@ -8761,7 +8811,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ457",
             "inprogress": false,
             "completed": false,
@@ -8770,12 +8821,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.22. Have any of the following Incidents occurred during previous 12 months - Accommodation ladder hoisting wire failure.",
+            "mainQuestion": "5.7.1.22.Have any of the following Incidents occurred during previous 12 months - Accommodation ladder hoisting wire failure.",
             "type": "formGroup104",
             "subQuestion": [
               {
@@ -8805,7 +8856,7 @@
                 "sid": "subq.5.7.1.22.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q465",
                 "controlname": "date72",
                 "subcheckbox": false,
@@ -8868,7 +8919,7 @@
                 "sid": "subq.5.7.1.22.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q468",
                 "controlname": "date73",
                 "subcheckbox": false,
@@ -8884,7 +8935,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ463",
             "inprogress": false,
             "completed": false,
@@ -8893,12 +8945,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.23. Have any of the following Incidents occurred during previous 12 months - Notification of an investigation into an alleged violation of international regulations such as MARPOL / COLREGS.",
+            "mainQuestion": "5.7.1.23.Have any of the following Incidents occurred during previous 12 months - Notification of an investigation into an alleged violation of international regulations such as MARPOL / COLREGS.",
             "type": "formGroup105",
             "subQuestion": [
               {
@@ -8928,7 +8980,7 @@
                 "sid": "subq.5.7.1.23.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q471",
                 "controlname": "date74",
                 "subcheckbox": false,
@@ -8991,7 +9043,7 @@
                 "sid": "subq.5.7.1.23.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q474",
                 "controlname": "date75",
                 "subcheckbox": false,
@@ -9007,7 +9059,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ469",
             "inprogress": false,
             "completed": false,
@@ -9016,12 +9069,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.24. Have any of the following Incidents occurred during previous 12 months - Structural or pipeline system failure causing migration of liquid within or between the cargo, ballast or bunker spaces",
+            "mainQuestion": "5.7.1.24.Have any of the following Incidents occurred during previous 12 months - Structural or pipeline system failure causing migration of liquid within or between the cargo, ballast or bunker spaces",
             "type": "formGroup106",
             "subQuestion": [
               {
@@ -9051,7 +9104,7 @@
                 "sid": "subq.5.7.1.24.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q477",
                 "controlname": "date76",
                 "subcheckbox": false,
@@ -9114,7 +9167,7 @@
                 "sid": "subq.5.7.1.24.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q480",
                 "controlname": "date77",
                 "subcheckbox": false,
@@ -9130,7 +9183,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ475",
             "inprogress": false,
             "completed": false,
@@ -9139,12 +9193,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.25. Have any of the following Incidents occurred during previous 12 months - Contamination of ballast water by hydraulic oil",
+            "mainQuestion": "5.7.1.25.Have any of the following Incidents occurred during previous 12 months - Contamination of ballast water by hydraulic oil",
             "type": "formGroup107",
             "subQuestion": [
               {
@@ -9174,7 +9228,7 @@
                 "sid": "subq.5.7.1.25.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q483",
                 "controlname": "date78",
                 "subcheckbox": false,
@@ -9237,7 +9291,7 @@
                 "sid": "subq.5.7.1.25.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q486",
                 "controlname": "date79",
                 "subcheckbox": false,
@@ -9253,7 +9307,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ481",
             "inprogress": false,
             "completed": false,
@@ -9262,12 +9317,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.26. Have any of the following Incidents occurred during previous 12 months - Flooding of any space directly from the sea.",
+            "mainQuestion": "5.7.1.26.Have any of the following Incidents occurred during previous 12 months - Flooding of any space directly from the sea.",
             "type": "formGroup108",
             "subQuestion": [
               {
@@ -9297,7 +9352,7 @@
                 "sid": "subq.5.7.1.26.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q489",
                 "controlname": "date80",
                 "subcheckbox": false,
@@ -9360,7 +9415,7 @@
                 "sid": "subq.5.7.1.26.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q492",
                 "controlname": "date81",
                 "subcheckbox": false,
@@ -9376,7 +9431,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ487",
             "inprogress": false,
             "completed": false,
@@ -9385,12 +9441,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.27. Have any of the following Incidents occurred during previous 12 months - Fire or Explosion anywhere onboard.",
+            "mainQuestion": "5.7.1.27.Have any of the following Incidents occurred during previous 12 months - Fire or Explosion anywhere onboard.",
             "type": "formGroup109",
             "subQuestion": [
               {
@@ -9420,7 +9476,7 @@
                 "sid": "subq.5.7.1.27.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q495",
                 "controlname": "date82",
                 "subcheckbox": false,
@@ -9483,7 +9539,7 @@
                 "sid": "subq.5.7.1.27.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q498",
                 "controlname": "date83",
                 "subcheckbox": false,
@@ -9499,7 +9555,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ493",
             "inprogress": false,
             "completed": false,
@@ -9508,12 +9565,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.28. Have any of the following Incidents occurred during previous 12 months - A work related lost time injury.",
+            "mainQuestion": "5.7.1.28.Have any of the following Incidents occurred during previous 12 months - A work related lost time injury.",
             "type": "formGroup110",
             "subQuestion": [
               {
@@ -9543,7 +9600,7 @@
                 "sid": "subq.5.7.1.28.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q501",
                 "controlname": "date84",
                 "subcheckbox": false,
@@ -9606,7 +9663,7 @@
                 "sid": "subq.5.7.1.28.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q504",
                 "controlname": "date85",
                 "subcheckbox": false,
@@ -9622,7 +9679,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ499",
             "inprogress": false,
             "completed": false,
@@ -9631,12 +9689,12 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           },
           {
-            "mainQuestion": "5.7.1.29. Have any of the following Incidents occurred during previous 12 months - A work related fatality",
+            "mainQuestion": "5.7.1.29.Have any of the following Incidents occurred during previous 12 months - A work related fatality",
             "type": "formGroup111",
             "subQuestion": [
               {
@@ -9666,7 +9724,7 @@
                 "sid": "subq.5.7.1.29.2",
                 "entrymethod": "Auto",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q507",
                 "controlname": "date86",
                 "subcheckbox": false,
@@ -9729,7 +9787,7 @@
                 "sid": "subq.5.7.1.29.5",
                 "entrymethod": "Manual",
                 "entryorgin": "Office",
-                "response": "30-11-2023",
+                "response": "12-01-2024",
                 "qid": "Q510",
                 "controlname": "date87",
                 "subcheckbox": false,
@@ -9745,7 +9803,8 @@
                 "answer": ""
               }
             ],
-            "entrymethod": "",
+            "entrymethod": "Lookup",
+            "specification": "IVR",
             "qid": "MQ505",
             "inprogress": false,
             "completed": false,
@@ -9754,7 +9813,7 @@
             "isexternal": false,
             "ismanagment": false,
             "isvslcertificate": false,
-            "isincident": false,
+            "isincident": true,
             "ispms": false,
             "answer": ""
           }
@@ -9772,10 +9831,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "5.8. Area Safety Management",
+        "subHeaders": "5.8.Area Safety Management",
         "question": [
           {
-            "mainQuestion": "5.8.3. Is the vessel fitted with a cargo pumproom?",
+            "mainQuestion": "5.8.3.Is the vessel fitted with a cargo pumproom?",
             "type": "formGroup45",
             "subQuestion": [
               {
@@ -9813,7 +9872,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "5.8.7.1.  Is the vessel fitted with a ballast pumproom? Ballast pumproom",
+            "mainQuestion": "5.8.7.1. Is the vessel fitted with a ballast pumproom? Ballast pumproom",
             "type": "formGroup46",
             "subQuestion": [
               {
@@ -9851,7 +9910,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "5.8.7.2. Is the vessel fitted with a bunker transfer pumproom?",
+            "mainQuestion": "5.8.7.2.Is the vessel fitted with a bunker transfer pumproom?",
             "type": "formGroup47",
             "subQuestion": [
               {
@@ -9903,10 +9962,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "5.10. Safe Access",
+        "subHeaders": "5.10.Safe Access",
         "question": [
           {
-            "mainQuestion": "5.10.4.  Is the vessel provided with a personnel transfer basket PTB",
+            "mainQuestion": "5.10.4. Is the vessel provided with a personnel transfer basket PTB",
             "type": "formGroup48",
             "subQuestion": [
               {
@@ -9944,7 +10003,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "5.10.6. Is the vessel provided with a helicopter facility conforming to Civil Aviation Authority: CAP437 Standards for Offshore Helicopter Landing Areas (2018)",
+            "mainQuestion": "5.10.6.Is the vessel provided with a helicopter facility conforming to Civil Aviation Authority: CAP437 Standards for Offshore Helicopter Landing Areas (2018)",
             "type": "formGroup49",
             "subQuestion": [
               {
@@ -10007,13 +10066,13 @@
   },
   {
     "uniqueid": "H6",
-    "header": "6. Pollution Prevention",
+    "header": "6.Pollution Prevention",
     "values": [
       {
-        "subHeaders": "6.3. Ballast Operations",
+        "subHeaders": "6.3.Ballast Operations",
         "question": [
           {
-            "mainQuestion": "6.3.1.  Is the vessel fitted with an approved ballast water management system (BWMS)",
+            "mainQuestion": "6.3.1. Is the vessel fitted with an approved ballast water management system (BWMS)",
             "type": "formGroup50",
             "subQuestion": [
               {
@@ -10076,13 +10135,13 @@
   },
   {
     "uniqueid": "H7",
-    "header": "7. Maritime Security",
+    "header": "7.Maritime Security",
     "values": [
       {
-        "subHeaders": "7.2. Ship Hardening and Access Control",
+        "subHeaders": "7.2.Ship Hardening and Access Control",
         "question": [
           {
-            "mainQuestion": "7.2.1.1. Does the vesselu0027s usual trading area include entering or transit through areas of increased security risk",
+            "mainQuestion": "7.2.1.1.Does the vesselu0027s usual trading area include entering or transit through areas of increased security risk",
             "type": "formGroup51",
             "subQuestion": [
               {
@@ -10120,7 +10179,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "7.2.1.2. Does the vessel always carry sufficient material to fully implement its Vessel Hardening Plan?",
+            "mainQuestion": "7.2.1.2.Does the vessel always carry sufficient material to fully implement its Vessel Hardening Plan?",
             "type": "formGroup52",
             "subQuestion": [
               {
@@ -10183,13 +10242,13 @@
   },
   {
     "uniqueid": "H8",
-    "header": "8. Cargo and Ballast System",
+    "header": "8.Cargo and Ballast System",
     "values": [
       {
-        "subHeaders": "8.3. Oil and Chemical",
+        "subHeaders": "8.3.Oil and Chemical",
         "question": [
           {
-            "mainQuestion": "8.3.10.  Is the vessel fitted with a vapour recovery system VECs/VRS (Oil and chemical tankers)",
+            "mainQuestion": "8.3.10. Is the vessel fitted with a vapour recovery system VECs/VRS (Oil and chemical tankers)",
             "type": "formGroup53",
             "subQuestion": [
               {
@@ -10227,7 +10286,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "8.3.13.  What type of secondary venting arrangements are provided for cargo tanks",
+            "mainQuestion": "8.3.13. What type of secondary venting arrangements are provided for cargo tanks",
             "type": "formGroup54",
             "subQuestion": [
               {
@@ -10259,6 +10318,7 @@
                 "subName": "If u0027Otheru0027, please provide details",
                 "type": "TextArea",
                 "sid": "subq.8.3.13.2",
+                "entryorgin": "Vessel",
                 "specification": "250",
                 "qid": "Q511",
                 "controlname": "textarea36",
@@ -10288,7 +10348,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "8.3.15.  Is the vessel fitted with deepwell cargo pumps (Oil and chemical tankers)?",
+            "mainQuestion": "8.3.15. Is the vessel fitted with deepwell cargo pumps (Oil and chemical tankers)?",
             "type": "formGroup55",
             "subQuestion": [
               {
@@ -10326,7 +10386,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "8.3.21. If the vessel is a chemical tanker is a cargo heating system provided?",
+            "mainQuestion": "8.3.21.If the vessel is a chemical tanker is a cargo heating system provided?",
             "type": "formGroup56",
             "subQuestion": [
               {
@@ -10377,10 +10437,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "8.6. Gas (Common to all vessels under IGC Code)",
+        "subHeaders": "8.6.Gas (Common to all vessels under IGC Code)",
         "question": [
           {
-            "mainQuestion": "8.6.14. Is the vessel fitted with a reliquefaction plant?",
+            "mainQuestion": "8.6.14.Is the vessel fitted with a reliquefaction plant?",
             "type": "formGroup57",
             "subQuestion": [
               {
@@ -10418,7 +10478,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "8.6.19. Are there any submerged electric cargo pumps fitted in the cargo tanks?",
+            "mainQuestion": "8.6.19.Are there any submerged electric cargo pumps fitted in the cargo tanks?",
             "type": "formGroup116",
             "subQuestion": [
               {
@@ -10469,10 +10529,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "8.7. Shuttle Tanker Cargo Operations",
+        "subHeaders": "8.7.Shuttle Tanker Cargo Operations",
         "question": [
           {
-            "mainQuestion": "8.7.5. Is the vessel fitted with a BLS deluge system in accordance with NORGAS No. 140 ?",
+            "mainQuestion": "8.7.5.Is the vessel fitted with a BLS deluge system in accordance with NORGAS No. 140 ?",
             "type": "formGroup58",
             "subQuestion": [
               {
@@ -10510,7 +10570,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "8.7.6. Is the vessel fitted with a fixed foam fire extinguishing system in the BLS in accordance with NORGAS No. 140 ?",
+            "mainQuestion": "8.7.6.Is the vessel fitted with a fixed foam fire extinguishing system in the BLS in accordance with NORGAS No. 140 ?",
             "type": "formGroup59",
             "subQuestion": [
               {
@@ -10548,7 +10608,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "8.7.9.1. Is the vessel fitted with a fixed hydrocarbon gas detecting system in the BLS area in accordance with NORGAS No. 140 ?",
+            "mainQuestion": "8.7.9.1.Is the vessel fitted with a fixed hydrocarbon gas detecting system in the BLS area in accordance with NORGAS No. 140 ?",
             "type": "formGroup60",
             "subQuestion": [
               {
@@ -10586,7 +10646,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "8.7.9.2. Is the vessel fitted with a fixed fire detecting system in the BLS area in accordance with NORGAS No. 140 ?",
+            "mainQuestion": "8.7.9.2.Is the vessel fitted with a fixed fire detecting system in the BLS area in accordance with NORGAS No. 140 ?",
             "type": "formGroup61",
             "subQuestion": [
               {
@@ -10649,13 +10709,13 @@
   },
   {
     "uniqueid": "H10",
-    "header": "10. Machinery Spaces",
+    "header": "10.Machinery Spaces",
     "values": [
       {
-        "subHeaders": "10.2. Machinery Status",
+        "subHeaders": "10.2.Machinery Status",
         "question": [
           {
-            "mainQuestion": "10.2.1. What system provides the primary source of emergency power",
+            "mainQuestion": "10.2.1.What system provides the primary source of emergency power",
             "type": "formGroup62",
             "subQuestion": [
               {
@@ -10692,7 +10752,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "10.2.3.  Is the vessel fitted with an Exhaust Gas Cleaning System (EGCS",
+            "mainQuestion": "10.2.3. Is the vessel fitted with an Exhaust Gas Cleaning System (EGCS",
             "type": "formGroup63",
             "subQuestion": [
               {
@@ -10764,10 +10824,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "10.3. Safety Management",
+        "subHeaders": "10.3.Safety Management",
         "question": [
           {
-            "mainQuestion": "10.3.6.  Is the vessel fitted with watertight doors required by SOLAS II-I Reg 13-1",
+            "mainQuestion": "10.3.6. Is the vessel fitted with watertight doors required by SOLAS II-I Reg 13-1",
             "type": "formGroup64",
             "subQuestion": [
               {
@@ -10841,10 +10901,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "10.4. Planned Maintenance System",
+        "subHeaders": "10.4.Planned Maintenance System",
         "question": [
           {
-            "mainQuestion": "10.4.2. Is the vessel subscribed to a lube oil analysis program",
+            "mainQuestion": "10.4.2.Is the vessel subscribed to a lube oil analysis program",
             "type": "formGroup65",
             "subQuestion": [
               {
@@ -11525,10 +11585,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "10.5. Conventional Bunkering Management",
+        "subHeaders": "10.5.Conventional Bunkering Management",
         "question": [
           {
-            "mainQuestion": "10.5.2.  Is the vessel subscribed to a fuel oil analysis program?",
+            "mainQuestion": "10.5.2. Is the vessel subscribed to a fuel oil analysis program?",
             "type": "formGroup66",
             "subQuestion": [
               {
@@ -11653,10 +11713,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "10.7. Fire Protection Measures",
+        "subHeaders": "10.7.Fire Protection Measures",
         "question": [
           {
-            "mainQuestion": "10.7.3.1.  Are provisions fitted to internal combustion engines to prevent crank case explosion - Main Engine(s)",
+            "mainQuestion": "10.7.3.1. Are provisions fitted to internal combustion engines to prevent crank case explosion - Main Engine(s)",
             "type": "formGroup67",
             "subQuestion": [
               {
@@ -11721,7 +11781,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "10.7.3.2. Are provisions fitted to internal combustion engines to prevent crank case explosion - Auxiliary Engine(s)",
+            "mainQuestion": "10.7.3.2.Are provisions fitted to internal combustion engines to prevent crank case explosion - Auxiliary Engine(s)",
             "type": "formGroup68",
             "subQuestion": [
               {
@@ -11786,7 +11846,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "10.7.4.  Are hydraulic power packs located within the main machinery compartment?",
+            "mainQuestion": "10.7.4. Are hydraulic power packs located within the main machinery compartment?",
             "type": "formGroup69",
             "subQuestion": [
               {
@@ -11875,13 +11935,13 @@
   },
   {
     "uniqueid": "H12",
-    "header": "12. Ice Operations",
+    "header": "12.Ice Operations",
     "values": [
       {
-        "subHeaders": "12.1. Ice Operations Training ",
+        "subHeaders": "12.1.Ice Operations Training ",
         "question": [
           {
-            "mainQuestion": "12.1.1. Does the vessel have a certificate for ships operating in Polar Waters ?",
+            "mainQuestion": "12.1.1.Does the vessel have a certificate for ships operating in Polar Waters ?",
             "type": "formGroup70",
             "subQuestion": [
               {
@@ -11919,7 +11979,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.2. Does the vessel have an ice notation ?",
+            "mainQuestion": "12.1.2.Does the vessel have an ice notation ?",
             "type": "formGroup71",
             "subQuestion": [
               {
@@ -11959,7 +12019,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.3. Does the vessel have a winterisation notation ?",
+            "mainQuestion": "12.1.3.Does the vessel have a winterisation notation ?",
             "type": "formGroup72",
             "subQuestion": [
               {
@@ -11999,7 +12059,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.4. Does the vessel trade in areas where sub-zero temperatures may be routinely expected ?",
+            "mainQuestion": "12.1.4.Does the vessel trade in areas where sub-zero temperatures may be routinely expected ?",
             "type": "formGroup73",
             "subQuestion": [
               {
@@ -12039,7 +12099,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.5. Are means in place to detect ice ?",
+            "mainQuestion": "12.1.5.Are means in place to detect ice ?",
             "type": "formGroup74",
             "subQuestion": [
               {
@@ -12106,7 +12166,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.6. Are the bridge wings closed ?",
+            "mainQuestion": "12.1.6.Are the bridge wings closed ?",
             "type": "formGroup75",
             "subQuestion": [
               {
@@ -12146,7 +12206,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.7. Are means provided to maintain accommodation spaces at a temperature suitable for habitation ?",
+            "mainQuestion": "12.1.7.Are means provided to maintain accommodation spaces at a temperature suitable for habitation ?",
             "type": "formGroup76",
             "subQuestion": [
               {
@@ -12207,7 +12267,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.8. Are means in place to prevent the icing of the wheelhouse windows ?",
+            "mainQuestion": "12.1.8.Are means in place to prevent the icing of the wheelhouse windows ?",
             "type": "formGroup77",
             "subQuestion": [
               {
@@ -12273,7 +12333,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.1.9. Are radars of a suitable design for use in sub-zero temperatures ?",
+            "mainQuestion": "12.1.9.Are radars of a suitable design for use in sub-zero temperatures ?",
             "type": "formGroup78",
             "subQuestion": [
               {
@@ -12410,10 +12470,10 @@
         "ispms": false
       },
       {
-        "subHeaders": "12.6. Ice Navigation Procedures",
+        "subHeaders": "12.6.Ice Navigation Procedures",
         "question": [
           {
-            "mainQuestion": "12.6.1.1. What ice navigation training has been provided to the Master and Chief Mate onboard at the time of the planned inspection ?",
+            "mainQuestion": "12.6.1.1.What ice navigation training has been provided to the Master and Chief Mate onboard at the time of the planned inspection ?",
             "type": "formGroup79",
             "subQuestion": [
               {
@@ -12457,7 +12517,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.6.1.2. What ice navigation training has been provided to the officers in charge of navigational watch onboard at the time of the planned inspection ?",
+            "mainQuestion": "12.6.1.2.What ice navigation training has been provided to the officers in charge of navigational watch onboard at the time of the planned inspection ?",
             "type": "formGroup80",
             "subQuestion": [
               {
@@ -12500,7 +12560,7 @@
             "answer": ""
           },
           {
-            "mainQuestion": "12.6.1.3. What ice navigation training has been provided to the ratings forming part of navigational watch onboard at the time of the planned inspection ?",
+            "mainQuestion": "12.6.1.3.What ice navigation training has been provided to the ratings forming part of navigational watch onboard at the time of the planned inspection ?",
             "type": "formGroup81",
             "subQuestion": [
               {

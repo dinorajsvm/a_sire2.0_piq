@@ -30,6 +30,8 @@ export class PIQLandingPageComponent implements OnInit {
   totalRowCount = 0;
   gridApi: any;
   agGridToolbar: any = {};
+  saveAsTemplateList:any= [];
+  selectedTemplateIndex:number = 0;
   shipColumnDefs: any[] = [
     {
       field: 'action',
@@ -250,6 +252,7 @@ export class PIQLandingPageComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    this.gridApi.openToolPanel(false);
     this.gridApi.addEventListener(
       'filterChanged',
       this.onFilterChanged.bind(this)
@@ -265,6 +268,13 @@ export class PIQLandingPageComponent implements OnInit {
       this,
       this.gridApi
     );
+    this.agGridToolbar['saveTemplate'] = this.updateTemplate.bind(this);
+
+    this.agGridToolbar['saveAsTemplate'] = this.saveAsTemplate.bind(this,
+       this.gridColumnApi,
+       this.saveAsTemplateList);
+    this.agGridToolbar['deleteTemplate'] = this.deleteTemplate.bind(this);
+    this.agGridToolbar['resetTemplate'] = this.resetTemplate.bind(this);
     this.agGridToolbar['filter'] = this._agGridService.filter.bind(
       this,
       this.gridApi
@@ -293,6 +303,79 @@ export class PIQLandingPageComponent implements OnInit {
     this.frameWorkComponent = {
       actionRenderer: AgGridMenuComponent,
     };
+  }
+
+  getAgGridTemplate() {
+    const payload = {
+      "userCode": this.userDetails.userCode,
+      "gridId": "",
+    }
+    this._agGridService.getTemplate(payload,(res: any) => {
+      this.saveAsTemplateList=res.result;
+      });
+  }
+
+  updateTemplate(data:any) {
+    if(this.saveAsTemplateList.length==0) {
+      this.saveAsTemplate(this.gridColumnApi,this.saveAsTemplateList);
+    }
+    else {
+    const columnOrder = this.gridColumnApi.getColumnState();
+    const currentItem = this.saveAsTemplateList[this.selectedTemplateIndex]
+    const payload = {
+      "userCode": this.userDetails.userCode,
+      "name": currentItem.name,
+      "gridId": currentItem.smGridId['gridId'],
+      "template": JSON.stringify(columnOrder),
+    }
+    this._agGridService.updateTemplate(payload,(res:any) =>{
+      if(res.success) {
+        this.getAgGridTemplate()
+      }
+    });
+  }
+  }
+
+  saveAsTemplate(gridColumnApi:any,saveAsList:any) {
+    this._agGridService.saveAsTemplate(event,gridColumnApi,saveAsList,(res:any) =>{
+      if(res.success) {
+        this.getAgGridTemplate();
+        this.selectedTemplateIndex = this.saveAsTemplateList.length;
+      }
+    })
+  }
+
+  deleteTemplate() {
+    this.removeAgTemplate(this.saveAsTemplateList[this.selectedTemplateIndex]);
+  }
+
+  resetTemplate() {
+    if(this.saveAsTemplateList.length) {
+      const currentItem = this.saveAsTemplateList[0];
+      this.selectAgTemplate(currentItem);
+    }
+    else {
+      this.gridColumnApi.resetColumnState();
+    }
+    this._agGridService.columnFilter(this.gridApi);
+  }
+
+  selectAgTemplate(chip: any): void {
+    const selectedIndex = this.saveAsTemplateList.indexOf(chip);
+    this._agGridService.selectChip(selectedIndex, this.saveAsTemplateList, this.gridColumnApi, (index:number) => {
+      this.selectedTemplateIndex = selectedIndex;
+    });
+  }
+
+  removeAgTemplate(chip: any): void {
+    const payload = {
+        "userCode": this.userDetails.userCode,
+      }
+    this._agGridService.deleteTemplate(payload,(res:any) =>{
+      if(res.success) {
+        this.getAgGridTemplate();
+      }
+    });
   }
 
   onCellDoubleClicked(event: any): void {
