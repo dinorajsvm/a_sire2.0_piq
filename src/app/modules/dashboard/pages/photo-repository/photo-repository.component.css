@@ -228,11 +228,15 @@
 }
 
 .topicSubHeader .subTopName p {
-  margin: 0 !important;
+  margin: 0!important;
   border-radius: 5px;
   background: #0378ce;
-  color: white;
+  color: #fff;
   padding: 0 10px;
+  max-width: 62rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .topicSubHeader .subTopName:after,

@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
+import {
+  GridOptions,
+  RowGroupingDisplayType,
+  SideBarDef,
+} from 'ag-grid-community';
 import { AgGridMenuComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu.component';
 import { BudgetService } from '../../services/budget.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -113,7 +117,6 @@ export class PIQLandingPageComponent implements OnInit {
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
         innerRendererFramework: AgGridMenuComponent,
-        
       },
     },
     {
@@ -183,29 +186,64 @@ export class PIQLandingPageComponent implements OnInit {
     },
   ];
   public defaultColDef: any = {
-  resizable: true,
-  filter: 'agTextColumnFilter',
-  floatingFilter: true,
-  enableRowGroup: true,
-  sortable: true,
-  tooltipComponent: agGridTooltipComponent,
-  cellStyle: (params: any) => {
-    const value = params.value;
-    if (!isNaN(Number(value))) {
-      return { textAlign: 'right' };
-    } else if (value instanceof Date && !isNaN(value.getTime())) {
-      return { textAlign: 'right' };
-    } else if (typeof value === 'string' && !isNaN(Number(value))) {
-      return { textAlign: 'left' };
-    } else {
-      return { textAlign: 'left' };
-    }
-  },
+    resizable: true,
+    filter: 'agTextColumnFilter',
+    floatingFilter: true,
+    enableRowGroup: true,
+    sortable: true,
+    tooltipComponent: agGridTooltipComponent,
+    cellStyle: (params: any) => {
+      const value = params.value;
+      if (!isNaN(Number(value))) {
+        return { textAlign: 'right' };
+      } else if (value instanceof Date && !isNaN(value.getTime())) {
+        return { textAlign: 'right' };
+      } else if (typeof value === 'string' && !isNaN(Number(value))) {
+        return { textAlign: 'left' };
+      } else {
+        return { textAlign: 'left' };
+      }
+    },
   };
+
+
+  public sideBar: SideBarDef | string | string[] | boolean | null = ['columns', 'filters'];
+  sideBarDef = { 
+    toolPanels: [
+      {
+        id: 'columns',
+        labelDefault: 'Columns',
+        labelKey: 'columns',
+        iconKey: 'columns',
+        toolPanel: 'agColumnsToolPanel',
+        minWidth: 225,
+        width: 225,
+        maxWidth: 225,
+      },
+      {
+        id: 'filters',
+        labelDefault: 'Filters',
+        labelKey: 'filters',
+        iconKey: 'filter',
+        toolPanel: 'agFiltersToolPanel',
+        toolPanelParams: {
+          suppressExpandAll: true,
+          suppressFilterSearch: true,
+        },
+      },
+    ],
+    position: 'right',
+    defaultToolPanel: 'none',
+    hiddenByDefault: true,
+  };
+  
+
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
 
-  public gridOptions: GridOptions = {};
+  public gridOptions: GridOptions = {
+    sideBar: null
+  };
   gridColumnApi: any;
   getSubmitterRank: any;
 
@@ -231,6 +269,7 @@ export class PIQLandingPageComponent implements OnInit {
       this,
       this.gridApi
     );
+    this.gridOptions.sideBar = null;
   }
 
   rowData: any[] = [];
@@ -267,12 +306,12 @@ export class PIQLandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getworkflowStatus();
-    this.router.navigate(['/sire/piq-landing'])
+    this.router.navigate(['/sire/piq-landing']);
     this.getCodes();
     this.getLndPgDatas();
-    this.BudgetService.getDeleteAction().subscribe(res => {      
-      this.getLndPgDatas()
-    })
+    this.BudgetService.getDeleteAction().subscribe((res) => {
+      this.getLndPgDatas();
+    });
   }
 
   viewForm(event: any) {
@@ -333,11 +372,11 @@ export class PIQLandingPageComponent implements OnInit {
     this.BudgetService.getPIQLndPgDatas(payload).subscribe((res: any) => {
       let object = res.response;
       this.rowData = [];
-     
+
       object.forEach((data: any) => {
         data.isView = true;
         let submitttedCheck = false;
-        if (this.userDetails?.cntrlType === 'CNT001') {          
+        if (this.userDetails?.cntrlType === 'CNT001') {
           submitttedCheck = !(
             this.getSubmitterRank === '' || this.getSubmitterRank === undefined
           );
@@ -345,7 +384,7 @@ export class PIQLandingPageComponent implements OnInit {
         data.isEdit =
           this.userDetails?.cntrlType === 'CNT002'
             ? // If the user's control type is 'CNT002'
-            ((data.status === 'Inprogress' || data.status === 'Reassigned') &&
+              ((data.status === 'Inprogress' || data.status === 'Reassigned') &&
                 data.createdin === this.userDetails?.cntrlType) ||
               !(
                 data.status === 'Submitted' ||
@@ -357,7 +396,7 @@ export class PIQLandingPageComponent implements OnInit {
             : // If the user's control type is not 'CNT002'
             submitttedCheck
             ? // If submitttedCheck is true
-            data.status === 'Inprogress' ||
+              data.status === 'Inprogress' ||
               (data.status === 'Reassigned' &&
                 data.createdin === this.userDetails?.cntrlType) ||
               !(
@@ -366,21 +405,18 @@ export class PIQLandingPageComponent implements OnInit {
                 (data.status === 'Reassigned' && data.createdin === 'CNT002')
               )
             : // If submitttedCheck is false
-            data.status === 'Inprogress' ||
-              data.status === 'Submitted'||
-              !(
-                data.status === 'Approved' || data.status === 'Reassigned'
-              );
+              data.status === 'Inprogress' ||
+              data.status === 'Submitted' ||
+              !(data.status === 'Approved' || data.status === 'Reassigned');
 
         data.isDelete = data.status === 'Inprogress';
       });
       this.rowData = object;
-      this.totalRowCount =
-      object && object.length > 0 ? object.length : 0;      
+      this.totalRowCount = object && object.length > 0 ? object.length : 0;
     });
   }
 
-  deleteRowData(event: any) { 
+  deleteRowData(event: any) {
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {
@@ -395,7 +431,10 @@ export class PIQLandingPageComponent implements OnInit {
   getworkflowStatus() {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-      this.getSubmitterRank = val && val[0] && val[0].submitters?val[0].submitters.find((x: any) => x === this.userDetails?.rankCode):""
+      this.getSubmitterRank =
+        val && val[0] && val[0].submitters
+          ? val[0].submitters.find((x: any) => x === this.userDetails?.rankCode)
+          : '';
       val.forEach((item: any) => {
         this.getWrkFlowUser = item.creater;
       });

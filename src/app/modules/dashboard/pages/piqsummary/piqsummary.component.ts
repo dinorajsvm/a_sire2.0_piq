@@ -142,14 +142,12 @@ export class PIQSummaryComponent implements OnInit {
       headerName: 'User Name',
       tooltipField: 'username',
       flex: 1,
-      floatingFilter: false,
     },
     {
       field: 'rankname',
       headerName: 'User Rank',
       tooltipField: 'rankname',
       flex: 1,
-      floatingFilter: false,
     },
     {
       field: 'crdate',
@@ -157,7 +155,6 @@ export class PIQSummaryComponent implements OnInit {
       tooltipField: 'crdate',
       cellStyle: { textAlign: 'right' },
       flex: 1,
-      floatingFilter: false,
       valueGetter: this.dateFormat.bind(this),
     },
     {
@@ -165,14 +162,12 @@ export class PIQSummaryComponent implements OnInit {
       headerName: 'Type',
       tooltipField: 'sync',
       flex: 1,
-      floatingFilter: false,
     },
     {
       field: 'status',
       headerName: 'Status',
       tooltipField: 'status',
       flex: 1,
-      floatingFilter: false,
     },
   ];
   plannedSubDate: any;

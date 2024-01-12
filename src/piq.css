@@ -348,6 +348,12 @@
   cursor: pointer;
 }
 
+::ng-deep .ag-side-button-label {
+  writing-mode: vertical-lr;
+  font-weight: 500 !important;
+  color: #707171 !important;
+}
+
 .right-float {
   position: absolute;
   right: 10px;

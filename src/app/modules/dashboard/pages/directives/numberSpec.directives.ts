@@ -5,13 +5,16 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 export class NumberSpecDirective {
   constructor(private _el: ElementRef) {}
   @HostListener('input', ['$event']) onInputChange(event: any) {
-    const initalValue = this._el.nativeElement.value;
-    const sanitizedValue = initalValue.replace(/[^0-9]/g, '').replace(/^0+/, '');
-    const numericValue = sanitizedValue === '' ? 0 : parseInt(sanitizedValue, 10);
-    if (isNaN(numericValue) || numericValue < 0 || numericValue > 48) {
-      // If the value is not in the desired range, set it to 0 or 48 accordingly
-      this._el.nativeElement.value = Math.min(48, Math.max(0, numericValue));
-      event.stopPropagation();
+    const inputValue = this._el.nativeElement.value;
+    if (/^\d+$/.test(inputValue)) {
+      const numericValue = parseInt(inputValue.replace(/^0+/, ''), 10);
+      if (isNaN(numericValue) || numericValue < 0 || numericValue > 48) {
+        this._el.nativeElement.value = inputValue.slice(0, -1);
+        event.preventDefault();
+      }
+    } else {
+      this._el.nativeElement.value = this._el.nativeElement.value.replace(/[^0-9]/g, '');
+      event.preventDefault();
     }
   }
 }

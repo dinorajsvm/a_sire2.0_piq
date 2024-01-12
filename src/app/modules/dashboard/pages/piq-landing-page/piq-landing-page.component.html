@@ -24,7 +24,7 @@
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <ag-grid-angular style="height: calc(100vh - 140px)" class="ag-theme-balham" [columnDefs]="shipColumnDefs"
-        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
+        [defaultColDef]="defaultColDef" [sideBar]="sideBar" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
         [gridOptions]="gridOptions" [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true"
         [masterDetail]="true" [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)"
         [rowData]="rowData" [components]="frameWorkComponent" (gridReady)="onGridReady($event)"
@@ -34,7 +34,7 @@
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <ag-grid-angular style="height: calc(100vh - 140px)" class="ag-theme-balham" [columnDefs]="shoreColumnDefs"
-        [defaultColDef]="defaultColDef" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
+        [defaultColDef]="defaultColDef" [sideBar]="sideBar" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
         [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
         [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData"
         [components]="frameWorkComponent" (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">

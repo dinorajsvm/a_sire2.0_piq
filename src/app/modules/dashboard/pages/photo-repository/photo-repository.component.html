@@ -110,7 +110,7 @@
             *ngFor="let subHead of head.subTopics; let i = index"
           >
             <span class="subTopName">
-              <p class="charCount">{{ subHead.subTopicTitle }}</p>
+              <p class="charCount" [matTooltip]="subHead.subTopicTitle">{{ subHead.subTopicTitle }}</p>
             </span>
             <div class="upDownBtnWrap">
               <div class="attachBtn" style="margin: 0 3px">
@@ -222,9 +222,9 @@
                   </div>
                   <div class="img_name">
                     <input
-                      class="charCount"
+                      class="charCount" [readonly]="hideReqBtns"
                       [(ngModel)]="img.formattedName"
-                      [class.nameHighlight]="
+                      [class.nameHighlight]=" 
                         img?.formattedName != img.defaultImageName
                       "
                       maxlength="80"
