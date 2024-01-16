@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   Component,
   ElementRef,
   OnInit,
@@ -66,7 +67,7 @@ export const MY_DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
-export class PiqReportComponent implements OnInit {
+export class PiqReportComponent implements OnInit, AfterViewChecked {
   @ViewChild('expandedSection', { static: false }) expandedSection!: ElementRef;
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
@@ -112,8 +113,6 @@ export class PiqReportComponent implements OnInit {
   getWrkFlSummaryData: any;
   showWorkSpace = false;
   disableEditMode = true;
-  initialMultiAns = true;
-  selectedMultiAns = false;
   showPendingQuest: boolean = false;
   AllQuestions: boolean = true;
   formattedDate: any = '';
@@ -178,7 +177,6 @@ export class PiqReportComponent implements OnInit {
       // this.getExceptionGridData = [];
       this.getExceptionGridData = res && res.length > 0 ? res : [];
       this.exceptionList = res && res.length > 0 ? res : [];
-      console.log('exceptionList', this.exceptionList);
     });
 
     this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
@@ -230,6 +228,13 @@ export class PiqReportComponent implements OnInit {
         }
       });
     });
+  }
+
+  ngAfterViewChecked(): void {
+    // console.log(this.vesselSelection, 'vesselSelection');
+    
+    //   console.log(this.dynamicForms.value.Q133, 'rathish');
+      
   }
 
   onChangeMemo() {
@@ -376,11 +381,9 @@ export class PiqReportComponent implements OnInit {
       localStorage.setItem('masterVesselCode', res.vesselcode);
 
       this.BudgetService.setStatus(this.getStatus);
+console.log(res.vesseltypename, 'res.vesseltypename');
 
       this.vesselSelection = res.vesseltypename;
-      this.selectedMultiAns = false;
-      this.initialMultiAns = true;
-
       if (this.route.snapshot.paramMap.get('type') == 'new') {
         this.disableEditMode = true;
         this.saveDisable = false;
@@ -449,18 +452,13 @@ export class PiqReportComponent implements OnInit {
         this.BudgetService.setGuidelineData(guidance);
       }
       object.forEach((value1: any) => {
-        console.log('*');
         value1.filledCount = 0;
         value1.values.forEach((value: any) => {
-          console.log('**');
           value.question.forEach((subHeader: any) => {
-            console.log('***');
             if (subHeader && subHeader.qid) {
-              console.log('****');
               formGroupFields[subHeader.qid] = new FormControl(
                 subHeader.answer
               );
-              console.log('*****');
             }
             this.getMainQuestCounts.push(subHeader);
             this.checkboxBoolean.push(subHeader.selected);
@@ -478,6 +476,9 @@ export class PiqReportComponent implements OnInit {
                   mainQus.answer = mainQus.presetvalue;
                   this.countDetails();
                 }
+              } else {
+                // console.log(mainQus.qid, "===", mainQus.answer);
+                
               }
               const index = this.getMainQuestCounts.findIndex(
                 (section: any) =>
@@ -488,12 +489,10 @@ export class PiqReportComponent implements OnInit {
               this.piqPendingCount();
               if (mainQus && mainQus.qid) {
                 if (mainQus.type != 'MultiSelect') {
-                  console.log('******');
                   formGroupFields[mainQus.qid] = new FormControl(
                     mainQus.answer
                   );
                 } else if (mainQus.type === 'MultiSelect') {
-                  console.log('*******');
                   formGroupFields[mainQus.qid] = new FormControl(
                     mainQus.multiAnswer
                   );
@@ -503,8 +502,6 @@ export class PiqReportComponent implements OnInit {
 
             this.dynamicForms = new FormGroup(formGroupFields);
             this.dynamicForms.patchValue({ Q133: this.vesselSelection });
-            console.log('this.dynamicForms', this.dynamicForms.value.Q104);
-
             if (subHeader && subHeader.qid === 'MQ1') {
               subHeader.answer = this.vesselSelection;
               this.countDetails();
@@ -741,53 +738,33 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  toggleMultiSelection(
-    controlname: any,
-    value: any,
-    mquest: any,
-    entryorgin: any,
-    subq: any,
-    quest: any
-  ) {
-    console.log('controlname', controlname);
-    console.log('value', value);
-    console.log('entryorgin', entryorgin);
-    // console.log("subq",subq);
-    // console.log("quest",quest);
-
+  toggleMultiSelection(value: any, entryorgin: any, quest: any) {
     this.BudgetService.setUnSaveAction(true);
     if (value) {
       if (entryorgin.multiAnswer.includes(value)) {
-        entryorgin.multiAnswer = entryorgin.multiAnswer;
+        // Remove the particular value from multiAnswer array
+        entryorgin.multiAnswer = entryorgin.multiAnswer.filter(
+          (item: any) => item !== value
+        );
+
+        // Remove the particular value from answer array
+        entryorgin.answer = entryorgin.answer.filter(
+          (item: any) => item !== value.toString()
+        );
       } else {
-        entryorgin.multiAnswer.push(value);
+        if (value.toString() != '') {
+          entryorgin.multiAnswer.push(value);
+          if (!Array.isArray(entryorgin.answer)) {
+            entryorgin.answer = [entryorgin.answer];
+          }
+          entryorgin.answer = entryorgin.answer.concat(value.toString());
+          entryorgin.answer = entryorgin.answer.filter(
+            (item: any) => item !== ''
+          );
+        }
       }
     }
-    console.log('entryorgin.multiAnswer', entryorgin.multiAnswer);
-
-    // if (Array.isArray(entryorgin.multiAnswer)) {
-    //   if (entryorgin.multiAnswer.includes(value)) {
-    //     entryorgin.multiAnswer = entryorgin.multiAnswer.filter(
-    //       (item: any) => item !== value
-    //     );
-    //     this.countDetails();
-    //     this.dynamicForms.controls[controlname].setValue(entryorgin.multiAnswer);
-    //   } else {
-    //     entryorgin.multiAnswer.push(value);
-    //     this.dynamicForms.controls[controlname].setValue(entryorgin.multiAnswer);
-    //   }
-    // } else {
-    // entryorgin.multiAnswer = [value];
-    // this.countDetails();
-    // this.dynamicForms.controls[controlname].setValue(entryorgin.multiAnswer);
-    // }
-
     this.selectedValue = quest.subHeaders;
-    // if (subq && subq.presetvalue === subq.answer) {
-    //   this.restoreOriginal(subq);
-    // } else {
-    //   this.exceptionFn(subq, mquest, quest);
-    // }
     this.chapterGrid();
   }
   isOptionSelected(selecVal: any, answer: any): boolean {
@@ -803,11 +780,18 @@ export class PiqReportComponent implements OnInit {
     subQue: any,
     type?: any
   ): void {
-    ques.lastModified = this.datePipe.transform(
-      new Date(),
-      'dd-MMM-yyyy HH:mm'
-    );
+
     this.BudgetService.setUnSaveAction(true);
+    // if (subQue.qid === 'Q133') {
+      console.log(value, 'vesselSelection');
+      
+    //   value = this.vesselSelection;
+    // }
+    subQue.answer =
+    subQue.answer !== value ? value : '';
+
+    value = subQue.answer === '' ? '' : subQue.answer
+    
     const mQuestion = mainQue.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -840,9 +824,11 @@ export class PiqReportComponent implements OnInit {
     if (this.lastModifiedData.length > 5) {
       this.lastModifiedData.splice(5);
     }
-    subQue.answer = value;
+ 
     this.countDetails();
-    this.vesselSelection = subQue.answer;
+  
+    
+    // this.vesselSelection = subQue.answer;
 
     this.selectedValue = ques.subHeaders;
     if (subQue && subQue.presetvalue === subQue.answer) {
@@ -1016,7 +1002,6 @@ export class PiqReportComponent implements OnInit {
     subq.answer = subq.presetvalue;
     this.countDetails();
     this.BudgetService.setUnSaveAction(true);
-    console.log('this.exceptionList', this.exceptionList);
     this.BudgetService.setExceptionData(this.exceptionList);
   }
 
@@ -1402,7 +1387,7 @@ export class PiqReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result !== 'Reset') {
-        this.lookupReset(questionId, result.refno, '');
+        this.lookupReset(questionId, result.sid, '');
         const timeDifference =
           result &&
           (result.auditfromdate && result.audittodate
@@ -1521,7 +1506,7 @@ export class PiqReportComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result !== 'Reset') {
         if (result) {
-          this.lookupReset(questionId, result.extrfid, '');
+          this.lookupReset(questionId, result.sid, '');
 
           this.dynamicForms.patchValue({
             Q155: 'Yes',
@@ -1612,7 +1597,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   mq115LookUp(mainQuest: any, result: any, questionId: any) {
-    this.lookupReset(questionId, result.refno, '');
+    this.lookupReset(questionId, result.sid, '');
     if (result && result.hasOwnProperty('auditfromdate')) {
       this.dynamicForms.patchValue({
         Q117:
@@ -1647,7 +1632,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   mq97LookUp(mainQuest: any, result: any, questionId: any) {
-    this.lookupReset(questionId, result.refno, '');
+    this.lookupReset(questionId, result.sid, '');
     if (result && result.hasOwnProperty('actualfromdate')) {
       this.dynamicForms.patchValue({
         Q99: result.actualfromdate,
@@ -1675,7 +1660,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   mq100LookUp(mainQuest: any, result: any, questionId: any) {
-    this.lookupReset(questionId, result.refno, '');
+    this.lookupReset(questionId, result.sid, '');
 
     if (result && result.hasOwnProperty('actualfromdate')) {
       const timeDifference =
@@ -1733,7 +1718,7 @@ export class PiqReportComponent implements OnInit {
 
   mq105LookUp(mainQuest: any, result: any, questionId: any) {
     if (result && result.hasOwnProperty('actualfromdate')) {
-      this.lookupReset(questionId, result.refno, '');
+      this.lookupReset(questionId, result.sid, '');
 
       const timeDifference =
         new Date(result.actualtodate).getTime() -
@@ -1756,7 +1741,7 @@ export class PiqReportComponent implements OnInit {
         this.countDetails();
       });
     } else if (result.hasOwnProperty('auditfromdate')) {
-      this.lookupReset(questionId, result.extrfid, '');
+      this.lookupReset(questionId, result.sid, '');
 
       const timeDifference =
         new Date(result.audittodate).getTime() -
@@ -1783,7 +1768,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   mq111LookUp(mainQuest: any, result: any, questionId: any) {
-    this.lookupReset(questionId, result.refno, '');
+    this.lookupReset(questionId, result.sid, '');
 
     if (result && result.hasOwnProperty('actualfromdate')) {
       this.dynamicForms.patchValue({
@@ -1812,7 +1797,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   mq120LookUp(mainQuest: any, result: any, questionId: any) {
-    this.lookupReset(questionId, result.refno, '');
+    this.lookupReset(questionId, result.sid, '');
     if (result && result.hasOwnProperty('actualfromdate')) {
       this.dynamicForms.patchValue({
         Q122: result.actualfromdate,
@@ -1846,7 +1831,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   mq125LookUp(mainQuest: any, result: any, questionId: any) {
-    this.lookupReset(questionId, result.refno, '');
+    this.lookupReset(questionId, result.sid, '');
     if (result && result.hasOwnProperty('actualfromdate')) {
       this.dynamicForms.patchValue({
         Q127: result.actualfromdate,
@@ -1892,21 +1877,6 @@ export class PiqReportComponent implements OnInit {
       let time: any;
       if (data && data.values) {
         data.values.forEach((filledQus: any, index: any) => {
-          if (!(filledQus && filledQus.lastModified)) {
-            filledQus.lastModified = '';
-          }
-
-          if (
-            data &&
-            data.values &&
-            data.values[index] &&
-            data.values[index].lastModified
-          ) {
-            time = Math.max(
-              new Date(data.values[index].lastModified).getTime()
-            );
-          }
-
           filledQus.question.forEach((question: any) => {
             totalQuest.push(question.subQuestion.length);
             questions.push(
@@ -1940,11 +1910,6 @@ export class PiqReportComponent implements OnInit {
         totalQuestion: totalQuestCount,
         filledQuestion: filledQuestionCount,
         pendingQuestion: totalQuestCount - filledQuestionCount,
-        // lastModified: time
-        //   ? this.datePipe.transform(new Date(time), 'dd-MMM-yyyy HH:mm')
-        //     ? this.datePipe.transform(new Date(time), 'dd-MMM-yyyy HH:mm')
-        //     : ''
-        //   : '',
       });
       this.BudgetService.setGridSummary(this.rowSummaryData);
     });
@@ -1975,20 +1940,8 @@ export class PiqReportComponent implements OnInit {
     this.chapterGrid();
   }
   inputChanges(event?: any, subq?: any, quest?: any, mquest?: any, type?: any) {
-    console.log('event', event);
-    console.log('subq', subq);
-    console.log('quest', quest);
-    console.log('mquest', mquest);
-    console.log('type', type);
-    // if(subq.qid === "Q189"){
-
-    // }
     let value =
       event && event.target && event.target.value ? event.target.value : event;
-    quest.lastModified = this.datePipe.transform(
-      new Date(),
-      'dd-MMM-yyyy HH:mm'
-    );
     subq.answer = value;
     if (typeof value === 'object') {
       subq.answer = '';
@@ -2018,10 +1971,6 @@ export class PiqReportComponent implements OnInit {
     subq: any
   ): void {
     let value = event.value;
-    subQues.lastModified = this.datePipe.transform(
-      new Date(),
-      'dd-MMM-yyyy HH:mm'
-    );
     this.BudgetService.setUnSaveAction(true);
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
@@ -2173,10 +2122,8 @@ export class PiqReportComponent implements OnInit {
       ispms: false,
       answer: '',
     };
-    const quest = {
-      lastModified: '',
-    };
-    this.inputChanges(daysDifference, subq, quest);
+
+    this.inputChanges(daysDifference, subq);
     this.countDetails();
   }
 
@@ -2203,10 +2150,8 @@ export class PiqReportComponent implements OnInit {
       ispms: false,
       answer: '',
     };
-    const quest = {
-      lastModified: '',
-    };
-    this.inputChanges(daysDifference, subq, quest);
+
+    this.inputChanges(daysDifference, subq);
     this.countDetails();
   }
 
@@ -2233,10 +2178,7 @@ export class PiqReportComponent implements OnInit {
       ispms: false,
       answer: '',
     };
-    const quest = {
-      lastModified: '',
-    };
-    this.inputChanges(daysDifference, subq, quest);
+    this.inputChanges(daysDifference, subq);
     this.countDetails();
   }
 
@@ -2263,10 +2205,8 @@ export class PiqReportComponent implements OnInit {
       ispms: false,
       answer: '',
     };
-    const quest = {
-      lastModified: '',
-    };
-    this.inputChanges(daysDifference, subq, quest);
+
+    this.inputChanges(daysDifference, subq);
     this.countDetails();
   }
   getLookUpVisit(questionId: any, subQues: any, mquest: any, subq: any) {
@@ -3006,7 +2946,7 @@ export class PiqReportComponent implements OnInit {
     const payload = {
       instanceid: this.referenceNumber,
       questionid: questionId,
-      lookupid: lookup,
+      lookupid: lookup ? lookup : '',
       lookupjson: payloadDetails,
       user: this.userDetails?.userCode,
     };

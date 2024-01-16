@@ -45,7 +45,7 @@ export class PhotoRepositoryComponent implements OnInit {
   getImagesCount: any;
   hideReqBtns = false;
   disableBtns = false;
-
+  isLoader = false;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -58,6 +58,8 @@ export class PhotoRepositoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.removeItem('getSelectedCheckListID');
+    this.selectedInstanceID = [];
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getDefaultImageName();
     if (this.route.snapshot.paramMap.get('type') == 'view') {
@@ -124,17 +126,20 @@ export class PhotoRepositoryComponent implements OnInit {
               this.BudgetService.getServerFileFromStream(
                 img.systemfilename
               ).subscribe((res: Blob) => {
-                const blob = new Blob([res]);
-                srcUrl = URL.createObjectURL(blob);
-                img.imagePreviewSrc = srcUrl;
-                img.sizeCheck = img.sizeinbytes;
-                img.formattedName = img.localfilename.split('.')[0];
-                img.formattedExtension = img.localfilename.split('.')[1];
-                img.sizeinbytes = img.sizeinMB.toFixed(2) + ' ' + 'MB';
+                if (res) {
+                  const blob = new Blob([res]);
+                  srcUrl = URL.createObjectURL(blob);
+                  img.imagePreviewSrc = srcUrl;
+                  img.sizeCheck = img.sizeinbytes;
+                  img.formattedName = img.localfilename.split('.')[0];
+                  img.formattedExtension = img.localfilename.split('.')[1];
+                  img.sizeinbytes = img.sizeinMB.toFixed(2) + ' ' + 'MB';
+                }
               });
             });
           });
         });
+        this.summaryGridCount();
       }
     });
     this.allExpanded = true;
@@ -151,16 +156,32 @@ export class PhotoRepositoryComponent implements OnInit {
       panelClass: 'confirm-dialog-container',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        allListData.forEach((sub: any) => {
-          sub.subTopics.forEach((img: any) => {
-            img.imagelist.forEach((data: any) => {
-              data.localfilename = data.formattedDefName;
-              data.formattedName = data.defaultImageName;
+      if (result && this.imageNames && this.imageNames.length > 0) {
+        this.imageNames.forEach((data: any) => {
+          this.listDatas.forEach((res: any) => {
+            res.subTopics.forEach((sub: any) => {
+              if (
+                sub &&
+                sub.subTopicTitle &&
+                sub.subTopicTitle.lastIndexOf('.') !== -1
+              ) {
+                sub.subTopicTitle = sub.subTopicTitle.slice(0, -1); // Remove the last character
+              }
+
+              if (data.subtopic === sub.subTopicTitle) {
+                sub.imagelist.forEach((list: any) => {
+                  const formattedExtension = list.localfilename.split('.')[1];
+                  const formattedDefName =
+                    data.imagename + '.' + formattedExtension;
+                  list['localfilename'] = formattedDefName;
+                  list['formattedName'] = data.imagename;
+                  list['defaultImageName'] = data.imagename;
+                });
+              }
             });
           });
+          this.summaryGridCount();
         });
-        this.summaryGridCount();
       }
     });
   }
@@ -178,6 +199,13 @@ export class PhotoRepositoryComponent implements OnInit {
           this.imageNames.forEach((data: any) => {
             this.listDatas.forEach((res: any) => {
               res.subTopics.forEach((sub: any) => {
+                if (
+                  sub &&
+                  sub.subTopicTitle &&
+                  sub.subTopicTitle.lastIndexOf('.') !== -1
+                ) {
+                  sub.subTopicTitle = sub.subTopicTitle.slice(0, -1); // Remove the last character
+                }
                 if (data.subtopic === sub.subTopicTitle) {
                   sub.imagelist.forEach((list: any) => {
                     this.blobImageLoad(list);
@@ -197,13 +225,15 @@ export class PhotoRepositoryComponent implements OnInit {
     });
   }
 
-  blobImageLoad(list: any) {    
+  blobImageLoad(list: any) {
     let srcUrl: any;
     this.BudgetService.getServerFileFromStream(list.systemfilename).subscribe(
       (res: Blob) => {
-        const blob = new Blob([res]);
-        srcUrl = URL.createObjectURL(blob);
-        list.imagePreviewSrc = srcUrl;
+        if (res) {
+          const blob = new Blob([res]);
+          srcUrl = URL.createObjectURL(blob);
+          list.imagePreviewSrc = srcUrl;
+        }
       }
     );
   }
@@ -251,6 +281,13 @@ export class PhotoRepositoryComponent implements OnInit {
         (photoCount && photoCount.length > 0 ? photoCount.length : 0);
 
       res.subTopics.forEach((data: any) => {
+        if (
+          data &&
+          data.subTopicTitle &&
+          data.subTopicTitle.lastIndexOf('.') !== -1
+        ) {
+          data.subTopicTitle = data.subTopicTitle.slice(0, -1); // Remove the last character
+        }
         const photoDetails = {
           topic: data.subTopicTitle,
           image:
@@ -320,9 +357,12 @@ export class PhotoRepositoryComponent implements OnInit {
   }
 
   downloadAll() {
+    this.isLoader = true;
     const zip = new JSZip();
     this.listDatas.forEach((element) => {
-      const topicFolderName = element.topic.toString().replaceAll('/', '-');
+      const topicFolderName = element.topic.toString().includes('/')
+        ? element.topic.toString().replaceAll('/', '-')
+        : element.topic.toString();
       const topicFolder = zip.folder(topicFolderName);
       let subTopicFolder: any;
       element.subTopics.forEach((subTopic: any) => {
@@ -331,9 +371,10 @@ export class PhotoRepositoryComponent implements OnInit {
             this.BudgetService.getServerFileFromStream(
               img.systemfilename
             ).subscribe((blob: Blob) => {
-              const subTopicFolderName = subTopic.subTopicTitle
-                .toString()
-                .replaceAll('/', '-');
+
+              const subTopicFolderName = subTopic.subTopicTitle.toString().includes('/')
+                ? subTopic.subTopicTitle.toString().replaceAll('/', '-')
+                : subTopic.subTopicTitle.toString();
               if (topicFolder) {
                 subTopicFolder = topicFolder.folder(subTopicFolderName);
               }
@@ -353,7 +394,8 @@ export class PhotoRepositoryComponent implements OnInit {
       zip.generateAsync({ type: 'blob' }).then((content) => {
         saveAs(content, `${this.referenceNumber}.zip`);
       });
-    }, 1000);
+      this.isLoader = false;
+    }, 2000);
   }
 
   // download all subtopic images
@@ -477,7 +519,7 @@ export class PhotoRepositoryComponent implements OnInit {
     };
     this.BudgetService.savePhotoRep(payload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
-      localStorage.removeItem('getSelectedCheckListID')
+      localStorage.removeItem('getSelectedCheckListID');
       this.selectedInstanceID = [];
       this.getSavedPRData();
     });
@@ -539,10 +581,17 @@ export class PhotoRepositoryComponent implements OnInit {
         const data = JSON.parse(res.responsse);
         this.listDatas.forEach((res: any) => {
           if (res) {
-            let findValue = res.subTopics.find(
-              (sub: any) =>
-                this.selectedSubTopic.subTopicTitle === sub.subTopicTitle
-            );
+            let findValue = res.subTopics.find((sub: any) => {
+              if (
+                sub &&
+                sub.subTopicTitle &&
+                sub.subTopicTitle.lastIndexOf('.') !== -1
+              ) {
+                (sub: any) =>
+                  (sub.subTopicTitle = sub.subTopicTitle.slice(0, -1)); // Remove the last character
+              }
+              return this.selectedSubTopic.subTopicTitle === sub.subTopicTitle;
+            });
 
             const formattedName = data.localfilename.split('.')[0];
             const formattedExtension = data.localfilename.split('.')[1];

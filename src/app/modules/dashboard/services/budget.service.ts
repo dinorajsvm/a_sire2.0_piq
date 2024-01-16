@@ -195,12 +195,6 @@ export class BudgetService {
     });
   }
 
-  getsummaryGridList() {
-    return this.client
-      .get<any>('assets/question/summarylist.json')
-      .pipe(map((res: any) => res));
-  }
-
   getPiqQuestAns(payload: any) {
     let qa = this.client.post<any>(
       `${this.globalUrl}/PIQ/event/MasterData`,

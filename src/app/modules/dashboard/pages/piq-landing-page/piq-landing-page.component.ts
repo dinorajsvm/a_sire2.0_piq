@@ -37,6 +37,8 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'action',
       headerName: 'Action',
       pinned: 'left',
+      sortable: false,
+      filter: false,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
         innerRendererFramework: AgGridMenuComponent,

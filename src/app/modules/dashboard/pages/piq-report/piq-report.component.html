@@ -604,13 +604,8 @@
                                             <div class="col-sm-12 buttons_wrap">
                                               <span style="font-weight: 500">Selected Answer:</span>
                                               <span>
-                                                {{ subq.multiAnswer}}
+                                                {{ subq.answer}}
                                               </span>
-                                              <!-- <span *ngFor="
-                                                  let selected of subq.answer
-                                                ">
-                                                {{ selected }},
-                                              </span> -->
                                               <mat-form-field class="filter" [ngClass]="{
                                                   'read-only-input': viewMode
                                                 }" [hidden]="
@@ -635,11 +630,8 @@
                                                       )
                                                   }" (click)="
                                                     toggleMultiSelection(
-                                                      subq.qid,
                                                       selecVal,
-                                                      Mquest,
                                                       subq,
-                                                      subq.entryorgin,
                                                       quest
                                                     )
                                                   ">
@@ -930,7 +922,7 @@
                                             <div class="col-sm-12 buttons_wrap">
                                               <span style="font-weight: 500">Selected Answer:</span>
                                               <span>
-                                                {{ subq.multiAnswer}}
+                                                {{ subq.answer}}
                                               </span>
                                               <mat-form-field class="filter" [ngClass]="{
                                                   'read-only-input': viewMode
@@ -956,11 +948,8 @@
                                                       )
                                                   }" (click)="
                                                     toggleMultiSelection(
-                                                      subq.qid,
                                                       selecVal,
-                                                      Mquest,
                                                       subq,
-                                                      subq.entryorgin,
                                                       quest
                                                     )
                                                   ">
@@ -1311,7 +1300,7 @@
                                               <div class="col-sm-12 buttons_wrap">
                                                 <span style="font-weight: 500">Selected Answer:</span>
                                                 <span>
-                                                  {{ subq.multiAnswer}}
+                                                  {{ subq.answer}}
                                                 </span>
                                                 <mat-form-field class="filter" [ngClass]="{
                                                     'read-only-input': viewMode
@@ -1339,11 +1328,8 @@
                                                         )
                                                     }" (click)="
                                                       toggleMultiSelection(
-                                                        subq.qid,
                                                         selecVal,
-                                                        allQuestValues,
                                                         subq,
-                                                        subq.entryorgin,
                                                         quest
                                                       )
                                                     ">
@@ -1628,7 +1614,7 @@
                                               <div class="col-sm-12 buttons_wrap">
                                                 <span style="font-weight: 500">Selected Answer:</span>
                                                 <span>
-                                                  {{ subq.multiAnswer}}
+                                                  {{ subq.answer}}
                                                 </span>
                                                 <mat-form-field class="filter" [ngClass]="{
                                                     'read-only-input': viewMode
@@ -1656,11 +1642,8 @@
                                                         )
                                                     }" (click)="
                                                       toggleMultiSelection(
-                                                        subq.qid,
                                                         selecVal,
-                                                        allQuestValues,
                                                         subq,
-                                                        subq.entryorgin,
                                                         quest
                                                       )
                                                     ">
