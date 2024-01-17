@@ -38,7 +38,7 @@ import { PmsLookupComponent } from '../lookup/pms-lookup/pms-lookup.component';
 import { ManualLookUpComponent } from '../lookup/manual-look-up/manual-look-up.component';
 import { MatTabGroup } from '@angular/material/tabs';
 import { UnsaveConfirmationDialogPopupComponent } from '../unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
-import { ConfirmationDialogPopupComponent } from '../confirmation-dialog-popup/confirmation-dialog-popup.component';
+import { SwitchVesselTypeComponent } from '../switch-vessel-type/switch-vessel-type.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -83,6 +83,7 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
   findResponse: any;
   expandAll: boolean = true;
   allQuestion: any;
+  vesselTypeCode: any;
   getPresetQuestCounts: string[] = [];
   headerListContainer: boolean = true;
   descriptionContainer = false;
@@ -137,8 +138,7 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     private route: ActivatedRoute,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
-    private datePipe: DatePipe,
-    private el: ElementRef
+    private datePipe: DatePipe
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
@@ -232,9 +232,7 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     // console.log(this.vesselSelection, 'vesselSelection');
-    
     //   console.log(this.dynamicForms.value.Q133, 'rathish');
-      
   }
 
   onChangeMemo() {
@@ -314,7 +312,8 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       });
     });
     this.BudgetService.setPiqQuestionData(value.value);
-    var ansPayload = {
+    const currentVesselType = localStorage.getItem('currentVesselType');
+    const ansPayload = {
       chapterdata: JSON.stringify(this.rowSummaryData),
       instanceid: this.referenceNumber,
       action: 'I',
@@ -328,6 +327,7 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
       duplicateDetails: this.arrayObj,
       certificatetab: this.saveMappedCertificateData,
+      vesseltype: currentVesselType ? currentVesselType : '',
     };
     this.countDetails();
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
@@ -352,18 +352,20 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     this.BudgetService.setExceptionGridData(rowCount);
   }
 
-  getQuestionAnswerDatas() {
+  getQuestionAnswerDatas(vesselCode?: any) {
     const payload = {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
+      vesseltype: vesselCode ? vesselCode : '',
     };
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
     this.getPresetQuestCounts = [];
 
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      localStorage.setItem('currentVesselType', vesselCode);
       this.getStatus = res.wrkflow;
       this.rowSummaryData =
         res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
@@ -379,10 +381,7 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       localStorage.setItem('Origination', res.orginator);
       this.getVesselCode = res.vesselcode;
       localStorage.setItem('masterVesselCode', res.vesselcode);
-
       this.BudgetService.setStatus(this.getStatus);
-console.log(res.vesseltypename, 'res.vesseltypename');
-
       this.vesselSelection = res.vesseltypename;
       if (this.route.snapshot.paramMap.get('type') == 'new') {
         this.disableEditMode = true;
@@ -476,9 +475,6 @@ console.log(res.vesseltypename, 'res.vesseltypename');
                   mainQus.answer = mainQus.presetvalue;
                   this.countDetails();
                 }
-              } else {
-                // console.log(mainQus.qid, "===", mainQus.answer);
-                
               }
               const index = this.getMainQuestCounts.findIndex(
                 (section: any) =>
@@ -780,18 +776,29 @@ console.log(res.vesseltypename, 'res.vesseltypename');
     subQue: any,
     type?: any
   ): void {
+    if (value === subQue.answer) {
+      console.log(type);
+      
+      value = '';
+    }
+    if (value === '' && subQue.qid === 'Q133') {
+      this._snackBarService.loadSnackBar(
+        'Vessel Type Mandatory',
+        colorCodes.ERROR
+      );
+      return;
+    }
+    if (type === '' && subQue.qid === 'Q133') {
+      this.getvesseltype();
+      this.switchVesselType();
+    }
 
     this.BudgetService.setUnSaveAction(true);
-    // if (subQue.qid === 'Q133') {
-      console.log(value, 'vesselSelection');
-      
-    //   value = this.vesselSelection;
-    // }
-    subQue.answer =
-    subQue.answer !== value ? value : '';
 
-    value = subQue.answer === '' ? '' : subQue.answer
-    
+    subQue.answer = subQue.answer !== value ? value : '';
+
+    value = subQue.answer === '' ? '' : subQue.answer;
+
     const mQuestion = mainQue.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -824,10 +831,9 @@ console.log(res.vesseltypename, 'res.vesseltypename');
     if (this.lastModifiedData.length > 5) {
       this.lastModifiedData.splice(5);
     }
- 
+
     this.countDetails();
-  
-    
+
     // this.vesselSelection = subQue.answer;
 
     this.selectedValue = ques.subHeaders;
@@ -838,6 +844,35 @@ console.log(res.vesseltypename, 'res.vesseltypename');
     }
     this.dynamicForms.controls[subQue.qid].setValue(value);
     this.chapterGrid();
+  }
+  getvesseltype() {
+    this.BudgetService.getvesseltypeNameCode().subscribe((res: any) => {
+      this.vesselTypeCode = res.response;
+    });
+  }
+  switchVesselType() {
+    const dialogRef = this.dialog.open(SwitchVesselTypeComponent, {
+      disableClose: true,
+      panelClass: 'switchVessel-dialog-container',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const vesselCode = this.vesselTypeCode.find(
+          (x: any) => x.vesseltypename === this.dynamicForms.value.Q133
+        );
+        this.getQuestionAnswerDatas(vesselCode.vesseltypecode);
+
+        return;
+      } else {
+        this.toggleSingleSelection(
+          this.vesselSelection,
+          this.getAllDatas[0].values[0],
+          this.getAllDatas[0].values[0].question[0],
+          this.getAllDatas[0].values[0].question[0].subQuestion[0],
+          'initial'
+        );
+      }
+    });
   }
 
   countDetails() {
@@ -2844,6 +2879,7 @@ console.log(res.vesseltypename, 'res.vesseltypename');
   navigateLandingPage() {
     localStorage.removeItem('getSelectedCheckListID');
     localStorage.removeItem('previousTabIndex');
+    localStorage.removeItem('currentVesselType');
     this.BudgetService.setEditVisible(false);
     localStorage.setItem('setEditVisible', 'false');
     this.router.navigate(['/sire/piq-landing/']);

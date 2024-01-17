@@ -1,0 +1,26 @@
+<div mat-dialog-title>
+  <h5 class="moduleTitle">Confirm Action</h5>
+</div>
+<mat-dialog-content>
+  If you override the vessel type and the vessel types data have changed, when
+  you SAVE/SAVE DRAFT or SUBMIT, the existing data cannot be retrieved.
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    (click)="saveData()"
+    cdkFocusInitial
+    class="showBtn btnHeight"
+  >
+    Yes
+  </button>
+  <button
+    mat-button
+    (click)="cancel()"
+    mat-dialog-close
+    class="cancel btnHeight"
+    style="margin-left: 8px"
+  >
+    No
+  </button>
+</mat-dialog-actions>

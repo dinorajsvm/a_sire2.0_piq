@@ -250,6 +250,7 @@ export class PIQLandingPageComponent implements OnInit {
   };
   gridColumnApi: any;
   getSubmitterRank: any;
+  showStsBar=false;
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -524,6 +525,9 @@ export class PIQLandingPageComponent implements OnInit {
         this.getWrkFlowUser = item.creater;
       });
     });
+  }
+  stsBarToggle(){
+    this.showStsBar = !this.showStsBar
   }
 
   navigatePiq() {

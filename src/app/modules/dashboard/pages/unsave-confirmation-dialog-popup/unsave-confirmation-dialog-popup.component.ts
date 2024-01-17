@@ -14,7 +14,7 @@ export class UnsaveConfirmationDialogPopupComponent {
   saveData() {
     this.dialogRef.close(true)
   }
-
+ 
   cancel() {
     this.dialogRef.close(false)
   }

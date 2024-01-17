@@ -45,6 +45,7 @@ import { selectSearchVslPipe } from './services/select-search-vsl-filter.pipe';
 import { UnsaveConfirmationDialogPopupComponent } from './pages/unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
 import { ConfirmationDialogPopupComponent } from './pages/confirmation-dialog-popup/confirmation-dialog-popup.component';
 import { NumberSpecDirective } from './pages/directives/numberSpec.directives';
+import { SwitchVesselTypeComponent } from './pages/switch-vessel-type/switch-vessel-type.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { NumberSpecDirective } from './pages/directives/numberSpec.directives';
     PmsLookupComponent,
     ManualLookUpComponent,
     UnsaveConfirmationDialogPopupComponent,
-    ConfirmationDialogPopupComponent
+    ConfirmationDialogPopupComponent,
+    SwitchVesselTypeComponent
   ],
   imports: [
     DashboardRoutingModule,

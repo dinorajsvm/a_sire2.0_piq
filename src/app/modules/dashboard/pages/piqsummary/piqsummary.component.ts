@@ -293,8 +293,7 @@ export class PIQSummaryComponent implements OnInit {
     this.buildForm();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
-    // this.locationCode = localStorage.getItem('locationCode');
-    this.locationCode = this.userDetails?.companyCode;
+    this.locationCode = localStorage.getItem('locationCode');
     this.getworkflowStatus();
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
 
@@ -324,7 +323,7 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
-    // this.locationCode = localStorage.getItem('locationCode');
+    this.locationCode = localStorage.getItem('locationCode');
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
@@ -483,11 +482,13 @@ export class PIQSummaryComponent implements OnInit {
   }
 
   getMasterDetails() {
+    const currentVesselType = localStorage.getItem('currentVesselType');
     const payload = {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
+      vesseltype: currentVesselType ? currentVesselType : '',
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);
@@ -495,12 +496,6 @@ export class PIQSummaryComponent implements OnInit {
       this.getVesselCode = res.vesselcode;
       this.certficateGridDatas();
       this.getOriginator = res.orginator;
-      // if (
-      //   this.getWorkFlowAction == 'Submitted' ||
-      //   this.getWorkFlowAction == 'Approved'
-      // ) {
-      //   this.BudgetService.setEnableBtn(true);
-      // }
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
@@ -656,6 +651,7 @@ export class PIQSummaryComponent implements OnInit {
         checkbox: element.checkbox,
       });
     });
+    const currentVesselType = localStorage.getItem('currentVesselType');
     if (type === 'syncToStore') {
       ansPayload = {
         instanceid: this.referenceNumber,
@@ -663,11 +659,12 @@ export class PIQSummaryComponent implements OnInit {
         user: this.userDetails.userCode,
         tenantIdentifier: '',
         answerdata: this.submitData,
-        locationcode: this.userDetails?.companyCode,
+        locationcode: this.locationCode,
         exceptionjson: this.getExceptionGrid,
         mainQuestCheckbox: pendingResult,
         lastmodifieddata: JSON.stringify(this.modifiedrowData),
         wfaction: '',
+        vesseltype: currentVesselType ? currentVesselType : '',
       };
     } else if (type === 'reassign') {
       if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
@@ -678,11 +675,12 @@ export class PIQSummaryComponent implements OnInit {
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
-          locationcode: this.userDetails?.companyCode,
+          locationcode: this.locationCode,
           exceptionjson: this.getExceptionGrid,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'RSN',
+          vesseltype: currentVesselType ? currentVesselType : '',
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
@@ -706,11 +704,12 @@ export class PIQSummaryComponent implements OnInit {
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
-          locationcode: this.userDetails?.companyCode,
+          locationcode: this.locationCode,
           exceptionjson: this.getExceptionGrid,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'APR',
+          vesseltype: currentVesselType ? currentVesselType : '',
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         localStorage.setItem('setDisable', 'true');
@@ -735,11 +734,12 @@ export class PIQSummaryComponent implements OnInit {
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
-          locationcode: this.userDetails?.companyCode,
+          locationcode: this.locationCode,
           exceptionjson: this.getExceptionGrid,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'SUB',
+          vesseltype: currentVesselType ? currentVesselType : '',
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
@@ -759,11 +759,13 @@ export class PIQSummaryComponent implements OnInit {
     this.saveMethodCall(ansPayload, type);
   }
   getQuestionAnswerDatas(type?: any) {
+    const currentVesselType = localStorage.getItem('currentVesselType');
     const payload = {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
+      vesseltype: currentVesselType ? currentVesselType : '',
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
@@ -803,11 +805,13 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
   getplannedDate() {
+    const currentVesselType = localStorage.getItem('currentVesselType');
     const payload = {
       instanceid: this.referenceNumber,
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
+      vesseltype: currentVesselType ? currentVesselType : '',
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);
@@ -861,8 +865,6 @@ export class PIQSummaryComponent implements OnInit {
   }
   saveMethodCall(ansPayload: any, type?: any) {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
-      console.log("ansPayload",ansPayload);
-      
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(

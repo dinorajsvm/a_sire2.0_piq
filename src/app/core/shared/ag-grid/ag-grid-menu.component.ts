@@ -53,9 +53,11 @@ export class AgGridMenuComponent implements AgRendererComponent {
 
 
   edit(id: any) {
+    localStorage.removeItem('currentVesselType');
     this.router.navigate(['/sire/piq-report/' + id]);
   }
   view(id: any) {
+    localStorage.removeItem('currentVesselType');
     this.router.navigate(['/sire/piq-report/' + id + '/' + EFormMode.VIEW]);
   }
   deleteRowData(event: any,id:any) {
