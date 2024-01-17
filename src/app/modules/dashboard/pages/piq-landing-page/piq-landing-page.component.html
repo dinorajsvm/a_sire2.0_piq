@@ -1,9 +1,74 @@
-<div class="col-sm-12">
-  <div class="row" style="padding: 10px 0">
+<div class="col-sm-12" style="height: calc(100vh - 45px);">
+  <div style="display: flex;justify-content: center;">
+    <span
+      style="border: 1px solid #5b9cd6;display: flex;border-radius: 0px 0px 50px 50px;border-top: 0;width: 30px;justify-content: center;">
+      <mat-icon class="cursor-pointer"
+        style="width: 15px;height: 15px;display: flex;justify-content: center;align-items: center;padding-bottom: 2px;color: #222296;">expand_more</mat-icon>
+    </span>
+  </div>
+  <div class="row" style="padding-top: 10px">
     <div class="col-sm-6">
       <span class="page_Title"> PIQ </span>
     </div>
-    <div class="col-sm-6 text-right" style="padding-right: 0">
+  </div>
+  <div class="row" >
+    <div class="col-sm-12">
+      <div class="row" style="justify-content: center;">
+      <div class="statusBar_Wrapper">
+        <div class="statusBars_subWrap">
+          <div class="statusBar_CountWrap stsBar_action_Wrap">
+            <span class="statusBar_Counts stsBar_action_Counts">12</span>
+          </div>
+          <div class="statusBar_Name stsBar_action_Wrap">
+            <span>My Actions</span></div>
+        </div>
+        <div class="statusBars_subWrap">
+          <div  class="statusBar_CountWrap stsBar_chats_Wrap">
+            <span class="statusBar_Counts stsBar_chats_Counts">12</span>
+          </div>
+          <div class="statusBar_Name stsBar_chats_Wrap">
+            <span>My Chats</span></div>
+        </div>
+        <div class="statusBars_subWrap">
+          <div  class="statusBar_CountWrap stsBar_notification_Wrap">
+            <span class="statusBar_Counts stsBar_notification_Counts">12</span>
+          </div>
+          <div class="statusBar_Name stsBar_notification_Wrap">
+            <span>My Notification</span></div>
+        </div>
+        <div class="statusBars_subWrap">
+          <div  class="statusBar_CountWrap stsBar_submitted_Wrap">
+            <span class="statusBar_Counts stsBar_submitted_Counts">12</span>
+          </div>
+          <div class="statusBar_Name stsBar_submitted_Wrap">
+            <span>Submitted</span></div>
+        </div>
+        <div class="statusBars_subWrap">
+          <div  class="statusBar_CountWrap stsBar_reviewed_Wrap">
+            <span class="statusBar_Counts stsBar_reviewed_Counts">12</span>
+          </div>
+          <div class="statusBar_Name stsBar_reviewed_Wrap">
+            <span>Reviewed</span></div>
+        </div>
+        <div class="statusBars_subWrap">
+          <div  class="statusBar_CountWrap stsBar_approved_Wrap">
+            <span class="statusBar_Counts stsBar_approved_Counts">12</span>
+          </div>
+          <div class="statusBar_Name stsBar_approved_Wrap">
+            <span>Approved</span></div>
+        </div>
+        <div class="statusBars_subWrap">
+          <div  class="statusBar_CountWrap stsBar_close_Wrap">
+            <span class="statusBar_Counts stsBar_close_Counts">12</span>
+          </div>
+          <div class="statusBar_Name stsBar_close_Wrap">
+            <span>Close Out</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <div class="row" style="padding: 10px 0">
+    <div class="col-sm-12 text-right" style="padding-right: 0">
       <div>
         <button mat-button class="new" (click)="navigatePiq()">New</button>
         <img class="btnImg" src="assets/question/new.svg" />
@@ -24,20 +89,21 @@
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
       <ag-grid-angular style="height: calc(100vh - 140px)" class="ag-theme-balham" [columnDefs]="shipColumnDefs"
-        [defaultColDef]="defaultColDef" [sideBar]="sideBar" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
-        [gridOptions]="gridOptions" [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true"
-        [masterDetail]="true" [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)"
-        [rowData]="rowData" [components]="frameWorkComponent" (gridReady)="onGridReady($event)"
-        (filterChanged)="onFilterChanged()">
+        [defaultColDef]="defaultColDef" [sideBar]="sideBar" [rowGroupPanelShow]="rowGroupPanelShow"
+        [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions" [tooltipShowDelay]="tooltipShowDelay"
+        [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
+        (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData" [components]="frameWorkComponent"
+        (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">
       </ag-grid-angular>
     </div>
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
       <ag-grid-angular style="height: calc(100vh - 140px)" class="ag-theme-balham" [columnDefs]="shoreColumnDefs"
-        [defaultColDef]="defaultColDef" [sideBar]="sideBar" [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType"
-        [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
-        [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData"
-        [components]="frameWorkComponent" (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">
+        [defaultColDef]="defaultColDef" [sideBar]="sideBar" [rowGroupPanelShow]="rowGroupPanelShow"
+        [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions" [animateRows]="true" [suppressMenuHide]="true"
+        [masterDetail]="true" [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)"
+        [rowData]="rowData" [components]="frameWorkComponent" (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()">
       </ag-grid-angular>
     </div>
   </div>

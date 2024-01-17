@@ -293,7 +293,8 @@ export class PIQSummaryComponent implements OnInit {
     this.buildForm();
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
-    this.locationCode = localStorage.getItem('locationCode');
+    // this.locationCode = localStorage.getItem('locationCode');
+    this.locationCode = this.userDetails?.companyCode;
     this.getworkflowStatus();
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
 
@@ -323,7 +324,7 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.getAnswerValue();
     this.userDetails = this._storage.getUserDetails();
-    this.locationCode = localStorage.getItem('locationCode');
+    // this.locationCode = localStorage.getItem('locationCode');
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
@@ -662,7 +663,7 @@ export class PIQSummaryComponent implements OnInit {
         user: this.userDetails.userCode,
         tenantIdentifier: '',
         answerdata: this.submitData,
-        locationcode: this.locationCode,
+        locationcode: this.userDetails?.companyCode,
         exceptionjson: this.getExceptionGrid,
         mainQuestCheckbox: pendingResult,
         lastmodifieddata: JSON.stringify(this.modifiedrowData),
@@ -677,7 +678,7 @@ export class PIQSummaryComponent implements OnInit {
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
-          locationcode: this.locationCode,
+          locationcode: this.userDetails?.companyCode,
           exceptionjson: this.getExceptionGrid,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
@@ -705,7 +706,7 @@ export class PIQSummaryComponent implements OnInit {
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
-          locationcode: this.locationCode,
+          locationcode: this.userDetails?.companyCode,
           exceptionjson: this.getExceptionGrid,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
@@ -734,7 +735,7 @@ export class PIQSummaryComponent implements OnInit {
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
-          locationcode: this.locationCode,
+          locationcode: this.userDetails?.companyCode,
           exceptionjson: this.getExceptionGrid,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
@@ -860,6 +861,8 @@ export class PIQSummaryComponent implements OnInit {
   }
   saveMethodCall(ansPayload: any, type?: any) {
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
+      console.log("ansPayload",ansPayload);
+      
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(
