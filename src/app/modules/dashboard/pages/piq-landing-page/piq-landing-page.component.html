@@ -1,14 +1,17 @@
 <div class="col-sm-12" style="height: calc(100vh - 45px);">
-  <div style="display: flex;justify-content: center;">
-    <span class="statusBar_toggle" (click)="stsBarToggle()">
-      <mat-icon class="cursor-pointer statusBar_toggleIcn"> {{ showStsBar ? "expand_less" : "expand_more" }}</mat-icon>
-    </span>
-  </div>
-  <div class="row" style="padding-top: 10px">
+  <div class="row">
     <div class="col-sm-6">
       <span class="page_Title"> PIQ </span>
     </div>
+    <div class="col-sm-6" style="padding: 0;">
+      <div style="display: flex;">
+        <span class="statusBar_toggle" (click)="stsBarToggle()">
+          <mat-icon class="cursor-pointer statusBar_toggleIcn"> {{ showStsBar ? "expand_less" : "expand_more" }}</mat-icon>
+        </span>
+      </div>
+    </div>
   </div>
+  
   <div class="row" [class.showStsBar]="showStsBar">
     <div class="col-sm-12">
       <div class="row" style="justify-content: center;">
@@ -154,7 +157,7 @@
   <div class="row">
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <ag-grid-angular style="height: calc(100vh - 185px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
+      <ag-grid-angular style="height: calc(100vh - 160px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
         [columnDefs]="shipColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
@@ -164,7 +167,7 @@
     </div>
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <ag-grid-angular style="height: calc(100vh - 185px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
+      <ag-grid-angular style="height: calc(100vh - 160px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
         [columnDefs]="shoreColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
