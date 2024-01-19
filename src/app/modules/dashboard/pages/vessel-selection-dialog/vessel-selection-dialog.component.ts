@@ -7,9 +7,7 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { BudgetService } from '../../services/budget.service';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
-  Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
@@ -55,7 +53,6 @@ export class VesselSelectionDialogComponent {
   vesselSelectionForms!: FormGroup;
   userDetails: any;
   compVslCode: any;
-  getRefNo: any;
   vesselname: any;
   selectedVesselName: any;
   vesselTypeCode: any;
@@ -64,8 +61,20 @@ export class VesselSelectionDialogComponent {
   getWrkFlowId: any;
   toolTipVal: any;
   toolTipValType: any;
-  filterInputValue: any;
-
+  
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private BudgetService: BudgetService,
+    private _storage: StorageService,
+    private _snackBarService: SnackbarService,
+    public dialog: MatDialog,
+    private datePipe: DatePipe,
+    private dialogRef: MatDialogRef<VesselSelectionDialogComponent>,private renderer: Renderer2,
+    private el: ElementRef
+  ) {
+    this.userDetails = this._storage.getUserDetails();
+  }
   ngOnInit(): void {
     this.vesselSelectionForms = this.fb.group({
       vesselName: [''],
@@ -193,19 +202,6 @@ export class VesselSelectionDialogComponent {
     }
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private BudgetService: BudgetService,
-    private _storage: StorageService,
-    private _snackBarService: SnackbarService,
-    public dialog: MatDialog,
-    private datePipe: DatePipe,
-    private dialogRef: MatDialogRef<VesselSelectionDialogComponent>,private renderer: Renderer2,
-    private el: ElementRef
-  ) {
-    this.userDetails = this._storage.getUserDetails();
-  }
   getNewRef() {
     const payload = {
       locationcode: this.userDetails?.companyCode,
@@ -222,10 +218,10 @@ export class VesselSelectionDialogComponent {
       remarks: '',
     };
     this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
+      console.log('getNewRef');
+      
       if (Object.keys(res).length != 0) {
-        let refNo = res;
         const getRefNumber = res.response;
-        this.getRefNo = refNo;
         getRefNumber != ''
           ? this.router.navigate(['/sire/piq-report/' + getRefNumber + '/new'])
           : '';

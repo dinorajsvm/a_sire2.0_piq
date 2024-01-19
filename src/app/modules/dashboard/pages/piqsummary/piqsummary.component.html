@@ -260,7 +260,7 @@
       <span class="table-header">Last Modified Data Summary</span>
       <div class="col-sm-12 justify-content-end ag-toolBar">
         <span class="m-0">
-          Total Records: {{ modifiedrowData && modifiedrowData.length }}
+          Total Records: {{ modifiedrowData && modifiedrowData.length ? modifiedrowData.length  : 0  }}
         </span>
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
@@ -294,7 +294,7 @@
         </span>
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px); overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" 
+        [columnDefs]="lastSyncColumnDefs" [defaultColDef]="defaultColDef" 
         [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" 
         [groupDisplayType]="groupDisplayType" [embedFullWidthRows]="true" [rowData]="expectedRowData">
       </ag-grid-angular>
@@ -307,7 +307,7 @@
         </span>
       </div>
       <ag-grid-angular style="height: calc(100vh - 430px); overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="expectedColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="lastSyncColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay"
         [groupDisplayType]="groupDisplayType"  [animateRows]="true"
         [rowData]="expectedRowData">
       </ag-grid-angular>

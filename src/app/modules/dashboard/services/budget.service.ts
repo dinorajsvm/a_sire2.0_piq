@@ -20,26 +20,20 @@ export class BudgetService {
   apikey: any;
   private getAllPreviousPresetData = new BehaviorSubject<any>(0);
   private getSummaryGridDataList = new Subject<any>();
-  private getSummaryGridList = new Subject<any>();
   private getFormStatus = new Subject<any>();
-  private getRankCode = new Subject<any>();
   private getViewMode = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
   private getPhotoRepGridData = new Subject<any>();
   private getSearchStatus = new Subject<any>();
   private getCertificateGridDataList = new BehaviorSubject<any>(0);
-  private getModifiedDataList = new Subject<any>();
   private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
   private saveMappedCertificate = new Subject<any>();
-  private getExceptionGridDataList = new BehaviorSubject<any>(0);
   private getImageCount = new BehaviorSubject<any>(0);
   private getPhotoRepList = new Subject<any>();
-  private getRemarksCount = new BehaviorSubject<any>(0);
   private exceptionList = new Subject<any>();
   private guidelineList = new Subject<any>();
   private exceptionReset = new Subject<any>();
   private getVslCode = new Subject<any>();
-  private getExcepData = new Subject<any>();
   private getTabIndexCount = new Subject<any>();
   private hideEditButton = new Subject<any>();
   private enableDisableButtons = new Subject<any>();
@@ -61,13 +55,6 @@ export class BudgetService {
 
   getStatus() {
     return this.getFormStatus.asObservable();
-  }
-  setRank(message: any) {
-    this.getRankCode.next(message);
-  }
-
-  getRank() {
-    return this.getRankCode.asObservable();
   }
 
   setGridSummary(message: any) {
@@ -131,68 +118,11 @@ export class BudgetService {
     return this.getSearchStatus.asObservable();
   }
 
-  GetBudgetRate(stateData: any) {
-    let ob = this.client.post<any>(
-      `${this.globalUrl}/PROCWebServices/procapi/getData/budgetrate`,
-      stateData
-    );
-    return ob;
-  }
-
-  getBudgetPopup(stateData: any) {
-    let ob = this.client.post<any>(
-      `${this.globalUrl}/PROCWebServices/procapi/getData/budgetpopup`,
-      stateData
-    );
-    return ob;
-  }
-
   setVesselTypeData(message: any) {
     this.getVeslTypeData.next(message);
   }
   getVesselTypeData() {
     return this.getVeslTypeData.asObservable();
-  }
-
-  getPiqDatas() {
-    return this.client
-      .get<any>('assets/question/questionsData.json')
-      .pipe(map((res: any) => res));
-  }
-  getPiqListDatas() {
-    return this.client
-      .get<any>('assets/question/questionList.json')
-      .pipe(map((res: any) => res));
-  }
-
-  getPresetDropdown() {
-    return this.client
-      .get<any>('assets/question/presetDropdown.json')
-      .pipe(map((res: any) => res));
-  }
-
-  getPresetquestions() {
-    return this.client
-      .get<any>('assets/question/presetQuestions.json')
-      .pipe(map((res: any) => res));
-  }
-
-  getCertificateGridList() {
-    return this.client
-      .get<any>('assets/question/certificateGridList.json')
-      .pipe(map((res: any) => res));
-  }
-
-  getCertificateDropdownList() {
-    return this.client
-      .get<any>('assets/question/certificateDropDownList.json')
-      .pipe(map((res: any) => res));
-  }
-
-  downloadFile(fileUrl: any): Promise<Blob> {
-    return fetch(`${this.globalUrl}` + '/' + fileUrl).then((res: any) => {
-      return res.blob();
-    });
   }
 
   getPiqQuestAns(payload: any) {
@@ -250,26 +180,6 @@ export class BudgetService {
     return ba;
   }
 
-  getsavedAnswers(refno: any) {
-    var payload: any = {
-      instanceid: refno,
-    };
-    let ba = this.client
-      .get<any>(`${this.globalUrl}/PIQ/event/getMergeddata?instanceid=${refno}`)
-      .pipe(map((res: any) => res));
-    return ba;
-  }
-
-  getPrLists() {
-    return this.client
-      .get<any>('assets/question/prLists.json')
-      .pipe(map((res: any) => res));
-  }
-  getPrGridLists() {
-    return this.client
-      .get<any>('assets/question/prGridLists.json')
-      .pipe(map((res: any) => res));
-  }
 
   getRefnImport(userCode: any) {
     return this.client.get<any>(
@@ -291,9 +201,6 @@ export class BudgetService {
   }
 
   getWorkFlowSummary(refno: any) {
-    var payload: any = {
-      instanceid: refno,
-    };
     let ba = this.client
       .get<any>(
         `${this.globalUrl}/PIQ/event/getworkflowhistory?instanceid=${refno}`
@@ -342,20 +249,6 @@ export class BudgetService {
     return this.getPhotoRepGridData.asObservable();
   }
 
-  setExceptionRowData(message: any) {
-    this.getExcepData.next(message);
-  }
-  getExceptionRowData() {
-    return this.getExcepData.asObservable();
-  }
-
-  setSummaryGrid(message: any) {
-    this.getSummaryGridList.next(message);
-  }
-  getSummaryGrid() {
-    return this.getSummaryGridList.asObservable();
-  }
-
   setCertificateGridData(message: any) {
     this.getCertificateGridDataList.next(message);
   }
@@ -376,12 +269,7 @@ export class BudgetService {
   getSavedMappedCertificateData() {
     return this.saveMappedCertificate.asObservable();
   }
-  setModifiedData(message: any) {
-    this.getModifiedDataList.next(message);
-  }
-  getModifiedData() {
-    return this.getModifiedDataList.asObservable();
-  }
+
   setTabChangeData(message: any) {
     this.getTabIndexCount.next(message);
   }
@@ -389,18 +277,6 @@ export class BudgetService {
     return this.getTabIndexCount.asObservable();
   }
 
-  setExceptionGridData(message: any) {
-    this.getExceptionGridDataList.next(message);
-  }
-  getExceptionGridData() {
-    return this.getExceptionGridDataList.asObservable();
-  }
-  setRemarksCountData(message: any) {
-    this.getRemarksCount.next(message);
-  }
-  getRemarksCountsData() {
-    return this.getRemarksCount.asObservable();
-  }
   setPhotoRepData(message: any) {
     this.getPhotoRepList.next(message);
   }
@@ -426,12 +302,6 @@ export class BudgetService {
   getCertificateList(companycode: any, vesselcode: any, instanceId: any) {
     return this.client.get<any>(
       `${this.globalUrl}/PIQ/event/getcertificatemapping?companycode=${companycode}&vesselcode=${vesselcode}&instanceid=${instanceId}`
-    );
-  }
-  saveCertificateList(payload: any) {
-    return this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/savecertificate`,
-      payload
     );
   }
 
@@ -462,13 +332,6 @@ export class BudgetService {
     return this.exceptionReset.asObservable();
   }
 
-  saveExceptionList(payload: any) {
-    return this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/saveexception`,
-      payload
-    );
-  }
-
   getTopBarData(instanceid: any) {
     let ba = this.client
       .get<any>(
@@ -492,12 +355,6 @@ export class BudgetService {
     return ba;
   }
 
-  photoRepUpload(payload: any) {
-    return this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/attachmentupload`,
-      payload
-    );
-  }
 
   getServerFileFromStream(fileName: any) {
     return this.client.get(

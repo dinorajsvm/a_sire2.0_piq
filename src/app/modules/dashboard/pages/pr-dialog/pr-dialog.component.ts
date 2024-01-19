@@ -39,7 +39,6 @@ export class PrDialogComponent implements OnInit {
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow:any  = 'always';
 
   constructor(
     private BudgetService: BudgetService,

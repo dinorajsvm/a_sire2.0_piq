@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
-import { GridOptions, LicenseManager, RowGroupingDisplayType } from 'ag-grid-enterprise';
+import {
+  GridOptions,
+  LicenseManager,
+  RowGroupingDisplayType,
+} from 'ag-grid-enterprise';
 import { DefaultColDef } from 'src/app/core/constants';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
 import { ActivatedRoute } from '@angular/router';
@@ -119,13 +123,6 @@ export class ExceptionQuestionComponent implements OnInit {
       this.rowData = data;
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-      this.getRowdataCount =
-        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-      this.BudgetService.setExceptionGridData(this.getRowdataCount);
-      this.gridApi!.setRowData(this.rowData);
-      if (this.rowData && this.rowData.length > 0) {
-        this.BudgetService.setExceptionRowData(this.rowData);
-      }
     });
     this.columnDefs[6].editable = !this.disableBtns;
     this.columnDefs[6].cellEditorPopup = !this.disableBtns;
@@ -145,23 +142,16 @@ export class ExceptionQuestionComponent implements OnInit {
       this.gridApi!.setRowData(this.rowData);
     }
   }
-
-  // onCellValueChanged(event: any): void {
-  //   console.log("xxxxxxxxxx");
-  //   if (event.colDef.field === 'remark') {
-      
-  //     console.log('Remarks column edited. New value:', event.newValue);
-  //   }
-  // }
+  onCellValueChanged(event: any) {
+    this.BudgetService.setExceptionData(this.rowData);
+  }
   onCellEditingStopped(event: any) {
-    this.BudgetService.setExceptionRowData(this.rowData);
-    console.log("this.rowData",this.rowData);
-    
-    }
+    this.BudgetService.setExceptionData(this.rowData);
+  }
   onCellClicked(event: any): void {
     if (
       !(event.colDef.field === 'autoSync' || event.colDef.field === 'remark')
-    ) {  
+    ) {
       event.data.tab = 1;
       this.BudgetService.setTabChangeData(event.data);
     }
@@ -173,36 +163,37 @@ export class ExceptionQuestionComponent implements OnInit {
       const status = res;
       const rank = localStorage.getItem('AppRank');
       const origin = localStorage.getItem('Origination');
-        if (this.gridColumnApi && this.gridColumnApi.getColumn('remark') && this.gridColumnApi.getColumn('remark').getColDef()) {
-          if (status != null || rank != null || origin != null) {
-            if (
-              this.route.snapshot.paramMap.get('type') == 'view' ||
-              (this.userDetails?.cntrlType === 'CNT002' &&
-                origin == 'CNT002' &&
-                (status === 'Submitted' || status === 'Approved')) ||
-              (this.userDetails?.cntrlType === 'CNT002' &&
-                origin == 'CNT001') ||
-              (this.userDetails?.cntrlType === 'CNT001' &&
-                origin == 'CNT001' &&
-                this.userDetails.rankCode == rank &&
-                (status === 'ReAssigned' || status === 'Approved')) ||
-              (this.userDetails?.cntrlType === 'CNT001' &&
-                origin == 'CNT001' &&
-                this.userDetails.rankCode != rank &&
-                (status === 'Submitted' || status === 'Approved')) ||
-              (this.userDetails?.cntrlType === 'CNT001' &&
-                origin == 'CNT002' &&
-                this.userDetails.rankCode == rank &&
-                (status === 'Approved' || status === 'ReAssigned'))
-            ) {
-              this.gridColumnApi.getColumn('remark').getColDef().editable =
-                false;
-            } else {
-              this.gridColumnApi.getColumn('remark').getColDef().editable =
-                true;
-            }
+      if (
+        this.gridColumnApi &&
+        this.gridColumnApi.getColumn('remark') &&
+        this.gridColumnApi.getColumn('remark').getColDef()
+      ) {
+        if (status != null || rank != null || origin != null) {
+          if (
+            this.route.snapshot.paramMap.get('type') == 'view' ||
+            (this.userDetails?.cntrlType === 'CNT002' &&
+              origin == 'CNT002' &&
+              (status === 'Submitted' || status === 'Approved')) ||
+            (this.userDetails?.cntrlType === 'CNT002' && origin == 'CNT001') ||
+            (this.userDetails?.cntrlType === 'CNT001' &&
+              origin == 'CNT001' &&
+              this.userDetails.rankCode == rank &&
+              (status === 'ReAssigned' || status === 'Approved')) ||
+            (this.userDetails?.cntrlType === 'CNT001' &&
+              origin == 'CNT001' &&
+              this.userDetails.rankCode != rank &&
+              (status === 'Submitted' || status === 'Approved')) ||
+            (this.userDetails?.cntrlType === 'CNT001' &&
+              origin == 'CNT002' &&
+              this.userDetails.rankCode == rank &&
+              (status === 'Approved' || status === 'ReAssigned'))
+          ) {
+            this.gridColumnApi.getColumn('remark').getColDef().editable = false;
+          } else {
+            this.gridColumnApi.getColumn('remark').getColDef().editable = true;
           }
         }
+      }
     });
 
     this.gridApi = params.api;

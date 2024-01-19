@@ -50,13 +50,13 @@ export class PIQSummaryComponent implements OnInit {
   @Input() totalQuestCount: any;
   @Input() presetQuestCounts: any;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
-  getExceptionGrid: any;
   emptyRemark: any;
   quickNotesInput = '';
   remarks = '';
   instanceId = '';
   checkboxBoolean: any[] = [];
   pendingCount = 0;
+  exceptionList: any[] = [];
   photoRowData: any[] = [];
   private gridApi!: GridApi;
   defaultColDef = DefaultColDef;
@@ -64,6 +64,44 @@ export class PIQSummaryComponent implements OnInit {
   enableViewMode: boolean = true;
   hideReqBtns: boolean = false;
   public tooltipShowDelay = 0;
+  plannedSubDate: any;
+  getWorkFlowAction: any;
+  getWrkFlowId: any;
+  getResAprWrkFlowRank: any;
+  setFlowAction: any;
+  getRank: any;
+  submitData: any;
+  dateSelected: any;
+  quickNotes: any;
+  getVesselCode: any;
+  photoRepImgCounts: any;
+  getPlannedSubDate: any;
+  getOriginator: any;
+  getApproverRanks: any;
+  getSubmitterRanks: any;
+  rowData: any[] = [];
+  certificateRowData: any[] = [];
+  modifiedrowData: any[] = [];
+  referenceNumber: any = '';
+  userDetails: any;
+  locationCode: any;
+  getMainQuestCounts: any[] = [];
+  getAllDatas: any[] = [];
+  certificateCounts: any;
+  exceptionCounts: any;
+  remarksCounts: any;
+  remarksGridData: any = [];
+  photoRepCounts: any;
+  mappedCertificateCounts: any;
+  lastModifiedData: any;
+  syncedData: any[] = [];
+  expectedRowData: any[] = [];
+  disableSubFlowBtn: boolean = false;
+  disableResAprFlowBtn: boolean = false;
+  disableSyncBtn = true;
+  hideEdit: boolean = true;
+  hideBtns: boolean = false;
+  viewMode?: boolean;
   columnDefs: ColDef[] = [
     {
       field: 'topics',
@@ -127,18 +165,20 @@ export class PIQSummaryComponent implements OnInit {
       floatingFilter: false,
     },
   ];
-  expectedColumnDefs: ColDef[] = [
+  lastSyncColumnDefs: ColDef[] = [
     {
       field: 'username',
       headerName: 'User Name',
       tooltipField: 'username',
       flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'rankname',
       headerName: 'User Rank',
       tooltipField: 'rankname',
       flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'crdate',
@@ -147,44 +187,24 @@ export class PIQSummaryComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       flex: 1,
       valueGetter: this.dateFormat.bind(this),
+      floatingFilter: false,
     },
     {
       field: 'sync',
       headerName: 'Type',
       tooltipField: 'sync',
       flex: 1,
+      floatingFilter: false,
     },
     {
       field: 'status',
       headerName: 'Status',
       tooltipField: 'status',
       flex: 1,
+      floatingFilter: false,
     },
   ];
-  plannedSubDate: any;
-  getWorkFlowAction: any;
-  getWrkFlowId: any;
-  getSubWrkFlowRank: any;
-  getResAprWrkFlowRank: any;
-  setFlowAction: any;
-  getRank: any;
-  submitData: any;
-  dateSelected: any;
-  quickNotes: any;
-  getVesselCode: any;
-  photoRepImgCounts: any;
-  getPlannedSubDate: any;
-  getOriginator: any;
-  getApproverRanks: any;
-  getSubmitterRanks: any;
-
-  dateFormat(params: any) {
-    const crdate = params.data.crdate;
-    return crdate
-      ? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm')
-      : '';
-  }
-  modifiedColumns: ColDef[] = [
+  modifiedColumns: ColDef[] = [ 
     {
       field: 'mainQuestion',
       headerName: 'Main Question',
@@ -240,45 +260,6 @@ export class PIQSummaryComponent implements OnInit {
     },
   ];
 
-  tabChange(tabRef: any) {
-    if (tabRef == 'PIQ') {
-      const tab = 1;
-      this.BudgetService.setTabChangeData(tab);
-    } else if (tabRef == 'PR') {
-      const tab = 2;
-      this.BudgetService.setTabChangeData(tab);
-    } else if (tabRef == 'E') {
-      const tab = 4;
-      this.BudgetService.setTabChangeData(tab);
-    } else if (tabRef == 'C') {
-      const tab = 3;
-      this.BudgetService.setTabChangeData(tab);
-    }
-  }
-
-  rowData: any[] = [];
-  certificateRowData: any[] = [];
-  modifiedrowData: any[] = [];
-  referenceNumber: any = '';
-  userDetails: any;
-  locationCode: any;
-  getMainQuestCounts: any[] = [];
-  getAllDatas: any[] = [];
-  certificateCounts: any;
-  exceptionCounts: any;
-  remarksCounts: any;
-  remarksGridData: any = [];
-  photoRepCounts: any;
-  mappedCertificateCounts: any;
-  lastModifiedData: any;
-  syncedData: any[] = [];
-  expectedRowData: any[] = [];
-  disableSubFlowBtn: boolean = false;
-  disableResAprFlowBtn: boolean = false;
-  disableSyncBtn = true;
-  hideEdit: boolean = true;
-  hideBtns: boolean = false;
-  viewMode?: boolean;
   constructor(
     public dialog: MatDialog,
     private BudgetService: BudgetService,
@@ -294,9 +275,8 @@ export class PIQSummaryComponent implements OnInit {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
-    this.getworkflowStatus();
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
-
+    this.getworkflowStatus();
     if (
       this.pendingQuestCount == undefined ||
       this.totalQuestCount == undefined
@@ -322,9 +302,7 @@ export class PIQSummaryComponent implements OnInit {
       this.disableSyncBtn = false;
     }
     this.getAnswerValue();
-    this.userDetails = this._storage.getUserDetails();
-    this.locationCode = localStorage.getItem('locationCode');
-    this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
+
     this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
     });
@@ -337,22 +315,20 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getMappedCertificateData().subscribe((res: any) => {
       this.mappedCertificateCounts = res;
     });
-    this.BudgetService.getExceptionGridData().subscribe((res: any) => {
-      this.exceptionCounts = res;
-    });
-    this.BudgetService.getExceptionRowData().subscribe((res: any) => {
-      // this.getExceptionGrid = [];
-      this.getExceptionGrid = res && res.length > 0 ? res : [];
-    });
-    this.BudgetService.getRemarksCountsData().subscribe((res: any) => {
-      this.remarksGridData = res;
-      if (res === 0) {
+    this.BudgetService.getExceptionData().subscribe((res: any) => {
+      this.exceptionList = res;
+      this.exceptionCounts = res && res.length > 0 ? res.length : 0;
+
+      if (res && res.length === 0) {
         this.remarksCounts = 0;
       } else {
-        if (this.remarksGridData && this.remarksGridData.length > 0) {
-          const rowsWithRemarks = this.remarksGridData.filter(
-            (row: any) => row.remark !== ''
-          );
+        if (this.exceptionList && this.exceptionList.length > 0) {
+          const rowsWithRemarks = this.exceptionList.filter((row: any) => {
+            if (row.remark === null) {
+              row.remark = ''
+            }
+            return row.remark !== '';
+          });
           this.remarksCounts =
             rowsWithRemarks && rowsWithRemarks.length > 0
               ? rowsWithRemarks.length
@@ -369,7 +345,29 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getPrGridData().subscribe((res: any) => {
       this.photoRowData = res;
     });
-    this.getplannedDate();
+  }
+
+  tabChange(tabRef: any) {
+    if (tabRef == 'PIQ') {
+      const tab = 1;
+      this.BudgetService.setTabChangeData(tab);
+    } else if (tabRef == 'PR') {
+      const tab = 2;
+      this.BudgetService.setTabChangeData(tab);
+    } else if (tabRef == 'E') {
+      const tab = 4;
+      this.BudgetService.setTabChangeData(tab);
+    } else if (tabRef == 'C') {
+      const tab = 3;
+      this.BudgetService.setTabChangeData(tab);
+    }
+  }
+
+  dateFormat(params: any) {
+    const crdate = params.data.crdate;
+    return crdate
+      ? this.datePipe.transform(params.data.crdate, 'dd-MMM-yyyy HH:mm')
+      : '';
   }
 
   buildForm() {
@@ -379,9 +377,11 @@ export class PIQSummaryComponent implements OnInit {
       wrkFlowTextArea: [''],
     });
   }
+
   onInputBlur() {
     this.onFormChanges();
   }
+
   onDateChange(event: any) {
     this.plannedSubDate = this.datePipe.transform(
       event.value,
@@ -390,6 +390,7 @@ export class PIQSummaryComponent implements OnInit {
     this.autoSaveForm.get('dateField')?.setValue(this.plannedSubDate);
     this.onFormChanges();
   }
+
   onFormChanges() {
     this.dateSelected = this.autoSaveForm.controls['dateField'].value;
     this.quickNotes = this.autoSaveForm.controls['TextAreaField'].value;
@@ -398,6 +399,7 @@ export class PIQSummaryComponent implements OnInit {
       this.onSubmitQuickNotes();
     }
   }
+
   onWorkflow(type?: any, event?: any) {
     if (type == 'approve') {
       this.BudgetService.setEditVisible(this.hideEdit);
@@ -415,9 +417,7 @@ export class PIQSummaryComponent implements OnInit {
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
-
       this.getWrkFlowId = val[0].wfid;
-      this.getSubWrkFlowRank = val[0].submitter;
       this.getResAprWrkFlowRank = val[0].approver;
       const getAppRank =
         val && val[0] && val[0].approvers
@@ -430,7 +430,7 @@ export class PIQSummaryComponent implements OnInit {
           : '';
       this.getApproverRanks = getAppRank !== undefined ? getAppRank : 0;
       this.getSubmitterRanks = getSubRank !== undefined ? getSubRank : 0;
-      
+
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         this.BudgetService.getEnableBtn().subscribe((res: any) => {
           if (
@@ -477,7 +477,6 @@ export class PIQSummaryComponent implements OnInit {
       remarks: this.remarks,
       vesselcode: this.getVesselCode,
     };
-
     this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
@@ -612,9 +611,7 @@ export class PIQSummaryComponent implements OnInit {
           : [];
     });
   }
-  isString(input: any): input is string {
-    return typeof input === 'string';
-  }
+
   customCrUserValueGetter(params: any) {
     const certificatename = params.data.mackcertificatename;
     return certificatename ? 'Yes' : 'No';
@@ -628,12 +625,10 @@ export class PIQSummaryComponent implements OnInit {
   getAnswerValue(type?: any) {
     if (
       type != 'reUse' &&
-      this.getExceptionGrid &&
-      this.getExceptionGrid.length > 0
+      this.exceptionList &&
+      this.exceptionList.length > 0
     ) {
-      this.emptyRemark = this.getExceptionGrid.find(
-        (x: any) => x.remark === ''
-      );
+      this.emptyRemark = this.exceptionList.find((x: any) => x.remark === '');
       if (this.emptyRemark) {
         this._snackBarService.loadSnackBar(
           'Exception Remarks Mandatory',
@@ -660,7 +655,7 @@ export class PIQSummaryComponent implements OnInit {
         tenantIdentifier: '',
         answerdata: this.submitData,
         locationcode: this.locationCode,
-        exceptionjson: this.getExceptionGrid,
+        exceptionjson: this.exceptionList,
         mainQuestCheckbox: pendingResult,
         lastmodifieddata: JSON.stringify(this.modifiedrowData),
         wfaction: '',
@@ -676,7 +671,7 @@ export class PIQSummaryComponent implements OnInit {
           tenantIdentifier: '',
           answerdata: this.submitData,
           locationcode: this.locationCode,
-          exceptionjson: this.getExceptionGrid,
+          exceptionjson: this.exceptionList,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'RSN',
@@ -705,7 +700,7 @@ export class PIQSummaryComponent implements OnInit {
           tenantIdentifier: '',
           answerdata: this.submitData,
           locationcode: this.locationCode,
-          exceptionjson: this.getExceptionGrid,
+          exceptionjson: this.exceptionList,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'APR',
@@ -728,14 +723,13 @@ export class PIQSummaryComponent implements OnInit {
       if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
         this.setFlowAction = 'SUB';
         ansPayload = {
-          chapterdata: JSON.stringify(this.rowData),
           instanceid: this.referenceNumber,
           action: 'S',
           user: this.userDetails.userCode,
           tenantIdentifier: '',
           answerdata: this.submitData,
           locationcode: this.locationCode,
-          exceptionjson: this.getExceptionGrid,
+          exceptionjson: this.exceptionList,
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'SUB',

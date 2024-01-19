@@ -87,8 +87,6 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   getReuseReferenceList() {
     this.BudgetService.getRefnImport(this.userDetails.userCode).subscribe(
       (data) => {
-        console.log("data",data);
-        
         this.rowData = data && data.response.length > 0 ? data.response : [];
         this.totalRowCount =
           this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;

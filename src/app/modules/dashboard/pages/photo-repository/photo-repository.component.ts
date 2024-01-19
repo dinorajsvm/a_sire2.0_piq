@@ -13,7 +13,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { colorCodes } from 'src/app/core/constants';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
-
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-photo-repository',
   templateUrl: './photo-repository.component.html',
@@ -74,7 +74,6 @@ export class PhotoRepositoryComponent implements OnInit {
       this.hideReqBtns = res;
     });
     this.getSelectedCheckListId();
-    this.getSavedPRData();
     this.getVesselTypeData();
     this.summaryGridCount();
   }
@@ -96,8 +95,18 @@ export class PhotoRepositoryComponent implements OnInit {
       this.getvslCode = res;
       this.trimmedVslType = this.getvslCode.split(' ');
       this.trimmedVslType = this.trimmedVslType[0];
-      if (this.selectedInstanceID) {
+      let selectedInstanceID: any = localStorage.getItem(
+        'getSelectedCheckListID'
+      );
+      let selectedInstance: any;
+      if (selectedInstanceID) {
+        selectedInstance = JSON.parse(selectedInstanceID);
+      }
+      this.selectedInstanceID = selectedInstance;
+      if (selectedInstance && selectedInstance.length > 0) {
         this.getPRImgLists();
+      } else {
+        this.getSavedPRData();
       }
     });
   }
@@ -129,16 +138,60 @@ export class PhotoRepositoryComponent implements OnInit {
                 if (res) {
                   const blob = new Blob([res]);
                   srcUrl = URL.createObjectURL(blob);
+                  let extensionvalue: any;
+                  let formattedExtension: any;
+                  if (img && img.localfilename) {
+                    extensionvalue = img.localfilename.split('.');
+                  }
+                  if (extensionvalue && extensionvalue.length === 1) {
+                    formattedExtension = extensionvalue[extensionvalue.length];
+                  } else {
+                    if (extensionvalue && extensionvalue.length > 1) {
+                      formattedExtension =
+                        extensionvalue[extensionvalue.length - 1];
+                    }
+                  }
                   img.imagePreviewSrc = srcUrl;
                   img.sizeCheck = img.sizeinbytes;
                   img.formattedName = img.localfilename.split('.')[0];
-                  img.formattedExtension = img.localfilename.split('.')[1];
+                  img.formattedExtension = formattedExtension;
                   img.sizeinbytes = img.sizeinMB.toFixed(2) + ' ' + 'MB';
                 }
               });
             });
           });
         });
+        if (this.imageNames) {
+          this.imageNames.forEach((data: any) => {
+            this.listDatas.forEach((res: any) => {
+              res.subTopics.forEach((sub: any, index: any) => {
+                if (data.subtopic === sub.subTopicTitle) {
+                  sub.imagelist.forEach((list: any) => {
+                    let extensionvalue: any;
+                    let formattedExtension: any;
+                    if (list && list.localfilename) {
+                      extensionvalue = list.localfilename.split('.');
+                    }
+                    if (extensionvalue && extensionvalue.length === 1) {
+                      formattedExtension =
+                        extensionvalue[extensionvalue.length];
+                    } else {
+                      if (extensionvalue && extensionvalue.length > 1) {
+                        formattedExtension =
+                          extensionvalue[extensionvalue.length - 1];
+                      }
+                    }
+                    const formattedDefName =
+                      data.imagename + '.' + formattedExtension;
+                    list['formattedDefName'] = formattedDefName;
+                    list['defaultImageName'] = data.imagename;
+                  });
+                }
+              });
+            });
+            this.summaryGridCount();
+          });
+        }
         this.summaryGridCount();
       }
     });
@@ -170,7 +223,19 @@ export class PhotoRepositoryComponent implements OnInit {
 
               if (data.subtopic === sub.subTopicTitle) {
                 sub.imagelist.forEach((list: any) => {
-                  const formattedExtension = list.localfilename.split('.')[1];
+                  let extensionvalue: any;
+                  let formattedExtension: any;
+                  if (list && list.localfilename) {
+                    extensionvalue = list.localfilename.split('.');
+                  }
+                  if (extensionvalue && extensionvalue.length === 1) {
+                    formattedExtension = extensionvalue[extensionvalue.length];
+                  } else {
+                    if (extensionvalue && extensionvalue.length > 1) {
+                      formattedExtension =
+                        extensionvalue[extensionvalue.length - 1];
+                    }
+                  }
                   const formattedDefName =
                     data.imagename + '.' + formattedExtension;
                   list['localfilename'] = formattedDefName;
@@ -206,10 +271,24 @@ export class PhotoRepositoryComponent implements OnInit {
                 ) {
                   sub.subTopicTitle = sub.subTopicTitle.slice(0, -1); // Remove the last character
                 }
+
                 if (data.subtopic === sub.subTopicTitle) {
                   sub.imagelist.forEach((list: any) => {
                     this.blobImageLoad(list);
-                    const formattedExtension = list.localfilename.split('.')[1];
+                    let extensionvalue: any;
+                    let formattedExtension: any;
+                    if (list && list.localfilename) {
+                      extensionvalue = list.localfilename.split('.');
+                    }
+                    if (extensionvalue && extensionvalue.length === 1) {
+                      formattedExtension =
+                        extensionvalue[extensionvalue.length];
+                    } else {
+                      if (extensionvalue && extensionvalue.length > 1) {
+                        formattedExtension =
+                          extensionvalue[extensionvalue.length - 1];
+                      }
+                    }
                     const formattedDefName =
                       data.imagename + '.' + formattedExtension;
                     list['formattedDefName'] = formattedDefName;
@@ -252,6 +331,7 @@ export class PhotoRepositoryComponent implements OnInit {
           });
           this.summaryGridCount();
         } else {
+
           this.getPrDataLists();
         }
       }
@@ -328,7 +408,6 @@ export class PhotoRepositoryComponent implements OnInit {
         }
       });
     });
-
     this.allExpanded = true;
   }
 
@@ -359,93 +438,142 @@ export class PhotoRepositoryComponent implements OnInit {
   downloadAll() {
     this.isLoader = true;
     const zip = new JSZip();
+    const requests: any[] = [];
     this.listDatas.forEach((element) => {
       const topicFolderName = element.topic.toString().includes('/')
         ? element.topic.toString().replaceAll('/', '-')
         : element.topic.toString();
       const topicFolder = zip.folder(topicFolderName);
-      let subTopicFolder: any;
+
       element.subTopics.forEach((subTopic: any) => {
         if (subTopic && subTopic.imagelist && subTopic.imagelist.length > 0) {
-          subTopic.imagelist.forEach((img: any) => {
-            this.BudgetService.getServerFileFromStream(
-              img.systemfilename
-            ).subscribe((blob: Blob) => {
+          subTopic.imagelist.forEach((img: any, index: any) => {
+            requests.push(
+              this.BudgetService.getServerFileFromStream(img.systemfilename)
+                .toPromise()
+                .then((blob: any) => {
+                  const subTopicFolderName = subTopic.subTopicTitle
+                    .toString()
+                    .includes('/')
+                    ? subTopic.subTopicTitle.toString().replaceAll('/', '-')
+                    : subTopic.subTopicTitle.toString();
 
-              const subTopicFolderName = subTopic.subTopicTitle.toString().includes('/')
-                ? subTopic.subTopicTitle.toString().replaceAll('/', '-')
-                : subTopic.subTopicTitle.toString();
-              if (topicFolder) {
-                subTopicFolder = topicFolder.folder(subTopicFolderName);
-              }
-              if (subTopicFolder) {
-                if (!(img && img.localfilename)) {
-                  img.localfilename =
-                    'empty_default_name' + '.' + img.formattedExtension;
-                }
-                subTopicFolder.file(img.localfilename, blob);
-              }
-            });
+                  const subTopicFolder = topicFolder
+                    ? topicFolder.folder(subTopicFolderName)
+                    : null;
+
+                  if (!(img && img.localfilename)) {
+                    img.localfilename =
+                      'empty_default_name' + '.' + img.formattedExtension;
+                  }
+                  if (subTopicFolder) {
+                    // let splitValue: any;
+                    // if (img && img.localfilename) {
+                    //   splitValue = img.localfilename.split('.');
+                    // }
+                    // img.localfilename =
+                    //   splitValue && splitValue[0]
+                    //     ? splitValue[0] + '.' + img.formattedExtension
+                    //     : 'empty_default_name' + '.' + img.formattedExtension;
+
+                    let fileName: any;
+                    const splitLocalName =
+                      img && img.localfilename
+                        ? img.localfilename.split('.')[0]
+                        : '';
+                    if (index) {
+                      fileName = splitLocalName
+                        ? splitLocalName +
+                          ' ' +
+                          '(' +
+                          index +
+                          ')' +
+                          '.' +
+                          img.formattedExtension
+                        : 'empty_default_name' +
+                          ' ' +
+                          '(' +
+                          index +
+                          ')' +
+                          '.' +
+                          img.formattedExtension;
+                    } else {
+                      fileName = splitLocalName
+                        ? splitLocalName + '.' + img.formattedExtension
+                        : 'empty_default_name' + '.' + img.formattedExtension;
+                    }
+                    subTopicFolder.file(fileName, blob);
+                  }
+                })
+            );
           });
         }
       });
     });
-    setTimeout(() => {
+
+    forkJoin(requests).subscribe(() => {
       zip.generateAsync({ type: 'blob' }).then((content) => {
         saveAs(content, `${this.referenceNumber}.zip`);
+        this.isLoader = false;
       });
-      this.isLoader = false;
-    }, 2000);
+    });
   }
 
-  // download all subtopic images
   downloadAllSubTopicImages(subTopicTitle: string, imagelist: any[]) {
+    this.isLoader = true;
     const zip = new JSZip();
-    const promises: Promise<void>[] = [];
-    imagelist.forEach((image) => {
-      promises.push(
-        this.addImageToZip(
-          zip,
-          image.imagePreviewSrc,
-          this.getFilenameFromUrl(image.formattedName, image.localfilename),
-          image.formattedExtension
-        )
-      );
-    });
+    const requests: any[] = imagelist.map((img: any, index: any) =>
+      this.BudgetService.getServerFileFromStream(img.systemfilename)
+        .toPromise()
+        .then((blob: any) => {
+          let fileName: any;
+          const splitLocalName =
+            img && img.localfilename ? img.localfilename.split('.')[0] : '';
+          if (index) {
+            fileName = splitLocalName
+              ? splitLocalName +
+                ' ' +
+                '(' +
+                index +
+                ')' +
+                '.' +
+                img.formattedExtension
+              : 'empty_default_name' +
+                ' ' +
+                '(' +
+                index +
+                ')' +
+                '.' +
+                img.formattedExtension;
+          } else {
+            fileName = splitLocalName
+              ? splitLocalName + '.' + img.formattedExtension
+              : 'empty_default_name' + '.' + img.formattedExtension;
+          }
+          zip.file(fileName, blob);
+        })
+        .catch((error: any) => {
+          console.error(
+            `Error fetching file ${img.systemfilename} from the server:`,
+            error
+          );
+          throw error; // Propagate the error to the next level
+        })
+    );
 
-    // Wait for all promises to resolve, then generate and trigger the download of the zip file
-    Promise.all(promises).then(() => {
-      zip.generateAsync({ type: 'blob' }).then((content) => {
-        const filename = `${subTopicTitle}.zip`;
-        saveAs(content, filename);
-      });
-    });
-  }
-
-  addImageToZip(
-    zip: JSZip,
-    imageUrl: string,
-    filename: string,
-    extension?: any
-  ): Promise<void> {
-    if (!filename) {
-      filename = 'empty_default_name' + '.' + extension;
-    }
-    return this.getImageData(imageUrl).then((blob) => {
-      zip.file(filename, blob, { binary: true });
-    });
-  }
-  getImageData(url: string): Promise<Blob> {
-    return fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.blob();
-      })
-      .catch((error) => {
-        throw error;
-      });
+    forkJoin(requests).subscribe(
+      () => {
+        zip.generateAsync({ type: 'blob' }).then((content: any) => {
+          saveAs(content, `${subTopicTitle}.zip`);
+          this.isLoader = false;
+        });
+      },
+      (error: any) => {
+        console.error('Error in forkJoin:', error);
+        this.isLoader = false; // Ensure loader is turned off in case of an error
+        // Handle the error appropriately, e.g., show an error message to the user
+      }
+    );
   }
 
   getFilenameFromUrl(url: string, extension?: any): string {
@@ -461,8 +589,10 @@ export class PhotoRepositoryComponent implements OnInit {
   downloadImage(image: any) {
     this.BudgetService.getServerFileFromStream(image.systemfilename).subscribe(
       (res: Blob) => {
-        const fileName = image.localfilename
-          ? image.localfilename
+        const splitLocalName =
+          image && image.localfilename ? image.localfilename.split('.')[0] : '';
+        const fileName = splitLocalName
+          ? splitLocalName + '.' + image.formattedExtension
           : 'empty_default_name' + '.' + image.formattedExtension;
         saveAs(res, fileName);
       }
@@ -559,9 +689,7 @@ export class PhotoRepositoryComponent implements OnInit {
         .post(this.dynamicImageURL + 'PIQ/event/attachmentupload', formData)
         .subscribe(
           (response) => {
-            setTimeout(() => {
-              this.uploadedData();
-            }, 300);
+            this.uploadedData();
           },
           (error) => {
             console.error('Image upload failed', error);
@@ -593,8 +721,23 @@ export class PhotoRepositoryComponent implements OnInit {
               return this.selectedSubTopic.subTopicTitle === sub.subTopicTitle;
             });
 
-            const formattedName = data.localfilename.split('.')[0];
-            const formattedExtension = data.localfilename.split('.')[1];
+            const formattedName =
+              data && data.localfilename
+                ? data.localfilename.split('.')[0]
+                : '';
+            let extensionvalue: any;
+            let formattedExtension: any;
+            if (data && data.localfilename) {
+              extensionvalue = data.localfilename.split('.');
+            }
+            if (extensionvalue && extensionvalue.length === 1) {
+              formattedExtension = extensionvalue[extensionvalue.length];
+            } else {
+              if (extensionvalue && extensionvalue.length > 1) {
+                formattedExtension = extensionvalue[extensionvalue.length - 1];
+              }
+            }
+
             let srcUrl: any;
             this.BudgetService.getServerFileFromStream(
               data.systemfilename
@@ -611,29 +754,42 @@ export class PhotoRepositoryComponent implements OnInit {
               };
               if (findValue && findValue.imagelist) {
                 findValue.imagelist.push(image);
+                if (this.imageNames) {
+                  this.imageNames.forEach((data: any) => {
+                    this.listDatas.forEach((res: any) => {
+                      res.subTopics.forEach((sub: any, index: any) => {
+                        if (data.subtopic === sub.subTopicTitle) {
+                          sub.imagelist.forEach((list: any) => {
+                            let extensionvalue: any;
+                            let formattedExtension: any;
+                            if (list && list.localfilename) {
+                              extensionvalue = list.localfilename.split('.');
+                            }
+                            if (extensionvalue && extensionvalue.length === 1) {
+                              formattedExtension =
+                                extensionvalue[extensionvalue.length];
+                            } else {
+                              if (extensionvalue && extensionvalue.length > 1) {
+                                formattedExtension =
+                                  extensionvalue[extensionvalue.length - 1];
+                              }
+                            }
+                            const formattedDefName =
+                              data.imagename + '.' + formattedExtension;
+                            list['formattedDefName'] = formattedDefName;
+                            list['defaultImageName'] = data.imagename;
+                          });
+                        }
+                      });
+                    });
+                    this.summaryGridCount();
+                  });
+                }
               }
               this.summaryGridCount();
             });
           }
         });
-        if (this.imageNames) {
-          this.imageNames.forEach((data: any) => {
-            this.listDatas.forEach((res: any) => {
-              res.subTopics.forEach((sub: any, index: any) => {
-                if (data.subtopic === sub.subTopicTitle) {
-                  sub.imagelist.forEach((list: any) => {
-                    const formattedExtension = list.localfilename.split('.')[1];
-                    const formattedDefName =
-                      data.imagename + '.' + formattedExtension;
-                    list['formattedDefName'] = formattedDefName;
-                    list['defaultImageName'] = data.imagename;
-                  });
-                }
-              });
-            });
-            this.summaryGridCount();
-          });
-        }
       }
     });
   }

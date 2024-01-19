@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   Component,
   ElementRef,
   OnInit,
@@ -10,7 +9,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import 'ag-grid-enterprise';
 import { LicenseManager } from 'ag-grid-enterprise';
 import { BudgetService } from '../../services/budget.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
@@ -67,7 +66,7 @@ export const MY_DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
-export class PiqReportComponent implements OnInit, AfterViewChecked {
+export class PiqReportComponent implements OnInit {
   @ViewChild('expandedSection', { static: false }) expandedSection!: ElementRef;
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
@@ -119,7 +118,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
   formattedDate: any = '';
   allExpansionPanelsExpanded = true;
   getVesselCode: any;
-  getExceptionGridData: any;
   lookUpEnable: boolean = false;
   isLeftIcon = true;
   hideEditbutton = false;
@@ -173,12 +171,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       this.unSavedData = res;
     });
 
-    this.BudgetService.getExceptionRowData().subscribe((res: any) => {
-      // this.getExceptionGridData = [];
-      this.getExceptionGridData = res && res.length > 0 ? res : [];
-      this.exceptionList = res && res.length > 0 ? res : [];
-    });
-
     this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
       this.saveMappedCertificateData = res;
     });
@@ -228,11 +220,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
         }
       });
     });
-  }
-
-  ngAfterViewChecked(): void {
-    // console.log(this.vesselSelection, 'vesselSelection');
-    //   console.log(this.dynamicForms.value.Q133, 'rathish');
   }
 
   onChangeMemo() {
@@ -314,7 +301,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     this.BudgetService.setPiqQuestionData(value.value);
     const currentVesselType = localStorage.getItem('currentVesselType');
     const ansPayload = {
-      chapterdata: JSON.stringify(this.rowSummaryData),
       instanceid: this.referenceNumber,
       action: 'I',
       user: this.userDetails?.userCode,
@@ -336,20 +322,12 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       this.BudgetService.setUnSaveAction(false);
       this.unSavedData = false;
       this.dialog.closeAll();
-      this.getQuestionAnswerDatas();
+      this.getQuestionAnswerDatas(currentVesselType);
     });
   }
 
   toggleMemo() {
     this.memoVisible = !this.memoVisible;
-  }
-
-  exceptionCount() {
-    const rowCount =
-      this.exceptionList && this.exceptionList.length > 0
-        ? this.exceptionList.length
-        : 0;
-    this.BudgetService.setExceptionGridData(rowCount);
   }
 
   getQuestionAnswerDatas(vesselCode?: any) {
@@ -360,22 +338,13 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       username: this.userDetails.empCode,
       vesseltype: vesselCode ? vesselCode : '',
     };
+    localStorage.setItem('currentVesselType', vesselCode ? vesselCode : '');
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
     this.getPresetQuestCounts = [];
-
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       localStorage.setItem('currentVesselType', vesselCode);
       this.getStatus = res.wrkflow;
-      this.rowSummaryData =
-        res && res.chapterdata ? JSON.parse(res.chapterdata) : [];
-      this.BudgetService.setGridSummary(this.rowSummaryData);
-      if (res && res.exceptionlist != '') {
-        let exceptionData = JSON.parse(res.exceptionlist);
-        this.exceptionList = exceptionData;
-        this.BudgetService.setExceptionData(exceptionData);
-      }
-
       let object = JSON.parse(res.response);
       this.getOrigination = res.orginator;
       localStorage.setItem('Origination', res.orginator);
@@ -506,22 +475,39 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
         });
       });
       this.getAllDatas = object;
-
+      console.log(this.getAllDatas, 'allData');
+      
+      if (vesselCode) {
+        this.switchVeselException();
+      } else if (res && res.exceptionlist != '') {
+        let exceptionData = JSON.parse(res.exceptionlist);
+        this.exceptionList = exceptionData;
+        this.BudgetService.setExceptionData(exceptionData);
+      }
+      this.countDetails();
       this.presetQuestCount = this.getPresetQuestCounts.length;
       this.selectValue(
         this.getAllDatas[0].values[0].subHeaders,
         this.getAllDatas[0].values[0]
       );
       setTimeout(() => {
-        this.toggleSingleSelection(
-          this.vesselSelection,
-          this.getAllDatas[0].values[0],
-          this.getAllDatas[0].values[0].question[0],
-          this.getAllDatas[0].values[0].question[0].subQuestion[0],
-          'initial'
-        );
+        if (this.getAllDatas && this.getAllDatas[0] &&       this.getAllDatas[0].values && this.getAllDatas[0].values[0] && 
+          this.getAllDatas[0].values[0].question &&          this.getAllDatas[0].values[0].question[0],
+          this.getAllDatas[0].values[0].question[0].subQuestion && this.getAllDatas[0].values[0].question[0].subQuestion[0]) {
+            this.toggleSingleSelection(
+              this.vesselSelection,
+              this.getAllDatas[0].values[0],
+              this.getAllDatas[0].values[0].question[0],
+              this.getAllDatas[0].values[0].question[0].subQuestion[0],
+              'initial'
+            );
+        }
 
-        this.BudgetService.setUnSaveAction(false);
+        if (vesselCode) {
+          this.BudgetService.setUnSaveAction(true);
+        } else {
+          this.BudgetService.setUnSaveAction(false);
+        }
       }, 500);
       this.mainQuestCounts = this.getMainQuestCounts.length;
       this.expandMethod();
@@ -657,7 +643,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
         this.BudgetService.setExceptionData(this.exceptionList);
         this.countDetails();
       }
-      this.exceptionCount();
     }
   }
 
@@ -673,7 +658,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       } else {
         duplicateResponse.answer = quest.answer;
       }
-      this.exceptionCount();
     } else if (quest && quest.type === 'Select') {
       const duplicateResponse = this.exceptionList.find(
         (x) => x.qid === quest.qid
@@ -683,7 +667,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       } else {
         duplicateResponse.answer = quest.answer;
       }
-      this.exceptionCount();
     }
   }
 
@@ -776,9 +759,7 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     subQue: any,
     type?: any
   ): void {
-    if (value === subQue.answer) {
-      console.log(type);
-      
+    if (type === '' && value === subQue.answer) {
       value = '';
     }
     if (value === '' && subQue.qid === 'Q133') {
@@ -794,11 +775,8 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     }
 
     this.BudgetService.setUnSaveAction(true);
-
-    subQue.answer = subQue.answer !== value ? value : '';
-
+    subQue.answer = subQue.answer !== value ? value : subQue.answer;
     value = subQue.answer === '' ? '' : subQue.answer;
-
     const mQuestion = mainQue.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -856,13 +834,19 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
       panelClass: 'switchVessel-dialog-container',
     });
     dialogRef.afterClosed().subscribe((result) => {
+      this.getvesseltype();
       if (result) {
+        localStorage.removeItem('getSelectedCheckListID');
         const vesselCode = this.vesselTypeCode.find(
           (x: any) => x.vesseltypename === this.dynamicForms.value.Q133
         );
-        this.getQuestionAnswerDatas(vesselCode.vesseltypecode);
-
-        return;
+        if (vesselCode && vesselCode.vesseltypecode) {
+          this.getQuestionAnswerDatas(vesselCode.vesseltypecode);
+          const emptyProperty: any[] = [];
+          this.BudgetService.setExceptionData(emptyProperty);
+          this.BudgetService.setUnSaveAction(true);
+          return;
+        }
       } else {
         this.toggleSingleSelection(
           this.vesselSelection,
@@ -872,6 +856,25 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
           'initial'
         );
       }
+    });
+  }
+
+  switchVeselException() {
+    this.exceptionList = [];
+    this.getAllDatas.forEach((value1: any) => {
+      value1.values.forEach((value: any) => {
+        value.question.forEach((subHeader: any) => {
+          subHeader.subQuestion.forEach((mainQus: any) => {
+            if (
+              mainQus &&
+              mainQus.hasOwnProperty('presetvalue') &&
+              mainQus.answer !== mainQus.presetvalue
+            ) {
+              this.exception(value, subHeader, mainQus);
+            }
+          });
+        });
+      });
     });
   }
 
@@ -940,7 +943,9 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
           });
         }
       });
-      this.BudgetService.setPiqQuestionData(this.dynamicForms.value);
+      if (this.dynamicForms && this.dynamicForms.value) {
+        this.BudgetService.setPiqQuestionData(this.dynamicForms.value);
+      }
     }
   }
 
@@ -968,7 +973,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     };
     this.exceptionList.push(exceptionData);
     this.BudgetService.setExceptionData(this.exceptionList);
-    this.exceptionCount();
   }
 
   resetDate(event: any, subq: any, quest: any, mquest: any) {
@@ -1031,7 +1035,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     );
     if (objWithIdIndex > -1) {
       this.exceptionList.splice(objWithIdIndex, 1);
-      this.exceptionCount();
     }
     this.dynamicForms.controls[subq.qid].setValue(subq.presetvalue);
     subq.answer = subq.presetvalue;
@@ -1046,7 +1049,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
     );
     if (objWithIdIndex > -1) {
       this.exceptionList.splice(objWithIdIndex, 1);
-      this.exceptionCount();
     }
     subq.answer = '';
     this.countDetails();
@@ -2965,9 +2967,6 @@ export class PiqReportComponent implements OnInit, AfterViewChecked {
         this.tabGroup.selectedIndex = res.tab;
         this.selectValue(res.subHeaders, res);
       });
-      if (event && event.index === 0) {
-        this.BudgetService.setRemarksCountData(this.getExceptionGridData);
-      }
     }
   }
 

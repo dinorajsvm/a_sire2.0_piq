@@ -407,48 +407,12 @@ export class PIQLandingPageComponent implements OnInit {
     ]);
   }
 
-  getNewRef() {
-    if (
-      this.getWrkFlowUser == 'anyuser' ||
-      this.getWrkFlowUser == this.userDetails.userData.mdata.appInfo.rankCode
-    ) {
-      const payload = {
-        locationcode: this.compVslCode,
-        user: this.userDetails?.userCode,
-      };
-      this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
-        if (Object.keys(res).length != 0) {
-          let refNo = res;
-          const getRefNumber = res.response;
-          this.getRefNo = refNo;
-          localStorage.removeItem('getSelectedCheckListID');
-          getRefNumber != ''
-            ? this.router.navigate([
-                '/sire/piq-report/' + getRefNumber + '/new',
-              ])
-            : '';
-        } else {
-          this._snackBarService.loadSnackBar(
-            res.error.errorMessage,
-            colorCodes.ERROR
-          );
-        }
-      });
-    } else {
-      this._snackBarService.loadSnackBar(
-        'You Do Not Have Access to Create a New Form',
-        colorCodes.ERROR
-      );
-    }
-  }
-
   getCodes() {
     if (this.userDetails?.cntrlType === 'CNT001') {
       this.compVslCode = this.userDetails.companyCode;
     } else if (this.userDetails?.cntrlType === 'CNT002') {
       this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
-    } else {
-    }
+    } 
   }
 
   getLndPgDatas() {
@@ -531,7 +495,6 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   navigatePiq() {
-    // this.BudgetService.setEnableBtn(false);
     this.dialog.open(VesselSelectionDialogComponent, {
       panelClass: 'vesselSelection-dialog-container',
     });
