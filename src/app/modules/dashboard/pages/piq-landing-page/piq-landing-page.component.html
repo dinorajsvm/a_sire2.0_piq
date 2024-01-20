@@ -1,5 +1,5 @@
 <div class="col-sm-12" style="height: calc(100vh - 45px);">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-sm-6">
       <span class="page_Title"> PIQ </span>
     </div>
@@ -10,9 +10,9 @@
         </span>
       </div>
     </div>
-  </div>
+  </div> -->
   
-  <div class="row" [class.showStsBar]="showStsBar">
+  <!-- <div class="row" [class.showStsBar]="showStsBar">
     <div class="col-sm-12">
       <div class="row" style="justify-content: center;">
         <div class="statusBar_Wrapper">
@@ -89,13 +89,13 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="row" style="padding: 10px 0">
+  </div> -->
+  <!-- <div class="row" style="padding: 10px 0">
     <div class="col-sm-12">
       <div class="row">
         <div class="col-sm-3 text-right" style="padding-right: 0">
           <div>
-            <!-- <mat-form-field class="w-100">
+            <mat-form-field class="w-100">
               <input type="text" style="color: black;" matInput ngxDaterangepickerMd
                 [keepCalendarOpeningWithRange]="keepCalendarOpeningWithRange" placeholder="{{placeholder}}"
                 [showDropdowns]="true" [lockStartDate]="false" [customRangeDirection]="false"
@@ -104,7 +104,7 @@
                 [locale]="dateFormateControl" [alwaysShowCalendars]="alwaysShowCalendars" readonly="true">
               <img class="dateIcon ngx-daterangepicker-action" style="position: absolute;margin-left: -14px;"
                 src="assets/images/calendar.png" width="12" (click)="openDatepicker()">
-            </mat-form-field> -->
+            </mat-form-field>
 
 
             <mat-form-field appearance="outline" class="datePicker">
@@ -143,6 +143,17 @@
         </div>
       </div>
     </div>
+  </div> -->
+  <div class="row" style="padding:10px 0px;">
+    <div class="col-sm-6">
+      <span class="page_Title"> PIQ </span>
+    </div>
+    <div class="col-sm-6 text-right" style="padding-right: 0">
+      <div>
+        <button mat-button class="new" (click)="navigatePiq()">New</button>
+        <img class="btnImg" src="assets/question/new.svg" />
+      </div>
+    </div>
   </div>
   <div class="col-sm-12 justify-content-end ag-toolBar"
     *ngIf="userDetails?.cntrlType === 'CNT002'|| userDetails?.cntrlType === 'CNT001'">
@@ -157,7 +168,7 @@
   <div class="row">
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <ag-grid-angular style="height: calc(100vh - 160px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
+      <ag-grid-angular style="height: calc(100vh - 125px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
         [columnDefs]="shipColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
@@ -167,7 +178,7 @@
     </div>
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <ag-grid-angular style="height: calc(100vh - 160px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
+      <ag-grid-angular style="height: calc(100vh - 125px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
         [columnDefs]="shoreColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"

@@ -123,6 +123,10 @@ export class ExceptionQuestionComponent implements OnInit {
       this.rowData = data;
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+        this.gridApi!.setRowData(this.rowData);
+      if (this.rowData && this.rowData.length > 0) {
+        this.BudgetService.setExceptionRowData(this.rowData);
+      }
     });
     this.columnDefs[6].editable = !this.disableBtns;
     this.columnDefs[6].cellEditorPopup = !this.disableBtns;

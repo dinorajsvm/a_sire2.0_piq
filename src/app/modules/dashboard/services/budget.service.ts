@@ -39,6 +39,7 @@ export class BudgetService {
   private enableDisableButtons = new Subject<any>();
   private setPiqQuestion = new Subject<any>();
   private setDeleteBtn = new Subject<any>();
+  private getExcepData = new Subject<any>();
   private setUnSave = new BehaviorSubject<any>(false);
   constructor(private client: HttpClient) {}
 
@@ -51,6 +52,13 @@ export class BudgetService {
   }
   setStatus(message: any) {
     this.getFormStatus.next(message);
+  }
+
+  setExceptionRowData(message: any) {
+    this.getExcepData.next(message);
+  }
+  getExceptionRowData() {
+    return this.getExcepData.asObservable();
   }
 
   getStatus() {

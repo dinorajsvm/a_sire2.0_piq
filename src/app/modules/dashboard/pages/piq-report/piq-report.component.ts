@@ -171,6 +171,12 @@ export class PiqReportComponent implements OnInit {
       this.unSavedData = res;
     });
 
+    this.BudgetService.getExceptionRowData().subscribe((res: any) => {
+      // this.getExceptionGridData = [];
+      // this.getExceptionGridData = res && res.length > 0 ? res : [];
+      this.exceptionList = res && res.length > 0 ? res : [];
+    });
+    
     this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
       this.saveMappedCertificateData = res;
     });
