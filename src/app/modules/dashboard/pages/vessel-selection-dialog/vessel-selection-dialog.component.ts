@@ -218,8 +218,6 @@ export class VesselSelectionDialogComponent {
       remarks: '',
     };
     this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
-      console.log('getNewRef');
-      
       if (Object.keys(res).length != 0) {
         const getRefNumber = res.response;
         getRefNumber != ''

@@ -487,7 +487,11 @@ export class PIQSummaryComponent implements OnInit {
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
-      vesseltype: currentVesselType ? currentVesselType : '',
+      vesseltype: currentVesselType === '' ||
+      currentVesselType === undefined ||
+      currentVesselType === 'undefined'
+        ? ''
+        : currentVesselType,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);
@@ -624,7 +628,7 @@ export class PIQSummaryComponent implements OnInit {
 
   getAnswerValue(type?: any) {
     if (
-      type != 'reUse' &&
+      type === 'submit' &&
       this.exceptionList &&
       this.exceptionList.length > 0
     ) {
@@ -659,7 +663,11 @@ export class PIQSummaryComponent implements OnInit {
         mainQuestCheckbox: pendingResult,
         lastmodifieddata: JSON.stringify(this.modifiedrowData),
         wfaction: '',
-        vesseltype: currentVesselType ? currentVesselType : '',
+        vesseltype: currentVesselType === '' ||
+        currentVesselType === undefined ||
+        currentVesselType === 'undefined'
+          ? ''
+          : currentVesselType,
       };
     } else if (type === 'reassign') {
       if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
@@ -675,7 +683,11 @@ export class PIQSummaryComponent implements OnInit {
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'RSN',
-          vesseltype: currentVesselType ? currentVesselType : '',
+          vesseltype: currentVesselType === '' ||
+          currentVesselType === undefined ||
+          currentVesselType === 'undefined'
+            ? ''
+            : currentVesselType,
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
@@ -704,7 +716,11 @@ export class PIQSummaryComponent implements OnInit {
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'APR',
-          vesseltype: currentVesselType ? currentVesselType : '',
+          vesseltype: currentVesselType === '' ||
+          currentVesselType === undefined ||
+          currentVesselType === 'undefined'
+            ? ''
+            : currentVesselType,
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         localStorage.setItem('setDisable', 'true');
@@ -733,7 +749,11 @@ export class PIQSummaryComponent implements OnInit {
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'SUB',
-          vesseltype: currentVesselType ? currentVesselType : '',
+          vesseltype: currentVesselType === '' ||
+          currentVesselType === undefined ||
+          currentVesselType === 'undefined'
+            ? ''
+            : currentVesselType,
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
@@ -759,7 +779,11 @@ export class PIQSummaryComponent implements OnInit {
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
-      vesseltype: currentVesselType ? currentVesselType : '',
+      vesseltype: currentVesselType === '' ||
+      currentVesselType === undefined ||
+      currentVesselType === 'undefined'
+        ? ''
+        : currentVesselType,
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
@@ -805,7 +829,11 @@ export class PIQSummaryComponent implements OnInit {
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
-      vesseltype: currentVesselType ? currentVesselType : '',
+      vesseltype: currentVesselType === '' ||
+      currentVesselType === undefined ||
+      currentVesselType === 'undefined'
+        ? ''
+        : currentVesselType,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);

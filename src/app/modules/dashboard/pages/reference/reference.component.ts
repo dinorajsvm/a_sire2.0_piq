@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import { GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
@@ -15,6 +15,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
   styleUrls: ['./reference.component.css'],
 })
 export class ReferenceComponent implements OnInit {
+  @Output() countEmit = new EventEmitter<any>();
   referenceNumber: any;
   rowSelection = 'single';
   public tooltipShowDelay = 0;
@@ -100,6 +101,7 @@ export class ReferenceComponent implements OnInit {
 
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
+    this.countEmit.emit(this.rowData.length);
   }
   fetchImageBlob(fileUrl: string): Promise<Blob> {
     return fetch(fileUrl).then((response) => {
@@ -125,6 +127,7 @@ export class ReferenceComponent implements OnInit {
       this.rowData = res.response;
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+        this.countEmit.emit(this.rowData.length);
     });
   }
 

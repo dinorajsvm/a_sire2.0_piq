@@ -38,6 +38,7 @@ import { ManualLookUpComponent } from '../lookup/manual-look-up/manual-look-up.c
 import { MatTabGroup } from '@angular/material/tabs';
 import { UnsaveConfirmationDialogPopupComponent } from '../unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
 import { SwitchVesselTypeComponent } from '../switch-vessel-type/switch-vessel-type.component';
+import { ExceptionRemarkComponent } from '../exception-remark/exception-remark.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -71,8 +72,9 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+  refernceCount = '';
+  exceptionCount = '';
   rowSummaryData: any[] = [];
-  emptyRemark: any;
   totalRowCount = 0;
   locationCode: any;
   selectedValue: string = '';
@@ -176,7 +178,7 @@ export class PiqReportComponent implements OnInit {
       // this.getExceptionGridData = res && res.length > 0 ? res : [];
       this.exceptionList = res && res.length > 0 ? res : [];
     });
-    
+
     this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
       this.saveMappedCertificateData = res;
     });
@@ -283,18 +285,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   submitFormAll(value: any) {
-    if (this.exceptionList && this.exceptionList.length > 0) {
-      this.emptyRemark = this.exceptionList.find(
-        (x: any) => x.remark === '' || x.remark === null
-      );
-      if (this.emptyRemark) {
-        this._snackBarService.loadSnackBar(
-          'Exception Remarks Mandatory',
-          colorCodes.ERROR
-        );
-        return;
-      }
-    }
     this.chapterGrid();
     this.isLoader = true;
     var pendingResult: any = [];
@@ -319,9 +309,15 @@ export class PiqReportComponent implements OnInit {
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
       duplicateDetails: this.arrayObj,
       certificatetab: this.saveMappedCertificateData,
-      vesseltype: currentVesselType ? currentVesselType : '',
+      vesseltype:
+        currentVesselType === '' ||
+        currentVesselType === undefined ||
+        currentVesselType === 'undefined'
+          ? ''
+          : currentVesselType,
     };
     this.countDetails();
+
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       this.isLoader = false;
@@ -342,7 +338,12 @@ export class PiqReportComponent implements OnInit {
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
-      vesseltype: vesselCode ? vesselCode : '',
+      vesseltype:
+        vesselCode === '' ||
+        vesselCode === undefined ||
+        vesselCode === 'undefined'
+          ? ''
+          : vesselCode,
     };
     localStorage.setItem('currentVesselType', vesselCode ? vesselCode : '');
     let formGroupFields: any = {};
@@ -464,6 +465,22 @@ export class PiqReportComponent implements OnInit {
                     mainQus.answer
                   );
                 } else if (mainQus.type === 'MultiSelect') {
+                  if (typeof mainQus.answer === 'string' && mainQus.answer) {
+                    mainQus.multiAnswer = mainQus.multiAnswer.map((term: any) =>
+                      term.trim()
+                    );
+                    if (!Array.isArray(mainQus.answer)) {
+                      mainQus.answer = [];
+                    }
+                    mainQus.multiAnswer.forEach((multiRes: any) => {
+                      mainQus.answer = mainQus.answer.concat(
+                        multiRes.toString()
+                      );
+                      mainQus.answer = mainQus.answer.filter(
+                        (item: any) => item !== ''
+                      );
+                    });
+                  }
                   formGroupFields[mainQus.qid] = new FormControl(
                     mainQus.multiAnswer
                   );
@@ -481,8 +498,6 @@ export class PiqReportComponent implements OnInit {
         });
       });
       this.getAllDatas = object;
-      console.log(this.getAllDatas, 'allData');
-      
       if (vesselCode) {
         this.switchVeselException();
       } else if (res && res.exceptionlist != '') {
@@ -497,16 +512,23 @@ export class PiqReportComponent implements OnInit {
         this.getAllDatas[0].values[0]
       );
       setTimeout(() => {
-        if (this.getAllDatas && this.getAllDatas[0] &&       this.getAllDatas[0].values && this.getAllDatas[0].values[0] && 
-          this.getAllDatas[0].values[0].question &&          this.getAllDatas[0].values[0].question[0],
-          this.getAllDatas[0].values[0].question[0].subQuestion && this.getAllDatas[0].values[0].question[0].subQuestion[0]) {
-            this.toggleSingleSelection(
-              this.vesselSelection,
-              this.getAllDatas[0].values[0],
-              this.getAllDatas[0].values[0].question[0],
-              this.getAllDatas[0].values[0].question[0].subQuestion[0],
-              'initial'
-            );
+        if (
+          (this.getAllDatas &&
+            this.getAllDatas[0] &&
+            this.getAllDatas[0].values &&
+            this.getAllDatas[0].values[0] &&
+            this.getAllDatas[0].values[0].question &&
+            this.getAllDatas[0].values[0].question[0],
+          this.getAllDatas[0].values[0].question[0].subQuestion &&
+            this.getAllDatas[0].values[0].question[0].subQuestion[0])
+        ) {
+          this.toggleSingleSelection(
+            this.vesselSelection,
+            this.getAllDatas[0].values[0],
+            this.getAllDatas[0].values[0].question[0],
+            this.getAllDatas[0].values[0].question[0].subQuestion[0],
+            'initial'
+          );
         }
 
         if (vesselCode) {
@@ -646,7 +668,20 @@ export class PiqReportComponent implements OnInit {
         this.exception(ques, mquest, quest);
       } else {
         duplicateResponse.answer = quest.answer;
-        this.BudgetService.setExceptionData(this.exceptionList);
+
+        const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
+          disableClose: true,
+          panelClass: 'exceptionRemark-dialog-container',
+          data: duplicateResponse.remark,
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            duplicateResponse.remark = result;
+          } else {
+            duplicateResponse.remark = '';
+          }
+          this.BudgetService.setExceptionData(this.exceptionList);
+        });
         this.countDetails();
       }
     }
@@ -749,7 +784,7 @@ export class PiqReportComponent implements OnInit {
         }
       }
     }
-    this.selectedValue = quest.subHeaders;
+    this.selectedValue = quest && quest.subHeaders ? quest.subHeaders : '';
     this.chapterGrid();
   }
   isOptionSelected(selecVal: any, answer: any): boolean {
@@ -757,6 +792,11 @@ export class PiqReportComponent implements OnInit {
   }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
+  tooltipRemark = '';
+  fetchRemark(subq: any) {
+    const findValue = this.exceptionList.find((x) => x.qid === subq.qid);
+    this.tooltipRemark = findValue && findValue.remark ? findValue.remark : '';
   }
   toggleSingleSelection(
     value: string,
@@ -791,8 +831,15 @@ export class PiqReportComponent implements OnInit {
         const stringWithoutLastDot = str[0].slice(0, -1);
         str[0] = stringWithoutLastDot;
       }
-      questionId = str[0];
+      const matchResult = str[0].match(/\d+\.\d+\.\d+(\.\d+)?/);
+      if (matchResult) {
+        questionId = matchResult[0];
+      } else {
+        const modifiedStr = str[0].replace(/\.\w*$/, '');
+        questionId = modifiedStr;
+      }
     }
+
     if (questionId === '2.8.2') {
       this.getPscDetail(questionId, ques, mainQue, subQue);
     }
@@ -815,12 +862,8 @@ export class PiqReportComponent implements OnInit {
     if (this.lastModifiedData.length > 5) {
       this.lastModifiedData.splice(5);
     }
-
     this.countDetails();
-
-    // this.vesselSelection = subQue.answer;
-
-    this.selectedValue = ques.subHeaders;
+    this.selectedValue = ques && ques.subHeaders ? ques.subHeaders : '';
     if (subQue && subQue.presetvalue === subQue.answer) {
       this.restoreOriginal(subQue);
     } else {
@@ -968,17 +1011,37 @@ export class PiqReportComponent implements OnInit {
     const sqid = subQue.sid;
     const splitValue = sqid.split('.');
     splitValue.shift();
-    const exceptionData = {
-      qid: subQue.qid,
-      subHeaders: ques.subHeaders,
-      mainQuestion: mainQue.mainQuestion,
-      subName: splitValue.join('.') + ' ' + subQue.subName,
-      presetValue: subQue.presetvalue,
-      answer: subQue.answer,
-      remark: '',
-    };
-    this.exceptionList.push(exceptionData);
-    this.BudgetService.setExceptionData(this.exceptionList);
+    const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
+      disableClose: true,
+      panelClass: 'exceptionRemark-dialog-container',
+      data: '',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      let exceptionData: any;
+      if (result) {
+        exceptionData = {
+          qid: subQue.qid,
+          subHeaders: ques.subHeaders,
+          mainQuestion: mainQue.mainQuestion,
+          subName: splitValue.join('.') + ' ' + subQue.subName,
+          presetValue: subQue.presetvalue,
+          answer: subQue.answer,
+          remark: result,
+        };
+      } else {
+        exceptionData = {
+          qid: subQue.qid,
+          subHeaders: ques.subHeaders,
+          mainQuestion: mainQue.mainQuestion,
+          subName: splitValue.join('.') + ' ' + subQue.subName,
+          presetValue: subQue.presetvalue,
+          answer: subQue.answer,
+          remark: '',
+        };
+      }
+      this.exceptionList.push(exceptionData);
+      this.BudgetService.setExceptionData(this.exceptionList);
+    });
   }
 
   resetDate(event: any, subq: any, quest: any, mquest: any) {
@@ -1077,7 +1140,13 @@ export class PiqReportComponent implements OnInit {
         const stringWithoutLastDot = str[0].slice(0, -1);
         str[0] = stringWithoutLastDot;
       }
-      questionId = str[0];
+      const matchResult = str[0].match(/\d+\.\d+\.\d+(\.\d+)?/);
+      if (matchResult) {
+        questionId = matchResult[0];
+      } else {
+        const modifiedStr = str[0].replace(/\.\w*$/, '');
+        questionId = modifiedStr;
+      }
     }
     if (quest && quest.subheadid === 'SH1') {
       this.manualLookUp(dialogConfig);
@@ -1533,8 +1602,49 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      const lookUp = result !== 'Reset' ? result.jobid : 'Reset';
-      this.lookupReset(questionId, lookUp, '');
+      let lookUp =
+        result !== 'Reset'
+          ? result && result.jobid
+            ? result.jobid
+            : ''
+          : 'Reset';
+      if (result !== 'Reset') {
+        if (result) {
+          if (result && result.frequencytype === 'Month') {
+            if (mainQuest.qid === 'MQ26') {
+              this.dynamicForms.patchValue({
+                Q27: result.frequency + ' months',
+              });
+            } else if (mainQuest.qid === 'MQ29') {
+              this.dynamicForms.patchValue({
+                Q30: result.frequency + ' months',
+              });
+            } else if (mainQuest.qid === 'MQ32') {
+              this.dynamicForms.patchValue({
+                Q33: result.frequency + ' months',
+              });
+            }
+            mainQuest.subQuestion[0].answer = result.frequency + ' months';
+          } else if (result === 'Reset') {
+            this.lookupReset(questionId, lookUp, '');
+          } else {
+            if (mainQuest.qid === 'MQ26') {
+              this.dynamicForms.patchValue({
+                Q27: '',
+              });
+            } else if (mainQuest.qid === 'MQ29') {
+              this.dynamicForms.patchValue({
+                Q30: '',
+              });
+            } else if (mainQuest.qid === 'MQ32') {
+              this.dynamicForms.patchValue({
+                Q33: '',
+              });
+            }
+            mainQuest.subQuestion[0].answer = '';
+          }
+        }
+      }
     });
   }
   pscLookUp(dialogConfig: any, quest: any, mainQuest: any, questionId: any) {
@@ -1996,7 +2106,7 @@ export class PiqReportComponent implements OnInit {
     } else {
       this.exceptionFn(quest, mquest, subq);
     }
-    this.selectedValue = quest.subHeaders;
+    this.selectedValue = quest && quest.subHeaders ? quest.subHeaders : '';
     this.chapterGrid();
   }
 
@@ -2043,7 +2153,13 @@ export class PiqReportComponent implements OnInit {
         const stringWithoutLastDot = str[0].slice(0, -1);
         str[0] = stringWithoutLastDot;
       }
-      questionId = str[0];
+      const matchResult = str[0].match(/\d+\.\d+\.\d+(\.\d+)?/);
+      if (matchResult) {
+        questionId = matchResult[0];
+      } else {
+        const modifiedStr = str[0].replace(/\.\w*$/, '');
+        questionId = modifiedStr;
+      }
     }
     if (questionId === '2.2.1' || questionId === '2.2.2') {
       this.getLookUpVisit(questionId, subQues, mquest, subq);
@@ -2062,7 +2178,8 @@ export class PiqReportComponent implements OnInit {
     }
 
     subq.answer = this.datePipe.transform(event.value, 'dd-MMM-yyyy');
-    this.selectedValue = subQues.subHeaders;
+    this.selectedValue =
+      subQues && subQues.subHeaders ? subQues.subHeaders : '';
     this.countDetails();
     this.dateCount(mquest);
     this.chapterGrid();
@@ -2994,5 +3111,13 @@ export class PiqReportComponent implements OnInit {
     this.BudgetService.saveLookUp(payload).subscribe((data) => {
       this.isLoader = false;
     });
+  }
+
+  receiveRefernceCount(message: any) {
+    this.refernceCount = 'References' + ' ' + '(' + message + ')';
+  }
+
+  receiveExceptionCount(message: any) {
+    this.exceptionCount = 'Exceptions' + ' ' + '(' + message + ')';
   }
 }

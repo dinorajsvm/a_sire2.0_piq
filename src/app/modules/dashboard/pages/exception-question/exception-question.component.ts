@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import {
   GridOptions,
@@ -18,6 +18,7 @@ LicenseManager.setLicenseKey(
   styleUrls: ['./exception-question.component.css'],
 })
 export class ExceptionQuestionComponent implements OnInit {
+  @Output() countEmit = new EventEmitter<any>();
   public singleRowSelection: 'single' | 'multiple' = 'single';
   public userDetails: any;
   emptyRemark = '';
@@ -85,7 +86,6 @@ export class ExceptionQuestionComponent implements OnInit {
   private gridApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow: any = 'always';
   remarksCount: any;
   hideReqBtns: boolean = false;
   disableBtns: boolean = false;
@@ -123,6 +123,7 @@ export class ExceptionQuestionComponent implements OnInit {
       this.rowData = data;
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+        this.countEmit.emit(this.rowData.length);
         this.gridApi!.setRowData(this.rowData);
       if (this.rowData && this.rowData.length > 0) {
         this.BudgetService.setExceptionRowData(this.rowData);
@@ -209,5 +210,6 @@ export class ExceptionQuestionComponent implements OnInit {
 
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
+    this.countEmit.emit(this.rowData.length);
   }
 }

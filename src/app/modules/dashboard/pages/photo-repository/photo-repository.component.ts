@@ -93,8 +93,10 @@ export class PhotoRepositoryComponent implements OnInit {
     this.getSelectedCheckListId();
     this.BudgetService.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
-      this.trimmedVslType = this.getvslCode.split(' ');
-      this.trimmedVslType = this.trimmedVslType[0];
+      if (this.getvslCode) {
+        this.trimmedVslType = this.getvslCode.split(' ');
+        this.trimmedVslType = this.trimmedVslType[0];
+      }
       let selectedInstanceID: any = localStorage.getItem(
         'getSelectedCheckListID'
       );

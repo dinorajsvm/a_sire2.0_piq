@@ -46,6 +46,7 @@ import { UnsaveConfirmationDialogPopupComponent } from './pages/unsave-confirmat
 import { ConfirmationDialogPopupComponent } from './pages/confirmation-dialog-popup/confirmation-dialog-popup.component';
 import { NumberSpecDirective } from './pages/directives/numberSpec.directives';
 import { SwitchVesselTypeComponent } from './pages/switch-vessel-type/switch-vessel-type.component';
+import { ExceptionRemarkComponent } from './pages/exception-remark/exception-remark.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { SwitchVesselTypeComponent } from './pages/switch-vessel-type/switch-ves
     ManualLookUpComponent,
     UnsaveConfirmationDialogPopupComponent,
     ConfirmationDialogPopupComponent,
-    SwitchVesselTypeComponent
+    SwitchVesselTypeComponent,
+    ExceptionRemarkComponent
   ],
   imports: [
     DashboardRoutingModule,
