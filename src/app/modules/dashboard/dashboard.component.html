@@ -5,9 +5,13 @@
   <mat-sidenav-content [ngClass]="leftOpen ? 'sidebar-content-open' : 'sidebar-content-close'">
       <app-navbar (toggleSidebar)="toggleSidebar($event)"></app-navbar>
 
-      <div class="page-content-wrapper">
+      <div class="page-content-wrapper" id="page-Content">
+        <div class="fullscreen_module_wrapper" (click)="fullscreen()">
+          <div class="fullscreen_icon_wrapper">
+            <mat-icon class="fullscreen_icon">{{!showFullscreen?'fullscreen':'fullscreen_exit'}}</mat-icon>
+          </div>
+        </div>
         <router-outlet></router-outlet>
       </div>
-
   </mat-sidenav-content>
 </mat-sidenav-container>

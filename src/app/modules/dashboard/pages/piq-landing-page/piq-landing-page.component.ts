@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   GridOptions,
@@ -19,19 +19,57 @@ import { MatDialog } from '@angular/material/dialog';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
 import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
 import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
+import { DOCUMENT, DatePipe } from '@angular/common';
+import { AgGridAngular } from 'ag-grid-angular';
+import { IFilterParams, ColDef, ISetFilterParams } from 'ag-grid-community';
+import * as moment from 'moment';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: ['l'],
+  },
+  display: {
+    dateInput: 'DD-MMM-YYYY', // Change the date input format
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-piq-landing-page',
   templateUrl: './piq-landing-page.component.html',
   styleUrls: ['./piq-landing-page.component.css'],
+  providers: [
+    DatePipe,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+  ],
 })
 export class PIQLandingPageComponent implements OnInit {
+
+  @ViewChild(DaterangepickerDirective, { static: false })
+  pickerDirective!: DaterangepickerDirective;
+  propsFormGroup!: FormGroup;
+
+  startDate:any;
+  endDate:any;
+  dateRangePicker!: FormGroup;
+  documentElem: any;
   frameWorkComponent: any;
   totalRowCount = 0;
   gridApi: any;
   agGridToolbar: any = {};
-  saveAsTemplateList:any= [];
-  selectedTemplateIndex:number = 0;
+  isCustomFilterApplied = false;
+  saveAsTemplateList: any = [];
+  selectedTemplateIndex: number = 0;
   shipColumnDefs: any[] = [
     {
       field: 'action',
@@ -210,9 +248,11 @@ export class PIQLandingPageComponent implements OnInit {
     },
   };
 
-
-  public sideBar: SideBarDef | string | string[] | boolean | null = ['columns', 'filters'];
-  sideBarDef = { 
+  public sideBar: SideBarDef | string | string[] | boolean | null = [
+    'columns',
+    'filters',
+  ];
+  sideBarDef = {
     toolPanels: [
       {
         id: 'columns',
@@ -240,17 +280,23 @@ export class PIQLandingPageComponent implements OnInit {
     defaultToolPanel: 'none',
     hiddenByDefault: true,
   };
-  
 
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   public rowGroupPanelShow: any = 'always';
 
   public gridOptions: GridOptions = {
-    sideBar: null
+    sideBar: null,
   };
   gridColumnApi: any;
   getSubmitterRank: any;
-  showStsBar=false;
+  showStsBar = false;
+  currentStatusFilter: any;
+  datas: any;
+  submittedCount: any;
+  approvedCount: any;
+  inprogressCount: any;
+  reassignedCount: any;
+  actionCount: any;
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -273,9 +319,11 @@ export class PIQLandingPageComponent implements OnInit {
     );
     this.agGridToolbar['saveTemplate'] = this.updateTemplate.bind(this);
 
-    this.agGridToolbar['saveAsTemplate'] = this.saveAsTemplate.bind(this,
-       this.gridColumnApi,
-       this.saveAsTemplateList);
+    this.agGridToolbar['saveAsTemplate'] = this.saveAsTemplate.bind(
+      this,
+      this.gridColumnApi,
+      this.saveAsTemplateList
+    );
     this.agGridToolbar['deleteTemplate'] = this.deleteTemplate.bind(this);
     this.agGridToolbar['resetTemplate'] = this.resetTemplate.bind(this);
     this.agGridToolbar['filter'] = this._agGridService.filter.bind(
@@ -295,69 +343,170 @@ export class PIQLandingPageComponent implements OnInit {
   public tooltipShowDelay = 0;
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private BudgetService: BudgetService,
     private _snackBarService: SnackbarService,
     private _storage: StorageService,
     public dialog: MatDialog,
-    private _agGridService: AgGridService
+    private _agGridService: AgGridService, private datePipe: DatePipe,
+    @Inject(DOCUMENT) private document: any
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameWorkComponent = {
       actionRenderer: AgGridMenuComponent,
     };
+
+    this.documentElem = document.documentElement;
+    this.alwaysShowCalendars = true;
   }
 
   getAgGridTemplate() {
     const payload = {
-      "userCode": this.userDetails.userCode,
-      "gridId": "",
-    }
-    this._agGridService.getTemplate(payload,(res: any) => {
-      this.saveAsTemplateList=res.result;
-      });
-  }
-
-  updateTemplate(data:any) {
-    if(this.saveAsTemplateList.length==0) {
-      this.saveAsTemplate(this.gridColumnApi,this.saveAsTemplateList);
-    }
-    else {
-    const columnOrder = this.gridColumnApi.getColumnState();
-    const currentItem = this.saveAsTemplateList[this.selectedTemplateIndex]
-    const payload = {
-      "userCode": this.userDetails.userCode,
-      "name": currentItem.name,
-      "gridId": currentItem.smGridId['gridId'],
-      "template": JSON.stringify(columnOrder),
-    }
-    this._agGridService.updateTemplate(payload,(res:any) =>{
-      if(res.success) {
-        this.getAgGridTemplate()
-      }
+      userCode: this.userDetails.userCode,
+      gridId: '',
+    };
+    this._agGridService.getTemplate(payload, (res: any) => {
+      this.saveAsTemplateList = res.result;
     });
   }
+
+  updateTemplate(data: any) {
+    if (this.saveAsTemplateList.length == 0) {
+      this.saveAsTemplate(this.gridColumnApi, this.saveAsTemplateList);
+    } else {
+      const columnOrder = this.gridColumnApi.getColumnState();
+      const currentItem = this.saveAsTemplateList[this.selectedTemplateIndex];
+      const payload = {
+        userCode: this.userDetails.userCode,
+        name: currentItem.name,
+        gridId: currentItem.smGridId['gridId'],
+        template: JSON.stringify(columnOrder),
+      };
+      this._agGridService.updateTemplate(payload, (res: any) => {
+        if (res.success) {
+          this.getAgGridTemplate();
+        }
+      });
+    }
   }
 
-  saveAsTemplate(gridColumnApi:any,saveAsList:any) {
-    this._agGridService.saveAsTemplate(event,gridColumnApi,saveAsList,(res:any) =>{
-      if(res.success) {
-        this.getAgGridTemplate();
-        this.selectedTemplateIndex = this.saveAsTemplateList.length;
+  updateStatusFilter(status: string): void {
+    const filterIds = [
+      'actionFilter',
+      'chatsFilter',
+      'notificationFilter',
+      'inprogressFilter',
+      'submittedFilter',
+      'reassignedFilter',
+      'approvedFilter'
+    ];
+  
+    const currentFilterModel = this.gridApi.getFilterModel();
+    const isFilterActive = currentFilterModel && currentFilterModel.status && currentFilterModel.status.type === 'contains';
+  
+    const removeShowFilterClass = () => {
+      filterIds.forEach((filterId) => {
+        const filterElement = document.getElementById(filterId);
+        filterElement?.classList.remove('showFilter');
+      });
+    };
+  
+    if (isFilterActive) {
+      if (currentFilterModel.status.filter !== status) {
+        const customFilterParams = { type: 'contains', filter: status };
+        this.gridApi.setFilterModel({ status: customFilterParams });
+        removeShowFilterClass();
+        const filterElement = document.getElementById(`${status.toLowerCase()}Filter`);
+        filterElement?.classList.add('showFilter');
+      } else {
+        this.gridApi.setFilterModel(null);
+        removeShowFilterClass();
       }
-    })
+    } else {
+      const customFilterParams = { type: 'contains', filter: status };
+      this.gridApi.setFilterModel({ status: customFilterParams });
+      removeShowFilterClass();
+      const filterElement = document.getElementById(`${status.toLowerCase()}Filter`);
+      filterElement?.classList.add('showFilter');
+    }
+  
+    this.gridApi.onFilterChanged();
   }
+
+  saveAsTemplate(gridColumnApi: any, saveAsList: any) {
+    this._agGridService.saveAsTemplate(
+      event,
+      gridColumnApi,
+      saveAsList,
+      (res: any) => {
+        if (res.success) {
+          this.getAgGridTemplate();
+          this.selectedTemplateIndex = this.saveAsTemplateList.length;
+        }
+      }
+    );
+  }
+
+  // dateRangePicker start
+
+  propsFormControlName!: string;
+  isOptional = false;
+  isIconCalendar = false;
+  required = false;
+  disabled = false;
+  selected:any;
+  outline = false;
+  alwaysShowCalendars!: boolean;
+  ranges: any = {
+    'Last 6 years': [moment().subtract(6, 'year'), moment()],
+    'Last 3 years': [moment().subtract(3, 'year'), moment()],
+    'Last year': [moment().subtract(1, 'year'), moment()],
+    'Last 365 days': [moment().subtract(364, 'days'), moment()],
+    'Last 6 Months': [moment().subtract(6, 'month'), moment()],
+    'Last 3 Months': [moment().subtract(3, 'month'), moment()],
+    'Last 2 Months': [moment().subtract(2, 'month'), moment()],
+    'Last Month': [moment().subtract(1, 'month'), moment()],
+    'This Month': [moment().startOf('month'), moment().endOf('month')],
+    'Last 30 Days': [moment().subtract(30, 'days'), moment()],
+    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+    Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    Today: [moment(), moment()],
+  };
+  invalidDates: moment.Moment[] = [
+    moment().add(2, 'days'),
+    moment().add(3, 'days'),
+    moment().add(5, 'days'),
+  ];
+  isInvalidDate = (m: moment.Moment) => {
+    return this.invalidDates.some((d) => d.isSame(m, 'day'));
+  };
+
+  onResetDate(): void {
+    this.propsFormGroup.patchValue({
+      [this.propsFormControlName]: null,
+    });
+  }
+
+  openDatepicker() {
+      this.pickerDirective.open();
+  }
+
+  dateRangeChanged(event: any): void {
+    console.log('Selected Date Range:', this.selected);
+  }
+
+  // dateRangePicker End
 
   deleteTemplate() {
     this.removeAgTemplate(this.saveAsTemplateList[this.selectedTemplateIndex]);
   }
 
   resetTemplate() {
-    if(this.saveAsTemplateList.length) {
+    if (this.saveAsTemplateList.length) {
       const currentItem = this.saveAsTemplateList[0];
       this.selectAgTemplate(currentItem);
-    }
-    else {
+    } else {
       this.gridColumnApi.resetColumnState();
     }
     this._agGridService.columnFilter(this.gridApi);
@@ -365,17 +514,22 @@ export class PIQLandingPageComponent implements OnInit {
 
   selectAgTemplate(chip: any): void {
     const selectedIndex = this.saveAsTemplateList.indexOf(chip);
-    this._agGridService.selectChip(selectedIndex, this.saveAsTemplateList, this.gridColumnApi, (index:number) => {
-      this.selectedTemplateIndex = selectedIndex;
-    });
+    this._agGridService.selectChip(
+      selectedIndex,
+      this.saveAsTemplateList,
+      this.gridColumnApi,
+      (index: number) => {
+        this.selectedTemplateIndex = selectedIndex;
+      }
+    );
   }
 
   removeAgTemplate(chip: any): void {
     const payload = {
-        "userCode": this.userDetails.userCode,
-      }
-    this._agGridService.deleteTemplate(payload,(res:any) =>{
-      if(res.success) {
+      userCode: this.userDetails.userCode,
+    };
+    this._agGridService.deleteTemplate(payload, (res: any) => {
+      if (res.success) {
         this.getAgGridTemplate();
       }
     });
@@ -391,6 +545,9 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dateRangePicker = this.fb.group({
+      dateRangeField: [''],
+    });
     this.getworkflowStatus();
     this.router.navigate(['/sire/piq-landing']);
     this.getCodes();
@@ -398,7 +555,33 @@ export class PIQLandingPageComponent implements OnInit {
     this.BudgetService.getDeleteAction().subscribe((res) => {
       this.getLndPgDatas();
     });
+      this.selected = {
+        startDate: moment().subtract(2, 'years'),
+        endDate: moment(),
+      };
+      this.dateRangePicker.patchValue({
+        dateRangeField: this.selected,
+      })  
+      this.startDate =
+      this.datePipe.transform(
+        this.selected.startDate,
+        'dd-MMM-yyyy HH:mm'
+      );
+      this.endDate =
+      this.datePipe.transform(
+        this.selected.endDate,
+        'dd-MMM-yyyy HH:mm'
+      );
+
+      console.log("startDate",this.startDate);
+      console.log("endDate",this.endDate);
+      
+    console.log('Selected Date Range:', this.selected);
+    console.log('Selected Date Range3:', this.selected.endDate);
+    console.log('Selected Date Range4:', this.selected.startDate);
+    console.log('Selected Date Range2:', this.dateRangePicker.value.dateRangeField);
   }
+
 
   viewForm(event: any) {
     const instanceid = event.serialNumber;
@@ -412,7 +595,7 @@ export class PIQLandingPageComponent implements OnInit {
       this.compVslCode = this.userDetails.companyCode;
     } else if (this.userDetails?.cntrlType === 'CNT002') {
       this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
-    } 
+    }
   }
 
   getLndPgDatas() {
@@ -463,6 +646,32 @@ export class PIQLandingPageComponent implements OnInit {
       });
       this.rowData = object;
       this.totalRowCount = object && object.length > 0 ? object.length : 0;
+      const submitted: any = object.filter((item: any) => {
+        return item.status === 'Submitted';
+      });
+      this.submittedCount = submitted.length;
+
+      const approved: any = object.filter((item: any) => {
+        return item.status === 'Approved';
+      });
+      this.approvedCount = approved.length;
+
+      const inprogress: any = object.filter((item: any) => {
+        return item.status === 'Inprogress';
+      });
+      this.inprogressCount = inprogress.length;
+
+      const reassigned: any = object.filter((item: any) => {
+        return item.status === 'Reassigned';
+      });
+      this.reassignedCount = reassigned.length;
+
+      const action: any = object.filter((item: any) => {
+        return (
+          item.isView === true && item.isEdit === true && item.isDelete === true
+        );
+      });
+      this.actionCount = action.length;
     });
   }
 
@@ -490,8 +699,8 @@ export class PIQLandingPageComponent implements OnInit {
       });
     });
   }
-  stsBarToggle(){
-    this.showStsBar = !this.showStsBar
+  stsBarToggle() {
+    this.showStsBar = !this.showStsBar;
   }
 
   navigatePiq() {

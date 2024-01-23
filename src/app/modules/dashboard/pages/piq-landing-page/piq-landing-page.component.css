@@ -24,12 +24,77 @@
   padding: 0 !important;
 }
 
-.showStsBarAgGrid{
-  height: calc(100vh - 230px) !important;
+.lndAgGrid.showStsBarAgGrid {
+  height: calc(100vh - 230px);
 }
-.statusBar_Wrapper{
-height: 0;
-overflow: hidden;
+.statusBar_Wrapper {
+  height: 0;
+  overflow: hidden;
+}
+
+::ng-deep.md-drppicker{
+display: flex !important;
+top: 40px !important;
+left: 15px !important;
+}
+
+::ng-deep.week-days ::ng-deep th ::ng-deep span {
+  color: black;
+  font-weight: 500;
+}
+
+::ng-deep.md-drppicker .dropdowns{
+  color: black;
+  font-weight: 500;
+}
+.dateRangeWrapper{
+  display: flex;
+  border: 1px solid #c8c8c8;
+  border-radius:5px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.dateRangeWrapper .dateRangeField{
+  border: none;
+  outline: none;
+  border-radius: 0;
+  width: 85%;
+  text-align: center;
+  color: black;
+}
+
+.dateRangeWrapper .icon-calendar{
+width: 18px;
+}
+
+.dateRangeWrapper .icon-down{
+  width: 10px;
+  }
+
+::ng-deep.md-drppicker ::ng-deep.ranges{
+  height: 250px !important;
+  overflow: auto !important;
+  width: 135px !important;
+}
+::ng-deep.md-drppicker ::ng-deep.buttons{
+  position: absolute !important;
+  bottom: 1px !important;
+  right: 0 !important;
+}
+
+::ng-deep.md-drppicker ::ng-deep.btn{
+  max-width: 75px !important;
+  margin: 0 5px !important;
+}
+
+::ng-deep.md-drppicker ::ng-deep.btn.btn-default{
+  background-color: white !important;
+}
+
+::ng-deep.md-drppicker ::ng-deep.clear svg{
+  display: none !important;
 }
 
 .showStsBar .statusBar_Wrapper {
@@ -44,46 +109,49 @@ overflow: hidden;
   box-shadow: 0 2px 3px 1px #0003, 0 0 #00000024, 0 0 #0000001f;
 }
 
-.lndToggle ::ng-deep.mdc-switch__icons{
+.lndToggle ::ng-deep.mdc-switch__icons {
   display: none;
 }
-.lndToggle.mat-mdc-slide-toggle.mat-accent{
-  --mdc-switch-unselected-handle-color:white !important;
-  --mdc-switch-unselected-pressed-handle-color:white !important;
-  --mdc-switch-unselected-focus-handle-color:white !important;
-  --mdc-switch-unselected-hover-handle-color:white !important;
-  --mdc-switch-selected-track-color:#5b9cd6 !important;
-  --mdc-switch-selected-handle-color:white !important;
-  --mdc-switch-selected-pressed-handle-color:white !important;
-  --mdc-switch-selected-hover-track-color:#5b9cd6 !important;
-  --mdc-switch-selected-pressed-track-color:#5b9cd6 !important;
-  --mdc-switch-selected-focus-handle-color:white !important;
-  --mdc-switch-selected-hover-handle-color:white !important;
-  --mdc-switch-selected-focus-track-color:#5b9cd6 !important;
+.lndToggle.mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-unselected-handle-color: white !important;
+  --mdc-switch-unselected-pressed-handle-color: white !important;
+  --mdc-switch-unselected-focus-handle-color: white !important;
+  --mdc-switch-unselected-hover-handle-color: white !important;
+  --mdc-switch-selected-track-color: #5b9cd6 !important;
+  --mdc-switch-selected-handle-color: white !important;
+  --mdc-switch-selected-pressed-handle-color: white !important;
+  --mdc-switch-selected-hover-track-color: #5b9cd6 !important;
+  --mdc-switch-selected-pressed-track-color: #5b9cd6 !important;
+  --mdc-switch-selected-focus-handle-color: white !important;
+  --mdc-switch-selected-hover-handle-color: white !important;
+  --mdc-switch-selected-focus-track-color: #5b9cd6 !important;
 }
 
-.datePicker ::ng-deep.mat-date-range-input-wrapper{
+.datePicker ::ng-deep.mat-date-range-input-wrapper {
   top: -2px !important;
 }
-.datePicker ::ng-deep.mat-date-range-input-separator{
+.datePicker ::ng-deep.mat-date-range-input-separator {
   bottom: 2px !important;
   position: relative !important;
 }
 
-.lndToggle ::ng-deep.mdc-switch .mdc-switch__handle::before{
+.lndToggle ::ng-deep.mdc-switch .mdc-switch__handle::before {
   background: white !important;
 }
 
-.lndToggle ::ng-deep.mdc-switch:enabled .mdc-switch__track::before{
+.lndToggle ::ng-deep.mdc-switch:enabled .mdc-switch__track::before {
   background: gray !important;
 }
 
 .statusBars_subWrap {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 .statusBar_CountWrap {
   border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
 }
 .statusBar_Counts {
   border: 4px solid white;
@@ -97,23 +165,22 @@ overflow: hidden;
   font-weight: 500;
 }
 
-.stsCounts{
-    max-width: 40px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-
+.stsCounts {
+  max-width: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
 .statusBar_Name {
+  cursor: pointer;
   display: flex;
   align-items: center;
   text-align: center;
   height: 35px;
-  width: 128px;
+  width: 100%;
   padding: 0 10px 0 35px;
   justify-content: center;
   position: relative;
-  z-index: -1;
   background: white;
   right: 35px;
   border-radius: 20px;
@@ -148,11 +215,11 @@ overflow: hidden;
   background: #ff7c25;
 }
 
-.stsBar_reviewed_Wrap {
-  border: 2px solid #0dcb28;
+.stsBar_reassigned_Wrap {
+  border: 2px solid #0e2350;
 }
-.stsBar_reviewed_Counts {
-  background: #0dcb28;
+.stsBar_reassigned_Counts {
+  background: #0e2350;
 }
 
 .stsBar_approved_Wrap {
@@ -162,11 +229,11 @@ overflow: hidden;
   background: #00a65a;
 }
 
-.stsBar_close_Wrap {
-  border: 2px solid #ca0202;
+.stsBar_inprogress_Wrap {
+  border: 2px solid #39b7cd;
 }
-.stsBar_close_Counts {
-  background: #ca0202;
+.stsBar_inprogress_Counts {
+  background: #39b7cd;
 }
 
 ::ng-deep.sidebar-content-open
@@ -185,6 +252,39 @@ overflow: hidden;
   right: 30px;
 }
 
+.lndAgGrid{
+  height: calc(100vh - 160px);
+}
+.fullscreen_module_wrapper {
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 1px;
+}
+.sts_Filter {
+  position: absolute;
+  width: 8px;
+  bottom: 22px;
+  left: 32px;
+  display: none;
+}
+
+.showFilter{
+  display: block;
+}
+
+.fullscreen_icon_wrapper {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 5px 0px 0px 5px;
+  background: black;
+}
+
+.fullscreen_icon {
+  color: white;
+  margin-top: 1px;
+}
 .statusBar_toggle {
   border: 1px solid #5b9cd6;
   display: flex;

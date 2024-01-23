@@ -1,120 +1,120 @@
 <div class="col-sm-12" style="height: calc(100vh - 45px);">
-  <!-- <div class="row">
+  <div class="row">
     <div class="col-sm-6">
       <span class="page_Title"> PIQ </span>
     </div>
     <div class="col-sm-6" style="padding: 0;">
       <div style="display: flex;">
         <span class="statusBar_toggle" (click)="stsBarToggle()">
-          <mat-icon class="cursor-pointer statusBar_toggleIcn"> {{ showStsBar ? "expand_less" : "expand_more" }}</mat-icon>
+          <mat-icon class="cursor-pointer statusBar_toggleIcn"> {{ showStsBar ? "expand_less" : "expand_more"
+            }}</mat-icon>
         </span>
       </div>
     </div>
-  </div> -->
-  
-  <!-- <div class="row" [class.showStsBar]="showStsBar">
+  </div>
+  <div class="row" [class.showStsBar]="showStsBar">
     <div class="col-sm-12">
       <div class="row" style="justify-content: center;">
         <div class="statusBar_Wrapper">
-          <div class="statusBars_subWrap">
+          <div class="statusBars_subWrap" (click)="updateStatusFilter('My Actions')">
             <div class="statusBar_CountWrap stsBar_action_Wrap">
               <div class="statusBar_Counts stsBar_action_Counts">
                 <span class="stsCounts">0</span>
               </div>
+              <!-- {{actionCount}} -->
             </div>
             <div class="statusBar_Name stsBar_action_Wrap">
+              <img src="assets/question/filter.svg" id="actionFilter" class="sts_Filter" />
               <span>My Actions</span>
             </div>
           </div>
-          <div class="statusBars_subWrap">
+          <div class="statusBars_subWrap" (click)="updateStatusFilter('My Chats')">
             <div class="statusBar_CountWrap stsBar_chats_Wrap">
               <div class="statusBar_Counts stsBar_chats_Counts">
                 <span class="stsCounts">0</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_chats_Wrap">
+              <img src="assets/question/filter.svg" id="chatsFilter" class="sts_Filter" />
               <span>My Chats</span>
             </div>
           </div>
-          <div class="statusBars_subWrap">
+          <div class="statusBars_subWrap" (click)="updateStatusFilter('My Notification')">
             <div class="statusBar_CountWrap stsBar_notification_Wrap">
               <div class="statusBar_Counts stsBar_notification_Counts">
                 <span class="stsCounts">0</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_notification_Wrap">
+              <img src="assets/question/filter.svg" id="notificationFilter" class="sts_Filter" />
               <span>My Notification</span>
             </div>
           </div>
-          <div class="statusBars_subWrap">
+          <div class="statusBars_subWrap" (click)="updateStatusFilter('Inprogress')">
+            <div class="statusBar_CountWrap stsBar_inprogress_Wrap">
+              <div class="statusBar_Counts stsBar_inprogress_Counts">
+                <span class="stsCounts">{{inprogressCount}}</span>
+              </div>
+            </div>
+            <div class="statusBar_Name stsBar_inprogress_Wrap">
+              <img src="assets/question/filter.svg" id="inprogressFilter" class="sts_Filter" />
+              <span>Inprogress</span>
+            </div>
+          </div>
+          <div class="statusBars_subWrap" (click)="updateStatusFilter('Submitted')">
             <div class="statusBar_CountWrap stsBar_submitted_Wrap">
               <div class="statusBar_Counts stsBar_submitted_Counts">
-                <span class="stsCounts">0</span>
+                <span class="stsCounts">{{submittedCount}}</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_submitted_Wrap">
+              <img src="assets/question/filter.svg" id="submittedFilter" class="sts_Filter" />
               <span>Submitted</span>
             </div>
           </div>
-          <div class="statusBars_subWrap">
-            <div class="statusBar_CountWrap stsBar_reviewed_Wrap">
-              <div class="statusBar_Counts stsBar_reviewed_Counts">
-                <span class="stsCounts">0</span>
+          <div class="statusBars_subWrap" (click)="updateStatusFilter('Reassigned')">
+            <div class="statusBar_CountWrap stsBar_reassigned_Wrap">
+              <div class="statusBar_Counts stsBar_reassigned_Counts">
+                <span class="stsCounts">{{reassignedCount}}</span>
               </div>
             </div>
-            <div class="statusBar_Name stsBar_reviewed_Wrap">
-              <span>Reviewed</span>
+            <div class="statusBar_Name stsBar_reassigned_Wrap">
+              <img src="assets/question/filter.svg" id="reassignedFilter" class="sts_Filter" />
+              <span>Reassigned</span>
             </div>
           </div>
-          <div class="statusBars_subWrap">
+          <div class="statusBars_subWrap" (click)="updateStatusFilter('Approved')">
             <div class="statusBar_CountWrap stsBar_approved_Wrap">
               <div class="statusBar_Counts stsBar_approved_Counts">
-                <span class="stsCounts">0</span>
+                <span class="stsCounts">{{approvedCount}}</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_approved_Wrap">
+              <img src="assets/question/filter.svg" id="approvedFilter" class="sts_Filter" />
               <span>Approved</span>
-            </div>
-          </div>
-          <div class="statusBars_subWrap">
-            <div class="statusBar_CountWrap stsBar_close_Wrap">
-              <div class="statusBar_Counts stsBar_close_Counts">
-                <span class="stsCounts">0</span>
-              </div>
-            </div>
-            <div class="statusBar_Name stsBar_close_Wrap">
-              <span>Close Out</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div> -->
-  <!-- <div class="row" style="padding: 10px 0">
+  </div>
+  <div class="row" style="padding: 10px 0">
     <div class="col-sm-12">
       <div class="row">
-        <div class="col-sm-3 text-right" style="padding-right: 0">
-          <div>
-            <mat-form-field class="w-100">
-              <input type="text" style="color: black;" matInput ngxDaterangepickerMd
-                [keepCalendarOpeningWithRange]="keepCalendarOpeningWithRange" placeholder="{{placeholder}}"
-                [showDropdowns]="true" [lockStartDate]="false" [customRangeDirection]="false"
-                (change)="onDateChangeEvent($event)" [showClearButton]="showClearButton" [ranges]="ranges"
-                [showCustomRangeLabel]="showCustomRangeLabel" [isInvalidDate]="isInvalidDate" autocomplete="off"
-                [locale]="dateFormateControl" [alwaysShowCalendars]="alwaysShowCalendars" readonly="true">
-              <img class="dateIcon ngx-daterangepicker-action" style="position: absolute;margin-left: -14px;"
-                src="assets/images/calendar.png" width="12" (click)="openDatepicker()">
-            </mat-form-field>
-
-
-            <mat-form-field appearance="outline" class="datePicker">
-              <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate placeholder="Start date">
-                <input matEndDate placeholder="End date">
-              </mat-date-range-input>
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
+        <div class="col-sm-2 text-right" style="padding-right: 0">
+          <div class="dateRangeWrapper ngx-daterangepicker-action" (click)="openDatepicker()"
+            [formGroup]="dateRangePicker">
+            <img class="icon-calendar ngx-daterangepicker-action" src="assets/question/calendar.svg" alt=""
+              (click)="openDatepicker()" />
+              <!-- startKey="start" endKey="end" [showCancel]="true"-->
+            <input type="text" readonly="true" matInput class="dateRangeField" ngxDaterangepickerMd
+              [locale]="{ applyLabel: 'ok', format: 'DD-MMM-YYYY' }"  formControlName="dateRangeField"
+               [(ngModel)]="selected" [ranges]="ranges" [showCustomRangeLabel]="true" [showDropdowns]="true"
+               [keepCalendarOpeningWithRange]="true"
+              [alwaysShowCalendars]="false" [showClearButton]="true"
+              [isInvalidDate]="isInvalidDate" name="daterange" (change)="dateRangeChanged($event)" />
+            <img class="icon-down ngx-daterangepicker-action" src="assets/question/down.svg" alt=""
+              (click)="openDatepicker()" />
           </div>
         </div>
         <div class="col-sm-1 text-right">
@@ -135,23 +135,12 @@
             <mat-slide-toggle class="lndToggle"></mat-slide-toggle>
           </div>
         </div>
-        <div class="col-sm-4 text-right" style="padding-right: 0">
+        <div class="col-sm-5 text-right" style="padding-right: 0">
           <div>
             <button mat-button class="new" (click)="navigatePiq()">New</button>
             <img class="btnImg" src="assets/question/new.svg" />
           </div>
         </div>
-      </div>
-    </div>
-  </div> -->
-  <div class="row" style="padding:10px 0px;">
-    <div class="col-sm-6">
-      <span class="page_Title"> PIQ </span>
-    </div>
-    <div class="col-sm-6 text-right" style="padding-right: 0">
-      <div>
-        <button mat-button class="new" (click)="navigatePiq()">New</button>
-        <img class="btnImg" src="assets/question/new.svg" />
       </div>
     </div>
   </div>
@@ -168,7 +157,7 @@
   <div class="row">
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <ag-grid-angular style="height: calc(100vh - 125px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
+      <ag-grid-angular [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
         [columnDefs]="shipColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
@@ -178,7 +167,7 @@
     </div>
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <ag-grid-angular style="height: calc(100vh - 125px)" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham"
+      <ag-grid-angular [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
         [columnDefs]="shoreColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"

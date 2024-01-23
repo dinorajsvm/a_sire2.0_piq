@@ -10,39 +10,16 @@
       <div class="col-sm-9">
         <h5 class="moduleTitle">Pre-Inspection Questionnaire</h5>
       </div>
-      <div
-        class="col-sm-2 text-right"
-        style="padding-right: 0; white-space: nowrap"
-      >
+      <div class="col-sm-2 text-right" style="white-space: nowrap">
         <span class="sNumber">S.No: {{ referenceNumber }}</span>
       </div>
-      <div class="col-sm-1 text-right topBtnWrapper" style="padding: 0">
-        <button
-          matTooltip="Edit"
-          [disabled]="disableEditMode"
-          *ngIf="
-            (((userDetails?.cntrlType === 'CNT002' &&
-              getOrigination === 'CNT002') ||
-              (userDetails?.cntrlType === 'CNT001' &&
-                getApproveRank != userDetails?.rankCode &&
-                getOrigination === 'CNT001')) &&
-              (getStatus === 'Inprogress' || getStatus === 'ReAssigned')) ||
-            (userDetails?.cntrlType === 'CNT001' &&
-              getApproveRank === userDetails?.rankCode &&
-              (getStatus === 'Inprogress' || getStatus === 'Submitted')) ||
-            (userDetails?.cntrlType === 'CNT001' &&
-              getApproveRank != userDetails?.rankCode &&
-              getOrigination === 'CNT002' &&
-              getStatus === 'Inprogress')
-          "
-          [class.disabledEdit]="disableEditMode"
-          mat-button
-          class="edit"
-          (click)="edit()"
-        >
+      <div class="col-sm-1 text-center topBtnWrapper" style="padding: 0">
+        <button matTooltip="Edit" style="right: 5px;" [disabled]="disableEditMode"
+          *ngIf="((((userDetails?.cntrlType === 'CNT002' && getOrigination === 'CNT002') || (userDetails?.cntrlType === 'CNT001' && getApproveRank != userDetails?.rankCode && getOrigination === 'CNT001')) && (getStatus === 'Inprogress' || getStatus === 'ReAssigned')) || ((userDetails?.cntrlType === 'CNT001' && getApproveRank === userDetails?.rankCode) && (getStatus === 'Inprogress' || getStatus === 'Submitted')) || (userDetails?.cntrlType === 'CNT001' && getApproveRank != userDetails?.rankCode && getOrigination === 'CNT002' && getStatus === 'Inprogress')) "
+          [class.disabledEdit]="disableEditMode" mat-button class="edit" (click)="edit()">
           <img src="assets/question/edit.svg" />
         </button>
-        <button
+        <button style="right: 10px;"
           matTooltip="Back To Landing Page"
           mat-button
           class="home"

@@ -70,3 +70,27 @@
   .mat-mdc-unelevated-button.mat-warn, .mat-mdc-raised-button.mat-warn, .mat-mdc-fab.mat-warn, .mat-mdc-mini-fab.mat-warn {
     background-color: #007bff;
   }
+
+  .fullscreen_module_wrapper{
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 1px;
+}
+
+.page-content-wrapper{
+  background-color: white;
+}
+
+.fullscreen_icon_wrapper{
+    display: flex;
+    border: 1px solid black;
+    border-radius: 5px 0px 0px 5px;
+    background: black;
+}
+
+.fullscreen_icon{
+  color: white;
+  margin-top: 1px;
+}

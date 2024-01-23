@@ -52,7 +52,7 @@
 
 /* MACK STANDARD BUTTONS START */
 
-.cancel{
+.cancel {
   border: 1px solid #c1c1c1;
 }
 .save.mat-mdc-button {
@@ -301,6 +301,38 @@
 } */
 
 /* CHIP STYLE END */
+
+/* FULLSCREEN STYLE START */
+::ng-deep .fullscreenContent ::ng-deep .lndAgGrid {
+  height: calc(100vh - 120px) !important;
+}
+
+::ng-deep .fullscreenContent ::ng-deep .showStsBarAgGrid {
+  height: calc(100vh - 190px) !important;
+}
+::ng-deep .fullscreenContent ::ng-deep #summaryWrapper {
+  height: calc(100vh - 110px) !important;
+}
+::ng-deep .fullscreenContent ::ng-deep .mat-mdc-tab-body-wrapper {
+  height: calc(100vh - 110px) !important;
+}
+::ng-deep .fullscreenContent ::ng-deep .list_wrapper {
+  height: calc(100vh - 167px) !important;
+}
+::ng-deep .fullscreenContent ::ng-deep .content_load_wrap {
+  height: calc(100vh - 167px) !important;
+}
+::ng-deep .fullscreenContent ::ng-deep .content_load_wrappen {
+  height: calc(100vh - 167px) !important;
+}
+::ng-deep .fullscreenContent ::ng-deep .photoContents {
+  height: calc(100vh - 155px) !important;
+}
+::ng-deep .fullscreenContent ::ng-deep .fullAg-grid {
+  height: calc(100vh - 155px) !important;
+}
+
+/* FULLSCREEN STYLE END */
 
 /*SNACKBAR STYLE START*/
 .bg-info.mat-mdc-snack-bar-container {

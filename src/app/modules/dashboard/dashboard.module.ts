@@ -47,6 +47,7 @@ import { ConfirmationDialogPopupComponent } from './pages/confirmation-dialog-po
 import { NumberSpecDirective } from './pages/directives/numberSpec.directives';
 import { SwitchVesselTypeComponent } from './pages/switch-vessel-type/switch-vessel-type.component';
 import { ExceptionRemarkComponent } from './pages/exception-remark/exception-remark.component';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,7 @@ import { ExceptionRemarkComponent } from './pages/exception-remark/exception-rem
     MackModule,
     LayoutModule,
     AgGridModule,
-    FormsModule
+    FormsModule,NgxDaterangepickerMd.forRoot()
   ],
   exports: [
     AngularMaterialModule
