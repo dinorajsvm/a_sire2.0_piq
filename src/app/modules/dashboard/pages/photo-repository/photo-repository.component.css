@@ -131,14 +131,14 @@
   cursor: pointer;
 }
 
-.hideReqBtns{
+.hideReqBtns {
   display: none !important;
 }
 
-.disableBtns{
+.disableBtns {
   background-color: gray !important;
   color: black !important;
-  }
+}
 
 .img {
   position: relative;
@@ -255,7 +255,7 @@
 }
 
 .topicSubHeader .subTopName p {
-  margin: 0!important;
+  margin: 0 !important;
   border-radius: 5px;
   background: #0378ce;
   color: #fff;
@@ -296,7 +296,7 @@
   } */
 
 .imgUpload.mat-mdc-button.mat-mdc-button-base {
-  padding:0 4px;
+  padding: 0 4px;
   display: flex;
   align-items: center;
   height: 26px;
@@ -319,14 +319,14 @@
   cursor: pointer;
 }
 
-.saveDisable{
+.saveDisable {
   background-color: gray !important;
   color: black !important;
-  }
+}
 
-  .hideReqBtns{
-    display: none;
-  }
+.hideReqBtns {
+  display: none;
+}
 
 .searchTable ::ng-deep .material-icons {
   font-size: 20px;

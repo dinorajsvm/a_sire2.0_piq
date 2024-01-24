@@ -392,45 +392,176 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   updateStatusFilter(status: string): void {
-    const filterIds = [
-      'actionFilter',
-      'chatsFilter',
-      'notificationFilter',
-      'inprogressFilter',
-      'submittedFilter',
-      'reassignedFilter',
-      'approvedFilter'
-    ];
-  
+    let action = document.getElementById('actionFilter');
+    let chats = document.getElementById('chatsFilter');
+    let notification = document.getElementById('notificationFilter');
+    let inprogress = document.getElementById('inprogressFilter');
+    let submitted = document.getElementById('submittedFilter');
+    let reassign = document.getElementById('reassignedFilter');
+    let approved = document.getElementById('approvedFilter');
     const currentFilterModel = this.gridApi.getFilterModel();
-    const isFilterActive = currentFilterModel && currentFilterModel.status && currentFilterModel.status.type === 'contains';
-  
-    const removeShowFilterClass = () => {
-      filterIds.forEach((filterId) => {
-        const filterElement = document.getElementById(filterId);
-        filterElement?.classList.remove('showFilter');
-      });
-    };
-  
+    const isFilterActive =
+      currentFilterModel &&
+      currentFilterModel.status &&
+      currentFilterModel.status.type === 'contains';
+
     if (isFilterActive) {
+      // if the filter has some value and changed to another value
       if (currentFilterModel.status.filter !== status) {
-        const customFilterParams = { type: 'contains', filter: status };
+        const customFilterParams = {
+          type: 'contains',
+          filter: status,
+        };
         this.gridApi.setFilterModel({ status: customFilterParams });
-        removeShowFilterClass();
-        const filterElement = document.getElementById(`${status.toLowerCase()}Filter`);
-        filterElement?.classList.add('showFilter');
+        if (status === 'My Actions') {
+          action?.classList.add('showFilter');
+          chats?.classList.remove('showFilter');
+          notification?.classList.remove('showFilter');
+          inprogress?.classList.remove('showFilter');
+          submitted?.classList.remove('showFilter');
+          reassign?.classList.remove('showFilter');
+          approved?.classList.remove('showFilter');
+        } else if (status === 'My Chats') {
+          chats?.classList.add('showFilter');
+          action?.classList.remove('showFilter');
+          notification?.classList.remove('showFilter');
+          inprogress?.classList.remove('showFilter');
+          submitted?.classList.remove('showFilter');
+          reassign?.classList.remove('showFilter');
+          approved?.classList.remove('showFilter');
+        } else if (status === 'My Notification') {
+          notification?.classList.add('showFilter');
+          chats?.classList.remove('showFilter');
+          action?.classList.remove('showFilter');
+          inprogress?.classList.remove('showFilter');
+          submitted?.classList.remove('showFilter');
+          reassign?.classList.remove('showFilter');
+          approved?.classList.remove('showFilter');
+        } else if (status === 'Inprogress') {
+          inprogress?.classList.add('showFilter');
+          chats?.classList.remove('showFilter');
+          notification?.classList.remove('showFilter');
+          action?.classList.remove('showFilter');
+          submitted?.classList.remove('showFilter');
+          reassign?.classList.remove('showFilter');
+          approved?.classList.remove('showFilter');
+        } else if (status === 'Submitted') {
+          submitted?.classList.add('showFilter');
+          chats?.classList.remove('showFilter');
+          notification?.classList.remove('showFilter');
+          action?.classList.remove('showFilter');
+          inprogress?.classList.remove('showFilter');
+          reassign?.classList.remove('showFilter');
+          approved?.classList.remove('showFilter');
+        } else if (status === 'Reassigned') {
+          reassign?.classList.add('showFilter');
+          chats?.classList.remove('showFilter');
+          notification?.classList.remove('showFilter');
+          inprogress?.classList.remove('showFilter');
+          action?.classList.remove('showFilter');
+          submitted?.classList.remove('showFilter');
+          approved?.classList.remove('showFilter');
+        } else if (status === 'Approved') {
+          approved?.classList.add('showFilter');
+          chats?.classList.remove('showFilter');
+          notification?.classList.remove('showFilter');
+          inprogress?.classList.remove('showFilter');
+          submitted?.classList.remove('showFilter');
+          action?.classList.remove('showFilter');
+          reassign?.classList.remove('showFilter');
+        } else {
+          approved?.classList.remove('showFilter');
+          chats?.classList.remove('showFilter');
+          notification?.classList.remove('showFilter');
+          inprogress?.classList.remove('showFilter');
+          submitted?.classList.remove('showFilter');
+          reassign?.classList.remove('showFilter');
+          action?.classList.remove('showFilter');
+        }
       } else {
+        // if the filter has same value
         this.gridApi.setFilterModel(null);
-        removeShowFilterClass();
+        approved?.classList.remove('showFilter');
+        chats?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+        action?.classList.remove('showFilter');
       }
     } else {
-      const customFilterParams = { type: 'contains', filter: status };
+      // if the filter has no value
+      const customFilterParams = {
+        type: 'contains',
+        filter: status,
+      };
       this.gridApi.setFilterModel({ status: customFilterParams });
-      removeShowFilterClass();
-      const filterElement = document.getElementById(`${status.toLowerCase()}Filter`);
-      filterElement?.classList.add('showFilter');
+      if (status === 'My Actions') {
+        action?.classList.add('showFilter');
+        chats?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+        approved?.classList.remove('showFilter');
+      } else if (status === 'My Chats') {
+        chats?.classList.add('showFilter');
+        action?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+        approved?.classList.remove('showFilter');
+      } else if (status === 'My Notification') {
+        notification?.classList.add('showFilter');
+        chats?.classList.remove('showFilter');
+        action?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+        approved?.classList.remove('showFilter');
+      } else if (status === 'Inprogress') {
+        inprogress?.classList.add('showFilter');
+        chats?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        action?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+        approved?.classList.remove('showFilter');
+      } else if (status === 'Submitted') {
+        submitted?.classList.add('showFilter');
+        chats?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        action?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+        approved?.classList.remove('showFilter');
+      } else if (status === 'Reassigned') {
+        reassign?.classList.add('showFilter');
+        chats?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        action?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        approved?.classList.remove('showFilter');
+      } else if (status === 'Approved') {
+        approved?.classList.add('showFilter');
+        chats?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        action?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+      } else {
+        approved?.classList.remove('showFilter');
+        chats?.classList.remove('showFilter');
+        notification?.classList.remove('showFilter');
+        inprogress?.classList.remove('showFilter');
+        submitted?.classList.remove('showFilter');
+        reassign?.classList.remove('showFilter');
+        action?.classList.remove('showFilter');
+      }
     }
-  
     this.gridApi.onFilterChanged();
   }
 
@@ -493,6 +624,16 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   dateRangeChanged(event: any): void {
+    this.startDate =
+    this.datePipe.transform(
+      this.selected.startDate,
+      'dd-MMM-yyyy HH:mm'
+    );
+    this.endDate =
+    this.datePipe.transform(
+      this.selected.endDate,
+      'dd-MMM-yyyy HH:mm'
+    );
     console.log('Selected Date Range:', this.selected);
   }
 
@@ -548,6 +689,23 @@ export class PIQLandingPageComponent implements OnInit {
     this.dateRangePicker = this.fb.group({
       dateRangeField: [''],
     });
+    this.selected = {
+      startDate: moment().subtract(2, 'years'),
+      endDate: moment(),
+    };
+    this.dateRangePicker.patchValue({
+      dateRangeField: this.selected,
+    })  
+    this.startDate =
+    this.datePipe.transform(
+      this.selected.startDate,
+      'dd-MMM-yyyy HH:mm'
+    );
+    this.endDate =
+    this.datePipe.transform(
+      this.selected.endDate,
+      'dd-MMM-yyyy HH:mm'
+    );
     this.getworkflowStatus();
     this.router.navigate(['/sire/piq-landing']);
     this.getCodes();
@@ -555,31 +713,15 @@ export class PIQLandingPageComponent implements OnInit {
     this.BudgetService.getDeleteAction().subscribe((res) => {
       this.getLndPgDatas();
     });
-      this.selected = {
-        startDate: moment().subtract(2, 'years'),
-        endDate: moment(),
-      };
-      this.dateRangePicker.patchValue({
-        dateRangeField: this.selected,
-      })  
-      this.startDate =
-      this.datePipe.transform(
-        this.selected.startDate,
-        'dd-MMM-yyyy HH:mm'
-      );
-      this.endDate =
-      this.datePipe.transform(
-        this.selected.endDate,
-        'dd-MMM-yyyy HH:mm'
-      );
+      
 
       console.log("startDate",this.startDate);
       console.log("endDate",this.endDate);
+      console.log('Selected Date Range:', this.selected);
+      console.log('Selected Date Range3:', this.selected.endDate);
+      console.log('Selected Date Range4:', this.selected.startDate);
+      console.log('Selected Date Range2:', this.dateRangePicker.value.dateRangeField);
       
-    console.log('Selected Date Range:', this.selected);
-    console.log('Selected Date Range3:', this.selected.endDate);
-    console.log('Selected Date Range4:', this.selected.startDate);
-    console.log('Selected Date Range2:', this.dateRangePicker.value.dateRangeField);
   }
 
 
@@ -601,6 +743,8 @@ export class PIQLandingPageComponent implements OnInit {
   getLndPgDatas() {
     const payload = {
       usercode: this.userDetails?.userCode,
+      from:this.startDate,
+      to:this.endDate
     };
     this.BudgetService.getPIQLndPgDatas(payload).subscribe((res: any) => {
       let object = res.response;

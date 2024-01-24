@@ -1,6 +1,6 @@
 @import "../../../../../piq.css";
-#exceptionWrapper{
-padding: 5px 15px;
+#exceptionWrapper {
+  padding: 5px 15px;
 }
 
 #exceptionWrapper::-webkit-scrollbar {
@@ -24,16 +24,16 @@ padding: 5px 15px;
   font-size: 12px;
 }
 
-.disableBtns{
+.disableBtns {
   background-color: gray !important;
   color: black !important;
-  }
+}
 
 .sick-days-warning {
   background-color: sandybrown !important;
 }
 
-.hideReqBtns{
+.hideReqBtns {
   display: none;
 }
 

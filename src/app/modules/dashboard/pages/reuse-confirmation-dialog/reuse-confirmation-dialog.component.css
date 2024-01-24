@@ -17,7 +17,10 @@
   padding: 0 15px;
 }
 
-::ng-deep .reuse-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
+::ng-deep
+  .reuse-dialog-container
+  ::ng-deep
+  .mat-mdc-dialog-surface.mdc-dialog__surface {
   overflow: hidden !important;
 }
 
@@ -26,18 +29,18 @@
   color: white;
 }
 
-.disableBtn{
-    background-color: #c1c1c1 !important;
-    color: black !important;
+.disableBtn {
+  background-color: #c1c1c1 !important;
+  color: black !important;
 }
 
-.btnCan{
+.btnCan {
   height: 26px;
   margin: 0 5px;
   padding: 0px 10px;
   font-size: 12px;
 }
 
-.btnHeight{
+.btnHeight {
   height: 30px;
 }

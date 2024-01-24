@@ -101,7 +101,7 @@
   <div class="row" style="padding: 10px 0">
     <div class="col-sm-12">
       <div class="row">
-        <div class="col-sm-2 text-right" style="padding-right: 0">
+        <div class="col-sm-6 text-right" style="padding-right: 0;display: flex;">
           <div class="dateRangeWrapper ngx-daterangepicker-action" (click)="openDatepicker()"
             [formGroup]="dateRangePicker">
             <img class="icon-calendar ngx-daterangepicker-action" src="assets/question/calendar.svg" alt=""
@@ -116,26 +116,20 @@
             <img class="icon-down ngx-daterangepicker-action" src="assets/question/down.svg" alt=""
               (click)="openDatepicker()" />
           </div>
-        </div>
-        <div class="col-sm-1 text-right">
-          <div class="statusBars_subWrap">
-            <button mat-button class="new">Show</button>
+          <div class="statusBars_subWrap" style="margin-left: 10px;width: unset;">
+            <button mat-button class="new" (click)="getLndPgDatas()">Show</button>
             <img class="btnImg" src="assets/question/show.svg" />
           </div>
-        </div>
-        <div class="col-sm-2 text-right" style="padding: 5px 15px">
-          <div class="statusBars_subWrap" style="justify-content: space-between;">
-            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;">Include Open Items</span>
+          <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;">
+            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">Include Open Items</span>
+            <mat-slide-toggle class="lndToggle"></mat-slide-toggle>
+          </div>
+          <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;">
+            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">To Show other records</span>
             <mat-slide-toggle class="lndToggle"></mat-slide-toggle>
           </div>
         </div>
-        <div class="col-sm-2 text-right" style="padding: 5px 10px">
-          <div class="statusBars_subWrap" style="justify-content: space-between;">
-            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;">To Show other records</span>
-            <mat-slide-toggle class="lndToggle"></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="col-sm-5 text-right" style="padding-right: 0">
+        <div class="col-sm-6 text-right" style="padding-right: 0">
           <div>
             <button mat-button class="new" (click)="navigatePiq()">New</button>
             <img class="btnImg" src="assets/question/new.svg" />

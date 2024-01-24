@@ -32,10 +32,10 @@
   overflow: hidden;
 }
 
-::ng-deep.md-drppicker{
-display: flex !important;
-top: 40px !important;
-left: 15px !important;
+::ng-deep.md-drppicker {
+  display: flex !important;
+  top: 40px !important;
+  left: 15px !important;
 }
 
 ::ng-deep.week-days ::ng-deep th ::ng-deep span {
@@ -43,57 +43,58 @@ left: 15px !important;
   font-weight: 500;
 }
 
-::ng-deep.md-drppicker .dropdowns{
+::ng-deep.md-drppicker .dropdowns {
   color: black;
   font-weight: 500;
 }
-.dateRangeWrapper{
+.dateRangeWrapper {
   display: flex;
   border: 1px solid #c8c8c8;
-  border-radius:5px;
+  border-radius: 5px;
   align-items: center;
   justify-content: space-between;
   padding: 5px;
+  width: fit-content;
 }
 
-.dateRangeWrapper .dateRangeField{
+.dateRangeWrapper .dateRangeField {
   border: none;
   outline: none;
   border-radius: 0;
-  width: 85%;
+  width: 150px;
   text-align: center;
   color: black;
 }
 
-.dateRangeWrapper .icon-calendar{
-width: 18px;
+.dateRangeWrapper .icon-calendar {
+  width: 18px;
 }
 
-.dateRangeWrapper .icon-down{
+.dateRangeWrapper .icon-down {
   width: 10px;
-  }
+}
 
-::ng-deep.md-drppicker ::ng-deep.ranges{
+::ng-deep.md-drppicker ::ng-deep.ranges {
   height: 250px !important;
   overflow: auto !important;
   width: 135px !important;
 }
-::ng-deep.md-drppicker ::ng-deep.buttons{
+::ng-deep.md-drppicker ::ng-deep.buttons {
   position: absolute !important;
   bottom: 1px !important;
   right: 0 !important;
 }
 
-::ng-deep.md-drppicker ::ng-deep.btn{
+::ng-deep.md-drppicker ::ng-deep.btn {
   max-width: 75px !important;
   margin: 0 5px !important;
 }
 
-::ng-deep.md-drppicker ::ng-deep.btn.btn-default{
+::ng-deep.md-drppicker ::ng-deep.btn.btn-default {
   background-color: white !important;
 }
 
-::ng-deep.md-drppicker ::ng-deep.clear svg{
+::ng-deep.md-drppicker ::ng-deep.clear svg {
   display: none !important;
 }
 
@@ -252,7 +253,7 @@ width: 18px;
   right: 30px;
 }
 
-.lndAgGrid{
+.lndAgGrid {
   height: calc(100vh - 160px);
 }
 .fullscreen_module_wrapper {
@@ -270,7 +271,7 @@ width: 18px;
   display: none;
 }
 
-.showFilter{
+.showFilter {
   display: block;
 }
 

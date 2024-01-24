@@ -40,15 +40,15 @@
   cursor: not-allowed;
 }
 
-.disableWrkFlowBtn{
+.disableWrkFlowBtn {
   background-color: gray !important;
   color: black !important;
   border: 1px solid gray !important;
 }
-.saveDisable{
+.saveDisable {
   background-color: gray !important;
   color: black !important;
-  }
+}
 /* .save {
   background-color: #00acf5;
   color: white;
@@ -172,7 +172,7 @@ mat-card-content {
 mat-card-header {
   padding: 0 !important;
 }
-.remError{
+.remError {
   border: 1px solid red;
   border-radius: 3px;
 }
@@ -276,6 +276,6 @@ mat-card-header {
   justify-content: flex-end;
 }
 
-.hideReqBtns{
+.hideReqBtns {
   display: none !important;
 }

@@ -28,9 +28,9 @@
 }
 
 ::ng-deep .textArea textarea {
-    height: 70px;
-    resize: none;
-  }
+  height: 70px;
+  resize: none;
+}
 ::ng-deep .exceptionRemark-dialog-container ::ng-deep .mat-mdc-dialog-content {
   max-height: 140px !important;
   height: 128px !important;

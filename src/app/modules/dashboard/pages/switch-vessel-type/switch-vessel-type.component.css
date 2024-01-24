@@ -1,4 +1,4 @@
-@import '../../../../../piq.css';
+@import "../../../../../piq.css";
 
 ::ng-deep .switchVessel-dialog-container ::ng-deep .mat-mdc-dialog-container {
   width: 30vw !important;
@@ -6,19 +6,27 @@
   padding: 0 24px !important;
 }
 
-::ng-deep .switchVessel-dialog-container ::ng-deep .mat-mdc-dialog-container ::ng-deep .mdc-dialog__content {
+::ng-deep
+  .switchVessel-dialog-container
+  ::ng-deep
+  .mat-mdc-dialog-container
+  ::ng-deep
+  .mdc-dialog__content {
   font-size: 12px;
 }
 
 ::ng-deep .switchVessel-dialog-container ::ng-deep .mat-mdc-dialog-content {
   max-height: 100px !important;
-  height: 75px!important;
+  height: 75px !important;
   padding: 0 24px;
   font-size: 12px;
   color: black;
 }
 
-::ng-deep .switchVessel-dialog-container ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface{
+::ng-deep
+  .switchVessel-dialog-container
+  ::ng-deep
+  .mat-mdc-dialog-surface.mdc-dialog__surface {
   overflow: hidden !important;
 }
 
@@ -27,7 +35,7 @@
   min-height: 25px;
 }
 
-.btnHeight{
+.btnHeight {
   height: 30px;
 }
 
@@ -36,11 +44,11 @@
   color: white;
 }
 
-.disableBtn{
-    background-color: #c1c1c1 !important;
-    color: black !important;
+.disableBtn {
+  background-color: #c1c1c1 !important;
+  color: black !important;
 }
 
-.btnHeight{
+.btnHeight {
   height: 30px;
 }
