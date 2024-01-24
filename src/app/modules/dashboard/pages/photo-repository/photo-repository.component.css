@@ -240,6 +240,10 @@
       justify-content: flex-end;
   } */
 
+  .padZero {
+    padding: 0;
+  }
+
 .topicSubHeader .subTopName {
   text-align: center;
   font-size: 12px;

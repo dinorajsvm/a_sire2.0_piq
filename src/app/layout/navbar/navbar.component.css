@@ -1,5 +1,5 @@
 .navbar {
-    padding: .2rem 1rem;
+    padding: .2rem 1rem .2rem 0;
 }
 #navbarSupportedContent {
     display: flex;
@@ -22,11 +22,16 @@
 }
 .notification-bar button {
     line-height: 20px !important;
-    width:50px;
-    border-right: 1px solid #475361 !important;
-    border-radius: 0% !important;
+    width:40px;
+    padding: 0 5px !important;
+    margin-left: 2.5px;
+    top: 3px;
 }
 
+.notification-bar button:hover{
+    background-color: #fff;
+    border-radius: 10px;
+}
 .chatmenu .mat-badge-content {
     background: #89a9b7 ;
 }
@@ -71,7 +76,7 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .navbar {
-    padding: .2rem 1rem;
+    padding: .2rem 1rem .2rem 0;
     justify-content: unset;
   }
 }
@@ -79,7 +84,7 @@
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .navbar {
-    padding: .2rem 1rem;
+    padding: .2rem 1rem .2rem 0;
     justify-content: unset;
   }
 }

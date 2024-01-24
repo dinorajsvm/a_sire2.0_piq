@@ -48,6 +48,7 @@ import { NumberSpecDirective } from './pages/directives/numberSpec.directives';
 import { SwitchVesselTypeComponent } from './pages/switch-vessel-type/switch-vessel-type.component';
 import { ExceptionRemarkComponent } from './pages/exception-remark/exception-remark.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     GlobalSearchComponent,
     PiqReportComponent,
     ChipFilterPipe,
-    selectSearchPipe,selectSearchVslPipe,
+    selectSearchPipe,
+    selectSearchVslPipe,
     PhotoRepositoryComponent,
     PrDialogComponent,
     ImageDialogComponent,
@@ -87,7 +89,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     UnsaveConfirmationDialogPopupComponent,
     ConfirmationDialogPopupComponent,
     SwitchVesselTypeComponent,
-    ExceptionRemarkComponent
+    ExceptionRemarkComponent,
   ],
   imports: [
     DashboardRoutingModule,
@@ -99,10 +101,10 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     MackModule,
     LayoutModule,
     AgGridModule,
-    FormsModule,NgxDaterangepickerMd.forRoot()
+    MatBadgeModule,
+    FormsModule,
+    NgxDaterangepickerMd.forRoot(),
   ],
-  exports: [
-    AngularMaterialModule
-  ]
+  exports: [AngularMaterialModule],
 })
 export class DashboardModule {}
