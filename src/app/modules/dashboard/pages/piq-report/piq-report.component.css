@@ -1069,6 +1069,12 @@ p {
   cursor: pointer;
 }
 
+
+.restoreLookupIcn {
+  vertical-align: middle;
+  cursor: pointer;
+}
+
 .questIndicator {
   display: flex;
   padding: 0 15px;

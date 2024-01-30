@@ -72,6 +72,7 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+  dateFormat = 'dd-MMM-yyyy HH:mm';
   refernceCount = '';
   exceptionCount = '';
   rowSummaryData: any[] = [];
@@ -215,12 +216,21 @@ export class PiqReportComponent implements OnInit {
           value1.values.forEach((value: any) => {
             value.question.forEach((subHeader: any) => {
               subHeader.subQuestion.forEach((mainQus: any) => {
-                if (resetData === mainQus.qid) {
+                if (resetData === mainQus.qid && mainQus.presetvalue) {
                   mainQus.answer = mainQus.presetvalue;
                   this.countDetails();
                   this.dynamicForms.controls[resetData].patchValue(
                     mainQus.presetvalue
                   );
+                } else {
+                  if (resetData === mainQus.qid) {
+                    mainQus.answer = mainQus.savedAnswer;
+                    this.countDetails();
+                    this.dynamicForms.controls[resetData].patchValue(
+                      new Date(mainQus.savedAnswer)
+                    );
+                    this.dateCount(subHeader);
+                  }
                 }
               });
             });
@@ -317,14 +327,13 @@ export class PiqReportComponent implements OnInit {
           : currentVesselType,
     };
     this.countDetails();
-
     this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       this.isLoader = false;
       this.BudgetService.setUnSaveAction(false);
       this.unSavedData = false;
       this.dialog.closeAll();
-      this.getQuestionAnswerDatas(currentVesselType);
+      this.getQuestionAnswerDatas();
     });
   }
 
@@ -452,6 +461,7 @@ export class PiqReportComponent implements OnInit {
                   this.countDetails();
                 }
               }
+
               const index = this.getMainQuestCounts.findIndex(
                 (section: any) =>
                   section.mainQuestion === subHeader.mainQuestion
@@ -486,6 +496,20 @@ export class PiqReportComponent implements OnInit {
                   );
                 }
               }
+
+              if (subHeader.entrymethod === 'Lookup') {
+                if (mainQus && mainQus.type === 'Date') {
+                  if (mainQus && mainQus.qid !== 'Q113') {
+                    // temp condition, need remove important
+                    mainQus.savedAnswer =
+                      mainQus && mainQus.answer
+                        ? this.datePipe.transform(mainQus.answer, 'dd-MMM-yyyy')
+                        : '';
+                  }
+                } else {
+                  mainQus.savedAnswer = mainQus.answer;
+                }
+              }
             });
 
             this.dynamicForms = new FormGroup(formGroupFields);
@@ -498,7 +522,11 @@ export class PiqReportComponent implements OnInit {
         });
       });
       this.getAllDatas = object;
-      if (vesselCode) {
+      if (
+        vesselCode !== '' &&
+        vesselCode !== undefined &&
+        vesselCode !== 'undefined'
+      ) {
         this.switchVeselException();
       } else if (res && res.exceptionlist != '') {
         let exceptionData = JSON.parse(res.exceptionlist);
@@ -513,14 +541,14 @@ export class PiqReportComponent implements OnInit {
       );
       setTimeout(() => {
         if (
-          (this.getAllDatas &&
-            this.getAllDatas[0] &&
-            this.getAllDatas[0].values &&
-            this.getAllDatas[0].values[0] &&
-            this.getAllDatas[0].values[0].question &&
-            this.getAllDatas[0].values[0].question[0],
+          this.getAllDatas &&
+          this.getAllDatas[0] &&
+          this.getAllDatas[0].values &&
+          this.getAllDatas[0].values[0] &&
+          this.getAllDatas[0].values[0].question &&
+          this.getAllDatas[0].values[0].question[0] &&
           this.getAllDatas[0].values[0].question[0].subQuestion &&
-            this.getAllDatas[0].values[0].question[0].subQuestion[0])
+          this.getAllDatas[0].values[0].question[0].subQuestion[0]
         ) {
           this.toggleSingleSelection(
             this.vesselSelection,
@@ -531,7 +559,11 @@ export class PiqReportComponent implements OnInit {
           );
         }
 
-        if (vesselCode) {
+        if (
+          vesselCode !== '' &&
+          vesselCode !== undefined &&
+          vesselCode !== 'undefined'
+        ) {
           this.BudgetService.setUnSaveAction(true);
         } else {
           this.BudgetService.setUnSaveAction(false);
@@ -665,10 +697,13 @@ export class PiqReportComponent implements OnInit {
       );
 
       if (duplicateResponse === undefined) {
-        this.exception(ques, mquest, quest);
+        this.exception(ques, mquest, quest, 1);
       } else {
         duplicateResponse.answer = quest.answer;
-
+        this._snackBarService.loadSnackBar(
+          'Changing company preset data will be captured as Exception.',
+          colorCodes.WARNING
+        );
         const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
           disableClose: true,
           panelClass: 'exceptionRemark-dialog-container',
@@ -690,12 +725,14 @@ export class PiqReportComponent implements OnInit {
   exceptionDateFn(ques: any, mquest: any, quest: any) {
     if (quest && quest.type === 'Date') {
       quest.answer = this.datePipe.transform(quest.answer, 'dd-MMM-yyyy');
+      console.log(quest.answer, 'answer');
+
       this.countDetails();
       const duplicateResponse = this.exceptionList.find(
         (x) => x.qid === quest.qid
       );
       if (duplicateResponse === undefined) {
-        this.exception(ques, mquest, quest);
+        this.exception(ques, mquest, quest, 1);
       } else {
         duplicateResponse.answer = quest.answer;
       }
@@ -704,7 +741,7 @@ export class PiqReportComponent implements OnInit {
         (x) => x.qid === quest.qid
       );
       if (duplicateResponse === undefined) {
-        this.exception(ques, mquest, quest);
+        this.exception(ques, mquest, quest, 1);
       } else {
         duplicateResponse.answer = quest.answer;
       }
@@ -805,6 +842,14 @@ export class PiqReportComponent implements OnInit {
     subQue: any,
     type?: any
   ): void {
+    if (
+      subQue.entryorgin === 'Auto or Preset' ||
+      subQue.entryorgin === 'Preset'
+    ) {
+      if (subQue.answer !== '' && value === subQue.answer) {
+        return;
+      }
+    }
     if (type === '' && value === subQue.answer) {
       value = '';
     }
@@ -852,10 +897,7 @@ export class PiqReportComponent implements OnInit {
       subQuestion: subQue.subName,
       answer: value,
       sortingDate: new Date(),
-      modifiedDateTime: this.datePipe.transform(
-        new Date(),
-        'dd-MMM-yyyy HH:mm'
-      ),
+      modifiedDateTime: this.datePipe.transform(new Date(), this.dateFormat),
     };
     this.lastModifiedData.push(modifiedData);
     this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
@@ -867,7 +909,12 @@ export class PiqReportComponent implements OnInit {
     if (subQue && subQue.presetvalue === subQue.answer) {
       this.restoreOriginal(subQue);
     } else {
-      this.exceptionFn(ques, mainQue, subQue);
+      if (
+        subQue.entryorgin === 'Auto or Preset' ||
+        subQue.entryorgin === 'Preset'
+      ) {
+        this.exceptionFn(ques, mainQue, subQue);
+      }
     }
     this.dynamicForms.controls[subQue.qid].setValue(value);
     this.chapterGrid();
@@ -919,7 +966,7 @@ export class PiqReportComponent implements OnInit {
               mainQus.hasOwnProperty('presetvalue') &&
               mainQus.answer !== mainQus.presetvalue
             ) {
-              this.exception(value, subHeader, mainQus);
+              this.exception(value, subHeader, mainQus, 1);
             }
           });
         });
@@ -986,6 +1033,23 @@ export class PiqReportComponent implements OnInit {
                   que.answer !== que.presetvalue
                 ) {
                   ids1.isException = true;
+                } else {
+                  if (subHeader && subHeader.entrymethod === 'Lookup') {
+                    if (que && que.type === 'Date') {
+                      if (que && que.qid !== 'Q113') {
+                        // temp condition, need remove important
+                        const answerData =
+                          que && que.answer
+                            ? this.datePipe.transform(que.answer, 'dd-MMM-yyyy')
+                            : '';
+                        if (answerData !== que.savedAnswer) {
+                          ids1.isException = true;
+                        }
+                      }
+                    } else if (que.answer !== que.savedAnswer) {
+                      ids1.isException = true;
+                    }
+                  }
                 }
               });
             });
@@ -1007,41 +1071,74 @@ export class PiqReportComponent implements OnInit {
       (value: any) => value === false
     ).length;
   }
-  exception(ques: any, mainQue: any, subQue: any) {
+  exception(ques: any, mainQue: any, subQue: any, id: any, payLoad?: any) {
     const sqid = subQue.sid;
     const splitValue = sqid.split('.');
     splitValue.shift();
-    const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
-      disableClose: true,
-      panelClass: 'exceptionRemark-dialog-container',
-      data: '',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      let exceptionData: any;
-      if (result) {
-        exceptionData = {
-          qid: subQue.qid,
-          subHeaders: ques.subHeaders,
-          mainQuestion: mainQue.mainQuestion,
-          subName: splitValue.join('.') + ' ' + subQue.subName,
-          presetValue: subQue.presetvalue,
-          answer: subQue.answer,
-          remark: result,
-        };
-      } else {
-        exceptionData = {
-          qid: subQue.qid,
-          subHeaders: ques.subHeaders,
-          mainQuestion: mainQue.mainQuestion,
-          subName: splitValue.join('.') + ' ' + subQue.subName,
-          presetValue: subQue.presetvalue,
-          answer: subQue.answer,
-          remark: '',
-        };
-      }
+    const currentVesselType = localStorage.getItem('currentVesselType');
+    if (
+      currentVesselType === '' ||
+      currentVesselType === undefined ||
+      currentVesselType === 'undefined'
+    ) {
+      this._snackBarService.loadSnackBar(
+        'Changing company preset data will be captured as Exception.',
+        colorCodes.WARNING
+      );
+      const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
+        disableClose: true,
+        panelClass: 'exceptionRemark-dialog-container',
+        data: '',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        let exceptionData: any;
+        if (result) {
+          exceptionData = {
+            qid: subQue.qid,
+            subHeaders: ques.subHeaders,
+            mainQuestion: mainQue.mainQuestion,
+            subName: splitValue.join('.') + ' ' + subQue.subName,
+            presetValue: subQue.presetvalue,
+            savedAnswer: subQue.savedAnswer,
+            answer: subQue.answer,
+            remark: result,
+          };
+        } else {
+          exceptionData = {
+            qid: subQue.qid,
+            subHeaders: ques.subHeaders,
+            mainQuestion: mainQue.mainQuestion,
+            subName: splitValue.join('.') + ' ' + subQue.subName,
+            presetValue: subQue.presetvalue,
+            savedAnswer: subQue.savedAnswer,
+            answer: subQue.answer,
+            remark: '',
+          };
+        }
+        this.exceptionList.push(exceptionData);
+        this.BudgetService.setExceptionData(this.exceptionList);
+        if (id === 0) {
+          this.lookupReset(payLoad.questionId, payLoad.jobid, '');
+        }
+      });
+    } else {
+      const exceptionData = {
+        qid: subQue.qid,
+        subHeaders: ques.subHeaders,
+        mainQuestion: mainQue.mainQuestion,
+        subName: splitValue.join('.') + ' ' + subQue.subName,
+        presetValue: subQue.presetvalue,
+        savedAnswer: subQue.savedAnswer,
+        answer: subQue.answer,
+        remark: '',
+      };
       this.exceptionList.push(exceptionData);
       this.BudgetService.setExceptionData(this.exceptionList);
-    });
+      if (id === 0) {
+        this.lookupReset(payLoad.questionId, payLoad.jobid, '');
+      }
+    }
+    // return id === 0
   }
 
   resetDate(event: any, subq: any, quest: any, mquest: any) {
@@ -1160,9 +1257,9 @@ export class PiqReportComponent implements OnInit {
         mainQuest.qid === 'MQ29' ||
         mainQuest.qid === 'MQ32')
     ) {
-      this.pmsLookup(mainQuest, questionId);
+      this.pmsLookup(mainQuest);
     } else if (quest && quest.subheadid === 'SH32') {
-      this.pscLookUp(dialogConfig, quest, mainQuest, questionId);
+      this.pscLookUp(quest, mainQuest, questionId);
     } else if (
       mainQuest &&
       (mainQuest.qid === 'MQ115' ||
@@ -1498,7 +1595,7 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result !== 'Reset') {
+      if (result && result !== 'Reset' && result.sid) {
         this.lookupReset(questionId, result.sid, '');
         const timeDifference =
           result &&
@@ -1581,13 +1678,30 @@ export class PiqReportComponent implements OnInit {
           }
         }
       } else if (result === 'Reset') {
+        if (
+          (mainQuest && mainQuest.qid === 'MQ6') ||
+          mainQuest.qid === 'MQ20'
+        ) {
+          mainQuest.subQuestion.forEach((subQuest: any) => {
+            this.restoreLookUp(subQuest);
+          });
+
+          if (mainQuest && mainQuest.qid === 'MQ6') {
+            this.formResetMQ6();
+          } else if (mainQuest && mainQuest.qid === 'MQ20') {
+            this.formResetMQ20();
+          }
+        }
+        mainQuest.subQuestion.forEach((subQues: any) => {
+          this.exceptionList.splice(this.exceptionList.indexOf(subQues.qid), 1);
+        });
         this.lookupReset(questionId, 'Reset', '');
       }
     });
   }
 
-  pmsLookup(mainQuest: any, questionId: any) {
-    const dialogRef = this.dialog.open(PmsLookupComponent, {
+  pmsLookup(mainQuest: any) {
+    this.dialog.open(PmsLookupComponent, {
       panelClass: 'pmsLookUp-dialog-container',
       data: {
         moduleName:
@@ -1596,58 +1710,10 @@ export class PiqReportComponent implements OnInit {
             : mainQuest.qid === 'MQ29'
             ? 'Ballast Tanks'
             : 'Void Spaces',
-        qid: mainQuest.qid,
-        questionId: questionId,
-        referenceId: this.referenceNumber,
       },
     });
-    dialogRef.afterClosed().subscribe((result: any) => {
-      let lookUp =
-        result !== 'Reset'
-          ? result && result.jobid
-            ? result.jobid
-            : ''
-          : 'Reset';
-      if (result !== 'Reset') {
-        if (result) {
-          if (result && result.frequencytype === 'Month') {
-            if (mainQuest.qid === 'MQ26') {
-              this.dynamicForms.patchValue({
-                Q27: result.frequency + ' months',
-              });
-            } else if (mainQuest.qid === 'MQ29') {
-              this.dynamicForms.patchValue({
-                Q30: result.frequency + ' months',
-              });
-            } else if (mainQuest.qid === 'MQ32') {
-              this.dynamicForms.patchValue({
-                Q33: result.frequency + ' months',
-              });
-            }
-            mainQuest.subQuestion[0].answer = result.frequency + ' months';
-          } else if (result === 'Reset') {
-            this.lookupReset(questionId, lookUp, '');
-          } else {
-            if (mainQuest.qid === 'MQ26') {
-              this.dynamicForms.patchValue({
-                Q27: '',
-              });
-            } else if (mainQuest.qid === 'MQ29') {
-              this.dynamicForms.patchValue({
-                Q30: '',
-              });
-            } else if (mainQuest.qid === 'MQ32') {
-              this.dynamicForms.patchValue({
-                Q33: '',
-              });
-            }
-            mainQuest.subQuestion[0].answer = '';
-          }
-        }
-      }
-    });
   }
-  pscLookUp(dialogConfig: any, quest: any, mainQuest: any, questionId: any) {
+  pscLookUp(quest: any, mainQuest: any, questionId: any) {
     const dialogRef = this.dialog.open(PscComponent, {
       panelClass: 'psc-dialog-container',
       data: {
@@ -1657,14 +1723,13 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result !== 'Reset') {
+      if (result && result !== 'Reset' && result.sid) {
         if (result) {
           this.lookupReset(questionId, result.sid, '');
-
           this.dynamicForms.patchValue({
             Q155: 'Yes',
             Q156: result && result.crdate ? result.crdate : '',
-            Q157: 'From Port Master',
+            Q157: '',
             Q158: result && result.authoritycode ? result.authoritycode : '',
             Q159: '',
             Q160: result && result.isnon_nc_def_obs === 'N' ? 'No' : 'Yes',
@@ -1679,7 +1744,7 @@ export class PiqReportComponent implements OnInit {
                 } else if (response && response.qid === 'Q156') {
                   response.answer = result.crdate;
                 } else if (response && response.qid === 'Q157') {
-                  response.answer = 'From Port Master';
+                  response.answer = '';
                 } else if (response && response.qid === 'Q158') {
                   response.answer = result.authoritycode;
                 } else if (response && response.qid === 'Q159') {
@@ -1697,6 +1762,12 @@ export class PiqReportComponent implements OnInit {
           });
         }
       } else if (result === 'Reset') {
+        if (mainQuest && mainQuest.qid === 'MQ154') {
+          this.formResetMQ154();
+        }
+        mainQuest.subQuestion.forEach((subQues: any) => {
+          this.exceptionList.splice(this.exceptionList.indexOf(subQues.qid), 1);
+        });
         this.lookupReset(questionId, 'Reset', '');
       }
     });
@@ -1727,7 +1798,7 @@ export class PiqReportComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result !== 'Reset') {
+      if (result && result !== 'Reset' && result.sid) {
         if (mainQuest && mainQuest.qid === 'MQ115') {
           this.mq115LookUp(mainQuest, result, questionId);
         } else if (mainQuest && mainQuest.qid === 'MQ97') {
@@ -2080,10 +2151,7 @@ export class PiqReportComponent implements OnInit {
       subQuestion: subq.subName,
       answer: value,
       sortingDate: new Date(),
-      modifiedDateTime: this.datePipe.transform(
-        new Date(),
-        'dd-MMM-yyyy HH:mm'
-      ),
+      modifiedDateTime: this.datePipe.transform(new Date(), this.dateFormat),
     };
     this.lastModifiedData.push(modifiedData);
     this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
@@ -2134,15 +2202,12 @@ export class PiqReportComponent implements OnInit {
       subQuestion: subq.subName,
       answer: value,
       sortingDate: new Date(),
-      modifiedDateTime: this.datePipe.transform(
-        new Date(),
-        'dd-MMM-yyyy HH:mm'
-      ),
+      modifiedDateTime: this.datePipe.transform(new Date(), this.dateFormat),
     };
 
     this.lastModifiedData.push(modifiedData);
     this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
-    if (this.lastModifiedData.length > 5) {
+    if (this.lastModifiedData.length > 10) {
       this.lastModifiedData.splice(5);
     }
     const mQuestion = mquest.mainQuestion;
@@ -2365,7 +2430,6 @@ export class PiqReportComponent implements OnInit {
       ispms: false,
       answer: '',
     };
-
     this.inputChanges(daysDifference, subq);
     this.countDetails();
   }
@@ -2393,25 +2457,25 @@ export class PiqReportComponent implements OnInit {
           const fromDate = this.dynamicForms.value.Q8
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q8),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const toDate = this.dynamicForms.value.Q9
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q9),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const lookUpFromDate = findLookUpDate.plannedfromdate
             ? this.datePipe.transform(
                 new Date(findLookUpDate.plannedfromdate),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const lookUpToDate = findLookUpDate.plannedtodate
             ? this.datePipe.transform(
                 new Date(findLookUpDate.plannedtodate),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
 
@@ -2435,25 +2499,25 @@ export class PiqReportComponent implements OnInit {
           const fromDate = this.dynamicForms.value.Q22
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q22),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const toDate = this.dynamicForms.value.Q23
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q23),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const lookUpFromDate = lookUpShipDate.actualfromdate
             ? this.datePipe.transform(
                 new Date(lookUpShipDate.actualfromdate),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const lookUpToDate = lookUpShipDate.actualtodate
             ? this.datePipe.transform(
                 new Date(lookUpShipDate.actualtodate),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
 
@@ -2466,25 +2530,25 @@ export class PiqReportComponent implements OnInit {
           const fromDate = this.dynamicForms.value.Q22
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q22),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const toDate = this.dynamicForms.value.Q23
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q23),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const lookUpFromDate = lookUpInternDate.auditfromdate
             ? this.datePipe.transform(
                 new Date(lookUpInternDate.auditfromdate),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
           const lookUpToDate = lookUpInternDate.audittodate
             ? this.datePipe.transform(
                 new Date(lookUpInternDate.audittodate),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
 
@@ -2525,7 +2589,7 @@ export class PiqReportComponent implements OnInit {
           const fromDate = this.dynamicForms.value.Q156
             ? this.datePipe.transform(
                 new Date(this.dynamicForms.value.Q156),
-                'dd-MMM-yyyy HH:mm'
+                this.dateFormat
               )
             : '';
 
@@ -2542,7 +2606,7 @@ export class PiqReportComponent implements OnInit {
             lookUpFromDate = lookUpPSCDate.q156
               ? this.datePipe.transform(
                   new Date(lookUpPSCDate.q156),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             lookUpQ155 = 'Yes';
@@ -2553,7 +2617,7 @@ export class PiqReportComponent implements OnInit {
             lookUpFromDate = lookUpNonPSCDate.q156
               ? this.datePipe.transform(
                   new Date(lookUpNonPSCDate.q156),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             lookUpQ155 = 'Yes';
@@ -2573,16 +2637,19 @@ export class PiqReportComponent implements OnInit {
               q161Field === lookUpQ161
             )
           ) {
-            if (
-              fromDate !== '' &&
-              q155Field !== '' &&
-              q158Field !== '' &&
-              q160Field !== '' &&
-              q161Field !== ''
-            ) {
-              this.exceptionDateFn(subQues, mquest, subq);
-            }
+            console.log(fromDate !== '', 'work');
+
+            // if (
+            //   fromDate !== '' &&
+            //   q155Field !== '' &&
+            //   q158Field !== '' &&
+            //   q160Field !== '' &&
+            //   q161Field !== ''
+            // ) {
+            console.log(fromDate, 'work1');
+            this.exceptionDateFn(subQues, mquest, subq);
           }
+          // }
         }
       }
     });
@@ -2623,59 +2690,59 @@ export class PiqReportComponent implements OnInit {
             fromDate = this.dynamicForms.value.Q99
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q99),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else if (questionId === '3.2.2') {
             fromDate = this.dynamicForms.value.Q101
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q101),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             toDate = this.dynamicForms.value.Q102
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q102),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else if (questionId === '3.2.5') {
             fromDate = this.dynamicForms.value.Q117
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q117),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             toDate = this.dynamicForms.value.Q118
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q118),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else if (questionId === '3.2.6') {
             fromDate = this.dynamicForms.value.Q122
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q122),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             toDate = this.dynamicForms.value.Q123
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q123),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else if (questionId === '3.2.7') {
             fromDate = this.dynamicForms.value.Q127
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q127),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             toDate = this.dynamicForms.value.Q128
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q128),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           }
@@ -2686,7 +2753,7 @@ export class PiqReportComponent implements OnInit {
             lookUpFromDate = lookUpInternalDate.auditfromdate
               ? this.datePipe.transform(
                   new Date(lookUpInternalDate.auditfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else if (
@@ -2696,7 +2763,7 @@ export class PiqReportComponent implements OnInit {
             lookUpFromDate = lookUpShipVisitDate.actualfromdate
               ? this.datePipe.transform(
                   new Date(lookUpShipVisitDate.actualfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           }
@@ -2715,26 +2782,26 @@ export class PiqReportComponent implements OnInit {
             lookUpFromDate = lookUpInternalDate.auditfromdate
               ? this.datePipe.transform(
                   new Date(lookUpInternalDate.auditfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             lookUpToDate = lookUpInternalDate.audittodate
               ? this.datePipe.transform(
                   new Date(lookUpInternalDate.audittodate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else {
             lookUpFromDate = lookUpShipVisitDate.actualfromdate
               ? this.datePipe.transform(
                   new Date(lookUpShipVisitDate.actualfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             lookUpToDate = lookUpShipVisitDate.actualtodate
               ? this.datePipe.transform(
                   new Date(lookUpShipVisitDate.actualtodate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           }
@@ -2759,20 +2826,20 @@ export class PiqReportComponent implements OnInit {
             fromDate = this.dynamicForms.value.Q107
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q107),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             toDate = this.dynamicForms.value.Q108
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q108),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else if (questionId === '3.2.4') {
             fromDate = this.dynamicForms.value.Q113
               ? this.datePipe.transform(
                   new Date(this.dynamicForms.value.Q113),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           }
@@ -2782,26 +2849,26 @@ export class PiqReportComponent implements OnInit {
             lookUpFromDate = lookUpInternalDate.auditfromdate
               ? this.datePipe.transform(
                   new Date(lookUpInternalDate.auditfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             lookUpToDate = lookUpInternalDate.audittodate
               ? this.datePipe.transform(
                   new Date(lookUpInternalDate.audittodate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else {
             lookUpFromDate = lookUpShipVisitDate.actualfromdate
               ? this.datePipe.transform(
                   new Date(lookUpShipVisitDate.actualfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
             lookUpToDate = lookUpShipVisitDate.actualtodate
               ? this.datePipe.transform(
                   new Date(lookUpShipVisitDate.actualtodate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           }
@@ -2816,14 +2883,14 @@ export class PiqReportComponent implements OnInit {
             lookUpFromDate = lookUpInternalDate.auditfromdate
               ? this.datePipe.transform(
                   new Date(lookUpInternalDate.auditfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           } else {
             lookUpFromDate = lookUpShipVisitDate.actualfromdate
               ? this.datePipe.transform(
                   new Date(lookUpShipVisitDate.actualfromdate),
-                  'dd-MMM-yyyy HH:mm'
+                  this.dateFormat
                 )
               : '';
           }
@@ -2858,6 +2925,39 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
+  lookUpResetForm(event: any, mquest: any) {
+    const mQuestion = mquest.mainQuestion;
+    const str = mQuestion.split(' ');
+    let questionId = '';
+    if (str && str.length > 0) {
+      if (str[0].endsWith('.')) {
+        const stringWithoutLastDot = str[0].slice(0, -1);
+        str[0] = stringWithoutLastDot;
+      }
+      const matchResult = str[0].match(/\d+\.\d+\.\d+(\.\d+)?/);
+      if (matchResult) {
+        questionId = matchResult[0];
+      } else {
+        const modifiedStr = str[0].replace(/\.\w*$/, '');
+        questionId = modifiedStr;
+      }
+    }
+    if (mquest) {
+      if (mquest && mquest.qid === 'MQ6') {
+        this.formResetMQ6();
+      } else if (mquest && mquest.qid === 'MQ20') {
+        this.formResetMQ20();
+      } else if (mquest && mquest.qid === 'MQ154') {
+        this.formResetMQ154();
+      }
+      mquest.subQuestion.forEach((subQues: any) => {
+        this.exceptionList.splice(this.exceptionList.indexOf(subQues.qid), 1);
+      });
+      this.lookupReset(questionId, 'Reset', '');
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
   highlightSearchText(text: string): string {
     if (this.searchText.length > 0) {
       const escapedSearchText = this.searchText.replace(
@@ -2873,12 +2973,7 @@ export class PiqReportComponent implements OnInit {
     return text;
   }
 
-  openOriginalQuest(
-    mQuest: any,
-    allValues: any,
-    mQuestIndex: any,
-    question: any
-  ) {
+  openOriginalQuest(allValues: any, question: any) {
     this.selectValue(allValues.subHeaders, allValues);
     setTimeout(() => {
       this.scrollToElement(question.qid);
@@ -3110,6 +3205,7 @@ export class PiqReportComponent implements OnInit {
     };
     this.BudgetService.saveLookUp(payload).subscribe((data) => {
       this.isLoader = false;
+      this.submitFormAll(this.dynamicForms);
     });
   }
 
@@ -3119,5 +3215,32 @@ export class PiqReportComponent implements OnInit {
 
   receiveExceptionCount(message: any) {
     this.exceptionCount = 'Exceptions' + ' ' + '(' + message + ')';
+  }
+
+  formResetMQ6() {
+    this.dynamicForms.patchValue({
+      Q8: '',
+      Q9: '',
+      Q10: 0,
+    });
+  }
+
+  formResetMQ20() {
+    this.dynamicForms.patchValue({
+      Q22: '',
+      Q23: '',
+      Q24: 0,
+    });
+  }
+  formResetMQ154() {
+    this.dynamicForms.patchValue({
+      Q155: '',
+      Q156: '',
+      Q157: '',
+      Q158: '',
+      Q159: '',
+      Q160: '',
+      Q161: '',
+    });
   }
 }

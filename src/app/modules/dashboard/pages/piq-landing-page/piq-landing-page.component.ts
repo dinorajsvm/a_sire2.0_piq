@@ -741,7 +741,7 @@ export class PIQLandingPageComponent implements OnInit {
       to: this.endDate,
     };
     this.BudgetService.getPIQLndPgDatas(payload).subscribe((res: any) => {
-      let object = res.response;
+      let object: any[] = res.response;
       this.rowData = [];
 
       object.forEach((data: any) => {

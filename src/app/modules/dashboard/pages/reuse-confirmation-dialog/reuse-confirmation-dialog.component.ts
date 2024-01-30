@@ -27,6 +27,52 @@ export class ReuseConfirmationDialogComponent implements OnInit {
       resizable: true,
     },
     {
+      field: 'refno',
+      headerName: 'Ref.Id',
+      tooltipField: 'refno',
+      flex: 1,
+      resizable: true,
+    },
+    {
+      field: 'vessel',
+      headerName: 'Vessel Name',
+      tooltipField: 'vessel',
+      flex: 1,
+      resizable: true,
+    },
+    {
+      field: 'cruser',
+      headerName: 'Created User',
+      tooltipField: 'cruser',
+      flex: 1,
+      resizable: true,
+    },
+
+
+    {
+      field: 'crtime',
+      headerName: 'Created Date',
+      tooltipField: 'crtime',
+      flex: 1,
+      resizable: true,
+    },
+
+    {
+      field: 'upuser',
+      headerName: 'Updated User',
+      tooltipField: 'upuser',
+      flex: 1,
+      resizable: true,
+    },
+
+    {
+      field: 'uptime',
+      headerName: 'Updated Date',
+      tooltipField: 'uptime',
+      flex: 1,
+      resizable: true,
+    },
+    {
       field: 'status',
       headerName: 'Status',
       tooltipField: 'status',

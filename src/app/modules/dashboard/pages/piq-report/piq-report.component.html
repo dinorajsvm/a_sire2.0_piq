@@ -532,6 +532,20 @@
                                           class="col-sm-2 text-right"
                                           style="padding-left: 0 !important"
                                         >
+                                          <mat-icon
+                                            *ngIf="
+                                              Mquest.entrymethod == 'Lookup'
+                                            "
+                                            [ngClass]="{
+                                              'read-only-chip': viewMode
+                                            }"
+                                            class="restoreLookupIcn"
+                                            (click)="
+                                              lookUpResetForm($event, Mquest)
+                                            "
+                                          >
+                                            refresh
+                                          </mat-icon>
                                           <button
                                             *ngIf="
                                               Mquest.entrymethod == 'Lookup'
@@ -1108,7 +1122,7 @@
                                       >
                                         <img
                                           src="assets/question/info.svg"
-                                          matTooltip="{{tooltipRemark}}"
+                                          matTooltip="{{ tooltipRemark }}"
                                           matTooltipPosition="left"
                                           (mouseover)="fetchRemark(subq)"
                                           class="remarkInfo"
@@ -1633,10 +1647,7 @@
                           <div *ngFor="let allQuest of quest.values">
                             <div
                               class="sub-ques"
-                              *ngFor="
-                                let allQuestValues of allQuest.question;
-                                let indexAllQ = index
-                              "
+                              *ngFor="let allQuestValues of allQuest.question"
                             >
                               <mat-accordion
                                 class="card_container"
@@ -2728,10 +2739,7 @@
                         <div *ngFor="let quest of getAllDatas">
                           <div *ngFor="let allQuest of quest.values">
                             <div
-                              *ngFor="
-                                let allQuestValues of allQuest.question;
-                                let indexAllQ = index
-                              "
+                              *ngFor="let allQuestValues of allQuest.question"
                             >
                               <mat-card
                                 appearance="outlined"
@@ -2750,12 +2758,7 @@
                                     .includes(searchText.trim().toLowerCase())
                                 "
                                 (click)="
-                                  openOriginalQuest(
-                                    allQuestValues.mainQuestion,
-                                    allQuest,
-                                    indexAllQ,
-                                    allQuestValues
-                                  )
+                                  openOriginalQuest(allQuest, allQuestValues)
                                 "
                               >
                                 <mat-card-header>
@@ -2807,7 +2810,15 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <div class="col-sm-12 versPanel">
+  <div class="col-sm-12" *ngIf="this.tabGroup.selectedIndex === 4">
+    <span
+      >*Kindly click any row on "Exception" to move to the corresponding
+      question.</span
+    >
+    <span class="float-lg-right">Version: 1.0</span>
+  </div>
+
+  <div class="col-sm-12 versPanel" *ngIf="this.tabGroup.selectedIndex !== 4">
     <span class="charCount">Version: 1.0</span>
   </div>
 </div>

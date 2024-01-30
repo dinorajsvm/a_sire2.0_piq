@@ -348,6 +348,14 @@
   padding: 0 !important;
   margin: 25px !important;
 }
+::ng-deep.bg-warning.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #ff7d00 !important;
+  --mat-snack-bar-button-color: white !important;
+  padding: 0 !important;
+  margin: 25px !important;
+}
+
+
 
 .mdc-snackbar__surface {
   padding: 0 !important;

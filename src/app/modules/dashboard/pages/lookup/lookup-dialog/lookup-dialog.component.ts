@@ -14,10 +14,9 @@ import {
 } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { ActivatedRoute } from '@angular/router';
-import { DefaultColDef, colorCodes } from 'src/app/core/constants';
+import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
-import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 declare function mdldmsnavigatenewtab(
   params: any,
   params1: any,
@@ -33,7 +32,6 @@ declare function mdldmsnavigatenewtab(
 export class LookupDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
   hideReqBtns: boolean = false;
-
   totalRowCount = 0;
   totalRowInternalData = 0;
   private gridApi!: GridApi;
@@ -223,10 +221,8 @@ export class LookupDialogComponent implements OnInit {
   isOnlyInterVisit = false;
   enableDiv: boolean = false;
   userDetails: any;
-
   // turns OFF row hover, it's on by default
   suppressRowHoverHighlight = false;
-
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   // public rowGroupPanelShow: any = 'always';
@@ -244,8 +240,7 @@ export class LookupDialogComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private _storage: StorageService,
-    private _loaderService: LoaderService,
-    private _snackBarService: SnackbarService
+    private _loaderService: LoaderService
   ) {
     this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
@@ -364,8 +359,6 @@ export class LookupDialogComponent implements OnInit {
 
   onCellClicked(event: any) {
     if (event.colDef.field === 'sid') {
-    
-
       mdldmsnavigatenewtab(
         'PIQ',
         event.data.mdlcode,

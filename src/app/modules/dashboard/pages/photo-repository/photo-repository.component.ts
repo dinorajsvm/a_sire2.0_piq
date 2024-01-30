@@ -469,15 +469,6 @@ export class PhotoRepositoryComponent implements OnInit {
                       'empty_default_name' + '.' + img.formattedExtension;
                   }
                   if (subTopicFolder) {
-                    // let splitValue: any;
-                    // if (img && img.localfilename) {
-                    //   splitValue = img.localfilename.split('.');
-                    // }
-                    // img.localfilename =
-                    //   splitValue && splitValue[0]
-                    //     ? splitValue[0] + '.' + img.formattedExtension
-                    //     : 'empty_default_name' + '.' + img.formattedExtension;
-
                     let fileName: any;
                     const splitLocalName =
                       img && img.localfilename

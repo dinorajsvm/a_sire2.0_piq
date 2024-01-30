@@ -185,6 +185,9 @@ export class PscComponent {
       this.rowNonPscData && this.rowNonPscData.length > 0
         ? this.rowNonPscData.length
         : 0;
+        console.log(this.rowData, 'rowData');
+        console.log(this.rowPscData, 'rowPscData');
+        console.log(this.rowNonPscData, 'rowNonPscData');
   }
 
   onGridReady(params: any) {
@@ -230,6 +233,8 @@ export class PscComponent {
       this.rowData = this.apiResponse['Non-sPSC'];
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+        console.log(this.rowData, 'rowData');
+        
     });
   }
 

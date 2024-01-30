@@ -32,19 +32,19 @@ export class PmsLookupComponent {
   private gridApi!: GridApi;
   public tooltipShowDelay = 0;
   totalRowCount = 0;
-  frameworkComponents: any;
+  // frameworkComponents: any;
   columnDefs: ColDef[] = [
-    {
-      headerName: 'Auto Sync',
-      width: 100,
-      hide: false,
-      sortable: false,
-      filter: false,
-      cellRenderer: 'buttonRenderer',
-      cellRendererParams: {
-        onClick: this.onBtnClick1.bind(this),
-      },
-    },
+    // {
+    //   headerName: 'Auto Sync',
+    //   width: 100,
+    //   hide: false,
+    //   sortable: false,
+    //   filter: false,
+    //   cellRenderer: 'buttonRenderer',
+    //   cellRendererParams: {
+    //     onClick: this.onBtnClick1.bind(this),
+    //   },
+    // },
     {
       field: 'compcode',
       headerName: 'PMS Component',
@@ -108,19 +108,19 @@ export class PmsLookupComponent {
   ) {
     this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
-    this.frameworkComponents = {
-      buttonRenderer: ButtonRendererComponent,
-    };
+    // this.frameworkComponents = {
+    //   buttonRenderer: ButtonRendererComponent,
+    // };
   }
 
   onDialogClose(): void {
     this.dialogRef.close();
   }
 
-  onBtnClick1(e: any) {
-    this.syncData = e.rowData;
-    this.dialogRef.close(e.rowData);
-  }
+  // onBtnClick1(e: any) {
+  //   this.syncData = e.rowData;
+  //   this.dialogRef.close(e.rowData);
+  // }
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -134,9 +134,9 @@ export class PmsLookupComponent {
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
-  onReset() {
-    this.dialogRef.close('Reset');
-  }
+  // onReset() {
+  //   this.dialogRef.close('Reset');
+  // }
 
   getLookUpVisit() {
     const companyCode = this.userDetails.userData.mdata.appInfo.companyCode;
