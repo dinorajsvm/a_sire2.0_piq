@@ -12,5 +12,6 @@ export class AgGridToolbarComponent implements OnInit {
 
   ngOnInit() {
   }
+  
 
 }

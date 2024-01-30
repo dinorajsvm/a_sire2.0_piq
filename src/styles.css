@@ -1091,7 +1091,6 @@ input:read-only {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none !important;
-  top: 30px !important;
 }
 
 /* Date Range Picker Custom Css */

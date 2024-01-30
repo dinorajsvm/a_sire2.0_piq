@@ -39,8 +39,9 @@ export class AgGridService {
   }
 
   columnFilter(gridApi: any) {
-    gridApi.gridOptionsWrapper.gridOptions.defaultColDef.filter = false;
-    gridApi.gridOptionsWrapper.gridOptions.defaultColDef.floatingFilter = false;
+    gridApi.aggFuncService.gridOptionsService.gridOptions.defaultColDef.filter = false;
+    gridApi.aggFuncService.gridOptionsService.gridOptions.defaultColDef.floatingFilter = false;
+    localStorage.setItem('gridChange', 'true');
     gridApi.refreshHeader();
   }
   filter(gridApi: any) {
@@ -102,6 +103,7 @@ export class AgGridService {
     this.dialogConfig.autoFocus = true;
     this.dialogConfig.width = '400px';
     this.dialogConfig.data = ''
+    this.dialogConfig.panelClass= 'saveAsTemplate-dialog-container';
     const dialogRef = this.dialog.open(SaveAsTemplateComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {

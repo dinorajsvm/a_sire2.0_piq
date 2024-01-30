@@ -91,6 +91,7 @@
 
 ::ng-deep.md-drppicker ::ng-deep.btn {
   max-width: 75px !important;
+  min-width: 75px !important;
   margin: 0 5px !important;
 }
 
@@ -312,3 +313,20 @@
     font-size: 20px;
     font-weight: 500;
 } */
+
+
+.custom-options button img {
+  width: 16px;
+}
+.ag-toolbar-row img {
+  min-height: 35px;
+}
+
+.ag-menu-name{
+  font-size: 12px;
+  line-height: normal;
+}
+
+.ag-menu-spacing{
+  padding: 10px;
+}

@@ -25,8 +25,15 @@ import { IFilterParams, ColDef, ISetFilterParams } from 'ag-grid-community';
 import * as moment from 'moment';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS,
+} from '@angular/material/core';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: ['l'],
@@ -54,13 +61,12 @@ export const MY_DATE_FORMATS = {
   ],
 })
 export class PIQLandingPageComponent implements OnInit {
-
   @ViewChild(DaterangepickerDirective, { static: false })
   pickerDirective!: DaterangepickerDirective;
   propsFormGroup!: FormGroup;
 
-  startDate:any;
-  endDate:any;
+  startDate: any;
+  endDate: any;
   dateRangePicker!: FormGroup;
   documentElem: any;
   frameWorkComponent: any;
@@ -297,9 +303,11 @@ export class PIQLandingPageComponent implements OnInit {
   inprogressCount: any;
   reassignedCount: any;
   actionCount: any;
+  gridOpt: any;
 
   onGridReady(params: any) {
     this.gridApi = params.api;
+    this.gridOpt = this.gridOptions;
     this.gridColumnApi = params.columnApi;
     this.gridApi.openToolPanel(false);
     this.gridApi.addEventListener(
@@ -313,10 +321,10 @@ export class PIQLandingPageComponent implements OnInit {
     );
     this.agGridToolbar['exportAsExcel'] =
       this._agGridService.exportAsExcel.bind(this, this.gridApi, 'PIQ');
-    this.agGridToolbar['columnFilter'] = this._agGridService.columnFilter.bind(
-      this,
-      this.gridApi
-    );
+    // this.agGridToolbar['columnFilter'] = this._agGridService.columnFilter.bind(
+    //   this,
+    //   this.gridApi
+    // );
     this.agGridToolbar['saveTemplate'] = this.updateTemplate.bind(this);
 
     this.agGridToolbar['saveAsTemplate'] = this.saveAsTemplate.bind(
@@ -325,7 +333,7 @@ export class PIQLandingPageComponent implements OnInit {
       this.saveAsTemplateList
     );
     this.agGridToolbar['deleteTemplate'] = this.deleteTemplate.bind(this);
-    this.agGridToolbar['resetTemplate'] = this.resetTemplate.bind(this);
+    // this.agGridToolbar['resetTemplate'] = this.resetTemplate.bind(this);
     this.agGridToolbar['filter'] = this._agGridService.filter.bind(
       this,
       this.gridApi
@@ -349,7 +357,8 @@ export class PIQLandingPageComponent implements OnInit {
     private _snackBarService: SnackbarService,
     private _storage: StorageService,
     public dialog: MatDialog,
-    private _agGridService: AgGridService, private datePipe: DatePipe,
+    private _agGridService: AgGridService,
+    private datePipe: DatePipe,
     @Inject(DOCUMENT) private document: any
   ) {
     this.userDetails = this._storage.getUserDetails();
@@ -586,7 +595,7 @@ export class PIQLandingPageComponent implements OnInit {
   isIconCalendar = false;
   required = false;
   disabled = false;
-  selected:any;
+  selected: any;
   outline = false;
   alwaysShowCalendars!: boolean;
   ranges: any = {
@@ -620,21 +629,18 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   openDatepicker() {
-      this.pickerDirective.open();
+    this.pickerDirective.open();
   }
 
   dateRangeChanged(event: any): void {
-    this.startDate =
-    this.datePipe.transform(
+    this.startDate = this.datePipe.transform(
       this.selected.startDate,
       'dd-MMM-yyyy HH:mm'
     );
-    this.endDate =
-    this.datePipe.transform(
+    this.endDate = this.datePipe.transform(
       this.selected.endDate,
       'dd-MMM-yyyy HH:mm'
     );
-    console.log('Selected Date Range:', this.selected);
   }
 
   // dateRangePicker End
@@ -643,15 +649,15 @@ export class PIQLandingPageComponent implements OnInit {
     this.removeAgTemplate(this.saveAsTemplateList[this.selectedTemplateIndex]);
   }
 
-  resetTemplate() {
-    if (this.saveAsTemplateList.length) {
-      const currentItem = this.saveAsTemplateList[0];
-      this.selectAgTemplate(currentItem);
-    } else {
-      this.gridColumnApi.resetColumnState();
-    }
-    this._agGridService.columnFilter(this.gridApi);
-  }
+  // resetTemplate() {
+  //   if (this.saveAsTemplateList.length) {
+  //     const currentItem = this.saveAsTemplateList[0];
+  //     this.selectAgTemplate(currentItem);
+  //   } else {
+  //     this.gridColumnApi.resetColumnState();
+  //   }
+  //   this._agGridService.columnFilter(this.gridApi);
+  // }
 
   selectAgTemplate(chip: any): void {
     const selectedIndex = this.saveAsTemplateList.indexOf(chip);
@@ -695,14 +701,12 @@ export class PIQLandingPageComponent implements OnInit {
     };
     this.dateRangePicker.patchValue({
       dateRangeField: this.selected,
-    })  
-    this.startDate =
-    this.datePipe.transform(
+    });
+    this.startDate = this.datePipe.transform(
       this.selected.startDate,
       'dd-MMM-yyyy HH:mm'
     );
-    this.endDate =
-    this.datePipe.transform(
+    this.endDate = this.datePipe.transform(
       this.selected.endDate,
       'dd-MMM-yyyy HH:mm'
     );
@@ -713,17 +717,7 @@ export class PIQLandingPageComponent implements OnInit {
     this.BudgetService.getDeleteAction().subscribe((res) => {
       this.getLndPgDatas();
     });
-      
-
-      console.log("startDate",this.startDate);
-      console.log("endDate",this.endDate);
-      console.log('Selected Date Range:', this.selected);
-      console.log('Selected Date Range3:', this.selected.endDate);
-      console.log('Selected Date Range4:', this.selected.startDate);
-      console.log('Selected Date Range2:', this.dateRangePicker.value.dateRangeField);
-      
   }
-
 
   viewForm(event: any) {
     const instanceid = event.serialNumber;
@@ -743,8 +737,8 @@ export class PIQLandingPageComponent implements OnInit {
   getLndPgDatas() {
     const payload = {
       usercode: this.userDetails?.userCode,
-      from:this.startDate,
-      to:this.endDate
+      from: this.startDate,
+      to: this.endDate,
     };
     this.BudgetService.getPIQLndPgDatas(payload).subscribe((res: any) => {
       let object = res.response;
@@ -855,5 +849,54 @@ export class PIQLandingPageComponent implements OnInit {
 
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
+  }
+
+  columnFilter() {
+    const newShoreColumnDefs = this.shoreColumnDefs.map((columnDef) => {
+      return {
+        ...columnDef,
+        filter: false,
+        floatingFilter: false,
+      };
+    });
+    const newShipColumnDefs = this.shipColumnDefs.map((columnDef) => {
+      return {
+        ...columnDef,
+        filter: false,
+        floatingFilter: false,
+      };
+    });
+    this.gridOpt.api.setColumnDefs(newShoreColumnDefs);
+    this.gridOpt.api.setColumnDefs(newShipColumnDefs);
+    this.gridOpt.api.refreshHeader();
+  }
+
+  filter() {
+    const newShoreColumnDefs = this.shoreColumnDefs.map((columnDef) => {
+      return {
+        ...columnDef,
+        filter: 'agTextColumnFilter',
+        floatingFilter: true,
+      };
+    });
+
+    const newShipColumnDefs = this.shipColumnDefs.map((columnDef) => {
+      return {
+        ...columnDef,
+        filter: 'agTextColumnFilter',
+        floatingFilter: true,
+      };
+    });
+    this.gridOpt.api.setColumnDefs(newShipColumnDefs);
+    this.gridOpt.api.setColumnDefs(newShoreColumnDefs);
+    this.gridOpt.api.refreshHeader();
+  }
+
+  reset() {
+    const originalShoreColumnDefs = this.shoreColumnDefs;
+    const originalShipColumnDefs = this.shipColumnDefs;
+    this.gridOpt.api.setColumnDefs(originalShoreColumnDefs);
+    this.gridOpt.api.setColumnDefs(originalShipColumnDefs);
+    this.gridOpt.api.refreshHeader();
   }
 }

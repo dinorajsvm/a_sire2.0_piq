@@ -106,12 +106,11 @@
             [formGroup]="dateRangePicker">
             <img class="icon-calendar ngx-daterangepicker-action" src="assets/question/calendar.svg" alt=""
               (click)="openDatepicker()" />
-              <!-- startKey="start" endKey="end" [showCancel]="true"-->
+            <!-- startKey="start" endKey="end" [showCancel]="true"-->
             <input type="text" readonly="true" matInput class="dateRangeField" ngxDaterangepickerMd
-              [locale]="{ applyLabel: 'ok', format: 'DD-MMM-YYYY' }"  formControlName="dateRangeField"
-               [(ngModel)]="selected" [ranges]="ranges" [showCustomRangeLabel]="true" [showDropdowns]="true"
-               [keepCalendarOpeningWithRange]="true"
-              [alwaysShowCalendars]="false" [showClearButton]="true"
+              [locale]="{ applyLabel: 'ok', format: 'DD-MMM-YYYY' }" formControlName="dateRangeField"
+              [(ngModel)]="selected" [ranges]="ranges" [showCustomRangeLabel]="true" [showDropdowns]="true"
+              [keepCalendarOpeningWithRange]="true" [alwaysShowCalendars]="false" [showClearButton]="true"
               [isInvalidDate]="isInvalidDate" name="daterange" (change)="dateRangeChanged($event)" />
             <img class="icon-down ngx-daterangepicker-action" src="assets/question/down.svg" alt=""
               (click)="openDatepicker()" />
@@ -120,13 +119,15 @@
             <button mat-button class="new" (click)="getLndPgDatas()">Show</button>
             <img class="btnImg" src="assets/question/show.svg" />
           </div>
-          <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;">
-            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">Include Open Items</span>
-            <mat-slide-toggle class="lndToggle"></mat-slide-toggle>
+          <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;" >
+            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">Include Open
+              Items</span>
+            <mat-slide-toggle class="lndToggle" disabled="true" style="cursor: not-allowed;"></mat-slide-toggle>
           </div>
-          <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;">
-            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">To Show other records</span>
-            <mat-slide-toggle class="lndToggle"></mat-slide-toggle>
+          <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;" >
+            <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">To Show other
+              records</span>
+            <mat-slide-toggle class="lndToggle" disabled="true" style="cursor: not-allowed;"></mat-slide-toggle>
           </div>
         </div>
         <div class="col-sm-5 text-right" style="padding-right: 0">
@@ -144,29 +145,79 @@
     <div>
       <mat-icon class="cursor-pointer ag-menuIcn" [matMenuTriggerFor]="agToolbar">apps</mat-icon>
       <mat-menu class="mat-menu-panel myMenu" #agToolbar="matMenu" xPosition="before">
-        <app-ag-grid-toolbar [agGridToolbar]="agGridToolbar"></app-ag-grid-toolbar>
+        <!-- <app-ag-grid-toolbar [agGridToolbar]="agGridToolbar"></app-ag-grid-toolbar> -->
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" style="cursor: not-allowed;" >
+              <!-- (click)="agGridToolbar.saveTemplate()" -->
+              <img src="assets/ag-top-toolbar/save.svg" alt="" matTooltip="Save Template" width="20" style="pointer-events: none;" />
+              <div class="ag-menu-name" style="pointer-events: none;">Save Template</div>
+            </div>
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" style="cursor: not-allowed;" >
+              <!-- (click)="agGridToolbar.saveAsTemplate()" -->
+              <img src="assets/ag-top-toolbar/saveas_template.svg" alt="" matTooltip="Save as Template" width="20" style="pointer-events: none;" />
+              <div class="ag-menu-name" style="pointer-events: none;">Save as Template</div>
+            </div>
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" style="cursor: not-allowed;" >
+              <!-- (click)="agGridToolbar.deleteTemplate()" -->
+              <img src="assets/ag-top-toolbar/delete.svg" alt="" matTooltip="Delete Template" width="20" style="pointer-events: none;" />
+              <div class="ag-menu-name" style="pointer-events: none;">Delete Template</div>
+            </div>
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="columnFilter()">
+              <img src="assets/ag-top-toolbar/distinct.svg" alt="" matTooltip="Distinct Filter" width="20" />
+              <div class="ag-menu-name">Distinct Filter</div>
+            </div>
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="filter()">
+              <img src="assets/ag-top-toolbar/condition.svg" alt="" matTooltip="Condition" width="20" />
+              <div class="ag-menu-name">Condition Filter</div>
+            </div>
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="columnFilter()">
+              <img src="assets/ag-top-toolbar/multiple.svg" alt="" matTooltip="Multiple" width="20" />
+              <div class="ag-menu-name">Multiple Filter</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="reset()">
+              <img src="assets/ag-top-toolbar/repeat.svg" alt="" matTooltip="Reset" width="20" />
+              <div class="ag-menu-name">Reset</div>
+            </div>
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="agGridToolbar.exportAsExcel()">
+              <img src="assets/ag-top-toolbar/excel.svg" alt="" matTooltip="Excel" width="20" />
+              <div class="ag-menu-name">Excel</div>
+            </div>
+            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="agGridToolbar.exportAsCSV()">
+              <img src="assets/ag-top-toolbar/CSV.svg" alt="" matTooltip="CSV Export" width="20" />
+              <div class="ag-menu-name">CSV</div>
+            </div>
+            <!-- <div class="col-md-2 text-center cursor-pointer ag-menu-spacing">
+              <img src="assets/ag-top-toolbar/fullscreen.svg" alt="" matTooltip="Full View" width="20" />
+              <div class="ag-menu-name">Fullscreen</div>
+            </div> -->
+          </div>
+        </div>
       </mat-menu>
     </div>
   </div>
   <div class="row">
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <ag-grid-angular [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
+      <ag-grid-angular id="shipGrid" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
         [columnDefs]="shipColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
         [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData"
-        [components]="frameWorkComponent" (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">
+        [suppressDragLeaveHidesColumns]="true" [components]="frameWorkComponent" (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()">
       </ag-grid-angular>
     </div>
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <ag-grid-angular [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
+      <ag-grid-angular id="shoreGrid" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
         [columnDefs]="shoreColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
         [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
         [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
-        (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData" [components]="frameWorkComponent"
-        (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">
+        (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData" [suppressDragLeaveHidesColumns]="true"
+        [components]="frameWorkComponent" (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">
       </ag-grid-angular>
     </div>
   </div>
