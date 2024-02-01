@@ -255,7 +255,7 @@ export class PiqReportComponent implements OnInit {
     );
   }
 
-  getworkflowStatus() {
+  getworkflowStatus() { 
     this.isLoader = true;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
@@ -359,6 +359,8 @@ export class PiqReportComponent implements OnInit {
     this.getMainQuestCounts = [];
     this.getPresetQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+      
+      
       localStorage.setItem('currentVesselType', vesselCode);
       this.getStatus = res.wrkflow;
       let object = JSON.parse(res.response);

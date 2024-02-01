@@ -90,7 +90,6 @@ export class PhotoRepositoryComponent implements OnInit {
     }
   }
   getVesselTypeData() {
-    this.getSelectedCheckListId();
     this.BudgetService.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
       if (this.getvslCode) {
@@ -333,7 +332,6 @@ export class PhotoRepositoryComponent implements OnInit {
           });
           this.summaryGridCount();
         } else {
-
           this.getPrDataLists();
         }
       }

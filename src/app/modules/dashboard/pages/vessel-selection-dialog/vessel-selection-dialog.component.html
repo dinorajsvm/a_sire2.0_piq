@@ -2,57 +2,31 @@
   <div mat-dialog-title>
     <div class="col-sm-12">
       <div class="row">
-        <div
-          class="col-sm-11"
-          style="font-size: 12px; white-space: nowrap; padding-left: 8px"
-        >
+        <div class="col-sm-11" style="font-size: 12px; white-space: nowrap; padding-left: 8px">
           <h5>Select Details</h5>
         </div>
         <div class="col-sm-1 text-right">
           <mat-icon [mat-dialog-close]="true">close</mat-icon>
-      </div>
+        </div>
       </div>
     </div>
   </div>
-  <form
-    [formGroup]="vesselSelectionForms"
-    (ngSubmit)="onProceed(vesselSelectionForms)"
-  >
+  <form [formGroup]="vesselSelectionForms" (ngSubmit)="onProceed(vesselSelectionForms)">
     <div mat-dialog-content>
-      <div
-        class="col-sm-12"
-        style="padding: 0"
-        *ngIf="this.userDetails?.cntrlType === 'CNT001'"
-      >
+      <div class="col-sm-12" style="padding: 0" *ngIf="this.userDetails?.cntrlType === 'CNT001'">
         <div class="row">
           <div class="col-sm-4">
             <div>
-              <span style="color: black">Select Vessel</span
-              ><span style="color: red"> *</span>
+              <span style="color: black">Select Vessel</span><span style="color: red"> *</span>
             </div>
-            
+
             <mat-form-field class="selectDropdown" appearance="outline">
-              <mat-select
-              #vesselSelect
-              [(ngModel)]="selectedValue"
-                formControlName="vesselName"
-                [matTooltip]="toolTipVal"
-                (selectionChange)="onSelectVessel($event)"
-                name="food"
-              >
-                <input
-                  formControlName="vesselNameFilter"
-                  placeholder="Search Vessel Name"
-                  class="filterSearchShore"
-                  #filterVesselNameInput
-                />
-                <mat-option
-                  *ngFor="
-                    let vsl of vesselname
-                      | selectSearchFilter : filterVesselNameInput.value
-                  "
-                  [value]="vsl.vesselcode"
-                >
+              <mat-select #vesselSelect [(ngModel)]="selectedValue" formControlName="vesselName"
+                [matTooltip]="toolTipVal" (selectionChange)="onSelectVessel($event)" name="food">
+                <input formControlName="vesselNameFilter" placeholder="Search Vessel Name" class="filterSearchShore"
+                  #filterVesselNameInput />
+                <mat-option *ngFor="let vsl of vesselname | selectSearchFilter : filterVesselNameInput.value"
+                  [value]="vsl.vesselcode">
                   {{ vsl.vesselname }}
                 </mat-option>
               </mat-select>
@@ -60,31 +34,15 @@
           </div>
           <div class="col-sm-4">
             <div>
-              <span style="color: black">Select Vessel Type</span
-              ><span style="color: red"> *</span>
+              <span style="color: black">Select Vessel Type</span><span style="color: red"> *</span>
             </div>
             <mat-form-field class="selectDropdown" appearance="outline">
-              <mat-select
-              #vesselSelect
-              [(ngModel)]="selectedVslTypeValue"
-                formControlName="vesselType"
-                [matTooltip]="toolTipValType"
-                (selectionChange)="onSelectVesselType($event)"
-                name="food"
-              >
-                <input
-                  formControlName="vesselTypeFilter"
-                  placeholder="Search Vessel Type"
-                  class="filterSearchShore"
-                  #filterVesselTypeInput
-                />
-                <mat-option
-                  *ngFor="
-                    let vsltype of vesselTypeCode
-                      | selectSearchVslFilter : filterVesselTypeInput.value
-                  "
-                  [value]="vsltype.vesseltypecode"
-                >
+              <mat-select #vesselSelect [(ngModel)]="selectedVslTypeValue" formControlName="vesselType"
+                [matTooltip]="toolTipValType" (selectionChange)="onSelectVesselType($event)" name="food">
+                <input formControlName="vesselTypeFilter" placeholder="Search Vessel Type" class="filterSearchShore"
+                  #filterVesselTypeInput />
+                <mat-option *ngFor="let vsltype of vesselTypeCode | selectSearchVslFilter : filterVesselTypeInput.value"
+                  [value]="vsltype.vesseltypecode">
                   {{ vsltype.vesseltypename }}
                 </mat-option>
               </mat-select>
@@ -92,64 +50,31 @@
           </div>
           <div class="col-sm-4">
             <div>
-              <span style="color: black">Planned Submission Date</span
-              ><span style="color: red"> *</span>
+              <span style="color: black">Planned Submission Date</span><span style="color: red"> *</span>
             </div>
             <mat-form-field appearance="outline" class="datePicker">
-              <input
-                matInput
-                [matDatepicker]="picker"
-                [readonly]="true"
-                formControlName="datePick"
-                (dateInput)="onDateChange($event)"
-                autocomplete="off"
-                (input)="onKeyChange($event)"
-              />
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
+              <input matInput [matDatepicker]="picker" [readonly]="true" formControlName="datePick"
+                (dateInput)="onDateChange($event)" autocomplete="off" (input)="onKeyChange($event)" />
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
         </div>
       </div>
 
-      <div
-        class="col-sm-12"
-        style="padding: 0"
-        *ngIf="this.userDetails?.cntrlType === 'CNT002'"
-      >
+      <div class="col-sm-12" style="padding: 0" *ngIf="this.userDetails?.cntrlType === 'CNT002'">
         <div class="row">
           <div class="col-sm-6">
             <div>
-              <span style="color: black">Select Vessel Type</span
-              ><span style="color: red"> *</span>
+              <span style="color: black">Select Vessel Type</span><span style="color: red"> *</span>
             </div>
             <!-- [matTooltip]="vsltype.vesseltypename" -->
-            
             <mat-form-field class="selectDropdown" appearance="outline">
-              <mat-select
-              #vesselSelect
-              [(ngModel)]="selectedVslTypeValue"
-                formControlName="vesselType"
-                [matTooltip]="toolTipValType"
-                (selectionChange)="onSelectVesselType($event)"
-                name="food"
-              >
-                <input
-                  formControlName="vesselTypeFilter"
-                  placeholder="Search Vessel Type"
-                  class="filterSearch"
-                  #filterInput
-                />
-                <mat-option
-                  *ngFor="
-                    let vsltype of vesselTypeCode
-                      | selectSearchVslFilter : filterInput.value
-                  "
-                  [value]="vsltype.vesseltypecode"
-                >
+              <mat-select #vesselSelect [(ngModel)]="selectedVslTypeValue" formControlName="vesselType"
+                [matTooltip]="toolTipValType" (selectionChange)="onSelectVesselType($event)" name="food">
+                <input formControlName="vesselTypeFilter" placeholder="Search Vessel Type" class="filterSearch"
+                  #filterInput />
+                <mat-option *ngFor="let vsltype of vesselTypeCode | selectSearchVslFilter : filterInput.value" [value]="vsltype.vesseltypecode">
                   {{ vsltype.vesseltypename }}
                 </mat-option>
               </mat-select>
@@ -157,23 +82,12 @@
           </div>
           <div class="col-sm-6">
             <div>
-              <span style="color: black">Planned Submission Date</span
-              ><span style="color: red"> *</span>
+              <span style="color: black">Planned Submission Date</span><span style="color: red"> *</span>
             </div>
             <mat-form-field appearance="outline" class="datePicker">
-              <input
-                matInput
-                [matDatepicker]="picker"
-                [readonly]="true"
-                formControlName="datePick"
-                (dateInput)="onDateChange($event)"
-                autocomplete="off"
-                (input)="onKeyChange($event)"
-              />
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
+              <input matInput [matDatepicker]="picker" [readonly]="true" formControlName="datePick"
+                (dateInput)="onDateChange($event)" autocomplete="off" (input)="onKeyChange($event)" />
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
@@ -181,21 +95,11 @@
       </div>
     </div>
     <div mat-dialog-actions>
-      <button
-        mat-button
-        type="submit"
-        [disabled]="disableProceed"
-        [ngClass]="{ disableBtn: disableProceed }"
-        class="vslSelect btnHeight"
-      >
+      <button mat-button type="submit" [disabled]="disableProceed" [ngClass]="{ disableBtn: disableProceed }"
+        class="vslSelect btnHeight">
         Proceed
       </button>
-      <button
-        mat-button
-        (click)="closeDialog($event)"
-        class="cancel btnHeight"
-        [mat-dialog-close]="true"
-      >
+      <button mat-button (click)="closeDialog($event)" class="cancel btnHeight" [mat-dialog-close]="true">
         Cancel
       </button>
     </div>
