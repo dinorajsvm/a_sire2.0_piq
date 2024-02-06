@@ -8,6 +8,7 @@ import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
+import { DatePipe } from '@angular/common';
 declare function mdldmsnavigatenewtab(
   params: any,
   params1: any,
@@ -19,6 +20,7 @@ declare function mdldmsnavigatenewtab(
   selector: 'app-safety-management',
   templateUrl: './safety-management.component.html',
   styleUrls: ['./safety-management.component.css'],
+  providers: [DatePipe]
 })
 export class SafetyManagementComponent implements OnInit {
   selectedIndex: number = 0;
@@ -540,6 +542,7 @@ export class SafetyManagementComponent implements OnInit {
       resizable: true,
     },
     {
+      headerName: 'Date Selection',
       field: 'dateSelection',
       cellEditor: 'myDateEditor',
       tooltipField: 'dateSelection',
@@ -557,7 +560,6 @@ export class SafetyManagementComponent implements OnInit {
   ];
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow: any = 'always';
   rowData: any[] = [];
   selectedRowData: any[] = [];
   userDetails: any;
@@ -568,7 +570,8 @@ export class SafetyManagementComponent implements OnInit {
     private dialogRef: MatDialogRef<SafetyManagementComponent>,
     private BudgetService: BudgetService,
     private _storage: StorageService,
-    private _loaderService: LoaderService
+    private _loaderService: LoaderService,
+    private datePipe: DatePipe
   ) {
     this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
@@ -614,9 +617,6 @@ export class SafetyManagementComponent implements OnInit {
     this.columnDefs[34].hide = this.hideReqBtns;
     this.selectedColumnDefs[6].hide = this.hideReqBtns;
     this.selectedColumnDefs[7].hide = this.hideReqBtns;
-  }
-  getEditFlag(event: any) {
-    return true;
   }
 
   safetyManagementDetails() {

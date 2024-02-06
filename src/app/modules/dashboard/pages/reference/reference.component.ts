@@ -62,7 +62,6 @@ export class ReferenceComponent implements OnInit {
   rowData: any[] = [];
   userDetails: any;
   private gridApi: any;
-  private gridColumnApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
   // public rowGroupPanelShow: any = 'always';
@@ -83,7 +82,7 @@ export class ReferenceComponent implements OnInit {
   ngOnInit(): void {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.userDetails = this._storage.getUserDetails();
-    this.getCertificateRepoList();
+    this.getReferenceListDetails();
   }
 
   downloadFile(event: any) {
@@ -112,10 +111,9 @@ export class ReferenceComponent implements OnInit {
     });
   }
 
-  getCertificateRepoList() {
+  getReferenceListDetails() {
     const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     const companyCode = this.userDetails.companyCode;
-
     this.BudgetService.getReferenceList(
       vesselCode,
       companyCode,
@@ -124,15 +122,14 @@ export class ReferenceComponent implements OnInit {
       res.response.forEach((element: any) => {
         element.filesize = element.fileSize;
       });
-      this.rowData = res.response;
+      this.rowData = res && res.response && res.response.length > 0 ? res.response : [];
+      this.countEmit.emit(this.rowData.length);
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-        this.countEmit.emit(this.rowData.length);
     });
   }
 
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
   }
 }

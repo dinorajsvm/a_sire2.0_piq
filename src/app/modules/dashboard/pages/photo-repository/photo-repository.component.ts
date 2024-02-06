@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrDialogComponent } from '../pr-dialog/pr-dialog.component';
 import { BudgetService } from '../../services/budget.service';
@@ -13,13 +19,13 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { colorCodes } from 'src/app/core/constants';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
-import { forkJoin } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-photo-repository',
   templateUrl: './photo-repository.component.html',
   styleUrls: ['./photo-repository.component.css'],
 })
-export class PhotoRepositoryComponent implements OnInit {
+export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput!: ElementRef;
   dynamicImageURL = `${environment.apiUrl}/`;
   selectedFile: File | null = null;
@@ -62,6 +68,8 @@ export class PhotoRepositoryComponent implements OnInit {
     this.selectedInstanceID = [];
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getDefaultImageName();
+    this.getSelectedCheckListId();
+    this.getVesselTypeData();
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableBtns = true;
       this.invalidImg = true;
@@ -73,20 +81,13 @@ export class PhotoRepositoryComponent implements OnInit {
     this.BudgetService.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
     });
-    this.getSelectedCheckListId();
-    this.getVesselTypeData();
     this.summaryGridCount();
   }
 
   getSelectedCheckListId() {
-    let getSelectedCheckListID: any = localStorage.getItem(
-      'getSelectedCheckListID'
-    );
-    if (getSelectedCheckListID) {
-      const getinstanceID = JSON.parse(getSelectedCheckListID);
-      this.selectedInstanceID = getinstanceID;
-    } else {
-      this.selectedInstanceID = [];
+    this.getCheckListDetailsOnly();
+    if (this.selectedInstanceID && this.selectedInstanceID.length === 0) {
+      this.getSavedPRData();
     }
   }
   getVesselTypeData() {
@@ -96,24 +97,10 @@ export class PhotoRepositoryComponent implements OnInit {
         this.trimmedVslType = this.getvslCode.split(' ');
         this.trimmedVslType = this.trimmedVslType[0];
       }
-      let selectedInstanceID: any = localStorage.getItem(
-        'getSelectedCheckListID'
-      );
-      let selectedInstance: any;
-      if (selectedInstanceID) {
-        selectedInstance = JSON.parse(selectedInstanceID);
-      }
-      this.selectedInstanceID = selectedInstance;
-      if (selectedInstance && selectedInstance.length > 0) {
-        this.getPRImgLists();
-      } else {
-        this.getSavedPRData();
-      }
     });
   }
 
   getPRImgLists() {
-    this.getSelectedCheckListId();
     const payload = { instanceid: this.selectedInstanceID };
     this.BudgetService.getPhotoRepGridListImg(payload).subscribe((res: any) => {
       if (this.selectedInstanceID && this.selectedInstanceID.length > 0) {
@@ -607,9 +594,24 @@ export class PhotoRepositoryComponent implements OnInit {
     const dialogRef = this.dialog.open(PrDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.getPRImgLists();
+        this.getCheckListDetailsOnly();
       }
     });
+  }
+
+  getCheckListDetailsOnly() {
+    let getSelectedCheckListID: any = localStorage.getItem(
+      'getSelectedCheckListID'
+    );
+    if (getSelectedCheckListID) {
+      const getinstanceID = JSON.parse(getSelectedCheckListID);
+      this.selectedInstanceID = getinstanceID;
+    } else {
+      this.selectedInstanceID = [];
+    }
+    if (this.selectedInstanceID && this.selectedInstanceID.length > 0) {
+      this.getPRImgLists();
+    }
   }
 
   toggleAllExpanded() {
@@ -642,7 +644,7 @@ export class PhotoRepositoryComponent implements OnInit {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       localStorage.removeItem('getSelectedCheckListID');
       this.selectedInstanceID = [];
-      this.getSavedPRData();
+      // this.getSavedPRData();
     });
   }
 
@@ -808,5 +810,9 @@ export class PhotoRepositoryComponent implements OnInit {
 
   sanitizedFileName(filename: string): string {
     return filename;
+  }
+
+  ngOnDestroy(): void {
+    // this.BudgetService.ngOnDestroy();
   }
 }

@@ -8,7 +8,6 @@ import { DefaultColDef } from 'src/app/core/constants';
 import { ResetBtnRendererComponent } from '../renderer/resetBtn-renderer.component';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-import { DatePipe } from '@angular/common';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -16,7 +15,6 @@ LicenseManager.setLicenseKey(
   selector: 'app-exception-question',
   templateUrl: './exception-question.component.html',
   styleUrls: ['./exception-question.component.css'],
-  providers: [DatePipe]
 })
 export class ExceptionQuestionComponent implements OnInit {
   @Output() countEmit = new EventEmitter<any>();
@@ -128,9 +126,9 @@ export class ExceptionQuestionComponent implements OnInit {
       this.disableBtns = res;
     });
     this.BudgetService.getExceptionData().subscribe((data) => {
-      data.forEach((response: any) => {
-        // response.savedAnswer = response && response.presetValue ? '' : response.lookUpPresetValue;
-      })
+      // data.forEach((response: any) => {
+      //   // response.savedAnswer = response && response.presetValue ? '' : response.lookUpPresetValue;
+      // })
       this.rowData = data;
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
@@ -149,7 +147,7 @@ export class ExceptionQuestionComponent implements OnInit {
   }
 
   onBtnClick1(e: any) {
-    this.BudgetService.setExceptionResetData(e.rowData.qid);
+    this.BudgetService.setExceptionResetData(e.rowData);
     const objWithIdIndex = this.rowData.findIndex(
       (obj) => obj.qid === e.rowData.qid
     );

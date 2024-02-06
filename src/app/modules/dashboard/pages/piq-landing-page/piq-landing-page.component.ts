@@ -345,7 +345,6 @@ export class PIQLandingPageComponent implements OnInit {
   getRefNo: any;
   getRefNumber: any;
   userDetails: any;
-  compVslCode: any;
   showNew: boolean = true;
   getWrkFlowUser: any;
   public tooltipShowDelay = 0;
@@ -710,13 +709,12 @@ export class PIQLandingPageComponent implements OnInit {
       this.selected.endDate,
       'dd-MMM-yyyy HH:mm'
     );
+    // this.router.navigate(['/sire/piq-landing']);
     this.getworkflowStatus();
-    this.router.navigate(['/sire/piq-landing']);
-    this.getCodes();
     this.getLndPgDatas();
-    this.BudgetService.getDeleteAction().subscribe((res) => {
-      this.getLndPgDatas();
-    });
+    // this.BudgetService.getDeleteAction().subscribe((res) => {
+    //   this.getLndPgDatas();
+    // });
   }
 
   viewForm(event: any) {
@@ -724,14 +722,6 @@ export class PIQLandingPageComponent implements OnInit {
     this.router.navigate([
       '/sire/piq-report/' + instanceid + '/' + EFormMode.VIEW,
     ]);
-  }
-
-  getCodes() {
-    if (this.userDetails?.cntrlType === 'CNT001') {
-      this.compVslCode = this.userDetails.companyCode;
-    } else if (this.userDetails?.cntrlType === 'CNT002') {
-      this.compVslCode = this.userDetails.userData.mdata.appInfo.vesselCode;
-    }
   }
 
   getLndPgDatas() {
@@ -827,7 +817,7 @@ export class PIQLandingPageComponent implements OnInit {
 
   getworkflowStatus() {
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
-      let val = res.workflowmaster;
+      let val = res && res.workflowmaster ? res.workflowmaster : [];
       this.getSubmitterRank =
         val && val[0] && val[0].submitters
           ? val[0].submitters.find((x: any) => x === this.userDetails?.rankCode)

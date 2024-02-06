@@ -16,7 +16,6 @@ import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
-import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 declare function mdldmsnavigatenewtab(
   params: any,
   params1: any,
@@ -53,6 +52,7 @@ export class TMSAComponent implements OnInit {
   rowShipData: any[] = [];
   rowInternalData: any[] = [];
   rowExternalData: any[] = [];
+  resetBtn = false;
   columnInternalDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
@@ -71,7 +71,12 @@ export class TMSAComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       field: 'refno',
@@ -166,7 +171,12 @@ export class TMSAComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       field: 'refno',
@@ -252,7 +262,12 @@ export class TMSAComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       field: 'extrfid',
@@ -335,8 +350,7 @@ export class TMSAComponent implements OnInit {
     private dialogRef: MatDialogRef<TMSAComponent>,
     public dialog: MatDialog,
     private _storage: StorageService,
-    private _loaderService: LoaderService,
-    private _snackBarService: SnackbarService
+    private _loaderService: LoaderService
   ) {
     this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
@@ -383,6 +397,16 @@ export class TMSAComponent implements OnInit {
         this.isShowInternalExternal = true;
       }
     }
+  }
+
+  resetBtnEnable() {
+    const rowShipDataFlag = this.rowShipData.find((x) => x.highlight);
+    const rowInternalDataFlag = this.rowInternalData.find((y) => y.highlight);
+    const rowExternalDataFlag = this.rowExternalData.find((z) => z.highlight);
+    this.resetBtn =
+      rowExternalDataFlag || rowInternalDataFlag || rowShipDataFlag
+        ? true
+        : false;
   }
 
   onGridInternalReady(params: any) {
@@ -438,7 +462,7 @@ export class TMSAComponent implements OnInit {
       this.data.referenceId
     ).subscribe((resp) => {
       this.apiResponse = resp.response;
-      this.showInternal();
+      this.changeToggle('Internal Audit Report');
     });
   }
 
@@ -447,11 +471,12 @@ export class TMSAComponent implements OnInit {
     this.isShowShip = false;
     this.isShowExternal = false;
     this.isShowInternal = true;
-    this.rowInternalData = this.apiResponse.Internal;
+    this.rowInternalData = this.apiResponse && this.apiResponse.Internal ? this.apiResponse.Internal : [];
     this.totalRowInternalCount =
       this.rowInternalData && this.rowInternalData.length > 0
         ? this.rowInternalData.length
         : 0;
+    this.resetBtnEnable();
   }
 
   showShip() {
@@ -459,31 +484,33 @@ export class TMSAComponent implements OnInit {
     this.isShowExternal = false;
     this.isShowInternal = false;
     this.isShowShip = true;
-    this.rowShipData = this.apiResponse.ShipVisit;
+    this.rowShipData = this.apiResponse && this.apiResponse.ShipVisit ? this.apiResponse.ShipVisit : [];
     this.totalRowShipCount =
       this.rowShipData && this.rowShipData.length > 0
         ? this.rowShipData.length
         : 0;
+    this.resetBtnEnable();
   }
   showExternal() {
     this.isShowView = false;
     this.isShowInternal = false;
     this.isShowShip = false;
     this.isShowExternal = true;
-    this.rowExternalData = this.apiResponse.External;
+    this.rowExternalData = this.apiResponse && this.apiResponse.External ? this.apiResponse.External: [];
     this.totalRowExternalCount =
       this.rowExternalData && this.rowExternalData.length > 0
         ? this.rowExternalData.length
         : 0;
+    this.resetBtnEnable();
   }
   showView() {
     this.isShowView = true;
     this.isShowInternal = false;
     this.isShowShip = false;
     this.isShowExternal = false;
-    this.rowExternalData = this.apiResponse.External;
-    this.rowInternalData = this.apiResponse.Internal;
-    this.rowShipData = this.apiResponse.ShipVisit;
+    this.rowExternalData = this.apiResponse && this.apiResponse.External ? this.apiResponse.External: [];
+    this.rowInternalData = this.apiResponse && this.apiResponse.Internal ? this.apiResponse.Internal : [];
+    this.rowShipData = this.apiResponse && this.apiResponse.ShipVisit ? this.apiResponse.ShipVisit : [];
     this.totalRowInternalCount =
       this.rowInternalData && this.rowInternalData.length > 0
         ? this.rowInternalData.length
@@ -496,6 +523,7 @@ export class TMSAComponent implements OnInit {
       this.rowShipData && this.rowShipData.length > 0
         ? this.rowShipData.length
         : 0;
+    this.resetBtnEnable();
   }
 
   onReset() {
@@ -523,7 +551,7 @@ export class TMSAComponent implements OnInit {
   }
 
   onFilterExternalChanged() {
-    this.totalRowExternalCount = this.gridExternalApi.getDisplayedRowCount();
+    this.totalRowExternalCount = this.gridExternalApi.getDisplayedRowCount();    
   }
 
   onFilterShipChanged() {

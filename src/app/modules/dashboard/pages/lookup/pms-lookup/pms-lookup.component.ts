@@ -2,8 +2,7 @@ import { Component, Inject } from '@angular/core';
 import {
   ColDef,
   GridApi,
-  RowClassRules,
-  RowGroupingDisplayType,
+  RowClassRules
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import { BudgetService } from '../../../services/budget.service';
@@ -12,17 +11,10 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ButtonRendererComponent } from '../../renderer/button-renderer.component';
 import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
-declare function mdldmsnavigatenewtab(
-  params: any,
-  params1: any,
-  params2: any,
-  params3: any,
-  param4s: any
-): any;
+
 @Component({
   selector: 'app-pms-lookup',
   templateUrl: './pms-lookup.component.html',
@@ -32,19 +24,7 @@ export class PmsLookupComponent {
   private gridApi!: GridApi;
   public tooltipShowDelay = 0;
   totalRowCount = 0;
-  // frameworkComponents: any;
   columnDefs: ColDef[] = [
-    // {
-    //   headerName: 'Auto Sync',
-    //   width: 100,
-    //   hide: false,
-    //   sortable: false,
-    //   filter: false,
-    //   cellRenderer: 'buttonRenderer',
-    //   cellRendererParams: {
-    //     onClick: this.onBtnClick1.bind(this),
-    //   },
-    // },
     {
       field: 'compcode',
       headerName: 'PMS Component',
@@ -85,13 +65,8 @@ export class PmsLookupComponent {
   rowData: any = [];
   pmsCode: any;
   hideReqBtns: boolean = false;
-
-  public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
-
   defaultColDef = DefaultColDef;
-  // public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
@@ -108,19 +83,11 @@ export class PmsLookupComponent {
   ) {
     this.hideReqBtns =  localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
-    // this.frameworkComponents = {
-    //   buttonRenderer: ButtonRendererComponent,
-    // };
   }
 
   onDialogClose(): void {
     this.dialogRef.close();
   }
-
-  // onBtnClick1(e: any) {
-  //   this.syncData = e.rowData;
-  //   this.dialogRef.close(e.rowData);
-  // }
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -134,9 +101,6 @@ export class PmsLookupComponent {
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
-  // onReset() {
-  //   this.dialogRef.close('Reset');
-  // }
 
   getLookUpVisit() {
     const companyCode = this.userDetails.userData.mdata.appInfo.companyCode;

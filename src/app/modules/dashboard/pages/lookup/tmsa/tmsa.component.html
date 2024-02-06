@@ -296,7 +296,7 @@
     class="syncBtn mt-2"
     style="float: right"
     type="submit"
-    [class.hideReqBtns]="hideReqBtns"
+    [class.hideReqBtns]="hideReqBtns || !resetBtn"
     (click)="onReset()"
   >
     Reset

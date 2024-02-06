@@ -25,15 +25,14 @@ export class BudgetService {
   private getVeslTypeData = new Subject<any>();
   private getPhotoRepGridData = new Subject<any>();
   private getSearchStatus = new Subject<any>();
-  private getCertificateGridDataList = new BehaviorSubject<any>(0);
-  private getMappedCertificateGridDataList = new BehaviorSubject<any>(0);
   private saveMappedCertificate = new Subject<any>();
   private getImageCount = new BehaviorSubject<any>(0);
   private getPhotoRepList = new Subject<any>();
   private exceptionList = new Subject<any>();
   private guidelineList = new Subject<any>();
   private exceptionReset = new Subject<any>();
-  private getVslCode = new Subject<any>();
+  private getCertificate = new Subject<any>();
+  private piqWorkFlowMaster = new Subject<any>();
   private getTabIndexCount = new Subject<any>();
   private hideEditButton = new Subject<any>();
   private enableDisableButtons = new Subject<any>();
@@ -235,12 +234,20 @@ export class BudgetService {
     );
   }
 
-  setVslCodeData(message: any) {
-    this.getVslCode.next(message);
+  setCertificateListDetails(message: any) {
+    this.getCertificate.next(message);
   }
 
-  getVslCodeData() {
-    return this.getVslCode.asObservable();
+  getCertificateListDetails() {
+    return this.getCertificate.asObservable();
+  }
+
+  setWorkflowmaster(message: any) {
+    this.piqWorkFlowMaster.next(message);
+  }
+
+  getWorkflowmaster() {
+    return this.piqWorkFlowMaster.asObservable();
   }
   setPreviousPresetData(message: any) {
     this.getAllPreviousPresetData.next(message);
@@ -255,20 +262,6 @@ export class BudgetService {
 
   getPrGridData() {
     return this.getPhotoRepGridData.asObservable();
-  }
-
-  setCertificateGridData(message: any) {
-    this.getCertificateGridDataList.next(message);
-  }
-  getCertificateGridData() {
-    return this.getCertificateGridDataList.asObservable();
-  }
-
-  setMappedCertificateData(message: any) {
-    this.getMappedCertificateGridDataList.next(message);
-  }
-  getMappedCertificateData() {
-    return this.getMappedCertificateGridDataList.asObservable();
   }
 
   saveMappedCertificateData(message: any) {

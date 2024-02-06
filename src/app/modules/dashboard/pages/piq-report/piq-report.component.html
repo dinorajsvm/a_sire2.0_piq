@@ -409,7 +409,7 @@
                             >
                               <div
                                 class="head_list charCount"
-                                (click)="selectValue(value.subHeaders, value)"
+                                (click)="selectValue(value.subHeaders)"
                               >
                                 {{ value.subHeaders }}
                               </div>
@@ -532,13 +532,15 @@
                                           class="col-sm-2 text-right"
                                           style="padding-left: 0 !important"
                                         >
+                                        <!-- *ngIf="
+                                        Mquest.entrymethod == 'Lookup'
+                                      " -->
                                           <mat-icon
-                                            *ngIf="
-                                              Mquest.entrymethod == 'Lookup'
-                                            "
+                                         
                                             [ngClass]="{
                                               'read-only-chip': viewMode
                                             }"
+                                            id={{Mquest.qid}}
                                             class="restoreLookupIcn"
                                             (click)="
                                               lookUpResetForm($event, Mquest)
@@ -546,10 +548,11 @@
                                           >
                                             refresh
                                           </mat-icon>
+                                          <!-- *ngIf="
+                                          Mquest.entrymethod == 'Lookup'
+                                        " -->
                                           <button
-                                            *ngIf="
-                                              Mquest.entrymethod == 'Lookup'
-                                            "
+                                  
                                             mat-button
                                             class="save"
                                             (click)="
@@ -1013,7 +1016,6 @@
                                           [id]="subq.qid"
                                           (click)="
                                             resetDate(
-                                              $event,
                                               subq,
                                               quest,
                                               Mquest
@@ -1528,7 +1530,6 @@
                                           }"
                                           (click)="
                                             resetDate(
-                                              $event,
                                               subq,
                                               quest,
                                               Mquest
@@ -1663,7 +1664,7 @@
                                 "
                               >
                                 <mat-expansion-panel
-                                  [expanded]="allExpansionPanelsExpanded"
+                                  [expanded]="true"
                                   *ngIf="allQuestValues.selected == false"
                                 >
                                   <mat-expansion-panel-header>
@@ -2119,7 +2120,6 @@
                                             }"
                                             (click)="
                                               resetDate(
-                                                $event,
                                                 subq,
                                                 quest,
                                                 allQuestValues
@@ -2619,7 +2619,6 @@
                                             }"
                                             (click)="
                                               resetDate(
-                                                $event,
                                                 subq,
                                                 quest,
                                                 allQuestValues
@@ -2798,12 +2797,12 @@
       <mat-tab label="Certificate Repository">
         <app-certificate-repository></app-certificate-repository>
       </mat-tab>
-      <mat-tab label="{{ exceptionCount }}">
+      <mat-tab label="{{ exceptionCount ? exceptionCount : 'Exceptions (0)' }}">
         <app-exception-question
           (countEmit)="receiveExceptionCount($event)"
         ></app-exception-question>
       </mat-tab>
-      <mat-tab label="{{ refernceCount }}">
+      <mat-tab label="{{ refernceCount ? refernceCount : 'References (0)' }}">
         <app-reference
           (countEmit)="receiveRefernceCount($event)"
         ></app-reference>

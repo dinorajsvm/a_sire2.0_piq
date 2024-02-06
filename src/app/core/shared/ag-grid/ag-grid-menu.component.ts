@@ -15,7 +15,7 @@ import { BudgetService } from '../../../modules/dashboard/services/budget.servic
       <span class="cursor-pointer mr-2" matTooltip="Edit" (click)="edit(id)" *ngIf="params.data.isEdit">
         <img src="assets/icon-images/edit.png" alt="" width="14" />
       </span>
-      <span class="cursor-pointer mr-2" matTooltip="Delete" (click)="deleteRowData($event,id)" *ngIf="params.data.isDelete">
+      <span class="cursor-pointer mr-2" matTooltip="Delete" (click)="deleteRowData(id)" *ngIf="params.data.isDelete">
         <img src="assets/icon-images/delete.png" alt="" width="14" />
       </span>
     </ng-container>`,
@@ -60,7 +60,7 @@ export class AgGridMenuComponent implements AgRendererComponent {
     localStorage.removeItem('currentVesselType');
     this.router.navigate(['/sire/piq-report/' + id + '/' + EFormMode.VIEW]);
   }
-  deleteRowData(event: any,id:any) {
+  deleteRowData(id:any) {
     const instanceid = id;
     const payload = { instanceid: instanceid };
     this.BudgetService.deleteRow(payload).subscribe((res: any) => {

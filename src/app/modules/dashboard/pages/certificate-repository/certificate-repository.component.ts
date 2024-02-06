@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import {
   ColDef,
-  FirstDataRenderedEvent,
   GridReadyEvent,
   RowGroupingDisplayType,
 } from 'ag-grid-community';
@@ -14,9 +13,6 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { ActivatedRoute } from '@angular/router';
-import { StorageService } from 'src/app/core/services/storage/storage.service';
-import { MatDialog } from '@angular/material/dialog';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -28,15 +24,10 @@ LicenseManager.setLicenseKey(
 })
 export class CertificateRepositoryComponent implements OnInit {
   dynamicImageURL = `${environment.apiUrl}/`;
-  certificateCount: any;
-  referenceNumber: any;
-  userDetails: any;
-  frameworkComponents: any;
   public tooltipShowDelay = 0;
   public isRowMaster: IsRowMaster = (dataItem: any) => {
     return dataItem && dataItem.imagelist && dataItem.imagelist.length > 0;
   };
-
   public columnDefs: ColDef[] = [
     {
       field: 'certifiactetype',
@@ -101,7 +92,6 @@ export class CertificateRepositoryComponent implements OnInit {
   ];
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow: any = 'always';
   public detailCellRendererParams: any = {
     detailGridOptions: {
       columnDefs: [
@@ -143,91 +133,30 @@ export class CertificateRepositoryComponent implements OnInit {
     },
   } as IDetailCellRendererParams<any, any>;
   public rowData!: any[];
-  totalCertificateCount: any;
-  getvesselcode: any;
-  hideReqBtns: boolean = false;
   gridApi: any;
   totalRowCount = 0;
   constructor(
     private BudgetService: BudgetService,
-    private snackBarService: SnackbarService,
-    private route: ActivatedRoute,
-    private _storage: StorageService
-  ) {
-    this.frameworkComponents = {
-      buttonRenderer: DownloadBtnRendererComponent,
-    };
-    this.userDetails = this._storage.getUserDetails();
-  }
+    private snackBarService: SnackbarService
+  ) {}
   ngOnInit(): void {
-    this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
-      this.hideReqBtns = res;
+    this.BudgetService.getCertificateListDetails().subscribe((response) => {
+      this.rowData = response && response.length > 0 ? response : [];
+      this.totalRowCount =
+        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
     });
   }
-  onFirstDataRendered(params: FirstDataRenderedEvent) {}
+
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
     this.gridApi.addEventListener(
       'filterChanged',
       this.onFilterChanged.bind(this)
     );
-    this.BudgetService.getVslCodeData().subscribe((res: any) => {
-      this.getvesselcode = res;
-      this.BudgetService.getCertificateList(
-        this.userDetails.companyCode,
-        this.getvesselcode,
-        this.referenceNumber
-      ).subscribe((res: any) => {
-        if (res && res.response && res.response.piqmappinglist) {
-          res.response.piqmappinglist.forEach((data: any) => {
-            data.imagelist =
-              data && data.imagelist && data.imagelist.length > 0
-                ? data.imagelist
-                : [];
-          });
-        }
-        this.rowData =
-          res && res.response && res.response.piqmappinglist
-            ? res.response.piqmappinglist
-            : [];
-        this.totalRowCount =
-          this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-        this.totalCertificateCount = this.rowData.length;
-        const mappingCercodeValues = this.rowData.map(
-          (item) => item.mackcertificatename
-        );
-        const filteredMappingCode = mappingCercodeValues.filter(
-          (value) => value !== null
-        );
-        this.certificateCount = filteredMappingCode.length;
-        this.BudgetService.setCertificateGridData(this.totalCertificateCount);
-        this.BudgetService.setMappedCertificateData(this.certificateCount);
-        this.setSaveCertificateAction();
-      });
-    });
-  }
-  onFilterChanged() {
-    this.totalRowCount = this.gridApi.getDisplayedRowCount();
-  }
-  setSaveCertificateAction() {
-    let payLoad: any[] = [];
-    this.rowData.forEach((data) => {
-      payLoad.push({
-        piqcername: data.certifiactetype ? data.certifiactetype : '',
-        macksavedcername: data.mackcertificatename
-          ? data.mackcertificatename
-          : '',
-      });
-    });
-    const reqestBody = {
-      certificatetab: payLoad,
-    };
-    this.BudgetService.saveMappedCertificateData(reqestBody);
   }
 
-  isString(input: any): input is string {
-    return typeof input === 'string';
+  onFilterChanged() {
+    this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
 
   downloadFile(event: any) {

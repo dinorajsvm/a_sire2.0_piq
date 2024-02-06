@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   ColDef,
   GridApi,
@@ -14,7 +14,6 @@ import {
 } from '@angular/material/dialog';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
 import { DefaultColDef } from 'src/app/core/constants';
-import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
 declare function mdldmsnavigatenewtab(
   params: any,
@@ -29,7 +28,6 @@ declare function mdldmsnavigatenewtab(
   styleUrls: ['./psc.component.css'],
 })
 export class PscComponent {
-  getSelectedCheckListID: any[] = [];
   private gridApi!: GridApi;
   gridPSCApi: any;
   gridNonPSCApi: any;
@@ -39,6 +37,7 @@ export class PscComponent {
   public tooltipShowDelay = 0;
   isChecked = true;
   frameworkComponents: any;
+  resetBtn = false;
   columnDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
@@ -57,7 +56,12 @@ export class PscComponent {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       field: 'extrfid',
@@ -110,34 +114,28 @@ export class PscComponent {
       flex: 1,
     },
   ];
-  syncData: any[] = [];
   rowData: any[] = [];
   isViewAll = false;
   rowPscData: any[] = [];
   rowNonPscData: any[] = [];
-  public singleRowSelection: 'single' | 'multiple' = 'single';
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   apiResponse: any = [];
   defaultColDef = DefaultColDef;
   hideReqBtns: boolean = false;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
     'highlighted-row': (params) => {
       return params.data.highlight;
     },
   };
-  userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private BudgetService: BudgetService,
     private dialogRef: MatDialogRef<PscComponent>,
     public dialog: MatDialog,
-    private _storage: StorageService,
     private _loaderService: LoaderService
   ) {
     this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
-    this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
       buttonRenderer: ApplyRendererComponent,
     };
@@ -148,7 +146,6 @@ export class PscComponent {
   }
 
   onBtnClick1(e: any) {
-    this.syncData = e.rowData;
     this.dialogRef.close(e.rowData);
   }
   onFilterChanged() {
@@ -185,9 +182,10 @@ export class PscComponent {
       this.rowNonPscData && this.rowNonPscData.length > 0
         ? this.rowNonPscData.length
         : 0;
-        console.log(this.rowData, 'rowData');
-        console.log(this.rowPscData, 'rowPscData');
-        console.log(this.rowNonPscData, 'rowNonPscData');
+    const rowDataFlag =  this.rowData.find(x => x.highlight)
+    const rowPscDataFlag =  this.rowPscData.find(y => y.highlight)
+    const rowNonPscDataFlag =  this.rowNonPscData.find(z => z.highlight)
+    this.resetBtn = rowNonPscDataFlag || rowPscDataFlag || rowDataFlag ? true : false;
   }
 
   onGridReady(params: any) {
@@ -230,11 +228,7 @@ export class PscComponent {
       this.data.questionId
     ).subscribe((data) => {
       this.apiResponse = data.response;
-      this.rowData = this.apiResponse['Non-sPSC'];
-      this.totalRowCount =
-        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-        console.log(this.rowData, 'rowData');
-        
+      this.changeToggle('All Inspection');
     });
   }
 

@@ -74,7 +74,7 @@ export class PIQSummaryComponent implements OnInit {
   dateSelected: any;
   quickNotes: any;
   getVesselCode: any;
-  photoRepImgCounts: any;
+  photoRepImgCounts = 0;
   getPlannedSubDate: any;
   getOriginator: any;
   getApproverRanks: any;
@@ -87,12 +87,12 @@ export class PIQSummaryComponent implements OnInit {
   locationCode: any;
   getMainQuestCounts: any[] = [];
   getAllDatas: any[] = [];
-  certificateCounts: any;
-  exceptionCounts: any;
-  remarksCounts: any;
+  certificateCounts = 0;
+  exceptionCounts = 0;
+  remarksCounts = 0;
   remarksGridData: any = [];
-  photoRepCounts: any;
-  mappedCertificateCounts: any;
+  photoRepCounts = 0;
+  mappedCertificateCounts = 0;
   lastModifiedData: any;
   syncedData: any[] = [];
   expectedRowData: any[] = [];
@@ -204,7 +204,7 @@ export class PIQSummaryComponent implements OnInit {
       floatingFilter: false,
     },
   ];
-  modifiedColumns: ColDef[] = [ 
+  modifiedColumns: ColDef[] = [
     {
       field: 'mainQuestion',
       headerName: 'Main Question',
@@ -309,12 +309,7 @@ export class PIQSummaryComponent implements OnInit {
     this.BudgetService.getGridSummary().subscribe((res: any) => {
       this.rowData = res;
     });
-    this.BudgetService.getCertificateGridData().subscribe((res: any) => {
-      this.certificateCounts = res;
-    });
-    this.BudgetService.getMappedCertificateData().subscribe((res: any) => {
-      this.mappedCertificateCounts = res;
-    });
+
     this.BudgetService.getExceptionData().subscribe((res: any) => {
       this.exceptionList = res;
       this.exceptionCounts = res && res.length > 0 ? res.length : 0;
@@ -325,7 +320,7 @@ export class PIQSummaryComponent implements OnInit {
         if (this.exceptionList && this.exceptionList.length > 0) {
           const rowsWithRemarks = this.exceptionList.filter((row: any) => {
             if (row.remark === null) {
-              row.remark = ''
+              row.remark = '';
             }
             return row.remark !== '';
           });
@@ -416,6 +411,7 @@ export class PIQSummaryComponent implements OnInit {
   getworkflowStatus() {
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
     this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
+      this.BudgetService.setWorkflowmaster(res)
       let val = res.workflowmaster;
       this.getWrkFlowId = val[0].wfid;
       this.getResAprWrkFlowRank = val[0].approver;
@@ -463,6 +459,7 @@ export class PIQSummaryComponent implements OnInit {
           this.disableResAprFlowBtn = true;
         }
       }
+      
       this.getMasterDetails();
     });
   }
@@ -487,11 +484,12 @@ export class PIQSummaryComponent implements OnInit {
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
-      vesseltype: currentVesselType === '' ||
-      currentVesselType === undefined ||
-      currentVesselType === 'undefined'
-        ? ''
-        : currentVesselType,
+      vesseltype:
+        currentVesselType === '' ||
+        currentVesselType === undefined ||
+        currentVesselType === 'undefined'
+          ? ''
+          : currentVesselType,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);
@@ -613,6 +611,18 @@ export class PIQSummaryComponent implements OnInit {
         res.response.piqmappinglist.length > 0
           ? res.response.piqmappinglist
           : [];
+      this.certificateCounts = this.certificateRowData.length;
+      const mappingCercodeValues = this.certificateRowData.map(
+        (item) => item.mackcertificatename
+      );
+      const filteredMappingCode = mappingCercodeValues.filter(
+        (value) => value !== null
+      );
+      this.mappedCertificateCounts =
+        filteredMappingCode && filteredMappingCode.length
+          ? filteredMappingCode.length
+          : 0;
+      this.BudgetService.setCertificateListDetails(this.certificateRowData);
     });
   }
 
@@ -663,11 +673,12 @@ export class PIQSummaryComponent implements OnInit {
         mainQuestCheckbox: pendingResult,
         lastmodifieddata: JSON.stringify(this.modifiedrowData),
         wfaction: '',
-        vesseltype: currentVesselType === '' ||
-        currentVesselType === undefined ||
-        currentVesselType === 'undefined'
-          ? ''
-          : currentVesselType,
+        vesseltype:
+          currentVesselType === '' ||
+          currentVesselType === undefined ||
+          currentVesselType === 'undefined'
+            ? ''
+            : currentVesselType,
       };
     } else if (type === 'reassign') {
       if (this.autoSaveForm.controls['wrkFlowTextArea'].value != '') {
@@ -683,11 +694,12 @@ export class PIQSummaryComponent implements OnInit {
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'RSN',
-          vesseltype: currentVesselType === '' ||
-          currentVesselType === undefined ||
-          currentVesselType === 'undefined'
-            ? ''
-            : currentVesselType,
+          vesseltype:
+            currentVesselType === '' ||
+            currentVesselType === undefined ||
+            currentVesselType === 'undefined'
+              ? ''
+              : currentVesselType,
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
@@ -716,11 +728,12 @@ export class PIQSummaryComponent implements OnInit {
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'APR',
-          vesseltype: currentVesselType === '' ||
-          currentVesselType === undefined ||
-          currentVesselType === 'undefined'
-            ? ''
-            : currentVesselType,
+          vesseltype:
+            currentVesselType === '' ||
+            currentVesselType === undefined ||
+            currentVesselType === 'undefined'
+              ? ''
+              : currentVesselType,
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         localStorage.setItem('setDisable', 'true');
@@ -749,11 +762,12 @@ export class PIQSummaryComponent implements OnInit {
           mainQuestCheckbox: pendingResult,
           lastmodifieddata: JSON.stringify(this.modifiedrowData),
           wfaction: 'SUB',
-          vesseltype: currentVesselType === '' ||
-          currentVesselType === undefined ||
-          currentVesselType === 'undefined'
-            ? ''
-            : currentVesselType,
+          vesseltype:
+            currentVesselType === '' ||
+            currentVesselType === undefined ||
+            currentVesselType === 'undefined'
+              ? ''
+              : currentVesselType,
         };
         this.BudgetService.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
@@ -779,11 +793,12 @@ export class PIQSummaryComponent implements OnInit {
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
-      vesseltype: currentVesselType === '' ||
-      currentVesselType === undefined ||
-      currentVesselType === 'undefined'
-        ? ''
-        : currentVesselType,
+      vesseltype:
+        currentVesselType === '' ||
+        currentVesselType === undefined ||
+        currentVesselType === 'undefined'
+          ? ''
+          : currentVesselType,
     };
     this.getMainQuestCounts = [];
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
@@ -829,11 +844,12 @@ export class PIQSummaryComponent implements OnInit {
       presettype: 'n',
       companycode: this.userDetails.companyCode,
       username: this.userDetails.empCode,
-      vesseltype: currentVesselType === '' ||
-      currentVesselType === undefined ||
-      currentVesselType === 'undefined'
-        ? ''
-        : currentVesselType,
+      vesseltype:
+        currentVesselType === '' ||
+        currentVesselType === undefined ||
+        currentVesselType === 'undefined'
+          ? ''
+          : currentVesselType,
     };
     this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);
