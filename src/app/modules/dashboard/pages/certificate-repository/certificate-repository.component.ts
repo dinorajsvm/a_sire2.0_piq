@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import {
   ColDef,
@@ -13,6 +13,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { CancellationService } from '../../services/cancellation.service';
 LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
@@ -22,7 +23,7 @@ LicenseManager.setLicenseKey(
   styleUrls: ['./certificate-repository.component.css'],
   providers: [DatePipe],
 })
-export class CertificateRepositoryComponent implements OnInit {
+export class CertificateRepositoryComponent implements OnInit, OnDestroy {
   dynamicImageURL = `${environment.apiUrl}/`;
   public tooltipShowDelay = 0;
   public isRowMaster: IsRowMaster = (dataItem: any) => {
@@ -137,7 +138,8 @@ export class CertificateRepositoryComponent implements OnInit {
   totalRowCount = 0;
   constructor(
     private BudgetService: BudgetService,
-    private snackBarService: SnackbarService
+    private snackBarService: SnackbarService,
+    private cancellationService: CancellationService
   ) {}
   ngOnInit(): void {
     this.BudgetService.getCertificateListDetails().subscribe((response) => {
@@ -170,5 +172,9 @@ export class CertificateRepositoryComponent implements OnInit {
         this.snackBarService.loadSnackBar('File Not found.', colorCodes.ERROR);
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.cancellationService.cancel();
   }
 }

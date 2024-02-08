@@ -7,6 +7,12 @@ import { AuthGuard } from './core/guard/auth.guard';
 
 const routes: Routes = [
   {
+    path: '',
+    canLoad: [AuthGuard],
+    loadChildren: () =>
+      import('./modules/login/login.module').then((m) => m.LoginModule),
+  },
+  {
     path: 'auth',
     canLoad: [GuestGuard],
     loadChildren: () =>
@@ -14,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'sire',
-    canLoad: [AuthGuard],
+    // canLoad: [AuthGuard],
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },

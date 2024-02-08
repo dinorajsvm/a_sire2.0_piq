@@ -15,7 +15,7 @@ import { PhotoRepositoryComponent } from './pages/photo-repository/photo-reposit
 import { PrDialogComponent } from './pages/pr-dialog/pr-dialog.component';
 import { ImageDialogComponent } from './pages/image-dialog/image-dialog.component';
 import { ImageConfirmationDialogComponent } from './pages/image-confirmation-dialog/image-confirmation-dialog.component';
-import { PIQLandingPageComponent } from './pages/piq-landing-page/piq-landing-page.component';
+// import { PIQLandingPageComponent } from './pages/piq-landing-page/piq-landing-page.component';
 import { PIQSummaryComponent } from './pages/piqsummary/piqsummary.component';
 import { ExceptionQuestionComponent } from './pages/exception-question/exception-question.component';
 import { ChipFilterPipe } from './services/chip-filter.pipe';
@@ -62,7 +62,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     PrDialogComponent,
     ImageDialogComponent,
     ImageConfirmationDialogComponent,
-    PIQLandingPageComponent,
+    // PIQLandingPageComponent,
     PIQSummaryComponent,
     ExceptionQuestionComponent,
     LookupDialogComponent,

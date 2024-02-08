@@ -12,25 +12,23 @@ import { AgGridMenuComponent } from './core/shared/ag-grid/ag-grid-menu.componen
 import { AgGridChipComponent } from './core/shared/ag-grid/ag-grid-chip.components';
 import { MackModule } from './core/modules/mack/mack.module';
 import { AgGridLinkComponent } from './core/shared/ag-grid/ag-grid-link.component';
-
-
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatButtonModule} from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
     AppComponent,
     AgGridMenuComponent,
     AgGridChipComponent,
-    AgGridLinkComponent
+    AgGridLinkComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,15 +38,29 @@ import {MatExpansionModule} from '@angular/material/expansion';
     AngularMaterialModule,
     MackModule,
     SharedModule,
-    MatInputModule,MatFormFieldModule,MatStepperModule,MatButtonModule,MatTabsModule,MatSidenavModule,MatListModule,
-    FormsModule,MatSelectModule,MatExpansionModule
+    MatInputModule,
+    MatFormFieldModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatSidenavModule,
+    MatListModule,
+    FormsModule,
+    MatSelectModule,
+    MatExpansionModule,
   ],
   providers: [
     {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }],
-  bootstrap: [AppComponent]
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: CancellationInterceptor,
+    //   multi: true
+    // }
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

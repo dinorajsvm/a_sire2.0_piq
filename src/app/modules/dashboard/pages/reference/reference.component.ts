@@ -1,20 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import { GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
 import { saveAs } from 'file-saver';
-import { HttpClient } from '@angular/common/http';
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
-import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
+import { CancellationService } from '../../services/cancellation.service';
 @Component({
   selector: 'app-reference',
   templateUrl: './reference.component.html',
   styleUrls: ['./reference.component.css'],
 })
-export class ReferenceComponent implements OnInit {
+export class ReferenceComponent implements OnInit, OnDestroy {
   @Output() countEmit = new EventEmitter<any>();
   referenceNumber: any;
   rowSelection = 'single';
@@ -64,15 +63,14 @@ export class ReferenceComponent implements OnInit {
   private gridApi: any;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow: any = 'always';
 
   public gridOptions: GridOptions = {};
   constructor(
     private BudgetService: BudgetService,
     private _storage: StorageService,
-    private http: HttpClient,
     private route: ActivatedRoute,
-    private snackBarService: SnackbarService
+    private snackBarService: SnackbarService,
+    private cancellationService: CancellationService
   ) {
     this.frameworkComponents = {
       buttonRenderer: DownloadBtnRendererComponent,
@@ -131,5 +129,9 @@ export class ReferenceComponent implements OnInit {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
+  }
+
+  ngOnDestroy(): void {
+    this.cancellationService.cancel();
   }
 }

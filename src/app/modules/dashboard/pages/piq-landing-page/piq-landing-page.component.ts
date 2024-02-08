@@ -11,7 +11,6 @@ import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import {
   CellStatus,
-  DefaultColDef,
   EFormMode,
   colorCodes,
 } from 'src/app/core/constants';
@@ -20,8 +19,6 @@ import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vesse
 import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
 import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
 import { DOCUMENT, DatePipe } from '@angular/common';
-import { AgGridAngular } from 'ag-grid-angular';
-import { IFilterParams, ColDef, ISetFilterParams } from 'ag-grid-community';
 import * as moment from 'moment';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -712,9 +709,9 @@ export class PIQLandingPageComponent implements OnInit {
     // this.router.navigate(['/sire/piq-landing']);
     this.getworkflowStatus();
     this.getLndPgDatas();
-    // this.BudgetService.getDeleteAction().subscribe((res) => {
-    //   this.getLndPgDatas();
-    // });
+    this.BudgetService.getDeleteAction().subscribe((res) => {
+      this.getLndPgDatas();
+    });
   }
 
   viewForm(event: any) {

@@ -12,8 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: 'piq-landing',
-        component: PIQLandingPageComponent,
-   
+        loadChildren: () => import('./pages/piq-landing-page/piq-landing-page.module').then(m => m.PiqLandingPageModule)
       },
       {
         path: 'piq-report',

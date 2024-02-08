@@ -19,6 +19,7 @@ import {
 } from '@angular/material-moment-adapter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
+import { CancellationService } from '../../services/cancellation.service';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: ['l'],
@@ -267,7 +268,8 @@ export class PIQSummaryComponent implements OnInit {
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
     private datePipe: DatePipe,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cancellationService: CancellationService
   ) {}
 
   ngOnInit(): void {
@@ -943,5 +945,9 @@ export class PIQSummaryComponent implements OnInit {
         );
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.cancellationService.cancel();
   }
 }

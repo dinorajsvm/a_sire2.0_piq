@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -13,7 +13,9 @@ export class BudgetService {
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
   // private globalUrl = document.location.protocol + '//' + document.location.hostname;
+  // private authUrl = document.location.protocol + '//' + document.location.hostname + "/auth/api/v1/mack/auth"
   private globalUrl = environment.apiUrl;
+  private authUrl = environment.apiUrl + '/auth/api/v1/mack/auth';
 
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;
@@ -132,6 +134,27 @@ export class BudgetService {
     return this.getVeslTypeData.asObservable();
   }
 
+  // generatetoken
+  piqLogin(payload: any): Observable<any> {
+    return this.client.post<any>(
+      `${this.globalUrl}/PIQ/event/generatetoken`,
+      payload
+    );
+  }
+
+  // profileUrl
+  profileUrl() {
+    return this.client.get<any>(this.authUrl);
+  }
+
+  // refreshToken
+  refreshToken(payload: any) {
+    return this.client.post<any>(
+      `${this.globalUrl}/PIQ/event/refreshtoken`,
+      payload
+    );
+  }
+
   getPiqQuestAns(payload: any) {
     let qa = this.client.post<any>(
       `${this.globalUrl}/PIQ/event/MasterData`,
@@ -172,10 +195,7 @@ export class BudgetService {
   }
 
   getPIQLndPgDatas(payload: any) {
-    let ba = this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/getPIQlandingpage`,
-      payload
-    );
+    let ba = this.client.post<any>(`${this.globalUrl}/PIQ/event/test`, payload);
     return ba;
   }
 
@@ -186,7 +206,6 @@ export class BudgetService {
     );
     return ba;
   }
-
 
   getRefnImport(userCode: any) {
     return this.client.get<any>(
@@ -356,10 +375,10 @@ export class BudgetService {
     return ba;
   }
 
-
   getServerFileFromStream(fileName: any) {
     return this.client.get(
-      `${this.globalUrl}/PIQ/event/getdocument?filename=${fileName}`,{responseType: 'blob'}
+      `${this.globalUrl}/PIQ/event/getdocument?filename=${fileName}`,
+      { responseType: 'blob' }
     );
   }
 

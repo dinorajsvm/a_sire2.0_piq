@@ -20,6 +20,7 @@ import { colorCodes } from 'src/app/core/constants';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
 import { Subscription, forkJoin } from 'rxjs';
+import { CancellationService } from '../../services/cancellation.service';
 @Component({
   selector: 'app-photo-repository',
   templateUrl: './photo-repository.component.html',
@@ -58,7 +59,8 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private route: ActivatedRoute,
     private _storage: StorageService,
-    private _snackBarService: SnackbarService
+    private _snackBarService: SnackbarService,
+    private cancellationService: CancellationService
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
@@ -813,6 +815,6 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.BudgetService.ngOnDestroy();
+    this.cancellationService.cancel();
   }
 }

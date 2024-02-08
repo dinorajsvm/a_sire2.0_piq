@@ -12,11 +12,26 @@ export class StorageService {
     // let userDetails = this.getUserDetails();
     //return userDetails.cntrlType === Roles.SHORE ? ApiUrl.SHORE : ApiUrl.SHIP;
   }
+
+  setMackToken(accessToken: string) {
+    localStorage.setItem('mackToken', accessToken);
+  }
+  getMackToken(): string {
+    return localStorage.getItem('mackToken')!;
+  }
+
   setAccessToken(accessToken: string) {
     localStorage.setItem('accessToken', accessToken);
   }
   getAccessToken(): string {
     return localStorage.getItem('accessToken')!;
+  }
+
+  setRefereshToken(accessToken: string) {
+    localStorage.setItem('refreshToken', accessToken);
+  }
+  getRefereshToken(): string {
+    return localStorage.getItem('refreshToken')!;
   }
   setRoleCode(roleCode: string) {
     localStorage.setItem('roleCode', roleCode);
