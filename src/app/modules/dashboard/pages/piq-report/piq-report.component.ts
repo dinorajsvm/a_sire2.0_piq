@@ -3167,7 +3167,6 @@ console.log(subq.answer, 'answer');
     localStorage.removeItem('currentVesselType');
     this.BudgetService.setEditVisible(false);
     localStorage.setItem('setEditVisible', 'false');
-    // this.BudgetService.ngOnDestroy()
     this.router.navigate(['/sire/piq-landing/']);
   }
 

@@ -4,6 +4,7 @@ import { Roles } from './core/mgntDBconstants';
 import { mgntdbGuard } from './core/guard/mgntDb.guard';
 import { GuestGuard } from './core/guard/guest.guard';
 import { AuthGuard } from './core/guard/auth.guard';
+import { ModuleGuard } from './core/guard/module.guard';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'sire',
-    // canLoad: [AuthGuard],
+    canActivate: [ModuleGuard],
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },

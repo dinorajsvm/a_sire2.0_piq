@@ -708,7 +708,6 @@ export class PIQLandingPageComponent implements OnInit {
     );
     // this.router.navigate(['/sire/piq-landing']);
     this.getworkflowStatus();
-    this.getLndPgDatas();
     this.BudgetService.getDeleteAction().subscribe((res) => {
       this.getLndPgDatas();
     });
@@ -822,6 +821,8 @@ export class PIQLandingPageComponent implements OnInit {
       val.forEach((item: any) => {
         this.getWrkFlowUser = item.creater;
       });
+    this.getLndPgDatas();
+
     });
   }
   stsBarToggle() {

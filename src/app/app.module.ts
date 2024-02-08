@@ -54,12 +54,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: CancellationInterceptor,
-    //   multi: true
-    // }
+    }
   ],
   bootstrap: [AppComponent],
 })

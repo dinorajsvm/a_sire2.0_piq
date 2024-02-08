@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {DashboardComponent} from './dashboard.component'
 import { PiqReportComponent } from './pages/piq-report/piq-report.component';
 import { PIQLandingPageComponent } from './pages/piq-landing-page/piq-landing-page.component';
+import { ModuleGuard } from 'src/app/core/guard/module.guard';
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: 'piq-landing',
+        canActivate: [ModuleGuard],
         loadChildren: () => import('./pages/piq-landing-page/piq-landing-page.module').then(m => m.PiqLandingPageModule)
       },
       {

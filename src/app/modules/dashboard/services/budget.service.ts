@@ -195,7 +195,7 @@ export class BudgetService {
   }
 
   getPIQLndPgDatas(payload: any) {
-    let ba = this.client.post<any>(`${this.globalUrl}/PIQ/event/test`, payload);
+    let ba = this.client.post<any>(`${this.globalUrl}/PIQ/event/getPIQlandingpage`, payload);
     return ba;
   }
 

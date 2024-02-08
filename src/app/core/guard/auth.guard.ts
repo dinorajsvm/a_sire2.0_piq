@@ -33,17 +33,8 @@ export class AuthGuard implements CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(this._authService.isLoggedIn(), 'load');
 
     if (this._authService.isLoggedIn()) {
-      // const currentUser: any = this._storage.getUserDetails();
-      // if (route?.data?.role && route.data.role.indexOf(currentUser.cntrlType) === -1) {
-      //   this._storage.redirectBasedonRoles(currentUser);
-      //   return false;
-      // }
-      // if(this.referenceNo) {
-      //   this._layoutService.getRedirection(this.referenceNo);
-      // }
       return true;
     } else {
       if (this.mackToken) {
@@ -56,7 +47,7 @@ export class AuthGuard implements CanLoad {
           this._authService.getUserProfile((res: any) => {
                   //Store user details
                   if (res) {
-                    this._storage.setAccessToken(response.accestoken);
+                    this._storage.setAccessToken(response.accesstoken);
                     this._storage.setRefereshToken(response.refreshtoken)
                     let userInfo = res.result.userInfo;
                     this._storage.setUserDetails(JSON.stringify(res.result.userInfo));
@@ -70,8 +61,7 @@ export class AuthGuard implements CanLoad {
         });
         return false;
       } else {
-        console.log('Token Not Avaialable');
-        // this._router.navigate(['auth']);
+        this._router.navigate(['auth']);
         return true;
       }
       // return false;
