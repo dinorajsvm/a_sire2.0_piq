@@ -71,18 +71,6 @@ export class AuthService {
       });
   }
 
-
-  
-  // generatetoken
-  piqLogin(payload: any) {
-    return this._http.requestCall(
-      Endpoints.VALIDATE_TOKEN,
-      ApiMethod.POST,
-      payload,
-      environment.apiUrl
-    );
-  }
-
   getUserProfile(successCallback: any) {
     this._http
       .requestCall(

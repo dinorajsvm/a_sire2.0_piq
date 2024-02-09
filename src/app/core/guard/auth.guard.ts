@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LayoutService } from 'src/app/layout/services/layout.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { colorCodes } from '../constants';
 import { SnackbarService } from '../services/snackbar/snackbar.service';
@@ -13,7 +12,6 @@ import { BudgetService } from 'src/app/modules/dashboard/services/budget.service
 })
 export class AuthGuard implements CanLoad {
   public mackToken: any;
-  public referenceNo: any;
   constructor(
     private _authService: AuthService,
     private _storage: StorageService,
@@ -23,7 +21,9 @@ export class AuthGuard implements CanLoad {
   ) {
     const navigationUrl = this._router.getCurrentNavigation();
     this.mackToken = navigationUrl?.extractedUrl.queryParams['token'];
-    this.referenceNo = navigationUrl?.extractedUrl.queryParams['referenceNo'];
+    if (this.mackToken) {
+      localStorage.clear()
+    }
   }
   canLoad(
     route: Route,

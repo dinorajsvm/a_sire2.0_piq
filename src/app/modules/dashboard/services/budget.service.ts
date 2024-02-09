@@ -142,11 +142,6 @@ export class BudgetService {
     );
   }
 
-  // profileUrl
-  profileUrl() {
-    return this.client.get<any>(this.authUrl);
-  }
-
   // refreshToken
   refreshToken(payload: any) {
     return this.client.post<any>(

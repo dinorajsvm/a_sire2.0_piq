@@ -54,7 +54,7 @@ export class TokenInterceptor implements HttpInterceptor {
       profileUrl
     );
     if (!(getpiqworkflowmaster || getPIQlandingpage)) {
-      return next.handle(request).pipe(
+      return next.handle(modifiedRequest).pipe(
         takeUntil(cancelled$),
         catchError((error: HttpErrorResponse) => {
           this.hideLoader(); // Hide loader for unexpected errors
@@ -63,6 +63,7 @@ export class TokenInterceptor implements HttpInterceptor {
         finalize(() => this.hideLoader())
       );
     }
+console.log(modifiedRequest, 'modifiedRequest');
 
     return next.handle(modifiedRequest).pipe(
       catchError(error => {
@@ -83,19 +84,17 @@ export class TokenInterceptor implements HttpInterceptor {
     type: boolean
   ): HttpRequest<any> {
     let userInfo = this._storage.checkUserDetails();
+    let headers = {};
     if (type) {
-      return request.clone({
-        setHeaders: { Authorization: `${this.mackToken}` },
-      });
-    } else {
-      if (token && userInfo) {
-        return request.clone({
-          setHeaders: { Authorization: `Bearer ${token}` },
-        });
-      }
-    }
-    return request;
+      headers = { Authorization: `${this.mackToken}` };
+    } else if (token && userInfo) {
+      headers = { Authorization: `Bearer ${token}` };
+    } 
+    return request.clone({
+      setHeaders: headers,
+    });
   }
+  
 
   handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
