@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import {
   FormBuilder,
   FormGroup,
@@ -65,7 +65,7 @@ export class VesselSelectionDialogComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
     public dialog: MatDialog,
@@ -110,7 +110,7 @@ export class VesselSelectionDialogComponent {
   }
 
   getVesselNames() {
-    this.BudgetService.getVesselNames(this.userDetails.companyCode).subscribe(
+    this.appServices.getVesselNames(this.userDetails.companyCode).subscribe(
       (res: any) => {
         this.vesselname = res.response;
       }
@@ -138,7 +138,7 @@ export class VesselSelectionDialogComponent {
   }
 
   getvesseltype() {
-    this.BudgetService.getvesseltypeNameCode().subscribe((res: any) => {
+    this.appServices.getvesseltypeNameCode().subscribe((res: any) => {
       this.vesselTypeCode = res.response;
     });
   }
@@ -217,7 +217,7 @@ export class VesselSelectionDialogComponent {
       rank: this.userDetails.userData.mdata.appInfo.rankCode,
       remarks: '',
     };
-    this.BudgetService.getNewRefNo(payload).subscribe((res: any) => {
+    this.appServices.getNewRefNo(payload).subscribe((res: any) => {
       if (Object.keys(res).length != 0) {
         const getRefNumber = res.response;
         getRefNumber != ''
@@ -241,7 +241,7 @@ export class VesselSelectionDialogComponent {
   }
 
   getworkflowStatus() {
-    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
+    this.appServices.getworkFlowStatus().subscribe((res: any) => {
       let val = res.workflowmaster;
       val.forEach((item: any) => {
         this.getWrkFlowId = item.wfid;

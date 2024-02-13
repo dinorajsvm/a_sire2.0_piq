@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColDef, GridApi, RowGroupingDisplayType, SelectionChangedEvent } from 'ag-grid-community';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
 import { DefaultColDef } from 'src/app/core/constants';
@@ -41,7 +41,7 @@ export class PrDialogComponent implements OnInit {
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
 
   constructor(
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<PrDialogComponent>,
     public dialog: MatDialog
   ) {}
@@ -65,7 +65,7 @@ export class PrDialogComponent implements OnInit {
       chklistname: 'PIQ',
       vesselcode:vesselCode
     };
-    this.BudgetService.getPhotoRepGridList(payload).subscribe((res: any) => {
+    this.appServices.getPhotoRepGridList(payload).subscribe((res: any) => {
       let obj = res.response;
       this.rowData = obj;
       this.totalRowCount =

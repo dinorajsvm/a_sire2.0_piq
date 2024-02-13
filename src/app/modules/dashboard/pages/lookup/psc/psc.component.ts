@@ -6,7 +6,7 @@ import {
   RowGroupingDisplayType,
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../../services/budget.service';
+import { AppService } from '../../../services/app.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -130,7 +130,7 @@ export class PscComponent {
   };
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<PscComponent>,
     public dialog: MatDialog,
     private _loaderService: LoaderService
@@ -222,7 +222,7 @@ export class PscComponent {
 
   getPscDetail() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getPscDetails(
+    this.appServices.getPscDetails(
       vesselCode,
       this.data.referenceId,
       this.data.questionId

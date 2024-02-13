@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'app-global-search',
@@ -10,7 +10,7 @@ export class GlobalSearchComponent implements OnInit {
   enteredSearchvalue: string = '';
   isOpen = false;
 
-  constructor(private BudgetService: BudgetService,) { }
+  constructor(private appServices: AppService,) { }
 
   ngOnInit(): void {
   }
@@ -30,7 +30,7 @@ export class GlobalSearchComponent implements OnInit {
   deactivateSearch() {
     this.enteredSearchvalue = '';
     this.isSearchActive = false;
-    this.BudgetService.setSearch(this.isSearchActive);
+    this.appServices.setSearch(this.isSearchActive);
   }
 
   clearSearch() {

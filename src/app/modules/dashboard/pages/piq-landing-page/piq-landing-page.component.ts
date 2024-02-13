@@ -6,7 +6,7 @@ import {
   SideBarDef,
 } from 'ag-grid-community';
 import { AgGridMenuComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu.component';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import {
@@ -349,7 +349,7 @@ export class PIQLandingPageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private _snackBarService: SnackbarService,
     private _storage: StorageService,
     public dialog: MatDialog,
@@ -708,7 +708,7 @@ export class PIQLandingPageComponent implements OnInit {
     );
     // this.router.navigate(['/sire/piq-landing']);
     this.getworkflowStatus();
-    this.BudgetService.getDeleteAction().subscribe((res) => {
+    this.appServices.getDeleteAction().subscribe((res) => {
       this.getLndPgDatas();
     });
   }
@@ -726,7 +726,7 @@ export class PIQLandingPageComponent implements OnInit {
       from: this.startDate,
       to: this.endDate,
     };
-    this.BudgetService.getPIQLndPgDatas(payload).subscribe((res: any) => {
+    this.appServices.getPIQLndPgDatas(payload).subscribe((res: any) => {
       let object: any[] = res.response;
       this.rowData = [];
 
@@ -802,7 +802,7 @@ export class PIQLandingPageComponent implements OnInit {
   deleteRowData(event: any) {
     const instanceid = event.serialNumber;
     const payload = { instanceid: instanceid };
-    this.BudgetService.deleteRow(payload).subscribe((res: any) => {
+    this.appServices.deleteRow(payload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar(
         'Deleted Successfully',
         colorCodes.INFO
@@ -812,7 +812,7 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   getworkflowStatus() {
-    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
+    this.appServices.getworkFlowStatus().subscribe((res: any) => {
       let val = res && res.workflowmaster ? res.workflowmaster : [];
       this.getSubmitterRank =
         val && val[0] && val[0].submitters

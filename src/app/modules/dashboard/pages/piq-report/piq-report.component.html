@@ -1,10 +1,4 @@
 <div style="height: calc(100vh - 45px); padding: 0 5px">
-  <div *ngIf="isLoader" class="overlay">
-    <div class="progress-spinner">
-      <mat-spinner></mat-spinner>
-    </div>
-  </div>
-
   <div class="header col-sm-12">
     <div class="row">
       <div class="col-sm-9">
@@ -542,15 +536,13 @@
                                             }"
                                             id={{Mquest.qid}}
                                             class="restoreLookupIcn"
+                                            *ngIf="Mquest.entrymethod == 'Lookup' && Mquest.lookupreset"
                                             (click)="
-                                              lookUpResetForm($event, Mquest)
+                                              lookUpResetForm($event, quest, Mquest)
                                             "
                                           >
                                             refresh
                                           </mat-icon>
-                                          <!-- *ngIf="
-                                          Mquest.entrymethod == 'Lookup'
-                                        " -->
                                           <button
                                   
                                             mat-button
@@ -558,12 +550,15 @@
                                             (click)="
                                               openLookUp($event, quest, Mquest)
                                             "
-                                            [class.ShoreBtn]="
-                                              disableLookUp(Mquest)
-                                            "
-                                            [ngClass]="{
-                                              ShoreBtn: lookUpEnable
-                                            }"
+                                                 [class.ShoreBtn]="
+                                                 disableLookUp(Mquest)
+                                               "
+                                               [ngClass]="{
+                                                 ShoreBtn: lookUpEnable
+                                               }"
+                                                *ngIf="
+                                                Mquest.entrymethod == 'Lookup'
+                                              "
                                           >
                                             Look Up
                                           </button>

@@ -6,7 +6,7 @@ import {
   RowGroupingDisplayType,
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../../services/budget.service';
+import { AppService } from '../../../services/app.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -32,10 +32,10 @@ declare function mdldmsnavigatenewtab(
 export class LookupDialogComponent implements OnInit {
   getSelectedCheckListID: any[] = [];
   hideReqBtns: boolean = false;
-  totalRowCount = 0;
-  totalRowInternalData = 0;
   private gridApi!: GridApi;
+  private gridTSFApi!: GridApi;
   gridInternalApi: any;
+  gridInternalROFApi: any;
   isChecked = false;
   isViewAll = false;
   frameworkComponents: any;
@@ -59,7 +59,12 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       field: 'refno',
@@ -127,6 +132,7 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
   ];
+  
   internalColumnDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
@@ -145,7 +151,12 @@ export class LookupDialogComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       field: 'refno',
@@ -213,21 +224,25 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
   ];
+  totalRowCount = 0;
+  totalRowInternalData = 0;
+  totalRowTSFCount = 0;
+  totalRowInternalROFData = 0;
   rowShipData: any = [];
   rowInternalData: any = [];
+  rowShipTSFData: any = [];
+  rowInternalROFData: any = [];
+
   getRowDatas: any = [];
   isShowToggle = false;
   isOnlyShipVisit = false;
   isOnlyInterVisit = false;
   enableDiv: boolean = false;
   userDetails: any;
-  // turns OFF row hover, it's on by default
   suppressRowHoverHighlight = false;
   defaultColDef = DefaultColDef;
   public groupDisplayType: RowGroupingDisplayType = 'groupRows';
-  // public rowGroupPanelShow: any = 'always';
   public rowClassRules: RowClassRules = {
-    // row style function
     'highlighted-row': (params) => {
       return params.data.highlight;
     },
@@ -235,7 +250,7 @@ export class LookupDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<LookupDialogComponent>,
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -274,9 +289,25 @@ export class LookupDialogComponent implements OnInit {
     );
   }
 
+  onGridTSFReady(params: any) {
+    this.gridTSFApi = params.api;
+    this.gridTSFApi.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
+  }
+
   onGridReadyInternal(params: any) {
     this.gridInternalApi = params.api;
     this.gridInternalApi.addEventListener(
+      'filterChanged',
+      this.onFilterInternalChanged.bind(this)
+    );
+  }
+
+  onGridROFReadyInternal(params: any) {
+    this.gridInternalROFApi = params.api;
+    this.gridInternalROFApi.addEventListener(
       'filterChanged',
       this.onFilterInternalChanged.bind(this)
     );
@@ -290,41 +321,47 @@ export class LookupDialogComponent implements OnInit {
 
   getLookUpVisit() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getLookupVisitData(
-      vesselCode,
-      this.data.referenceId,
-      this.data.questionId
-    ).subscribe((data) => {
-      this.getRowDatas = data.response;
-      if (this.data.qid === 'MQ6') {
-        this.isShowToggle = false;
-        this.isOnlyShipVisit = true;
-        this.isOnlyInterVisit = false;
-        this.enableDiv = true;
-        this.rowShipData = this.getRowDatas.ShipVisit;
-      } else if (this.data.qid === 'MQ20') {
-        this.isOnlyShipVisit = false;
-        this.isOnlyInterVisit = true;
-        this.isShowToggle = true;
-        this.isChecked = false;
-        this.rowInternalData = this.getRowDatas.Internal;
-      }
-      this.totalRowCount =
-        this.rowShipData && this.rowShipData.length > 0
-          ? this.rowShipData.length
-          : 0;
-      this.totalRowInternalData =
-        this.rowInternalData && this.rowInternalData.length > 0
-          ? this.rowInternalData.length
-          : 0;
-    });
+    this.appServices
+      .getLookupVisitData(
+        vesselCode,
+        this.data.referenceId,
+        this.data.questionId
+      )
+      .subscribe((data) => {
+        this.getRowDatas = data.response;
+        if (this.data.qid === 'MQ6') {
+          this.isShowToggle = false;
+          this.isOnlyShipVisit = true;
+          this.isOnlyInterVisit = false;
+          this.enableDiv = true;
+          this.rowShipData = this.getRowDatas.ShipVisit;
+          this.rowShipTSFData = this.getRowDatas.TSF;
+        } else if (this.data.qid === 'MQ20') {
+          this.isOnlyShipVisit = false;
+          this.isOnlyInterVisit = true;
+          this.isShowToggle = true;
+          this.isChecked = false;
+          this.rowInternalData = this.getRowDatas.Internal;
+          this.rowInternalROFData = this.getRowDatas.ROF;
+        }
+        this.updateTotalCount()
+      });
   }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();
   }
 
+  onFilterTSFChanged() {
+    this.totalRowTSFCount = this.gridTSFApi.getDisplayedRowCount();
+  }
+
   onFilterInternalChanged() {
     this.totalRowInternalData = this.gridInternalApi.getDisplayedRowCount();
+  }
+
+  onFilterInternalROFChanged() {
+    this.totalRowInternalROFData =
+      this.gridInternalROFApi.getDisplayedRowCount();
   }
   changeToggle(chipType: string) {
     if (chipType === 'InternalAudit') {
@@ -333,28 +370,46 @@ export class LookupDialogComponent implements OnInit {
       this.isOnlyInterVisit = true;
       this.isOnlyShipVisit = false;
       this.rowInternalData = this.getRowDatas.Internal;
+      this.rowInternalROFData = this.getRowDatas.ROF;
     } else if (chipType === 'ShipVisit') {
       this.isChecked = true;
       this.isViewAll = false;
       this.isOnlyShipVisit = true;
       this.isOnlyInterVisit = false;
       this.rowShipData = this.getRowDatas.ShipVisit;
+      this.rowShipTSFData = this.getRowDatas.TSF;
     } else if (chipType === 'ViewAll') {
       this.isViewAll = true;
       this.isChecked = true;
       this.isOnlyInterVisit = true;
       this.isOnlyShipVisit = true;
       this.rowShipData = this.getRowDatas.ShipVisit;
+      this.rowShipTSFData = this.getRowDatas.TSF;
       this.rowInternalData = this.getRowDatas.Internal;
+      this.rowInternalROFData = this.getRowDatas.ROF;
     }
+   this.updateTotalCount()
+  }
+
+
+  updateTotalCount() {
     this.totalRowCount =
-      this.rowShipData && this.rowShipData.length > 0
-        ? this.rowShipData.length
-        : 0;
-    this.totalRowInternalData =
-      this.rowInternalData && this.rowInternalData.length > 0
-        ? this.rowInternalData.length
-        : 0;
+    this.rowShipData && this.rowShipData.length > 0
+      ? this.rowShipData.length
+      : 0;
+  this.totalRowTSFCount =
+    this.rowShipTSFData && this.rowShipTSFData.length > 0
+      ? this.rowShipTSFData.length
+      : 0;
+  this.totalRowInternalData =
+    this.rowInternalData && this.rowInternalData.length > 0
+      ? this.rowInternalData.length
+      : 0;
+
+  this.totalRowInternalROFData =
+    this.rowInternalROFData && this.rowInternalROFData.length > 0
+      ? this.rowInternalROFData.length
+      : 0;
   }
 
   onCellClicked(event: any) {

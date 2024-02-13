@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColDef, GridApi, RowGroupingDisplayType } from 'ag-grid-community';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ButtonRendererComponent } from '../renderer/button-renderer.component';
 import { CellStatus, DefaultColDef } from 'src/app/core/constants';
@@ -91,7 +91,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   // public rowGroupPanelShow: any = 'always';
 
   constructor(
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<ReuseConfirmationDialogComponent>,
     public dialog: MatDialog,
     private _storage: StorageService
@@ -131,7 +131,7 @@ export class ReuseConfirmationDialogComponent implements OnInit {
   }
 
   getReuseReferenceList() {
-    this.BudgetService.getRefnImport(this.userDetails.userCode).subscribe(
+    this.appServices.getRefnImport(this.userDetails.userCode).subscribe(
       (data) => {
         this.rowData = data && data.response.length > 0 ? data.response : [];
         this.totalRowCount =

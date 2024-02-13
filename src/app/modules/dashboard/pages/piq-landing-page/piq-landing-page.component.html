@@ -16,12 +16,12 @@
     <div class="col-sm-12">
       <div class="row" style="justify-content: center;">
         <div class="statusBar_Wrapper">
-          <div class="statusBars_subWrap" (click)="updateStatusFilter('My Actions')">
+          <!-- <div class="statusBars_subWrap" (click)="updateStatusFilter('My Actions')">
             <div class="statusBar_CountWrap stsBar_action_Wrap">
               <div class="statusBar_Counts stsBar_action_Counts">
                 <span class="stsCounts">0</span>
               </div>
-              <!-- {{actionCount}} -->
+              {{actionCount}}
             </div>
             <div class="statusBar_Name stsBar_action_Wrap">
               <img src="assets/question/filter.svg" id="actionFilter" class="sts_Filter" />
@@ -49,7 +49,7 @@
               <img src="assets/question/filter.svg" id="notificationFilter" class="sts_Filter" />
               <span>My Notification</span>
             </div>
-          </div>
+          </div> -->
           <div class="statusBars_subWrap" (click)="updateStatusFilter('Inprogress')">
             <div class="statusBar_CountWrap stsBar_inprogress_Wrap">
               <div class="statusBar_Counts stsBar_inprogress_Counts">
@@ -119,7 +119,7 @@
             <button mat-button class="new" (click)="getLndPgDatas()">Show</button>
             <img class="btnImg" src="assets/question/show.svg" />
           </div>
-          <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;" >
+          <!-- <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;" >
             <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">Include Open
               Items</span>
             <mat-slide-toggle class="lndToggle" disabled="true" style="cursor: not-allowed;"></mat-slide-toggle>
@@ -128,7 +128,7 @@
             <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">To Show other
               records</span>
             <mat-slide-toggle class="lndToggle" disabled="true" style="cursor: not-allowed;"  ></mat-slide-toggle>
-          </div>
+          </div> -->
         </div>
         <div class="col-sm-5 text-right" style="padding-right: 0">
           <div>

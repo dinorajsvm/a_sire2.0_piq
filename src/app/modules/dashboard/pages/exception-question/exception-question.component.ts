@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import {
   LicenseManager,
   RowGroupingDisplayType,
@@ -97,7 +97,7 @@ export class ExceptionQuestionComponent implements OnInit {
   disableBtns: boolean = false;
   gridColumnApi: any;
   constructor(
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private route: ActivatedRoute,
     private _storage: StorageService
   ) {
@@ -115,17 +115,17 @@ export class ExceptionQuestionComponent implements OnInit {
     } else {
       this.disableBtns = false;
     }
-    this.BudgetService.getEnableBtn().subscribe((res: any) => {
+    this.appServices.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
 
       if (res && res == 'false') {
         localStorage.setItem('setDisable', res);
       }
     });
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
+    this.appServices.getEditVisible().subscribe((res: any) => {
       this.disableBtns = res;
     });
-    this.BudgetService.getExceptionData().subscribe((data) => {
+    this.appServices.getExceptionData().subscribe((data) => {
       // data.forEach((response: any) => {
       //   // response.savedAnswer = response && response.presetValue ? '' : response.lookUpPresetValue;
       // })
@@ -135,7 +135,7 @@ export class ExceptionQuestionComponent implements OnInit {
         this.countEmit.emit(this.rowData.length);
         this.gridApi!.setRowData(this.rowData);
       if (this.rowData && this.rowData.length > 0) {
-        this.BudgetService.setExceptionRowData(this.rowData);
+        this.appServices.setExceptionRowData(this.rowData);
       }
     });
     this.columnDefs[6].editable = !this.disableBtns;
@@ -147,7 +147,7 @@ export class ExceptionQuestionComponent implements OnInit {
   }
 
   onBtnClick1(e: any) {
-    this.BudgetService.setExceptionResetData(e.rowData);
+    this.appServices.setExceptionResetData(e.rowData);
     const objWithIdIndex = this.rowData.findIndex(
       (obj) => obj.qid === e.rowData.qid
     );
@@ -158,23 +158,23 @@ export class ExceptionQuestionComponent implements OnInit {
     }
   }
   onCellValueChanged(event: any) {
-    this.BudgetService.setExceptionData(this.rowData);
+    this.appServices.setExceptionData(this.rowData);
   }
   onCellEditingStopped(event: any) {
-    this.BudgetService.setExceptionData(this.rowData);
+    this.appServices.setExceptionData(this.rowData);
   }
   onCellClicked(event: any): void {
     if (
       !(event.colDef.field === 'autoSync' || event.colDef.field === 'remark')
     ) {
       event.data.tab = 1;
-      this.BudgetService.setTabChangeData(event.data);
+      this.appServices.setTabChangeData(event.data);
     }
   }
 
   onGridReady(params: any) {
     this.gridColumnApi = params.columnApi;
-    this.BudgetService.getStatus().subscribe((res: any) => {
+    this.appServices.getStatus().subscribe((res: any) => {
       const status = res;
       const rank = localStorage.getItem('AppRank');
       const origin = localStorage.getItem('Origination');

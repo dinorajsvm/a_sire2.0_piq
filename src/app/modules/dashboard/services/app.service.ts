@@ -7,15 +7,13 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetService {
+export class AppService {
   // private globalUrl = "https://procdemo.solverminds.net";
   // private globalUrl = "https://macktesting.solverminds.net"
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
   // private globalUrl = document.location.protocol + '//' + document.location.hostname;
-  // private authUrl = document.location.protocol + '//' + document.location.hostname + "/auth/api/v1/mack/auth"
   private globalUrl = environment.apiUrl;
-  private authUrl = environment.apiUrl + '/auth/api/v1/mack/auth';
 
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;
@@ -438,5 +436,11 @@ export class BudgetService {
       `${this.globalUrl}/PIQ/event/savelookupmapping`,
       payload
     );
+  }
+
+
+  destroyPage() {
+    localStorage.clear();
+    window.location.href = environment.apiUrl + '/main';
   }
 }

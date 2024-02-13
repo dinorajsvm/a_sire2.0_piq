@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrDialogComponent } from '../pr-dialog/pr-dialog.component';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import * as JSZip from 'jszip';
@@ -21,6 +21,7 @@ import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
 import { Subscription, forkJoin } from 'rxjs';
 import { CancellationService } from '../../services/cancellation.service';
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
 @Component({
   selector: 'app-photo-repository',
   templateUrl: './photo-repository.component.html',
@@ -52,15 +53,15 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   getImagesCount: any;
   hideReqBtns = false;
   disableBtns = false;
-  isLoader = false;
   constructor(
     public dialog: MatDialog,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
-    private cancellationService: CancellationService
+    private cancellationService: CancellationService,
+    private loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
@@ -76,11 +77,11 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       this.disableBtns = true;
       this.invalidImg = true;
     }
-    this.BudgetService.getEnableBtn().subscribe((res: any) => {
+    this.appServices.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
       this.invalidImg = res;
     });
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
+    this.appServices.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
     });
     this.summaryGridCount();
@@ -93,7 +94,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     }
   }
   getVesselTypeData() {
-    this.BudgetService.getVesselTypeData().subscribe((res: any) => {
+    this.appServices.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
       if (this.getvslCode) {
         this.trimmedVslType = this.getvslCode.split(' ');
@@ -104,7 +105,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
 
   getPRImgLists() {
     const payload = { instanceid: this.selectedInstanceID };
-    this.BudgetService.getPhotoRepGridListImg(payload).subscribe((res: any) => {
+    this.appServices.getPhotoRepGridListImg(payload).subscribe((res: any) => {
       if (this.selectedInstanceID && this.selectedInstanceID.length > 0) {
         this.listDatas = [];
         const response = JSON.parse(res.response);
@@ -122,32 +123,41 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
             subTopics['imagelist'] = subTopics.relImages;
             subTopics['imagelist'].forEach((img: any) => {
               let srcUrl: any;
-              this.BudgetService.getServerFileFromStream(
-                img.systemfilename
-              ).subscribe((res: Blob) => {
-                if (res) {
-                  const blob = new Blob([res]);
-                  srcUrl = URL.createObjectURL(blob);
-                  let extensionvalue: any;
-                  let formattedExtension: any;
-                  if (img && img.localfilename) {
-                    extensionvalue = img.localfilename.split('.');
-                  }
-                  if (extensionvalue && extensionvalue.length === 1) {
-                    formattedExtension = extensionvalue[extensionvalue.length];
-                  } else {
-                    if (extensionvalue && extensionvalue.length > 1) {
-                      formattedExtension =
-                        extensionvalue[extensionvalue.length - 1];
+              this.appServices
+                .getServerFileFromStream(img.systemfilename)
+                .subscribe((res: Blob) => {
+                  if (res) {
+                    const blob = new Blob([res]);
+                    srcUrl = URL.createObjectURL(blob);
+                    let extensionvalue: any;
+                    let formattedExtension: any;
+                    if (img && img.localfilename) {
+                      extensionvalue = img.localfilename.split('.');
                     }
+                    if (extensionvalue && extensionvalue.length === 1) {
+                      formattedExtension =
+                        extensionvalue[extensionvalue.length];
+                    } else {
+                      if (extensionvalue && extensionvalue.length > 1) {
+                        formattedExtension =
+                          extensionvalue[extensionvalue.length - 1];
+                      }
+                    }
+                    let fileSizeConvert = '0.00 KB';
+                    if (img && +img.filesize <= 10240) {
+                      fileSizeConvert =
+                        (+img.filesize / 1024).toFixed(2) + ' ' + 'KB';
+                    } else {
+                      fileSizeConvert =
+                        (+img.filesize / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
+                    }
+                    img.imagePreviewSrc = srcUrl;
+                    img.sizeCheck = img.sizeinbytes;
+                    img.formattedName = img.localfilename.split('.')[0];
+                    img.formattedExtension = formattedExtension;
+                    img.fileSizeConvert = fileSizeConvert;
                   }
-                  img.imagePreviewSrc = srcUrl;
-                  img.sizeCheck = img.sizeinbytes;
-                  img.formattedName = img.localfilename.split('.')[0];
-                  img.formattedExtension = formattedExtension;
-                  img.sizeinbytes = img.sizeinMB.toFixed(2) + ' ' + 'MB';
-                }
-              });
+                });
             });
           });
         });
@@ -243,72 +253,72 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
 
   getDefaultImageName() {
     const companyCode = this.userDetails.companyCode;
-    this.BudgetService.getPRImagename(
-      companyCode,
-      this.referenceNumber
-    ).subscribe((res: any) => {
-      if (res && typeof res.Response === 'string') {
-        let object = JSON.parse(res.Response);
-        this.imageNames = object;
-        if (this.imageNames) {
-          this.imageNames.forEach((data: any) => {
-            this.listDatas.forEach((res: any) => {
-              res.subTopics.forEach((sub: any) => {
-                if (
-                  sub &&
-                  sub.subTopicTitle &&
-                  sub.subTopicTitle.lastIndexOf('.') !== -1
-                ) {
-                  sub.subTopicTitle = sub.subTopicTitle.slice(0, -1); // Remove the last character
-                }
+    this.appServices
+      .getPRImagename(companyCode, this.referenceNumber)
+      .subscribe((res: any) => {
+        if (res && typeof res.Response === 'string') {
+          let object = JSON.parse(res.Response);
+          this.imageNames = object;
+          if (this.imageNames) {
+            this.imageNames.forEach((data: any) => {
+              this.listDatas.forEach((res: any) => {
+                res.subTopics.forEach((sub: any) => {
+                  if (
+                    sub &&
+                    sub.subTopicTitle &&
+                    sub.subTopicTitle.lastIndexOf('.') !== -1
+                  ) {
+                    sub.subTopicTitle = sub.subTopicTitle.slice(0, -1); // Remove the last character
+                  }
 
-                if (data.subtopic === sub.subTopicTitle) {
-                  sub.imagelist.forEach((list: any) => {
-                    this.blobImageLoad(list);
-                    let extensionvalue: any;
-                    let formattedExtension: any;
-                    if (list && list.localfilename) {
-                      extensionvalue = list.localfilename.split('.');
-                    }
-                    if (extensionvalue && extensionvalue.length === 1) {
-                      formattedExtension =
-                        extensionvalue[extensionvalue.length];
-                    } else {
-                      if (extensionvalue && extensionvalue.length > 1) {
-                        formattedExtension =
-                          extensionvalue[extensionvalue.length - 1];
+                  if (data.subtopic === sub.subTopicTitle) {
+                    sub.imagelist.forEach((list: any) => {
+                      this.blobImageLoad(list);
+                      let extensionvalue: any;
+                      let formattedExtension: any;
+                      if (list && list.localfilename) {
+                        extensionvalue = list.localfilename.split('.');
                       }
-                    }
-                    const formattedDefName =
-                      data.imagename + '.' + formattedExtension;
-                    list['formattedDefName'] = formattedDefName;
-                    list['defaultImageName'] = data.imagename;
-                  });
-                }
+                      if (extensionvalue && extensionvalue.length === 1) {
+                        formattedExtension =
+                          extensionvalue[extensionvalue.length];
+                      } else {
+                        if (extensionvalue && extensionvalue.length > 1) {
+                          formattedExtension =
+                            extensionvalue[extensionvalue.length - 1];
+                        }
+                      }
+                      const formattedDefName =
+                        data.imagename + '.' + formattedExtension;
+                      list['formattedDefName'] = formattedDefName;
+                      list['defaultImageName'] = data.imagename;
+                    });
+                  }
+                });
               });
+              this.summaryGridCount();
             });
-            this.summaryGridCount();
-          });
+          }
         }
-      }
-    });
+      });
   }
 
   blobImageLoad(list: any) {
     let srcUrl: any;
-    this.BudgetService.getServerFileFromStream(list.systemfilename).subscribe(
-      (res: Blob) => {
+    this.appServices
+      .getServerFileFromStream(list.systemfilename)
+      .subscribe((res: Blob) => {
         if (res) {
           const blob = new Blob([res]);
           srcUrl = URL.createObjectURL(blob);
           list.imagePreviewSrc = srcUrl;
         }
-      }
-    );
+      });
   }
   getSavedPRData() {
-    this.BudgetService.getSavedPRData(this.referenceNumber).subscribe(
-      (res: any) => {
+    this.appServices
+      .getSavedPRData(this.referenceNumber)
+      .subscribe((res: any) => {
         if (res && res.response && res.response.length > 0) {
           let prData = JSON.parse(res.response[0].photorepojson);
           this.listDatas = prData.imagelist;
@@ -323,8 +333,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
         } else {
           this.getPrDataLists();
         }
-      }
-    );
+      });
     this.allExpanded = true;
   }
 
@@ -373,13 +382,13 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.BudgetService.setPrGridData(this.getPRGriddetails);
-    this.BudgetService.setImgCount(this.actualPhotoCount);
-    this.BudgetService.setPhotoRepData(this.subTopicCounts);
+    this.appServices.setPrGridData(this.getPRGriddetails);
+    this.appServices.setImgCount(this.actualPhotoCount);
+    this.appServices.setPhotoRepData(this.subTopicCounts);
   }
 
   getPrDataLists() {
-    this.BudgetService.getDefaultImageTemplate().subscribe((res: any) => {
+    this.appServices.getDefaultImageTemplate().subscribe((res: any) => {
       this.listDatas = [];
       const staticData = JSON.parse(res.response);
       staticData.forEach((res: any) => {
@@ -425,7 +434,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   }
 
   downloadAll() {
-    this.isLoader = true;
+    this.loaderService.loaderShow();
     const zip = new JSZip();
     const requests: any[] = [];
     this.listDatas.forEach((element) => {
@@ -438,7 +447,8 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
         if (subTopic && subTopic.imagelist && subTopic.imagelist.length > 0) {
           subTopic.imagelist.forEach((img: any, index: any) => {
             requests.push(
-              this.BudgetService.getServerFileFromStream(img.systemfilename)
+              this.appServices
+                .getServerFileFromStream(img.systemfilename)
                 .toPromise()
                 .then((blob: any) => {
                   const subTopicFolderName = subTopic.subTopicTitle
@@ -494,16 +504,17 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     forkJoin(requests).subscribe(() => {
       zip.generateAsync({ type: 'blob' }).then((content) => {
         saveAs(content, `${this.referenceNumber}.zip`);
-        this.isLoader = false;
+        this.loaderService.loaderHide();
       });
     });
   }
 
   downloadAllSubTopicImages(subTopicTitle: string, imagelist: any[]) {
-    this.isLoader = true;
+    this.loaderService.loaderShow();
     const zip = new JSZip();
     const requests: any[] = imagelist.map((img: any, index: any) =>
-      this.BudgetService.getServerFileFromStream(img.systemfilename)
+      this.appServices
+        .getServerFileFromStream(img.systemfilename)
         .toPromise()
         .then((blob: any) => {
           let fileName: any;
@@ -545,12 +556,12 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       () => {
         zip.generateAsync({ type: 'blob' }).then((content: any) => {
           saveAs(content, `${subTopicTitle}.zip`);
-          this.isLoader = false;
+          this.loaderService.loaderHide();
         });
       },
       (error: any) => {
         console.error('Error in forkJoin:', error);
-        this.isLoader = false; // Ensure loader is turned off in case of an error
+        this.loaderService.loaderHide(); // Ensure loader is turned off in case of an error
         // Handle the error appropriately, e.g., show an error message to the user
       }
     );
@@ -567,16 +578,16 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   }
 
   downloadImage(image: any) {
-    this.BudgetService.getServerFileFromStream(image.systemfilename).subscribe(
-      (res: Blob) => {
+    this.appServices
+      .getServerFileFromStream(image.systemfilename)
+      .subscribe((res: Blob) => {
         const splitLocalName =
           image && image.localfilename ? image.localfilename.split('.')[0] : '';
         const fileName = splitLocalName
           ? splitLocalName + '.' + image.formattedExtension
           : 'empty_default_name' + '.' + image.formattedExtension;
         saveAs(res, fileName);
-      }
-    );
+      });
   }
 
   fetchImageBlob(imageUrl: string): Promise<Blob> {
@@ -642,7 +653,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       usercode: this.userDetails?.userCode,
       imagelist: this.listDatas,
     };
-    this.BudgetService.savePhotoRep(payload).subscribe((res: any) => {
+    this.appServices.savePhotoRep(payload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       localStorage.removeItem('getSelectedCheckListID');
       this.selectedInstanceID = [];
@@ -699,7 +710,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       usercode: this.userDetails?.userCode,
       type: 'photo',
     };
-    this.BudgetService.getUploadData(payload).subscribe((res: any) => {
+    this.appServices.getUploadData(payload).subscribe((res: any) => {
       if (res && res.responsse) {
         const data = JSON.parse(res.responsse);
         this.listDatas.forEach((res: any) => {
@@ -732,57 +743,70 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
                 formattedExtension = extensionvalue[extensionvalue.length - 1];
               }
             }
-
             let srcUrl: any;
-            this.BudgetService.getServerFileFromStream(
-              data.systemfilename
-            ).subscribe((res: Blob) => {
-              const blob = new Blob([res]);
-              srcUrl = URL.createObjectURL(blob);
-              const image = {
-                imagePreviewSrc: srcUrl,
-                systemfilename: data.systemfilename,
-                localfilename: data.localfilename,
-                formattedName: formattedName,
-                formattedExtension: formattedExtension,
-                sizeinbytes: data.sizeinMB.toFixed(2) + ' ' + 'MB',
-              };
-              if (findValue && findValue.imagelist) {
-                findValue.imagelist.push(image);
-                if (this.imageNames) {
-                  this.imageNames.forEach((data: any) => {
-                    this.listDatas.forEach((res: any) => {
-                      res.subTopics.forEach((sub: any, index: any) => {
-                        if (data.subtopic === sub.subTopicTitle) {
-                          sub.imagelist.forEach((list: any) => {
-                            let extensionvalue: any;
-                            let formattedExtension: any;
-                            if (list && list.localfilename) {
-                              extensionvalue = list.localfilename.split('.');
-                            }
-                            if (extensionvalue && extensionvalue.length === 1) {
-                              formattedExtension =
-                                extensionvalue[extensionvalue.length];
-                            } else {
-                              if (extensionvalue && extensionvalue.length > 1) {
-                                formattedExtension =
-                                  extensionvalue[extensionvalue.length - 1];
-                              }
-                            }
-                            const formattedDefName =
-                              data.imagename + '.' + formattedExtension;
-                            list['formattedDefName'] = formattedDefName;
-                            list['defaultImageName'] = data.imagename;
-                          });
-                        }
-                      });
-                    });
-                    this.summaryGridCount();
-                  });
+            this.appServices
+              .getServerFileFromStream(data.systemfilename)
+              .subscribe((res: Blob) => {
+                const blob = new Blob([res]);
+                srcUrl = URL.createObjectURL(blob);
+                let fileSizeConvert = '0.00 KB';
+                if (data && +data.sizeinbytes <= 10240) {
+                  fileSizeConvert =
+                    (+data.sizeinbytes / 1024).toFixed(2) + ' ' + 'KB';
+                } else {
+                  fileSizeConvert =
+                    (+data.sizeinbytes / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
                 }
-              }
-              this.summaryGridCount();
-            });
+                const image = {
+                  imagePreviewSrc: srcUrl,
+                  systemfilename: data.systemfilename,
+                  localfilename: data.localfilename,
+                  formattedName: formattedName,
+                  formattedExtension: formattedExtension,
+                  fileSizeConvert: fileSizeConvert
+                };
+                if (findValue && findValue.imagelist) {
+                  findValue.imagelist.push(image);
+                  if (this.imageNames) {
+                    this.imageNames.forEach((data: any) => {
+                      this.listDatas.forEach((res: any) => {
+                        res.subTopics.forEach((sub: any, index: any) => {
+                          if (data.subtopic === sub.subTopicTitle) {
+                            sub.imagelist.forEach((list: any) => {
+                              let extensionvalue: any;
+                              let formattedExtension: any;
+                              if (list && list.localfilename) {
+                                extensionvalue = list.localfilename.split('.');
+                              }
+                              if (
+                                extensionvalue &&
+                                extensionvalue.length === 1
+                              ) {
+                                formattedExtension =
+                                  extensionvalue[extensionvalue.length];
+                              } else {
+                                if (
+                                  extensionvalue &&
+                                  extensionvalue.length > 1
+                                ) {
+                                  formattedExtension =
+                                    extensionvalue[extensionvalue.length - 1];
+                                }
+                              }
+                              const formattedDefName =
+                                data.imagename + '.' + formattedExtension;
+                              list['formattedDefName'] = formattedDefName;
+                              list['defaultImageName'] = data.imagename;
+                            });
+                          }
+                        });
+                      });
+                      this.summaryGridCount();
+                    });
+                  }
+                }
+                this.summaryGridCount();
+              });
           }
         });
       }

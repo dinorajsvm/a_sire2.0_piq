@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ColDef, GridApi, RowGroupingDisplayType } from 'ag-grid-community';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../../services/budget.service';
+import { AppService } from '../../../services/app.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -113,7 +113,7 @@ export class ManualLookUpComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<ManualLookUpComponent>,
     public dialog: MatDialog,
     private _storage: StorageService,
@@ -136,7 +136,7 @@ export class ManualLookUpComponent implements OnInit {
   }
   getVesselCertificateLookupDetail() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getVesselCertificateLookup(vesselCode).subscribe(
+    this.appServices.getVesselCertificateLookup(vesselCode).subscribe(
       (data) => {
         this.rowData =
           data && data.response && data.response.length > 0

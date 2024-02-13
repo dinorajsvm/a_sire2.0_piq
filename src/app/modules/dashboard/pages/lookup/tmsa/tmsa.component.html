@@ -34,7 +34,7 @@
           class="mat-mdc-chip-set-stacked"
           aria-label="Color selection"
         >
-        <mat-chip-option
+          <mat-chip-option
             color="primary"
             [selected]="isShowInternal"
             (click)="changeToggle('Internal Audit Report')"
@@ -58,7 +58,6 @@
             External Inspection
           </mat-chip-option>
 
-          
           <mat-chip-option
             color="primary"
             (click)="changeToggle('ViewAll')"
@@ -108,6 +107,39 @@
       </ag-grid-angular>
     </div>
   </div>
+
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternal"
+  >
+    <span class="m-0">Report Of Finding</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ totalRowInternalROFCount }}</span
+    >
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12" *ngIf="isShowInternal">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowInternalROFData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnInternalDefs"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterInternalROFChanged()"
+        (gridReady)="onGridInternalROFReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
   <div class="col-sm-12 ag-toolBar" style="margin-top: 10px" *ngIf="isShowShip">
     <span class="m-0">Ship Visit Report</span>
     <span class="m-0 right-float">Total Records: {{ totalRowShipCount }}</span>
@@ -129,6 +161,34 @@
         (cellClicked)="onCellClicked($event)"
         (filterChanged)="onFilterShipChanged()"
         (gridReady)="onGridShipReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <div class="col-sm-12 ag-toolBar" style="margin-top: 10px" *ngIf="isShowShip">
+    <span class="m-0">Ship Visit Findings</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ totalRowShipTSFCount }}</span
+    >
+  </div>
+  <div class="row">
+    <div class="col-sm-12" *ngIf="isShowShip">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowShipTSFData"
+        [rowClassRules]="rowClassRules"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="columnShipDefs"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterShipTSFChanged()"
+        (gridReady)="onGridShipTSFReady($event)"
       >
       </ag-grid-angular>
     </div>
@@ -195,6 +255,39 @@
     style="margin-top: 10px"
     *ngIf="isShowInternalShip && isShowView"
   >
+    <span class="m-0">Report Of Finding</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ totalRowInternalROFCount }}</span
+    >
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12" *ngIf="isShowInternalShip && isShowView">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowInternalROFData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnInternalDefs"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterInternalROFChanged()"
+        (gridReady)="onGridInternalROFReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternalShip && isShowView"
+  >
     <span class="m-0">Ship Visit Report</span>
     <span class="m-0 right-float">Total Records: {{ totalRowShipCount }}</span>
   </div>
@@ -215,6 +308,38 @@
         (cellClicked)="onCellClicked($event)"
         (filterChanged)="onFilterShipChanged()"
         (gridReady)="onGridShipReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternalShip && isShowView"
+  >
+    <span class="m-0">Ship Visit Findings</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ totalRowShipTSFCount }}</span
+    >
+  </div>
+  <div class="row">
+    <div class="col-sm-12" *ngIf="isShowInternalShip && isShowView">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowShipTSFData"
+        [rowClassRules]="rowClassRules"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="columnShipDefs"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterShipTSFChanged()"
+        (gridReady)="onGridShipTSFReady($event)"
       >
       </ag-grid-angular>
     </div>
@@ -250,6 +375,40 @@
       </ag-grid-angular>
     </div>
   </div>
+
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isShowInternalExternal && isShowView"
+  >
+    <span class="m-0">Report Of Finding</span>
+    <span class="m-0 right-float"
+      >Total Records: {{ totalRowInternalROFCount }}</span
+    >
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12" *ngIf="isShowInternalExternal && isShowView">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        enableSorting="true"
+        enableFilter="true"
+        [rowData]="rowInternalROFData"
+        [rowClassRules]="rowClassRules"
+        [columnDefs]="columnInternalDefs"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [defaultColDef]="defaultColDef"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+        (filterChanged)="onFilterInternalROFChanged()"
+        (gridReady)="onGridInternalROFReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+  
 
   <div
     class="col-sm-12 ag-toolBar"

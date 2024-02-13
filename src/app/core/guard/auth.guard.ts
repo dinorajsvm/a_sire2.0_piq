@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { colorCodes } from '../constants';
 import { SnackbarService } from '../services/snackbar/snackbar.service';
 import { StorageService } from '../services/storage/storage.service';
-import { BudgetService } from 'src/app/modules/dashboard/services/budget.service';
+import { AppService } from 'src/app/modules/dashboard/services/app.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +17,12 @@ export class AuthGuard implements CanLoad {
     private _storage: StorageService,
     private _router: Router,
     private _snackBar: SnackbarService,
-    private BudgetService: BudgetService
+    private appServices: AppService
   ) {
     const navigationUrl = this._router.getCurrentNavigation();
     this.mackToken = navigationUrl?.extractedUrl.queryParams['token'];
     if (this.mackToken) {
-      localStorage.clear()
+      localStorage.clear();
     }
   }
   canLoad(
@@ -33,7 +33,6 @@ export class AuthGuard implements CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-
     if (this._authService.isLoggedIn()) {
       return true;
     } else {
@@ -42,29 +41,32 @@ export class AuthGuard implements CanLoad {
           token: this.mackToken,
         };
 
-        this.BudgetService.piqLogin(requestBody).subscribe((response) => {
+        this.appServices.piqLogin(requestBody).subscribe((response) => {
           this._storage.setAccessToken(this.mackToken);
           this._authService.getUserProfile((res: any) => {
-                  //Store user details
-                  if (res) {
-                    this._storage.setAccessToken(response.accesstoken);
-                    this._storage.setRefereshToken(response.refreshtoken)
-                    let userInfo = res.result.userInfo;
-                    this._storage.setUserDetails(JSON.stringify(res.result.userInfo));
-                     this._storage.redirectBasedonRoles(userInfo); // changed once mack1 to mack2 redirection
-                  }
-                  else {
-                    this._snackBar.loadSnackBar("Failed to fetch the User Details", colorCodes.ERROR);
-                    this._storage.clearStorageRedirect();
-                  }
-                });
+            //Store user details
+            if (res) {
+              this._storage.setAccessToken(response.accesstoken);
+              this._storage.setRefereshToken(response.refreshtoken);
+              let userInfo = res.result.userInfo;
+              this._storage.setUserDetails(JSON.stringify(res.result.userInfo));
+              this._storage.redirectBasedonRoles(userInfo); // changed once mack1 to mack2 redirection
+            } else {
+              this._snackBar.loadSnackBar(
+                'Failed to fetch the User Details',
+                colorCodes.ERROR
+              );
+              this.appServices.destroyPage();
+            }
+          });
+        }, (error) => {
+          this.appServices.destroyPage();
         });
         return false;
       } else {
-        this._router.navigate(['auth']);
+        this.appServices.destroyPage();
         return true;
       }
-      // return false;
     }
   }
 }

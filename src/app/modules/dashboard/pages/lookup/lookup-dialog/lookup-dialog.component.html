@@ -38,7 +38,6 @@
           class="mat-mdc-chip-set-stacked"
           aria-label="Color selection"
         >
-          
           <mat-chip-option
             color="primary"
             [selected]="isChecked && !isViewAll"
@@ -98,6 +97,37 @@
       </ag-grid-angular>
     </div>
   </div>
+
+  <div
+    class="col-sm-12 ag-toolBar"
+    style="margin-top: 10px"
+    *ngIf="isOnlyShipVisit"
+  >
+    <span class="m-0">Ship Visit Finding</span>
+    <span class="m-0 right-float">Total Records: {{ totalRowTSFCount }}</span>
+  </div>
+  <div class="row">
+    <div class="col-sm-12" *ngIf="isOnlyShipVisit">
+      <ag-grid-angular
+        class="ag-theme-balham"
+        style="height: calc(100vh - 320px)"
+        [suppressRowHoverHighlight]="suppressRowHoverHighlight"
+        [rowData]="rowShipTSFData"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [groupDisplayType]="groupDisplayType"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [rowClassRules]="rowClassRules"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterTSFChanged()"
+        [components]="frameworkComponents"
+        (cellClicked)="onCellClicked($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+
   <div
     class="col-sm-12 ag-toolBar"
     *ngIf="this.isOnlyInterVisit"
@@ -128,6 +158,38 @@
       </ag-grid-angular>
     </div>
   </div>
+
+
+  <div
+  class="col-sm-12 ag-toolBar"
+  *ngIf="this.isOnlyInterVisit"
+  style="margin-top: 10px"
+>
+  <span class="m-0">Report Of Finding</span>
+  <span class="m-0 right-float"
+    >Total Records: {{ totalRowInternalROFData }}</span
+  >
+</div>
+<div class="row">
+  <div class="col-sm-12" *ngIf="this.isOnlyInterVisit" >
+    <ag-grid-angular
+      class="ag-theme-balham"
+      style="height: calc(100vh - 320px)"
+      [rowData]="rowInternalROFData"
+      [suppressRowHoverHighlight]="suppressRowHoverHighlight"
+      [columnDefs]="internalColumnDefs"
+      [rowClassRules]="rowClassRules"
+      [defaultColDef]="defaultColDef"
+      [groupDisplayType]="groupDisplayType"
+      [rowMultiSelectWithClick]="true"
+      (gridReady)="onGridReadyInternal($event)"
+      [components]="frameworkComponents"
+      (filterChanged)="onFilterInternalROFChanged()"
+      (cellClicked)="onCellClicked($event)"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
 
   <button
     mat-button

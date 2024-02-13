@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Roles } from '../../mgntDBconstants';
+import { AppService } from 'src/app/modules/dashboard/services/app.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  constructor(private _router: Router) {}
-
-  getApiUrl() {
-    // let userDetails = this.getUserDetails();
-    //return userDetails.cntrlType === Roles.SHORE ? ApiUrl.SHORE : ApiUrl.SHIP;
-  }
+  constructor(private _router: Router, private appServices: AppService) {}
 
   setMackToken(accessToken: string) {
     localStorage.setItem('mackToken', accessToken);
@@ -43,9 +39,6 @@ export class StorageService {
     localStorage.setItem('user', userDetails);
   }
   getUserDetails() {
-    // if (localStorage.getItem('user') === null) {
-    //   this.clearStorageRedirect();
-    // }
     return JSON.parse(localStorage.getItem('user')!);
   }
   getProjectType() {
@@ -58,17 +51,9 @@ export class StorageService {
     } else if (userDetails?.cntrlType === Roles.SHIP) {
       this._router.navigate(['sire']);
     } else {
-      this.clearStorageRedirect();
+      
+      this.appServices.destroyPage();
     }
-  }
-  clearStorageRedirect() {
-    this.deleteToken();
-    window.close();
-    this._router.navigate(['auth']);
-  }
-
-  deleteToken(): void {
-    localStorage.clear();
   }
 
   checkUserDetails() {

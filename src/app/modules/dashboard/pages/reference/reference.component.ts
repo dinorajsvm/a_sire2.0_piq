@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import { GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { DownloadBtnRendererComponent } from '../renderer/downloadBtn-renderer.component';
@@ -66,7 +66,7 @@ export class ReferenceComponent implements OnInit, OnDestroy {
 
   public gridOptions: GridOptions = {};
   constructor(
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private _storage: StorageService,
     private route: ActivatedRoute,
     private snackBarService: SnackbarService,
@@ -85,7 +85,7 @@ export class ReferenceComponent implements OnInit, OnDestroy {
 
   downloadFile(event: any) {
     const fileUrl = event.rowData.systemfilename;
-    this.BudgetService.getServerFileFromStream(fileUrl).subscribe(
+    this.appServices.getServerFileFromStream(fileUrl).subscribe(
       (blob: Blob) => {
         const filename = event.rowData.localfilename;
         saveAs(blob, filename);
@@ -112,7 +112,7 @@ export class ReferenceComponent implements OnInit, OnDestroy {
   getReferenceListDetails() {
     const vesselCode = this.userDetails.userData.mdata.appInfo.vesselCode;
     const companyCode = this.userDetails.companyCode;
-    this.BudgetService.getReferenceList(
+    this.appServices.getReferenceList(
       vesselCode,
       companyCode,
       this.referenceNumber

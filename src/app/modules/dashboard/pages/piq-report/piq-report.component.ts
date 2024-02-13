@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
@@ -9,12 +8,17 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import 'ag-grid-enterprise';
 import { LicenseManager } from 'ag-grid-enterprise';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
-import { colorCodes } from 'src/app/core/constants';
+import {
+  colorCodes,
+  valuesToCheckDD,
+  valuesToCheckDate,
+} from 'src/app/core/constants';
+
 import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
@@ -40,6 +44,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { UnsaveConfirmationDialogPopupComponent } from '../unsave-confirmation-dialog-popup/unsave-confirmation-dialog-popup.component';
 import { SwitchVesselTypeComponent } from '../switch-vessel-type/switch-vessel-type.component';
 import { ExceptionRemarkComponent } from '../exception-remark/exception-remark.component';
+import { LoaderService } from 'src/app/core/services/utils/loader.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -68,7 +73,7 @@ export const MY_DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
-export class PiqReportComponent implements OnInit, OnDestroy {
+export class PiqReportComponent implements OnInit {
   @ViewChild('expandedSection', { static: false }) expandedSection!: ElementRef;
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
@@ -131,12 +136,13 @@ export class PiqReportComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private renderer: Renderer2,
     private route: ActivatedRoute,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private loaderService: LoaderService
   ) {
     this.userDetails = this._storage.getUserDetails();
   }
@@ -147,38 +153,38 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     this.getWrkFlSummary();
     this.getQuestionAnswerDatas();
     this.getGuideLinesData();
-    this.BudgetService.getEnableViewMode().subscribe((res: any) => {
+    this.appServices.getEnableViewMode().subscribe((res: any) => {
       if (this.userDetails?.cntrlType === 'CNT001') {
         this.disableEditMode = res;
       }
     });
 
-    this.BudgetService.getExceptionData().subscribe((res: any) => {
+    this.appServices.getExceptionData().subscribe((res: any) => {
       this.exceptionList = res;
     });
 
-    this.BudgetService.getEditVisible().subscribe((res: any) => {
+    this.appServices.getEditVisible().subscribe((res: any) => {
       this.hideEditbutton = res;
       this.hideReqBtns = res;
     });
-    this.BudgetService.getSearch().subscribe((res: any) => {
+    this.appServices.getSearch().subscribe((res: any) => {
       this.getSearch = res;
       if (this.getSearch == false) {
         this.onSearchTextChanged('');
       }
     });
-    this.BudgetService.getUnSaveAction().subscribe((res: any) => {
+    this.appServices.getUnSaveAction().subscribe((res: any) => {
       this.unSavedData = res;
     });
 
-    this.BudgetService.getExceptionRowData().subscribe((res: any) => {
+    this.appServices.getExceptionRowData().subscribe((res: any) => {
       this.exceptionList = res && res.length > 0 ? res : [];
     });
 
-    this.BudgetService.getSavedMappedCertificateData().subscribe((res: any) => {
+    this.appServices.getSavedMappedCertificateData().subscribe((res: any) => {
       this.saveMappedCertificateData = res;
     });
-    this.BudgetService.getPreviousPresetData().subscribe((data: any) => {
+    this.appServices.getPreviousPresetData().subscribe((data: any) => {
       Object.keys(data).forEach((response) => {
         if (this.dynamicForms.controls[response]) {
           this.getAllDatas.forEach((getAllValue: any) => {
@@ -202,7 +208,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         this.selectValue(this.getAllDatas[0].values[0].subHeaders);
       }
     });
-    this.BudgetService.getExceptionResetData().subscribe((resetData) => {
+    this.appServices.getExceptionResetData().subscribe((resetData) => {
       this.getAllDatas.forEach((getAllValue: any) => {
         if (getAllValue && getAllValue.values) {
           getAllValue.values.forEach((value: any) => {
@@ -237,22 +243,22 @@ export class PiqReportComponent implements OnInit, OnDestroy {
   }
 
   onChangeMemo() {
-    this.BudgetService.setUnSaveAction(true);
+    this.appServices.setUnSaveAction(true);
   }
 
   getTopBarDatas() {
-    this.isLoader = true;
-    this.BudgetService.getTopBarData(this.referenceNumber).subscribe(
-      (res: any) => {
+    this.loaderService.loaderShow();
+    this.appServices
+      .getTopBarData(this.referenceNumber)
+      .subscribe((res: any) => {
         const data = res.response;
         this.topbarData = data;
-        this.isLoader = false;
-      }
-    );
+        this.loaderService.loaderHide();
+      });
   }
 
   getworkflowStatus() {
-    this.BudgetService.getWorkflowmaster().subscribe((res: any) => {
+    this.appServices.getWorkflowmaster().subscribe((res: any) => {
       let val = res.workflowmaster;
       const getAppRank =
         val && val[0] && val[0].approvers
@@ -263,21 +269,21 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     });
   }
   getWrkFlSummary() {
-    this.isLoader = true;
-    this.BudgetService.getWorkFlowSummary(this.referenceNumber).subscribe(
-      (res: any) => {
+    this.loaderService.loaderShow();
+    this.appServices
+      .getWorkFlowSummary(this.referenceNumber)
+      .subscribe((res: any) => {
         this.getWrkFlSummaryData = res.response;
-        this.isLoader = false;
-      }
-    );
+        this.loaderService.loaderHide();
+      });
   }
   arrayObj: any[] = [];
   getGuideLinesData() {
-    this.isLoader = true;
-    this.BudgetService.getGuidelineData().subscribe((res: any) => {
+    this.loaderService.loaderShow();
+    this.appServices.getGuidelineData().subscribe((res: any) => {
       const data = res;
       this.getGuideLines = data;
-      this.isLoader = false;
+      this.loaderService.loaderHide();
     });
   }
 
@@ -290,7 +296,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
 
   submitFormAll(value: any) {
     this.chapterGrid();
-    this.isLoader = true;
+    this.loaderService.loaderShow();
     var pendingResult: any = [];
     this.getMainQuestCounts.forEach((element: any) => {
       pendingResult.push({
@@ -298,7 +304,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         selected: element.selected,
       });
     });
-    this.BudgetService.setPiqQuestionData(value.value);
+    this.appServices.setPiqQuestionData(value.value);
     const currentVesselType = localStorage.getItem('currentVesselType');
     const ansPayload = {
       instanceid: this.referenceNumber,
@@ -321,10 +327,10 @@ export class PiqReportComponent implements OnInit, OnDestroy {
           : currentVesselType,
     };
     this.countDetails();
-    this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
+    this.appServices.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
-      this.isLoader = false;
-      this.BudgetService.setUnSaveAction(false);
+      this.loaderService.loaderHide();
+      this.appServices.setUnSaveAction(false);
       this.unSavedData = false;
       this.dialog.closeAll();
       this.getQuestionAnswerDatas();
@@ -361,7 +367,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     let formGroupFields: any = {};
     this.getMainQuestCounts = [];
     this.getPresetQuestCounts = [];
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+    this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
       localStorage.setItem(
         'currentVesselType',
         vesselCode
@@ -377,7 +383,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       this.getOrigination = res.orginator;
       localStorage.setItem('Origination', res.orginator);
       localStorage.setItem('masterVesselCode', res.vesselcode);
-      this.BudgetService.setStatus(this.getStatus);
+      this.appServices.setStatus(this.getStatus);
       this.vesselSelection = res.vesseltypename;
       if (this.route.snapshot.paramMap.get('type') == 'new') {
         this.disableEditMode = true;
@@ -392,7 +398,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         this.hideReqBtns = true;
       }
 
-      this.BudgetService.setVesselTypeData(this.vesselSelection);
+      this.appServices.setVesselTypeData(this.vesselSelection);
 
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         if (
@@ -440,7 +446,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       if (res && res.guidence) {
         let guidenceObject = JSON.parse(res.guidence);
         let guidance = guidenceObject ? guidenceObject : [];
-        this.BudgetService.setGuidelineData(guidance);
+        this.appServices.setGuidelineData(guidance);
       }
       object.forEach((getAllValue: any) => {
         getAllValue.filledCount = 0;
@@ -503,8 +509,6 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                   );
                 }
               }
-              // console.log(subHeader, 'subHeader');
-
               if (subHeader.entrymethod === 'Lookup') {
                 if (mainQus && mainQus.type === 'Date') {
                   mainQus.savedAnswer =
@@ -536,7 +540,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       } else if (res && res.exceptionlist != '') {
         let exceptionData = JSON.parse(res.exceptionlist);
         this.exceptionList = exceptionData;
-        this.BudgetService.setExceptionData(exceptionData);
+        this.appServices.setExceptionData(exceptionData);
       }
       this.countDetails();
       this.piqPendingCount();
@@ -567,15 +571,15 @@ export class PiqReportComponent implements OnInit, OnDestroy {
           vesselCode !== undefined &&
           vesselCode !== 'undefined'
         ) {
-          this.BudgetService.setUnSaveAction(true);
+          this.appServices.setUnSaveAction(true);
         } else {
-          this.BudgetService.setUnSaveAction(false);
+          this.appServices.setUnSaveAction(false);
         }
       }, 100);
       this.mainQuestCounts = this.getMainQuestCounts.length;
       this.expandMethod();
       this.getTopBarDatas();
-      this.isLoader = false;
+      this.loaderService.loaderHide();
     });
   }
 
@@ -699,18 +703,18 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         this.exception(ques, mquest, quest, 1);
       } else {
         duplicateResponse.answer = quest.answer;
-        this._snackBarService.loadSnackBar(
-          'Changing company preset data will be captured as Exception.',
-          colorCodes.WARNING
-        );
         const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
           disableClose: true,
           panelClass: 'exceptionRemark-dialog-container',
           data: duplicateResponse.remark,
         });
+        this._snackBarService.loadSnackBar(
+          'Changing company preset data will be captured as Exception.',
+          colorCodes.WARNING
+        );
         dialogRef.afterClosed().subscribe((result) => {
           duplicateResponse.remark = result ? result : '';
-          this.BudgetService.setExceptionData(this.exceptionList);
+          this.appServices.setExceptionData(this.exceptionList);
         });
         this.countDetails();
       }
@@ -780,7 +784,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
   }
 
   toggleMultiSelection(value: any, entryorgin: any, quest: any) {
-    this.BudgetService.setUnSaveAction(true);
+    this.appServices.setUnSaveAction(true);
     if (value) {
       if (entryorgin.multiAnswer.includes(value)) {
         entryorgin.multiAnswer = entryorgin.multiAnswer.filter(
@@ -846,7 +850,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       this.switchVesselType();
     }
 
-    this.BudgetService.setUnSaveAction(true);
+    this.appServices.setUnSaveAction(true);
     subQue.answer = subQue.answer !== value ? value : subQue.answer;
     value = subQue.answer === '' ? '' : subQue.answer;
     const mQuestion = mainQue.mainQuestion;
@@ -865,14 +869,14 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         questionId = modifiedStr;
       }
     }
-
     if (questionId === '2.8.2') {
       this.getPscDetail(questionId, ques, mainQue, subQue);
     }
-    // console.log(ques, 'ques');
-    // console.log(subQue, 'subQue');
     if (ques && ques.subheadid === 'SH14') {
       this.safetyManagementDetails(questionId, ques, mainQue, subQue, 'Select');
+    }
+    if (questionId.includes('2.5')) {
+      this.getMocDetail(ques, mainQue, subQue);
     }
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
@@ -908,8 +912,37 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     this.dynamicForms.controls[subQue.qid].setValue(value);
     this.chapterGrid();
   }
+
+  getMocDetail(subQues: any, mquest: any, subq: any) {
+    let hasMocData = false;
+    const vesselCode = localStorage.getItem('masterVesselCode');
+    this.appServices
+      .getMocDetails(vesselCode, this.referenceNumber, '2.5.')
+      .subscribe((data) => {
+        if (
+          data.response.some(
+            (element: any) =>
+              element.q136 || element.q139 || element.q142 || element.q145
+          )
+        ) {
+          hasMocData = true;
+        }
+        if (hasMocData) {
+          let fetchData = data.response.some(
+            (element: any) => element[subq.qid.toLowerCase()]
+          );
+          fetchData = fetchData ? 'Yes' : 'No';
+          subq.savedAnswer = fetchData;
+          if (fetchData != this.dynamicForms.value[subq.qid]) {
+            this.exceptionDateFn(subQues, mquest, subq);
+          } else {
+            this.updateExceptionList(subq.qid);
+          }
+        }
+      });
+  }
   getvesseltype() {
-    this.BudgetService.getvesseltypeNameCode().subscribe((res: any) => {
+    this.appServices.getvesseltypeNameCode().subscribe((res: any) => {
       this.vesselTypeCode = res.response;
     });
   }
@@ -928,8 +961,8 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         if (vesselCode && vesselCode.vesseltypecode) {
           this.getQuestionAnswerDatas(vesselCode.vesseltypecode);
           const emptyProperty: any[] = [];
-          this.BudgetService.setExceptionData(emptyProperty);
-          this.BudgetService.setUnSaveAction(true);
+          this.appServices.setExceptionData(emptyProperty);
+          this.appServices.setUnSaveAction(true);
           return;
         }
       } else {
@@ -1024,7 +1057,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         }
       });
       if (this.dynamicForms && this.dynamicForms.value) {
-        this.BudgetService.setPiqQuestionData(this.dynamicForms.value);
+        this.appServices.setPiqQuestionData(this.dynamicForms.value);
       }
     }
   }
@@ -1049,15 +1082,16 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       currentVesselType === undefined ||
       currentVesselType === 'undefined'
     ) {
-      this._snackBarService.loadSnackBar(
-        'Changing company preset data will be captured as Exception.',
-        colorCodes.WARNING
-      );
+
       const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
         disableClose: true,
         panelClass: 'exceptionRemark-dialog-container',
         data: '',
       });
+      this._snackBarService.loadSnackBar(
+        'Changing company preset data will be captured as Exception.',
+        colorCodes.WARNING
+      );
       dialogRef.afterClosed().subscribe((result) => {
         let exceptionData: any;
 
@@ -1088,7 +1122,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         }
         this.exceptionList.push(exceptionData);
         this.exceptionIcon();
-        this.BudgetService.setExceptionData(this.exceptionList);
+        this.appServices.setExceptionData(this.exceptionList);
         if (id === 0) {
           this.lookupReset(payLoad.questionId, payLoad.jobid, '');
         }
@@ -1107,7 +1141,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         remark: '',
       };
       this.exceptionList.push(exceptionData);
-      this.BudgetService.setExceptionData(this.exceptionList);
+      this.appServices.setExceptionData(this.exceptionList);
       if (id === 0) {
         this.lookupReset(payLoad.questionId, payLoad.jobid, '');
       }
@@ -1125,7 +1159,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
   }
 
   resetDate(subq: any, quest: any, mquest: any) {
-    this.BudgetService.setUnSaveAction(true);
+    this.appServices.setUnSaveAction(true);
     this.dynamicForms.controls[subq.qid].setValue('');
     subq.answer = '';
     mquest.selected = false;
@@ -1218,8 +1252,8 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     this.dynamicForms.controls[subq.qid].setValue(subq.presetvalue);
     subq.answer = subq.presetvalue;
     this.countDetails();
-    this.BudgetService.setUnSaveAction(true);
-    this.BudgetService.setExceptionData(this.exceptionList);
+    this.appServices.setUnSaveAction(true);
+    this.appServices.setExceptionData(this.exceptionList);
     this.exceptionIcon();
   }
 
@@ -1233,7 +1267,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     subq.answer = '';
     this.countDetails();
     this.exceptionIcon();
-    this.BudgetService.setUnSaveAction(true);
+    this.appServices.setUnSaveAction(true);
   }
   expandAllMainquestions(event: any, quest: any, index: any) {
     quest['expand' + index] = !quest['expand' + index];
@@ -1263,7 +1297,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     if (quest && quest.subheadid === 'SH1') {
       this.manualLookUp(dialogConfig);
     } else if (quest && quest.subheadid === 'SH29') {
-      this.mocLookUp(quest, questionId);
+      this.mocLookUp(quest);
     } else if (quest && quest.subheadid === 'SH2') {
       this.lookUpDialog(mainQuest, questionId);
     } else if (
@@ -1298,11 +1332,11 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     this.dialog.open(ManualLookUpComponent, dialogConfig);
   }
 
-  mocLookUp(quest: any, questionId: any) {
+  mocLookUp(quest: any) {
     const mocDialog = this.dialog.open(MocComponent, {
       panelClass: 'moc-dialog-container',
       data: {
-        questionId: questionId,
+        questionId: '2.5.',
         referenceId: this.referenceNumber,
       },
     });
@@ -1321,7 +1355,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
             });
           });
         }
-        this.lookupReset(questionId, '', payloadDetails);
+        this.lookupReset('2.5.', '', payloadDetails);
         quest.question.forEach((Mquest: any) => {
           Mquest.subQuestion.forEach((response: any) => {
             if (response && response.type === 'Select') {
@@ -1768,7 +1802,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                             this.findResponse = mainQues.question.find(
                               (quest: any) => quest && quest.qid === row
                             );
-                            
+
                             if (this.findResponse) {
                               const insertQuest = { ...this.findResponse };
 
@@ -1899,38 +1933,6 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                               insertQuest = { ...this.findResponse };
                               const tempSubQuestion = insertQuest.subQuestion;
                               tempSubQuestion.forEach((temp: any) => {
-                                const valuesToCheckDD = [
-                                  'Q341',
-                                  'Q347',
-                                  'Q353',
-                                  'Q359',
-                                  'Q365',
-                                  'Q371',
-                                  'Q377',
-                                  'Q383',
-                                  'Q389',
-                                  'Q395',
-                                  'Q401',
-                                  'Q407',
-                                  'Q413',
-                                  'Q419',
-                                  'Q425',
-                                  'Q431',
-                                  'Q437',
-                                  'Q443',
-                                  'Q449',
-                                  'Q455',
-                                  'Q461',
-                                  'Q467',
-                                  'Q473',
-                                  'Q479',
-                                  'Q485',
-                                  'Q491',
-                                  'Q497',
-                                  'Q503',
-                                  'Q509',
-                                ];
-
                                 if (
                                   valuesToCheckDD.some((value) =>
                                     temp.qid.includes(value)
@@ -1940,38 +1942,6 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                                     `${temp.qid}`
                                   ].patchValue(resultResponse.dropdown);
                                 }
-                                const valuesToCheckDate = [
-                                  'Q342',
-                                  'Q348',
-                                  'Q354',
-                                  'Q360',
-                                  'Q366',
-                                  'Q372',
-                                  'Q378',
-                                  'Q384',
-                                  'Q390',
-                                  'Q396',
-                                  'Q402',
-                                  'Q408',
-                                  'Q414',
-                                  'Q420',
-                                  'Q426',
-                                  'Q432',
-                                  'Q438',
-                                  'Q444',
-                                  'Q450',
-                                  'Q456',
-                                  'Q462',
-                                  'Q468',
-                                  'Q474',
-                                  'Q480',
-                                  'Q486',
-                                  'Q492',
-                                  'Q498',
-                                  'Q504',
-                                  'Q510',
-                                ];
-
                                 if (
                                   valuesToCheckDate.some((value) =>
                                     temp.qid.includes(value)
@@ -1980,7 +1950,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                                   this.dynamicForms.controls[
                                     `${temp.qid}`
                                   ].patchValue(
-                                    new Date(resultResponse.dateselection)
+                                    new Date(resultResponse.dateSelection)
                                   );
                                 }
                               });
@@ -2051,7 +2021,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         filledQuestion: filledQuestionCount,
         pendingQuestion: totalQuestCount - filledQuestionCount,
       });
-      this.BudgetService.setGridSummary(this.rowSummaryData);
+      this.appServices.setGridSummary(this.rowSummaryData);
     });
     this.exceptionIcon();
   }
@@ -2088,7 +2058,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       subq.answer = '';
     }
     this.countDetails();
-    this.BudgetService.setUnSaveAction(true);
+    this.appServices.setUnSaveAction(true);
     if (subq && subq.presetvalue === subq.answer) {
       this.restoreOriginal(subq);
     } else {
@@ -2112,7 +2082,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     subq: any
   ): void {
     let value = event.value;
-    this.BudgetService.setUnSaveAction(true);
+    this.appServices.setUnSaveAction(true);
     const modifiedData = {
       userName: this.userDetails.userData.mdata.appInfo.userName,
       userType: this.userDetails.userData.mdata.userInfo.userType,
@@ -2149,8 +2119,6 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       }
     }
     subq.answer = this.datePipe.transform(event.value, this.dateFormat);
-    // console.log(subQues.subheadid, 'subQues1');
-    // console.log(subq, 'subq1');
     if (questionId === '2.2.1' || questionId === '2.2.2') {
       this.getLookUpVisit(questionId, subQues, mquest, subq);
     } else if (questionId === '2.8.2') {
@@ -2184,136 +2152,130 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     type: string
   ) {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getLookupDetail(
-      '5.7',
-      vesselCode,
-      '5.7',
-      this.referenceNumber
-    ).subscribe((data) => {
-      const safetyMgnData = JSON.parse(data.response);
+    this.appServices
+      .getLookupDetail('5.7', vesselCode, '5.7', this.referenceNumber)
+      .subscribe((data) => {
+        const safetyMgnData = JSON.parse(data.response);
 
-      const findQidDetail = safetyMgnData.find((x: any) => {
-        if (questionId === '5.7.1.1') {
-          return x.MQ337;
-        } else if (questionId === '5.7.1.2') {
-          return x.MQ343;
-        } else if (questionId === '5.7.1.3') {
-          return x.MQ349;
-        } else if (questionId === '5.7.1.4') {
-          return x.MQ355;
-        } else if (questionId === '5.7.1.5') {
-          return x.MQ361;
-        } else if (questionId === '5.7.1.6') {
-          return x.MQ367;
-        } else if (questionId === '5.7.1.7') {
-          return x.MQ373;
-        } else if (questionId === '5.7.1.8') {
-          return x.MQ379;
-        } else if (questionId === '5.7.1.9') {
-          return x.MQ385;
-        } else if (questionId === '5.7.1.10') {
-          return x.MQ391;
-        } else if (questionId === '5.7.1.11') {
-          return x.MQ397;
-        } else if (questionId === '5.7.1.12') {
-          return x.MQ403;
-        } else if (questionId === '5.7.1.13') {
-          return x.MQ409;
-        } else if (questionId === '5.7.1.14') {
-          return x.MQ415;
-        } else if (questionId === '5.7.1.15') {
-          return x.MQ421;
-        } else if (questionId === '5.7.1.16') {
-          return x.MQ427;
-        } else if (questionId === '5.7.1.17') {
-          return x.MQ433;
-        } else if (questionId === '5.7.1.18') {
-          return x.MQ439;
-        } else if (questionId === '5.7.1.19') {
-          return x.MQ445;
-        } else if (questionId === '5.7.1.20') {
-          return x.MQ451;
-        } else if (questionId === '5.7.1.21') {
-          return x.MQ457;
-        } else if (questionId === '5.7.1.22') {
-          return x.MQ463;
-        } else if (questionId === '5.7.1.23') {
-          return x.MQ469;
-        } else if (questionId === '5.7.1.24') {
-          return x.MQ475;
-        } else if (questionId === '5.7.1.25') {
-          return x.MQ481;
-        } else if (questionId === '5.7.1.26') {
-          return x.MQ487;
-        } else if (questionId === '5.7.1.27') {
-          return x.MQ493;
-        } else if (questionId === '5.7.1.28') {
-          return x.MQ499;
-        } else if (questionId === '5.7.1.29') {
-          return x.MQ505;
-        } else {
-          return mquest.mainQuestion.includes(x.ivrid);
-        }
-      });
+        const findQidDetail = safetyMgnData.find((x: any) => {
+          if (questionId === '5.7.1.1') {
+            return x.MQ337;
+          } else if (questionId === '5.7.1.2') {
+            return x.MQ343;
+          } else if (questionId === '5.7.1.3') {
+            return x.MQ349;
+          } else if (questionId === '5.7.1.4') {
+            return x.MQ355;
+          } else if (questionId === '5.7.1.5') {
+            return x.MQ361;
+          } else if (questionId === '5.7.1.6') {
+            return x.MQ367;
+          } else if (questionId === '5.7.1.7') {
+            return x.MQ373;
+          } else if (questionId === '5.7.1.8') {
+            return x.MQ379;
+          } else if (questionId === '5.7.1.9') {
+            return x.MQ385;
+          } else if (questionId === '5.7.1.10') {
+            return x.MQ391;
+          } else if (questionId === '5.7.1.11') {
+            return x.MQ397;
+          } else if (questionId === '5.7.1.12') {
+            return x.MQ403;
+          } else if (questionId === '5.7.1.13') {
+            return x.MQ409;
+          } else if (questionId === '5.7.1.14') {
+            return x.MQ415;
+          } else if (questionId === '5.7.1.15') {
+            return x.MQ421;
+          } else if (questionId === '5.7.1.16') {
+            return x.MQ427;
+          } else if (questionId === '5.7.1.17') {
+            return x.MQ433;
+          } else if (questionId === '5.7.1.18') {
+            return x.MQ439;
+          } else if (questionId === '5.7.1.19') {
+            return x.MQ445;
+          } else if (questionId === '5.7.1.20') {
+            return x.MQ451;
+          } else if (questionId === '5.7.1.21') {
+            return x.MQ457;
+          } else if (questionId === '5.7.1.22') {
+            return x.MQ463;
+          } else if (questionId === '5.7.1.23') {
+            return x.MQ469;
+          } else if (questionId === '5.7.1.24') {
+            return x.MQ475;
+          } else if (questionId === '5.7.1.25') {
+            return x.MQ481;
+          } else if (questionId === '5.7.1.26') {
+            return x.MQ487;
+          } else if (questionId === '5.7.1.27') {
+            return x.MQ493;
+          } else if (questionId === '5.7.1.28') {
+            return x.MQ499;
+          } else if (questionId === '5.7.1.29') {
+            return x.MQ505;
+          } else {
+            return mquest.mainQuestion.includes(x.ivrid);
+          }
+        });
 
-      if (!findQidDetail) return;
-      console.log(findQidDetail, 'findQidDetail');
-      // console.log(type, 'type');
-      // console.log(subq, 'subq');
-
-      if (type === 'Date') {
-        findQidDetail.dateSelection =
-          findQidDetail.dateSelection?.split(' ')[0] || '';
-console.log(findQidDetail.dateSelection, 'incidentdate');
-console.log(subq.answer, 'answer');
-
-        if (
-          findQidDetail.dateSelection !== subq.answer &&
-          (subq.qid.includes('Q342') ||
-            subq.qid.includes('Q348') ||
-            subq.qid.includes('Q354') ||
-            subq.qid.includes('Q360') ||
-            subq.qid.includes('Q366') ||
-            subq.qid.includes('Q372') ||
-            subq.qid.includes('Q378') ||
-            subq.qid.includes('Q384') ||
-            subq.qid.includes('Q390') ||
-            subq.qid.includes('Q396') ||
-            subq.qid.includes('Q402') ||
-            subq.qid.includes('Q408') ||
-            subq.qid.includes('Q414') ||
-            subq.qid.includes('Q420') ||
-            subq.qid.includes('Q426') ||
-            subq.qid.includes('Q432') ||
-            subq.qid.includes('Q438') ||
-            subq.qid.includes('Q444') ||
-            subq.qid.includes('Q450') ||
-            subq.qid.includes('Q456') ||
-            subq.qid.includes('Q462') ||
-            subq.qid.includes('Q468') ||
-            subq.qid.includes('Q474') ||
-            subq.qid.includes('Q480') ||
-            subq.qid.includes('Q486') ||
-            subq.qid.includes('Q492') ||
-            subq.qid.includes('Q498') || 
-            subq.qid.includes('Q504') ||
-            subq.qid.includes('Q510'))
+        if (!findQidDetail) return;
+        if (type === 'Date') {
+          findQidDetail.dateSelection =
+            findQidDetail.dateSelection?.split(' ')[0] || '';
+          if (
+            findQidDetail.dateSelection !== subq.answer &&
+            (subq.qid.includes('Q342') ||
+              subq.qid.includes('Q348') ||
+              subq.qid.includes('Q354') ||
+              subq.qid.includes('Q360') ||
+              subq.qid.includes('Q366') ||
+              subq.qid.includes('Q372') ||
+              subq.qid.includes('Q378') ||
+              subq.qid.includes('Q384') ||
+              subq.qid.includes('Q390') ||
+              subq.qid.includes('Q396') ||
+              subq.qid.includes('Q402') ||
+              subq.qid.includes('Q408') ||
+              subq.qid.includes('Q414') ||
+              subq.qid.includes('Q420') ||
+              subq.qid.includes('Q426') ||
+              subq.qid.includes('Q432') ||
+              subq.qid.includes('Q438') ||
+              subq.qid.includes('Q444') ||
+              subq.qid.includes('Q450') ||
+              subq.qid.includes('Q456') ||
+              subq.qid.includes('Q462') ||
+              subq.qid.includes('Q468') ||
+              subq.qid.includes('Q474') ||
+              subq.qid.includes('Q480') ||
+              subq.qid.includes('Q486') ||
+              subq.qid.includes('Q492') ||
+              subq.qid.includes('Q498') ||
+              subq.qid.includes('Q504') ||
+              subq.qid.includes('Q510'))
+          ) {
+            this.exceptionDateFn(subQues, mquest, subq);
+          } else {
+            this.updateExceptionList(subq.qid);
+          }
+        } else if (
+          type === 'Select' &&
+          findQidDetail.dropdown !== subq.answer
         ) {
           this.exceptionDateFn(subQues, mquest, subq);
         } else {
           this.updateExceptionList(subq.qid);
         }
-      } else if (type === 'Select' && findQidDetail.dropdown !== subq.answer) {
-        this.exceptionDateFn(subQues, mquest, subq);
-      } else {
-        this.updateExceptionList(subq.qid);
-      }
-    });
+      });
   }
 
   updateExceptionList(qid: string) {
     this.exceptionList.splice(this.exceptionList.indexOf(qid), 1);
-    this.BudgetService.setExceptionData(this.exceptionList);
+    this.appServices.setExceptionData(this.exceptionList);
+    this.exceptionIcon();
   }
 
   dateCount(mquest?: any) {
@@ -2497,221 +2459,220 @@ console.log(subq.answer, 'answer');
   }
   getLookUpVisit(questionId: any, subQues: any, mquest: any, subq: any) {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getLookupVisitData(
-      vesselCode,
-      this.referenceNumber,
-      questionId
-    ).subscribe((data) => {
-      if (questionId === '2.2.1') {
-        let findLookUpDate: any;
-        if (
-          data &&
-          data.response &&
-          data.response.ShipVisit &&
-          data.response.ShipVisit.length > 0
-        ) {
-          findLookUpDate = data.response.ShipVisit.find(
-            (x: any) => x.highlight
-          );
-        }
+    this.appServices
+      .getLookupVisitData(vesselCode, this.referenceNumber, questionId)
+      .subscribe((data) => {
+        if (questionId === '2.2.1') {
+          let findLookUpDate: any;
+          if (
+            data &&
+            data.response &&
+            data.response.ShipVisit &&
+            data.response.ShipVisit.length > 0
+          ) {
+            findLookUpDate = data.response.ShipVisit.find(
+              (x: any) => x.highlight
+            );
+          }
 
-        if (findLookUpDate) {
-          const fromDate = this.dynamicForms.value.Q8
-            ? this.datePipe.transform(
-                new Date(this.dynamicForms.value.Q8),
-                this.dateFormat
-              )
-            : '';
-          const toDate = this.dynamicForms.value.Q9
-            ? this.datePipe.transform(
-                new Date(this.dynamicForms.value.Q9),
-                this.dateFormat
-              )
-            : '';
-          const lookUpFromDate = findLookUpDate.plannedfromdate
-            ? this.datePipe.transform(
-                new Date(findLookUpDate.plannedfromdate),
-                this.dateFormat
-              )
-            : '';
-          const lookUpToDate = findLookUpDate.plannedtodate
-            ? this.datePipe.transform(
-                new Date(findLookUpDate.plannedtodate),
-                this.dateFormat
-              )
-            : '';
+          if (findLookUpDate) {
+            const fromDate = this.dynamicForms.value.Q8
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q8),
+                  this.dateFormat
+                )
+              : '';
+            const toDate = this.dynamicForms.value.Q9
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q9),
+                  this.dateFormat
+                )
+              : '';
+            const lookUpFromDate = findLookUpDate.plannedfromdate
+              ? this.datePipe.transform(
+                  new Date(findLookUpDate.plannedfromdate),
+                  this.dateFormat
+                )
+              : '';
+            const lookUpToDate = findLookUpDate.plannedtodate
+              ? this.datePipe.transform(
+                  new Date(findLookUpDate.plannedtodate),
+                  this.dateFormat
+                )
+              : '';
 
-          if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
+            if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
+          }
+        } else {
+          let lookUpShipDate: any;
+          let lookUpInternDate: any;
+          if (data && data.response) {
+            lookUpShipDate = data.response.ShipVisit.find(
+              (x: any) => x.highlight
+            );
+            lookUpInternDate = data.response.Internal.find(
+              (x: any) => x.highlight
+            );
+          }
+
+          if (lookUpShipDate) {
+            const fromDate = this.dynamicForms.value.Q22
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q22),
+                  this.dateFormat
+                )
+              : '';
+            const toDate = this.dynamicForms.value.Q23
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q23),
+                  this.dateFormat
+                )
+              : '';
+            const lookUpFromDate = lookUpShipDate.actualfromdate
+              ? this.datePipe.transform(
+                  new Date(lookUpShipDate.actualfromdate),
+                  this.dateFormat
+                )
+              : '';
+            const lookUpToDate = lookUpShipDate.actualtodate
+              ? this.datePipe.transform(
+                  new Date(lookUpShipDate.actualtodate),
+                  this.dateFormat
+                )
+              : '';
+
+            if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
+          }
+
+          if (lookUpInternDate) {
+            const fromDate = this.dynamicForms.value.Q22
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q22),
+                  this.dateFormat
+                )
+              : '';
+            const toDate = this.dynamicForms.value.Q23
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q23),
+                  this.dateFormat
+                )
+              : '';
+            const lookUpFromDate = lookUpInternDate.auditfromdate
+              ? this.datePipe.transform(
+                  new Date(lookUpInternDate.auditfromdate),
+                  this.dateFormat
+                )
+              : '';
+            const lookUpToDate = lookUpInternDate.audittodate
+              ? this.datePipe.transform(
+                  new Date(lookUpInternDate.audittodate),
+                  this.dateFormat
+                )
+              : '';
+
+            if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
           }
         }
-      } else {
-        let lookUpShipDate: any;
-        let lookUpInternDate: any;
-        if (data && data.response) {
-          lookUpShipDate = data.response.ShipVisit.find(
-            (x: any) => x.highlight
-          );
-          lookUpInternDate = data.response.Internal.find(
-            (x: any) => x.highlight
-          );
-        }
-
-        if (lookUpShipDate) {
-          const fromDate = this.dynamicForms.value.Q22
-            ? this.datePipe.transform(
-                new Date(this.dynamicForms.value.Q22),
-                this.dateFormat
-              )
-            : '';
-          const toDate = this.dynamicForms.value.Q23
-            ? this.datePipe.transform(
-                new Date(this.dynamicForms.value.Q23),
-                this.dateFormat
-              )
-            : '';
-          const lookUpFromDate = lookUpShipDate.actualfromdate
-            ? this.datePipe.transform(
-                new Date(lookUpShipDate.actualfromdate),
-                this.dateFormat
-              )
-            : '';
-          const lookUpToDate = lookUpShipDate.actualtodate
-            ? this.datePipe.transform(
-                new Date(lookUpShipDate.actualtodate),
-                this.dateFormat
-              )
-            : '';
-
-          if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
-          }
-        }
-
-        if (lookUpInternDate) {
-          const fromDate = this.dynamicForms.value.Q22
-            ? this.datePipe.transform(
-                new Date(this.dynamicForms.value.Q22),
-                this.dateFormat
-              )
-            : '';
-          const toDate = this.dynamicForms.value.Q23
-            ? this.datePipe.transform(
-                new Date(this.dynamicForms.value.Q23),
-                this.dateFormat
-              )
-            : '';
-          const lookUpFromDate = lookUpInternDate.auditfromdate
-            ? this.datePipe.transform(
-                new Date(lookUpInternDate.auditfromdate),
-                this.dateFormat
-              )
-            : '';
-          const lookUpToDate = lookUpInternDate.audittodate
-            ? this.datePipe.transform(
-                new Date(lookUpInternDate.audittodate),
-                this.dateFormat
-              )
-            : '';
-
-          if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
-          }
-        }
-      }
-    });
+      });
   }
 
   getPscDetail(questionId: any, subQues: any, mquest: any, subq: any) {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getPscDetails(
-      vesselCode,
-      this.referenceNumber,
-      questionId
-    ).subscribe((data) => {
-      if (subq && subq.qid === 'Q157') {
-        return;
-      }
-      if (questionId === '2.8.2') {
-        let lookUpPSCDate: any;
-        let lookUpNonPSCDate: any;
-        if (data && data.response) {
-          lookUpPSCDate = data.response['Non-sPSC'].find(
-            (x: any) => x.highlight
-          );
-          lookUpNonPSCDate = data.response['PSC'].find((x: any) => x.highlight);
+    this.appServices
+      .getPscDetails(vesselCode, this.referenceNumber, questionId)
+      .subscribe((data) => {
+        if (subq && subq.qid === 'Q157') {
+          return;
         }
+        if (questionId === '2.8.2') {
+          let lookUpPSCDate: any;
+          let lookUpNonPSCDate: any;
+          if (data && data.response) {
+            lookUpPSCDate = data.response['Non-sPSC'].find(
+              (x: any) => x.highlight
+            );
+            lookUpNonPSCDate = data.response['PSC'].find(
+              (x: any) => x.highlight
+            );
+          }
 
-        if (lookUpPSCDate || lookUpNonPSCDate) {
-          let lookUpFromDate: any;
-          let lookUpQ155: any;
-          let lookUpQ158: any;
-          let lookUpQ160: any;
-          let lookUpQ161: any;
-          const q155Field = this.dynamicForms.value.Q155
-            ? this.dynamicForms.value.Q155
-            : '';
-          const fromDate = this.dynamicForms.value.Q156
-            ? this.datePipe.transform(
-                new Date(this.dynamicForms.value.Q156),
-                this.dateFormat
+          if (lookUpPSCDate || lookUpNonPSCDate) {
+            let lookUpFromDate: any;
+            let lookUpQ155: any;
+            let lookUpQ158: any;
+            let lookUpQ160: any;
+            let lookUpQ161: any;
+            const q155Field = this.dynamicForms.value.Q155
+              ? this.dynamicForms.value.Q155
+              : '';
+            const fromDate = this.dynamicForms.value.Q156
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q156),
+                  this.dateFormat
+                )
+              : '';
+
+            const q158Field = this.dynamicForms.value.Q158
+              ? this.dynamicForms.value.Q158
+              : '';
+            const q160Field = this.dynamicForms.value.Q160
+              ? this.dynamicForms.value.Q160
+              : '';
+            const q161Field = this.dynamicForms.value.Q161
+              ? this.dynamicForms.value.Q161
+              : '';
+            if (lookUpPSCDate) {
+              lookUpFromDate = lookUpPSCDate.q156
+                ? this.datePipe.transform(
+                    new Date(lookUpPSCDate.q156),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpQ155 = 'Yes';
+              lookUpQ158 =
+                lookUpPSCDate && lookUpPSCDate.authoritycode
+                  ? lookUpPSCDate.authoritycode
+                  : '';
+              lookUpQ160 =
+                lookUpPSCDate.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+              lookUpQ161 = lookUpPSCDate.deficiencycount === '1' ? 'Yes' : 'No';
+            } else {
+              lookUpFromDate = lookUpNonPSCDate.q156
+                ? this.datePipe.transform(
+                    new Date(lookUpNonPSCDate.q156),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpQ155 = 'Yes';
+              lookUpQ158 =
+                lookUpNonPSCDate && lookUpNonPSCDate.authoritycode
+                  ? lookUpNonPSCDate.authoritycode
+                  : '';
+              lookUpQ160 =
+                lookUpNonPSCDate.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
+              lookUpQ161 =
+                lookUpNonPSCDate.deficiencycount === '1' ? 'Yes' : 'No';
+            }
+            if (
+              !(
+                fromDate === lookUpFromDate &&
+                q155Field === lookUpQ155 &&
+                q158Field === lookUpQ158 &&
+                q160Field === lookUpQ160 &&
+                q161Field === lookUpQ161
               )
-            : '';
-
-          const q158Field = this.dynamicForms.value.Q158
-            ? this.dynamicForms.value.Q158
-            : '';
-          const q160Field = this.dynamicForms.value.Q160
-            ? this.dynamicForms.value.Q160
-            : '';
-          const q161Field = this.dynamicForms.value.Q161
-            ? this.dynamicForms.value.Q161
-            : '';
-          if (lookUpPSCDate) {
-            lookUpFromDate = lookUpPSCDate.q156
-              ? this.datePipe.transform(
-                  new Date(lookUpPSCDate.q156),
-                  this.dateFormat
-                )
-              : '';
-            lookUpQ155 = 'Yes';
-            lookUpQ158 =
-              lookUpPSCDate && lookUpPSCDate.authoritycode
-                ? lookUpPSCDate.authoritycode
-                : '';
-            lookUpQ160 = lookUpPSCDate.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
-            lookUpQ161 = lookUpPSCDate.deficiencycount === '1' ? 'Yes' : 'No';
-          } else {
-            lookUpFromDate = lookUpNonPSCDate.q156
-              ? this.datePipe.transform(
-                  new Date(lookUpNonPSCDate.q156),
-                  this.dateFormat
-                )
-              : '';
-            lookUpQ155 = 'Yes';
-            lookUpQ158 =
-              lookUpNonPSCDate && lookUpNonPSCDate.authoritycode
-                ? lookUpNonPSCDate.authoritycode
-                : '';
-            lookUpQ160 =
-              lookUpNonPSCDate.isnon_nc_def_obs === 'N' ? 'No' : 'Yes';
-            lookUpQ161 =
-              lookUpNonPSCDate.deficiencycount === '1' ? 'Yes' : 'No';
-          }
-          if (
-            !(
-              fromDate === lookUpFromDate &&
-              q155Field === lookUpQ155 &&
-              q158Field === lookUpQ158 &&
-              q160Field === lookUpQ160 &&
-              q161Field === lookUpQ161
-            )
-          ) {
-            this.exceptionDateFn(subQues, mquest, subq);
+            ) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
           }
         }
-      }
-    });
+      });
   }
 
   getTmsaDetail(questionId: any, subQues: any, mquest: any, subq: any) {
@@ -2719,242 +2680,239 @@ console.log(subq.answer, 'answer');
       return;
     }
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getLookupDetail(
-      questionId,
-      vesselCode,
-      questionId,
-      this.referenceNumber
-    ).subscribe((data) => {
-      let lookUpInternalDate: any;
-      let lookUpShipVisitDate: any;
+    this.appServices
+      .getLookupDetail(questionId, vesselCode, questionId, this.referenceNumber)
+      .subscribe((data) => {
+        let lookUpInternalDate: any;
+        let lookUpShipVisitDate: any;
 
-      let fromDate: any;
-      let toDate: any;
-      let lookUpFromDate: any;
-      let lookUpToDate: any;
-      if (
-        questionId === '3.2.1' ||
-        questionId === '3.2.2' ||
-        questionId === '3.2.5' ||
-        questionId === '3.2.6' ||
-        questionId === '3.2.7'
-      ) {
-        if (data && data.response) {
-          lookUpInternalDate = data.response.Internal.find(
-            (x: any) => x.highlight
-          );
-          lookUpShipVisitDate = data.response.ShipVisit.find(
-            (x: any) => x.highlight
-          );
-        }
-        if (lookUpInternalDate || lookUpShipVisitDate) {
-          if (questionId === '3.2.1') {
-            fromDate = this.dynamicForms.value.Q99
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q99),
-                  this.dateFormat
-                )
-              : '';
-          } else if (questionId === '3.2.2') {
-            fromDate = this.dynamicForms.value.Q101
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q101),
-                  this.dateFormat
-                )
-              : '';
-            toDate = this.dynamicForms.value.Q102
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q102),
-                  this.dateFormat
-                )
-              : '';
-          } else if (questionId === '3.2.5') {
-            fromDate = this.dynamicForms.value.Q117
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q117),
-                  this.dateFormat
-                )
-              : '';
-            toDate = this.dynamicForms.value.Q118
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q118),
-                  this.dateFormat
-                )
-              : '';
-          } else if (questionId === '3.2.6') {
-            fromDate = this.dynamicForms.value.Q122
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q122),
-                  this.dateFormat
-                )
-              : '';
-            toDate = this.dynamicForms.value.Q123
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q123),
-                  this.dateFormat
-                )
-              : '';
-          } else if (questionId === '3.2.7') {
-            fromDate = this.dynamicForms.value.Q127
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q127),
-                  this.dateFormat
-                )
-              : '';
-            toDate = this.dynamicForms.value.Q128
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q128),
-                  this.dateFormat
-                )
-              : '';
-          }
-        }
-
-        if (questionId === '3.2.1') {
-          if (lookUpInternalDate && lookUpInternalDate.auditfromdate) {
-            lookUpFromDate = lookUpInternalDate.auditfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpInternalDate.auditfromdate),
-                  this.dateFormat
-                )
-              : '';
-          } else if (
-            lookUpShipVisitDate &&
-            lookUpShipVisitDate.actualfromdate
-          ) {
-            lookUpFromDate = lookUpShipVisitDate.actualfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpShipVisitDate.actualfromdate),
-                  this.dateFormat
-                )
-              : '';
-          }
-
-          if (!(lookUpFromDate === fromDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
-          }
-        } else if (
+        let fromDate: any;
+        let toDate: any;
+        let lookUpFromDate: any;
+        let lookUpToDate: any;
+        if (
+          questionId === '3.2.1' ||
           questionId === '3.2.2' ||
           questionId === '3.2.5' ||
           questionId === '3.2.6' ||
           questionId === '3.2.7'
         ) {
-          if (lookUpInternalDate) {
-            lookUpFromDate = lookUpInternalDate.auditfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpInternalDate.auditfromdate),
-                  this.dateFormat
-                )
-              : '';
-            lookUpToDate = lookUpInternalDate.audittodate
-              ? this.datePipe.transform(
-                  new Date(lookUpInternalDate.audittodate),
-                  this.dateFormat
-                )
-              : '';
-          } else {
-            lookUpFromDate = lookUpShipVisitDate.actualfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpShipVisitDate.actualfromdate),
-                  this.dateFormat
-                )
-              : '';
-            lookUpToDate = lookUpShipVisitDate.actualtodate
-              ? this.datePipe.transform(
-                  new Date(lookUpShipVisitDate.actualtodate),
-                  this.dateFormat
-                )
-              : '';
+          if (data && data.response) {
+            lookUpInternalDate = data.response.Internal.find(
+              (x: any) => x.highlight
+            );
+            lookUpShipVisitDate = data.response.ShipVisit.find(
+              (x: any) => x.highlight
+            );
           }
-          if (!(lookUpFromDate === fromDate && lookUpToDate === toDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
+          if (lookUpInternalDate || lookUpShipVisitDate) {
+            if (questionId === '3.2.1') {
+              fromDate = this.dynamicForms.value.Q99
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q99),
+                    this.dateFormat
+                  )
+                : '';
+            } else if (questionId === '3.2.2') {
+              fromDate = this.dynamicForms.value.Q101
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q101),
+                    this.dateFormat
+                  )
+                : '';
+              toDate = this.dynamicForms.value.Q102
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q102),
+                    this.dateFormat
+                  )
+                : '';
+            } else if (questionId === '3.2.5') {
+              fromDate = this.dynamicForms.value.Q117
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q117),
+                    this.dateFormat
+                  )
+                : '';
+              toDate = this.dynamicForms.value.Q118
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q118),
+                    this.dateFormat
+                  )
+                : '';
+            } else if (questionId === '3.2.6') {
+              fromDate = this.dynamicForms.value.Q122
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q122),
+                    this.dateFormat
+                  )
+                : '';
+              toDate = this.dynamicForms.value.Q123
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q123),
+                    this.dateFormat
+                  )
+                : '';
+            } else if (questionId === '3.2.7') {
+              fromDate = this.dynamicForms.value.Q127
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q127),
+                    this.dateFormat
+                  )
+                : '';
+              toDate = this.dynamicForms.value.Q128
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q128),
+                    this.dateFormat
+                  )
+                : '';
+            }
           }
-        }
-      } else if (questionId === '3.2.3' || questionId === '3.2.4') {
-        if (data && data.response) {
-          lookUpInternalDate = data.response.Internal.find(
-            (x: any) => x.highlight
-          );
-          lookUpShipVisitDate = data.response.External.find(
-            (x: any) => x.highlight
-          );
-        }
-        if (lookUpInternalDate || lookUpShipVisitDate) {
+
+          if (questionId === '3.2.1') {
+            if (lookUpInternalDate && lookUpInternalDate.auditfromdate) {
+              lookUpFromDate = lookUpInternalDate.auditfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpInternalDate.auditfromdate),
+                    this.dateFormat
+                  )
+                : '';
+            } else if (
+              lookUpShipVisitDate &&
+              lookUpShipVisitDate.actualfromdate
+            ) {
+              lookUpFromDate = lookUpShipVisitDate.actualfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpShipVisitDate.actualfromdate),
+                    this.dateFormat
+                  )
+                : '';
+            }
+
+            if (!(lookUpFromDate === fromDate)) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
+          } else if (
+            questionId === '3.2.2' ||
+            questionId === '3.2.5' ||
+            questionId === '3.2.6' ||
+            questionId === '3.2.7'
+          ) {
+            if (lookUpInternalDate) {
+              lookUpFromDate = lookUpInternalDate.auditfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpInternalDate.auditfromdate),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpToDate = lookUpInternalDate.audittodate
+                ? this.datePipe.transform(
+                    new Date(lookUpInternalDate.audittodate),
+                    this.dateFormat
+                  )
+                : '';
+            } else {
+              lookUpFromDate = lookUpShipVisitDate.actualfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpShipVisitDate.actualfromdate),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpToDate = lookUpShipVisitDate.actualtodate
+                ? this.datePipe.transform(
+                    new Date(lookUpShipVisitDate.actualtodate),
+                    this.dateFormat
+                  )
+                : '';
+            }
+            if (!(lookUpFromDate === fromDate && lookUpToDate === toDate)) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
+          }
+        } else if (questionId === '3.2.3' || questionId === '3.2.4') {
+          if (data && data.response) {
+            lookUpInternalDate = data.response.Internal.find(
+              (x: any) => x.highlight
+            );
+            lookUpShipVisitDate = data.response.External.find(
+              (x: any) => x.highlight
+            );
+          }
+          if (lookUpInternalDate || lookUpShipVisitDate) {
+            if (questionId === '3.2.3') {
+              fromDate = this.dynamicForms.value.Q107
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q107),
+                    this.dateFormat
+                  )
+                : '';
+              toDate = this.dynamicForms.value.Q108
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q108),
+                    this.dateFormat
+                  )
+                : '';
+            } else if (questionId === '3.2.4') {
+              fromDate = this.dynamicForms.value.Q113
+                ? this.datePipe.transform(
+                    new Date(this.dynamicForms.value.Q113),
+                    this.dateFormat
+                  )
+                : '';
+            }
+          }
           if (questionId === '3.2.3') {
-            fromDate = this.dynamicForms.value.Q107
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q107),
-                  this.dateFormat
-                )
-              : '';
-            toDate = this.dynamicForms.value.Q108
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q108),
-                  this.dateFormat
-                )
-              : '';
+            if (lookUpInternalDate) {
+              lookUpFromDate = lookUpInternalDate.auditfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpInternalDate.auditfromdate),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpToDate = lookUpInternalDate.audittodate
+                ? this.datePipe.transform(
+                    new Date(lookUpInternalDate.audittodate),
+                    this.dateFormat
+                  )
+                : '';
+            } else {
+              lookUpFromDate = lookUpShipVisitDate.actualfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpShipVisitDate.actualfromdate),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpToDate = lookUpShipVisitDate.actualtodate
+                ? this.datePipe.transform(
+                    new Date(lookUpShipVisitDate.actualtodate),
+                    this.dateFormat
+                  )
+                : '';
+            }
+            if (!(lookUpFromDate === fromDate && lookUpToDate === toDate)) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
           } else if (questionId === '3.2.4') {
-            fromDate = this.dynamicForms.value.Q113
-              ? this.datePipe.transform(
-                  new Date(this.dynamicForms.value.Q113),
-                  this.dateFormat
-                )
-              : '';
+            if (lookUpInternalDate) {
+              lookUpFromDate = lookUpInternalDate.auditfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpInternalDate.auditfromdate),
+                    this.dateFormat
+                  )
+                : '';
+            } else {
+              lookUpFromDate = lookUpShipVisitDate.actualfromdate
+                ? this.datePipe.transform(
+                    new Date(lookUpShipVisitDate.actualfromdate),
+                    this.dateFormat
+                  )
+                : '';
+            }
+            if (!(lookUpFromDate === fromDate)) {
+              this.exceptionDateFn(subQues, mquest, subq);
+            }
           }
         }
-        if (questionId === '3.2.3') {
-          if (lookUpInternalDate) {
-            lookUpFromDate = lookUpInternalDate.auditfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpInternalDate.auditfromdate),
-                  this.dateFormat
-                )
-              : '';
-            lookUpToDate = lookUpInternalDate.audittodate
-              ? this.datePipe.transform(
-                  new Date(lookUpInternalDate.audittodate),
-                  this.dateFormat
-                )
-              : '';
-          } else {
-            lookUpFromDate = lookUpShipVisitDate.actualfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpShipVisitDate.actualfromdate),
-                  this.dateFormat
-                )
-              : '';
-            lookUpToDate = lookUpShipVisitDate.actualtodate
-              ? this.datePipe.transform(
-                  new Date(lookUpShipVisitDate.actualtodate),
-                  this.dateFormat
-                )
-              : '';
-          }
-          if (!(lookUpFromDate === fromDate && lookUpToDate === toDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
-          }
-        } else if (questionId === '3.2.4') {
-          if (lookUpInternalDate) {
-            lookUpFromDate = lookUpInternalDate.auditfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpInternalDate.auditfromdate),
-                  this.dateFormat
-                )
-              : '';
-          } else {
-            lookUpFromDate = lookUpShipVisitDate.actualfromdate
-              ? this.datePipe.transform(
-                  new Date(lookUpShipVisitDate.actualfromdate),
-                  this.dateFormat
-                )
-              : '';
-          }
-          if (!(lookUpFromDate === fromDate)) {
-            this.exceptionDateFn(subQues, mquest, subq);
-          }
-        }
-      }
-    });
+      });
   }
   workSpace() {
     this.showWorkSpace = !this.showWorkSpace;
@@ -2977,7 +2935,7 @@ console.log(subq.answer, 'answer');
     });
   }
 
-  lookUpResetForm(event: any, mquest: any) {
+  lookUpResetForm(event: any, quest: any, mquest: any) {
     const mQuestion = mquest.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -2997,29 +2955,44 @@ console.log(subq.answer, 'answer');
     if (mquest) {
       if (mquest && mquest.qid === 'MQ6') {
         this.formResetMQ6();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ20') {
         this.formResetMQ20();
       } else if (mquest && mquest.qid === 'MQ154') {
         this.formResetMQ154();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ97') {
         this.formResetMQ97();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ100') {
         this.formResetMQ100();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ105') {
         this.formResetMQ105();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ111') {
         this.formResetMQ111();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ115') {
         this.formResetMQ115();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ120') {
         this.formResetMQ120();
+        this.lookupReset(questionId, 'Reset', '');
       } else if (mquest && mquest.qid === 'MQ125') {
         this.formResetMQ125();
+        this.lookupReset(questionId, 'Reset', '');
+      } else if (quest.subheadid === 'SH14') {
+        this.formResetSH14(quest);
+      } else if (quest.subheadid === 'SH29') {
+        this.formResetSH29();
+        this.lookupReset('2.5.', 'Reset', '');
       }
+
       mquest.subQuestion.forEach((subQues: any) => {
         this.exceptionList.splice(this.exceptionList.indexOf(subQues.qid), 1);
       });
-      this.lookupReset(questionId, 'Reset', '');
+
       event.preventDefault();
       event.stopPropagation();
     }
@@ -3098,7 +3071,7 @@ console.log(subq.answer, 'answer');
           this.getStatus == 'Approved'
         ) {
           const disableFields = true;
-          this.BudgetService.setEnableBtn(disableFields);
+          this.appServices.setEnableBtn(disableFields);
           this.viewMode = true;
           var flag = false;
           return flag;
@@ -3141,14 +3114,14 @@ console.log(subq.answer, 'answer');
       );
       dialogRef.afterClosed().subscribe((result) => {
         this.unSavedData = false;
-        this.BudgetService.setUnSaveAction(false);
+        this.appServices.setUnSaveAction(false);
         this.dialog.closeAll();
         if (result) {
           this.navigateLandingPage();
         } else {
           setTimeout(() => {
             this.unSavedData = true;
-            this.BudgetService.setUnSaveAction(true);
+            this.appServices.setUnSaveAction(true);
           }, 100);
         }
       });
@@ -3165,7 +3138,7 @@ console.log(subq.answer, 'answer');
     localStorage.removeItem('getSelectedCheckListID');
     localStorage.removeItem('previousTabIndex');
     localStorage.removeItem('currentVesselType');
-    this.BudgetService.setEditVisible(false);
+    this.appServices.setEditVisible(false);
     localStorage.setItem('setEditVisible', 'false');
     this.router.navigate(['/sire/piq-landing/']);
   }
@@ -3174,7 +3147,7 @@ console.log(subq.answer, 'answer');
     localStorage.setItem('setDisable', 'false');
     this.router.navigate(['/sire/piq-report/' + this.referenceNumber]);
     if (this.route.snapshot.paramMap.get('type') == 'view') {
-      this.BudgetService.setEnableBtn(false);
+      this.appServices.setEnableBtn(false);
       if (this.userDetails?.cntrlType === 'CNT002') {
         if (
           this.getOrigination == 'CNT002' &&
@@ -3202,7 +3175,7 @@ console.log(subq.answer, 'answer');
       this.viewMode = false;
       this.disableEditMode = false;
       this.saveDisable = false;
-      this.BudgetService.setEnableBtn(false);
+      this.appServices.setEnableBtn(false);
     }
   }
 
@@ -3229,7 +3202,7 @@ console.log(subq.answer, 'answer');
         );
         dialogRef.afterClosed().subscribe((result) => {
           this.unSavedData = false;
-          this.BudgetService.setUnSaveAction(false);
+          this.appServices.setUnSaveAction(false);
           if (result) {
             const index = localStorage.getItem('previousTabIndex');
             if (index != '1') {
@@ -3240,13 +3213,13 @@ console.log(subq.answer, 'answer');
             this.dialog.closeAll();
             setTimeout(() => {
               this.unSavedData = true;
-              this.BudgetService.setUnSaveAction(true);
+              this.appServices.setUnSaveAction(true);
             }, 100);
           }
         });
         return;
       }
-      this.BudgetService.getTabChangeData().subscribe((res: any) => {
+      this.appServices.getTabChangeData().subscribe((res: any) => {
         this.tabGroup.selectedIndex = res.tab;
         this.selectValue(res.subHeaders);
       });
@@ -3260,7 +3233,7 @@ console.log(subq.answer, 'answer');
   }
 
   lookupReset(questionId: any, lookup: any, payloadDetails: any) {
-    this.isLoader = true;
+    this.loaderService.loaderShow();
     const payload = {
       instanceid: this.referenceNumber,
       questionid: questionId,
@@ -3268,8 +3241,8 @@ console.log(subq.answer, 'answer');
       lookupjson: payloadDetails,
       user: this.userDetails?.userCode,
     };
-    this.BudgetService.saveLookUp(payload).subscribe((data) => {
-      this.isLoader = false;
+    this.appServices.saveLookUp(payload).subscribe((data) => {
+      this.loaderService.loaderHide();
       this.submitFormAll(this.dynamicForms);
     });
   }
@@ -3353,7 +3326,32 @@ console.log(subq.answer, 'answer');
     });
   }
 
-  ngOnDestroy(): void {
-    // this.BudgetService.ngOnDestroy();
+  formResetSH14(quest: any) {
+    quest.question.forEach((que: any) => {
+      que.subQuestion.forEach((subQue: any) => {
+        if (
+          valuesToCheckDD.includes(subQue.qid) ||
+          valuesToCheckDate.includes(subQue.qid) ||
+          subQue.qid.includes('D')
+        ) {
+          if (subQue.qid.includes('D')) {
+            delete this.dynamicForms.value[subQue.qid];
+          } else {
+            this.dynamicForms.controls[subQue.qid].patchValue('');
+          }
+        }
+      });
+    });
+    this.arrayObj = [];
+    this.lookupReset('5.7', 'Reset', '');
+  }
+
+  formResetSH29() {
+    this.dynamicForms.patchValue({
+      Q136: '',
+      Q139: '',
+      Q142: '',
+      Q145: '',
+    });
   }
 }

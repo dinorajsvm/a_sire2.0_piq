@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'; 
 import { AgRendererComponent,} from 'ag-grid-angular'; 
-import { BudgetService } from '../../../modules/dashboard/services/budget.service';
+import { AppService } from '../../../modules/dashboard/services/app.service';
 interface names {
     value: string;
     viewValue: string;

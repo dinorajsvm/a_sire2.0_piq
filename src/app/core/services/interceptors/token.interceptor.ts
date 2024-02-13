@@ -12,7 +12,7 @@ import { StorageService } from '../storage/storage.service';
 import { HttpService } from '../http/http.service';
 import { LoaderService } from '../utils/loader.service';
 import { CancellationService } from 'src/app/modules/dashboard/services/cancellation.service';
-import { BudgetService } from 'src/app/modules/dashboard/services/budget.service';
+import { AppService } from 'src/app/modules/dashboard/services/app.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../snackbar/snackbar.service';
 import { colorCodes } from '../../constants';
@@ -31,7 +31,7 @@ export class TokenInterceptor implements HttpInterceptor {
     private _loaderService: LoaderService,
     private cancellationService: CancellationService,
     private _router: Router,
-    private BudgetService: BudgetService
+    private appServices: AppService
   ) {
     const navigationUrl = this._router.getCurrentNavigation();
     this.mackToken = navigationUrl?.extractedUrl.queryParams['token'];
@@ -63,8 +63,6 @@ export class TokenInterceptor implements HttpInterceptor {
         finalize(() => this.hideLoader())
       );
     }
-console.log(modifiedRequest, 'modifiedRequest');
-
     return next.handle(modifiedRequest).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
@@ -105,7 +103,7 @@ console.log(modifiedRequest, 'modifiedRequest');
         const requestBody = {
           reftoken: this._storage.getRefereshToken(),
         };
-        return this.BudgetService.refreshToken(requestBody).pipe(
+        return this.appServices.refreshToken(requestBody).pipe(
           switchMap((token: any) => {
             this.isRefreshing = false;
             localStorage.removeItem('accessToken');
@@ -120,15 +118,14 @@ console.log(modifiedRequest, 'modifiedRequest');
             );
           }),
           catchError((err: any) => {
-            localStorage.clear();
-            this._router.navigate(['auth']);
-            this.hideLoader();
-            return throwError(() => err);
+          
+      this.appServices.destroyPage();
+        return throwError(() => err);
           })
         );
       } else {
-        localStorage.clear();
-        this._router.navigate(['auth']);
+       
+      this.appServices.destroyPage();
         this.hideLoader();
       }
     }

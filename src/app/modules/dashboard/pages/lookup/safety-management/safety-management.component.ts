@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
 import { ColDef, GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
-import { BudgetService } from '../../../services/budget.service';
+import { AppService } from '../../../services/app.service';
 import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
 import { DefaultColDef } from 'src/app/core/constants';
@@ -568,7 +568,7 @@ export class SafetyManagementComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<SafetyManagementComponent>,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private _storage: StorageService,
     private _loaderService: LoaderService,
     private datePipe: DatePipe
@@ -621,7 +621,7 @@ export class SafetyManagementComponent implements OnInit {
 
   safetyManagementDetails() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getLookupDetail(
+    this.appServices.getLookupDetail(
       "5.7",
       vesselCode,
       "5.7",

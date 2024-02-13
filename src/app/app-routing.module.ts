@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Roles } from './core/mgntDBconstants';
-import { mgntdbGuard } from './core/guard/mgntDb.guard';
-import { GuestGuard } from './core/guard/guest.guard';
 import { AuthGuard } from './core/guard/auth.guard';
-import { ModuleGuard } from './core/guard/module.guard';
+// import { ModuleGuard } from './core/guard/module.guard';
 
 const routes: Routes = [
   {
@@ -14,14 +11,8 @@ const routes: Routes = [
       import('./modules/login/login.module').then((m) => m.LoginModule),
   },
   {
-    path: 'auth',
-    canLoad: [GuestGuard],
-    loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
-  },
-  {
     path: 'sire',
-    canActivate: [ModuleGuard],
+    // canActivate: [ModuleGuard],
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../../services/budget.service';
+import { AppService } from '../../../services/app.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -13,7 +13,7 @@ import {
   RowClassRules,
 } from 'ag-grid-enterprise';
 import { ApplyRendererComponent } from '../../renderer/apply-btn.component';
-import { DefaultColDef, colorCodes } from 'src/app/core/constants';
+import { DefaultColDef } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
 declare function mdldmsnavigatenewtab(
@@ -36,9 +36,13 @@ export class TMSAComponent implements OnInit {
   gridInternalApi: any;
   gridExternalApi: any;
   gridShipApi: any;
+  gridInternalROFApi: any;
+  gridShipTSFApi: any;
   totalRowInternalCount = 0;
   totalRowExternalCount = 0;
   totalRowShipCount = 0;
+  totalRowInternalROFCount = 0;
+  totalRowShipTSFCount = 0;
   isChecked = true;
   public tooltipShowDelay = 0;
   isShowInternalShip = false;
@@ -51,6 +55,8 @@ export class TMSAComponent implements OnInit {
   apiResponse: any = [];
   rowShipData: any[] = [];
   rowInternalData: any[] = [];
+  rowShipTSFData: any[] = [];
+  rowInternalROFData: any[] = [];
   rowExternalData: any[] = [];
   resetBtn = false;
   columnInternalDefs: ColDef[] = [
@@ -346,7 +352,7 @@ export class TMSAComponent implements OnInit {
   userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<TMSAComponent>,
     public dialog: MatDialog,
     private _storage: StorageService,
@@ -402,9 +408,17 @@ export class TMSAComponent implements OnInit {
   resetBtnEnable() {
     const rowShipDataFlag = this.rowShipData.find((x) => x.highlight);
     const rowInternalDataFlag = this.rowInternalData.find((y) => y.highlight);
+    const rowShipTSFDataFlag = this.rowShipTSFData.find((x) => x.highlight);
+    const rowInternalROFDataFlag = this.rowInternalROFData.find(
+      (y) => y.highlight
+    );
     const rowExternalDataFlag = this.rowExternalData.find((z) => z.highlight);
     this.resetBtn =
-      rowExternalDataFlag || rowInternalDataFlag || rowShipDataFlag
+      rowExternalDataFlag ||
+      rowInternalDataFlag ||
+      rowShipDataFlag ||
+      rowShipTSFDataFlag ||
+      rowInternalROFDataFlag
         ? true
         : false;
   }
@@ -414,6 +428,22 @@ export class TMSAComponent implements OnInit {
     this.gridInternalApi.addEventListener(
       'filterChanged',
       this.onFilterInternalChanged.bind(this)
+    );
+  }
+
+  onGridShipTSFReady(params: any) {
+    this.gridShipTSFApi = params.api;
+    this.gridShipTSFApi.addEventListener(
+      'filterChanged',
+      this.onFilterShipTSFChanged.bind(this)
+    );
+  }
+
+  onGridInternalROFReady(params: any) {
+    this.gridInternalROFApi = params.api;
+    this.gridInternalROFApi.addEventListener(
+      'filterChanged',
+      this.onFilterInternalROFChanged.bind(this)
     );
   }
 
@@ -455,15 +485,17 @@ export class TMSAComponent implements OnInit {
 
   getTmsaDetail() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getLookupDetail(
-      this.data.qid,
-      vesselCode,
-      this.data.questionId,
-      this.data.referenceId
-    ).subscribe((resp) => {
-      this.apiResponse = resp.response;
-      this.changeToggle('Internal Audit Report');
-    });
+    this.appServices
+      .getLookupDetail(
+        this.data.qid,
+        vesselCode,
+        this.data.questionId,
+        this.data.referenceId
+      )
+      .subscribe((resp) => {
+        this.apiResponse = resp.response;
+        this.changeToggle('Internal Audit Report');
+      });
   }
 
   showInternal() {
@@ -471,10 +503,20 @@ export class TMSAComponent implements OnInit {
     this.isShowShip = false;
     this.isShowExternal = false;
     this.isShowInternal = true;
-    this.rowInternalData = this.apiResponse && this.apiResponse.Internal ? this.apiResponse.Internal : [];
+    this.rowInternalData =
+      this.apiResponse && this.apiResponse.Internal
+        ? this.apiResponse.Internal
+        : [];
     this.totalRowInternalCount =
       this.rowInternalData && this.rowInternalData.length > 0
         ? this.rowInternalData.length
+        : 0;
+
+    this.rowInternalROFData =
+      this.apiResponse && this.apiResponse.ROF ? this.apiResponse.ROF : [];
+    this.totalRowInternalROFCount =
+      this.rowInternalROFData && this.rowInternalROFData.length > 0
+        ? this.rowInternalROFData.length
         : 0;
     this.resetBtnEnable();
   }
@@ -484,10 +526,19 @@ export class TMSAComponent implements OnInit {
     this.isShowExternal = false;
     this.isShowInternal = false;
     this.isShowShip = true;
-    this.rowShipData = this.apiResponse && this.apiResponse.ShipVisit ? this.apiResponse.ShipVisit : [];
+    this.rowShipData =
+      this.apiResponse && this.apiResponse.ShipVisit
+        ? this.apiResponse.ShipVisit
+        : [];
     this.totalRowShipCount =
       this.rowShipData && this.rowShipData.length > 0
         ? this.rowShipData.length
+        : 0;
+    this.rowShipTSFData =
+      this.apiResponse && this.apiResponse.TSF ? this.apiResponse.TSF : [];
+    this.totalRowShipTSFCount =
+      this.rowShipTSFData && this.rowShipTSFData.length > 0
+        ? this.rowShipTSFData.length
         : 0;
     this.resetBtnEnable();
   }
@@ -496,7 +547,10 @@ export class TMSAComponent implements OnInit {
     this.isShowInternal = false;
     this.isShowShip = false;
     this.isShowExternal = true;
-    this.rowExternalData = this.apiResponse && this.apiResponse.External ? this.apiResponse.External: [];
+    this.rowExternalData =
+      this.apiResponse && this.apiResponse.External
+        ? this.apiResponse.External
+        : [];
     this.totalRowExternalCount =
       this.rowExternalData && this.rowExternalData.length > 0
         ? this.rowExternalData.length
@@ -508,12 +562,32 @@ export class TMSAComponent implements OnInit {
     this.isShowInternal = false;
     this.isShowShip = false;
     this.isShowExternal = false;
-    this.rowExternalData = this.apiResponse && this.apiResponse.External ? this.apiResponse.External: [];
-    this.rowInternalData = this.apiResponse && this.apiResponse.Internal ? this.apiResponse.Internal : [];
-    this.rowShipData = this.apiResponse && this.apiResponse.ShipVisit ? this.apiResponse.ShipVisit : [];
+    this.rowExternalData =
+      this.apiResponse && this.apiResponse.External
+        ? this.apiResponse.External
+        : [];
+    this.rowInternalData =
+      this.apiResponse && this.apiResponse.Internal
+        ? this.apiResponse.Internal
+        : [];
+
+    this.rowInternalROFData =
+      this.apiResponse && this.apiResponse.ROF ? this.apiResponse.ROF : [];
+
+    this.rowShipData =
+      this.apiResponse && this.apiResponse.ShipVisit
+        ? this.apiResponse.ShipVisit
+        : [];
+    this.rowShipTSFData =
+      this.apiResponse && this.apiResponse.TSF ? this.apiResponse.TSF : [];
+
     this.totalRowInternalCount =
       this.rowInternalData && this.rowInternalData.length > 0
         ? this.rowInternalData.length
+        : 0;
+    this.totalRowInternalROFCount =
+      this.rowInternalROFData && this.rowInternalROFData.length > 0
+        ? this.rowInternalROFData.length
         : 0;
     this.totalRowExternalCount =
       this.rowExternalData && this.rowExternalData.length > 0
@@ -522,6 +596,10 @@ export class TMSAComponent implements OnInit {
     this.totalRowShipCount =
       this.rowShipData && this.rowShipData.length > 0
         ? this.rowShipData.length
+        : 0;
+    this.totalRowShipTSFCount =
+      this.rowShipTSFData && this.rowShipTSFData.length > 0
+        ? this.rowShipTSFData.length
         : 0;
     this.resetBtnEnable();
   }
@@ -546,12 +624,21 @@ export class TMSAComponent implements OnInit {
     }
   }
 
+  onFilterInternalROFChanged() {
+    this.totalRowInternalROFCount =
+      this.gridInternalROFApi.getDisplayedRowCount();
+  }
+
   onFilterInternalChanged() {
     this.totalRowInternalCount = this.gridInternalApi.getDisplayedRowCount();
   }
 
   onFilterExternalChanged() {
-    this.totalRowExternalCount = this.gridExternalApi.getDisplayedRowCount();    
+    this.totalRowExternalCount = this.gridExternalApi.getDisplayedRowCount();
+  }
+
+  onFilterShipTSFChanged() {
+    this.totalRowShipTSFCount = this.gridShipTSFApi.getDisplayedRowCount();
   }
 
   onFilterShipChanged() {

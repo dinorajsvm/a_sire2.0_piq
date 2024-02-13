@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ColDef, GridApi, RowGroupingDisplayType } from 'ag-grid-community';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { DefaultColDef, colorCodes } from 'src/app/core/constants';
@@ -263,7 +263,7 @@ export class PIQSummaryComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private route: ActivatedRoute,
     private _storage: StorageService,
     private _snackBarService: SnackbarService,
@@ -291,7 +291,7 @@ export class PIQSummaryComponent implements OnInit {
       this.disableResAprFlowBtn = true;
       this.viewMode = true;
 
-      this.BudgetService.getEnableBtn().subscribe((res: any) => {
+      this.appServices.getEnableBtn().subscribe((res: any) => {
         if (res == false) {
           this.disableSyncBtn = res;
           this.viewMode = res;
@@ -305,14 +305,14 @@ export class PIQSummaryComponent implements OnInit {
     }
     this.getAnswerValue();
 
-    this.BudgetService.getPiqQuestionData().subscribe((res: any) => {
+    this.appServices.getPiqQuestionData().subscribe((res: any) => {
       this.submitData = res;
     });
-    this.BudgetService.getGridSummary().subscribe((res: any) => {
+    this.appServices.getGridSummary().subscribe((res: any) => {
       this.rowData = res;
     });
 
-    this.BudgetService.getExceptionData().subscribe((res: any) => {
+    this.appServices.getExceptionData().subscribe((res: any) => {
       this.exceptionList = res;
       this.exceptionCounts = res && res.length > 0 ? res.length : 0;
 
@@ -333,13 +333,13 @@ export class PIQSummaryComponent implements OnInit {
         }
       }
     });
-    this.BudgetService.getPhotoRepData().subscribe((res: any) => {
+    this.appServices.getPhotoRepData().subscribe((res: any) => {
       this.photoRepCounts = res;
     });
-    this.BudgetService.getImgCount().subscribe((res: any) => {
+    this.appServices.getImgCount().subscribe((res: any) => {
       this.photoRepImgCounts = res;
     });
-    this.BudgetService.getPrGridData().subscribe((res: any) => {
+    this.appServices.getPrGridData().subscribe((res: any) => {
       this.photoRowData = res;
     });
   }
@@ -347,16 +347,16 @@ export class PIQSummaryComponent implements OnInit {
   tabChange(tabRef: any) {
     if (tabRef == 'PIQ') {
       const tab = 1;
-      this.BudgetService.setTabChangeData(tab);
+      this.appServices.setTabChangeData(tab);
     } else if (tabRef == 'PR') {
       const tab = 2;
-      this.BudgetService.setTabChangeData(tab);
+      this.appServices.setTabChangeData(tab);
     } else if (tabRef == 'E') {
       const tab = 4;
-      this.BudgetService.setTabChangeData(tab);
+      this.appServices.setTabChangeData(tab);
     } else if (tabRef == 'C') {
       const tab = 3;
-      this.BudgetService.setTabChangeData(tab);
+      this.appServices.setTabChangeData(tab);
     }
   }
 
@@ -399,10 +399,10 @@ export class PIQSummaryComponent implements OnInit {
 
   onWorkflow(type?: any, event?: any) {
     if (type == 'approve') {
-      this.BudgetService.setEditVisible(this.hideEdit);
+      this.appServices.setEditVisible(this.hideEdit);
       localStorage.setItem('setEditVisible', 'true');
     } else {
-      this.BudgetService.setEditVisible(false);
+      this.appServices.setEditVisible(false);
       localStorage.setItem('setEditVisible', 'false');
     }
     this.getAnswerValue(type);
@@ -412,8 +412,8 @@ export class PIQSummaryComponent implements OnInit {
 
   getworkflowStatus() {
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
-    this.BudgetService.getworkFlowStatus().subscribe((res: any) => {
-      this.BudgetService.setWorkflowmaster(res)
+    this.appServices.getworkFlowStatus().subscribe((res: any) => {
+      this.appServices.setWorkflowmaster(res)
       let val = res.workflowmaster;
       this.getWrkFlowId = val[0].wfid;
       this.getResAprWrkFlowRank = val[0].approver;
@@ -430,7 +430,7 @@ export class PIQSummaryComponent implements OnInit {
       this.getSubmitterRanks = getSubRank !== undefined ? getSubRank : 0;
 
       if (this.route.snapshot.paramMap.get('type') == 'view') {
-        this.BudgetService.getEnableBtn().subscribe((res: any) => {
+        this.appServices.getEnableBtn().subscribe((res: any) => {
           if (
             (this.getSubmitterRanks == this.getRank ||
               this.getApproverRanks == this.getRank) &&
@@ -476,7 +476,7 @@ export class PIQSummaryComponent implements OnInit {
       remarks: this.remarks,
       vesselcode: this.getVesselCode,
     };
-    this.BudgetService.getworkflowaction(payload).subscribe((res: any) => {});
+    this.appServices.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
   getMasterDetails() {
@@ -493,7 +493,7 @@ export class PIQSummaryComponent implements OnInit {
           ? ''
           : currentVesselType,
     };
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+    this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;
@@ -502,14 +502,14 @@ export class PIQSummaryComponent implements OnInit {
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
-      this.BudgetService.setExceptionData(exceptionList);
+      this.appServices.setExceptionData(exceptionList);
       if (this.route.snapshot.paramMap.get('type') == 'view') {
         if (
           this.getOriginator == 'CNT002' &&
           this.getWorkFlowAction == 'Inprogress' &&
           this.userDetails?.cntrlType === 'CNT001'
         ) {
-          this.BudgetService.setEnableViewMode(false);
+          this.appServices.setEnableViewMode(false);
         }
       }
 
@@ -553,7 +553,7 @@ export class PIQSummaryComponent implements OnInit {
         const data = JSON.parse(res.datasyncgrid);
         this.expectedRowData = data;
       }
-      this.BudgetService.setEditVisible(false);
+      this.appServices.setEditVisible(false);
       localStorage.setItem('setEditVisible', 'false');
       if (this.getOriginator == 'CNT002') {
         if (
@@ -567,7 +567,7 @@ export class PIQSummaryComponent implements OnInit {
           this.getWorkFlowAction === 'Approved'
         ) {
           this.hideBtns = true;
-          this.BudgetService.setEditVisible(true);
+          this.appServices.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
         }
       } else if (this.getOriginator == 'CNT001') {
@@ -583,7 +583,7 @@ export class PIQSummaryComponent implements OnInit {
             this.userDetails?.cntrlType === 'CNT001')
         ) {
           this.hideBtns = true;
-          this.BudgetService.setEditVisible(true);
+          this.appServices.setEditVisible(true);
           localStorage.setItem('setEditVisible', 'true');
         }
       }
@@ -594,14 +594,14 @@ export class PIQSummaryComponent implements OnInit {
         this.getWorkFlowAction === 'Approved'
       ) {
         this.hideBtns = true;
-        this.BudgetService.setEditVisible(true);
+        this.appServices.setEditVisible(true);
         localStorage.setItem('setEditVisible', 'true');
       }
     });
   }
 
   certficateGridDatas() {
-    this.BudgetService.getCertificateList(
+    this.appServices.getCertificateList(
       this.userDetails.companyCode,
       this.getVesselCode,
       this.referenceNumber
@@ -624,7 +624,7 @@ export class PIQSummaryComponent implements OnInit {
         filteredMappingCode && filteredMappingCode.length
           ? filteredMappingCode.length
           : 0;
-      this.BudgetService.setCertificateListDetails(this.certificateRowData);
+      this.appServices.setCertificateListDetails(this.certificateRowData);
     });
   }
 
@@ -703,7 +703,7 @@ export class PIQSummaryComponent implements OnInit {
               ? ''
               : currentVesselType,
         };
-        this.BudgetService.setEnableViewMode(this.enableViewMode);
+        this.appServices.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
         localStorage.setItem('setDisable', 'true');
         remarks?.classList.remove('remError');
@@ -737,7 +737,7 @@ export class PIQSummaryComponent implements OnInit {
               ? ''
               : currentVesselType,
         };
-        this.BudgetService.setEnableViewMode(this.enableViewMode);
+        this.appServices.setEnableViewMode(this.enableViewMode);
         localStorage.setItem('setDisable', 'true');
         let remarks = document.getElementById('remarks');
         remarks?.classList.remove('remError');
@@ -771,7 +771,7 @@ export class PIQSummaryComponent implements OnInit {
               ? ''
               : currentVesselType,
         };
-        this.BudgetService.setEnableViewMode(this.enableViewMode);
+        this.appServices.setEnableViewMode(this.enableViewMode);
         let remarks = document.getElementById('remarks');
         localStorage.setItem('setDisable', 'true');
         remarks?.classList.remove('remError');
@@ -803,7 +803,7 @@ export class PIQSummaryComponent implements OnInit {
           : currentVesselType,
     };
     this.getMainQuestCounts = [];
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+    this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
       if (res && res.response) {
         let object = res && res.response ? JSON.parse(res.response) : [];
         this.getAllDatas = object;
@@ -835,7 +835,7 @@ export class PIQSummaryComponent implements OnInit {
       quicknotes: this.quickNotesInput,
       plannedsubdate: this.dateSelected,
     };
-    this.BudgetService.saveQuickNotes(payload).subscribe((res) => {
+    this.appServices.saveQuickNotes(payload).subscribe((res) => {
       this.getplannedDate();
     });
   }
@@ -853,7 +853,7 @@ export class PIQSummaryComponent implements OnInit {
           ? ''
           : currentVesselType,
     };
-    this.BudgetService.getPiqQuestAns(payload).subscribe((res: any) => {
+    this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
       this.setPlannedDate(res);
     });
   }
@@ -868,7 +868,7 @@ export class PIQSummaryComponent implements OnInit {
   }
   getRefnImportDetails(instanceid: any) {
     let getMainQuestCounts: any[] = [];
-    this.BudgetService.getRefnImportAnswer(instanceid).subscribe((data) => {
+    this.appServices.getRefnImportAnswer(instanceid).subscribe((data) => {
       this.getAllDatas.forEach((value1: any) => {
         value1.values.forEach((value: any) => {
           value.question.forEach((subHeader: any) => {
@@ -881,11 +881,11 @@ export class PIQSummaryComponent implements OnInit {
         });
       });
       if (this.pendingCount === getMainQuestCounts.length) {
-        this.BudgetService.setPreviousPresetData(data.response);
+        this.appServices.setPreviousPresetData(data.response);
       }
     });
     const exceptionList: any = [];
-    this.BudgetService.setExceptionData(exceptionList);
+    this.appServices.setExceptionData(exceptionList);
   }
   openDialog(): void {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
@@ -904,7 +904,7 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
   saveMethodCall(ansPayload: any, type?: any) {
-    this.BudgetService.getSaveValues(ansPayload).subscribe((res: any) => {
+    this.appServices.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
         this.getMasterDetails();
         this._snackBarService.loadSnackBar(

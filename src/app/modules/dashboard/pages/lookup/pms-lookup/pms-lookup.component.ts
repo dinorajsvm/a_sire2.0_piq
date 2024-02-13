@@ -5,7 +5,7 @@ import {
   RowClassRules
 } from 'ag-grid-community';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../../services/budget.service';
+import { AppService } from '../../../services/app.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -75,7 +75,7 @@ export class PmsLookupComponent {
   userDetails: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<PmsLookupComponent>,
     public dialog: MatDialog,
     public _storage: StorageService,
@@ -105,7 +105,7 @@ export class PmsLookupComponent {
   getLookUpVisit() {
     const companyCode = this.userDetails.userData.mdata.appInfo.companyCode;
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getPMSLookupVisitData(
+    this.appServices.getPMSLookupVisitData(
       companyCode,
       vesselCode,
       this.data.referenceId,

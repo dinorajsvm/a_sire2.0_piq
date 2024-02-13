@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'app-button-renderer',
@@ -37,7 +37,7 @@ export class ResetBtnRendererComponent implements ICellRendererAngularComp {
   params: any;
   label!: string;
   disableBtns = false;
-  constructor(private BudgetService: BudgetService) {
+  constructor(private appServices: AppService) {
 
     this.disableBtns = localStorage.getItem('setDisable') === 'true';
   }
@@ -46,7 +46,7 @@ export class ResetBtnRendererComponent implements ICellRendererAngularComp {
     this.params = params;
     this.label = this.params.label || null;
 
-    this.BudgetService.getEnableBtn().subscribe((res: any) => {
+    this.appServices.getEnableBtn().subscribe((res: any) => {
       this.disableBtns = res;
     });
   }

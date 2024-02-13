@@ -5,6 +5,7 @@ import { ApiMethod } from 'src/app/core/constants';
 import { Endpoints } from 'src/app/core/mgntDBconstants';
 import { HttpService } from 'src/app/core/services/http/http.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
+import { AppService } from '../../dashboard/services/app.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,8 @@ export class AuthService {
   constructor(
     private _http: HttpService,
     private _storageService: StorageService,
-    private _router: Router
+    private _router: Router,
+    private appServices: AppService
   ) {}
 
   login(loginPayload: any, errorResponseCallback: any): void {
@@ -53,7 +55,7 @@ export class AuthService {
         environment.authUrl
       )
       .subscribe((res: any) => {
-        this._storageService.clearStorageRedirect();
+      this.appServices.destroyPage();
       });
   }
 

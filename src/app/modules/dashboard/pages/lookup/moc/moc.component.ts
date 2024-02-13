@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import 'ag-grid-enterprise';
-import { BudgetService } from '../../../services/budget.service';
+import { AppService } from '../../../services/app.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -117,7 +117,7 @@ export class MocComponent {
   };
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private dialogRef: MatDialogRef<MocComponent>,
     public dialog: MatDialog,
     public _storage: StorageService,
@@ -174,7 +174,7 @@ export class MocComponent {
 
   mocDetails() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.BudgetService.getMocDetails(
+    this.appServices.getMocDetails(
       vesselCode,
       this.data.referenceId,
       this.data.questionId

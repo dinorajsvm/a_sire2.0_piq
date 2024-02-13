@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BudgetService } from '../../services/budget.service';
+import { AppService } from '../../services/app.service';
 import {
   ColDef,
   GridReadyEvent,
@@ -137,12 +137,12 @@ export class CertificateRepositoryComponent implements OnInit, OnDestroy {
   gridApi: any;
   totalRowCount = 0;
   constructor(
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private snackBarService: SnackbarService,
     private cancellationService: CancellationService
   ) {}
   ngOnInit(): void {
-    this.BudgetService.getCertificateListDetails().subscribe((response) => {
+    this.appServices.getCertificateListDetails().subscribe((response) => {
       this.rowData = response && response.length > 0 ? response : [];
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
@@ -163,7 +163,7 @@ export class CertificateRepositoryComponent implements OnInit, OnDestroy {
 
   downloadFile(event: any) {
     const fileUrl = event.rowData.systemfilename;
-    this.BudgetService.getServerFileFromStream(fileUrl).subscribe(
+    this.appServices.getServerFileFromStream(fileUrl).subscribe(
       (Blob: Blob) => {
         const filename = event.rowData.localfilename;
         saveAs(Blob, filename);

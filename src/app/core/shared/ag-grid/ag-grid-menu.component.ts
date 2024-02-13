@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage/storage.service';
 import { EFormMode, colorCodes } from '../../constants';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
-import { BudgetService } from '../../../modules/dashboard/services/budget.service';
+import { AppService } from '../../../modules/dashboard/services/app.service';
 
 @Component({
   template: `
@@ -33,7 +33,7 @@ export class AgGridMenuComponent implements AgRendererComponent {
   constructor(
     private ngZone: NgZone,
     private _storage: StorageService,
-    private BudgetService: BudgetService,
+    private appServices: AppService,
     private _snackBarService: SnackbarService,
     private router: Router
   ) {
@@ -63,12 +63,12 @@ export class AgGridMenuComponent implements AgRendererComponent {
   deleteRowData(id:any) {
     const instanceid = id;
     const payload = { instanceid: instanceid };
-    this.BudgetService.deleteRow(payload).subscribe((res: any) => {
+    this.appServices.deleteRow(payload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar(
         'Deleted Successfully',
         colorCodes.INFO
       );
-      this.BudgetService.setDeleteAction(true);
+      this.appServices.setDeleteAction(true);
     });
   }
 
