@@ -12,8 +12,8 @@ export class AppService {
   // private globalUrl = "https://macktesting.solverminds.net"
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
-  // private globalUrl = document.location.protocol + '//' + document.location.hostname;
-  private globalUrl = environment.apiUrl;
+  private globalUrl = document.location.protocol + '//' + document.location.hostname;
+  // private globalUrl = environment.apiUrl;
 
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;
@@ -135,7 +135,7 @@ export class AppService {
   // generatetoken
   piqLogin(payload: any): Observable<any> {
     return this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/generatetoken`,
+      `${this.globalUrl}/Token/event/generatetoken`,
       payload
     );
   }
@@ -143,7 +143,7 @@ export class AppService {
   // refreshToken
   refreshToken(payload: any) {
     return this.client.post<any>(
-      `${this.globalUrl}/PIQ/event/refreshtoken`,
+      `${this.globalUrl}/Token/event/refreshtoken`,
       payload
     );
   }
@@ -304,11 +304,10 @@ export class AppService {
   getPMSLookupVisitData(
     companycode: any,
     vesselCode: any,
-    instanceId: any,
-    questionId: any
+    instanceId: any
   ) {
     return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getpmslookup?companycode=${companycode}&vesselcode=${vesselCode}&instanceid=${instanceId}&questionid=${questionId}`
+      `${this.globalUrl}/PIQ/event/getpmslookup?companycode=${companycode}&vesselcode=${vesselCode}&instanceid=${instanceId}`
     );
   }
 

@@ -22,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ErrorApiInterceptor } from './core/services/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorApiInterceptor,
       multi: true,
     }
   ],

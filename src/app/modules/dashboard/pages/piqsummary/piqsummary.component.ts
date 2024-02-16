@@ -494,6 +494,7 @@ export class PIQSummaryComponent implements OnInit {
           : currentVesselType,
     };
     this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
+      
       this.setPlannedDate(res);
       this.getWorkFlowAction = res.wrkflow;
       this.getVesselCode = res.vesselcode;

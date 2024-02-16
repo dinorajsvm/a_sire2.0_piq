@@ -131,6 +131,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
+      comparotor:this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -142,6 +143,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
+      comparotor:this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -210,6 +212,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
+      comparotor:this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -221,6 +224,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
+      comparotor:this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -887,4 +891,45 @@ export class PIQLandingPageComponent implements OnInit {
     this.gridOpt.api.setColumnDefs(originalShipColumnDefs);
     this.gridOpt.api.refreshHeader();
   }
+
+
+
+  dateComparator(date1: string, date2: string): number {
+    const date1Number = this.parseDate(date1);
+    const date2Number = this.parseDate(date2);
+    if (date1Number === null && date2Number === null) {
+          return 0;
+        }
+        if (date1Number === null) {
+          return -1;
+        }
+        if (date2Number === null) {
+          return 1;
+        }
+        return date1Number - date2Number;
+  }
+ 
+   parseDate(dateStr: string) {
+      const parsedDate = this.tryParseDate(dateStr, this.userDetails.dateFormat.split(" ")[0]);
+      if (parsedDate) {
+        return parsedDate;
+      }
+       return null;
+  }
+ 
+   tryParseDate(dateStr: string, format: string){
+    const parts = format.split(/[\.\-\/]/);
+    const dateParts = dateStr.split(/[\.\-\/]/);
+    const yearIndex = parts.findIndex(part => part.toLowerCase() === "yyyy");
+    const monthIndex = parts.findIndex(part => part.toLowerCase() === "mm");
+    const dayIndex = parts.findIndex(part => part.toLowerCase() === "dd");
+    if (yearIndex === -1 || monthIndex === -1 || dayIndex === -1) {
+      return null;
+    }
+    const year = parseInt(dateParts[yearIndex], 10);
+    const month = parseInt(dateParts[monthIndex], 10) - 1; // Months are 0-based
+    const day = parseInt(dateParts[dayIndex], 10);
+    return year * 10000 + month * 100 + day;
+  }
+ 
 }

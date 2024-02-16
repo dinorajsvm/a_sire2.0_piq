@@ -19,7 +19,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { colorCodes } from 'src/app/core/constants';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
-import { Subscription, forkJoin } from 'rxjs';
+import {  forkJoin } from 'rxjs';
 import { CancellationService } from '../../services/cancellation.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
 @Component({
@@ -68,11 +68,12 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     localStorage.removeItem('getSelectedCheckListID');
-    this.selectedInstanceID = [];
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    this.selectedInstanceID = [];
     this.getDefaultImageName();
     this.getSelectedCheckListId();
     this.getVesselTypeData();
+
     if (this.route.snapshot.paramMap.get('type') == 'view') {
       this.disableBtns = true;
       this.invalidImg = true;
@@ -95,10 +96,13 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   }
   getVesselTypeData() {
     this.appServices.getVesselTypeData().subscribe((res: any) => {
-      this.getvslCode = res;
+      this.getvslCode = res;      
       if (this.getvslCode) {
         this.trimmedVslType = this.getvslCode.split(' ');
         this.trimmedVslType = this.trimmedVslType[0];
+        this.selectedInstanceID = [];
+        this.getDefaultImageName();
+        this.getSelectedCheckListId();
       }
     });
   }
@@ -204,7 +208,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     this.summaryGridCount();
   }
 
-  resetAllImageFilenames(allListData: any) {
+  resetAllImageFilenames() {
     const dialogRef = this.dialog.open(NameConfirmationDialogComponent, {
       panelClass: 'confirm-dialog-container',
     });
@@ -641,7 +645,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       this.expandedSectionIndex === index ? -1 : index;
   }
 
-  selectFile(subHead: any, selectedID: any, topic: any, event: any) {
+  selectFile(subHead: any) {
     this.fileInput.nativeElement.value = '';
     this.fileInput.nativeElement.click();
     this.selectedSubTopic = subHead;
@@ -657,17 +661,16 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
       localStorage.removeItem('getSelectedCheckListID');
       this.selectedInstanceID = [];
-      // this.getSavedPRData();
     });
   }
 
   onFileSelected(event: any) {
     if (event && event.target && event.target.files && event.target.files[0]) {
       this.selectedFile = event.target.files[0];
-      const splitString = event.target.files[0].name.split('.')[0];
-      if (splitString.length >= 80) {
+      const splitString = event.target.files[0].name;
+      if (splitString.length >= 70) {
         this._snackBarService.loadSnackBar(
-          'File Name length should be or less than 80 Characters.',
+          'Image Name length should be or less than 70 Characters.',
           colorCodes.INFO
         );
         return;

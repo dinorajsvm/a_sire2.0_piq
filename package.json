@@ -36,6 +36,7 @@
     "exif-js": "^2.3.0",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
+    "guid-typescript": "^1.0.9",
     "jszip": "^3.10.1",
     "moment": "^2.30.1",
     "ngx-daterangepicker-material": "^6.0.4",

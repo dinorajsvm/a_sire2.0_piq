@@ -769,6 +769,13 @@
   cursor: not-allowed !important;
 }
 
+
+.cursor-not-allow {
+  pointer-events: none;
+  cursor: not-allowed !important;
+}
+
+
 .ShoreBtn {
   pointer-events: none;
   background-color: #e0e0e0 !important;
@@ -1052,12 +1059,22 @@ p {
   background: aliceblue;
   border: 1px solid aliceblue;
 }
-
+/* #c3e1fb */
+.indCol.presetIcon {
+  background: aliceblue;
+  border: 1px solid #c3e1fb;
+}
 .indCol.shore {
   background-color: #e0e0e0;
   border: 1px solid #e0e0e0;
 }
 
+/* #c6c1c1 */
+
+.indCol.shoreIcon {
+  background-color: #c6c1c1;
+  border: 1px solid #c6c1c1;
+}
 .topBarQuestInd {
   display: flex;
   justify-content: space-between;
@@ -1082,6 +1099,10 @@ p {
 
 .presetChanged {
   background-color: #ffe9e0 !important;
+}
+
+.presetChangedIcon {
+  background-color: #f0caba !important;
 }
 
 .indicators span {

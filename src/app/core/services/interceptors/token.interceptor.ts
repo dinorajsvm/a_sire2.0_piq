@@ -6,32 +6,25 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, tap, finalize, takeUntil, filter, take, switchMap } from 'rxjs/operators';
+import {  Observable, throwError } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  takeUntil
+} from 'rxjs/operators';
 import { StorageService } from '../storage/storage.service';
-import { HttpService } from '../http/http.service';
 import { LoaderService } from '../utils/loader.service';
 import { CancellationService } from 'src/app/modules/dashboard/services/cancellation.service';
-import { AppService } from 'src/app/modules/dashboard/services/app.service';
 import { Router } from '@angular/router';
-import { SnackbarService } from '../snackbar/snackbar.service';
-import { colorCodes } from '../../constants';
-import { AuthService } from 'src/app/modules/auth/services/auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   public mackToken: any;
-  private isRefreshing = false;
-
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
-    null
-  );
   constructor(
     private _storage: StorageService,
     private _loaderService: LoaderService,
     private cancellationService: CancellationService,
-    private _router: Router,
-    private appServices: AppService
+    private _router: Router
   ) {
     const navigationUrl = this._router.getCurrentNavigation();
     this.mackToken = navigationUrl?.extractedUrl.queryParams['token'];
@@ -64,15 +57,10 @@ export class TokenInterceptor implements HttpInterceptor {
       );
     }
     return next.handle(modifiedRequest).pipe(
-      catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          return this.handle401Error(modifiedRequest, next);
-        } else if (error.status === 403) {
-          this.isRefreshing = false;
-          localStorage.clear();
-        }
+      catchError((error) => {
         return throwError(() => error);
-      }),  finalize(() => this.hideLoader())
+      }),
+      finalize(() => this.hideLoader())
     );
   }
 
@@ -87,54 +75,10 @@ export class TokenInterceptor implements HttpInterceptor {
       headers = { Authorization: `${this.mackToken}` };
     } else if (token && userInfo) {
       headers = { Authorization: `Bearer ${token}` };
-    } 
+    }
     return request.clone({
       setHeaders: headers,
     });
-  }
-  
-
-  handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
-      const token = this._storage.getRefereshToken();
-      if (token) {
-        const requestBody = {
-          reftoken: this._storage.getRefereshToken(),
-        };
-        return this.appServices.refreshToken(requestBody).pipe(
-          switchMap((token: any) => {
-            this.isRefreshing = false;
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.setItem('accessToken', token.accesstoken);
-            localStorage.setItem('refreshToken', token.refreshtoken);
-            // localStorage.setItem('role', token.role);
-            this.refreshTokenSubject.next(token.refreshtoken);
-            this.hideLoader();
-            return next.handle(
-              this.addAuthorizationHeader(request, token.accesstoken, false)
-            );
-          }),
-          catchError((err: any) => {
-          
-      this.appServices.destroyPage();
-        return throwError(() => err);
-          })
-        );
-      } else {
-       
-      this.appServices.destroyPage();
-        this.hideLoader();
-      }
-    }
-
-    return this.refreshTokenSubject.pipe(
-      filter(token => token !== null),
-      take(1),
-      switchMap((token) => next.handle(this.addAuthorizationHeader(request, token, false)))
-    );
   }
 
   showLoader() {

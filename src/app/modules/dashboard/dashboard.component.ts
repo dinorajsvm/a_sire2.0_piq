@@ -16,11 +16,9 @@ export class DashboardComponent implements OnInit {
     let contentWrap = document.getElementById('page-Content');
     contentWrap?.addEventListener('fullscreenchange', (event) => {
       if (document.fullscreenElement) {
-        console.log(`Element: ${document.fullscreenElement.id} entered fullscreen mode.`);
         this.showFullscreen=true;
         contentWrap?.classList.add('fullscreenContent');
       } else {
-        console.log('Leaving full-screen mode.');
         this.showFullscreen=false
         contentWrap?.classList.remove('fullscreenContent');
       }

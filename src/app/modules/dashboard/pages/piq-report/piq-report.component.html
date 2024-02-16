@@ -8,12 +8,34 @@
         <span class="sNumber">S.No: {{ referenceNumber }}</span>
       </div>
       <div class="col-sm-1 text-center topBtnWrapper" style="padding: 0">
-        <button matTooltip="Edit" style="right: 5px;" [disabled]="disableEditMode"
-          *ngIf="((((userDetails?.cntrlType === 'CNT002' && getOrigination === 'CNT002') || (userDetails?.cntrlType === 'CNT001' && getApproveRank != userDetails?.rankCode && getOrigination === 'CNT001')) && (getStatus === 'Inprogress' || getStatus === 'ReAssigned')) || ((userDetails?.cntrlType === 'CNT001' && getApproveRank === userDetails?.rankCode) && (getStatus === 'Inprogress' || getStatus === 'Submitted')) || (userDetails?.cntrlType === 'CNT001' && getApproveRank != userDetails?.rankCode && getOrigination === 'CNT002' && getStatus === 'Inprogress')) "
-          [class.disabledEdit]="disableEditMode" mat-button class="edit" (click)="edit()">
+        <button
+          matTooltip="Edit"
+          style="right: 5px"
+          [disabled]="disableEditMode"
+          *ngIf="
+            (((userDetails?.cntrlType === 'CNT002' &&
+              getOrigination === 'CNT002') ||
+              (userDetails?.cntrlType === 'CNT001' &&
+                getApproveRank != userDetails?.rankCode &&
+                getOrigination === 'CNT001')) &&
+              (getStatus === 'Inprogress' || getStatus === 'ReAssigned')) ||
+            (userDetails?.cntrlType === 'CNT001' &&
+              getApproveRank === userDetails?.rankCode &&
+              (getStatus === 'Inprogress' || getStatus === 'Submitted')) ||
+            (userDetails?.cntrlType === 'CNT001' &&
+              getApproveRank != userDetails?.rankCode &&
+              getOrigination === 'CNT002' &&
+              getStatus === 'Inprogress')
+          "
+          [class.disabledEdit]="disableEditMode"
+          mat-button
+          class="edit"
+          (click)="edit()"
+        >
           <img src="assets/question/edit.svg" />
         </button>
-        <button style="right: 10px;"
+        <button
+          style="right: 10px"
           matTooltip="Back To Landing Page"
           mat-button
           class="home"
@@ -151,15 +173,15 @@
                 "
               >
                 <div class="indicators">
-                  <span class="indCol shore"></span>
+                  <span class="indCol shoreIcon"></span>
                   <span class="charCount">Shore</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol preset"></span>
+                  <span class="indCol presetIcon"></span>
                   <span class="charCount">Preset</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol presetChanged"></span>
+                  <span class="indCol presetChangedIcon"></span>
                   <span class="charCount">Changed Preset Questions</span>
                 </div>
               </div>
@@ -173,7 +195,7 @@
                 "
               >
                 <div class="indicators">
-                  <span class="indCol shore"></span>
+                  <span class="indCol shoreIcon"></span>
                   <span class="charCount">All Questions</span>
                 </div>
               </div>
@@ -193,15 +215,15 @@
                 "
               >
                 <div class="indicators">
-                  <span class="indCol shore"></span>
+                  <span class="indCol shoreIcon"></span>
                   <span class="charCount">Ship</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol preset"></span>
+                  <span class="indCol presetIcon"></span>
                   <span class="charCount">Preset</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol presetChanged"></span>
+                  <span class="indCol presetChangedIcon"></span>
                   <span class="charCount">Changed Preset Questions</span>
                 </div>
               </div>
@@ -214,11 +236,11 @@
                 "
               >
                 <div class="indicators">
-                  <span class="indCol preset"></span>
+                  <span class="indCol presetIcon"></span>
                   <span class="charCount">Preset</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol presetChanged"></span>
+                  <span class="indCol presetChangedIcon"></span>
                   <span class="charCount">Changed Preset Questions</span>
                 </div>
               </div>
@@ -234,7 +256,7 @@
                 "
               >
                 <div class="indicators">
-                  <span class="indCol shore"></span>
+                  <span class="indCol shoreIcon"></span>
                   <span class="charCount">All Questions</span>
                 </div>
               </div>
@@ -254,15 +276,15 @@
                 "
               >
                 <div class="indicators">
-                  <span class="indCol shore"></span>
+                  <span class="indCol shoreIcon"></span>
                   <span class="charCount">Ship</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol preset"></span>
+                  <span class="indCol presetIcon"></span>
                   <span class="charCount">Preset</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol presetChanged"></span>
+                  <span class="indCol presetChangedIcon"></span>
                   <span class="charCount">Changed Preset Questions</span>
                 </div>
               </div>
@@ -277,11 +299,11 @@
                 "
               >
                 <div class="indicators">
-                  <span class="indCol preset"></span>
+                  <span class="indCol presetIcon"></span>
                   <span class="charCount">Preset</span>
                 </div>
                 <div class="indicators">
-                  <span class="indCol presetChanged"></span>
+                  <span class="indCol presetChangedIcon"></span>
                   <span class="charCount">Changed Preset Questions</span>
                 </div>
               </div>
@@ -291,7 +313,7 @@
                 *ngIf="getStatus === 'ReAssigned' || getStatus === 'Approved'"
               >
                 <div class="indicators">
-                  <span class="indCol shore"></span>
+                  <span class="indCol shoreIcon"></span>
                   <span class="charCount">All Questions</span>
                 </div>
               </div>
@@ -302,7 +324,7 @@
         <form
           [formGroup]="dynamicForms"
           *ngIf="dynamicForms"
-          (ngSubmit)="submitFormAll(dynamicForms)"
+          (ngSubmit)="submitFormAll(dynamicForms, 1)"
         >
           <div class="col-sm-12 btn-wrap">
             <div class="row">
@@ -403,7 +425,7 @@
                             >
                               <div
                                 class="head_list charCount"
-                                (click)="selectValue(value.subHeaders)"
+                                (click)="selectValue(value.subHeaders, 1)"
                               >
                                 {{ value.subHeaders }}
                               </div>
@@ -473,7 +495,7 @@
                               <mat-icon
                                 #comExpColBtn
                                 (click)="
-                                  expandAllMainquestions($event, quest, index)
+                                  expandAllMainquestions(quest, index)
                                 "
                                 [id]="quest.subheadid"
                                 class="comExpColBtn"
@@ -526,39 +548,48 @@
                                           class="col-sm-2 text-right"
                                           style="padding-left: 0 !important"
                                         >
-                                        <!-- *ngIf="
-                                        Mquest.entrymethod == 'Lookup'
-                                      " -->
                                           <mat-icon
-                                         
                                             [ngClass]="{
                                               'read-only-chip': viewMode
                                             }"
-                                            id={{Mquest.qid}}
+                                            id="{{ Mquest.qid }}"
+                                            [class.cursor-not-allow]="
+                                              disableLookUp(Mquest)
+                                            "
+                                            [ngClass]="{
+                                              'cursor-not-allow': lookUpEnable
+                                            }"
                                             class="restoreLookupIcn"
-                                            *ngIf="Mquest.entrymethod == 'Lookup' && Mquest.lookupreset"
+                                            *ngIf="
+                                              Mquest.entrymethod == 'Lookup' &&
+                                              Mquest.lookupreset
+                                            "
                                             (click)="
-                                              lookUpResetForm($event, quest, Mquest)
+                                              lookUpResetForm(
+                                                $event,
+                                                quest,
+                                                Mquest
+                                              )
                                             "
                                           >
                                             refresh
                                           </mat-icon>
                                           <button
-                                  
                                             mat-button
+                                            type="button"
                                             class="save"
                                             (click)="
                                               openLookUp($event, quest, Mquest)
                                             "
-                                                 [class.ShoreBtn]="
-                                                 disableLookUp(Mquest)
-                                               "
-                                               [ngClass]="{
-                                                 ShoreBtn: lookUpEnable
-                                               }"
-                                                *ngIf="
-                                                Mquest.entrymethod == 'Lookup'
-                                              "
+                                            [class.ShoreBtn]="
+                                              disableLookUp(Mquest)
+                                            "z
+                                            [ngClass]="{
+                                              ShoreBtn: lookUpEnable
+                                            }"
+                                            *ngIf="
+                                              Mquest.entrymethod == 'Lookup'
+                                            "
                                           >
                                             Look Up
                                           </button>
@@ -1010,11 +1041,7 @@
                                           }"
                                           [id]="subq.qid"
                                           (click)="
-                                            resetDate(
-                                              subq,
-                                              quest,
-                                              Mquest
-                                            )
+                                            resetDate(subq, quest, Mquest)
                                           "
                                         >
                                           close
@@ -1524,11 +1551,7 @@
                                             'read-only-chip': viewMode
                                           }"
                                           (click)="
-                                            resetDate(
-                                              subq,
-                                              quest,
-                                              Mquest
-                                            )
+                                            resetDate(subq, quest, Mquest)
                                           "
                                         >
                                           close

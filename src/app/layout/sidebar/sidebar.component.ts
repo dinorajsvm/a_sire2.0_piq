@@ -33,12 +33,6 @@ export class SidebarComponent implements OnInit {
     }    
   }
 
-  // navigate(toMldId:any){
-  //   console.log("redirection to other module");
-  //   let fromMldId = 'MGD';
-  //   mdldmsnavigatenewtab(fromMldId,toMldId,'','true','true');
-  // }
-
   navigateHome(){
     this.router.navigate(['/sire/piq-landing/']);
   }

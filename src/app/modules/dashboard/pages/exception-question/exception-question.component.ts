@@ -149,12 +149,13 @@ export class ExceptionQuestionComponent implements OnInit {
   onBtnClick1(e: any) {
     this.appServices.setExceptionResetData(e.rowData);
     const objWithIdIndex = this.rowData.findIndex(
-      (obj) => obj.qid === e.rowData.qid
+      (obj) => obj.guid.value === e.rowData.guid.value
     );
     if (objWithIdIndex > -1) {
       this.rowData.splice(objWithIdIndex, 1);
       this.countEmit.emit(this.rowData.length);
       this.gridApi!.setRowData(this.rowData);
+      this.appServices.setExceptionData(this.rowData);
     }
   }
   onCellValueChanged(event: any) {

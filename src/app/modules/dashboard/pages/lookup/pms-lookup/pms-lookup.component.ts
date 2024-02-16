@@ -64,6 +64,7 @@ export class PmsLookupComponent {
   syncData: any[] = [];
   rowData: any = [];
   pmsCode: any;
+  referenceId: any
   hideReqBtns: boolean = false;
   public multiRowSelection: 'single' | 'multiple' = 'multiple';
   defaultColDef = DefaultColDef;
@@ -108,8 +109,7 @@ export class PmsLookupComponent {
     this.appServices.getPMSLookupVisitData(
       companyCode,
       vesselCode,
-      this.data.referenceId,
-      this.data.questionId
+      this.data.referenceId
     ).subscribe((data) => {
       const filterResponse = data.Response.find(
         (x: any) => x.compname === this.data.moduleName

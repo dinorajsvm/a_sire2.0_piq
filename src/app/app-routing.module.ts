@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guard/auth.guard';
-// import { ModuleGuard } from './core/guard/module.guard';
+import { ModuleGuard } from './core/guard/module.guard';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'sire',
-    // canActivate: [ModuleGuard],
+    canActivate: [ModuleGuard],
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
