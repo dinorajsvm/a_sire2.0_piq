@@ -278,7 +278,7 @@ export class PIQSummaryComponent implements OnInit {
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
-    this.getworkflowStatus();
+    this.getMasterData();
     if (
       this.pendingQuestCount == undefined ||
       this.totalQuestCount == undefined
@@ -314,24 +314,7 @@ export class PIQSummaryComponent implements OnInit {
 
     this.appServices.getExceptionData().subscribe((res: any) => {
       this.exceptionList = res;
-      this.exceptionCounts = res && res.length > 0 ? res.length : 0;
-
-      if (res && res.length === 0) {
-        this.remarksCounts = 0;
-      } else {
-        if (this.exceptionList && this.exceptionList.length > 0) {
-          const rowsWithRemarks = this.exceptionList.filter((row: any) => {
-            if (row.remark === null) {
-              row.remark = '';
-            }
-            return row.remark !== '';
-          });
-          this.remarksCounts =
-            rowsWithRemarks && rowsWithRemarks.length > 0
-              ? rowsWithRemarks.length
-              : 0;
-        }
-      }
+      this.exceptionLogic(this.exceptionList);
     });
     this.appServices.getPhotoRepData().subscribe((res: any) => {
       this.photoRepCounts = res;
@@ -342,6 +325,27 @@ export class PIQSummaryComponent implements OnInit {
     this.appServices.getPrGridData().subscribe((res: any) => {
       this.photoRowData = res;
     });
+  }
+
+  exceptionLogic(res: any) {
+    this.exceptionCounts = res && res.length > 0 ? res.length : 0;
+
+    if (res && res.length === 0) {
+      this.remarksCounts = 0;
+    } else {
+      if (this.exceptionList && this.exceptionList.length > 0) {
+        const rowsWithRemarks = this.exceptionList.filter((row: any) => {
+          if (row.remark === null) {
+            row.remark = '';
+          }
+          return row.remark !== '';
+        });
+        this.remarksCounts =
+          rowsWithRemarks && rowsWithRemarks.length > 0
+            ? rowsWithRemarks.length
+            : 0;
+      }
+    }
   }
 
   tabChange(tabRef: any) {
@@ -413,7 +417,7 @@ export class PIQSummaryComponent implements OnInit {
   getworkflowStatus() {
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
     this.appServices.getworkFlowStatus().subscribe((res: any) => {
-      this.appServices.setWorkflowmaster(res)
+      this.appServices.setWorkflowmaster(res);
       let val = res.workflowmaster;
       this.getWrkFlowId = val[0].wfid;
       this.getResAprWrkFlowRank = val[0].approver;
@@ -461,8 +465,7 @@ export class PIQSummaryComponent implements OnInit {
           this.disableResAprFlowBtn = true;
         }
       }
-      
-      this.getMasterDetails();
+      this.getMasterRankLogic();
     });
   }
 
@@ -479,154 +482,115 @@ export class PIQSummaryComponent implements OnInit {
     this.appServices.getworkflowaction(payload).subscribe((res: any) => {});
   }
 
-  getMasterDetails() {
-    const currentVesselType = localStorage.getItem('currentVesselType');
-    const payload = {
-      instanceid: this.referenceNumber,
-      presettype: 'n',
-      companycode: this.userDetails.companyCode,
-      username: this.userDetails.empCode,
-      vesseltype:
-        currentVesselType === '' ||
-        currentVesselType === undefined ||
-        currentVesselType === 'undefined'
-          ? ''
-          : currentVesselType,
-    };
-    this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
-      
-      this.setPlannedDate(res);
-      this.getWorkFlowAction = res.wrkflow;
-      this.getVesselCode = res.vesselcode;
-      this.certficateGridDatas();
-      this.getOriginator = res.orginator;
-      const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
-      const exceptionList =
-        res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
-      this.appServices.setExceptionData(exceptionList);
-      if (this.route.snapshot.paramMap.get('type') == 'view') {
-        if (
-          this.getOriginator == 'CNT002' &&
-          this.getWorkFlowAction == 'Inprogress' &&
-          this.userDetails?.cntrlType === 'CNT001'
-        ) {
-          this.appServices.setEnableViewMode(false);
-        }
-      }
-
+  getMasterRankLogic() {
+    if (this.route.snapshot.paramMap.get('type') == 'view') {
       if (
-        (this.getWorkFlowAction == 'Submitted' &&
-          this.getApproverRanks != this.userDetails?.rankCode) ||
-        ((this.getWorkFlowAction == 'ReAssigned' ||
-          this.getWorkFlowAction == 'Approved') &&
-          this.getApproverRanks == this.userDetails?.rankCode)
+        this.getOriginator == 'CNT002' &&
+        this.getWorkFlowAction == 'Inprogress' &&
+        this.userDetails?.cntrlType === 'CNT001'
       ) {
-        this.viewMode = true;
+        this.appServices.setEnableViewMode(false);
       }
+    }
 
-      if (
-        (this.getOriginator == 'CNT002' &&
-          this.getWorkFlowAction === 'Submitted' &&
-          this.getApproverRanks != this.userDetails?.rankCode) ||
-        (this.getOriginator == 'CNT001' &&
-          this.getWorkFlowAction === 'Submitted' &&
-          this.userDetails?.cntrlType === 'CNT001' &&
-          this.getApproverRanks != this.userDetails?.rankCode) ||
-        (this.getWorkFlowAction === 'ReAssigned' &&
-          this.userDetails?.cntrlType === 'CNT001' &&
-          this.getApproverRanks === this.userDetails?.rankCode) ||
-        this.getWorkFlowAction === 'Approved'
-      ) {
-        this.hideReqBtns = true;
-      }
+    if (
+      (this.getWorkFlowAction == 'Submitted' &&
+        this.getApproverRanks != this.userDetails?.rankCode) ||
+      ((this.getWorkFlowAction == 'ReAssigned' ||
+        this.getWorkFlowAction == 'Approved') &&
+        this.getApproverRanks == this.userDetails?.rankCode)
+    ) {
+      this.viewMode = true;
+    }
 
-      if (res.quicknotes === 'null') {
-        this.quickNotesInput = '';
-      } else {
-        this.quickNotesInput = res.quicknotes;
-      }
-
-      if (data) {
-        this.modifiedrowData = data;
-      }
-
-      if (res && res.datasyncgrid && res.datasyncgrid != '') {
-        const data = JSON.parse(res.datasyncgrid);
-        this.expectedRowData = data;
-      }
-      this.appServices.setEditVisible(false);
-      localStorage.setItem('setEditVisible', 'false');
-      if (this.getOriginator == 'CNT002') {
-        if (
-          (this.getWorkFlowAction === 'Submitted' &&
-            this.userDetails?.cntrlType === 'CNT002') ||
-          (this.getWorkFlowAction === 'ReAssigned' &&
-            this.userDetails?.cntrlType === 'CNT001') ||
-          (this.getWorkFlowAction != 'Inprogress' &&
-            this.userDetails?.cntrlType === 'CNT001' &&
-            this.getApproverRanks != this.userDetails?.rankCode) ||
-          this.getWorkFlowAction === 'Approved'
-        ) {
-          this.hideBtns = true;
-          this.appServices.setEditVisible(true);
-          localStorage.setItem('setEditVisible', 'true');
-        }
-      } else if (this.getOriginator == 'CNT001') {
-        if (
-          this.userDetails?.cntrlType === 'CNT002' ||
-          (this.getApproverRanks != this.userDetails?.rankCode &&
-            this.getWorkFlowAction === 'Submitted' &&
-            this.userDetails?.cntrlType === 'CNT001') ||
-          (this.getWorkFlowAction == 'Approved' &&
-            this.userDetails?.cntrlType === 'CNT001') ||
-          (this.getApproverRanks === this.userDetails?.rankCode &&
-            this.getWorkFlowAction === 'ReAssigned' &&
-            this.userDetails?.cntrlType === 'CNT001')
-        ) {
-          this.hideBtns = true;
-          this.appServices.setEditVisible(true);
-          localStorage.setItem('setEditVisible', 'true');
-        }
-      }
-
-      if (
-        this.getOriginator == 'CNT001' &&
+    if (
+      (this.getOriginator == 'CNT002' &&
+        this.getWorkFlowAction === 'Submitted' &&
+        this.getApproverRanks != this.userDetails?.rankCode) ||
+      (this.getOriginator == 'CNT001' &&
+        this.getWorkFlowAction === 'Submitted' &&
         this.userDetails?.cntrlType === 'CNT001' &&
+        this.getApproverRanks != this.userDetails?.rankCode) ||
+      (this.getWorkFlowAction === 'ReAssigned' &&
+        this.userDetails?.cntrlType === 'CNT001' &&
+        this.getApproverRanks === this.userDetails?.rankCode) ||
+      this.getWorkFlowAction === 'Approved'
+    ) {
+      this.hideReqBtns = true;
+    }
+
+    if (this.getOriginator == 'CNT002') {
+      if (
+        (this.getWorkFlowAction === 'Submitted' &&
+          this.userDetails?.cntrlType === 'CNT002') ||
+        (this.getWorkFlowAction === 'ReAssigned' &&
+          this.userDetails?.cntrlType === 'CNT001') ||
+        (this.getWorkFlowAction != 'Inprogress' &&
+          this.userDetails?.cntrlType === 'CNT001' &&
+          this.getApproverRanks != this.userDetails?.rankCode) ||
         this.getWorkFlowAction === 'Approved'
       ) {
         this.hideBtns = true;
         this.appServices.setEditVisible(true);
         localStorage.setItem('setEditVisible', 'true');
       }
-    });
+    } else if (this.getOriginator == 'CNT001') {
+      if (
+        this.userDetails?.cntrlType === 'CNT002' ||
+        (this.getApproverRanks != this.userDetails?.rankCode &&
+          this.getWorkFlowAction === 'Submitted' &&
+          this.userDetails?.cntrlType === 'CNT001') ||
+        (this.getWorkFlowAction == 'Approved' &&
+          this.userDetails?.cntrlType === 'CNT001') ||
+        (this.getApproverRanks === this.userDetails?.rankCode &&
+          this.getWorkFlowAction === 'ReAssigned' &&
+          this.userDetails?.cntrlType === 'CNT001')
+      ) {
+        this.hideBtns = true;
+        this.appServices.setEditVisible(true);
+        localStorage.setItem('setEditVisible', 'true');
+      }
+    }
+
+    if (
+      this.getOriginator == 'CNT001' &&
+      this.userDetails?.cntrlType === 'CNT001' &&
+      this.getWorkFlowAction === 'Approved'
+    ) {
+      this.hideBtns = true;
+      this.appServices.setEditVisible(true);
+      localStorage.setItem('setEditVisible', 'true');
+    }
   }
 
   certficateGridDatas() {
-    this.appServices.getCertificateList(
-      this.userDetails.companyCode,
-      this.getVesselCode,
-      this.referenceNumber
-    ).subscribe((res: any) => {
-      this.certificateRowData =
-        res &&
-        res.response &&
-        res.response.piqmappinglist &&
-        res.response.piqmappinglist.length > 0
-          ? res.response.piqmappinglist
-          : [];
-      this.certificateCounts = this.certificateRowData.length;
-      const mappingCercodeValues = this.certificateRowData.map(
-        (item) => item.mackcertificatename
-      );
-      const filteredMappingCode = mappingCercodeValues.filter(
-        (value) => value !== null
-      );
-      this.mappedCertificateCounts =
-        filteredMappingCode && filteredMappingCode.length
-          ? filteredMappingCode.length
-          : 0;
-      this.appServices.setCertificateListDetails(this.certificateRowData);
-    });
+    this.appServices
+      .getCertificateList(
+        this.userDetails.companyCode,
+        this.getVesselCode,
+        this.referenceNumber
+      )
+      .subscribe((res: any) => {
+        this.certificateRowData =
+          res &&
+          res.response &&
+          res.response.piqmappinglist &&
+          res.response.piqmappinglist.length > 0
+            ? res.response.piqmappinglist
+            : [];
+        this.appServices.setCertificateListDetails(this.certificateRowData);
+        this.certificateCounts = this.certificateRowData.length;
+        const mappingCercodeValues = this.certificateRowData.map(
+          (item) => item.mackcertificatename
+        );
+        const filteredMappingCode = mappingCercodeValues.filter(
+          (value) => value !== null
+        );
+        this.mappedCertificateCounts =
+          filteredMappingCode && filteredMappingCode.length
+            ? filteredMappingCode.length
+            : 0;
+      });
   }
 
   customCrUserValueGetter(params: any) {
@@ -859,6 +823,50 @@ export class PIQSummaryComponent implements OnInit {
     });
   }
 
+  getMasterData() {
+    const currentVesselType = localStorage.getItem('currentVesselType');
+    const payload = {
+      instanceid: this.referenceNumber,
+      presettype: 'n',
+      companycode: this.userDetails.companyCode,
+      username: this.userDetails.empCode,
+      vesseltype:
+        currentVesselType === '' ||
+        currentVesselType === undefined ||
+        currentVesselType === 'undefined'
+          ? ''
+          : currentVesselType,
+    };
+    this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
+      this.setPlannedDate(res);
+      this.getWorkFlowAction = res.wrkflow;
+      this.getVesselCode = res.vesselcode;
+      this.certficateGridDatas();
+      this.getOriginator = res.orginator;
+      const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
+      const exceptionList =
+        res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
+      this.appServices.setExceptionData(exceptionList);
+      if (res.quicknotes === 'null') {
+        this.quickNotesInput = '';
+      } else {
+        this.quickNotesInput = res.quicknotes;
+      }
+
+      if (data) {
+        this.modifiedrowData = data;
+      }
+
+      if (res && res.datasyncgrid && res.datasyncgrid != '') {
+        const data = JSON.parse(res.datasyncgrid);
+        this.expectedRowData = data;
+      }
+      this.appServices.setEditVisible(false);
+      localStorage.setItem('setEditVisible', 'false');
+
+      this.getworkflowStatus();
+    });
+  }
   setPlannedDate(res: any) {
     this.getPlannedSubDate = this.datePipe.transform(
       res.plannedsubdate,
@@ -907,7 +915,7 @@ export class PIQSummaryComponent implements OnInit {
   saveMethodCall(ansPayload: any, type?: any) {
     this.appServices.getSaveValues(ansPayload).subscribe((res: any) => {
       if (type === 'syncToStore' && this.userDetails?.cntrlType === 'CNT002') {
-        this.getMasterDetails();
+        this.getMasterData();
         this._snackBarService.loadSnackBar(
           'Sync to Shore Initiated Successfully',
           colorCodes.INFO
@@ -916,7 +924,7 @@ export class PIQSummaryComponent implements OnInit {
         type === 'syncToStore' &&
         this.userDetails?.cntrlType === 'CNT001'
       ) {
-        this.getMasterDetails();
+        this.getMasterData();
         this._snackBarService.loadSnackBar(
           'Sync to Ship Initiated Successfully',
           colorCodes.INFO
@@ -930,16 +938,16 @@ export class PIQSummaryComponent implements OnInit {
           colorCodes.INFO
         );
       } else if (type == 'reassign') {
-        this.getMasterDetails();
+        this.getMasterData();
         window.location.reload();
-        this.getMasterDetails();
+        this.getMasterData();
         this._snackBarService.loadSnackBar(
           'Reassigned Successfully',
           colorCodes.INFO
         );
       } else if (type == 'approve') {
         window.location.reload();
-        this.getMasterDetails();
+        this.getMasterData();
         this._snackBarService.loadSnackBar(
           'Aprroved Successfully',
           colorCodes.INFO

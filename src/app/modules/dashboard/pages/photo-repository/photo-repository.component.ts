@@ -19,7 +19,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service
 import { colorCodes } from 'src/app/core/constants';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ImageConfirmationDialogComponent } from '../image-confirmation-dialog/image-confirmation-dialog.component';
-import {  forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { CancellationService } from '../../services/cancellation.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
 @Component({
@@ -39,6 +39,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   getSubTopicTitle: any = [];
   allExpanded: boolean = false;
   selectedSubTopic: any | null = null; // Add this property to store the selected subTopic
+  selectedTitle = ''
   expandedSectionIndex: number = -1;
   selectedInstanceID: any;
   imageNames: any;
@@ -96,7 +97,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   }
   getVesselTypeData() {
     this.appServices.getVesselTypeData().subscribe((res: any) => {
-      this.getvslCode = res;      
+      this.getvslCode = res;
       if (this.getvslCode) {
         this.trimmedVslType = this.getvslCode.split(' ');
         this.trimmedVslType = this.trimmedVslType[0];
@@ -148,12 +149,9 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
                       }
                     }
                     let fileSizeConvert = '0.00 KB';
-                    if (img && +img.filesize <= 10240) {
+                    if (img && +img.filesize) {
                       fileSizeConvert =
                         (+img.filesize / 1024).toFixed(2) + ' ' + 'KB';
-                    } else {
-                      fileSizeConvert =
-                        (+img.filesize / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
                     }
                     img.imagePreviewSrc = srcUrl;
                     img.sizeCheck = img.sizeinbytes;
@@ -645,10 +643,11 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       this.expandedSectionIndex === index ? -1 : index;
   }
 
-  selectFile(subHead: any) {
+  selectFile(subHead: any, title: any) {
     this.fileInput.nativeElement.value = '';
     this.fileInput.nativeElement.click();
     this.selectedSubTopic = subHead;
+    this.selectedTitle = title;
   }
 
   savePhoto() {
@@ -668,6 +667,15 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     if (event && event.target && event.target.files && event.target.files[0]) {
       this.selectedFile = event.target.files[0];
       const splitString = event.target.files[0].name;
+      const validImageNameRegex = /^[a-zA-Z0-9 ()-]+$/;
+      const fileNameWithoutExtension = splitString.replace(/\.[^.]+$/, '');
+      if (!validImageNameRegex.test(fileNameWithoutExtension)) {
+        this._snackBarService.loadSnackBar(
+          'Invalid Image Name.',
+          colorCodes.INFO
+        );
+        return;
+      }
       if (splitString.length >= 70) {
         this._snackBarService.loadSnackBar(
           'Image Name length should be or less than 70 Characters.',
@@ -727,7 +735,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
                 (sub: any) =>
                   (sub.subTopicTitle = sub.subTopicTitle.slice(0, -1)); // Remove the last character
               }
-              return this.selectedSubTopic.subTopicTitle === sub.subTopicTitle;
+              return this.selectedSubTopic.subTopicTitle === sub.subTopicTitle && this.selectedTitle === res.topic;
             });
 
             const formattedName =
@@ -753,12 +761,9 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
                 const blob = new Blob([res]);
                 srcUrl = URL.createObjectURL(blob);
                 let fileSizeConvert = '0.00 KB';
-                if (data && +data.sizeinbytes <= 10240) {
+                if (data && +data.sizeinbytes) {
                   fileSizeConvert =
                     (+data.sizeinbytes / 1024).toFixed(2) + ' ' + 'KB';
-                } else {
-                  fileSizeConvert =
-                    (+data.sizeinbytes / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
                 }
                 const image = {
                   imagePreviewSrc: srcUrl,
@@ -766,7 +771,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
                   localfilename: data.localfilename,
                   formattedName: formattedName,
                   formattedExtension: formattedExtension,
-                  fileSizeConvert: fileSizeConvert
+                  fileSizeConvert: fileSizeConvert,
                 };
                 if (findValue && findValue.imagelist) {
                   findValue.imagelist.push(image);

@@ -6,7 +6,6 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { AgGridCheckboxComponent } from '../../renderer/ag-grid-checkbox.component';
 import {
   ColDef,
   LicenseManager,
@@ -18,6 +17,7 @@ LicenseManager.setLicenseKey(
   'CompanyName=SOLVERMINDS SOLUTIONS AND TECHNOLOGIES PRIVATE LIMITED,LicensedGroup=SVM Solutions & Technologies Pte. Ltd,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=6,AssetReference=AG-033022,SupportServicesEnd=18_November_2023_[v2]_MTcwMDI2NTYwMDAwMA==55aa1a1d8528a024728210e6983fb1ea'
 );
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
+import { AgGridMOCCheckboxComponent } from '../../renderer/ag-grid-moc-checkbox.component';
 declare function mdldmsnavigatenewtab(
   params: any,
   params1: any,
@@ -126,7 +126,7 @@ export class MocComponent {
     this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
     this.frameworkComponents = {
-      checkboxRenderer: AgGridCheckboxComponent,
+      checkboxRenderer: AgGridMOCCheckboxComponent,
     };
   }
 

@@ -15,6 +15,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import {
   colorCodes,
+  safetyRowData,
   valuesToCheckDD,
   valuesToCheckDate,
 } from 'src/app/core/constants';
@@ -1778,42 +1779,11 @@ export class PiqReportComponent implements OnInit {
       if (result) {
         if (result !== 'Reset') {
           this.lookupResetBtn('5.7', '', result);
-          const rowKeys = [
-            'MQ337',
-            'MQ343',
-            'MQ349',
-            'MQ355',
-            'MQ361',
-            'MQ367',
-            'MQ373',
-            'MQ379',
-            'MQ385',
-            'MQ391',
-            'MQ397',
-            'MQ403',
-            'MQ409',
-            'MQ415',
-            'MQ421',
-            'MQ427',
-            'MQ433',
-            'MQ439',
-            'MQ445',
-            'MQ451',
-            'MQ457',
-            'MQ463',
-            'MQ469',
-            'MQ475',
-            'MQ481',
-            'MQ487',
-            'MQ493',
-            'MQ499',
-            'MQ505',
-          ];
           let insertQuest: any;
           this.arrayObj = [];
           let tempRowData: any[] = [];
           let modifiedSubQuestion: any;
-          rowKeys.forEach((row) => {
+          safetyRowData.forEach((row) => {
             result.forEach((resultResponse: any, indexValue: any) => {
               const trueValueKeys = Object.keys(resultResponse).filter(
                 (key) => resultResponse[key] === true

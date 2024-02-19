@@ -126,7 +126,7 @@
                   [class.disableBtns]="disableBtns"
                   [class.hideReqBtns]="hideReqBtns"
                   (click)="
-                    selectFile(subHead)
+                    selectFile(subHead, head.topic)
                   "
                 >
                   <mat-icon>attach_file</mat-icon>
@@ -230,6 +230,7 @@
                   <div class="img_name">
                     <input
                       class="charCount" [readonly]="hideReqBtns"
+                      [matTooltip]="img.formattedName"
                       [(ngModel)]="img.formattedName"
                       [class.nameHighlight]=" 
                         img?.formattedName != img.defaultImageName

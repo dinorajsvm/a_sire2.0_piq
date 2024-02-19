@@ -5,7 +5,7 @@ import { ColDef, GridOptions, RowGroupingDisplayType } from 'ag-grid-community';
 import { AppService } from '../../../services/app.service';
 import { DateRendererComponent } from '../../renderer/date-renderer.component';
 import { DDCellRendererComponent } from '../../renderer/dd-renderer.component';
-import { DefaultColDef } from 'src/app/core/constants';
+import { DefaultColDef, safetyRowData } from 'src/app/core/constants';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
 import { DatePipe } from '@angular/common';
@@ -37,8 +37,8 @@ export class SafetyManagementComponent implements OnInit {
       headerName: 'S.No',
       tooltipField: 'sid',
       resizable: true,
+      flex: 1,
       pinned: 'left',
-      width: 125,
       cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
     },
     {
@@ -510,13 +510,13 @@ export class SafetyManagementComponent implements OnInit {
       field: 'ivrid',
       tooltipField: 'ivrid',
       resizable: true,
-      width: 120,
+      flex: 1,
     },
     {
       headerName: 'Incident Title',
       field: 'incidenttitle',
       tooltipField: 'incidenttitle',
-      width: 120,
+      flex: 1,
       resizable: true,
     },
     {
@@ -524,13 +524,13 @@ export class SafetyManagementComponent implements OnInit {
       field: 'incidentdescription',
       tooltipField: 'incidentdescription',
       resizable: true,
-      width: 120,
+      flex: 1,
     },
     {
       headerName: 'Type of Incident',
       field: 'typename',
       tooltipField: 'typename',
-      width: 120,
+      flex: 1,
       resizable: true,
     },
     {
@@ -538,7 +538,7 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'incidentdate',
       field: 'incidentdate',
       cellStyle: { textAlign: 'right' },
-      width: 120,
+      flex: 1,
       resizable: true,
     },
     {
@@ -570,8 +570,7 @@ export class SafetyManagementComponent implements OnInit {
     private dialogRef: MatDialogRef<SafetyManagementComponent>,
     private appServices: AppService,
     private _storage: StorageService,
-    private _loaderService: LoaderService,
-    private datePipe: DatePipe
+    private _loaderService: LoaderService
   ) {
     this.hideReqBtns = localStorage.getItem('setEditVisible') === 'true';
     this.userDetails = this._storage.getUserDetails();
@@ -633,40 +632,8 @@ export class SafetyManagementComponent implements OnInit {
     });
   }
   onBtnClick1(event?: any) {
-    const rowKeys = [
-      'MQ337',
-      'MQ343',
-      'MQ349',
-      'MQ355',
-      'MQ361',
-      'MQ367',
-      'MQ373',
-      'MQ379',
-      'MQ385',
-      'MQ391',
-      'MQ397',
-      'MQ403',
-      'MQ409',
-      'MQ415',
-      'MQ421',
-      'MQ427',
-      'MQ433',
-      'MQ439',
-      'MQ445',
-      'MQ451',
-      'MQ457',
-      'MQ463',
-      'MQ469',
-      'MQ475',
-      'MQ481',
-      'MQ487',
-      'MQ493',
-      'MQ499',
-      'MQ505',
-    ];
-
-    let trueKeys: any = this.rowData.filter((data) =>
-      rowKeys.some((key) => data[key] === true)
+      let trueKeys: any = this.rowData.filter((data) =>
+      safetyRowData.some((key) => data[key] === true)
     );
 
     if (trueKeys && trueKeys.length > 0) {

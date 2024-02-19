@@ -126,9 +126,6 @@ export class ExceptionQuestionComponent implements OnInit {
       this.disableBtns = res;
     });
     this.appServices.getExceptionData().subscribe((data) => {
-      // data.forEach((response: any) => {
-      //   // response.savedAnswer = response && response.presetValue ? '' : response.lookUpPresetValue;
-      // })
       this.rowData = data;
       this.totalRowCount =
         this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
