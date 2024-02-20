@@ -324,7 +324,7 @@
         <form
           [formGroup]="dynamicForms"
           *ngIf="dynamicForms"
-          (ngSubmit)="submitFormAll(dynamicForms, 1)"
+          (ngSubmit)="submitFormAll(dynamicForms)"
         >
           <div class="col-sm-12 btn-wrap">
             <div class="row">
@@ -425,7 +425,7 @@
                             >
                               <div
                                 class="head_list charCount"
-                                (click)="selectValue(value.subHeaders, 1)"
+                                (click)="selectValue(value.subHeaders)"
                               >
                                 {{ value.subHeaders }}
                               </div>
