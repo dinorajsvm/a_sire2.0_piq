@@ -39,7 +39,7 @@ export class TokenInterceptor implements HttpInterceptor {
     const getPIQlandingpage = request.url.includes('getPIQlandingpage');
     const profileUrl = request.url.includes('user/profile');
     const accessToken: string = this._storage.getAccessToken();
-    this.showLoader();
+    // this.showLoader();
     let modifiedRequest: any;
     modifiedRequest = this.addAuthorizationHeader(
       request,
@@ -50,17 +50,17 @@ export class TokenInterceptor implements HttpInterceptor {
       return next.handle(modifiedRequest).pipe(
         takeUntil(cancelled$),
         catchError((error: HttpErrorResponse) => {
-          this.hideLoader(); // Hide loader for unexpected errors
+          // this.hideLoader(); // Hide loader for unexpected errors
           return throwError(error);
         }),
-        finalize(() => this.hideLoader())
+        // finalize(() => this.hideLoader())
       );
     }
     return next.handle(modifiedRequest).pipe(
       catchError((error) => {
         return throwError(() => error);
       }),
-      finalize(() => this.hideLoader())
+      // finalize(() => this.hideLoader())
     );
   }
 

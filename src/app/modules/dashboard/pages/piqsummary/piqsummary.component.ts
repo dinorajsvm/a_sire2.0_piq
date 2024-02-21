@@ -278,7 +278,7 @@ export class PIQSummaryComponent implements OnInit {
     this.userDetails = this._storage.getUserDetails();
     this.locationCode = localStorage.getItem('locationCode');
     this.getRank = this.userDetails.userData.mdata.appInfo.rankCode;
-    this.getMasterData();
+    this.getworkflowStatus();
     if (
       this.pendingQuestCount == undefined ||
       this.totalQuestCount == undefined
@@ -465,7 +465,7 @@ export class PIQSummaryComponent implements OnInit {
           this.disableResAprFlowBtn = true;
         }
       }
-      this.getMasterRankLogic();
+    this.getMasterData();
     });
   }
 
@@ -864,7 +864,7 @@ export class PIQSummaryComponent implements OnInit {
       this.appServices.setEditVisible(false);
       localStorage.setItem('setEditVisible', 'false');
 
-      this.getworkflowStatus();
+      this.getMasterRankLogic();
     });
   }
   setPlannedDate(res: any) {

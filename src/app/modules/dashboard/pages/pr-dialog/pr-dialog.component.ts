@@ -17,20 +17,20 @@ export class PrDialogComponent implements OnInit {
   public tooltipShowDelay = 0;
   totalRowCount = 0;
   columnDefs: ColDef[] = [
-    { field: 'chkid', headerName: 'CheckList ID', tooltipField: 'chkid' },
+    { field: 'chkid', headerName: 'Checklist ID', tooltipField: 'chkid' },
     {
       field: 'checklistname',
-      headerName: 'CheckList Name',
+      headerName: 'Checklist Name',
       tooltipField: 'checklistname',
     },
     {
       field: 'createduser',
-      headerName: 'CheckList User',
+      headerName: 'Checklist User',
       tooltipField: 'createduser',
     },
     {
       field: 'lastupdatedate',
-      headerName: 'CheckList Date',
+      headerName: 'Checklist Date',
       cellStyle: { textAlign: 'right' },
       tooltipField: 'lastupdatedate',
     },

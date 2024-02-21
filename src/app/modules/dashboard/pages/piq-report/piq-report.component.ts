@@ -153,7 +153,7 @@ export class PiqReportComponent implements OnInit {
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getworkflowStatus();
     this.getWrkFlSummary();
-    this.getQuestionAnswerDatas('');
+    this.getQuestionAnswerDatas('', 1);
     this.getGuideLinesData();
     this.appServices.getEnableViewMode().subscribe((res: any) => {
       if (this.userDetails?.cntrlType === 'CNT001') {
@@ -297,7 +297,7 @@ export class PiqReportComponent implements OnInit {
     this.scrollToElement(questID);
   }
 
-  submitFormAll(value: any) {
+  submitFormAll(value: any, id: number) {
     this.chapterGrid();
     this.loaderService.loaderShow();
     var pendingResult: any = [];
@@ -336,7 +336,7 @@ export class PiqReportComponent implements OnInit {
       this.appServices.setUnSaveAction(false);
       this.unSavedData = false;
       this.dialog.closeAll();
-      this.getQuestionAnswerDatas('');
+      this.getQuestionAnswerDatas('', id);
     });
   }
 
@@ -344,7 +344,7 @@ export class PiqReportComponent implements OnInit {
     this.memoVisible = !this.memoVisible;
   }
 
-  getQuestionAnswerDatas(vesselCode?: any) {
+  getQuestionAnswerDatas(vesselCode?: any, id?: any) {
     const payload = {
       instanceid: this.referenceNumber,
       presettype: 'n',
@@ -512,7 +512,16 @@ export class PiqReportComponent implements OnInit {
                       ? this.datePipe.transform(mainQus.answer, this.dateFormat)
                       : '';
                 } else {
+                  // subHeader.subQuestion.forEach((subQue: any) => {
+                  //   if (
+                  //     !(
+                  //       subQue.entryorgin === 'Auto or Preset' ||
+                  //       subQue.entryorgin === 'Preset'
+                  //     )
+                  //   ) {
                   mainQus.savedAnswer = mainQus.answer;
+                  //   }
+                  // });
                 }
               }
             });
@@ -541,40 +550,42 @@ export class PiqReportComponent implements OnInit {
       this.countDetails();
       this.piqPendingCount();
       this.presetQuestCount = this.getPresetQuestCounts.length;
+      if (id) {
+        if (this.getAllDatas) {
+          this.selectValue(this.getAllDatas[0].values[0].subHeaders);
+        }
+        setTimeout(() => {
+          if (
+            this.getAllDatas &&
+            this.getAllDatas[0] &&
+            this.getAllDatas[0].values &&
+            this.getAllDatas[0].values[0] &&
+            this.getAllDatas[0].values[0].question &&
+            this.getAllDatas[0].values[0].question[0] &&
+            this.getAllDatas[0].values[0].question[0].subQuestion &&
+            this.getAllDatas[0].values[0].question[0].subQuestion[0]
+          ) {
+            this.toggleSingleSelection(
+              this.vesselSelection,
+              this.getAllDatas[0].values[0],
+              this.getAllDatas[0].values[0].question[0],
+              this.getAllDatas[0].values[0].question[0].subQuestion[0],
+              'initial'
+            );
+          }
 
-      if (this.getAllDatas) {
-        this.selectValue(this.getAllDatas[0].values[0].subHeaders);
+          if (
+            vesselCode !== '' &&
+            vesselCode !== undefined &&
+            vesselCode !== 'undefined'
+          ) {
+            this.appServices.setUnSaveAction(true);
+          } else {
+            this.appServices.setUnSaveAction(false);
+          }
+        }, 100);
       }
-      setTimeout(() => {
-        if (
-          this.getAllDatas &&
-          this.getAllDatas[0] &&
-          this.getAllDatas[0].values &&
-          this.getAllDatas[0].values[0] &&
-          this.getAllDatas[0].values[0].question &&
-          this.getAllDatas[0].values[0].question[0] &&
-          this.getAllDatas[0].values[0].question[0].subQuestion &&
-          this.getAllDatas[0].values[0].question[0].subQuestion[0]
-        ) {
-          this.toggleSingleSelection(
-            this.vesselSelection,
-            this.getAllDatas[0].values[0],
-            this.getAllDatas[0].values[0].question[0],
-            this.getAllDatas[0].values[0].question[0].subQuestion[0],
-            'initial'
-          );
-        }
 
-        if (
-          vesselCode !== '' &&
-          vesselCode !== undefined &&
-          vesselCode !== 'undefined'
-        ) {
-          this.appServices.setUnSaveAction(true);
-        } else {
-          this.appServices.setUnSaveAction(false);
-        }
-      }, 100);
       this.mainQuestCounts = this.getMainQuestCounts.length;
       this.expandMethod();
       this.getTopBarDatas();
@@ -687,9 +698,9 @@ export class PiqReportComponent implements OnInit {
     const subIndex = this.selectedQuestion.findIndex(
       (subSection: any) => subSection.subHeaders == this.selectedValue
     );
-      setTimeout(() => {
-        this.scrollToElement(subIndex);
-      }, 100);
+    setTimeout(() => {
+      this.scrollToElement(subIndex);
+    }, 100);
     this.countDetails();
   }
 
@@ -937,7 +948,7 @@ export class PiqReportComponent implements OnInit {
           if (fetchData != this.dynamicForms.value[subq.qid]) {
             this.exceptionDateFn(subQues, mquest, subq);
           } else {
-            const exceptioDetails = [...this.exceptionList]
+            const exceptioDetails = [...this.exceptionList];
             const filterMquest = exceptioDetails.filter((exc) => {
               return (
                 mquest.qid === exc.mainQueId &&
@@ -949,7 +960,7 @@ export class PiqReportComponent implements OnInit {
                 if (filter.guid.value === data.guid.value) {
                   this.exceptionList.splice(index, 1);
                 }
-              } )
+              });
             });
 
             this.updateExceptionList();
@@ -975,7 +986,7 @@ export class PiqReportComponent implements OnInit {
           (x: any) => x.vesseltypename === this.dynamicForms.value.Q133
         );
         if (vesselCode && vesselCode.vesseltypecode) {
-          this.getQuestionAnswerDatas(vesselCode.vesseltypecode);
+          this.getQuestionAnswerDatas(vesselCode.vesseltypecode, 1);
           const emptyProperty: any[] = [];
           this.appServices.setExceptionData(emptyProperty);
           this.appServices.setUnSaveAction(true);
@@ -1137,7 +1148,11 @@ export class PiqReportComponent implements OnInit {
             mainQuestion: mainQue.mainQuestion,
             subName: splitValue.join('.') + ' ' + subQue.subName,
             presetValue: subQue.presetvalue,
-            savedAnswer: subQue.savedAnswer,
+            savedAnswer:
+              subQue.entryorgin === 'Auto or Preset' ||
+              subQue.entryorgin === 'Preset'
+                ? ''
+                : subQue.savedAnswer,
             answer: subQue.answer,
             remark: result,
           };
@@ -1151,7 +1166,11 @@ export class PiqReportComponent implements OnInit {
             mainQuestion: mainQue.mainQuestion,
             subName: splitValue.join('.') + ' ' + subQue.subName,
             presetValue: subQue.presetvalue,
-            savedAnswer: subQue.savedAnswer,
+            savedAnswer:
+              subQue.entryorgin === 'Auto or Preset' ||
+              subQue.entryorgin === 'Preset'
+                ? ''
+                : subQue.savedAnswer,
             answer: subQue.answer,
             remark: '',
           };
@@ -1174,7 +1193,11 @@ export class PiqReportComponent implements OnInit {
         mainQuestion: mainQue.mainQuestion,
         subName: splitValue.join('.') + ' ' + subQue.subName,
         presetValue: subQue.presetvalue,
-        savedAnswer: subQue.savedAnswer,
+        savedAnswer:
+          subQue.entryorgin === 'Auto or Preset' ||
+          subQue.entryorgin === 'Preset'
+            ? ''
+            : subQue.savedAnswer,
         answer: subQue.answer,
         remark: '',
       };
@@ -1524,7 +1547,7 @@ export class PiqReportComponent implements OnInit {
             this.formResetMQ20();
           }
         }
-        const exceptioDetails = [...this.exceptionList]
+        const exceptioDetails = [...this.exceptionList];
         const filterMquest = exceptioDetails.filter((exc) => {
           return (
             mainQuest.qid === exc.mainQueId &&
@@ -1536,7 +1559,7 @@ export class PiqReportComponent implements OnInit {
             if (filter.guid.value === data.guid.value) {
               this.exceptionList.splice(index, 1);
             }
-          } )
+          });
         });
         this.updateExceptionList();
         this.lookupResetBtn(questionId, 'Reset', '');
@@ -1604,7 +1627,7 @@ export class PiqReportComponent implements OnInit {
         if (mainQuest && mainQuest.qid === 'MQ154') {
           this.formResetMQ154();
         }
-        const exceptioDetails = [...this.exceptionList]
+        const exceptioDetails = [...this.exceptionList];
         const filterMquest = exceptioDetails.filter((exc) => {
           return (
             mainQuest.qid === exc.mainQueId &&
@@ -1616,7 +1639,7 @@ export class PiqReportComponent implements OnInit {
             if (filter.guid.value === data.guid.value) {
               this.exceptionList.splice(index, 1);
             }
-          } )
+          });
         });
         this.updateExceptionList();
         this.lookupResetBtn(questionId, 'Reset', '');
@@ -2293,7 +2316,7 @@ export class PiqReportComponent implements OnInit {
           ) {
             this.exceptionDateFn(subQues, mquest, subq);
           } else {
-            const exceptioDetails = [...this.exceptionList]
+            const exceptioDetails = [...this.exceptionList];
             const filterMquest = exceptioDetails.filter((exc) => {
               return (
                 mquest.qid === exc.mainQueId &&
@@ -2305,7 +2328,7 @@ export class PiqReportComponent implements OnInit {
                 if (filter.guid.value === data.guid.value) {
                   this.exceptionList.splice(index, 1);
                 }
-              } )
+              });
             });
             this.updateExceptionList();
           }
@@ -2315,8 +2338,7 @@ export class PiqReportComponent implements OnInit {
         ) {
           this.exceptionDateFn(subQues, mquest, subq);
         } else {
-
-          const exceptioDetails = [...this.exceptionList]
+          const exceptioDetails = [...this.exceptionList];
           const filterMquest = exceptioDetails.filter((exc) => {
             return (
               mquest.qid === exc.mainQueId &&
@@ -2328,9 +2350,9 @@ export class PiqReportComponent implements OnInit {
               if (filter.guid.value === data.guid.value) {
                 this.exceptionList.splice(index, 1);
               }
-            } )
+            });
           });
-          
+
           this.updateExceptionList();
         }
       });
@@ -3082,11 +3104,10 @@ export class PiqReportComponent implements OnInit {
         this.formResetSH29();
         this.lookupResetBtn('2.5.', 'Reset', '');
       }
-      const exceptioDetails = [...this.exceptionList]
+      const exceptioDetails = [...this.exceptionList];
       const filterMquest = exceptioDetails.filter((exc) => {
         return (
-          mquest.qid === exc.mainQueId &&
-          exc.mainQuestion.includes(questionId)
+          mquest.qid === exc.mainQueId && exc.mainQuestion.includes(questionId)
         );
       });
       filterMquest.forEach((data) => {
@@ -3094,7 +3115,7 @@ export class PiqReportComponent implements OnInit {
           if (filter.guid.value === data.guid.value) {
             this.exceptionList.splice(index, 1);
           }
-        } )
+        });
       });
       this.updateExceptionList();
       event.preventDefault();
@@ -3347,7 +3368,7 @@ export class PiqReportComponent implements OnInit {
     };
     this.appServices.saveLookUp(payload).subscribe((data) => {
       this.loaderService.loaderHide();
-      this.submitFormAll(this.dynamicForms);
+      this.submitFormAll(this.dynamicForms, 0);
     });
   }
 

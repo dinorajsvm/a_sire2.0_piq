@@ -87,7 +87,6 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     this.summaryGridCount();
   }
 
-
   getVesselTypeData() {
     this.appServices.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
@@ -277,14 +276,17 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
                         extensionvalue = list.localfilename.split('.');
                       }
                       if (extensionvalue && extensionvalue.length === 1) {
-                        formattedExtension = extensionvalue[extensionvalue.length];
+                        formattedExtension =
+                          extensionvalue[extensionvalue.length];
                       } else {
                         if (extensionvalue && extensionvalue.length > 1) {
-                          formattedExtension = extensionvalue[extensionvalue.length - 1];
+                          formattedExtension =
+                            extensionvalue[extensionvalue.length - 1];
                         }
                       }
                       if (data) {
-                        const formattedDefName = data.imagename + '.' + formattedExtension;
+                        const formattedDefName =
+                          data.imagename + '.' + formattedExtension;
                         list.formattedDefName = formattedDefName;
                         list.defaultImageName = data.imagename;
                       }
@@ -326,7 +328,6 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
             fileSizeConvert =
               (+list.sizeinbytes / 1024).toFixed(2) + ' ' + 'KB';
           }
-    
 
           list.imagePreviewSrc = srcUrl;
           list.systemfilename = list.systemfilename;
@@ -467,48 +468,55 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       element.subTopics.forEach((subTopic: any) => {
         if (subTopic && subTopic.imagelist && subTopic.imagelist.length > 0) {
           subTopic.imagelist.forEach((img: any, index: any) => {
-            const subTopicFolderName = subTopic.subTopicTitle
-              .toString()
-              .includes('/')
-              ? subTopic.subTopicTitle.toString().replaceAll('/', '-')
-              : subTopic.subTopicTitle.toString();
-            const subTopicFolder = topicFolder
-              ? topicFolder.folder(subTopicFolderName)
-              : null;
+            requests.push(
+              this.appServices
+                .getServerFileFromStream(img.systemfilename)
+                .toPromise()
+                .then((blob: any) => {
+                  const subTopicFolderName = subTopic.subTopicTitle
+                    .toString()
+                    .includes('/')
+                    ? subTopic.subTopicTitle.toString().replaceAll('/', '-')
+                    : subTopic.subTopicTitle.toString();
+                  const subTopicFolder = topicFolder
+                    ? topicFolder.folder(subTopicFolderName)
+                    : null;
 
-            if (!(img && img.localfilename)) {
-              img.localfilename =
-                'empty_default_name' + '.' + img.formattedExtension;
-            }
-            if (subTopicFolder) {
-              let fileName: any;
-              const splitLocalName =
-                img && img.localfilename ? img.localfilename.split('.')[0] : '';
-              const splitExtension = img.localfilename.split('.')[1];
-              if (index) {
-                fileName = splitLocalName
-                  ? splitLocalName +
-                    ' ' +
-                    '(' +
-                    index +
-                    ')' +
-                    '.' +
-                    splitExtension
-                  : 'empty_default_name' +
-                    ' ' +
-                    '(' +
-                    index +
-                    ')' +
-                    '.' +
-                    img.formattedExtension;
-              } else {
-                fileName = splitLocalName
-                  ? splitLocalName + '.' + splitExtension
-                  : 'empty_default_name' + '.' + img.formattedExtension;
-              }
-              subTopicFolder.file(fileName, img.imagePreviewSrc);
-            }
-            requests.push(of(subTopicFolder));
+                  if (!(img && img.localfilename)) {
+                    img.localfilename =
+                      'empty_default_name' + '.' + img.formattedExtension;
+                  }
+                  if (subTopicFolder) {
+                    let fileName: any;
+                    const splitLocalName =
+                      img && img.localfilename
+                        ? img.localfilename.split('.')[0]
+                        : '';
+                    if (index) {
+                      fileName = splitLocalName
+                        ? splitLocalName +
+                          ' ' +
+                          '(' +
+                          index +
+                          ')' +
+                          '.' +
+                          img.formattedExtension
+                        : 'empty_default_name' +
+                          ' ' +
+                          '(' +
+                          index +
+                          ')' +
+                          '.' +
+                          img.formattedExtension;
+                    } else {
+                      fileName = splitLocalName
+                        ? splitLocalName + '.' + img.formattedExtension
+                        : 'empty_default_name' + '.' + img.formattedExtension;
+                    }
+                    subTopicFolder.file(fileName, blob);
+                  }
+                })
+            );
           });
         }
       });
@@ -522,43 +530,50 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  downloadAllSubTopicImages(subTopic: any, imagelist: any) {
+  downloadAllSubTopicImages(subTopicTitle: string, imagelist: any[]) {
     this.loaderService.loaderShow();
     const zip = new JSZip();
-    const requests: any[] = [];
-    imagelist.forEach((img: any, index: any) => {
-      if (!(img && img.localfilename)) {
-        img.localfilename = 'empty_default_name' + '.' + img.formattedExtension;
-      }
+    const requests: any[] = imagelist.map((img: any, index: any) =>
+      this.appServices
+        .getServerFileFromStream(img.systemfilename)
+        .toPromise()
+        .then((blob: any) => {
+          let fileName: any;
+          const splitLocalName =
+            img && img.localfilename ? img.localfilename.split('.')[0] : '';
+          if (index) {
+            fileName = splitLocalName
+              ? splitLocalName +
+                ' ' +
+                '(' +
+                index +
+                ')' +
+                '.' +
+                img.formattedExtension
+              : 'empty_default_name' +
+                ' ' +
+                '(' +
+                index +
+                ')' +
+                '.' +
+                img.formattedExtension;
+          } else {
+            fileName = splitLocalName
+              ? splitLocalName + '.' + img.formattedExtension
+              : 'empty_default_name' + '.' + img.formattedExtension;
+          }
+          zip.file(fileName, blob);
+        })
+    );
 
-      let fileName: any;
-      const splitLocalName =
-        img && img.localfilename ? img.localfilename.split('.')[0] : '';
-      const splitExtension = img.localfilename.split('.')[1];
-      if (index) {
-        fileName = splitLocalName
-          ? splitLocalName + ' ' + '(' + index + ')' + '.' + splitExtension
-          : 'empty_default_name' +
-            ' ' +
-            '(' +
-            index +
-            ')' +
-            '.' +
-            img.formattedExtension;
-      } else {
-        fileName = splitLocalName
-          ? splitLocalName + '.' + splitExtension
-          : 'empty_default_name' + '.' + img.formattedExtension;
+    forkJoin(requests).subscribe(
+      () => {
+        zip.generateAsync({ type: 'blob' }).then((content: any) => {
+          saveAs(content, `${subTopicTitle}.zip`);
+          this.loaderService.loaderHide();
+        });
       }
-      const topicFolder = zip.file(fileName, img.imagePreviewSrc);
-      requests.push(of(topicFolder));
-    });
-    forkJoin(requests).subscribe(() => {
-      zip.generateAsync({ type: 'blob' }).then((content: any) => {
-        saveAs(content, `${subTopic['subTopicTitle']}.zip`);
-        this.loaderService.loaderHide();
-      });
-    });
+    );
   }
 
   getFilenameFromUrl(url: string, extension?: any): string {
