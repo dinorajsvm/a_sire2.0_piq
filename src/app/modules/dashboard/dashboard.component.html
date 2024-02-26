@@ -1,12 +1,12 @@
 <mat-sidenav-container [hasBackdrop]="false">
   <mat-sidenav class="mat-sidenav-box" mode="side" position="start" opened="true">
-      <app-sidebar [leftOpen]="leftOpen" style="overflow:hidden"></app-sidebar>
+      <app-sidebar *ngIf="showBars" [leftOpen]="leftOpen" style="overflow:hidden"></app-sidebar>
   </mat-sidenav>
-  <mat-sidenav-content [ngClass]="leftOpen ? 'sidebar-content-open' : 'sidebar-content-close'">
-      <app-navbar (toggleSidebar)="toggleSidebar($event)"></app-navbar>
+  <mat-sidenav-content  [ngClass]="marginZero ? 'margin-zero' : leftOpen ? 'sidebar-content-open' : 'sidebar-content-close'">
+      <app-navbar *ngIf="showBars" (toggleSidebar)="toggleSidebar($event)"></app-navbar>
 
       <div class="page-content-wrapper" id="page-Content">
-        <div class="fullscreen_module_wrapper" (click)="fullscreen()">
+        <div class="fullscreen_module_wrapper" (click)="fullscreen()" >
           <div class="fullscreen_icon_wrapper">
             <mat-icon class="fullscreen_icon">{{!showFullscreen?'fullscreen':'fullscreen_exit'}}</mat-icon>
           </div>

@@ -111,7 +111,7 @@
               [locale]="{ applyLabel: 'ok', format: 'DD-MMM-YYYY' }" formControlName="dateRangeField"
               [(ngModel)]="selected" [ranges]="ranges" [showCustomRangeLabel]="true" [showDropdowns]="true"
               [keepCalendarOpeningWithRange]="true" [alwaysShowCalendars]="false" [showClearButton]="true"
-              [isInvalidDate]="isInvalidDate" name="daterange" (change)="dateRangeChanged($event)" />
+              [isInvalidDate]="isInvalidDate" name="daterange" (change)="dateRangeChanged()" />
             <img class="icon-down ngx-daterangepicker-action" src="assets/question/down.svg" alt=""
               (click)="openDatepicker()" />
           </div>
@@ -139,6 +139,20 @@
       </div>
     </div>
   </div>
+  <!-- <div class="col-sm-10" >
+  <mat-chip-listbox #chipList class="mb-0 mt-0">
+    <mat-chip-listbox  class="mb-0 mt-0">
+  <mat-chip-option class="p-2" *ngFor="let keyword of saveAsTemplateList; let i=index" color="primary"
+  [removable]="removable"
+  (click)="selectAgTemplate(keyword)"
+  (removed)="deleteTemplate()"
+  [ngClass]="i === selectedTemplateIndex ? 'selected-chip' : ''">
+  {{keyword.name}}
+  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+  </mat-chip-option>
+</mat-chip-listbox>
+  </mat-chip-listbox>
+</div> -->
   <div class="col-sm-12 justify-content-end ag-toolBar"
     *ngIf="userDetails?.cntrlType === 'CNT002'|| userDetails?.cntrlType === 'CNT001'">
     <span class="m-0">Total Records: {{ totalRowCount }}</span>

@@ -130,7 +130,6 @@ export class PiqReportComponent implements OnInit {
   hideEditbutton = false;
   saveDisable = true;
   saveMappedCertificateData: any;
-  getSearch: any;
   hideReqBtns = false;
   gridApi: any;
   isLoader = false;
@@ -171,8 +170,7 @@ export class PiqReportComponent implements OnInit {
       this.hideReqBtns = res;
     });
     this.appServices.getSearch().subscribe((res: any) => {
-      this.getSearch = res;
-      if (this.getSearch == false) {
+      if (!res) {
         this.onSearchTextChanged('');
       }
     });
@@ -512,16 +510,7 @@ export class PiqReportComponent implements OnInit {
                       ? this.datePipe.transform(mainQus.answer, this.dateFormat)
                       : '';
                 } else {
-                  // subHeader.subQuestion.forEach((subQue: any) => {
-                  //   if (
-                  //     !(
-                  //       subQue.entryorgin === 'Auto or Preset' ||
-                  //       subQue.entryorgin === 'Preset'
-                  //     )
-                  //   ) {
                   mainQus.savedAnswer = mainQus.answer;
-                  //   }
-                  // });
                 }
               }
             });
@@ -915,8 +904,10 @@ export class PiqReportComponent implements OnInit {
       this.restoreOriginal(subQue);
     } else {
       if (
-        subQue.entryorgin === 'Auto or Preset' ||
-        subQue.entryorgin === 'Preset'
+        subQue &&
+        (subQue.entryorgin === 'Auto or Preset' ||
+          subQue.entryorgin === 'Preset') &&
+        subQue.presetvalue
       ) {
         this.exceptionFn(ques, mainQue, subQue);
       }
@@ -1010,9 +1001,12 @@ export class PiqReportComponent implements OnInit {
       getAllValue.values.forEach((value: any) => {
         value.question.forEach((subHeader: any) => {
           subHeader.subQuestion.forEach((mainQus: any) => {
+            console.log(mainQus.presetvalue, 'preset');
+
             if (
               mainQus &&
               mainQus.hasOwnProperty('presetvalue') &&
+              mainQus.presetvalue &&
               mainQus.answer !== mainQus.presetvalue
             ) {
               this.exception(value, subHeader, mainQus, 1);
@@ -1124,7 +1118,7 @@ export class PiqReportComponent implements OnInit {
     if (
       currentVesselType === '' ||
       currentVesselType === undefined ||
-      currentVesselType === 'undefined'
+      (currentVesselType === 'undefined' && subQue.presetvalue)
     ) {
       const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
         disableClose: true,
@@ -2118,7 +2112,7 @@ export class PiqReportComponent implements OnInit {
     this.appServices.setUnSaveAction(true);
     if (subq && subq.presetvalue === subq.answer) {
       this.restoreOriginal(subq);
-    } else {
+    } else if (subq && subq.presetvalue) {
       this.exceptionFn(quest, mquest, subq);
     }
     this.selectedValue = quest && quest.subHeaders ? quest.subHeaders : '';
@@ -3305,13 +3299,24 @@ export class PiqReportComponent implements OnInit {
   }
 
   showpendQues() {
+  if (this.isSearchActive) {
+    this.showPendingQuest = false;
+    this.AllQuestions = false;
+  } else {
     this.showPendingQuest = true;
     this.AllQuestions = false;
   }
 
+  }
+
   ShowAllQuest() {
+    if (this.isSearchActive) {
+      this.showPendingQuest = false;
+      this.AllQuestions = false;
+    } else {
     this.AllQuestions = true;
     this.showPendingQuest = false;
+    }
   }
 
   onTabChanged(event: any) {

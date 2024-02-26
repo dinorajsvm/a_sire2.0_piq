@@ -9,11 +9,7 @@ import { AgGridMenuComponent } from 'src/app/core/shared/ag-grid/ag-grid-menu.co
 import { AppService } from '../../services/app.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
-import {
-  CellStatus,
-  EFormMode,
-  colorCodes,
-} from 'src/app/core/constants';
+import { CellStatus, EFormMode, colorCodes } from 'src/app/core/constants';
 import { MatDialog } from '@angular/material/dialog';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
 import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
@@ -61,7 +57,7 @@ export class PIQLandingPageComponent implements OnInit {
   @ViewChild(DaterangepickerDirective, { static: false })
   pickerDirective!: DaterangepickerDirective;
   propsFormGroup!: FormGroup;
-
+  isFullScreen = false;
   startDate: any;
   endDate: any;
   dateRangePicker!: FormGroup;
@@ -131,7 +127,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
-      comparotor:this.dateComparator.bind(this),
+      comparotor: this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -143,7 +139,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
-      comparotor:this.dateComparator.bind(this),
+      comparotor: this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -212,7 +208,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
-      comparotor:this.dateComparator.bind(this),
+      comparotor: this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -224,7 +220,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
-      comparotor:this.dateComparator.bind(this),
+      comparotor: this.dateComparator.bind(this),
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -340,6 +336,7 @@ export class PIQLandingPageComponent implements OnInit {
       this.gridApi
     );
     this.gridOptions.sideBar = null;
+    // this.getAgGridTemplate();
   }
 
   rowData: any[] = [];
@@ -349,7 +346,7 @@ export class PIQLandingPageComponent implements OnInit {
   showNew: boolean = true;
   getWrkFlowUser: any;
   public tooltipShowDelay = 0;
-
+  removable = true;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -371,25 +368,24 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   getAgGridTemplate() {
-    const payload = {
-      userCode: this.userDetails.userCode,
-      gridId: '',
-    };
-    this._agGridService.getTemplate(payload, (res: any) => {
-      this.saveAsTemplateList = res.result;
+    this._agGridService.getTemplate((res: any) => {
+      const saveAs = JSON.parse(res.response[0].template);
+      this.saveAsTemplateList =  Object.keys(saveAs).length === 0 ? [] : [saveAs]
     });
   }
 
   updateTemplate(data: any) {
-    if (this.saveAsTemplateList.length == 0) {
+    if (this.saveAsTemplateList && this.saveAsTemplateList.length == 0) {
       this.saveAsTemplate(this.gridColumnApi, this.saveAsTemplateList);
     } else {
+      console.log('tempdata');
+      
       const columnOrder = this.gridColumnApi.getColumnState();
-      const currentItem = this.saveAsTemplateList[this.selectedTemplateIndex];
+      // const currentItem = this.saveAsTemplateList[this.selectedTemplateIndex];
       const payload = {
         userCode: this.userDetails.userCode,
-        name: currentItem.name,
-        gridId: currentItem.smGridId['gridId'],
+        status: 'S',
+        gridid: 'PIQ_SAMPLEGRID',
         template: JSON.stringify(columnOrder),
       };
       this._agGridService.updateTemplate(payload, (res: any) => {
@@ -632,18 +628,19 @@ export class PIQLandingPageComponent implements OnInit {
     this.pickerDirective.open();
   }
 
-  dateRangeChanged(event: any): void {
+  dateRangeChanged(): void {
+    // const endDate = moment(this.selected.endDate).subtract(1, 'day').toDate();
+
     this.startDate = this.datePipe.transform(
       this.selected.startDate,
       'dd-MMM-yyyy HH:mm'
     );
+
     this.endDate = this.datePipe.transform(
       this.selected.endDate,
       'dd-MMM-yyyy HH:mm'
     );
   }
-
-  // dateRangePicker End
 
   deleteTemplate() {
     this.removeAgTemplate(this.saveAsTemplateList[this.selectedTemplateIndex]);
@@ -672,8 +669,12 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   removeAgTemplate(chip: any): void {
+    const columnOrder = this.gridColumnApi.getColumnState();
     const payload = {
-      userCode: this.userDetails.userCode,
+      usercode: this.userDetails.userCode,
+      gridid: 'PIQ_SAMPLEGRID',
+      template: JSON.stringify(columnOrder),
+      status: 'V',
     };
     this._agGridService.deleteTemplate(payload, (res: any) => {
       if (res.success) {
@@ -725,6 +726,10 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   getLndPgDatas() {
+    console.log(this.dateRangePicker.value, 'value');
+    console.log(this.startDate, 'start');
+    console.log(this.endDate, 'end');
+    
     const payload = {
       usercode: this.userDetails?.userCode,
       from: this.startDate,
@@ -825,8 +830,7 @@ export class PIQLandingPageComponent implements OnInit {
       val.forEach((item: any) => {
         this.getWrkFlowUser = item.creater;
       });
-    this.getLndPgDatas();
-
+      this.getLndPgDatas();
     });
   }
   stsBarToggle() {
@@ -892,37 +896,38 @@ export class PIQLandingPageComponent implements OnInit {
     this.gridOpt.api.refreshHeader();
   }
 
-
-
   dateComparator(date1: string, date2: string): number {
     const date1Number = this.parseDate(date1);
     const date2Number = this.parseDate(date2);
     if (date1Number === null && date2Number === null) {
-          return 0;
-        }
-        if (date1Number === null) {
-          return -1;
-        }
-        if (date2Number === null) {
-          return 1;
-        }
-        return date1Number - date2Number;
+      return 0;
+    }
+    if (date1Number === null) {
+      return -1;
+    }
+    if (date2Number === null) {
+      return 1;
+    }
+    return date1Number - date2Number;
   }
- 
-   parseDate(dateStr: string) {
-      const parsedDate = this.tryParseDate(dateStr, this.userDetails.dateFormat.split(" ")[0]);
-      if (parsedDate) {
-        return parsedDate;
-      }
-       return null;
+
+  parseDate(dateStr: string) {
+    const parsedDate = this.tryParseDate(
+      dateStr,
+      this.userDetails.dateFormat.split(' ')[0]
+    );
+    if (parsedDate) {
+      return parsedDate;
+    }
+    return null;
   }
- 
-   tryParseDate(dateStr: string, format: string){
+
+  tryParseDate(dateStr: string, format: string) {
     const parts = format.split(/[\.\-\/]/);
     const dateParts = dateStr.split(/[\.\-\/]/);
-    const yearIndex = parts.findIndex(part => part.toLowerCase() === "yyyy");
-    const monthIndex = parts.findIndex(part => part.toLowerCase() === "mm");
-    const dayIndex = parts.findIndex(part => part.toLowerCase() === "dd");
+    const yearIndex = parts.findIndex((part) => part.toLowerCase() === 'yyyy');
+    const monthIndex = parts.findIndex((part) => part.toLowerCase() === 'mm');
+    const dayIndex = parts.findIndex((part) => part.toLowerCase() === 'dd');
     if (yearIndex === -1 || monthIndex === -1 || dayIndex === -1) {
       return null;
     }
@@ -931,5 +936,4 @@ export class PIQLandingPageComponent implements OnInit {
     const day = parseInt(dateParts[dayIndex], 10);
     return year * 10000 + month * 100 + day;
   }
- 
 }

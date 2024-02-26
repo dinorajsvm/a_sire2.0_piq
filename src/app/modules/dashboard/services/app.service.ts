@@ -14,7 +14,7 @@ export class AppService {
   // private globalUrl = "http://70.205.1.5:8080"
   private globalUrl = document.location.protocol + '//' + document.location.hostname;
   // private globalUrl = environment.apiUrl;
-
+  isFullscreen$ = new BehaviorSubject<any>(false);
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;
   apikey: any;
@@ -29,6 +29,7 @@ export class AppService {
   private getImageCount = new BehaviorSubject<any>(0);
   private getPhotoRepList = new Subject<any>();
   private exceptionList = new Subject<any>();
+  private regex = new Subject<any>();
   private guidelineList = new Subject<any>();
   private exceptionReset = new Subject<any>();
   private getCertificate = new Subject<any>();
@@ -322,6 +323,13 @@ export class AppService {
     return this.client.get<any>(
       `${this.globalUrl}/PIQ/event/getreferncetab?vesselcode=${vesselcode}&companycode=${companycode}&instanceid=${instanceid}`
     );
+  }
+
+  setRegex(message: any) {
+    this.regex.next(message);
+  }
+  getRegex() {
+    return this.regex.asObservable();
   }
 
   setExceptionData(message: any) {

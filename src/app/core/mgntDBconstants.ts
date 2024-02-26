@@ -35,8 +35,8 @@ export enum Endpoints {
     CATEGORY = '/dashboard/category',
     TEMPORARY_MOC = '/dashboard/temporaryMocExpiryDate',
     TARGET_COMPLETION = '/dashboard/targetCompletionDate',
-    GET_TEMPLATE = '/smgrid/get',
-    CREATE_TEMPLATE = '/grid/save',
+    GET_TEMPLATE = '/PIQ/event/gettemplate?usercode=',
+    CREATE_TEMPLATE = '/PIQ/event/savetemplate',
     UPDATE_TEMPLATE = '/smgrid/update',
     DELETE_TEMPLATE = '/smgrid/delete',
 

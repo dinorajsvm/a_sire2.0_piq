@@ -846,6 +846,7 @@ export class PIQSummaryComponent implements OnInit {
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
       const exceptionList =
         res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
+        this.appServices.setRegex(res.fileRegex)
       this.appServices.setExceptionData(exceptionList);
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';

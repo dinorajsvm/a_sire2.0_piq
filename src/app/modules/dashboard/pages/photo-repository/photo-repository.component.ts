@@ -54,6 +54,7 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
   getImagesCount: any;
   hideReqBtns = false;
   disableBtns = false;
+  regexValidation: any;
   constructor(
     public dialog: MatDialog,
     private appServices: AppService,
@@ -83,6 +84,9 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     });
     this.appServices.getEditVisible().subscribe((res: any) => {
       this.hideReqBtns = res;
+    });
+    this.appServices.getRegex().subscribe((res: any) => {
+      this.regexValidation = res;
     });
     this.summaryGridCount();
   }
@@ -143,9 +147,12 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
 
                     console.log(srcUrl, 'srcUrl2');
                     let fileSizeConvert = '0.00 KB';
-                    if (img && +img.filesize) {
+                    if (img && +img.filesize <= 1048576) {
                       fileSizeConvert =
                         (+img.filesize / 1024).toFixed(2) + ' ' + 'KB';
+                    } else {
+                      fileSizeConvert =
+                        (+img.filesize / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
                     }
                     img.imagePreviewSrc = srcUrl;
                     img.sizeCheck = img.sizeinbytes;
@@ -324,11 +331,13 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
           const formattedName =
             list && list.localfilename ? list.localfilename.split('.')[0] : '';
           let fileSizeConvert = '0.00 KB';
-          if (list && +list.sizeinbytes) {
+          if (list && +list.sizeinbytes <= 1048576) {
             fileSizeConvert =
               (+list.sizeinbytes / 1024).toFixed(2) + ' ' + 'KB';
+          } else {
+            fileSizeConvert =
+              (+list.sizeinbytes / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
           }
-
           list.imagePreviewSrc = srcUrl;
           list.systemfilename = list.systemfilename;
           list.localfilename = list.localfilename;
@@ -465,6 +474,8 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
         ? element.topic.toString().replaceAll('/', '-')
         : element.topic.toString();
       const topicFolder = zip.folder(topicFolderName);
+      console.log(topicFolderName, 'topicFolderName');
+
       element.subTopics.forEach((subTopic: any) => {
         if (subTopic && subTopic.imagelist && subTopic.imagelist.length > 0) {
           subTopic.imagelist.forEach((img: any, index: any) => {
@@ -566,14 +577,12 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
         })
     );
 
-    forkJoin(requests).subscribe(
-      () => {
-        zip.generateAsync({ type: 'blob' }).then((content: any) => {
-          saveAs(content, `${subTopicTitle}.zip`);
-          this.loaderService.loaderHide();
-        });
-      }
-    );
+    forkJoin(requests).subscribe(() => {
+      zip.generateAsync({ type: 'blob' }).then((content: any) => {
+        saveAs(content, `${subTopicTitle}.zip`);
+        this.loaderService.loaderHide();
+      });
+    });
   }
 
   getFilenameFromUrl(url: string, extension?: any): string {
@@ -665,6 +674,15 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     if (event && event.target && event.target.files && event.target.files[0]) {
       this.selectedFile = event.target.files[0];
       const splitString = event.target.files[0].name;
+      const splitData = splitString.split('.')[0];
+      const pattern = new RegExp(this.regexValidation);
+      if (!pattern.test(splitData)) {
+        this._snackBarService.loadSnackBar(
+          'Invalid File Format / Extension',
+          colorCodes.INFO
+        );
+        return;
+      }
       if (splitString.length >= 70) {
         this._snackBarService.loadSnackBar(
           'Image Name length should be or less than 70 Characters.',

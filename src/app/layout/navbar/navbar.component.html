@@ -3,10 +3,10 @@
     aria-label="Menu">
     <mat-icon>menu</mat-icon>
   </a>
-  <a href="javascript:void(0);" class="mt-2 ml-2 text-white" matTooltip="Full Screen" (click)="fullscreen()"
+  <!-- <a href="javascript:void(0);" class="mt-2 ml-2 text-white" matTooltip="Full Screen" (click)="fullscreen()"
     aria-label="Full screen">
     <mat-icon>fullscreen</mat-icon>
-  </a>
+  </a> -->
   <div class="ml-2">
     <img *ngIf="userDetails?.toolBarPic" src="data:image/jpeg;base64,{{ userDetails?.toolBarPic }}" width="135"
       height="35" alt="" />
@@ -24,11 +24,11 @@
         </span>
       </button>
       <div style="border-right: 1px solid #475361!important;height: 40px;width: 3px;"></div> -->
-      <button class="p-2" mat-icon-button>
+      <!-- <button class="p-2" mat-icon-button>
         <span class="notification" matBadge="0" matBadgeSize="small" matBadgePosition="above after">
           <img style="width: 21px;" src="assets/notification-bar/notification.svg" alt="" matTooltip="Alerts" />
         </span>
-      </button>
+      </button> -->
       <div style="border-right: 1px solid #475361!important;height: 35px;width: 3px;"></div>
       <!-- <button class="p-2" mat-icon-button>
         <span class="email" matBadge="0" matBadgeSize="small" matBadgePosition="above after">

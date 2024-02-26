@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AppService } from './services/app.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,36 +8,54 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor() {}
-
+  constructor(@Inject(DOCUMENT) private document: any, private appService: AppService) {}
+  showBars = true;
   leftOpen: boolean = false;
   rightOpen: boolean = false;
-  showFullscreen=false;
-
+  showFullscreen = false;
+  documentElem!: any;
+  marginZero = false;
   ngOnInit(): void {
-    let contentWrap = document.getElementById('page-Content');
-    contentWrap?.addEventListener('fullscreenchange', (event) => {
-      if (document.fullscreenElement) {
-        this.showFullscreen=true;
-        contentWrap?.classList.add('fullscreenContent');
-      } else {
-        this.showFullscreen=false
-        contentWrap?.classList.remove('fullscreenContent');
-      }
-      });
+    this.documentElem = document.documentElement;
+    this.appService.isFullscreen$.next(this.showBars);
   }
 
   fullscreen() {
-    this.showFullscreen = !this.showFullscreen
-    let content = document.getElementById('page-Content');
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
+    this.showFullscreen = !this.showFullscreen;
+    if (
+      !this.document.fullscreenElement && // alternative standard method
+      !this.document.mozFullScreenElement &&
+      !this.document.webkitFullscreenElement &&
+      !this.document.msFullscreenElement
+    ) {
+     
+      if (this.documentElem.requestFullscreen) {
+        this.documentElem.requestFullscreen();
+      } else if (this.documentElem.mozRequestFullScreen) {
+        this.documentElem.mozRequestFullScreen();
+      } else if (this.documentElem.webkitRequestFullscreen) {
+        this.documentElem.webkitRequestFullscreen();
+      } else if (this.documentElem.msRequestFullscreen) {
+        this.documentElem.msRequestFullscreen();
+      }
+      this.marginZero = true;
+      this.showBars = false;
     } else {
-      content?.requestFullscreen();
+   
+      if (this.document.exitFullscreen) {
+        this.document.exitFullscreen();
+      } else if (this.document.msExitFullscreen) {
+        this.document.msExitFullscreen();
+      } else if (this.document.mozCancelFullScreen) {
+        this.document.mozCancelFullScreen();
+      } else if (this.document.webkitExitFullscreen) {
+        this.document.webkitExitFullscreen();
+      }
+      this.marginZero = false;
+      this.showBars = true;
     }
+    this.appService.isFullscreen$.next(this.showBars);
   }
-
-
 
   toggleSidebar(option: any) {
     switch (option.flag) {
