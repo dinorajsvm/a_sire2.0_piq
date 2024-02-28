@@ -1001,8 +1001,6 @@ export class PiqReportComponent implements OnInit {
       getAllValue.values.forEach((value: any) => {
         value.question.forEach((subHeader: any) => {
           subHeader.subQuestion.forEach((mainQus: any) => {
-            console.log(mainQus.presetvalue, 'preset');
-
             if (
               mainQus &&
               mainQus.hasOwnProperty('presetvalue') &&
@@ -1822,7 +1820,7 @@ export class PiqReportComponent implements OnInit {
 
   safetyManagement(questionId: any) {
     const dialogRef = this.dialog.open(SafetyManagementComponent, {
-      panelClass: 'sm-dialog-container',
+      panelClass: 'safety-dialog-container',
       data: {
         qid: '5.7',
         questionId: questionId,
@@ -3137,6 +3135,7 @@ export class PiqReportComponent implements OnInit {
       this.scrollToElement(question.qid);
     }, 100);
     this.isSearchActive = false;
+    this.ShowAllQuest();
     this.onSearchTextChanged('');
     this.globalSearchComponent.clearSearch();
   }
@@ -3299,14 +3298,13 @@ export class PiqReportComponent implements OnInit {
   }
 
   showpendQues() {
-  if (this.isSearchActive) {
-    this.showPendingQuest = false;
-    this.AllQuestions = false;
-  } else {
-    this.showPendingQuest = true;
-    this.AllQuestions = false;
-  }
-
+    if (this.isSearchActive) {
+      this.showPendingQuest = false;
+      this.AllQuestions = false;
+    } else {
+      this.showPendingQuest = true;
+      this.AllQuestions = false;
+    }
   }
 
   ShowAllQuest() {
@@ -3314,8 +3312,8 @@ export class PiqReportComponent implements OnInit {
       this.showPendingQuest = false;
       this.AllQuestions = false;
     } else {
-    this.AllQuestions = true;
-    this.showPendingQuest = false;
+      this.AllQuestions = true;
+      this.showPendingQuest = false;
     }
   }
 

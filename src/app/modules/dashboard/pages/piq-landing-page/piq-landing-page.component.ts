@@ -1,4 +1,11 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import {
   GridOptions,
@@ -67,8 +74,8 @@ export class PIQLandingPageComponent implements OnInit {
   gridApi: any;
   agGridToolbar: any = {};
   isCustomFilterApplied = false;
-  saveAsTemplateList: any = [];
-  selectedTemplateIndex: number = 0;
+  saveAsTemplateList: any[] = [];
+  selectedTemplateIndex = 0;
   shipColumnDefs: any[] = [
     {
       field: 'action',
@@ -301,6 +308,7 @@ export class PIQLandingPageComponent implements OnInit {
   reassignedCount: any;
   actionCount: any;
   gridOpt: any;
+  Object: any;
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -318,10 +326,6 @@ export class PIQLandingPageComponent implements OnInit {
     );
     this.agGridToolbar['exportAsExcel'] =
       this._agGridService.exportAsExcel.bind(this, this.gridApi, 'PIQ');
-    // this.agGridToolbar['columnFilter'] = this._agGridService.columnFilter.bind(
-    //   this,
-    //   this.gridApi
-    // );
     this.agGridToolbar['saveTemplate'] = this.updateTemplate.bind(this);
 
     this.agGridToolbar['saveAsTemplate'] = this.saveAsTemplate.bind(
@@ -330,13 +334,12 @@ export class PIQLandingPageComponent implements OnInit {
       this.saveAsTemplateList
     );
     this.agGridToolbar['deleteTemplate'] = this.deleteTemplate.bind(this);
-    // this.agGridToolbar['resetTemplate'] = this.resetTemplate.bind(this);
     this.agGridToolbar['filter'] = this._agGridService.filter.bind(
       this,
       this.gridApi
     );
     this.gridOptions.sideBar = null;
-    // this.getAgGridTemplate();
+    this.getAgGridTemplate();
   }
 
   rowData: any[] = [];
@@ -369,29 +372,48 @@ export class PIQLandingPageComponent implements OnInit {
 
   getAgGridTemplate() {
     this._agGridService.getTemplate((res: any) => {
-      const saveAs = JSON.parse(res.response[0].template);
-      this.saveAsTemplateList =  Object.keys(saveAs).length === 0 ? [] : [saveAs]
+      const saveAs = res.response;
+      const keysArray = Object.keys(saveAs);
+      let newArray: any = [];
+      keysArray.forEach((key) => {
+        const payLoadData = {
+          [key]: saveAs[key],
+        };
+        newArray.push(payLoadData);
+      });
+      this.saveAsTemplateList = newArray && newArray.length > 0 ? newArray : [];
+      this.selectedTemplateIndex =
+        this.saveAsTemplateList.length < 2
+          ? 0
+          : this.saveAsTemplateList.length - 1;
+      this.selectAgTemplate(
+        this.saveAsTemplateList[this.selectedTemplateIndex]
+      );
     });
   }
 
   updateTemplate(data: any) {
     if (this.saveAsTemplateList && this.saveAsTemplateList.length == 0) {
-      this.saveAsTemplate(this.gridColumnApi, this.saveAsTemplateList);
+      this.saveAsTemplate(this.gridColumnApi, 1);
     } else {
-      console.log('tempdata');
-      
-      const columnOrder = this.gridColumnApi.getColumnState();
-      // const currentItem = this.saveAsTemplateList[this.selectedTemplateIndex];
+      let payloadTemplate: any = {};
+
+      const selectedCols = this.gridColumnApi.getColumnState();
+      this.saveAsTemplateList[this.selectedTemplateIndex][
+        this.selectedChip
+      ].view = selectedCols;
+      this.saveAsTemplateList.forEach((element: any) => {
+        payloadTemplate[Object.keys(element)[0]] =
+          element[Object.keys(element)[0]];
+      });
       const payload = {
-        userCode: this.userDetails.userCode,
-        status: 'S',
+        usercode: this.userDetails.userCode,
+        status: 'A',
         gridid: 'PIQ_SAMPLEGRID',
-        template: JSON.stringify(columnOrder),
+        template: payloadTemplate,
       };
       this._agGridService.updateTemplate(payload, (res: any) => {
-        if (res.success) {
-          this.getAgGridTemplate();
-        }
+        this.getAgGridTemplate();
       });
     }
   }
@@ -570,16 +592,13 @@ export class PIQLandingPageComponent implements OnInit {
     this.gridApi.onFilterChanged();
   }
 
-  saveAsTemplate(gridColumnApi: any, saveAsList: any) {
+  saveAsTemplate(gridColumnApi: any, id: any) {
     this._agGridService.saveAsTemplate(
       event,
       gridColumnApi,
-      saveAsList,
+      this.saveAsTemplateList,
       (res: any) => {
-        if (res.success) {
-          this.getAgGridTemplate();
-          this.selectedTemplateIndex = this.saveAsTemplateList.length;
-        }
+        this.getAgGridTemplate();
       }
     );
   }
@@ -598,7 +617,7 @@ export class PIQLandingPageComponent implements OnInit {
     'Last 6 years': [moment().subtract(6, 'year'), moment()],
     'Last 3 years': [moment().subtract(3, 'year'), moment()],
     'Last year': [moment().subtract(1, 'year'), moment()],
-    'Last 365 days': [moment().subtract(364, 'days'), moment()],
+    'Last 365 days': [moment().subtract(365, 'days'), moment()],
     'Last 6 Months': [moment().subtract(6, 'month'), moment()],
     'Last 3 Months': [moment().subtract(3, 'month'), moment()],
     'Last 2 Months': [moment().subtract(2, 'month'), moment()],
@@ -606,7 +625,14 @@ export class PIQLandingPageComponent implements OnInit {
     'This Month': [moment().startOf('month'), moment().endOf('month')],
     'Last 30 Days': [moment().subtract(30, 'days'), moment()],
     'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-    Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    Yesterday: [
+      moment()
+        .subtract(1, 'days')
+        .set({ hour: 0, minute: 0, second: 0, millisecond: 0 }),
+      moment()
+        .subtract(1, 'days')
+        .set({ hour: 23, minute: 59, second: 59, millisecond: 999 }),
+    ],
     Today: [moment(), moment()],
   };
   invalidDates: moment.Moment[] = [
@@ -629,8 +655,6 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   dateRangeChanged(): void {
-    // const endDate = moment(this.selected.endDate).subtract(1, 'day').toDate();
-
     this.startDate = this.datePipe.transform(
       this.selected.startDate,
       'dd-MMM-yyyy HH:mm'
@@ -640,47 +664,66 @@ export class PIQLandingPageComponent implements OnInit {
       this.selected.endDate,
       'dd-MMM-yyyy HH:mm'
     );
+
+    this.startDate = this.startDate.split(' ')[0] + ' ' + '00:00';
+    let givenDate = new Date(this.endDate);
+    givenDate.setDate(givenDate.getDate() - 1);
+    givenDate.setHours(23, 59, 0, 0);
+    this.endDate = this.datePipe.transform(givenDate, 'dd-MMM-yyyy HH:mm');
   }
 
-  deleteTemplate() {
-    this.removeAgTemplate(this.saveAsTemplateList[this.selectedTemplateIndex]);
-  }
-
-  // resetTemplate() {
-  //   if (this.saveAsTemplateList.length) {
-  //     const currentItem = this.saveAsTemplateList[0];
-  //     this.selectAgTemplate(currentItem);
-  //   } else {
-  //     this.gridColumnApi.resetColumnState();
-  //   }
-  //   this._agGridService.columnFilter(this.gridApi);
-  // }
-
-  selectAgTemplate(chip: any): void {
-    const selectedIndex = this.saveAsTemplateList.indexOf(chip);
-    this._agGridService.selectChip(
-      selectedIndex,
-      this.saveAsTemplateList,
-      this.gridColumnApi,
-      (index: number) => {
-        this.selectedTemplateIndex = selectedIndex;
-      }
-    );
-  }
-
-  removeAgTemplate(chip: any): void {
-    const columnOrder = this.gridColumnApi.getColumnState();
+  deleteTemplate(chip: any) {
+    chip = this.getFirstKey(chip);
+    const index = this.saveAsTemplateList.findIndex((x: any) => {
+      const findData = this.getFirstKey(x);
+      return findData === chip;
+    });
+    this.saveAsTemplateList.splice(index, 1);
+    let payloadTemplate: any = {};
+    this.saveAsTemplateList.forEach((element: any) => {
+      payloadTemplate[Object.keys(element)[0]] =
+        element[Object.keys(element)[0]];
+    });
     const payload = {
       usercode: this.userDetails.userCode,
       gridid: 'PIQ_SAMPLEGRID',
-      template: JSON.stringify(columnOrder),
-      status: 'V',
+      template: payloadTemplate,
+      status: 'A',
     };
     this._agGridService.deleteTemplate(payload, (res: any) => {
-      if (res.success) {
-        this.getAgGridTemplate();
-      }
+      this.getAgGridTemplate();
     });
+  }
+
+  getFirstKey(obj: any): string {
+    if (obj) {
+      return Object.keys(obj)[0];
+    } else {
+      return '';
+    }
+  }
+  selectedChip = '';
+  selectAgTemplate(chip: any): void {
+    chip = this.getFirstKey(chip);
+    this.selectedChip = chip;
+    const selectedIndex = this.findIndexByIdentifier(chip);
+    this.selectedTemplateIndex = selectedIndex;
+    if (this.saveAsTemplateList && this.saveAsTemplateList.length > 0) {
+      this.gridColumnApi.applyColumnState({
+        state: this.saveAsTemplateList[selectedIndex][chip].view,
+        applyOrder: true,
+      });
+    }
+  }
+
+  findIndexByIdentifier(identifier: string): number {
+    for (let i = 0; i < this.saveAsTemplateList.length; i++) {
+      const obj = this.saveAsTemplateList[i];
+      if (identifier in obj) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   onCellDoubleClicked(event: any): void {
@@ -711,7 +754,6 @@ export class PIQLandingPageComponent implements OnInit {
       this.selected.endDate,
       'dd-MMM-yyyy HH:mm'
     );
-    // this.router.navigate(['/sire/piq-landing']);
     this.getworkflowStatus();
     this.appServices.getDeleteAction().subscribe((res) => {
       this.getLndPgDatas();
@@ -726,10 +768,6 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   getLndPgDatas() {
-    console.log(this.dateRangePicker.value, 'value');
-    console.log(this.startDate, 'start');
-    console.log(this.endDate, 'end');
-    
     const payload = {
       usercode: this.userDetails?.userCode,
       from: this.startDate,
@@ -868,19 +906,19 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   filter() {
-    const newShoreColumnDefs = this.shoreColumnDefs.map((columnDef) => {
+    const newShoreColumnDefs = this.shoreColumnDefs.map((columnDef, index) => {
       return {
         ...columnDef,
         filter: 'agTextColumnFilter',
-        floatingFilter: true,
+        floatingFilter: index ? true : false,
       };
     });
 
-    const newShipColumnDefs = this.shipColumnDefs.map((columnDef) => {
+    const newShipColumnDefs = this.shipColumnDefs.map((columnDef, index) => {
       return {
         ...columnDef,
         filter: 'agTextColumnFilter',
-        floatingFilter: true,
+        floatingFilter: index ? true : false,
       };
     });
     this.gridOpt.api.setColumnDefs(newShipColumnDefs);
@@ -891,9 +929,45 @@ export class PIQLandingPageComponent implements OnInit {
   reset() {
     const originalShoreColumnDefs = this.shoreColumnDefs;
     const originalShipColumnDefs = this.shipColumnDefs;
+    originalShoreColumnDefs.forEach((shore: any, index: any) => {
+      shore.hide = false;
+      shore.pivot = false;
+      shore.rowGroup = false;
+      if (index) {
+        shore.sortable = true;
+        shore.floatingFilter = true;
+      } else {
+        shore.pinned = 'left';
+        shore.sortable = false;
+        shore.floatingFilter = false;
+      }
+    });
+    originalShipColumnDefs.forEach((ship: any, index: any) => {
+      ship.hide = false;
+      ship.pivot = false;
+      ship.rowGroup = false;
+      if (index) {
+        ship.sortable = true;
+        ship.floatingFilter = true;
+      } else {
+        ship.pinned = 'left';
+        ship.sortable = false;
+        ship.floatingFilter = false;
+      }
+    });
     this.gridOpt.api.setColumnDefs(originalShoreColumnDefs);
     this.gridOpt.api.setColumnDefs(originalShipColumnDefs);
     this.gridOpt.api.refreshHeader();
+
+    const payload = {
+      usercode: this.userDetails.userCode,
+      gridid: 'PIQ_SAMPLEGRID',
+      template: {},
+      status: 'A',
+    };
+    this._agGridService.resetTemplate(payload, (res: any) => {
+      this.getAgGridTemplate();
+    });
   }
 
   dateComparator(date1: string, date2: string): number {

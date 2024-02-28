@@ -280,6 +280,15 @@
   display: block;
 }
 
+
+::ng-deep .selected-chip {
+  /* Your styles here */
+  background-color: #2196f3 !important;
+  color: #ffffff !important;
+}
+
+
+
 .fullscreen_icon_wrapper {
   display: flex;
   border: 1px solid black;
@@ -329,4 +338,28 @@
 
 .ag-menu-spacing{
   padding: 10px;
+}
+.ag-toolBarLnd {
+  background-color: #f5f7f7;
+  border: 1px solid #bdc3c7;
+  display: flex;
+  padding: 3px 15px;
+  border-bottom: none;
+  padding-right: 10px !important;
+  height: 35px;
+  
+}
+
+.ag-toolBarLnd span {
+  font-size: 12px;
+  font-weight: 500;
+  padding-right: 5px;
+}
+
+.lndChip ::ng-deep.mdc-evolution-chip-set{
+  border-radius: 20px !important;
+  padding-left: 16px !important;
+}
+.lndChip ::ng-deep .mat-mdc-chip-option{
+  margin: 0px !important;
 }

@@ -20,7 +20,7 @@ declare function mdldmsnavigatenewtab(
   selector: 'app-safety-management',
   templateUrl: './safety-management.component.html',
   styleUrls: ['./safety-management.component.css'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class SafetyManagementComponent implements OnInit {
   selectedIndex: number = 0;
@@ -37,9 +37,14 @@ export class SafetyManagementComponent implements OnInit {
       headerName: 'S.No',
       tooltipField: 'sid',
       resizable: true,
-      flex: 1,
+      width: 120,
       pinned: 'left',
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       headerName: 'Ref No',
@@ -47,7 +52,7 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'ivrid',
       resizable: true,
       pinned: 'left',
-      width: 125,
+      width: 120,
     },
     {
       headerName: 'Incident Title',
@@ -55,7 +60,7 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'placeofissue',
       resizable: true,
       pinned: 'left',
-      width: 125,
+      width: 120,
     },
     {
       headerName: 'Incident Description',
@@ -63,7 +68,7 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'placeofissue',
       resizable: true,
       pinned: 'left',
-      width: 125,
+      width: 120,
     },
     {
       headerName: 'Type of Incident',
@@ -71,7 +76,7 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'placeofissue',
       resizable: true,
       pinned: 'left',
-      width: 125,
+      width: 120,
     },
 
     {
@@ -80,7 +85,7 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'placeofissue',
       cellStyle: { textAlign: 'right' },
       resizable: true,
-      width: 125,
+      width: 120,
       pinned: 'left',
     },
     {
@@ -91,12 +96,12 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.1. Have any of the following Incidents occurred during previous 12 months - A pollution incident that resulted in release to the environment of any substance covered by MARPOL Annex I, II, IV, V and VI in excess of that permitted by the applicable regulations.',
       suppressMenu: true,
       field: 'MQ337',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
       },
-      
     },
     {
       headerName: '5.7.1.2',
@@ -106,7 +111,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.2. Have any of the following Incidents occurred during previous 12 months - An uncontrolled release of LNG/LPG vapour.',
       suppressMenu: true,
       field: 'MQ343',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -120,7 +126,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.3. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been hard aground.',
       suppressMenu: true,
       field: 'MQ349',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -134,7 +141,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.4. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had touched bottom.',
       suppressMenu: true,
       field: 'MQ355',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -149,7 +157,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.5. Have any of the following Incidents occurred during previous 12 months - An incident where the vessel had been suspected of touching bottom.',
       suppressMenu: true,
       field: 'MQ361',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -163,7 +172,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.6. Have any of the following Incidents occurred during previous 12 months - A collision/allision with another vessel irrespective of whether damage had been caused to either vessel.',
       suppressMenu: true,
       field: 'MQ367',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -178,7 +188,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.7. Have any of the following Incidents occurred during previous 12 months - An allision with a fixed or floating structure or navigation mark irrespective of whether damage had been caused to the vessel or the fixed or floating structure or navigation mark.',
       suppressMenu: true,
       field: 'MQ373',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -192,7 +203,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.8. Have any of the following Incidents occurred during previous 12 months - An allision with a terminal during a berthing manoeuvre which resulted in damage to either the vessel or the terminal structure.',
       suppressMenu: true,
       field: 'MQ379',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -206,7 +218,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.9. Have any of the following Incidents occurred during previous 12 months - A breach of the hull plating which did not result in flooding.',
       suppressMenu: true,
       field: 'MQ385',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -220,7 +233,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.10. Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in open waters.',
       suppressMenu: true,
       field: 'MQ391',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -234,7 +248,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.11. Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in open waters.',
       suppressMenu: true,
       field: 'MQ397',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -248,7 +263,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.12. Have any of the following Incidents occurred during previous 12 months - Total loss of main propulsion/blackout while navigating in territorial waters or within 12 miles of land.',
       suppressMenu: true,
       field: 'MQ403',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -262,7 +278,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.13. Have any of the following Incidents occurred during previous 12 months - Partial loss of main propulsion while navigating in territorial waters or within 12 miles of land.',
       suppressMenu: true,
       field: 'MQ409',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -276,7 +293,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.14. Have any of the following Incidents occurred during previous 12 months - Blackout while at a berth or at anchor.',
       suppressMenu: true,
       field: 'MQ415',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -290,7 +308,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.15. Have any of the following Incidents occurred during previous 12 months - Total loss, even momentarily, of steering capability at any time while the vessel was underway.',
       suppressMenu: true,
       field: 'MQ421',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -304,7 +323,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.16. Have any of the following Incidents occurred during previous 12 months - Contained hydrocarbon/chemical spill greater than 1.0m3 anywhere onboard (deck, pumproom, machinery spaces, mooring deck, etc.).',
       suppressMenu: true,
       field: 'MQ427',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -318,7 +338,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.17. Have any of the following Incidents occurred during previous 12 months - Loss of one or both anchors.',
       suppressMenu: true,
       field: 'MQ433',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -332,7 +353,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.18. Have any of the following Incidents occurred during previous 12 months - Damage to a windlass restricting the ability to recover an anchor without repairs.',
       suppressMenu: true,
       field: 'MQ439',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -346,7 +368,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.19. Have any of the following Incidents occurred during previous 12 months - Mooring tail/line (ship supplied) failure while moored at a conventional/CBM berth or while conducting STS operations.',
       suppressMenu: true,
       field: 'MQ445',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -360,7 +383,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.20. Have any of the following Incidents occurred during previous 12 months - Break out/away from a berth resulting in the vessel being out of the normal operating envelope for the Marine Loading Arms (MLA) or hoses.',
       suppressMenu: true,
       field: 'MQ451',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -374,7 +398,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.21. Have any of the following Incidents occurred during previous 12 months - Cargo hose crane wire failure while connecting or disconnecting hoses at a terminal.',
       suppressMenu: true,
       field: 'MQ457',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -388,7 +413,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.22. Have any of the following Incidents occurred during previous 12 months - Accommodation ladder hoisting wire failure.',
       suppressMenu: true,
       field: 'MQ463',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -402,7 +428,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.23. Have any of the following Incidents occurred during previous 12 months - Notification of an investigation into an alleged violation of international regulations such as MARPOL / COLREGS.',
       suppressMenu: true,
       field: 'MQ469',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -416,7 +443,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.24. Have any of the following Incidents occurred during previous 12 months - Structural or pipeline system failure causing migration of liquid within or between the cargo, ballast or bunker spaces',
       suppressMenu: true,
       field: 'MQ475',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -430,7 +458,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.25. Have any of the following Incidents occurred during previous 12 months - Contamination of ballast water by hydraulic oil.',
       suppressMenu: true,
       field: 'MQ481',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -444,7 +473,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.26. Have any of the following Incidents occurred during previous 12 months - Flooding of any space directly from the sea.',
       suppressMenu: true,
       field: 'MQ487',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -458,7 +488,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.27. Have any of the following Incidents occurred during previous 12 months - Fire or Explosion anywhere onboard.',
       suppressMenu: true,
       field: 'MQ493',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -472,7 +503,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.28. Have any of the following Incidents occurred during previous 12 months - A work related lost time injury.',
       suppressMenu: true,
       field: 'MQ499',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -486,7 +518,8 @@ export class SafetyManagementComponent implements OnInit {
         '5.7.1.29. Have any of the following Incidents occurred during previous 12 months - A work related fatality.',
       suppressMenu: true,
       field: 'MQ505',
-      width: 60,hide: this.hideReqBtns,
+      width: 60,
+      hide: this.hideReqBtns,
       cellRenderer: AgGridCheckboxComponent,
       cellRendererParams: {
         onClick: this.onBtnClick1.bind(this),
@@ -503,7 +536,12 @@ export class SafetyManagementComponent implements OnInit {
       tooltipField: 'sid',
       flex: 1,
       resizable: true,
-      cellStyle: { 'color': '#1d3557', 'text-decoration':'underline','font-weight':'bold','cursor': 'pointer'},
+      cellStyle: {
+        color: '#1d3557',
+        'text-decoration': 'underline',
+        'font-weight': 'bold',
+        cursor: 'pointer',
+      },
     },
     {
       headerName: 'Ref No',
@@ -549,13 +587,15 @@ export class SafetyManagementComponent implements OnInit {
       cellStyle: { textAlign: 'right' },
       editable: true,
       sortable: false,
-      filter: false,hide: this.hideReqBtns,
+      filter: false,
+      hide: this.hideReqBtns,
     },
     {
       field: 'dropdown',
       cellRenderer: 'dropdown',
       sortable: false,
-      filter: false,hide: this.hideReqBtns,
+      filter: false,
+      hide: this.hideReqBtns,
     },
   ];
   defaultColDef = DefaultColDef;
@@ -563,7 +603,6 @@ export class SafetyManagementComponent implements OnInit {
   rowData: any[] = [];
   selectedRowData: any[] = [];
   userDetails: any;
-  
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -620,19 +659,16 @@ export class SafetyManagementComponent implements OnInit {
 
   safetyManagementDetails() {
     const vesselCode = localStorage.getItem('masterVesselCode');
-    this.appServices.getLookupDetail(
-      "5.7",
-      vesselCode,
-      "5.7",
-      this.data.referenceId
-    ).subscribe((data) => {
-      this.rowData = JSON.parse(data.response);
-      this.totalRowCount =
-        this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
-    });
+    this.appServices
+      .getLookupDetail('5.7', vesselCode, '5.7', this.data.referenceId)
+      .subscribe((data) => {
+        this.rowData = JSON.parse(data.response);
+        this.totalRowCount =
+          this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
+      });
   }
   onBtnClick1(event?: any) {
-      let trueKeys: any = this.rowData.filter((data) =>
+    let trueKeys: any = this.rowData.filter((data) =>
       safetyRowData.some((key) => data[key] === true)
     );
 

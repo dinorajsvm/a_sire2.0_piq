@@ -1,20 +1,21 @@
-<div class="col-sm-12" style="height: calc(100vh - 45px);">
+<div class="col-sm-12" style="height: calc(100vh - 45px)">
   <div class="row">
     <div class="col-sm-6">
       <span class="page_Title"> PIQ </span>
     </div>
-    <div class="col-sm-6" style="padding: 0;">
-      <div style="display: flex;">
+    <div class="col-sm-6" style="padding: 0">
+      <div style="display: flex">
         <span class="statusBar_toggle" (click)="stsBarToggle()">
-          <mat-icon class="cursor-pointer statusBar_toggleIcn"> {{ showStsBar ? "expand_less" : "expand_more"
-            }}</mat-icon>
+          <mat-icon class="cursor-pointer statusBar_toggleIcn">
+            {{ showStsBar ? "expand_less" : "expand_more" }}</mat-icon
+          >
         </span>
       </div>
     </div>
   </div>
   <div class="row" [class.showStsBar]="showStsBar">
     <div class="col-sm-12">
-      <div class="row" style="justify-content: center;">
+      <div class="row" style="justify-content: center">
         <div class="statusBar_Wrapper">
           <!-- <div class="statusBars_subWrap" (click)="updateStatusFilter('My Actions')">
             <div class="statusBar_CountWrap stsBar_action_Wrap">
@@ -50,47 +51,75 @@
               <span>My Notification</span>
             </div>
           </div> -->
-          <div class="statusBars_subWrap" (click)="updateStatusFilter('Inprogress')">
+          <div
+            class="statusBars_subWrap"
+            (click)="updateStatusFilter('Inprogress')"
+          >
             <div class="statusBar_CountWrap stsBar_inprogress_Wrap">
               <div class="statusBar_Counts stsBar_inprogress_Counts">
-                <span class="stsCounts">{{inprogressCount}}</span>
+                <span class="stsCounts">{{ inprogressCount }}</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_inprogress_Wrap">
-              <img src="assets/question/filter.svg" id="inprogressFilter" class="sts_Filter" />
+              <img
+                src="assets/question/filter.svg"
+                id="inprogressFilter"
+                class="sts_Filter"
+              />
               <span>Inprogress</span>
             </div>
           </div>
-          <div class="statusBars_subWrap" (click)="updateStatusFilter('Submitted')">
+          <div
+            class="statusBars_subWrap"
+            (click)="updateStatusFilter('Submitted')"
+          >
             <div class="statusBar_CountWrap stsBar_submitted_Wrap">
               <div class="statusBar_Counts stsBar_submitted_Counts">
-                <span class="stsCounts">{{submittedCount}}</span>
+                <span class="stsCounts">{{ submittedCount }}</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_submitted_Wrap">
-              <img src="assets/question/filter.svg" id="submittedFilter" class="sts_Filter" />
+              <img
+                src="assets/question/filter.svg"
+                id="submittedFilter"
+                class="sts_Filter"
+              />
               <span>Submitted</span>
             </div>
           </div>
-          <div class="statusBars_subWrap" (click)="updateStatusFilter('Reassigned')">
+          <div
+            class="statusBars_subWrap"
+            (click)="updateStatusFilter('Reassigned')"
+          >
             <div class="statusBar_CountWrap stsBar_reassigned_Wrap">
               <div class="statusBar_Counts stsBar_reassigned_Counts">
-                <span class="stsCounts">{{reassignedCount}}</span>
+                <span class="stsCounts">{{ reassignedCount }}</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_reassigned_Wrap">
-              <img src="assets/question/filter.svg" id="reassignedFilter" class="sts_Filter" />
+              <img
+                src="assets/question/filter.svg"
+                id="reassignedFilter"
+                class="sts_Filter"
+              />
               <span>Reassigned</span>
             </div>
           </div>
-          <div class="statusBars_subWrap" (click)="updateStatusFilter('Approved')">
+          <div
+            class="statusBars_subWrap"
+            (click)="updateStatusFilter('Approved')"
+          >
             <div class="statusBar_CountWrap stsBar_approved_Wrap">
               <div class="statusBar_Counts stsBar_approved_Counts">
-                <span class="stsCounts">{{approvedCount}}</span>
+                <span class="stsCounts">{{ approvedCount }}</span>
               </div>
             </div>
             <div class="statusBar_Name stsBar_approved_Wrap">
-              <img src="assets/question/filter.svg" id="approvedFilter" class="sts_Filter" />
+              <img
+                src="assets/question/filter.svg"
+                id="approvedFilter"
+                class="sts_Filter"
+              />
               <span>Approved</span>
             </div>
           </div>
@@ -101,33 +130,67 @@
   <div class="row" style="padding: 10px 0">
     <div class="col-sm-12">
       <div class="row">
-        <div class="col-sm-7 text-right" style="padding-right: 0;display: flex;">
-          <div class="dateRangeWrapper ngx-daterangepicker-action" (click)="openDatepicker()"
-            [formGroup]="dateRangePicker">
-            <img class="icon-calendar ngx-daterangepicker-action" src="assets/question/calendar.svg" alt=""
-              (click)="openDatepicker()" />
+        <div
+          class="col-sm-7 text-right"
+          style="padding-right: 0; display: flex"
+        >
+          <div
+            class="dateRangeWrapper ngx-daterangepicker-action"
+            [formGroup]="dateRangePicker"
+
+            (click)="openDatepicker()"
+          >
+            <img
+              class="icon-calendar ngx-daterangepicker-action"
+              src="assets/question/calendar.svg"
+              alt=""
+              (click)="openDatepicker()"
+            />
             <!-- startKey="start" endKey="end" [showCancel]="true"-->
-            <input type="text" readonly="true" matInput class="dateRangeField" ngxDaterangepickerMd
-              [locale]="{ applyLabel: 'ok', format: 'DD-MMM-YYYY' }" formControlName="dateRangeField"
-              [(ngModel)]="selected" [ranges]="ranges" [showCustomRangeLabel]="true" [showDropdowns]="true"
-              [keepCalendarOpeningWithRange]="true" [alwaysShowCalendars]="false" [showClearButton]="true"
-              [isInvalidDate]="isInvalidDate" name="daterange" (change)="dateRangeChanged()" />
-            <img class="icon-down ngx-daterangepicker-action" src="assets/question/down.svg" alt=""
-              (click)="openDatepicker()" />
+            <input
+              type="text"
+              readonly="true"
+              matInput
+              class="dateRangeField"
+              ngxDaterangepickerMd
+              [locale]="{ applyLabel: 'ok', format: 'DD-MMM-YYYY' }"
+              formControlName="dateRangeField"
+              [(ngModel)]="selected"
+              [ranges]="ranges"
+              [showCustomRangeLabel]="true"
+              [showDropdowns]="true"
+              [keepCalendarOpeningWithRange]="true"
+              [alwaysShowCalendars]="false"
+              [showClearButton]="true"
+              [isInvalidDate]="isInvalidDate"
+              name="daterange"
+              (change)="dateRangeChanged()"
+            />
+            <img
+              class="icon-down ngx-daterangepicker-action"
+              src="assets/question/down.svg"
+              alt=""
+              (click)="openDatepicker()"
+            />
           </div>
-          <div class="statusBars_subWrap" style="margin-left: 10px;width: unset;">
-            <button mat-button class="new" (click)="getLndPgDatas()">Show</button>
+          <div
+            class="statusBars_subWrap"
+            style="margin-left: 10px; width: unset"
+          >
+            <button mat-button class="new" (click)="getLndPgDatas()">
+              Show
+            </button>
             <img class="btnImg" src="assets/question/show.svg" />
           </div>
           <!-- <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;" >
             <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">Include Open
               Items</span>
-            <mat-slide-toggle class="lndToggle" disabled="true" style="cursor: not-allowed;"></mat-slide-toggle>
+            <mat-slide-toggle class="lndToggle" disabled="true" ></mat-slide-toggle>
           </div>
           <div class="statusBars_subWrap" style="width: unset;margin: 0 5px;" >
             <span style="font-weight: 500;font-size: 13px;white-space: nowrap;margin-right: 5px;">To Show other
               records</span>
-            <mat-slide-toggle class="lndToggle" disabled="true" style="cursor: not-allowed;"  ></mat-slide-toggle>
+            <mat-slide-toggle class="lndToggle" disabled="true"   ></mat-slide-toggle>
           </div> -->
         </div>
         <div class="col-sm-5 text-right" style="padding-right: 0">
@@ -139,99 +202,210 @@
       </div>
     </div>
   </div>
-  <!-- <div class="col-sm-10" >
-  <mat-chip-listbox #chipList class="mb-0 mt-0">
-    <mat-chip-listbox  class="mb-0 mt-0">
-  <mat-chip-option class="p-2" *ngFor="let keyword of saveAsTemplateList; let i=index" color="primary"
-  [removable]="removable"
-  (click)="selectAgTemplate(keyword)"
-  (removed)="deleteTemplate()"
-  [ngClass]="i === selectedTemplateIndex ? 'selected-chip' : ''">
-  {{keyword.name}}
-  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-  </mat-chip-option>
-</mat-chip-listbox>
-  </mat-chip-listbox>
-</div> -->
-  <div class="col-sm-12 justify-content-end ag-toolBar"
-    *ngIf="userDetails?.cntrlType === 'CNT002'|| userDetails?.cntrlType === 'CNT001'">
-    <span class="m-0">Total Records: {{ totalRowCount }}</span>
-    <div>
-      <mat-icon class="cursor-pointer ag-menuIcn" [matMenuTriggerFor]="agToolbar">apps</mat-icon>
-      <mat-menu class="mat-menu-panel myMenu" #agToolbar="matMenu" xPosition="before">
-        <!-- <app-ag-grid-toolbar [agGridToolbar]="agGridToolbar"></app-ag-grid-toolbar> -->
-        <div class="col-sm-12">
-          <div class="row">
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" style="cursor: not-allowed;" >
-              <!-- (click)="agGridToolbar.saveTemplate()" -->
-              <img src="assets/ag-top-toolbar/save.svg" alt="" matTooltip="Save Template" width="20" style="pointer-events: none;" />
-              <div class="ag-menu-name" style="pointer-events: none;">Save Template</div>
+  <div class="col-sm-12 ag-toolBarLnd" style="padding-bottom: 30px">
+    <span class="m-0">
+      <mat-chip-listbox #chipList class="mb-0 mt-0 lndChip">
+        <mat-chip-listbox class="mb-0 mt-0">
+          <mat-chip-option
+            class="p-2"
+            *ngFor="let keyword of saveAsTemplateList; let i = index"
+            color="primary"
+            [removable]="removable"
+            (click)="selectAgTemplate(keyword)"
+            (removed)="deleteTemplate(keyword)"
+            [class.selected-chip]="i === selectedTemplateIndex"
+          >
+            {{ getFirstKey(keyword) }}
+
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </mat-chip-listbox></span
+    >
+    <span class="m-0 mt-2 right-float">
+      <span class="m-0">Total Records: {{ totalRowCount }}</span>
+      <span>
+        <mat-icon
+          class="cursor-pointer ag-menuIcn"
+          [matMenuTriggerFor]="agToolbar"
+          >apps</mat-icon
+        >
+        <mat-menu
+          class="mat-menu-panel myMenu"
+          #agToolbar="matMenu"
+          xPosition="before"
+        >
+          <!-- <app-ag-grid-toolbar [agGridToolbar]="agGridToolbar"></app-ag-grid-toolbar> -->
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-md-2 text-center cursor-pointer ag-menu-spacing">
+                <!-- (click)="agGridToolbar.saveTemplate()" -->
+                <img
+                  src="assets/ag-top-toolbar/save.svg"
+                  alt=""
+                  matTooltip="Save Template"
+                  width="20"
+                  (click)="agGridToolbar.saveTemplate()"
+                />
+                <div class="ag-menu-name">Save Template</div>
+              </div>
+              <div class="col-md-2 text-center cursor-pointer ag-menu-spacing">
+                <!-- (click)="agGridToolbar.saveAsTemplate()" -->
+                <img
+                  src="assets/ag-top-toolbar/saveas_template.svg"
+                  alt=""
+                  matTooltip="Save as Template"
+                  width="20"
+                  (click)="agGridToolbar.saveAsTemplate()"
+                />
+                <div class="ag-menu-name">Save as Template</div>
+              </div>
+              <div class="col-md-2 text-center cursor-pointer ag-menu-spacing">
+                <!-- (click)="agGridToolbar.deleteTemplate()" -->
+                <img
+                  src="assets/ag-top-toolbar/delete.svg"
+                  alt=""
+                  matTooltip="Delete Template"
+                  width="20"
+                  (click)="agGridToolbar.deleteTemplate()"
+                />
+                <div class="ag-menu-name">Delete Template</div>
+              </div>
+              <div
+                class="col-md-2 text-center cursor-pointer ag-menu-spacing"
+                (click)="columnFilter()"
+              >
+                <img
+                  src="assets/ag-top-toolbar/distinct.svg"
+                  alt=""
+                  matTooltip="Distinct Filter"
+                  width="20"
+                />
+                <div class="ag-menu-name">Distinct Filter</div>
+              </div>
+              <div
+                class="col-md-2 text-center cursor-pointer ag-menu-spacing"
+                (click)="filter()"
+              >
+                <img
+                  src="assets/ag-top-toolbar/condition.svg"
+                  alt=""
+                  matTooltip="Condition"
+                  width="20"
+                />
+                <div class="ag-menu-name">Condition Filter</div>
+              </div>
+              <div
+                class="col-md-2 text-center cursor-pointer ag-menu-spacing"
+                (click)="columnFilter()"
+              >
+                <img
+                  src="assets/ag-top-toolbar/multiple.svg"
+                  alt=""
+                  matTooltip="Multiple"
+                  width="20"
+                />
+                <div class="ag-menu-name">Multiple Filter</div>
+              </div>
             </div>
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" style="cursor: not-allowed;" >
-              <!-- (click)="agGridToolbar.saveAsTemplate()" -->
-              <img src="assets/ag-top-toolbar/saveas_template.svg" alt="" matTooltip="Save as Template" width="20" style="pointer-events: none;" />
-              <div class="ag-menu-name" style="pointer-events: none;">Save as Template</div>
-            </div>
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" style="cursor: not-allowed;" >
-              <!-- (click)="agGridToolbar.deleteTemplate()" -->
-              <img src="assets/ag-top-toolbar/delete.svg" alt="" matTooltip="Delete Template" width="20" style="pointer-events: none;" />
-              <div class="ag-menu-name" style="pointer-events: none;">Delete Template</div>
-            </div>
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="columnFilter()">
-              <img src="assets/ag-top-toolbar/distinct.svg" alt="" matTooltip="Distinct Filter" width="20" />
-              <div class="ag-menu-name">Distinct Filter</div>
-            </div>
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="filter()">
-              <img src="assets/ag-top-toolbar/condition.svg" alt="" matTooltip="Condition" width="20" />
-              <div class="ag-menu-name">Condition Filter</div>
-            </div>
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="columnFilter()">
-              <img src="assets/ag-top-toolbar/multiple.svg" alt="" matTooltip="Multiple" width="20" />
-              <div class="ag-menu-name">Multiple Filter</div>
+            <div class="row">
+              <div
+                class="col-md-2 text-center cursor-pointer ag-menu-spacing"
+                (click)="reset()"
+              >
+                <img
+                  src="assets/ag-top-toolbar/repeat.svg"
+                  alt=""
+                  matTooltip="Reset"
+                  width="20"
+                />
+                <div class="ag-menu-name">Reset</div>
+              </div>
+              <div
+                class="col-md-2 text-center cursor-pointer ag-menu-spacing"
+                (click)="agGridToolbar.exportAsExcel()"
+              >
+                <img
+                  src="assets/ag-top-toolbar/excel.svg"
+                  alt=""
+                  matTooltip="Excel"
+                  width="20"
+                />
+                <div class="ag-menu-name">Excel</div>
+              </div>
+              <div
+                class="col-md-2 text-center cursor-pointer ag-menu-spacing"
+                (click)="agGridToolbar.exportAsCSV()"
+              >
+                <img
+                  src="assets/ag-top-toolbar/CSV.svg"
+                  alt=""
+                  matTooltip="CSV Export"
+                  width="20"
+                />
+                <div class="ag-menu-name">CSV</div>
+              </div>
+              <!-- <div class="col-md-2 text-center cursor-pointer ag-menu-spacing">
+            <img src="assets/ag-top-toolbar/fullscreen.svg" alt="" matTooltip="Full View" width="20" />
+            <div class="ag-menu-name">Fullscreen</div>
+          </div> -->
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="reset()">
-              <img src="assets/ag-top-toolbar/repeat.svg" alt="" matTooltip="Reset" width="20" />
-              <div class="ag-menu-name">Reset</div>
-            </div>
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="agGridToolbar.exportAsExcel()">
-              <img src="assets/ag-top-toolbar/excel.svg" alt="" matTooltip="Excel" width="20" />
-              <div class="ag-menu-name">Excel</div>
-            </div>
-            <div class="col-md-2 text-center cursor-pointer ag-menu-spacing" (click)="agGridToolbar.exportAsCSV()">
-              <img src="assets/ag-top-toolbar/CSV.svg" alt="" matTooltip="CSV Export" width="20" />
-              <div class="ag-menu-name">CSV</div>
-            </div>
-            <!-- <div class="col-md-2 text-center cursor-pointer ag-menu-spacing">
-              <img src="assets/ag-top-toolbar/fullscreen.svg" alt="" matTooltip="Full View" width="20" />
-              <div class="ag-menu-name">Fullscreen</div>
-            </div> -->
-          </div>
-        </div>
-      </mat-menu>
-    </div>
+        </mat-menu>
+      </span>
+    </span>
   </div>
+
   <div class="row">
     <!-- ship -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT002'">
-      <ag-grid-angular id="shipGrid" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
-        [columnDefs]="shipColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
-        [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
-        [tooltipShowDelay]="tooltipShowDelay" [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true"
-        [embedFullWidthRows]="true" (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData"
-        [suppressDragLeaveHidesColumns]="true" [components]="frameWorkComponent" (gridReady)="onGridReady($event)"
-        (filterChanged)="onFilterChanged()">
+      <ag-grid-angular
+        id="shipGrid"
+        [class.showStsBarAgGrid]="showStsBar"
+        class="ag-theme-balham lndAgGrid"
+        [columnDefs]="shipColumnDefs"
+        [defaultColDef]="defaultColDef"
+        [sideBar]="sideBar"
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [groupDisplayType]="groupDisplayType"
+        [gridOptions]="gridOptions"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [embedFullWidthRows]="true"
+        (cellDoubleClicked)="onCellDoubleClicked($event)"
+        [rowData]="rowData"
+        [suppressDragLeaveHidesColumns]="true"
+        [components]="frameWorkComponent"
+        (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()"
+      >
       </ag-grid-angular>
     </div>
     <!-- shore -->
     <div class="col-sm-12" *ngIf="userDetails?.cntrlType === 'CNT001'">
-      <ag-grid-angular id="shoreGrid" [class.showStsBarAgGrid]="showStsBar" class="ag-theme-balham lndAgGrid"
-        [columnDefs]="shoreColumnDefs" [defaultColDef]="defaultColDef" [sideBar]="sideBar"
-        [rowGroupPanelShow]="rowGroupPanelShow" [groupDisplayType]="groupDisplayType" [gridOptions]="gridOptions"
-        [animateRows]="true" [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
-        (cellDoubleClicked)="onCellDoubleClicked($event)" [rowData]="rowData" [suppressDragLeaveHidesColumns]="true"
-        [components]="frameWorkComponent" (gridReady)="onGridReady($event)" (filterChanged)="onFilterChanged()">
+      <ag-grid-angular
+        id="shoreGrid"
+        [class.showStsBarAgGrid]="showStsBar"
+        class="ag-theme-balham lndAgGrid"
+        [columnDefs]="shoreColumnDefs"
+        [defaultColDef]="defaultColDef"
+        [sideBar]="sideBar"
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [groupDisplayType]="groupDisplayType"
+        [gridOptions]="gridOptions"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [embedFullWidthRows]="true"
+        (cellDoubleClicked)="onCellDoubleClicked($event)"
+        [rowData]="rowData"
+        [suppressDragLeaveHidesColumns]="true"
+        [components]="frameWorkComponent"
+        (gridReady)="onGridReady($event)"
+        (filterChanged)="onFilterChanged()"
+      >
       </ag-grid-angular>
     </div>
   </div>

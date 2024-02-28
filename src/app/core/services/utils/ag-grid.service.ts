@@ -77,7 +77,9 @@ export class AgGridService {
   getTemplate(successCallback: any) {
     this._http
       .requestCall(
-        Endpoints.GET_TEMPLATE + this.userDetails?.userCode,
+        Endpoints.GET_TEMPLATE +
+          this.userDetails?.userCode +
+          '&gridid=PIQ_SAMPLEGRID',
         ApiMethod.GET
       )
       .subscribe((res: any) => {
@@ -89,7 +91,10 @@ export class AgGridService {
     this._http
       .requestCall(Endpoints.CREATE_TEMPLATE, ApiMethod.POST, payloadData)
       .subscribe((res: any) => {
-        this._snackbar.loadSnackBar(res.result.message, colorCodes.SUCCESS);
+        this._snackbar.loadSnackBar(
+          'Template Saved Successfully',
+          colorCodes.INFO
+        );
         successCallback(res);
       });
   }
@@ -98,7 +103,18 @@ export class AgGridService {
     this._http
       .requestCall(Endpoints.CREATE_TEMPLATE, ApiMethod.POST, payloadData)
       .subscribe((res: any) => {
-        this._snackbar.loadSnackBar(res.result.message, colorCodes.SUCCESS);
+        this._snackbar.loadSnackBar(
+          'Template Deleted Successfully',
+          colorCodes.INFO
+        );
+        successCallback(res);
+      });
+  }
+
+  resetTemplate(payloadData: any, successCallback: any) {
+    this._http
+      .requestCall(Endpoints.CREATE_TEMPLATE, ApiMethod.POST, payloadData)
+      .subscribe((res: any) => {
         successCallback(res);
       });
   }
@@ -107,15 +123,16 @@ export class AgGridService {
     this._http
       .requestCall(Endpoints.CREATE_TEMPLATE, ApiMethod.POST, payloadData)
       .subscribe((res: any) => {
-        this._snackbar.loadSnackBar(res.result.message, colorCodes.SUCCESS);
+        this._snackbar.loadSnackBar(
+          'Template Updated Successfully',
+          colorCodes.INFO
+        );
         successCallback(res);
       });
   }
 
   createDynamicPayload(columnOrder: any, templateName: string): any {
-    // const columnOrder = gridColumnApi.getColumnState();
     let payload = {};
-
     payload = {
       [templateName]: {
         view: columnOrder,
@@ -142,23 +159,24 @@ export class AgGridService {
     );
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-       const template =  this.createDynamicPayload(columnOrder, result);
-console.log(saveAsTemplateList, 'saveAsTemplateList');
-console.log(gridColumnApi, '');
-
-
+        const template = this.createDynamicPayload(columnOrder, result);
+        saveAsTemplateList.push(template);
+        let payloadTemplate: any = {};
+        saveAsTemplateList.forEach((element: any) => {
+          payloadTemplate[Object.keys(element)[0]] = element[Object.keys(element)[0]];
+        });
         const payload = {
           usercode: this.userDetails?.userCode,
-          template: template,
+          template: payloadTemplate,
           gridid: 'PIQ_SAMPLEGRID',
           status: 'A',
         };
         this.createTemplate(payload, (res: any) => {
-          if (res.success) {
-            closeCallback(res);
-          }
+          // if (res.success) {
+          closeCallback(res);
+          // }
         });
-      }
+      } 
     });
   }
 
@@ -166,7 +184,8 @@ console.log(gridColumnApi, '');
     selectedIndex: any,
     saveAsTemplateList: any,
     gridColumnApi: any,
-    callBack: any
+    callBack: any,
+    chip: any
   ) {
     gridColumnApi.applyColumnState({
       state: JSON.parse(saveAsTemplateList[selectedIndex]['template']),

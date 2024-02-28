@@ -144,8 +144,6 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
                           extensionvalue[extensionvalue.length - 1];
                       }
                     }
-
-                    console.log(srcUrl, 'srcUrl2');
                     let fileSizeConvert = '0.00 KB';
                     if (img && +img.filesize <= 1048576) {
                       fileSizeConvert =
@@ -470,67 +468,77 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
     const zip = new JSZip();
     const requests: any[] = [];
     this.listDatas.forEach((element) => {
-      const topicFolderName = element.topic.toString().includes('/')
-        ? element.topic.toString().replaceAll('/', '-')
-        : element.topic.toString();
-      const topicFolder = zip.folder(topicFolderName);
-      console.log(topicFolderName, 'topicFolderName');
-
-      element.subTopics.forEach((subTopic: any) => {
-        if (subTopic && subTopic.imagelist && subTopic.imagelist.length > 0) {
-          subTopic.imagelist.forEach((img: any, index: any) => {
-            requests.push(
-              this.appServices
-                .getServerFileFromStream(img.systemfilename)
-                .toPromise()
-                .then((blob: any) => {
-                  const subTopicFolderName = subTopic.subTopicTitle
-                    .toString()
-                    .includes('/')
-                    ? subTopic.subTopicTitle.toString().replaceAll('/', '-')
-                    : subTopic.subTopicTitle.toString();
-                  const subTopicFolder = topicFolder
-                    ? topicFolder.folder(subTopicFolderName)
-                    : null;
-
-                  if (!(img && img.localfilename)) {
-                    img.localfilename =
-                      'empty_default_name' + '.' + img.formattedExtension;
-                  }
-                  if (subTopicFolder) {
-                    let fileName: any;
-                    const splitLocalName =
-                      img && img.localfilename
-                        ? img.localfilename.split('.')[0]
-                        : '';
-                    if (index) {
-                      fileName = splitLocalName
-                        ? splitLocalName +
-                          ' ' +
-                          '(' +
-                          index +
-                          ')' +
-                          '.' +
-                          img.formattedExtension
-                        : 'empty_default_name' +
-                          ' ' +
-                          '(' +
-                          index +
-                          ')' +
-                          '.' +
-                          img.formattedExtension;
-                    } else {
-                      fileName = splitLocalName
-                        ? splitLocalName + '.' + img.formattedExtension
-                        : 'empty_default_name' + '.' + img.formattedExtension;
-                    }
-                    subTopicFolder.file(fileName, blob);
-                  }
-                })
-            );
-          });
-        }
+      let topicFolder: any;
+      const photoCount = element.subTopics.filter((count: any) => {
+        return count && count.imagelist && count.imagelist.length > 0;
       });
+      if (photoCount && photoCount.length > 0) {
+        const topicFolderName = element.topic.toString().includes('/')
+          ? element.topic.toString().replaceAll('/', '-')
+          : element.topic.toString();
+        topicFolder = zip.folder(topicFolderName);
+      }
+      if (element && element.subTopics && element.subTopics.length > 0) {
+        element.subTopics.forEach((subTopic: any) => {
+          if (subTopic && subTopic.imagelist && subTopic.imagelist.length > 0) {
+            subTopic.imagelist.forEach((img: any, index: any) => {
+              if (img && img.systemfilename) {
+                requests.push(
+                  this.appServices
+                    .getServerFileFromStream(img.systemfilename)
+                    .toPromise()
+                    .then((blob: any) => {
+                      const subTopicFolderName = subTopic.subTopicTitle
+                        .toString()
+                        .includes('/')
+                        ? subTopic.subTopicTitle.toString().replaceAll('/', '-')
+                        : subTopic.subTopicTitle.toString();
+
+                      const subTopicFolder = topicFolder
+                        ? topicFolder.folder(subTopicFolderName)
+                        : null;
+                      if (!(img && img.localfilename)) {
+                        img.localfilename =
+                          'empty_default_name' + '.' + img.formattedExtension;
+                      }
+                      if (subTopicFolder) {
+                        let fileName: any;
+                        const splitLocalName =
+                          img && img.localfilename
+                            ? img.localfilename.split('.')[0]
+                            : '';
+                        if (index) {
+                          fileName = splitLocalName
+                            ? splitLocalName +
+                              ' ' +
+                              '(' +
+                              index +
+                              ')' +
+                              '.' +
+                              img.formattedExtension
+                            : 'empty_default_name' +
+                              ' ' +
+                              '(' +
+                              index +
+                              ')' +
+                              '.' +
+                              img.formattedExtension;
+                        } else {
+                          fileName = splitLocalName
+                            ? splitLocalName + '.' + img.formattedExtension
+                            : 'empty_default_name' +
+                              '.' +
+                              img.formattedExtension;
+                        }
+                        subTopicFolder.file(fileName, blob);
+                      }
+                    })
+                );
+              }
+            });
+          }
+        });
+      }
     });
 
     forkJoin(requests).subscribe(() => {
@@ -711,14 +719,9 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       formData.append('file', this.selectedFile);
       this.http
         .post(this.dynamicImageURL + 'PIQ/event/attachmentupload', formData)
-        .subscribe(
-          (response) => {
-            this.uploadedData();
-          },
-          (error) => {
-            console.error('Image upload failed', error);
-          }
-        );
+        .subscribe((response) => {
+          this.uploadedData();
+        });
     }
   }
 
