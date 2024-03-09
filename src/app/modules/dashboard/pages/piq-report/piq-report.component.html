@@ -1,4 +1,4 @@
-<div style="height: calc(100vh - 45px); padding: 0 5px">
+<div style="height: calc(100vh - 45px); padding: 0 5px" class="piqWrapper">
   <div class="header col-sm-12">
     <div class="row">
       <div class="col-sm-9">
@@ -494,9 +494,7 @@
                             <div style="display: flex">
                               <mat-icon
                                 #comExpColBtn
-                                (click)="
-                                  expandAllMainquestions(quest, index)
-                                "
+                                (click)="expandAllMainquestions(quest, index)"
                                 [id]="quest.subheadid"
                                 class="comExpColBtn"
                               >
@@ -557,7 +555,8 @@
                                               disableLookUp(Mquest)
                                             "
                                             [ngClass]="{
-                                              'cursor-not-allow': lookUpEnable
+                                              'cursor-not-allow':
+                                                lookUpEnable || viewMode
                                             }"
                                             class="restoreLookupIcn"
                                             *ngIf="
@@ -583,7 +582,7 @@
                                             "
                                             [class.ShoreBtn]="
                                               disableLookUp(Mquest)
-                                            "z
+                                            "
                                             [ngClass]="{
                                               ShoreBtn: lookUpEnable
                                             }"
@@ -626,6 +625,13 @@
                                     "
                                     [class.presetHigh]="
                                       ishighlightClass(subq.entryorgin)
+                                    "
+                                    [class.presetChanged]="
+                                      subq &&
+                                      subq.presetvalue &&
+                                      (subq.entryorgin === 'Auto or Preset' ||
+                                        subq.entryorgin === 'Preset') &&
+                                      subq.presetvalue != subq.answer
                                     "
                                   >
                                     <div class="row">
@@ -869,7 +875,10 @@
                                         class="col-sm-12"
                                         *ngIf="subq.type == 'Select'"
                                       >
-                                        <div class="col-sm-12 select_wrapper">
+                                        <div
+                                          class="col-sm-12 select_wrapper"
+                                          [id]="subq.qid"
+                                        >
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
                                               <span style="font-weight: 500"
@@ -1381,7 +1390,10 @@
                                         class="col-sm-12"
                                         *ngIf="subq.type == 'Select'"
                                       >
-                                        <div class="col-sm-12 select_wrapper">
+                                        <div
+                                          class="col-sm-12 select_wrapper"
+                                          [id]="subq.qid"
+                                        >
                                           <div class="row">
                                             <div class="col-sm-12 buttons_wrap">
                                               <span style="font-weight: 500"
@@ -1955,7 +1967,10 @@
                                           class="col-sm-12"
                                           *ngIf="subq.type == 'Select'"
                                         >
-                                          <div class="col-sm-12 select_wrapper">
+                                          <div
+                                            class="col-sm-12 select_wrapper"
+                                            [id]="subq.qid"
+                                          >
                                             <div class="row">
                                               <div
                                                 class="col-sm-12 buttons_wrap"
@@ -2454,7 +2469,10 @@
                                           class="col-sm-12"
                                           *ngIf="subq.type == 'Select'"
                                         >
-                                          <div class="col-sm-12 select_wrapper">
+                                          <div
+                                            class="col-sm-12 select_wrapper"
+                                            [id]="subq.qid"
+                                          >
                                             <div class="row">
                                               <div
                                                 class="col-sm-12 buttons_wrap"

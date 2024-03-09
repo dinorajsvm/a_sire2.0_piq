@@ -30,7 +30,8 @@ export class GlobalSearchComponent implements OnInit {
   deactivateSearch() {
     this.enteredSearchvalue = '';
     this.isSearchActive = false;
-    this.appServices.setSearch(this.isSearchActive);
+    // this.appServices.setSearch(this.enteredSearchvalue);
+    this.searchTextChanged.emit(this.enteredSearchvalue)
   }
 
   clearSearch() {

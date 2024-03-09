@@ -643,7 +643,7 @@ export class PIQSummaryComponent implements OnInit {
         vesseltype:
           currentVesselType === '' ||
           currentVesselType === undefined ||
-          currentVesselType === 'undefined'
+          currentVesselType === 'undefined'|| currentVesselType === null
             ? ''
             : currentVesselType,
       };
@@ -664,7 +664,7 @@ export class PIQSummaryComponent implements OnInit {
           vesseltype:
             currentVesselType === '' ||
             currentVesselType === undefined ||
-            currentVesselType === 'undefined'
+            currentVesselType === 'undefined'|| currentVesselType === null
               ? ''
               : currentVesselType,
         };
@@ -698,7 +698,7 @@ export class PIQSummaryComponent implements OnInit {
           vesseltype:
             currentVesselType === '' ||
             currentVesselType === undefined ||
-            currentVesselType === 'undefined'
+            currentVesselType === 'undefined'|| currentVesselType === null
               ? ''
               : currentVesselType,
         };
@@ -732,7 +732,7 @@ export class PIQSummaryComponent implements OnInit {
           vesseltype:
             currentVesselType === '' ||
             currentVesselType === undefined ||
-            currentVesselType === 'undefined'
+            currentVesselType === 'undefined'|| currentVesselType === null
               ? ''
               : currentVesselType,
         };
@@ -763,7 +763,7 @@ export class PIQSummaryComponent implements OnInit {
       vesseltype:
         currentVesselType === '' ||
         currentVesselType === undefined ||
-        currentVesselType === 'undefined'
+        currentVesselType === 'undefined'|| currentVesselType === null
           ? ''
           : currentVesselType,
     };
@@ -814,7 +814,7 @@ export class PIQSummaryComponent implements OnInit {
       vesseltype:
         currentVesselType === '' ||
         currentVesselType === undefined ||
-        currentVesselType === 'undefined'
+        currentVesselType === 'undefined'|| currentVesselType === null
           ? ''
           : currentVesselType,
     };
@@ -833,7 +833,7 @@ export class PIQSummaryComponent implements OnInit {
       vesseltype:
         currentVesselType === '' ||
         currentVesselType === undefined ||
-        currentVesselType === 'undefined'
+        currentVesselType === 'undefined'|| currentVesselType === null
           ? ''
           : currentVesselType,
     };
@@ -844,10 +844,6 @@ export class PIQSummaryComponent implements OnInit {
       this.certficateGridDatas();
       this.getOriginator = res.orginator;
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
-      const exceptionList =
-        res && res.exceptionlist ? JSON.parse(res.exceptionlist) : [];
-        this.appServices.setRegex(res.fileRegex)
-      this.appServices.setExceptionData(exceptionList);
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';
       } else {

@@ -135,9 +135,14 @@ export class PrDialogComponent implements OnInit {
   }
 
   ShowSelectedDatas() {
-    this.dialogRef.close({
-      getSelectedCheckListIDValue: this.getSelectedCheckListID,
-    });
+    if (this.getSelectedCheckListID && this.getSelectedCheckListID.length > 0) {
+      this.dialogRef.close({
+        getSelectedCheckListIDValue: this.getSelectedCheckListID,
+      });
+    } else {
+      localStorage.removeItem('getSelectedCheckListID')
+      this.dialogRef.close('show')
+    }
   }
   onFilterChanged() {
     this.totalRowCount = this.gridApi.getDisplayedRowCount();

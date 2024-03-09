@@ -34,6 +34,7 @@ import {
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
 } from '@angular/material/core';
+import { CancellationService } from '../../services/cancellation.service';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: ['l'],
@@ -359,7 +360,7 @@ export class PIQLandingPageComponent implements OnInit {
     public dialog: MatDialog,
     private _agGridService: AgGridService,
     private datePipe: DatePipe,
-    @Inject(DOCUMENT) private document: any
+    private cancellationService: CancellationService
   ) {
     this.userDetails = this._storage.getUserDetails();
     this.frameWorkComponent = {
@@ -444,22 +445,6 @@ export class PIQLandingPageComponent implements OnInit {
           action?.classList.add('showFilter');
           chats?.classList.remove('showFilter');
           notification?.classList.remove('showFilter');
-          inprogress?.classList.remove('showFilter');
-          submitted?.classList.remove('showFilter');
-          reassign?.classList.remove('showFilter');
-          approved?.classList.remove('showFilter');
-        } else if (status === 'My Chats') {
-          chats?.classList.add('showFilter');
-          action?.classList.remove('showFilter');
-          notification?.classList.remove('showFilter');
-          inprogress?.classList.remove('showFilter');
-          submitted?.classList.remove('showFilter');
-          reassign?.classList.remove('showFilter');
-          approved?.classList.remove('showFilter');
-        } else if (status === 'My Notification') {
-          notification?.classList.add('showFilter');
-          chats?.classList.remove('showFilter');
-          action?.classList.remove('showFilter');
           inprogress?.classList.remove('showFilter');
           submitted?.classList.remove('showFilter');
           reassign?.classList.remove('showFilter');
@@ -736,6 +721,7 @@ export class PIQLandingPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cancellationService.cancel();
     this.dateRangePicker = this.fb.group({
       dateRangeField: [''],
     });

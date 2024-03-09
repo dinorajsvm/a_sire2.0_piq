@@ -769,12 +769,10 @@
   cursor: not-allowed !important;
 }
 
-
 .cursor-not-allow {
   pointer-events: none;
   cursor: not-allowed !important;
 }
-
 
 .ShoreBtn {
   pointer-events: none;
@@ -1034,6 +1032,7 @@ p {
 .shoreQuest {
   background-color: #e0e0e0 !important;
   cursor: not-allowed !important;
+  pointer-events: none;
   border-radius: 5px;
   padding: 10px;
   padding: 0 10px;
@@ -1041,6 +1040,10 @@ p {
 
 .presetQuest {
   background: aliceblue;
+}
+
+::ng-deep .fullscreenContent ::ng-deep.piqWrapper{
+  height: calc(100vh - 0px) !important;
 }
 
 .indicators {
@@ -1085,7 +1088,6 @@ p {
   font-size: 20px !important;
   cursor: pointer;
 }
-
 
 .restoreLookupIcn {
   vertical-align: middle;

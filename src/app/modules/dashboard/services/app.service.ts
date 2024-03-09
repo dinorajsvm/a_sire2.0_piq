@@ -12,8 +12,8 @@ export class AppService {
   // private globalUrl = "https://macktesting.solverminds.net"
   // private globalUrl = "http://70.205.1.4:8080"
   // private globalUrl = "http://70.205.1.5:8080"
-  private globalUrl = document.location.protocol + '//' + document.location.hostname;
-  // private globalUrl = environment.apiUrl;
+  // private globalUrl = document.location.protocol + '//' + document.location.hostname;
+  private globalUrl = environment.apiUrl;
   isFullscreen$ = new BehaviorSubject<any>(false);
   currencyValue: any = 'BaseCurrency';
   vesselCode: any;
@@ -40,7 +40,6 @@ export class AppService {
   private setPiqQuestion = new Subject<any>();
   private setDeleteBtn = new Subject<any>();
   private getExcepData = new Subject<any>();
-  private getCertificateData = new Subject<any>();
   private setUnSave = new BehaviorSubject<any>(false);
   constructor(private client: HttpClient) {}
 
@@ -369,9 +368,9 @@ export class AppService {
       )
       .pipe(map((res: any) => res));
   }
-  getDefaultImageTemplate() {
+  getDefaultImageTemplate(vesseltype: any) {
     let ba = this.client
-      .get<any>(`${this.globalUrl}/PIQ/event/getstaticimagetemplate`)
+      .get<any>(`${this.globalUrl}/PIQ/event/getstaticimagetemplate?vesseltype=${vesseltype}`)
       .pipe(map((res: any) => res));
     return ba;
   }

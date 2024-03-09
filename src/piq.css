@@ -316,6 +316,9 @@
 ::ng-deep .fullscreenContent ::ng-deep .mat-mdc-tab-body-wrapper {
   height: calc(100vh - 110px) !important;
 }
+::ng-deep .fullscreenContent ::ng-deep .mat-mdc-tab-body-content {
+  height: calc(100vh - 110px) !important;
+}
 ::ng-deep .fullscreenContent ::ng-deep .list_wrapper {
   height: calc(100vh - 167px) !important;
 }

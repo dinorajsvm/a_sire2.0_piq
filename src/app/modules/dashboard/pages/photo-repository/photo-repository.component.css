@@ -328,10 +328,6 @@
   color: black !important;
 }
 
-.hideReqBtns {
-  display: none;
-}
-
 .searchTable ::ng-deep .material-icons {
   font-size: 20px;
   display: flex;

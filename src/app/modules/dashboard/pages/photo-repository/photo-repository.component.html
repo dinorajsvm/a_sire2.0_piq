@@ -69,8 +69,8 @@
           <img
             src="assets/question/reset-password.svg"
             class="defNameIcn"
-            [class.hideReqBtns]="hideReqBtns"
-            style="height: 25px; width: 25px; margin-left: 5px; cursor: pointer;"
+            [class.hideReqBtns]="hideReqBtns || actualPhotoCount === 0"
+            style="height: 25px; width: 25px; margin-left: 5px; cursor: pointer"
             matTooltip="Set Default Name To All Images"
             (click)="resetAllImageFilenames()"
           />
@@ -113,7 +113,9 @@
             *ngFor="let subHead of head.subTopics; let i = index"
           >
             <span class="subTopName">
-              <p class="charCount" [matTooltip]="subHead.subTopicTitle">{{ subHead.subTopicTitle }}</p>
+              <p class="charCount" [matTooltip]="subHead.subTopicTitle">
+                {{ subHead.subTopicTitle }}
+              </p>
             </span>
             <div class="upDownBtnWrap">
               <div class="attachBtn" style="margin: 0 3px">
@@ -125,9 +127,7 @@
                   [disabled]="disableBtns"
                   [class.disableBtns]="disableBtns"
                   [class.hideReqBtns]="hideReqBtns"
-                  (click)="
-                    selectFile(subHead, head.topic)
-                  "
+                  (click)="selectFile(subHead, head.topic)"
                 >
                   <mat-icon>attach_file</mat-icon>
                   <input
@@ -225,14 +225,17 @@
                     />
                   </div>
                   <div class="img_Size">
-                    <span class="charCount">Size:{{ img.fileSizeConvert }}</span>
+                    <span class="charCount"
+                      >Size:{{ img.fileSizeConvert }}</span
+                    >
                   </div>
                   <div class="img_name">
                     <input
-                      class="charCount" [readonly]="hideReqBtns"
+                      class="charCount"
+                      [readonly]="hideReqBtns"
                       [matTooltip]="img.formattedName"
                       [(ngModel)]="img.formattedName"
-                      [class.nameHighlight]=" 
+                      [class.nameHighlight]="
                         img?.formattedName != img.defaultImageName
                       "
                       maxlength="80"

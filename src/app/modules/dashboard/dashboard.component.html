@@ -5,7 +5,9 @@
   <mat-sidenav-content  [ngClass]="marginZero ? 'margin-zero' : leftOpen ? 'sidebar-content-open' : 'sidebar-content-close'">
       <app-navbar *ngIf="showBars" (toggleSidebar)="toggleSidebar($event)"></app-navbar>
 
-      <div class="page-content-wrapper" id="page-Content">
+      <div class="page-content-wrapper" id="page-Content"[ngClass]="{
+        'fullscreenContent': showFullscreen
+      }">
         <div class="fullscreen_module_wrapper" (click)="fullscreen()" >
           <div class="fullscreen_icon_wrapper">
             <mat-icon class="fullscreen_icon">{{!showFullscreen?'fullscreen':'fullscreen_exit'}}</mat-icon>

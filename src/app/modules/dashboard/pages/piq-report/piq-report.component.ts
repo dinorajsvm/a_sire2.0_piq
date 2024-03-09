@@ -149,6 +149,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.removeItem('vesselType');
     this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.getworkflowStatus();
     this.getWrkFlSummary();
@@ -162,17 +163,11 @@ export class PiqReportComponent implements OnInit {
 
     this.appServices.getExceptionData().subscribe((res: any) => {
       this.exceptionList = res;
-      this.exceptionIcon();
     });
 
     this.appServices.getEditVisible().subscribe((res: any) => {
       this.hideEditbutton = res;
       this.hideReqBtns = res;
-    });
-    this.appServices.getSearch().subscribe((res: any) => {
-      if (!res) {
-        this.onSearchTextChanged('');
-      }
     });
     this.appServices.getUnSaveAction().subscribe((res: any) => {
       this.unSavedData = res;
@@ -320,16 +315,23 @@ export class PiqReportComponent implements OnInit {
       lastmodifieddata: JSON.stringify(this.lastModifiedData),
       duplicateDetails: this.arrayObj,
       certificatetab: this.saveMappedCertificateData,
-      vesseltype:
+      vesseltype: (
         currentVesselType === '' ||
         currentVesselType === undefined ||
-        currentVesselType === 'undefined'
+        currentVesselType === 'undefined' ||
+        currentVesselType === null
           ? ''
-          : currentVesselType,
+          : currentVesselType
+      )
+        ? currentVesselType
+        : localStorage.getItem('vesselType')
+        ? localStorage.getItem('vesselType')
+        : '',
     };
     this.countDetails();
     this.appServices.getSaveValues(ansPayload).subscribe((res: any) => {
       this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
+      localStorage.removeItem('vesselType')
       this.loaderService.loaderHide();
       this.appServices.setUnSaveAction(false);
       this.unSavedData = false;
@@ -351,7 +353,8 @@ export class PiqReportComponent implements OnInit {
       vesseltype:
         vesselCode === '' ||
         vesselCode === undefined ||
-        vesselCode === 'undefined'
+        vesselCode === 'undefined' ||
+        vesselCode === null
           ? ''
           : vesselCode,
     };
@@ -360,7 +363,8 @@ export class PiqReportComponent implements OnInit {
       vesselCode
         ? vesselCode === '' ||
           vesselCode === undefined ||
-          vesselCode === 'undefined'
+          vesselCode === 'undefined' ||
+          vesselCode === null
           ? ''
           : vesselCode
         : ''
@@ -374,7 +378,8 @@ export class PiqReportComponent implements OnInit {
         vesselCode
           ? vesselCode === '' ||
             vesselCode === undefined ||
-            vesselCode === 'undefined'
+            vesselCode === 'undefined' ||
+            vesselCode === null
             ? ''
             : vesselCode
           : ''
@@ -467,6 +472,15 @@ export class PiqReportComponent implements OnInit {
                   mainQus.answer = mainQus.presetvalue;
                   this.countDetails();
                 }
+
+                if (
+                  mainQus &&
+                  mainQus.hasOwnProperty('presetvalue') &&
+                  mainQus.presetvalue &&
+                  mainQus.answer !== mainQus.presetvalue
+                ) {
+                  this.exception(value, subHeader, mainQus, 2);
+                }
               }
 
               const index = this.getMainQuestCounts.findIndex(
@@ -531,7 +545,12 @@ export class PiqReportComponent implements OnInit {
         vesselCode !== 'undefined'
       ) {
         this.switchVeselException();
-      } else if (res && res.exceptionlist != '') {
+      } else if (
+        res &&
+        res.exceptionlist != '' &&
+        this.exceptionList &&
+        this.exceptionList.length === 0
+      ) {
         let exceptionData = JSON.parse(res.exceptionlist);
         this.exceptionList = exceptionData;
         this.appServices.setExceptionData(exceptionData);
@@ -579,7 +598,6 @@ export class PiqReportComponent implements OnInit {
       this.expandMethod();
       this.getTopBarDatas();
       this.loaderService.loaderHide();
-      this.appServices.setVesselTypeData(this.vesselSelection);
     });
   }
 
@@ -658,6 +676,14 @@ export class PiqReportComponent implements OnInit {
       pending?.classList.remove('col-sm-12', 'expandedContent');
       pending?.classList.add('col-sm-9');
       sideBar?.classList.remove('sideCollapse');
+    } else {
+      contentArea?.classList.remove('col-sm-12', 'expandedContent');
+      expColl?.classList.remove('hideCol');
+      contentArea?.classList.add('col-sm-9');
+      pending?.classList.remove('col-sm-12', 'expandedContent');
+      pending?.classList.add('col-sm-9');
+      sideBar?.classList.remove('sideCollapse');
+      this.isLeftIcon = true;
     }
 
     event.preventDefault();
@@ -700,8 +726,12 @@ export class PiqReportComponent implements OnInit {
       );
 
       if (duplicateResponse === undefined) {
+        console.log(duplicateResponse, 'duplicateResponse');
+
         this.exception(ques, mquest, quest, 1);
       } else {
+        console.log(quest, 'quest.answer');
+
         duplicateResponse.answer = quest.answer;
         const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
           disableClose: true,
@@ -828,6 +858,14 @@ export class PiqReportComponent implements OnInit {
     type?: any,
     id?: number
   ): void {
+    if (type === 'initial') {
+      const currentVesselType = localStorage.getItem('currentVesselType');
+      if (currentVesselType) {
+        localStorage.setItem('vesselType', currentVesselType);
+        localStorage.removeItem('currentVesselType');
+      }
+    }
+
     if (
       subQue.entryorgin === 'Auto or Preset' ||
       subQue.entryorgin === 'Preset'
@@ -849,6 +887,8 @@ export class PiqReportComponent implements OnInit {
     if (type === '' && subQue.qid === 'Q133') {
       this.getvesseltype();
       this.switchVesselType();
+    } else {
+      this.appServices.setVesselTypeData(this.vesselSelection);
     }
 
     this.appServices.setUnSaveAction(true);
@@ -1113,68 +1153,104 @@ export class PiqReportComponent implements OnInit {
     splitValue.shift();
     const currentVesselType = localStorage.getItem('currentVesselType');
 
-    if (
-      currentVesselType === '' ||
-      currentVesselType === undefined ||
-      (currentVesselType === 'undefined' && subQue.presetvalue)
-    ) {
-      const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
-        disableClose: true,
-        panelClass: 'exceptionRemark-dialog-container',
-        data: '',
-      });
-      this._snackBarService.loadSnackBar(
-        'Changing company preset data will be captured as Exception.',
-        colorCodes.WARNING
-      );
-      dialogRef.afterClosed().subscribe((result) => {
-        let exceptionData: any;
+    if (id === 0 || id === 1) {
+      console.log(currentVesselType, 'iiiiiiiiiiiiiiiiiiiiiii');
 
-        if (result) {
-          exceptionData = {
-            guid: Guid.create(),
-            mainId: ques.subheadid,
-            mainQueId: mainQue.qid,
-            qid: subQue.qid,
-            subHeaders: ques.subHeaders,
-            mainQuestion: mainQue.mainQuestion,
-            subName: splitValue.join('.') + ' ' + subQue.subName,
-            presetValue: subQue.presetvalue,
-            savedAnswer:
-              subQue.entryorgin === 'Auto or Preset' ||
-              subQue.entryorgin === 'Preset'
-                ? ''
-                : subQue.savedAnswer,
-            answer: subQue.answer,
-            remark: result,
-          };
-        } else {
-          exceptionData = {
-            guid: Guid.create(),
-            mainId: ques.subheadid,
-            qid: subQue.qid,
-            mainQueId: mainQue.qid,
-            subHeaders: ques.subHeaders,
-            mainQuestion: mainQue.mainQuestion,
-            subName: splitValue.join('.') + ' ' + subQue.subName,
-            presetValue: subQue.presetvalue,
-            savedAnswer:
-              subQue.entryorgin === 'Auto or Preset' ||
-              subQue.entryorgin === 'Preset'
-                ? ''
-                : subQue.savedAnswer,
-            answer: subQue.answer,
-            remark: '',
-          };
-        }
+      if (
+        currentVesselType === '' ||
+        currentVesselType === undefined ||
+        currentVesselType === 'undefined' ||
+        (currentVesselType === null && subQue.presetvalue)
+      ) {
+        const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
+          disableClose: true,
+          panelClass: 'exceptionRemark-dialog-container',
+          data: '',
+        });
+        this._snackBarService.loadSnackBar(
+          'Changing company preset data will be captured as Exception.',
+          colorCodes.WARNING
+        );
+        dialogRef.afterClosed().subscribe((result) => {
+          let exceptionData: any;
+          if (result) {
+            exceptionData = {
+              guid: Guid.create(),
+              mainId: ques.subheadid,
+              mainQueId: mainQue.qid,
+              qid: subQue.qid,
+              subHeaders: ques.subHeaders,
+              mainQuestion: mainQue.mainQuestion,
+              subName: splitValue.join('.') + ' ' + subQue.subName,
+              presetValue: subQue.presetvalue,
+              savedAnswer:
+                subQue.entryorgin === 'Auto or Preset' ||
+                subQue.entryorgin === 'Preset'
+                  ? ''
+                  : subQue.savedAnswer,
+              answer: subQue.answer,
+              remark: result,
+            };
+            if (id === 0) {
+              this.lookupResetBtn(payLoad.questionId, payLoad.jobid, '');
+            }
+          } else {
+            console.log('ddddddddddddddddddddddddd');
+
+            exceptionData = {
+              guid: Guid.create(),
+              mainId: ques.subheadid,
+              qid: subQue.qid,
+              mainQueId: mainQue.qid,
+              subHeaders: ques.subHeaders,
+              mainQuestion: mainQue.mainQuestion,
+              subName: splitValue.join('.') + ' ' + subQue.subName,
+              presetValue: subQue.presetvalue,
+              savedAnswer:
+                subQue.entryorgin === 'Auto or Preset' ||
+                subQue.entryorgin === 'Preset'
+                  ? ''
+                  : subQue.savedAnswer,
+              answer: subQue.answer,
+              remark: '',
+            };
+          }
+          this.exceptionList.push(exceptionData);
+
+          this.updateExceptionList();
+        });
+      } else {
+        let exceptionData: any;
+        exceptionData = {
+          guid: Guid.create(),
+          mainId: ques.subheadid,
+          qid: subQue.qid,
+          mainQueId: mainQue.qid,
+          subHeaders: ques.subHeaders,
+          mainQuestion: mainQue.mainQuestion,
+          subName: splitValue.join('.') + ' ' + subQue.subName,
+          presetValue: subQue.presetvalue,
+          savedAnswer:
+            subQue.entryorgin === 'Auto or Preset' ||
+            subQue.entryorgin === 'Preset'
+              ? ''
+              : subQue.savedAnswer,
+          answer: subQue.answer,
+          remark: '',
+        };
         this.exceptionList.push(exceptionData);
-        this.exceptionIcon();
         this.appServices.setExceptionData(this.exceptionList);
         if (id === 0) {
           this.lookupResetBtn(payLoad.questionId, payLoad.jobid, '');
         }
-      });
+      }
     } else {
+      const duplicateResponse = this.exceptionList.find(
+        (x) => x.qid === subQue.qid
+      );
+      if (duplicateResponse) {
+        return;
+      }
       let exceptionData: any;
       exceptionData = {
         guid: Guid.create(),
@@ -1194,10 +1270,7 @@ export class PiqReportComponent implements OnInit {
         remark: '',
       };
       this.exceptionList.push(exceptionData);
-      this.appServices.setExceptionData(this.exceptionList);
-      if (id === 0) {
-        this.lookupResetBtn(payLoad.questionId, payLoad.jobid, '');
-      }
+      this.updateExceptionList();
     }
   }
 
@@ -1308,8 +1381,7 @@ export class PiqReportComponent implements OnInit {
     subq.answer = subq.presetvalue;
     this.countDetails();
     this.appServices.setUnSaveAction(true);
-    this.appServices.setExceptionData(this.exceptionList);
-    this.exceptionIcon();
+    this.updateExceptionList();
   }
 
   restoreLookUp(subq: any) {
@@ -1831,7 +1903,7 @@ export class PiqReportComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         if (result !== 'Reset') {
-          this.lookupResetBtn('5.7', '', result);
+          // this.lookupResetBtn('5.7', '', result);
           let insertQuest: any;
           this.arrayObj = [];
           let tempRowData: any[] = [];
@@ -1988,9 +2060,37 @@ export class PiqReportComponent implements OnInit {
                                     temp.qid.includes(value)
                                   )
                                 ) {
+                                  this.dynamicForms.controls[temp.qid].reset();
                                   this.dynamicForms.controls[
                                     `${temp.qid}`
-                                  ].patchValue(resultResponse.dropdown);
+                                  ].patchValue(
+                                    resultResponse.dropdown.toString()
+                                  );
+                                  temp.answer =
+                                    resultResponse.dropdown.toString();
+                                  temp.savedAnswer =
+                                    resultResponse.dropdown.toString();
+
+                                  const exceptioDetails = [
+                                    ...this.exceptionList,
+                                  ];
+                                  const filterMquest = exceptioDetails.filter(
+                                    (exc) => {
+                                      return temp.qid === exc.qid;
+                                    }
+                                  );
+
+                                  filterMquest.forEach((data) => {
+                                    this.exceptionList.forEach(
+                                      (filter: any, index: number) => {
+                                        if (
+                                          filter.guid.value === data.guid.value
+                                        ) {
+                                          this.exceptionList.splice(index, 1);
+                                        }
+                                      }
+                                    );
+                                  });
                                 }
                                 if (
                                   valuesToCheckDate.some((value) =>
@@ -2002,6 +2102,35 @@ export class PiqReportComponent implements OnInit {
                                   ].patchValue(
                                     new Date(resultResponse.dateSelection)
                                   );
+                                  temp.answer = resultResponse.dateSelection;
+                                  temp.savedAnswer = this.datePipe.transform(
+                                    resultResponse.dateSelection,
+                                    this.dateFormat
+                                  );
+
+                                  const exceptioDetails = [
+                                    ...this.exceptionList,
+                                  ];
+                                  const filterMquest = exceptioDetails.filter(
+                                    (exc) => {
+                                      return (
+                                        mainQues.qid === exc.mainQueId &&
+                                        exc.mainQuestion ===
+                                          mainQues.mainQuestion
+                                      );
+                                    }
+                                  );
+                                  filterMquest.forEach((data) => {
+                                    this.exceptionList.forEach(
+                                      (filter: any, index: number) => {
+                                        if (
+                                          filter.guid.value === data.guid.value
+                                        ) {
+                                          this.exceptionList.splice(index, 1);
+                                        }
+                                      }
+                                    );
+                                  });
                                 }
                               });
                             }
@@ -2009,6 +2138,7 @@ export class PiqReportComponent implements OnInit {
                         });
                       }
                     });
+                    this.lookupResetBtn('5.7', '', result);
                     this.countDetails();
                   }
                 }
@@ -2022,6 +2152,7 @@ export class PiqReportComponent implements OnInit {
         }
       }
     });
+    this.updateExceptionList();
   }
 
   chapterGrid() {
@@ -2072,7 +2203,7 @@ export class PiqReportComponent implements OnInit {
       });
       this.appServices.setGridSummary(this.rowSummaryData);
     });
-    this.exceptionIcon();
+    this.updateExceptionList();
   }
 
   lastinputChanges(event?: any, subq?: any, quest?: any, mquest?: any) {
@@ -3030,7 +3161,23 @@ export class PiqReportComponent implements OnInit {
   onSearchTextChanged(searchValue: string) {
     this.searchText = searchValue;
     this.isSearchActive = searchValue.length > 0;
+    this.ShowAllQuest();
     this.expandMethod();
+
+    let sideBar = document.getElementById('sideBarList');
+    let pending = document.getElementById('pendingArea');
+    let contentArea = document.getElementById('contentArea');
+    let expColl = document.getElementById('expCol');
+    let guidance = document.getElementById('guidanceWrapper');
+    expColl?.classList.remove('hideCol');
+    pending?.classList.remove('col-sm-12', 'expandedContent');
+    pending?.classList.add('col-sm-9');
+    sideBar?.classList.remove('sideCollapse');
+    contentArea?.classList.add('col-sm-12', 'expandedContent');
+    contentArea?.classList.remove('col-sm-9');
+    guidance?.classList.add('guideWrap');
+    guidance?.classList.remove('guideWrapExpanded');
+    this.isLeftIcon = true;
   }
 
   expandMethod() {
@@ -3040,7 +3187,7 @@ export class PiqReportComponent implements OnInit {
   }
 
   lookUpResetForm(event: any, quest: any, mquest: any) {
-    if (this.lookUpEnable) {
+    if (this.lookUpEnable || this.viewMode) {
       return;
     }
     const mQuestion = mquest.mainQuestion;
@@ -3148,7 +3295,7 @@ export class PiqReportComponent implements OnInit {
       ) {
         this.lookUpEnable = true;
       } else {
-        this.lookUpEnable = false;
+        this.lookUpEnable = this.viewMode ? true : false;
       }
     });
   }
@@ -3256,6 +3403,7 @@ export class PiqReportComponent implements OnInit {
     localStorage.removeItem('getSelectedCheckListID');
     localStorage.removeItem('previousTabIndex');
     localStorage.removeItem('currentVesselType');
+    localStorage.removeItem('vesselType')
     this.appServices.setEditVisible(false);
     localStorage.setItem('setEditVisible', 'false');
     this.router.navigate(['/sire/piq-landing/']);

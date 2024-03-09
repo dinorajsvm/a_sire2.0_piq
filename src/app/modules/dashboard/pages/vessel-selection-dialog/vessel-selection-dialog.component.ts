@@ -5,10 +5,7 @@ import { colorCodes } from 'src/app/core/constants';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { AppService } from '../../services/app.service';
-import {
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
@@ -61,7 +58,7 @@ export class VesselSelectionDialogComponent {
   getWrkFlowId: any;
   toolTipVal: any;
   toolTipValType: any;
-  
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -70,7 +67,8 @@ export class VesselSelectionDialogComponent {
     private _snackBarService: SnackbarService,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private dialogRef: MatDialogRef<VesselSelectionDialogComponent>,private renderer: Renderer2,
+    private dialogRef: MatDialogRef<VesselSelectionDialogComponent>,
+    private renderer: Renderer2,
     private el: ElementRef
   ) {
     this.userDetails = this._storage.getUserDetails();
@@ -110,18 +108,18 @@ export class VesselSelectionDialogComponent {
   }
 
   getVesselNames() {
-    this.appServices.getVesselNames(this.userDetails.companyCode).subscribe(
-      (res: any) => {
+    this.appServices
+      .getVesselNames(this.userDetails.companyCode)
+      .subscribe((res: any) => {
         this.vesselname = res.response;
-      }
-    );
+      });
   }
 
   clearFilter() {
     this.vesselSelectionForms.patchValue({
       vesselTypeFilter: '',
       vesselNameFilter: '',
-    })
+    });
   }
 
   onKeyChange(event: any): void {
@@ -157,7 +155,7 @@ export class VesselSelectionDialogComponent {
     this.enableProceedButton();
     this.vesselSelectionForms.patchValue({
       vesselNameFilter: '',
-    })
+    });
     this.getCodes();
   }
   onSelectVesselType(event: any): void {
@@ -167,7 +165,7 @@ export class VesselSelectionDialogComponent {
     this.vesselSelectionForms.patchValue({
       vesselTypeFilter: '',
       vesselNameFilter: '',
-    })  
+    });
     this.enableProceedButton();
   }
 

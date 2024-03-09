@@ -8,6 +8,7 @@
     left:0;
     background-color:rgba(74,74,74,.1);
     z-index:99999;
+    pointer-events: none;
 }
 
 

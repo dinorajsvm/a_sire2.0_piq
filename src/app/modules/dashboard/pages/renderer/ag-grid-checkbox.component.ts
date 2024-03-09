@@ -18,6 +18,7 @@ export class AgGridCheckboxComponent implements ICellRendererAngularComp {
   isChecked = false;
 
   agInit(params: any): void {
+    
     this.params = params;
     this.checkBoxId = this.params.colDef.field;
     this.isChecked = params.value === true;
