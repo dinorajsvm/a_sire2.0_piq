@@ -22,7 +22,7 @@
 
             <mat-form-field class="selectDropdown" appearance="outline">
               <mat-select #vesselSelect [(ngModel)]="selectedValue" formControlName="vesselName"
-                [matTooltip]="toolTipVal" (selectionChange)="onSelectVessel($event)" name="food">
+                [matTooltip]="toolTipVal" (selectionChange)="onSelectVessel($event)">
                 <input formControlName="vesselNameFilter" placeholder="Search Vessel Name" class="filterSearchShore"
                   #filterVesselNameInput />
                 <mat-option *ngFor="let vsl of vesselname | selectSearchFilter : filterVesselNameInput.value"
@@ -38,7 +38,7 @@
             </div>
             <mat-form-field class="selectDropdown" appearance="outline">
               <mat-select #vesselSelect [(ngModel)]="selectedVslTypeValue" formControlName="vesselType"
-                [matTooltip]="toolTipValType" (selectionChange)="onSelectVesselType($event)" name="food">
+                [matTooltip]="toolTipValType" (selectionChange)="onSelectVesselType($event)">
                 <input formControlName="vesselTypeFilter" placeholder="Search Vessel Type" class="filterSearchShore"
                   #filterVesselTypeInput />
                 <mat-option *ngFor="let vsltype of vesselTypeCode | selectSearchVslFilter : filterVesselTypeInput.value"
@@ -71,7 +71,7 @@
             <!-- [matTooltip]="vsltype.vesseltypename" -->
             <mat-form-field class="selectDropdown" appearance="outline">
               <mat-select #vesselSelect [(ngModel)]="selectedVslTypeValue" formControlName="vesselType"
-                [matTooltip]="toolTipValType" (selectionChange)="onSelectVesselType($event)" name="food">
+                [matTooltip]="toolTipValType" (selectionChange)="onSelectVesselType($event)">
                 <input formControlName="vesselTypeFilter" placeholder="Search Vessel Type" class="filterSearch"
                   #filterInput />
                 <mat-option *ngFor="let vsltype of vesselTypeCode | selectSearchVslFilter : filterInput.value" [value]="vsltype.vesseltypecode">

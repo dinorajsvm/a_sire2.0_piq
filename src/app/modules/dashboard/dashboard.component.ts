@@ -29,7 +29,6 @@ export class DashboardComponent implements OnInit {
     let content = document.getElementById('page-Content');
     let dialogContent = document.getElementById('cdk-overlay-0');
     // let dialogContent = document.querySelector('cdk-overlay-pane');
-    console.log("dialogContent",dialogContent);
     
     if (
       !this.document.fullscreenElement && // alternative standard method
@@ -38,11 +37,8 @@ export class DashboardComponent implements OnInit {
       !this.document.msFullscreenElement
     ) {
     
-      console.log("this.documentElem1212",this.documentElem);
       if (this.documentElem.requestFullscreen) {
         this.documentElem.requestFullscreen();
-        console.log("111");
-        console.log("dialogContent",dialogContent);
       } else if (this.documentElem.mozRequestFullScreen) {
         this.documentElem.mozRequestFullScreen();
       } else if (this.documentElem.webkitRequestFullscreen) {
@@ -53,10 +49,8 @@ export class DashboardComponent implements OnInit {
       this.marginZero = true;
       this.showBars = false;
     } else {
-      console.log("this.documentElem121211112121131232143123",this.documentElem);
       if (this.document.exitFullscreen) {
         this.document.exitFullscreen();
-        console.log("2");
       } else if (this.document.msExitFullscreen) {
         this.document.msExitFullscreen();
       } else if (this.document.mozCancelFullScreen) {

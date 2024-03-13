@@ -102,53 +102,50 @@ export class PhotoRepositoryComponent implements OnInit, OnDestroy {
       if (this.selectedInstanceID && this.selectedInstanceID.length > 0) {
         this.listDatas = [];
         const response = JSON.parse(res.response);
-
-        this.listDatas = response[0].topiclist
-          .filter((resData: any) => resData.topic)
-          .map((list: any) => {
-            list.subTopics.forEach((subTopics: any) => {
-              subTopics.imagelist = subTopics.relImages.map((img: any) => {
-                return this.appServices
-                  .getServerFileFromStream(img.systemfilename)
-                  .pipe(
-                    map((res: Blob) => {
-                      if (res) {
-                        const blob = new Blob([res]);
-                        const srcUrl = URL.createObjectURL(blob);
-
-                        let extensionvalue: any;
-                        let formattedExtension: any;
-
-                        if (img && img.localfilename) {
-                          extensionvalue = img.localfilename.split('.');
-                        }
-
-                        if (extensionvalue && extensionvalue.length >= 1) {
-                          formattedExtension =
-                            extensionvalue[extensionvalue.length - 1];
-                        }
-
-                        const fileSizeConvert =
-                          +img.filesize <= 1048576
-                            ? (+img.filesize / 1024).toFixed(2) + ' KB'
-                            : (+img.filesize / (1024 * 1024)).toFixed(2) +
-                              ' MB';
-
-                        img.imagePreviewSrc = srcUrl;
-                        img.sizeCheck = img.sizeinbytes;
-                        img.formattedName = img.localfilename.split('.')[0];
-                        img.formattedExtension = formattedExtension;
-                        img.fileSizeConvert = fileSizeConvert;
-
-                        return img;
+        this.listDatas = response[0].topiclist;
+        this.listDatas.forEach((list) => {
+          list.subTopics.forEach((subTopics: any) => {
+            subTopics['imagelist'] = subTopics.relImages;
+            subTopics['imagelist'].forEach((img: any) => {
+              let srcUrl: any;
+              this.appServices
+                .getServerFileFromStream(img.systemfilename)
+                .subscribe((res: Blob) => {
+                  if (res) {
+                    const blob = new Blob([res]);
+                    srcUrl = URL.createObjectURL(blob);
+                    let extensionvalue: any;
+                    let formattedExtension: any;
+                    if (img && img.localfilename) {
+                      extensionvalue = img.localfilename.split('.');
+                    }
+                    if (extensionvalue && extensionvalue.length === 1) {
+                      formattedExtension =
+                        extensionvalue[extensionvalue.length];
+                    } else {
+                      if (extensionvalue && extensionvalue.length > 1) {
+                        formattedExtension =
+                          extensionvalue[extensionvalue.length - 1];
                       }
-                    })
-                  );
-              });
+                    }
+                    let fileSizeConvert = '0.00 KB';
+                    if (img && +img.filesize <= 1048576) {
+                      fileSizeConvert =
+                        (+img.filesize / 1024).toFixed(2) + ' ' + 'KB';
+                    } else {
+                      fileSizeConvert =
+                        (+img.filesize / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
+                    }
+                    img.imagePreviewSrc = srcUrl;
+                    img.sizeCheck = img.sizeinbytes;
+                    img.formattedName = img.localfilename.split('.')[0];
+                    img.formattedExtension = formattedExtension;
+                    img.fileSizeConvert = fileSizeConvert;
+                  }
+                });
             });
-
-            return list;
           });
+        });
         if (this.imageNames) {
           this.imageNames.forEach((data: any) => {
             this.listDatas.forEach((res: any) => {

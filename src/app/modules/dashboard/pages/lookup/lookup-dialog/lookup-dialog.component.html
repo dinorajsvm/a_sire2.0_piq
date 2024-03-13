@@ -204,7 +204,7 @@
     mat-button
     class="syncBtn mt-2"
     style="float: right"
-    [class.hideReqBtns]="hideReqBtns"
+    [class.hideReqBtns]="hideReqBtns  || !resetBtn"
     type="submit"
     (click)="onReset()"
   >

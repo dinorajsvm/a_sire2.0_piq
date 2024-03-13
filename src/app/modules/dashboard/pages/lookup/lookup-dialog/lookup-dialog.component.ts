@@ -132,7 +132,7 @@ export class LookupDialogComponent implements OnInit {
       resizable: true,
     },
   ];
-  
+
   internalColumnDefs: ColDef[] = [
     {
       headerName: 'Auto Sync',
@@ -232,7 +232,7 @@ export class LookupDialogComponent implements OnInit {
   rowInternalData: any = [];
   rowShipTSFData: any = [];
   rowInternalROFData: any = [];
-
+  resetBtn = false;
   getRowDatas: any = [];
   isShowToggle = false;
   isOnlyShipVisit = false;
@@ -344,7 +344,7 @@ export class LookupDialogComponent implements OnInit {
           this.rowInternalData = this.getRowDatas.Internal;
           this.rowInternalROFData = this.getRowDatas.ROF;
         }
-        this.updateTotalCount()
+        this.updateTotalCount();
       });
   }
   onFilterChanged() {
@@ -388,28 +388,42 @@ export class LookupDialogComponent implements OnInit {
       this.rowInternalData = this.getRowDatas.Internal;
       this.rowInternalROFData = this.getRowDatas.ROF;
     }
-   this.updateTotalCount()
+    this.updateTotalCount();
   }
-
 
   updateTotalCount() {
     this.totalRowCount =
-    this.rowShipData && this.rowShipData.length > 0
-      ? this.rowShipData.length
-      : 0;
-  this.totalRowTSFCount =
-    this.rowShipTSFData && this.rowShipTSFData.length > 0
-      ? this.rowShipTSFData.length
-      : 0;
-  this.totalRowInternalData =
-    this.rowInternalData && this.rowInternalData.length > 0
-      ? this.rowInternalData.length
-      : 0;
+      this.rowShipData && this.rowShipData.length > 0
+        ? this.rowShipData.length
+        : 0;
+    this.totalRowTSFCount =
+      this.rowShipTSFData && this.rowShipTSFData.length > 0
+        ? this.rowShipTSFData.length
+        : 0;
+    this.totalRowInternalData =
+      this.rowInternalData && this.rowInternalData.length > 0
+        ? this.rowInternalData.length
+        : 0;
 
-  this.totalRowInternalROFData =
-    this.rowInternalROFData && this.rowInternalROFData.length > 0
-      ? this.rowInternalROFData.length
-      : 0;
+    this.totalRowInternalROFData =
+      this.rowInternalROFData && this.rowInternalROFData.length > 0
+        ? this.rowInternalROFData.length
+        : 0;
+    const rowInternalROFDataFlag = this.rowInternalROFData.find(
+      (w: any) => w.highlight
+    );
+    const rowDataFlag = this.rowShipData.find((x: any) => x.highlight);
+    const rowPscDataFlag = this.rowShipTSFData.find((y: any) => y.highlight);
+    const rowNonPscDataFlag = this.rowInternalData.find(
+      (z: any) => z.highlight
+    );
+    this.resetBtn =
+      rowNonPscDataFlag ||
+      rowPscDataFlag ||
+      rowDataFlag ||
+      rowInternalROFDataFlag
+        ? true
+        : false;
   }
 
   onCellClicked(event: any) {

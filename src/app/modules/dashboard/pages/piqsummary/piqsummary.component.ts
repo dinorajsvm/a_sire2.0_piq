@@ -769,6 +769,8 @@ export class PIQSummaryComponent implements OnInit {
     };
     this.getMainQuestCounts = [];
     this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
+      const regex = res && res.fileRegex ? res.fileRegex : ''
+      this.appServices.setRegex(regex);
       if (res && res.response) {
         let object = res && res.response ? JSON.parse(res.response) : [];
         this.getAllDatas = object;
@@ -819,7 +821,9 @@ export class PIQSummaryComponent implements OnInit {
           : currentVesselType,
     };
     this.appServices.getPiqQuestAns(payload).subscribe((res: any) => {
-      this.setPlannedDate(res);
+      this.setPlannedDate(res);     
+      const regex = res && res.fileRegex ? res.fileRegex : ''
+      this.appServices.setRegex(regex);
     });
   }
 
@@ -859,6 +863,8 @@ export class PIQSummaryComponent implements OnInit {
         this.expectedRowData = data;
       }
       this.appServices.setEditVisible(false);
+      const regex = res && res.fileRegex ? res.fileRegex : ''
+      this.appServices.setRegex(regex);
       localStorage.setItem('setEditVisible', 'false');
 
       this.getMasterRankLogic();

@@ -1,19 +1,13 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { AppService } from '../../services/app.service';
+import { Component,  EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-global-search',
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.css']
 })
-export class GlobalSearchComponent implements OnInit {
-  enteredSearchvalue: string = '';
-  isOpen = false;
-
-  constructor(private appServices: AppService,) { }
-
-  ngOnInit(): void {
-  }
+export class GlobalSearchComponent {
+  enteredSearchvalue = '';
+  isSearchActive = false;
 
   @Output()
   searchTextChanged: EventEmitter<string> = new EventEmitter<string>();
@@ -21,21 +15,21 @@ export class GlobalSearchComponent implements OnInit {
     this.searchTextChanged.emit(this.enteredSearchvalue)
   }
 
-  isSearchActive = false;
-
   activateSearch() {
     this.isSearchActive = true;
   }
 
+  onEnterKey(event: any) {
+    event.preventDefault(); // Prevent the default Enter key behavior
+    // You can add additional logic here if needed
+  }
   deactivateSearch() {
     this.enteredSearchvalue = '';
     this.isSearchActive = false;
-    // this.appServices.setSearch(this.enteredSearchvalue);
     this.searchTextChanged.emit(this.enteredSearchvalue)
   }
 
   clearSearch() {
     this.enteredSearchvalue = '';
   }
-
 }

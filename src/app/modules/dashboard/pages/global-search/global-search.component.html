@@ -3,7 +3,7 @@
         <mat-icon class="search-icon">search</mat-icon>
     </div>
     <div class="searchInput">
-        <input type="text" [(ngModel)]="enteredSearchvalue" placeholder="Find Question..." (input)="onSearchTextChanged()">
+        <input type="text" [(ngModel)]="enteredSearchvalue" placeholder="Find Question..." (input)="onSearchTextChanged()" (keydown.enter)="onEnterKey($event)" >
     </div>
     <div class="closeIcn" (click)="deactivateSearch()">
         <mat-icon>clear</mat-icon>  

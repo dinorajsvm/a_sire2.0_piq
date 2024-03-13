@@ -659,9 +659,11 @@ export class SafetyManagementComponent implements OnInit {
 
   safetyManagementDetails() {
     const vesselCode = localStorage.getItem('masterVesselCode');
+    this._loaderService.loaderShow();
     this.appServices
       .getLookupDetail('5.7', vesselCode, '5.7', this.data.referenceId)
       .subscribe((data) => {
+        this._loaderService.loaderHide();
         this.rowData = JSON.parse(data.response);
         this.totalRowCount =
           this.rowData && this.rowData.length > 0 ? this.rowData.length : 0;
