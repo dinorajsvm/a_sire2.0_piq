@@ -20,6 +20,7 @@ export class AppService {
   apikey: any;
   private getAllPreviousPresetData = new BehaviorSubject<any>(0);
   private getSummaryGridDataList = new Subject<any>();
+  private getModifiedRowDataList = new Subject<any>();
   private getFormStatus = new Subject<any>();
   private getViewMode = new Subject<any>();
   private getVeslTypeData = new Subject<any>();
@@ -71,6 +72,14 @@ export class AppService {
 
   getGridSummary() {
     return this.getSummaryGridDataList.asObservable();
+  }
+
+  setModifiedRowData(message: any) {
+    this.getModifiedRowDataList.next(message);
+  }
+
+  getModifiedRowData() {
+    return this.getModifiedRowDataList.asObservable();
   }
 
   setUnSaveAction(message: any) {

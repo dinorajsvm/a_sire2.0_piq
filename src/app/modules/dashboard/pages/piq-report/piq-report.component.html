@@ -2828,7 +2828,7 @@
         </form>
       </mat-tab>
       <mat-tab label="Photo Repository">
-        <app-photo-repository></app-photo-repository>
+        <app-photo-repository #child></app-photo-repository>
       </mat-tab>
       <mat-tab label="Certificate Repository">
         <app-certificate-repository></app-certificate-repository>
@@ -2850,10 +2850,10 @@
       >*Kindly click any row on "Exception" to move to the corresponding
       question.</span
     >
-    <span class="float-lg-right">Version: 1.0</span>
+    <span class="float-lg-right">v1.0.0.0</span>
   </div>
 
   <div class="col-sm-12 versPanel" *ngIf="this.tabGroup.selectedIndex !== 4">
-    <span class="charCount">Version: 1.0</span>
+    <span class="charCount">v1.0.0.0</span>
   </div>
 </div>

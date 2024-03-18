@@ -56,7 +56,6 @@ export class PIQSummaryComponent implements OnInit {
   remarks = '';
   instanceId = '';
   checkboxBoolean: any[] = [];
-  pendingCount = 0;
   exceptionList: any[] = [];
   photoRowData: any[] = [];
   private gridApi!: GridApi;
@@ -325,6 +324,9 @@ export class PIQSummaryComponent implements OnInit {
     this.appServices.getPrGridData().subscribe((res: any) => {
       this.photoRowData = res;
     });
+    this.appServices.getModifiedRowData().subscribe((res: any) => {
+      this.modifiedrowData = res;
+    })
   }
 
   exceptionLogic(res: any) {
@@ -848,6 +850,15 @@ export class PIQSummaryComponent implements OnInit {
       this.certficateGridDatas();
       this.getOriginator = res.orginator;
       const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
+      let object = res && res.response ? JSON.parse(res.response) : [];
+      this.getAllDatas = object;
+      object.forEach((value1: any) => {
+        value1.values.forEach((value: any) => {
+          value.question.forEach((subHeader: any) => {
+            this.getMainQuestCounts.push(subHeader);
+          });
+        });
+      });
       if (res.quicknotes === 'null') {
         this.quickNotesInput = '';
       } else {
@@ -885,16 +896,10 @@ export class PIQSummaryComponent implements OnInit {
         value1.values.forEach((value: any) => {
           value.question.forEach((subHeader: any) => {
             getMainQuestCounts.push(subHeader);
-            this.checkboxBoolean.push(subHeader.selected);
-            this.pendingCount = this.checkboxBoolean.filter(
-              (value: any) => value === false
-            ).length;
           });
         });
       });
-      if (this.pendingCount === getMainQuestCounts.length) {
         this.appServices.setPreviousPresetData(data.response);
-      }
     });
     const exceptionList: any = [];
     this.appServices.setExceptionData(exceptionList);

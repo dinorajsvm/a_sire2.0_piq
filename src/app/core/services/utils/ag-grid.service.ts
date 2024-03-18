@@ -160,11 +160,24 @@ export class AgGridService {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         const template = this.createDynamicPayload(columnOrder, result);
-        saveAsTemplateList.push(template);
+        const findExsist = saveAsTemplateList.find((element: any) => element[result]);
+        if (findExsist) {
+          this._snackbar.loadSnackBar(
+            'Template Name already exists',
+            colorCodes.INFO
+          );
+          return;
+        }
+        
+      
         let payloadTemplate: any = {};
-        saveAsTemplateList.forEach((element: any) => {
-          payloadTemplate[Object.keys(element)[0]] = element[Object.keys(element)[0]];
+        saveAsTemplateList.map((element: any, index: number) => {
+          payloadTemplate[Object.keys(element)[0]] = Object.values(element)[0];
         });
+      
+        payloadTemplate[Object.keys(template)[0]]  = Object.values(template)[0]
+        saveAsTemplateList.push(template);
+
         const payload = {
           usercode: this.userDetails?.userCode,
           template: payloadTemplate,

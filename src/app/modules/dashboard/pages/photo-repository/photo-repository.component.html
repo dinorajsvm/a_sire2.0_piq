@@ -89,7 +89,7 @@
       </div>
     </div>
   </div>
-  <div class="photoContents">
+  <div class="photoContents" (scroll)="onScrollEvent()">
     <div
       class="col-sm-12"
       (drop)="handleDrop($event)"
@@ -112,7 +112,7 @@
             class="col-sm-12 topicSubHeader padZero"
             *ngFor="let subHead of head.subTopics; let i = index"
           >
-            <span class="subTopName">
+            <span class="subTopName" >
               <p class="charCount" [matTooltip]="subHead.subTopicTitle">
                 {{ subHead.subTopicTitle }}
               </p>
@@ -171,9 +171,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-12 imgContWrap">
+              <div class="col-sm-12 imgContWrap" >
                 <div
                   class="imgContainer"
+                  [id]="img.systemfilename"
                   [ngClass]="{
                     invalidImgContainer: img.sizeCheck > 10000000
                   }"
@@ -186,6 +187,7 @@
                       <button
                         class="imgbtns fullscreen"
                         matTooltip="FullScreen"
+                        *ngIf="img.imagePreviewSrc"
                         (click)="
                           openFullscreenDialog(
                             img.imagePreviewSrc,

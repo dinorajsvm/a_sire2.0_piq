@@ -47,6 +47,7 @@ import { SwitchVesselTypeComponent } from '../switch-vessel-type/switch-vessel-t
 import { ExceptionRemarkComponent } from '../exception-remark/exception-remark.component';
 import { LoaderService } from 'src/app/core/services/utils/loader.service';
 import { Guid } from 'guid-typescript';
+import { PhotoRepositoryComponent } from '../photo-repository/photo-repository.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -80,6 +81,8 @@ export class PiqReportComponent implements OnInit {
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+  @ViewChild('child') photoRepComponent!: PhotoRepositoryComponent;
+
   dateTimeFormat = 'dd-MMM-yyyy HH:mm';
   dateFormat = 'dd-MMM-yyyy';
   refernceCount = '';
@@ -134,6 +137,7 @@ export class PiqReportComponent implements OnInit {
   gridApi: any;
   isLoader = false;
   unSavedData = false;
+  modifiedrowData: any[] = []
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -399,6 +403,12 @@ export class PiqReportComponent implements OnInit {
       this.appServices.setRegex(regex);
       this.appServices.setStatus(this.getStatus);
       this.vesselSelection = res.vesseltypename;
+      const data = res && res.lastMod ? JSON.parse(res.lastMod) : [];
+
+      if (data) {
+        this.modifiedrowData = data;
+        this.appServices.setModifiedRowData(this.modifiedrowData)
+      }
       this.getRankLogic();
       if (res && res.guidence) {
         let guidenceObject = JSON.parse(res.guidence);
@@ -899,11 +909,13 @@ export class PiqReportComponent implements OnInit {
       );
       return;
     }
+    
     if (type === '' && subQue.qid === 'Q133') {
       this.getvesseltype();
       this.switchVesselType();
     } else {
       this.appServices.setVesselTypeData(this.vesselSelection);
+
     }
 
     this.appServices.setUnSaveAction(true);
@@ -951,8 +963,8 @@ export class PiqReportComponent implements OnInit {
     };
     this.lastModifiedData.push(modifiedData);
     this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
-    if (this.lastModifiedData.length > 5) {
-      this.lastModifiedData.splice(5);
+    if (this.lastModifiedData.length > 10) {
+      this.lastModifiedData.splice(0, 1);
     }
     this.countDetails();
     this.selectedValue = ques && ques.subHeaders ? ques.subHeaders : '';
@@ -1027,7 +1039,7 @@ export class PiqReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.getvesseltype();
-      if (result) {
+      if (result && this.vesselTypeCode && this.vesselTypeCode.length > 0) {
         localStorage.removeItem('getSelectedCheckListID');
         const vesselCode = this.vesselTypeCode.find(
           (x: any) => x.vesseltypename === this.dynamicForms.value.Q133
@@ -2295,8 +2307,8 @@ export class PiqReportComponent implements OnInit {
     };
     this.lastModifiedData.push(modifiedData);
     this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
-    if (this.lastModifiedData.length > 5) {
-      this.lastModifiedData.splice(5);
+    if (this.lastModifiedData.length > 10) {
+      this.lastModifiedData.splice(0, 1);
     }
     this.chapterGrid();
   }
@@ -2350,7 +2362,7 @@ export class PiqReportComponent implements OnInit {
     this.lastModifiedData.push(modifiedData);
     this.lastModifiedData.sort((a, b) => b.sortingDate - a.sortingDate);
     if (this.lastModifiedData.length > 10) {
-      this.lastModifiedData.splice(5);
+      this.lastModifiedData.splice(0, 1);
     }
     const mQuestion = mquest.mainQuestion;
     const str = mQuestion.split(' ');
@@ -3550,8 +3562,11 @@ export class PiqReportComponent implements OnInit {
       this.showPendingQuest = false;
     }
   }
-
   onTabChanged(event: any) {
+    if (event.index === 2) {
+      this.photoRepComponent.processElementsInView();
+    }
+
     if (event && event.index != 1) {
       if (this.unSavedData) {
         this.tabGroup.selectedIndex = 1;

@@ -141,7 +141,7 @@ export class PrDialogComponent implements OnInit {
       });
     } else {
       localStorage.removeItem('getSelectedCheckListID')
-      this.dialogRef.close('show')
+      this.dialogRef.close(false)
     }
   }
   onFilterChanged() {

@@ -48,6 +48,7 @@ import { SwitchVesselTypeComponent } from './pages/switch-vessel-type/switch-ves
 import { ExceptionRemarkComponent } from './pages/exception-remark/exception-remark.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { MatBadgeModule } from '@angular/material/badge';
+import { AlphanumericDirective } from './pages/directives/alphanumeric.directive';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     OneDigitDecimaNumberDirective,
     DigitDirective,
     PercentageDirective,
+    AlphanumericDirective,
     DDCellRendererComponent,
     CertificateRepositoryComponent,
     ReferenceComponent,

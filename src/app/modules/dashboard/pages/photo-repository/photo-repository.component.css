@@ -5,7 +5,7 @@
   border-radius: 5px;
 }
 
-.progress-spinner {
+/* .progress-spinner {
   position: fixed;
   z-index: 999;
   height: 1em;
@@ -16,20 +16,21 @@
   left: 0;
   bottom: 0;
   right: 0;
-}
+} */
+/* 
+.overlay
+{
+    position:fixed;
+    display:block;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    background-color:rgba(74,74,74,.1);
+    z-index:99999;
+    pointer-events: none;
+} */
 
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 2;
-  cursor: pointer;
-}
 
 .topBarWrap {
   border-bottom: 1px solid #c1c1c1;
@@ -428,7 +429,7 @@
   font-size: 10px;
   height: 20px;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: 5px;color: black !important;
 }
 
 .nameHighlight {

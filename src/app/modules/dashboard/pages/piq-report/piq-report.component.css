@@ -1003,7 +1003,7 @@ p {
   position: relative;
   top: 2px;
 }
-.progress-spinner {
+/* .progress-spinner {
   position: fixed;
   z-index: 999;
   height: 1em;
@@ -1014,25 +1014,26 @@ p {
   left: 0;
   bottom: 0;
   right: 0;
-}
+} */
 
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 2;
-  cursor: pointer;
-}
+/* .overlay
+{
+    position:fixed;
+    display:block;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    background-color:rgba(74,74,74,.1);
+    z-index:99999;
+    pointer-events: none;
+} */
+
 
 .shoreQuest {
   background-color: #e0e0e0 !important;
   cursor: not-allowed !important;
-  pointer-events: none;
+  /* pointer-events: none; */
   border-radius: 5px;
   padding: 10px;
   padding: 0 10px;

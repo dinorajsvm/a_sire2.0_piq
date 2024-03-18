@@ -350,6 +350,11 @@
   
 }
 
+.zero-left-postion {
+  position: absolute;
+    left: 0px;
+}
+
 .ag-toolBarLnd span {
   font-size: 12px;
   font-weight: 500;
@@ -357,9 +362,24 @@
 }
 
 .lndChip ::ng-deep.mdc-evolution-chip-set{
-  border-radius: 20px !important;
+  /* border-radius: 20px !important; */
   padding-left: 16px !important;
 }
 .lndChip ::ng-deep .mat-mdc-chip-option{
   margin: 0px !important;
+}
+
+
+::ng-deep.lndChip.mat-mdc-chip-set ::ng-deep.mdc-evolution-chip-set__chips{
+
+display: block !important;
+
+max-width: 65rem;
+
+white-space: nowrap;
+
+min-width: unset !important;
+
+overflow: auto !important;
+
 }

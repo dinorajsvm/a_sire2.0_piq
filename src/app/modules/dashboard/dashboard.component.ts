@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import {  Component,  HostListener, Inject, OnInit } from '@angular/core';
 import { AppService } from './services/app.service';
 
 @Component({
@@ -8,7 +8,10 @@ import { AppService } from './services/app.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(@Inject(DOCUMENT) private document: any, private appService: AppService) {}
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    private appService: AppService
+  ) {}
   showBars = true;
   leftOpen: boolean = false;
   rightOpen: boolean = false;
@@ -20,23 +23,35 @@ export class DashboardComponent implements OnInit {
     this.appService.isFullscreen$.next(this.showBars);
   }
 
-  // ngOnInit(): void {
-  //   
-  // }
+  @HostListener('document:keydown', ['$event'])
+  handleEscapeKey(event?: any) {
+    if (event && event.key === 'Escape') {
+      console.log(
+        event,
+        'Escape key pressed during ngAfterContentChecked hook execution'
+      );
+      this.showBars = true;
+      this.appService.isFullscreen$.next(this.showBars);
+    }
+    // Handle the escape key event here
+  }
+
+
+
 
   fullscreen() {
+    this.handleEscapeKey()
     this.showFullscreen = !this.showFullscreen;
     let content = document.getElementById('page-Content');
     let dialogContent = document.getElementById('cdk-overlay-0');
     // let dialogContent = document.querySelector('cdk-overlay-pane');
-    
+
     if (
       !this.document.fullscreenElement && // alternative standard method
       !this.document.mozFullScreenElement &&
       !this.document.webkitFullscreenElement &&
       !this.document.msFullscreenElement
     ) {
-    
       if (this.documentElem.requestFullscreen) {
         this.documentElem.requestFullscreen();
       } else if (this.documentElem.mozRequestFullScreen) {

@@ -26,4 +26,13 @@ export class SaveAsTemplateComponent implements OnInit {
     }
   }
 
+  onChangeInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const sanitizedValue = inputElement.value.replace(/[^a-zA-Z0-9]/g, '');
+    if (sanitizedValue !== inputElement.value) {
+      inputElement.value = sanitizedValue;
+      inputElement.dispatchEvent(new Event('input'));
+    }
+  }
+
 }

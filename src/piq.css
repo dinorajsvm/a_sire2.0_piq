@@ -358,8 +358,6 @@
   margin: 25px !important;
 }
 
-
-
 .mdc-snackbar__surface {
   padding: 0 !important;
 }
@@ -391,14 +389,18 @@
   cursor: pointer;
 }
 
-::ng-deep .ag-side-buttons{
-padding-top: 0 !important;
+::ng-deep .ag-side-buttons {
+  padding-top: 0 !important;
 }
 
 ::ng-deep .ag-side-button-label {
   writing-mode: vertical-lr;
   font-weight: 500 !important;
   color: #707171 !important;
+}
+
+.lng-right-float {
+  padding-left: 65px;
 }
 
 .right-float {

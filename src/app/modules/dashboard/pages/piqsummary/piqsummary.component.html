@@ -6,15 +6,19 @@
           <div class="row">
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font" (click)="tabChange('PIQ')">Pre-Inspection Questionnaire</span>
+                <span class="sumHeading count-font" (click)="tabChange('PIQ')"
+                  >Pre-Inspection Questionnaire</span
+                >
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
                       <div class="imgWrap qa">
                         <img src="assets/question/qa.svg" class="dataImg" />
                       </div>
-                      <span class="count-font cnt-fnt-size">{{ totalQuestCount - pendingQuestCount }} /
-                        {{ totalQuestCount }}</span>
+                      <span class="count-font cnt-fnt-size"
+                        >{{ totalQuestCount - pendingQuestCount }} /
+                        {{ totalQuestCount }}</span
+                      >
                     </div>
                   </mat-card-title>
                 </mat-card-header>
@@ -23,7 +27,10 @@
             </div>
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font-photo" (click)="tabChange('PR')">
+                <span
+                  class="sumHeading count-font-photo"
+                  (click)="tabChange('PR')"
+                >
                   Photo Repository
                 </span>
                 <mat-card-header>
@@ -45,14 +52,20 @@
           <div class="row">
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font-pending" (click)="tabChange('E')">
+                <span
+                  class="sumHeading count-font-pending"
+                  (click)="tabChange('E')"
+                >
                   Exceptions
                 </span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
                       <div class="imgWrap exception">
-                        <img src="assets/question/exception.svg" class="dataImg" />
+                        <img
+                          src="assets/question/exception.svg"
+                          class="dataImg"
+                        />
                       </div>
                       <span class="count-font-pending cnt-fnt-size">
                         {{ remarksCounts }} / {{ exceptionCounts }}
@@ -65,14 +78,20 @@
             </div>
             <div class="col-sm-6 pr-0 contWrap padl">
               <mat-card appearance="outlined" class="summaryCard">
-                <span class="sumHeading count-font-certificate" (click)="tabChange('C')">
+                <span
+                  class="sumHeading count-font-certificate"
+                  (click)="tabChange('C')"
+                >
                   Certificate Repository
                 </span>
                 <mat-card-header>
                   <mat-card-title>
                     <div class="summaryValWrap">
                       <div class="imgWrap certificate">
-                        <img src="assets/question/certificate.svg" class="dataImg" />
+                        <img
+                          src="assets/question/certificate.svg"
+                          class="dataImg"
+                        />
                       </div>
                       <span class="count-font-certificate cnt-fnt-size">
                         {{ mappedCertificateCounts }} /
@@ -93,94 +112,240 @@
               <div class="row" style="justify-content: flex-end">
                 <div class="col-sm-4">
                   <div class="row" style="flex-direction: column">
-                    <div class="col-sm-8" style="padding-right: 0; white-space: nowrap">
+                    <div
+                      class="col-sm-8"
+                      style="padding-right: 0; white-space: nowrap"
+                    >
                       <span style="font-weight: 500" class="labelFont">
                         Planned Submission Date:
                       </span>
                     </div>
                     <div class="col-sm-8">
-                      <mat-form-field appearance="outline" class="datePicker"
-                        [ngClass]="{ 'read-only-date': viewMode }">
-                        <input matInput [matDatepicker]="picker" formControlName="dateField"
-                          (dateInput)="onDateChange($event)" [readonly]="true" autocomplete="off" />
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"
-                          [disabled]="viewMode"></mat-datepicker-toggle>
+                      <mat-form-field
+                        appearance="outline"
+                        class="datePicker"
+                        [ngClass]="{ 'read-only-date': viewMode }"
+                      >
+                        <input
+                          matInput
+                          [matDatepicker]="picker"
+                          formControlName="dateField"
+                          (dateInput)="onDateChange($event)"
+                          [readonly]="true"
+                          autocomplete="off"
+                        />
+                        <mat-datepicker-toggle
+                          matIconSuffix
+                          [for]="picker"
+                          [disabled]="viewMode"
+                        ></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-8" style="display: flex; justify-content: flex-end">
-                  <button mat-button class="syncBtn" type="submit" [class.hideReqBtns]="hideReqBtns"
-                    [disabled]="disableSyncBtn" [class.saveDisable]="disableSyncBtn" (click)="openDialog()">
+                <div
+                  class="col-sm-8"
+                  style="display: flex; justify-content: flex-end"
+                >
+                  <button
+                    mat-button
+                    class="syncBtn"
+                    type="submit"
+                    [class.hideReqBtns]="hideReqBtns"
+                    [disabled]="disableSyncBtn"
+                    [class.saveDisable]="disableSyncBtn"
+                    (click)="openDialog()"
+                  >
                     Re-Use Past Template
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT002'" mat-button class="syncBtn" type="submit"
-                    (click)="onSubmit('syncToStore', $event)">
+                  <button
+                    *ngIf="userDetails?.cntrlType === 'CNT002'"
+                    mat-button
+                    class="syncBtn"
+                    type="submit"
+                    (click)="onSubmit('syncToStore', $event)"
+                  >
                     Sync to Shore
                   </button>
-                  <button *ngIf="userDetails?.cntrlType === 'CNT001'" mat-button class="syncBtn" type="submit"
-                    (click)="onSubmit('syncToStore', $event)">
+                  <button
+                    *ngIf="userDetails?.cntrlType === 'CNT001'"
+                    mat-button
+                    class="syncBtn"
+                    type="submit"
+                    (click)="onSubmit('syncToStore', $event)"
+                  >
                     Sync to Ship
                   </button>
-                  <div *ngIf="userDetails?.cntrlType === 'CNT002' && this.getSubmitterRanks === userDetails?.rankCode && getOriginator==='CNT002'"
-                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
-                    <div *ngIf="getWorkFlowAction == 'Inprogress' || getWorkFlowAction == 'ReAssigned'">
-                      <button mat-button class="sub" type="submit" (click)="onSubmit('submit', $event)"
-                        [disabled]="disableSubFlowBtn" [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'">
+                  <div
+                    *ngIf="
+                      userDetails?.cntrlType === 'CNT002' &&
+                      this.getSubmitterRanks === userDetails?.rankCode &&
+                      getOriginator === 'CNT002'
+                    "
+                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'"
+                    style="display: flex"
+                  >
+                    <div
+                      *ngIf="
+                        getWorkFlowAction == 'Inprogress' ||
+                        getWorkFlowAction == 'ReAssigned'
+                      "
+                    >
+                      <button
+                        mat-button
+                        class="sub"
+                        type="submit"
+                        (click)="onSubmit('submit', $event)"
+                        [disabled]="disableSubFlowBtn"
+                        [ngClass]="
+                          !disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'
+                        "
+                      >
                         Submit
                       </button>
-                      <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
+                      <img
+                        class="btnImg"
+                        id="subBtn"
+                        src="assets/question/SUB.svg"
+                      />
                     </div>
                   </div>
 
-                  <div *ngIf="this.getApproverRanks === userDetails?.rankCode && userDetails?.cntrlType === 'CNT001' && getOriginator==='CNT002'"
-                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
+                  <div
+                    *ngIf="
+                      this.getApproverRanks === userDetails?.rankCode &&
+                      userDetails?.cntrlType === 'CNT001' &&
+                      getOriginator === 'CNT002'
+                    "
+                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'"
+                    style="display: flex"
+                  >
                     <div *ngIf="getWorkFlowAction == 'Submitted'">
-                      <button mat-button class="rsn" (click)="onWorkflow('reassign', $event)" type="submit"
+                      <button
+                        mat-button
+                        class="rsn"
+                        (click)="onWorkflow('reassign', $event)"
+                        type="submit"
                         [disabled]="disableResAprFlowBtn"
-                        [ngClass]="!disableResAprFlowBtn ? 'rsn' : 'disableWrkFlowBtn'">
+                        [ngClass]="
+                          !disableResAprFlowBtn ? 'rsn' : 'disableWrkFlowBtn'
+                        "
+                      >
                         Reassign
                       </button>
-                      <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
+                      <img
+                        class="btnImg"
+                        id="subBtn"
+                        src="assets/question/RSN.svg"
+                      />
                     </div>
                     <div *ngIf="getWorkFlowAction == 'Submitted'">
-                      <button mat-button class="apr" (click)="onWorkflow('approve', $event)" type="submit"
+                      <button
+                        mat-button
+                        class="apr"
+                        (click)="onWorkflow('approve', $event)"
+                        type="submit"
                         [disabled]="disableResAprFlowBtn"
-                        [ngClass]="!disableResAprFlowBtn ? 'apr' : 'disableWrkFlowBtn'">
+                        [ngClass]="
+                          !disableResAprFlowBtn ? 'apr' : 'disableWrkFlowBtn'
+                        "
+                      >
                         Approve
                       </button>
-                      <img class="btnImg" id="subBtn" src="assets/question/APR.svg" />
+                      <img
+                        class="btnImg"
+                        id="subBtn"
+                        src="assets/question/APR.svg"
+                      />
                     </div>
                   </div>
-                  
-                  <div *ngIf="this.getApproverRanks === userDetails?.rankCode && userDetails?.cntrlType === 'CNT001' && getOriginator==='CNT001'"
-                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
+
+                  <div
+                    *ngIf="
+                      this.getApproverRanks === userDetails?.rankCode &&
+                      userDetails?.cntrlType === 'CNT001' &&
+                      getOriginator === 'CNT001'
+                    "
+                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'"
+                    style="display: flex"
+                  >
                     <div *ngIf="getWorkFlowAction == 'Submitted'">
-                      <button mat-button class="rsn" (click)="onWorkflow('reassign', $event)" type="submit"
+                      <button
+                        mat-button
+                        class="rsn"
+                        (click)="onWorkflow('reassign', $event)"
+                        type="submit"
                         [disabled]="disableResAprFlowBtn"
-                        [ngClass]="!disableResAprFlowBtn ? 'rsn' : 'disableWrkFlowBtn'">
+                        [ngClass]="
+                          !disableResAprFlowBtn ? 'rsn' : 'disableWrkFlowBtn'
+                        "
+                      >
                         Reassign
                       </button>
-                      <img class="btnImg" id="subBtn" src="assets/question/RSN.svg" />
+                      <img
+                        class="btnImg"
+                        id="subBtn"
+                        src="assets/question/RSN.svg"
+                      />
                     </div>
-                    <div *ngIf="getWorkFlowAction == 'Inprogress' || getWorkFlowAction == 'Submitted'">
-                      <button mat-button class="apr" (click)="onWorkflow('approve', $event)" type="submit"
+                    <div
+                      *ngIf="
+                        getWorkFlowAction == 'Inprogress' ||
+                        getWorkFlowAction == 'Submitted'
+                      "
+                    >
+                      <button
+                        mat-button
+                        class="apr"
+                        (click)="onWorkflow('approve', $event)"
+                        type="submit"
                         [disabled]="disableResAprFlowBtn"
-                        [ngClass]="!disableResAprFlowBtn ? 'apr' : 'disableWrkFlowBtn'">
+                        [ngClass]="
+                          !disableResAprFlowBtn ? 'apr' : 'disableWrkFlowBtn'
+                        "
+                      >
                         Approve
                       </button>
-                      <img class="btnImg" id="subBtn" src="assets/question/APR.svg" />
+                      <img
+                        class="btnImg"
+                        id="subBtn"
+                        src="assets/question/APR.svg"
+                      />
                     </div>
                   </div>
-                  <div *ngIf="this.getSubmitterRanks === userDetails?.rankCode && userDetails?.cntrlType === 'CNT001' && getOriginator==='CNT001'"
-                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'" style="display: flex">
-                    <div *ngIf="getWorkFlowAction == 'Inprogress' || getWorkFlowAction == 'ReAssigned'">
-                      <button mat-button class="sub" type="submit" (click)="onSubmit('submit', $event)"
-                        [disabled]="disableSubFlowBtn" [ngClass]="!disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'">
+                  <div
+                    *ngIf="
+                      this.getSubmitterRanks === userDetails?.rankCode &&
+                      userDetails?.cntrlType === 'CNT001' &&
+                      getOriginator === 'CNT001'
+                    "
+                    [class.hideFlowBtns]="getWorkFlowAction === 'Approved'"
+                    style="display: flex"
+                  >
+                    <div
+                      *ngIf="
+                        getWorkFlowAction == 'Inprogress' ||
+                        getWorkFlowAction == 'ReAssigned'
+                      "
+                    >
+                      <button
+                        mat-button
+                        class="sub"
+                        type="submit"
+                        (click)="onSubmit('submit', $event)"
+                        [disabled]="disableSubFlowBtn"
+                        [ngClass]="
+                          !disableSubFlowBtn ? 'sub' : 'disableWrkFlowBtn'
+                        "
+                      >
                         Submit
                       </button>
-                      <img class="btnImg" id="subBtn" src="assets/question/SUB.svg" />
+                      <img
+                        class="btnImg"
+                        id="subBtn"
+                        src="assets/question/SUB.svg"
+                      />
                     </div>
                   </div>
                 </div>
@@ -189,10 +354,22 @@
                 <div class="col-sm-12" style="padding-top: 8px">
                   <span class="table-header">Add Remarks</span>
                   <span style="color: red"> *</span>
-                  <textarea id="float-input" id="remarks" [readonly]="viewMode" [ngClass]="{ 'read-only': viewMode }"
-                    autoResize="true" #workFlowTextArea class="w-100" rows="2" cols="30" placeholder="Workflow Remarks"
-                    maxlength="1000" [(ngModel)]="remarks" style="height: 41px; padding: 0 5px"
-                    formControlName="wrkFlowTextArea"></textarea>
+                  <textarea
+                    id="float-input"
+                    id="remarks"
+                    [readonly]="viewMode"
+                    [ngClass]="{ 'read-only': viewMode }"
+                    autoResize="true"
+                    #workFlowTextArea
+                    class="w-100"
+                    rows="2"
+                    cols="30"
+                    placeholder="Workflow Remarks"
+                    maxlength="1000"
+                    [(ngModel)]="remarks"
+                    style="height: 41px; padding: 0 5px"
+                    formControlName="wrkFlowTextArea"
+                  ></textarea>
                   <div class="text-right">
                     <span class="charCount textAreaCharCount">
                       {{ 1000 - workFlowTextArea.value.length }} Characters
@@ -207,10 +384,22 @@
             <div class="col-sm-12">
               <span class="p-float-label">
                 <span class="table-header">Quick Notes</span>
-                <textarea id="float-input" autoResize="true" [readonly]="viewMode" [ngClass]="{ 'read-only': viewMode }"
-                  class="w-100" rows="3" #textArea cols="30" placeholder="Quick notes" maxlength="1000"
-                  formControlName="TextAreaField" (blur)="onInputBlur()" [(ngModel)]="quickNotesInput"
-                  pInputTextarea></textarea>
+                <textarea
+                  id="float-input"
+                  autoResize="true"
+                  [readonly]="viewMode"
+                  [ngClass]="{ 'read-only': viewMode }"
+                  class="w-100"
+                  rows="3"
+                  #textArea
+                  cols="30"
+                  placeholder="Quick notes"
+                  maxlength="1000"
+                  formControlName="TextAreaField"
+                  (blur)="onInputBlur()"
+                  [(ngModel)]="quickNotesInput"
+                  pInputTextarea
+                ></textarea>
               </span>
               <div class="text-right">
                 <span class="charCount textAreaCharCount">
@@ -232,11 +421,20 @@
           Total Records:{{ rowData && rowData.length > 0 ? rowData.length : 0 }}
         </span>
       </div>
-      <ag-grid-angular style="height: calc(100vh - 430px); overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"  [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
-        [groupDisplayType]="groupDisplayType" [embedFullWidthRows]="true" [rowData]="rowData"
-        (gridReady)="onGridReady($event)">
+      <ag-grid-angular
+        style="height: calc(100vh - 430px); overflow: auto"
+        class="ag-theme-balham summaryGrid"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [groupDisplayType]="groupDisplayType"
+        [embedFullWidthRows]="true"
+        [rowData]="rowData"
+        (gridReady)="onGridReady($event)"
+      >
       </ag-grid-angular>
     </div>
   </div>
@@ -249,24 +447,47 @@
           Total Records: {{ photoRowData && photoRowData.length }}
         </span>
       </div>
-      <ag-grid-angular style="height: calc(100vh - 430px); overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="photoColumnDefs" [defaultColDef]="defaultColDef"  [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [tooltipShowDelay]="tooltipShowDelay"
-        [groupDisplayType]="groupDisplayType" [embedFullWidthRows]="true" [rowData]="photoRowData"
-        [suppressHorizontalScroll]="true">
+      <ag-grid-angular
+        style="height: calc(100vh - 430px); overflow: auto"
+        class="ag-theme-balham summaryGrid"
+        [columnDefs]="photoColumnDefs"
+        [defaultColDef]="defaultColDef"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [groupDisplayType]="groupDisplayType"
+        [embedFullWidthRows]="true"
+        [rowData]="photoRowData"
+        [suppressHorizontalScroll]="true"
+      >
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl">
       <span class="table-header">Last Modified Data Summary</span>
       <div class="col-sm-12 justify-content-end ag-toolBar">
         <span class="m-0">
-          Total Records: {{ modifiedrowData && modifiedrowData.length ? modifiedrowData.length  : 0  }}
+          Total Records:
+          {{
+            modifiedrowData && modifiedrowData.length
+              ? modifiedrowData.length
+              : 0
+          }}
         </span>
       </div>
-      <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
-        [columnDefs]="modifiedColumns" [defaultColDef]="defaultColDef"  [animateRows]="true"
-        [suppressMenuHide]="true" [masterDetail]="true" [embedFullWidthRows]="true"
-        [groupDisplayType]="groupDisplayType" [tooltipShowDelay]="tooltipShowDelay" [rowData]="modifiedrowData">
+      <ag-grid-angular
+        style="height: calc(100vh - 430px)"
+        class="ag-theme-balham summaryGrid"
+        [columnDefs]="modifiedColumns"
+        [defaultColDef]="defaultColDef"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [masterDetail]="true"
+        [embedFullWidthRows]="true"
+        [groupDisplayType]="groupDisplayType"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [rowData]="modifiedrowData"
+      >
       </ag-grid-angular>
     </div>
   </div>
@@ -280,10 +501,18 @@
           {{ certificateRowData && certificateRowData.length }}
         </span>
       </div>
-      <ag-grid-angular style="height: calc(100vh - 430px)" class="ag-theme-balham summaryGrid"
-        [columnDefs]="certificateColumns" [defaultColDef]="defaultColDef" 
-        [animateRows]="true" [suppressMenuHide]="true" [embedFullWidthRows]="true"
-        [groupDisplayType]="groupDisplayType" [tooltipShowDelay]="tooltipShowDelay" [rowData]="certificateRowData">
+      <ag-grid-angular
+        style="height: calc(100vh - 430px)"
+        class="ag-theme-balham summaryGrid"
+        [columnDefs]="certificateColumns"
+        [defaultColDef]="defaultColDef"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [embedFullWidthRows]="true"
+        [groupDisplayType]="groupDisplayType"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [rowData]="certificateRowData"
+      >
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT001'">
@@ -293,10 +522,18 @@
           Total Records: {{ expectedRowData && expectedRowData.length }}
         </span>
       </div>
-      <ag-grid-angular style="height: calc(100vh - 430px); overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="lastSyncColumnDefs" [defaultColDef]="defaultColDef" 
-        [animateRows]="true" [suppressMenuHide]="true" [tooltipShowDelay]="tooltipShowDelay" 
-        [groupDisplayType]="groupDisplayType" [embedFullWidthRows]="true" [rowData]="expectedRowData">
+      <ag-grid-angular
+        style="height: calc(100vh - 430px); overflow: auto"
+        class="ag-theme-balham summaryGrid"
+        [columnDefs]="lastSyncColumnDefs"
+        [defaultColDef]="defaultColDef"
+        [animateRows]="true"
+        [suppressMenuHide]="true"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [groupDisplayType]="groupDisplayType"
+        [embedFullWidthRows]="true"
+        [rowData]="expectedRowData"
+      >
       </ag-grid-angular>
     </div>
     <div class="col-sm-6 padl" *ngIf="userDetails?.cntrlType === 'CNT002'">
@@ -306,10 +543,16 @@
           Total Records: {{ expectedRowData && expectedRowData.length }}
         </span>
       </div>
-      <ag-grid-angular style="height: calc(100vh - 430px); overflow: auto" class="ag-theme-balham summaryGrid"
-        [columnDefs]="lastSyncColumnDefs" [defaultColDef]="defaultColDef" [tooltipShowDelay]="tooltipShowDelay"
-        [groupDisplayType]="groupDisplayType"  [animateRows]="true"
-        [rowData]="expectedRowData">
+      <ag-grid-angular
+        style="height: calc(100vh - 430px); overflow: auto"
+        class="ag-theme-balham summaryGrid"
+        [columnDefs]="lastSyncColumnDefs"
+        [defaultColDef]="defaultColDef"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [groupDisplayType]="groupDisplayType"
+        [animateRows]="true"
+        [rowData]="expectedRowData"
+      >
       </ag-grid-angular>
     </div>
   </div>

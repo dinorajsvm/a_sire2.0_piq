@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   GridOptions,
@@ -21,10 +14,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { VesselSelectionDialogComponent } from '../vessel-selection-dialog/vessel-selection-dialog.component';
 import { AgGridService } from 'src/app/core/services/utils/ag-grid.service';
 import { agGridTooltipComponent } from '../renderer/ag-grid-tooltip.component';
-import { DOCUMENT, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
@@ -64,6 +59,7 @@ export const MY_DATE_FORMATS = {
 export class PIQLandingPageComponent implements OnInit {
   @ViewChild(DaterangepickerDirective, { static: false })
   pickerDirective!: DaterangepickerDirective;
+  dateFormat = 'dd-MMM-yyyy';
   propsFormGroup!: FormGroup;
   isFullScreen = false;
   startDate: any;
@@ -84,6 +80,9 @@ export class PIQLandingPageComponent implements OnInit {
       pinned: 'left',
       sortable: false,
       filter: false,
+      minWidth: 100,
+      width: 100,
+      maxWidth: 100,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
         innerRendererFramework: AgGridMenuComponent,
@@ -135,7 +134,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
-      comparotor: this.dateComparator.bind(this),
+      comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -147,7 +146,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
-      comparotor: this.dateComparator.bind(this),
+      comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -165,6 +164,9 @@ export class PIQLandingPageComponent implements OnInit {
       pinned: 'left',
       sortable: false,
       filter: false,
+      minWidth: 100,
+      width: 100,
+      maxWidth: 100,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
         innerRendererFramework: AgGridMenuComponent,
@@ -216,7 +218,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'createdDate',
       headerName: 'Created Date',
       tooltipField: 'createdDate',
-      comparotor: this.dateComparator.bind(this),
+      comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -228,7 +230,7 @@ export class PIQLandingPageComponent implements OnInit {
       field: 'updatedDate',
       headerName: 'Updated Date',
       tooltipField: 'updatedDate',
-      comparotor: this.dateComparator.bind(this),
+      comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
     },
     {
@@ -320,6 +322,7 @@ export class PIQLandingPageComponent implements OnInit {
       'filterChanged',
       this.onFilterChanged.bind(this)
     );
+
     this.agGridToolbar['exportAsCSV'] = this._agGridService.exportAsCSV.bind(
       this,
       this.gridApi,
@@ -414,7 +417,7 @@ export class PIQLandingPageComponent implements OnInit {
         template: payloadTemplate,
       };
       this._agGridService.updateTemplate(payload, (res: any) => {
-        this.getAgGridTemplate();
+        // this.getAgGridTemplate();
       });
     }
   }
@@ -956,44 +959,118 @@ export class PIQLandingPageComponent implements OnInit {
     });
   }
 
-  dateComparator(date1: string, date2: string): number {
-    const date1Number = this.parseDate(date1);
-    const date2Number = this.parseDate(date2);
-    if (date1Number === null && date2Number === null) {
+  static dateComparator(date1: string, date2: string): number {
+    // Handle null values
+    if (date1 == null && date2 == null) {
       return 0;
+    } else if (date1 == null) {
+      return -1; // Treat null as lesser
+    } else if (date2 == null) {
+      return 1; // Treat null as lesser
     }
-    if (date1Number === null) {
-      return -1;
-    }
-    if (date2Number === null) {
-      return 1;
-    }
-    return date1Number - date2Number;
+    const date1Obj = PIQLandingPageComponent.parseDate(date1);
+    const date2Obj = PIQLandingPageComponent.parseDate(date2);
+    return date1Obj.getTime() - date2Obj.getTime();
   }
 
-  parseDate(dateStr: string) {
-    const parsedDate = this.tryParseDate(
-      dateStr,
-      this.userDetails.dateFormat.split(' ')[0]
+  static parseDate(dateStr: string): Date {
+    const parts = dateStr.split(/[\s:-]+/);
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const monthIndex = monthNames.indexOf(parts[1]);
+    return new Date(
+      parseInt(parts[2]),
+      monthIndex,
+      parseInt(parts[0]),
+      parseInt(parts[3]),
+      parseInt(parts[4])
     );
-    if (parsedDate) {
-      return parsedDate;
-    }
-    return null;
+  }
+  downloadFileFormat: any[] = [];
+  downloadExcel() {
+    this.downloadFileFormat = [];
+    this.rowData.forEach((element) => {
+      this.downloadFileFormat.push({
+        'S.No': element.serialNumber,
+        'Ref.Id': element.referenceNumber,
+        'Company Name': element.companyName,
+        'Fleet Name': element.fleetname,
+        'Vessel Name': element.vesselName,
+        'Vessel Type': element.vesseltype,
+        'Flag Name': element.flag,
+        'Created User': element.createdBy,
+        'Created Date': element.createdDate,
+        'Updated User': element.updatedBy,
+        'Updated Date': element.updatedDate,
+        Status: element.status,
+      });
+    });
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.downloadFileFormat);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { ['PIQ']: worksheet },
+      SheetNames: ['PIQ'],
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    this.saveFile(excelBuffer, 'PIQ');
+  }
+  
+  private saveFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+    saveAs(data, fileName);
   }
 
-  tryParseDate(dateStr: string, format: string) {
-    const parts = format.split(/[\.\-\/]/);
-    const dateParts = dateStr.split(/[\.\-\/]/);
-    const yearIndex = parts.findIndex((part) => part.toLowerCase() === 'yyyy');
-    const monthIndex = parts.findIndex((part) => part.toLowerCase() === 'mm');
-    const dayIndex = parts.findIndex((part) => part.toLowerCase() === 'dd');
-    if (yearIndex === -1 || monthIndex === -1 || dayIndex === -1) {
-      return null;
-    }
-    const year = parseInt(dateParts[yearIndex], 10);
-    const month = parseInt(dateParts[monthIndex], 10) - 1; // Months are 0-based
-    const day = parseInt(dateParts[dayIndex], 10);
-    return year * 10000 + month * 100 + day;
+
+  downloadCsvFile() {
+    this.downloadFileFormat = [];
+    this.rowData.forEach((element) => {
+      this.downloadFileFormat.push({
+        'S.No': element.serialNumber,
+        'Ref.Id': element.referenceNumber,
+        'Company Name': element.companyName,
+        'Fleet Name': element.fleetname,
+        'Vessel Name': element.vesselName,
+        'Vessel Type': element.vesseltype,
+        'Flag Name': element.flag,
+        'Created User': element.createdBy,
+        'Created Date': element.createdDate ? " " + element.createdDate : '',
+        'Updated User': element.updatedBy,
+        'Updated Date': element.updatedDate ? ' ' + element.updatedDate : '',
+        Status: element.status,
+      });
+    });
+    this.downloadCsv(this.downloadFileFormat, 'PIQ');
+  }
+
+  downloadCsv(data: any, filename: string) {
+    const csvContent = this.generateCsv(data);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+    saveAs(blob, filename);
+  }
+
+  generateCsv(data: any[]): string {
+    const headers = Object.keys(data[0]).join(',');
+    const rows = data.map(obj => {
+      return Object.values(obj).map((val: any) => {
+        return val === null ?  '' : val.toString(); // Preserve original values as strings
+      }).join(',');
+    });
+    return `${headers}\n${rows.join('\n')}`;
   }
 }
