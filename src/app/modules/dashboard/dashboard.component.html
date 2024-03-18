@@ -6,9 +6,10 @@
     opened="true"
   >
     <app-sidebar
-      *ngIf="showBars"
       [leftOpen]="leftOpen"
-      style="overflow: hidden"
+      style="overflow: hidden" [ngClass]="{
+        hideSideBar: showFullscreen
+      }"
     ></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content
@@ -21,15 +22,13 @@
     "
   >
     <app-navbar
-      *ngIf="showBars"
       (toggleSidebar)="toggleSidebar($event)"
     ></app-navbar>
-
+ 
     <div
       class="page-content-wrapper"
-      id="page-Content"
       [ngClass]="{
-        fullscreenContent: showFullscreen
+        fullScreenResolution: showFullscreen
       }"
     >
       <div class="fullscreen_module_wrapper" (click)="fullscreen()">

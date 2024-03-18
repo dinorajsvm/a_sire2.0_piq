@@ -1043,7 +1043,7 @@ p {
   background: aliceblue;
 }
 
-::ng-deep .fullscreenContent ::ng-deep.piqWrapper{
+::ng-deep .fullScreenResolution ::ng-deep.piqWrapper{
   height: calc(100vh - 0px) !important;
 }
 

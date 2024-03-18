@@ -1,84 +1,27 @@
-import { DOCUMENT } from '@angular/common';
-import {  Component,  HostListener, Inject, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { AppService } from './services/app.service';
-
+ 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
-  constructor(
-    @Inject(DOCUMENT) private document: any,
-    private appService: AppService
-  ) {}
+export class DashboardComponent implements OnInit, AfterContentChecked {
+  constructor(private appService: AppService) {}
   showBars = true;
   leftOpen: boolean = false;
   rightOpen: boolean = false;
   showFullscreen = false;
-  documentElem!: any;
   marginZero = false;
   ngOnInit(): void {
-    this.documentElem = document.documentElement;
     this.appService.isFullscreen$.next(this.showBars);
   }
-
-  @HostListener('document:keydown', ['$event'])
-  handleEscapeKey(event?: any) {
-    if (event && event.key === 'Escape') {
-      console.log(
-        event,
-        'Escape key pressed during ngAfterContentChecked hook execution'
-      );
-      this.showBars = true;
-      this.appService.isFullscreen$.next(this.showBars);
-    }
-    // Handle the escape key event here
-  }
-
-
-
-
+ 
   fullscreen() {
-    this.handleEscapeKey()
     this.showFullscreen = !this.showFullscreen;
-    let content = document.getElementById('page-Content');
-    let dialogContent = document.getElementById('cdk-overlay-0');
-    // let dialogContent = document.querySelector('cdk-overlay-pane');
-
-    if (
-      !this.document.fullscreenElement && // alternative standard method
-      !this.document.mozFullScreenElement &&
-      !this.document.webkitFullscreenElement &&
-      !this.document.msFullscreenElement
-    ) {
-      if (this.documentElem.requestFullscreen) {
-        this.documentElem.requestFullscreen();
-      } else if (this.documentElem.mozRequestFullScreen) {
-        this.documentElem.mozRequestFullScreen();
-      } else if (this.documentElem.webkitRequestFullscreen) {
-        this.documentElem.webkitRequestFullscreen();
-      } else if (this.documentElem.msRequestFullscreen) {
-        this.documentElem.msRequestFullscreen();
-      }
-      this.marginZero = true;
-      this.showBars = false;
-    } else {
-      if (this.document.exitFullscreen) {
-        this.document.exitFullscreen();
-      } else if (this.document.msExitFullscreen) {
-        this.document.msExitFullscreen();
-      } else if (this.document.mozCancelFullScreen) {
-        this.document.mozCancelFullScreen();
-      } else if (this.document.webkitExitFullscreen) {
-        this.document.webkitExitFullscreen();
-      }
-      this.marginZero = false;
-      this.showBars = true;
-    }
     this.appService.isFullscreen$.next(this.showBars);
   }
-
+ 
   toggleSidebar(option: any) {
     switch (option.flag) {
       case 'left': {
@@ -93,6 +36,15 @@ export class DashboardComponent implements OnInit {
         this.leftOpen = true;
         break;
       }
+    }
+  }
+  ngAfterContentChecked(): void {
+    if (this.showFullscreen) {
+      document.addEventListener('keydown', (event) => {
+        if (event.keyCode === 27) {
+          this.showFullscreen = false;
+        }
+      });
     }
   }
 }

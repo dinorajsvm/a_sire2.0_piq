@@ -167,6 +167,7 @@ export class PiqReportComponent implements OnInit {
 
     this.appServices.getExceptionData().subscribe((res: any) => {
       this.exceptionList = res;
+      this.exceptionIcon()
     });
 
     this.appServices.getEditVisible().subscribe((res: any) => {
@@ -1409,6 +1410,8 @@ export class PiqReportComponent implements OnInit {
   }
 
   restoreLookUp(subq: any) {
+    console.log(this.exceptionList, 'exceptionList');
+    
     const objWithIdIndex = this.exceptionList.findIndex(
       (obj) => obj.qid === subq.qid
     );

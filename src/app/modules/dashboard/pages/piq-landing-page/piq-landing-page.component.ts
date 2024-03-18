@@ -132,7 +132,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: 'createdDate',
-      headerName: 'Created Date',
+      headerName: 'Created Date/Time',
       tooltipField: 'createdDate',
       comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
@@ -144,7 +144,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: 'updatedDate',
-      headerName: 'Updated Date',
+      headerName: 'Updated Date/Time',
       tooltipField: 'updatedDate',
       comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
@@ -216,7 +216,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: 'createdDate',
-      headerName: 'Created Date',
+      headerName: 'Created Date/Time',
       tooltipField: 'createdDate',
       comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
@@ -228,7 +228,7 @@ export class PIQLandingPageComponent implements OnInit {
     },
     {
       field: 'updatedDate',
-      headerName: 'Updated Date',
+      headerName: 'Updated Date/Time',
       tooltipField: 'updatedDate',
       comparator: PIQLandingPageComponent.dateComparator,
       cellStyle: { textAlign: 'right' },
@@ -1011,9 +1011,9 @@ export class PIQLandingPageComponent implements OnInit {
         'Vessel Type': element.vesseltype,
         'Flag Name': element.flag,
         'Created User': element.createdBy,
-        'Created Date': element.createdDate,
+        'Created Date/Time': element.createdDate,
         'Updated User': element.updatedBy,
-        'Updated Date': element.updatedDate,
+        'Updated Date/Time': element.updatedDate,
         Status: element.status,
       });
     });
@@ -1049,9 +1049,9 @@ export class PIQLandingPageComponent implements OnInit {
         'Vessel Type': element.vesseltype,
         'Flag Name': element.flag,
         'Created User': element.createdBy,
-        'Created Date': element.createdDate ? " " + element.createdDate : '',
+        'Created Date/Time': element.createdDate ? " " + element.createdDate : '',
         'Updated User': element.updatedBy,
-        'Updated Date': element.updatedDate ? ' ' + element.updatedDate : '',
+        'Updated Date/Time': element.updatedDate ? ' ' + element.updatedDate : '',
         Status: element.status,
       });
     });
