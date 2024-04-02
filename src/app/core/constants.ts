@@ -238,7 +238,6 @@ export const valuesToCheckDate = [
   'Q510',
 ];
 
-
 export const safetyRowData = [
   'MQ337',
   'MQ343',
@@ -270,3 +269,8 @@ export const safetyRowData = [
   'MQ499',
   'MQ505',
 ];
+
+export const questionValue = {
+  OTHER: 'Other',
+  YES: 'Yes',
+};

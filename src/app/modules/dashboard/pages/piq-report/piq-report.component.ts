@@ -15,6 +15,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { SnackbarService } from 'src/app/core/services/snackbar/snackbar.service';
 import {
   colorCodes,
+  questionValue,
   safetyRowData,
   valuesToCheckDD,
   valuesToCheckDate,
@@ -137,7 +138,7 @@ export class PiqReportComponent implements OnInit {
   gridApi: any;
   isLoader = false;
   unSavedData = false;
-  modifiedrowData: any[] = []
+  modifiedrowData: any[] = [];
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -167,7 +168,7 @@ export class PiqReportComponent implements OnInit {
 
     this.appServices.getExceptionData().subscribe((res: any) => {
       this.exceptionList = res;
-      this.exceptionIcon()
+      this.exceptionIcon();
     });
 
     this.appServices.getEditVisible().subscribe((res: any) => {
@@ -396,7 +397,6 @@ export class PiqReportComponent implements OnInit {
       );
       this.getStatus = res.wrkflow;
       let object = JSON.parse(res.response);
-
       this.getOrigination = res.orginator;
       localStorage.setItem('Origination', res.orginator);
       localStorage.setItem('masterVesselCode', res.vesselcode);
@@ -408,7 +408,7 @@ export class PiqReportComponent implements OnInit {
 
       if (data) {
         this.modifiedrowData = data;
-        this.appServices.setModifiedRowData(this.modifiedrowData)
+        this.appServices.setModifiedRowData(this.modifiedrowData);
       }
       this.getRankLogic();
       if (res && res.guidence) {
@@ -418,8 +418,10 @@ export class PiqReportComponent implements OnInit {
       }
       object.forEach((getAllValue: any) => {
         getAllValue.filledCount = 0;
+        // if (getAllValue && getAllValue.values && getAllValue.values.length > 0) {
         getAllValue.values.forEach((value: any) => {
           value.question.forEach((subHeader: any) => {
+            subHeader['showMainQuestion'] = false;
             if (subHeader && subHeader.qid) {
               formGroupFields[subHeader.qid] = new FormControl(
                 subHeader.answer
@@ -487,8 +489,11 @@ export class PiqReportComponent implements OnInit {
               }
               if (subHeader.entrymethod === 'Lookup') {
                 if (mainQus && mainQus.type === 'Date') {
+                  if (mainQus.answer == '[Channel/Straits]') {
+                    debugger;
+                  }
                   mainQus.savedAnswer =
-                    mainQus && mainQus.answer
+                    mainQus && mainQus.answer && mainQus.answer != '[]'
                       ? this.datePipe.transform(mainQus.answer, this.dateFormat)
                       : '';
                 } else {
@@ -504,9 +509,12 @@ export class PiqReportComponent implements OnInit {
             }
           });
         });
+        // }
       });
       this.getAllDatas = object;
-
+      if (this.getAllDatas && this.getAllDatas.length > 0) {
+        this.setVisibleQuestions();
+      }
       if (
         vesselCode !== '' &&
         vesselCode !== undefined &&
@@ -570,6 +578,435 @@ export class PiqReportComponent implements OnInit {
       this.expandMethod();
       this.getTopBarDatas();
     });
+  }
+
+  setVisibleQuestions() {
+    debugger;
+    this.getAllDatas.forEach((val: any) => {
+      val.values.forEach((ques: any) => {
+        ques.question.forEach((main: any) => {
+          main.subQuestion.forEach((sub: any) => {
+            if (
+              sub.qid === 'Q4' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[2].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q7' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q21' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q36' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+              main.subQuestion[5].subcheckbox = true;
+              main.subQuestion[6].subcheckbox = true;
+              main.subQuestion[7].subcheckbox = true;
+              main.subQuestion[8].subcheckbox = true;
+              ques.question[4].showMainQuestion = true;
+              ques.question[5].showMainQuestion = true;
+              ques.question[6].showMainQuestion = true;
+            }
+            if (
+              sub.qid === 'Q50' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q136' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q139' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q141' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q142' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q145' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q155' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+              main.subQuestion[5].subcheckbox = true;
+              main.subQuestion[6].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q77' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q83' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q89' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+              main.subQuestion[5].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q212' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              ques.question[1].showMainQuestion = true;
+            }
+            if (
+              sub.qid === 'Q338' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q344' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q350' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q356' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q362' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q368' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q374' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q380' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q386' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q392' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q398' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q404' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q410' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q416' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q422' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q428' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q434' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q440' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q446' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q452' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q458' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q464' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q470' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q476' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q482' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q488' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q494' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q500' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q506' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[3].subcheckbox = true;
+              main.subQuestion[4].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q226' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              ques.question[1].showMainQuestion = true;
+            }
+            if (
+              sub.qid === 'Q252' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q255' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              main.subQuestion[1].subcheckbox = true;
+            }
+            if (
+              sub.qid === 'Q258' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              for (let i = 2; i <= 31; i++) {
+                main.subQuestion[i].subcheckbox = true;
+              }
+            }
+            if (
+              sub.qid === 'Q290' &&
+              (sub.answer === undefined || sub.answer === '')
+            ) {
+              for (let i = 2; i <= 4; i++) {
+                main.subQuestion[i].subcheckbox = true;
+              }
+            }
+          });
+        });
+      });
+    });
+    console.log('ele', this.getAllDatas);
   }
 
   getRankLogic() {
@@ -910,13 +1347,134 @@ export class PiqReportComponent implements OnInit {
       );
       return;
     }
-    
+    debugger;
+    if (subQue.qid === 'Q4') {
+      if (value === questionValue.OTHER) {
+        mainQue.subQuestion[2].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[2].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q7') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[2].subcheckbox = false;
+        mainQue.subQuestion[3].subcheckbox = false;
+        mainQue.subQuestion[4].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[2].subcheckbox = true;
+        mainQue.subQuestion[3].subcheckbox = true;
+        mainQue.subQuestion[4].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q21') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[2].subcheckbox = false;
+        mainQue.subQuestion[3].subcheckbox = false;
+        mainQue.subQuestion[4].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[2].subcheckbox = true;
+        mainQue.subQuestion[3].subcheckbox = true;
+        mainQue.subQuestion[4].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q36') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[2].subcheckbox = false;
+        mainQue.subQuestion[3].subcheckbox = false;
+        mainQue.subQuestion[4].subcheckbox = false;
+        mainQue.subQuestion[5].subcheckbox = false;
+        mainQue.subQuestion[6].subcheckbox = false;
+        mainQue.subQuestion[7].subcheckbox = false;
+        mainQue.subQuestion[8].subcheckbox = false;
+        ques.question[4].showMainQuestion = false;
+        ques.question[5].showMainQuestion = false;
+        ques.question[6].showMainQuestion = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[2].subcheckbox = true;
+        mainQue.subQuestion[3].subcheckbox = true;
+        mainQue.subQuestion[4].subcheckbox = true;
+        mainQue.subQuestion[5].subcheckbox = true;
+        mainQue.subQuestion[6].subcheckbox = true;
+        mainQue.subQuestion[7].subcheckbox = true;
+        mainQue.subQuestion[8].subcheckbox = true;
+        ques.question[4].showMainQuestion = true;
+        ques.question[5].showMainQuestion = true;
+        ques.question[6].showMainQuestion = true;
+      }
+    } else if (subQue.qid === 'Q50') {
+      if (value === 'Other (Please Specify)') {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q136') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q139') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q141') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q142') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q145') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q155') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[2].subcheckbox = false;
+        mainQue.subQuestion[3].subcheckbox = false;
+        mainQue.subQuestion[4].subcheckbox = false;
+        mainQue.subQuestion[5].subcheckbox = false;
+        mainQue.subQuestion[6].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[2].subcheckbox = true;
+        mainQue.subQuestion[3].subcheckbox = true;
+        mainQue.subQuestion[4].subcheckbox = true;
+        mainQue.subQuestion[5].subcheckbox = true;
+        mainQue.subQuestion[6].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q77') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[2].subcheckbox = false;
+        mainQue.subQuestion[3].subcheckbox = false;
+        mainQue.subQuestion[4].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[2].subcheckbox = true;
+        mainQue.subQuestion[3].subcheckbox = true;
+        mainQue.subQuestion[4].subcheckbox = true;
+      }
+    }
+
     if (type === '' && subQue.qid === 'Q133') {
       this.getvesseltype();
       this.switchVesselType();
     } else {
       this.appServices.setVesselTypeData(this.vesselSelection);
-
     }
 
     this.appServices.setUnSaveAction(true);
@@ -1200,6 +1758,7 @@ export class PiqReportComponent implements OnInit {
         );
         dialogRef.afterClosed().subscribe((result) => {
           let exceptionData: any;
+          debugger;
           if (result) {
             exceptionData = {
               guid: Guid.create(),
@@ -1410,8 +1969,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   restoreLookUp(subq: any) {
-    console.log(this.exceptionList, 'exceptionList');
-    
     const objWithIdIndex = this.exceptionList.findIndex(
       (obj) => obj.qid === subq.qid
     );
@@ -2087,6 +2644,8 @@ export class PiqReportComponent implements OnInit {
                               }
 
                               duplicatePayload.qid = row;
+                              console.log(row, 'row');
+
                               duplicatePayload.ivrid =
                                 ivrid +
                                 ' ' +

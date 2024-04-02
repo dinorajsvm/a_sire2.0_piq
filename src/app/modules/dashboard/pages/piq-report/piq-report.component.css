@@ -536,7 +536,7 @@
 
 .card_container ::ng-deep .mat-expansion-panel-body {
   padding: 0 0px 3px !important;
-  max-height: 210px;
+  /* max-height: 210px; */
   /* max-height: 230px; */
   overflow: auto;
   /* border-top: 1px solid #c1c1c1; */
