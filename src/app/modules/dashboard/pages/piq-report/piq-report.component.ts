@@ -490,7 +490,6 @@ export class PiqReportComponent implements OnInit {
               if (subHeader.entrymethod === 'Lookup') {
                 if (mainQus && mainQus.type === 'Date') {
                   if (mainQus.answer == '[Channel/Straits]') {
-                    debugger;
                   }
                   mainQus.savedAnswer =
                     mainQus && mainQus.answer && mainQus.answer != '[]'
@@ -581,7 +580,6 @@ export class PiqReportComponent implements OnInit {
   }
 
   setVisibleQuestions() {
-    debugger;
     this.getAllDatas.forEach((val: any) => {
       val.values.forEach((ques: any) => {
         ques.question.forEach((main: any) => {
@@ -1310,7 +1308,6 @@ export class PiqReportComponent implements OnInit {
       );
       return;
     }
-    debugger;
     if (subQue.qid === 'Q4') {
       if (value === questionValue.OTHER) {
         mainQue.subQuestion[2].subcheckbox = false;
@@ -1319,50 +1316,36 @@ export class PiqReportComponent implements OnInit {
       }
     } else if (subQue.qid === 'Q7') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-        mainQue.subQuestion[2].subcheckbox = false;
-        mainQue.subQuestion[3].subcheckbox = false;
-        mainQue.subQuestion[4].subcheckbox = false;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-        mainQue.subQuestion[2].subcheckbox = true;
-        mainQue.subQuestion[3].subcheckbox = true;
-        mainQue.subQuestion[4].subcheckbox = true;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
       }
     } else if (subQue.qid === 'Q21') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-        mainQue.subQuestion[2].subcheckbox = false;
-        mainQue.subQuestion[3].subcheckbox = false;
-        mainQue.subQuestion[4].subcheckbox = false;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-        mainQue.subQuestion[2].subcheckbox = true;
-        mainQue.subQuestion[3].subcheckbox = true;
-        mainQue.subQuestion[4].subcheckbox = true;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
       }
     } else if (subQue.qid === 'Q36') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-        mainQue.subQuestion[2].subcheckbox = false;
-        mainQue.subQuestion[3].subcheckbox = false;
-        mainQue.subQuestion[4].subcheckbox = false;
-        mainQue.subQuestion[5].subcheckbox = false;
-        mainQue.subQuestion[6].subcheckbox = false;
-        mainQue.subQuestion[7].subcheckbox = false;
-        mainQue.subQuestion[8].subcheckbox = false;
+        for (let i = 1; i <= 8; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
         ques.question[4].showMainQuestion = false;
         ques.question[5].showMainQuestion = false;
         ques.question[6].showMainQuestion = false;
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-        mainQue.subQuestion[2].subcheckbox = true;
-        mainQue.subQuestion[3].subcheckbox = true;
-        mainQue.subQuestion[4].subcheckbox = true;
-        mainQue.subQuestion[5].subcheckbox = true;
-        mainQue.subQuestion[6].subcheckbox = true;
-        mainQue.subQuestion[7].subcheckbox = true;
-        mainQue.subQuestion[8].subcheckbox = true;
+        for (let i = 1; i <= 8; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
         ques.question[4].showMainQuestion = true;
         ques.question[5].showMainQuestion = true;
         ques.question[6].showMainQuestion = true;
@@ -1405,31 +1388,23 @@ export class PiqReportComponent implements OnInit {
       }
     } else if (subQue.qid === 'Q155') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-        mainQue.subQuestion[2].subcheckbox = false;
-        mainQue.subQuestion[3].subcheckbox = false;
-        mainQue.subQuestion[4].subcheckbox = false;
-        mainQue.subQuestion[5].subcheckbox = false;
-        mainQue.subQuestion[6].subcheckbox = false;
+        for (let i = 1; i <= 6; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-        mainQue.subQuestion[2].subcheckbox = true;
-        mainQue.subQuestion[3].subcheckbox = true;
-        mainQue.subQuestion[4].subcheckbox = true;
-        mainQue.subQuestion[5].subcheckbox = true;
-        mainQue.subQuestion[6].subcheckbox = true;
+        for (let i = 1; i <= 6; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
       }
     } else if (subQue.qid === 'Q77') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-        mainQue.subQuestion[2].subcheckbox = false;
-        mainQue.subQuestion[3].subcheckbox = false;
-        mainQue.subQuestion[4].subcheckbox = false;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-        mainQue.subQuestion[2].subcheckbox = true;
-        mainQue.subQuestion[3].subcheckbox = true;
-        mainQue.subQuestion[4].subcheckbox = true;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
       }
     }
 
@@ -1721,7 +1696,6 @@ export class PiqReportComponent implements OnInit {
         );
         dialogRef.afterClosed().subscribe((result) => {
           let exceptionData: any;
-          debugger;
           if (result) {
             exceptionData = {
               guid: Guid.create(),
