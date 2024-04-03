@@ -418,11 +418,12 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         this.appServices.setGuidelineData(guidance);
       }
       object.forEach((getAllValue: any) => {
+        getAllValue['isShowHeader'] = false;
         getAllValue.filledCount = 0;
         // if (getAllValue && getAllValue.values && getAllValue.values.length > 0) {
         getAllValue.values.forEach((value: any) => {
+          value['isShowSubHeader'] = false;
           value.question.forEach((subHeader: any) => {
-            subHeader['isShowMainQues'] = false;
             // console.log(subHeader.qid, 'subHeader');
 
             if (subHeader && subHeader.qid) {
@@ -511,9 +512,6 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         // }
       });
       this.getAllDatas = object;
-      if (this.getAllDatas && this.getAllDatas.length > 0) {
-        this.setVisibleQuestions();
-      }
       if (
         vesselCode !== '' &&
         vesselCode !== undefined &&
@@ -557,6 +555,10 @@ export class PiqReportComponent implements OnInit, OnDestroy {
             );
           }
 
+          if (this.getAllDatas && this.getAllDatas.length > 0) {
+            this.setVisibleQuestions();
+          }
+
           if (
             vesselCode !== '' &&
             vesselCode !== undefined &&
@@ -582,10 +584,22 @@ export class PiqReportComponent implements OnInit, OnDestroy {
   }
 
   setVisibleQuestions() {
+    debugger
     this.getAllDatas.forEach((val: any) => {
       val.values.forEach((ques: any) => {
         ques.question.forEach((main: any) => {
           main.subQuestion.forEach((sub: any) => {
+            if (sub.qid === 'Q133') {
+              if (main.subQuestion[0].answer === '' ||
+              main.subQuestion[0].answer === 'Chemical Carrier Type 1' ||
+              main.subQuestion[0].answer === 'Chemical Carrier Type 2' ||
+              main.subQuestion[0].answer === 'Chemical Carrier Type 3'
+              ) {
+                this.getAllDatas[4].values[1].question[1].isShowMainQues=false;
+              }else{
+                this.getAllDatas[4].values[1].question[1].isShowMainQues = true;
+              }
+            }
             if (
               sub.qid === 'Q4' &&
               (sub.answer === undefined || sub.answer === '')
@@ -593,21 +607,27 @@ export class PiqReportComponent implements OnInit, OnDestroy {
               main.subQuestion[2].isShowSubQues = true;
             } else if (
               sub.qid === 'Q7' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q21' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q36' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 8; i++) {
                 main.subQuestion[i].isShowSubQues = true;
@@ -622,361 +642,474 @@ export class PiqReportComponent implements OnInit, OnDestroy {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q136' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q139' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q141' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q142' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q145' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q155' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 6; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q71' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q77' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q83' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q89' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 5; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
-              sub.qid === 'Q212' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
-            ) {
-              ques.question[1].isShowMainQues = true;
-            } else if (
               sub.qid === 'Q338' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q344' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q350' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q356' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q362' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q368' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q374' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q380' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q386' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q392' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q398' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q404' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q410' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q416' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q422' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q428' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q434' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q440' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q446' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q452' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q458' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q464' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q470' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q476' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q482' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q488' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q494' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q500' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q506' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q226' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               ques.question[1].isShowMainQues = true;
             } else if (
               sub.qid === 'Q252' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q255' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q258' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 2; i <= 31; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q290' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 2; i <= 5; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q296' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q299' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q302' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q305' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 5; i <= 9; i++) {
                 ques.question[i].isShowMainQues = true;
               }
             } else if (
               sub.qid === 'Q307' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 5; i <= 9; i++) {
                 ques.question[i].isShowMainQues = true;
               }
             } else if (
               sub.qid === 'Q309' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 5; i <= 9; i++) {
                 ques.question[i].isShowMainQues = true;
               }
             } else if (
               sub.qid === 'Q311' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 5; i <= 9; i++) {
                 ques.question[i].isShowMainQues = true;
               }
             } else if (
               sub.qid === 'Q313' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q321' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q324' &&
-              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
+            }else if (
+              sub.qid === 'Q523' &&
+              (sub.answer === undefined ||
+                sub.answer === '' ||
+                sub.answer === questionValue.NO)
+            ) {
+              for (let i = 1; i <= 4; i++) {
+                ques.question[i].isShowMainQues = true;
+              }
+              this.getAllDatas[9].values[1].isShowSubHeader=true
             }
           });
         });
@@ -1326,6 +1459,8 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       );
       return;
     }
+
+   
     if (type === '' && subQue.qid === 'Q133') {
       this.getvesseltype();
       this.switchVesselType();
@@ -1336,7 +1471,17 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     this.appServices.setUnSaveAction(true);
     subQue.answer = subQue.answer !== value ? value : subQue.answer;
     value = subQue.answer === '' ? '' : subQue.answer;
-    if (subQue.qid === 'Q4') {
+
+    if (subQue.qid === 'Q133') {
+      if (value === 'Chemical Carrier Type 1' ||
+      value === 'Chemical Carrier Type 2' ||
+      value === 'Chemical Carrier Type 3'
+      ) {
+        this.getAllDatas[4].values[1].question[1].isShowMainQues=false;
+      }else{
+        this.getAllDatas[4].values[1].question[1].isShowMainQues = true;
+      }
+    }else if (subQue.qid === 'Q4') {
       const flag = value === questionValue.OTHER ? false : true;
       this.quesShowHideValidationIndex1(mainQue.subQuestion, 2, flag);
       this.answerRemoveValidationIndex1(mainQue.subQuestion, 2);
@@ -1346,7 +1491,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q7') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q8: '',
         Q9: '',
@@ -1356,7 +1501,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q21') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q22: '',
         Q23: '',
@@ -1375,7 +1520,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         ques.question[5].isShowMainQues = true;
         ques.question[6].isShowMainQues = true;
       }
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 8);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 8);
       this.dynamicForms.patchValue({
         Q37: '',
         Q38: '',
@@ -1395,7 +1540,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q71') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q72: '',
         Q73: '',
@@ -1433,7 +1578,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q155') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 6, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 6);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 6);
       this.dynamicForms.patchValue({
         Q156: '',
         Q157: '',
@@ -1445,7 +1590,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q77') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q78: '',
         Q79: '',
@@ -1455,7 +1600,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q83') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q84: '',
         Q85: '',
@@ -1465,7 +1610,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q89') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 5, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 5);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 5);
       this.dynamicForms.patchValue({
         Q90: '',
         Q91: '',
@@ -1476,7 +1621,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q338') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q339: '',
         Q340: '',
@@ -1486,7 +1631,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q344') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q345: '',
         Q346: '',
@@ -1496,7 +1641,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q350') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q351: '',
         Q352: '',
@@ -1506,7 +1651,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q356') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q357: '',
         Q358: '',
@@ -1516,7 +1661,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q362') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q363: '',
         Q364: '',
@@ -1526,7 +1671,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q368') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q369: '',
         Q370: '',
@@ -1536,7 +1681,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q374') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q375: '',
         Q376: '',
@@ -1546,7 +1691,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q380') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q381: '',
         Q382: '',
@@ -1556,7 +1701,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q386') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q387: '',
         Q388: '',
@@ -1566,7 +1711,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q392') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q393: '',
         Q394: '',
@@ -1576,7 +1721,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q398') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q399: '',
         Q400: '',
@@ -1586,7 +1731,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q404') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q405: '',
         Q406: '',
@@ -1596,7 +1741,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q410') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q411: '',
         Q412: '',
@@ -1606,7 +1751,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q416') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q417: '',
         Q418: '',
@@ -1616,7 +1761,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q422') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q423: '',
         Q424: '',
@@ -1626,7 +1771,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q428') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q429: '',
         Q430: '',
@@ -1636,7 +1781,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q434') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q435: '',
         Q436: '',
@@ -1646,7 +1791,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q440') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q441: '',
         Q442: '',
@@ -1656,7 +1801,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q446') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q447: '',
         Q448: '',
@@ -1666,7 +1811,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q452') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q453: '',
         Q454: '',
@@ -1676,7 +1821,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q458') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q459: '',
         Q460: '',
@@ -1686,7 +1831,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q464') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q465: '',
         Q466: '',
@@ -1696,7 +1841,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q470') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q471: '',
         Q472: '',
@@ -1706,7 +1851,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q476') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q477: '',
         Q478: '',
@@ -1716,7 +1861,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q482') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q483: '',
         Q484: '',
@@ -1726,7 +1871,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q488') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q489: '',
         Q490: '',
@@ -1736,7 +1881,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q494') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q495: '',
         Q496: '',
@@ -1746,7 +1891,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q500') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q501: '',
         Q502: '',
@@ -1756,7 +1901,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     } else if (subQue.qid === 'Q506') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
       this.dynamicForms.patchValue({
         Q507: '',
         Q508: '',
@@ -1785,13 +1930,11 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         Q256: '',
       });
     } else if (subQue.qid === 'Q258') {
-      debugger;
+      
       if (value === questionValue.YES) {
         for (let i = 1; i <= 30; i += 2) {
           mainQue.subQuestion[i].isShowSubQues = true;
         }
-
-
       } else {
         for (let i = 2; i <= 30; i += 2) {
           mainQue.subQuestion[i].isShowSubQues = false;
@@ -1801,9 +1944,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         }
       }
 
-      
-
-      this.answerRemoveValidationIndex(mainQue.subQuestion,2, 30);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 2, 30);
 
       this.dynamicForms.patchValue({
         Q259: '',
@@ -1977,23 +2118,22 @@ export class PiqReportComponent implements OnInit, OnDestroy {
           ques.question[2].subQuestion[0].answer === questionValue.YES ||
           ques.question[3].subQuestion[0].answer === questionValue.YES ||
           ques.question[4].subQuestion[0].answer === questionValue.YES
-        ){
+        ) {
           for (let i = 5; i <= 9; i++) {
             ques.question[i].isShowMainQues = false;
           }
         }
-          
       } else {
         if (
           ques.question[0].subQuestion[0].answer === questionValue.YES ||
           ques.question[2].subQuestion[0].answer === questionValue.YES ||
           ques.question[3].subQuestion[0].answer === questionValue.YES ||
           ques.question[4].subQuestion[0].answer === questionValue.YES
-        ){
+        ) {
           for (let i = 5; i <= 9; i++) {
             ques.question[i].isShowMainQues = false;
           }
-        }else{
+        } else {
           for (let i = 5; i <= 9; i++) {
             ques.question[i].isShowMainQues = true;
           }
@@ -2020,6 +2160,18 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].isShowSubQues = true;
         }
+      }
+    }else if (subQue.qid === 'Q523') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          ques.question[i].isShowMainQues = false;
+        }
+        this.getAllDatas[9].values[1].isShowSubHeader=false
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          ques.question[i].isShowMainQues = true;
+        }
+        this.getAllDatas[9].values[1].isShowSubHeader=true
       }
     }
     const mQuestion = mainQue.mainQuestion;
@@ -2111,7 +2263,11 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     }
   }
 
-  answerRemoveValidationIndex(question: any,initialIndex: number, nValue: number) {
+  answerRemoveValidationIndex(
+    question: any,
+    initialIndex: number,
+    nValue: number
+  ) {
     for (let i = initialIndex; i <= nValue; i++) {
       question[i].answer = '';
     }

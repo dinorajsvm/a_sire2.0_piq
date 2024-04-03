@@ -387,7 +387,7 @@
                     style="padding: 0"
                   >
                     <div class="list_wrapper">
-                      <div *ngFor="let heading of getAllDatas">
+                      <div *ngFor="let heading of getAllDatas" [hidden]="heading.isShowHeader">
                         <div
                           class="header_list charCount"
                           (click)="toggleExpandHeader(heading)"
@@ -418,7 +418,7 @@
                             [class.selected]="
                               value.subHeaders === selectedValue
                             "
-                          >
+                          [hidden]="value.isShowSubHeader">
                             <div
                               class="list_val_wrap"
                               id="{{ value.subheadid }}"
@@ -484,7 +484,7 @@
                           let quest of selectedQuestion;
                           let index = index
                         "
-                      >
+                      [hidden]="quest.isShowSubHeader">
                         <div>
                           <div
                             class="content_header charCount"
