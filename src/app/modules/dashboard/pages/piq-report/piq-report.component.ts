@@ -1345,8 +1345,8 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       });
     } else if (subQue.qid === 'Q7') {
       const flag = value === questionValue.YES ? false : true;
-      this.quesShowHideValidationIndex4(mainQue.subQuestion, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion, 4);
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
       this.dynamicForms.patchValue({
         Q8: '',
         Q9: '',
@@ -1355,8 +1355,8 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       });
     } else if (subQue.qid === 'Q21') {
       const flag = value === questionValue.YES ? false : true;
-      this.quesShowHideValidationIndex4(mainQue.subQuestion, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion, 4);
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
       this.dynamicForms.patchValue({
         Q22: '',
         Q23: '',
@@ -1364,18 +1364,18 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         Q25: '',
       });
     } else if (subQue.qid === 'Q36') {
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 8, flag);
       if (value === questionValue.YES) {
-        this.quesShowHideValidationIndex8(mainQue.subQuestion, false);
         ques.question[4].isShowMainQues = false;
         ques.question[5].isShowMainQues = false;
         ques.question[6].isShowMainQues = false;
       } else {
-        this.quesShowHideValidationIndex8(mainQue.subQuestion, true);
         ques.question[4].isShowMainQues = true;
         ques.question[5].isShowMainQues = true;
         ques.question[6].isShowMainQues = true;
       }
-      this.answerRemoveValidationIndex(mainQue.subQuestion, 8);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 8);
       this.dynamicForms.patchValue({
         Q37: '',
         Q38: '',
@@ -1394,8 +1394,8 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       }
     } else if (subQue.qid === 'Q71') {
       const flag = value === questionValue.YES ? false : true;
-      this.quesShowHideValidationIndex4(mainQue.subQuestion, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion, 4);
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
       this.dynamicForms.patchValue({
         Q72: '',
         Q73: '',
@@ -1432,8 +1432,8 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       });
     } else if (subQue.qid === 'Q155') {
       const flag = value === questionValue.YES ? false : true;
-      this.quesShowHideValidationIndex6(mainQue.subQuestion, flag);
-      this.answerRemoveValidationIndex(mainQue.subQuestion, 6);
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 6, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 6);
       this.dynamicForms.patchValue({
         Q156: '',
         Q157: '',
@@ -1443,369 +1443,400 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         Q161: '',
       });
     } else if (subQue.qid === 'Q77') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q78: '',
+        Q79: '',
+        Q80: '',
+        Q81: '',
+      });
     } else if (subQue.qid === 'Q83') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q84: '',
+        Q85: '',
+        Q86: '',
+        Q87: '',
+      });
     } else if (subQue.qid === 'Q89') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 5; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 5; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
-    } else if (subQue.qid === 'Q212') {
-      if (value === questionValue.YES) {
-        ques.question[1].isShowMainQues = false;
-      } else {
-        ques.question[1].isShowMainQues = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 5, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 5);
+      this.dynamicForms.patchValue({
+        Q90: '',
+        Q91: '',
+        Q92: '',
+        Q93: '',
+        Q94: '',
+      });
     } else if (subQue.qid === 'Q338') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q339: '',
+        Q340: '',
+        Q341: '',
+        Q342: '',
+      });
     } else if (subQue.qid === 'Q344') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q345: '',
+        Q346: '',
+        Q347: '',
+        Q348: '',
+      });
     } else if (subQue.qid === 'Q350') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q351: '',
+        Q352: '',
+        Q353: '',
+        Q354: '',
+      });
     } else if (subQue.qid === 'Q356') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q357: '',
+        Q358: '',
+        Q359: '',
+        Q360: '',
+      });
     } else if (subQue.qid === 'Q362') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q363: '',
+        Q364: '',
+        Q365: '',
+        Q366: '',
+      });
     } else if (subQue.qid === 'Q368') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q369: '',
+        Q370: '',
+        Q371: '',
+        Q372: '',
+      });
     } else if (subQue.qid === 'Q374') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q375: '',
+        Q376: '',
+        Q377: '',
+        Q378: '',
+      });
     } else if (subQue.qid === 'Q380') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q381: '',
+        Q382: '',
+        Q383: '',
+        Q384: '',
+      });
     } else if (subQue.qid === 'Q386') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
-    } else if (subQue.qid === 'Q386') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q387: '',
+        Q388: '',
+        Q389: '',
+        Q390: '',
+      });
     } else if (subQue.qid === 'Q392') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q393: '',
+        Q394: '',
+        Q395: '',
+        Q396: '',
+      });
     } else if (subQue.qid === 'Q398') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q399: '',
+        Q400: '',
+        Q401: '',
+        Q402: '',
+      });
     } else if (subQue.qid === 'Q404') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q405: '',
+        Q406: '',
+        Q407: '',
+        Q408: '',
+      });
     } else if (subQue.qid === 'Q410') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q411: '',
+        Q412: '',
+        Q413: '',
+        Q414: '',
+      });
     } else if (subQue.qid === 'Q416') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q417: '',
+        Q418: '',
+        Q419: '',
+        Q420: '',
+      });
     } else if (subQue.qid === 'Q422') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q423: '',
+        Q424: '',
+        Q425: '',
+        Q426: '',
+      });
     } else if (subQue.qid === 'Q428') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q429: '',
+        Q430: '',
+        Q431: '',
+        Q432: '',
+      });
     } else if (subQue.qid === 'Q434') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q435: '',
+        Q436: '',
+        Q437: '',
+        Q438: '',
+      });
     } else if (subQue.qid === 'Q440') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q441: '',
+        Q442: '',
+        Q443: '',
+        Q444: '',
+      });
     } else if (subQue.qid === 'Q446') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q447: '',
+        Q448: '',
+        Q449: '',
+        Q450: '',
+      });
     } else if (subQue.qid === 'Q452') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q453: '',
+        Q454: '',
+        Q455: '',
+        Q456: '',
+      });
     } else if (subQue.qid === 'Q458') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q459: '',
+        Q460: '',
+        Q461: '',
+        Q462: '',
+      });
     } else if (subQue.qid === 'Q464') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q465: '',
+        Q466: '',
+        Q467: '',
+        Q468: '',
+      });
     } else if (subQue.qid === 'Q470') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q471: '',
+        Q472: '',
+        Q473: '',
+        Q474: '',
+      });
     } else if (subQue.qid === 'Q476') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q477: '',
+        Q478: '',
+        Q479: '',
+        Q480: '',
+      });
     } else if (subQue.qid === 'Q482') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q483: '',
+        Q484: '',
+        Q485: '',
+        Q486: '',
+      });
     } else if (subQue.qid === 'Q488') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q489: '',
+        Q490: '',
+        Q491: '',
+        Q492: '',
+      });
     } else if (subQue.qid === 'Q494') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q495: '',
+        Q496: '',
+        Q497: '',
+        Q498: '',
+      });
     } else if (subQue.qid === 'Q500') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q501: '',
+        Q502: '',
+        Q503: '',
+        Q504: '',
+      });
     } else if (subQue.qid === 'Q506') {
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion,1, 4);
+      this.dynamicForms.patchValue({
+        Q507: '',
+        Q508: '',
+        Q509: '',
+        Q510: '',
+      });
+    } else if (subQue.qid === 'Q226') {
+      const flag = value === questionValue.YES ? false : true;
+      this.mainQuesShowHideValidationIndex(ques.question, 1, flag);
+      this.mainAnswerRemoveValidationIndex1(ques.question, 1, 0);
+      this.dynamicForms.patchValue({
+        Q228: '',
+      });
+    } else if (subQue.qid === 'Q252') {
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q253: '',
+      });
+    } else if (subQue.qid === 'Q255') {
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q256: '',
+      });
+    } else if (subQue.qid === 'Q258') {
+      debugger;
       if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= 30; i += 2) {
+          mainQue.subQuestion[i].isShowSubQues = true;
+        }
+
+
+      } else {
+        for (let i = 2; i <= 30; i += 2) {
           mainQue.subQuestion[i].isShowSubQues = false;
         }
-      } else {
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= 30; i += 2) {
           mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
-    } else if (subQue.qid === 'Q226') {
-      if (value === questionValue.YES) {
-        ques.question[1].isShowMainQues = false;
-      } else {
-        ques.question[1].isShowMainQues = true;
-      }
-    } else if (subQue.qid === 'Q252') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].isShowSubQues = false;
-      } else {
-        mainQue.subQuestion[1].isShowSubQues = true;
-      }
-    } else if (subQue.qid === 'Q255') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].isShowSubQues = false;
-      } else {
-        mainQue.subQuestion[1].isShowSubQues = true;
-      }
-    } else if (subQue.qid === 'Q258') {
-      if (value === questionValue.YES) {
-        for (let i = 2; i <= 30; i += 2) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      } else {
-        for (let i = 2; i <= 30; i += 2) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
-      }
+
+      
+
+      this.answerRemoveValidationIndex(mainQue.subQuestion,2, 30);
+
+      this.dynamicForms.patchValue({
+        Q259: '',
+        Q260: '',
+        Q261: '',
+        Q262: '',
+        Q263: '',
+        Q264: '',
+        Q265: '',
+        Q266: '',
+        Q267: '',
+        Q268: '',
+        Q269: '',
+        Q270: '',
+        Q271: '',
+        Q272: '',
+        Q273: '',
+        Q274: '',
+        Q275: '',
+        Q276: '',
+        Q277: '',
+        Q278: '',
+        Q279: '',
+        Q280: '',
+        Q281: '',
+        Q282: '',
+        Q283: '',
+        Q284: '',
+        Q285: '',
+        Q286: '',
+        Q287: '',
+        Q288: '',
+      });
     } else if (subQue.qid === 'Q259') {
       if (value === questionValue.YES) {
         mainQue.subQuestion[3].isShowSubQues = false;
@@ -2061,36 +2092,45 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     this.chapterGrid();
   }
 
+  mainQuesShowHideValidationIndex(
+    question: any,
+    index: number,
+    value: boolean
+  ) {
+    question[index].isShowMainQues = value;
+  }
+
+  quesShowHideValidationIndex(
+    question: any,
+    initialIndex: number,
+    nValue: number,
+    value: boolean
+  ) {
+    for (let i = initialIndex; i <= nValue; i++) {
+      question[i].isShowSubQues = value;
+    }
+  }
+
+  answerRemoveValidationIndex(question: any,initialIndex: number, nValue: number) {
+    for (let i = initialIndex; i <= nValue; i++) {
+      question[i].answer = '';
+    }
+  }
+
   quesShowHideValidationIndex1(question: any, index: number, value: boolean) {
     question[index].isShowSubQues = value;
   }
 
-  quesShowHideValidationIndex4(question: any, value: boolean) {
-    for (let i = 1; i <= 4; i++) {
-      question[i].isShowSubQues = value;
-    }
-  }
-
-  quesShowHideValidationIndex6(question: any, value: boolean) {
-    for (let i = 1; i <= 6; i++) {
-      question[i].isShowSubQues = value;
-    }
-  }
-
-  quesShowHideValidationIndex8(question: any, value: boolean) {
-    for (let i = 1; i <= 8; i++) {
-      question[i].isShowSubQues = value;
-    }
+  mainAnswerRemoveValidationIndex1(
+    question: any,
+    mainIndex: number,
+    subQuesIndex: number
+  ) {
+    question[mainIndex].subQuestion[subQuesIndex].answer = '';
   }
 
   answerRemoveValidationIndex1(question: any, index: number) {
     question[index].answer = '';
-  }
-
-  answerRemoveValidationIndex(question: any, nValue: number) {
-    for (let i = 1; i <= nValue; i++) {
-      question[i].answer = '';
-    }
   }
 
   getMocDetail(subQues: any, mquest: any, subq: any) {
