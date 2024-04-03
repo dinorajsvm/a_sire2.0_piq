@@ -46,7 +46,7 @@ export class PhotoRepositoryComponent
   actualPhotoCount = 0;
   getPRGriddetails: any[] = [];
   userDetails: any;
-  referenceNumber: any;
+  referenceNumber = '';
   subTopicCounts = 0;
   isProceedImageLoad = false;
   getvslCode: any;
@@ -65,6 +65,10 @@ export class PhotoRepositoryComponent
     private el: ElementRef
   ) {
     this.userDetails = this._storage.getUserDetails();
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      this.referenceNumber = id ? id : '';
+    });
   }
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
   scrollValue = 0;
@@ -133,7 +137,6 @@ export class PhotoRepositoryComponent
 
   ngOnInit(): void {
     localStorage.removeItem('getSelectedCheckListID');
-    this.referenceNumber = this.route.snapshot.paramMap.get('id');
     this.selectedInstanceID = [];
     this.appServices.getVesselTypeData().subscribe((res: any) => {
       this.getvslCode = res;
@@ -289,14 +292,6 @@ export class PhotoRepositoryComponent
         this.imageNames.forEach((data: any) => {
           this.listDatas.forEach((res: any) => {
             res.subTopics.forEach((sub: any) => {
-              if (
-                sub &&
-                sub.subTopicTitle &&
-                sub.subTopicTitle.lastIndexOf('.') !== -1
-              ) {
-                sub.subTopicTitle = sub.subTopicTitle.slice(0, -1); // Remove the last character
-              }
-
               if (data.subtopic === sub.subTopicTitle) {
                 sub.imagelist.forEach((list: any) => {
                   let extensionvalue: any;
@@ -328,113 +323,109 @@ export class PhotoRepositoryComponent
   }
 
   getDefaultImageName() {
-    const companyCode = this.userDetails.companyCode;
-    this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    this.appServices
-      .getPRImagename(companyCode, this.referenceNumber)
-      .subscribe((res: any) => {
-        if (res && typeof res.Response === 'string') {
-          let object = JSON.parse(res.Response);
-          this.imageNames = object;
-          if (this.imageNames) {
-            this.imageNames.forEach((data: any) => {
-              this.listDatas.forEach((res: any) => {
-                res.subTopics.forEach((sub: any) => {
-                  if (
-                    sub &&
-                    sub.subTopicTitle &&
-                    sub.subTopicTitle.lastIndexOf('.') !== -1
-                  ) {
-                    sub.subTopicTitle = sub.subTopicTitle.slice(0, -1); // Remove the last character
-                  }
-
-                  if (data.subtopic === sub.subTopicTitle) {
-                    if (sub && sub.imagelist) {
-                      sub.imagelist.forEach((list: any) => {
-                        let extensionvalue: any;
-                        let formattedExtension: any;
-                        if (list && list.localfilename) {
-                          extensionvalue = list.localfilename.split('.');
-                        }
-                        if (extensionvalue && extensionvalue.length === 1) {
-                          formattedExtension =
-                            extensionvalue[extensionvalue.length];
-                        } else {
-                          if (extensionvalue && extensionvalue.length > 1) {
-                            formattedExtension =
-                              extensionvalue[extensionvalue.length - 1];
+    if (this.referenceNumber) {
+      const companyCode = this.userDetails.companyCode;
+      this.appServices
+        .getPRImagename(companyCode, this.referenceNumber)
+        .subscribe((res: any) => {
+          if (res && typeof res.Response === 'string') {
+            let object = JSON.parse(res.Response);
+            this.imageNames = object;
+            if (this.imageNames) {
+              this.imageNames.forEach((data: any) => {
+                this.listDatas.forEach((res: any) => {
+                  res.subTopics.forEach((sub: any) => {
+                    if (data.subtopic === sub.subTopicTitle) {
+                      if (sub && sub.imagelist) {
+                        sub.imagelist.forEach((list: any) => {
+                          let extensionvalue: any;
+                          let formattedExtension: any;
+                          if (list && list.localfilename) {
+                            extensionvalue = list.localfilename.split('.');
                           }
-                        }
-                        if (data) {
-                          const formattedDefName =
-                            data.imagename + '.' + formattedExtension;
-                          list.formattedDefName = formattedDefName;
-                          list.defaultImageName = data.imagename;
-                        }
-                      });
+                          if (extensionvalue && extensionvalue.length === 1) {
+                            formattedExtension =
+                              extensionvalue[extensionvalue.length];
+                          } else {
+                            if (extensionvalue && extensionvalue.length > 1) {
+                              formattedExtension =
+                                extensionvalue[extensionvalue.length - 1];
+                            }
+                          }
+                          if (data) {
+                            const formattedDefName =
+                              data.imagename + '.' + formattedExtension;
+                            list.formattedDefName = formattedDefName;
+                            list.defaultImageName = data.imagename;
+                          }
+                        });
+                      }
                     }
-                  }
+                  });
                 });
+                this.summaryGridCount();
               });
-              this.summaryGridCount();
-            });
+            }
           }
-        }
-      });
+        });
+      }
   }
 
   getSavedPR() {
-    this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    this.appServices
-      .getSavedPRData(this.referenceNumber)
-      .subscribe((res: any) => {
-        if (res && res.response && res.response.length > 0) {
-          let prData = JSON.parse(res.response[0].photorepojson);
-          this.listDatas = prData.imagelist;
-          this.listDatas.forEach((res: any) => {
-            res.subTopics.forEach((sub: any) => {
-              sub.imagelist.forEach((list: any) => {
-                let extensionvalue: any;
-                let formattedExtension: any;
-                if (list && list.localfilename) {
-                  extensionvalue = list.localfilename.split('.');
-                }
-                if (extensionvalue && extensionvalue.length === 1) {
-                  formattedExtension = extensionvalue[extensionvalue.length];
-                } else {
-                  if (extensionvalue && extensionvalue.length > 1) {
-                    formattedExtension =
-                      extensionvalue[extensionvalue.length - 1];
+    if (this.referenceNumber) {
+      this.appServices
+        .getSavedPRData(this.referenceNumber)
+        .subscribe((res: any) => {
+          if (res && res.response && res.response.length > 0) {
+            let prData = JSON.parse(res.response[0].photorepojson);
+            this.listDatas = prData.imagelist;
+            this.listDatas.forEach((res: any) => {
+              res.subTopics.forEach((sub: any) => {
+                sub.imagelist.forEach((list: any) => {
+                  let extensionvalue: any;
+                  let formattedExtension: any;
+                  if (list && list.localfilename) {
+                    extensionvalue = list.localfilename.split('.');
                   }
-                }
+                  if (extensionvalue && extensionvalue.length === 1) {
+                    formattedExtension = extensionvalue[extensionvalue.length];
+                  } else {
+                    if (extensionvalue && extensionvalue.length > 1) {
+                      formattedExtension =
+                        extensionvalue[extensionvalue.length - 1];
+                    }
+                  }
 
-                const formattedName =
-                  list && list.localfilename
-                    ? list.localfilename.split('.')[0]
-                    : '';
-                let fileSizeConvert = '0.00 KB';
-                if (list && +list.sizeinbytes <= 1048576) {
-                  fileSizeConvert =
-                    (+list.sizeinbytes / 1024).toFixed(2) + ' ' + 'KB';
-                } else {
-                  fileSizeConvert =
-                    (+list.sizeinbytes / (1024 * 1024)).toFixed(2) + ' ' + 'MB';
-                }
-                list.imagePreviewSrc = null;
-                list.systemfilename = list.systemfilename;
-                list.localfilename = list.localfilename;
-                list.formattedName = formattedName;
-                list.formattedExtension = formattedExtension;
-                list.fileSizeConvert = list.fileSizeConvert;
+                  const formattedName =
+                    list && list.localfilename
+                      ? list.localfilename.split('.')[0]
+                      : '';
+                  let fileSizeConvert = '0.00 KB';
+                  if (list && +list.sizeinbytes <= 1048576) {
+                    fileSizeConvert =
+                      (+list.sizeinbytes / 1024).toFixed(2) + ' ' + 'KB';
+                  } else {
+                    fileSizeConvert =
+                      (+list.sizeinbytes / (1024 * 1024)).toFixed(2) +
+                      ' ' +
+                      'MB';
+                  }
+                  list.imagePreviewSrc = null;
+                  list.systemfilename = list.systemfilename;
+                  list.localfilename = list.localfilename;
+                  list.formattedName = formattedName;
+                  list.formattedExtension = formattedExtension;
+                  list.fileSizeConvert = list.fileSizeConvert;
+                });
               });
             });
-          });
-          this.summaryGridCount();
-        } else {
-          this.getPrDataLists();
-        }
-      });
-    this.allExpanded = true;
+            this.summaryGridCount();
+          } else {
+            this.getPrDataLists();
+          }
+        });
+      this.allExpanded = true;
+    }
   }
 
   summaryGridCount() {
@@ -459,13 +450,6 @@ export class PhotoRepositoryComponent
         (photoCount && photoCount.length > 0 ? photoCount.length : 0);
 
       res.subTopics.forEach((data: any) => {
-        if (
-          data &&
-          data.subTopicTitle &&
-          data.subTopicTitle.lastIndexOf('.') !== -1
-        ) {
-          data.subTopicTitle = data.subTopicTitle.slice(0, -1); // Remove the last character
-        }
         const photoDetails = {
           topic: data.subTopicTitle,
           image:
@@ -605,11 +589,12 @@ export class PhotoRepositoryComponent
       }
     });
     forkJoin(requests).subscribe(() => {
-      this.referenceNumber = this.route.snapshot.paramMap.get('id');
+      if (this.referenceNumber) {
       zip.generateAsync({ type: 'blob' }).then((content) => {
         saveAs(content, `${this.referenceNumber}.zip`);
         this.loaderService.loaderHide();
       });
+    }
     });
   }
 
@@ -734,17 +719,21 @@ export class PhotoRepositoryComponent
   }
 
   savePhoto() {
-    this.referenceNumber = this.route.snapshot.paramMap.get('id');
-    const payload = {
-      instanceid: this.referenceNumber,
-      usercode: this.userDetails?.userCode,
-      imagelist: this.listDatas,
-    };
-    this.appServices.savePhotoRep(payload).subscribe((res: any) => {
-      this._snackBarService.loadSnackBar('Saved Successfully', colorCodes.INFO);
-      localStorage.removeItem('getSelectedCheckListID');
-      this.selectedInstanceID = [];
-    });
+    if (this.referenceNumber) {
+      const payload = {
+        instanceid: this.referenceNumber,
+        usercode: this.userDetails?.userCode,
+        imagelist: this.listDatas,
+      };
+      this.appServices.savePhotoRep(payload).subscribe((res: any) => {
+        this._snackBarService.loadSnackBar(
+          'Saved Successfully',
+          colorCodes.INFO
+        );
+        localStorage.removeItem('getSelectedCheckListID');
+        this.selectedInstanceID = [];
+      });
+    }
   }
 
   onFileSelected(event: any) {
@@ -795,7 +784,7 @@ export class PhotoRepositoryComponent
   }
 
   uploadedData() {
-    this.referenceNumber = this.route.snapshot.paramMap.get('id');
+    if (this.referenceNumber) {
     const payload = {
       instanceid: this.referenceNumber,
       usercode: this.userDetails?.userCode,
@@ -807,14 +796,6 @@ export class PhotoRepositoryComponent
         this.listDatas.forEach((res: any) => {
           if (res) {
             let findValue = res.subTopics.find((sub: any) => {
-              if (
-                sub &&
-                sub.subTopicTitle &&
-                sub.subTopicTitle.lastIndexOf('.') !== -1
-              ) {
-                (sub: any) =>
-                  (sub.subTopicTitle = sub.subTopicTitle.slice(0, -1)); // Remove the last character
-              }
               return (
                 this.selectedSubTopic.subTopicTitle === sub.subTopicTitle &&
                 this.selectedTitle === res.topic
@@ -906,6 +887,7 @@ export class PhotoRepositoryComponent
       }
     });
   }
+  }
 
   handleDrop(event: DragEvent) {
     event.preventDefault();
@@ -933,6 +915,7 @@ export class PhotoRepositoryComponent
   }
 
   ngOnDestroy(): void {
+    this.referenceNumber = '';
     this.cancellationService.cancel();
   }
 }

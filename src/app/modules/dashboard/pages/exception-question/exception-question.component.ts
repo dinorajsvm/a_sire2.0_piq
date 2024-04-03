@@ -26,7 +26,7 @@ export class ExceptionQuestionComponent implements OnInit {
   totalRowCount = 0;
   columnDefs: any[] = [
     {
-      headerName: 'Auto Sync',
+      headerName: 'Action',
       width: 100,
       field: 'autoSync',
       sortable: false,
@@ -145,19 +145,13 @@ export class ExceptionQuestionComponent implements OnInit {
 
   onBtnClick1(e: any) {
     this.appServices.setExceptionResetData(e.rowData);
-    console.log(this.rowData, 'rowData');
-    
     const objWithIdIndex = this.rowData.findIndex(
       (obj) => obj.guid.value === e.rowData.guid.value
     );
-    console.log(objWithIdIndex, 'objWithIdIndex');
-    
     if (objWithIdIndex > -1) {
       this.rowData.splice(objWithIdIndex, 1);
       this.countEmit.emit(this.rowData.length);
       this.gridApi!.setRowData(this.rowData);
-      console.log(this.rowData, 'rowData11111');
-      
       this.appServices.setExceptionData(this.rowData);
     }
   }

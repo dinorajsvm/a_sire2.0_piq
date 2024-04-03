@@ -34,6 +34,7 @@
         [rowMultiSelectWithClick]="true"
         (gridReady)="onGridReady($event)"
         (filterChanged)="onFilterChanged()"
+        [components]="frameworkComponents"
       >
       </ag-grid-angular>
     </div>
@@ -47,4 +48,14 @@
   >
     Cancel
   </button>
+  <button
+  mat-button
+  class="syncBtn mt-2"
+  style="float: right"
+  type="submit"
+  [class.hideReqBtns]="hideReqBtns || !resetBtn"
+  (click)="onReset()"
+>
+  Reset
+</button>
 </mat-dialog-content>

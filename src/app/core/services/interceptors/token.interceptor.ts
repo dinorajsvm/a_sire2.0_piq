@@ -9,7 +9,6 @@ import {
 import {  Observable, throwError } from 'rxjs';
 import {
   catchError,
-  finalize,
   takeUntil
 } from 'rxjs/operators';
 import { StorageService } from '../storage/storage.service';

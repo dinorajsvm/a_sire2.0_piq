@@ -12,6 +12,7 @@ import { AppService } from 'src/app/modules/dashboard/services/app.service';
 })
 export class AuthGuard implements CanLoad {
   public mackToken: any;
+  public referenceNo: any;
   constructor(
     private _authService: AuthService,
     private _storage: StorageService,
@@ -21,6 +22,7 @@ export class AuthGuard implements CanLoad {
   ) {
     const navigationUrl = this._router.getCurrentNavigation();
     this.mackToken = navigationUrl?.extractedUrl.queryParams['token'];
+    this.referenceNo = navigationUrl?.extractedUrl.queryParams['referenceNo'];
     if (this.mackToken) {
       localStorage.clear();
     }
@@ -41,27 +43,36 @@ export class AuthGuard implements CanLoad {
           token: this.mackToken,
         };
 
-        this.appServices.piqLogin(requestBody).subscribe((response) => {
-          this._storage.setAccessToken(this.mackToken);
-          this._authService.getUserProfile((res: any) => {
-            //Store user details
-            if (res) {
-              this._storage.setAccessToken(response.accesstoken);
-              this._storage.setRefereshToken(response.refreshtoken);
-              let userInfo = res.result.userInfo;
-              this._storage.setUserDetails(JSON.stringify(res.result.userInfo));
-              this._storage.redirectBasedonRoles(userInfo); // changed once mack1 to mack2 redirection
-            } else {
-              this._snackBar.loadSnackBar(
-                'Failed to fetch the User Details',
-                colorCodes.ERROR
-              );
-              this.appServices.destroyPage();
-            }
-          });
-        }, (error) => {
-          this.appServices.destroyPage();
-        });
+        this.appServices.piqLogin(requestBody).subscribe(
+          (response) => {
+            this._storage.setAccessToken(this.mackToken);
+            this._authService.getUserProfile((res: any) => {
+              //Store user details
+              if (res) {
+                this._storage.setAccessToken(response.accesstoken);
+                this._storage.setRefereshToken(response.refreshtoken);
+                let userInfo = res.result.userInfo;
+                this._storage.setUserDetails(
+                  JSON.stringify(res.result.userInfo)
+                );
+                if (this.referenceNo) {
+                  this._router.navigate([`sire/piq-report/${this.referenceNo}/view/form`])
+                } else {
+                  this._storage.redirectBasedonRoles(userInfo); // changed once mack1 to mack2 redirection
+                }
+              } else {
+                this._snackBar.loadSnackBar(
+                  'Failed to fetch the User Details',
+                  colorCodes.ERROR
+                );
+                this.appServices.destroyPage();
+              }
+            });
+          },
+          (error) => {
+            this.appServices.destroyPage();
+          }
+        );
         return false;
       } else {
         this.appServices.destroyPage();

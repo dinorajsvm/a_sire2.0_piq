@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
@@ -77,7 +78,7 @@ export const MY_DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ],
 })
-export class PiqReportComponent implements OnInit {
+export class PiqReportComponent implements OnInit, OnDestroy {
   @ViewChild('expandedSection', { static: false }) expandedSection!: ElementRef;
   @ViewChild('globalSearchComponent') globalSearchComponent: any;
   @ViewChild('comExpColBtn') comExpColBtn!: ElementRef;
@@ -421,17 +422,18 @@ export class PiqReportComponent implements OnInit {
         // if (getAllValue && getAllValue.values && getAllValue.values.length > 0) {
         getAllValue.values.forEach((value: any) => {
           value.question.forEach((subHeader: any) => {
-            subHeader['showMainQuestion'] = false;
+            subHeader['isShowMainQues'] = false;
+            // console.log(subHeader.qid, 'subHeader');
+
             if (subHeader && subHeader.qid) {
               formGroupFields[subHeader.qid] = new FormControl(
                 subHeader.answer
               );
             }
-            this.getMainQuestCounts.push(subHeader);
-            this.checkboxBoolean.push(subHeader.selected);
-            this.pendingCount = this.checkboxBoolean.filter(
-              (value: any) => value === false
-            ).length;
+            if (subHeader && !subHeader.isShowMainQues) {
+              this.getMainQuestCounts.push(subHeader);
+            }
+
             subHeader.subQuestion.forEach((mainQus: any) => {
               if (
                 mainQus.entryorgin === 'Auto or Preset' ||
@@ -489,10 +491,8 @@ export class PiqReportComponent implements OnInit {
               }
               if (subHeader.entrymethod === 'Lookup') {
                 if (mainQus && mainQus.type === 'Date') {
-                  if (mainQus.answer == '[Channel/Straits]') {
-                  }
                   mainQus.savedAnswer =
-                    mainQus && mainQus.answer && mainQus.answer != '[]'
+                    mainQus && mainQus.answer
                       ? this.datePipe.transform(mainQus.answer, this.dateFormat)
                       : '';
                 } else {
@@ -573,7 +573,9 @@ export class PiqReportComponent implements OnInit {
         }
       }
 
-      this.mainQuestCounts = this.getMainQuestCounts.length;
+      this.mainQuestCounts = this.getMainQuestCounts.filter(
+        (value: any) => !value.isShowMainQues
+      ).length;
       this.expandMethod();
       this.getTopBarDatas();
     });
@@ -588,386 +590,386 @@ export class PiqReportComponent implements OnInit {
               sub.qid === 'Q4' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[2].subcheckbox = true;
+              main.subQuestion[2].isShowSubQues = true;
             } else if (
               sub.qid === 'Q7' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q21' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q36' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 8; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
-              ques.question[4].showMainQuestion = true;
-              ques.question[5].showMainQuestion = true;
-              ques.question[6].showMainQuestion = true;
+              ques.question[4].isShowMainQues = true;
+              ques.question[5].isShowMainQues = true;
+              ques.question[6].isShowMainQues = true;
             } else if (
               sub.qid === 'Q50' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q136' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q139' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q141' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q142' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q145' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q155' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 6; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q77' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q83' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q89' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 5; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q212' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              ques.question[1].showMainQuestion = true;
+              ques.question[1].isShowMainQues = true;
             } else if (
               sub.qid === 'Q338' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q344' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q350' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q356' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q362' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q368' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q374' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q380' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q386' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q392' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q398' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q404' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q410' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q416' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q422' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q428' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q434' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q440' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q446' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q452' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q458' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q464' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q470' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q476' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q482' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q488' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q494' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q500' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q506' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 1; i <= 4; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q226' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              ques.question[1].showMainQuestion = true;
+              ques.question[1].isShowMainQues = true;
             } else if (
               sub.qid === 'Q252' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q255' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q258' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 2; i <= 31; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q290' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               for (let i = 2; i <= 5; i++) {
-                main.subQuestion[i].subcheckbox = true;
+                main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q296' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q299' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q302' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              main.subQuestion[1].subcheckbox = true;
+              main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q305' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
               // for (let i = 1; i <= 4; i++) {
-              //   main.subQuestion[i].subcheckbox = true;
+              //   main.subQuestion[i].isShowSubQues = true;
               // }
-              ques.question[4].showMainQuestion = true;
-              ques.question[5].showMainQuestion = true;
-              ques.question[6].showMainQuestion = true;
-              ques.question[7].showMainQuestion = true;
-              ques.question[9].showMainQuestion = true;
+              ques.question[4].isShowMainQues = true;
+              ques.question[5].isShowMainQues = true;
+              ques.question[6].isShowMainQues = true;
+              ques.question[7].isShowMainQues = true;
+              ques.question[9].isShowMainQues = true;
             } else if (
               sub.qid === 'Q307' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              ques.question[4].showMainQuestion = true;
-              ques.question[5].showMainQuestion = true;
-              ques.question[6].showMainQuestion = true;
-              ques.question[7].showMainQuestion = true;
-              ques.question[9].showMainQuestion = true;
+              ques.question[4].isShowMainQues = true;
+              ques.question[5].isShowMainQues = true;
+              ques.question[6].isShowMainQues = true;
+              ques.question[7].isShowMainQues = true;
+              ques.question[9].isShowMainQues = true;
             } else if (
               sub.qid === 'Q309' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              ques.question[4].showMainQuestion = true;
-              ques.question[5].showMainQuestion = true;
-              ques.question[6].showMainQuestion = true;
-              ques.question[7].showMainQuestion = true;
-              ques.question[9].showMainQuestion = true;
+              ques.question[4].isShowMainQues = true;
+              ques.question[5].isShowMainQues = true;
+              ques.question[6].isShowMainQues = true;
+              ques.question[7].isShowMainQues = true;
+              ques.question[9].isShowMainQues = true;
             } else if (
               sub.qid === 'Q311' &&
               (sub.answer === undefined || sub.answer === '')
             ) {
-              ques.question[4].showMainQuestion = true;
-              ques.question[5].showMainQuestion = true;
-              ques.question[6].showMainQuestion = true;
-              ques.question[7].showMainQuestion = true;
-              ques.question[9].showMainQuestion = true;
+              ques.question[4].isShowMainQues = true;
+              ques.question[5].isShowMainQues = true;
+              ques.question[6].isShowMainQues = true;
+              ques.question[7].isShowMainQues = true;
+              ques.question[9].isShowMainQues = true;
             }
           });
         });
       });
     });
-    console.log('ele', this.getAllDatas);
+    this.countDetails();
   }
 
   getRankLogic() {
@@ -984,6 +986,9 @@ export class PiqReportComponent implements OnInit {
       this.hideReqBtns = true;
     }
     if (this.route.snapshot.paramMap.get('type') == 'view') {
+      if (this.route.snapshot.paramMap.get('loadType') === 'form') {
+        this.tabGroup.selectedIndex = 1;
+      }
       if (
         this.getOrigination == 'CNT001' &&
         this.userDetails?.cntrlType === 'CNT002'
@@ -1141,30 +1146,28 @@ export class PiqReportComponent implements OnInit {
   }
 
   exceptionFn(ques: any, mquest: any, quest: any) {
-    if (quest && quest.hasOwnProperty('presetvalue')) {
-      const duplicateResponse = this.exceptionList.find(
-        (x) => x.qid === quest.qid
-      );
+    const duplicateResponse = this.exceptionList.find(
+      (x) => x.qid === quest.qid
+    );
 
-      if (duplicateResponse === undefined) {
-        this.exception(ques, mquest, quest, 1);
-      } else {
-        duplicateResponse.answer = quest.answer;
-        const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
-          disableClose: true,
-          panelClass: 'exceptionRemark-dialog-container',
-          data: duplicateResponse.remark,
-        });
-        this._snackBarService.loadSnackBar(
-          'Changing company preset data will be captured as Exception.',
-          colorCodes.WARNING
-        );
-        dialogRef.afterClosed().subscribe((result) => {
-          duplicateResponse.remark = result ? result : '';
-          this.appServices.setExceptionData(this.exceptionList);
-        });
-        this.countDetails();
-      }
+    if (duplicateResponse === undefined) {
+      this.exception(ques, mquest, quest, 1);
+    } else {
+      duplicateResponse.answer = quest.answer;
+      const dialogRef = this.dialog.open(ExceptionRemarkComponent, {
+        disableClose: true,
+        panelClass: 'exceptionRemark-dialog-container',
+        data: duplicateResponse.remark,
+      });
+      this._snackBarService.loadSnackBar(
+        'Changing company preset data will be captured as Exception.',
+        colorCodes.WARNING
+      );
+      dialogRef.afterClosed().subscribe((result) => {
+        duplicateResponse.remark = result ? result : '';
+        this.appServices.setExceptionData(this.exceptionList);
+      });
+      this.countDetails();
     }
   }
 
@@ -1282,7 +1285,6 @@ export class PiqReportComponent implements OnInit {
     type?: any,
     id?: number
   ): void {
-    debugger;
     if (type === 'initial') {
       const currentVesselType = localStorage.getItem('currentVesselType');
       if (currentVesselType) {
@@ -1310,701 +1312,705 @@ export class PiqReportComponent implements OnInit {
       return;
     }
     if (subQue.qid === 'Q4') {
-      if (value === questionValue.OTHER) {
-        mainQue.subQuestion[2].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[2].subcheckbox = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 2, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 2);
+      this.dynamicForms.patchValue({
+        Q5: '',
+      });
     } else if (subQue.qid === 'Q7') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex4(mainQue.subQuestion, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 4);
+      this.dynamicForms.patchValue({
+        Q8: '',
+        Q9: '',
+        Q10: '',
+        Q11: '',
+      });
     } else if (subQue.qid === 'Q21') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
-        }
-      } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex4(mainQue.subQuestion, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 4);
+      this.dynamicForms.patchValue({
+        Q22: '',
+        Q23: '',
+        Q24: '',
+        Q25: '',
+      });
     } else if (subQue.qid === 'Q36') {
       if (value === questionValue.YES) {
-        for (let i = 1; i <= 8; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
-        }
-        ques.question[4].showMainQuestion = false;
-        ques.question[5].showMainQuestion = false;
-        ques.question[6].showMainQuestion = false;
+        this.quesShowHideValidationIndex8(mainQue.subQuestion, false);
+        ques.question[4].isShowMainQues = false;
+        ques.question[5].isShowMainQues = false;
+        ques.question[6].isShowMainQues = false;
       } else {
-        for (let i = 1; i <= 8; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
-        }
-        ques.question[4].showMainQuestion = true;
-        ques.question[5].showMainQuestion = true;
-        ques.question[6].showMainQuestion = true;
+        this.quesShowHideValidationIndex8(mainQue.subQuestion, true);
+        ques.question[4].isShowMainQues = true;
+        ques.question[5].isShowMainQues = true;
+        ques.question[6].isShowMainQues = true;
       }
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 8);
+      this.dynamicForms.patchValue({
+        Q37: '',
+        Q38: '',
+        Q39: '',
+        Q40: '',
+        Q41: '',
+        Q42: '',
+        Q43: '',
+        Q44: '',
+      });
     } else if (subQue.qid === 'Q50') {
       if (value === 'Other (Please Specify)') {
-        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[1].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
     } else if (subQue.qid === 'Q136') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q137: '',
+      });
     } else if (subQue.qid === 'Q139') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-      }
-    } else if (subQue.qid === 'Q141') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q140: '',
+      });
     } else if (subQue.qid === 'Q142') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q143: '',
+      });
     } else if (subQue.qid === 'Q145') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q146: '',
+      });
     } else if (subQue.qid === 'Q155') {
-      if (value === questionValue.YES) {
-        for (let i = 1; i <= 6; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
-        }
-      } else {
-        for (let i = 1; i <= 6; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
-        }
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex6(mainQue.subQuestion, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 6);
+      this.dynamicForms.patchValue({
+        Q156: '',
+        Q157: '',
+        Q158: '',
+        Q159: '',
+        Q160: '',
+        Q161: '',
+      });
     } else if (subQue.qid === 'Q77') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q83') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q89') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 5; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 5; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q212') {
       if (value === questionValue.YES) {
-        ques.question[1].showMainQuestion = false;
+        ques.question[1].isShowMainQues = false;
       } else {
-        ques.question[1].showMainQuestion = true;
+        ques.question[1].isShowMainQues = true;
       }
     } else if (subQue.qid === 'Q338') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q344') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q350') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q356') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q362') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q368') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q374') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q380') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q386') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q386') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q392') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q398') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q404') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q410') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q416') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q422') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q428') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q434') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q440') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q446') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q452') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q458') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q464') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q470') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q476') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q482') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q488') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q494') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q500') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q506') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
+          mainQue.subQuestion[i].isShowSubQues = true;
         }
       }
     } else if (subQue.qid === 'Q226') {
       if (value === questionValue.YES) {
-        ques.question[1].showMainQuestion = false;
+        ques.question[1].isShowMainQues = false;
       } else {
-        ques.question[1].showMainQuestion = true;
+        ques.question[1].isShowMainQues = true;
       }
     } else if (subQue.qid === 'Q252') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[1].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
     } else if (subQue.qid === 'Q255') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[1].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
     } else if (subQue.qid === 'Q258') {
       if (value === questionValue.YES) {
         for (let i = 2; i <= 30; i += 2) {
-          mainQue.subQuestion[i].subcheckbox = false;
-      }
-        // mainQue.subQuestion[2].subcheckbox = false;
-        // mainQue.subQuestion[4].subcheckbox = false;
-        // mainQue.subQuestion[6].subcheckbox = false;
-        // mainQue.subQuestion[8].subcheckbox = false;
-        // mainQue.subQuestion[10].subcheckbox = false;
-        // mainQue.subQuestion[12].subcheckbox = false;
-        // mainQue.subQuestion[14].subcheckbox = false;
-        // mainQue.subQuestion[16].subcheckbox = false;
-        // mainQue.subQuestion[18].subcheckbox = false;
-        // mainQue.subQuestion[20].subcheckbox = false;
-        // mainQue.subQuestion[22].subcheckbox = false;
-        // mainQue.subQuestion[24].subcheckbox = false;
-        // mainQue.subQuestion[26].subcheckbox = false;
-        // mainQue.subQuestion[28].subcheckbox = false;
-        // mainQue.subQuestion[30].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
+        }
+        // mainQue.subQuestion[2].isShowSubQues = false;
+        // mainQue.subQuestion[4].isShowSubQues = false;
+        // mainQue.subQuestion[6].isShowSubQues = false;
+        // mainQue.subQuestion[8].isShowSubQues = false;
+        // mainQue.subQuestion[10].isShowSubQues = false;
+        // mainQue.subQuestion[12].isShowSubQues = false;
+        // mainQue.subQuestion[14].isShowSubQues = false;
+        // mainQue.subQuestion[16].isShowSubQues = false;
+        // mainQue.subQuestion[18].isShowSubQues = false;
+        // mainQue.subQuestion[20].isShowSubQues = false;
+        // mainQue.subQuestion[22].isShowSubQues = false;
+        // mainQue.subQuestion[24].isShowSubQues = false;
+        // mainQue.subQuestion[26].isShowSubQues = false;
+        // mainQue.subQuestion[28].isShowSubQues = false;
+        // mainQue.subQuestion[30].isShowSubQues = false;
         // for (let i = 2; i <= 31; i++) {
-        //   mainQue.subQuestion[i].subcheckbox = false;
+        //   mainQue.subQuestion[i].isShowSubQues = false;
         // }
       } else {
         for (let i = 2; i <= 30; i += 2) {
-          mainQue.subQuestion[i].subcheckbox = false;
+          mainQue.subQuestion[i].isShowSubQues = false;
+        }
+        // mainQue.subQuestion[2].isShowSubQues = true;
+        // mainQue.subQuestion[4].isShowSubQues = true;
+        // mainQue.subQuestion[6].isShowSubQues = true;
+        // mainQue.subQuestion[8].isShowSubQues = true;
+        // mainQue.subQuestion[10].isShowSubQues = true;
+        // mainQue.subQuestion[12].isShowSubQues = true;
+        // mainQue.subQuestion[14].isShowSubQues = true;
+        // mainQue.subQuestion[16].isShowSubQues = true;
+        // mainQue.subQuestion[18].isShowSubQues = true;
+        // mainQue.subQuestion[20].isShowSubQues = true;
+        // mainQue.subQuestion[22].isShowSubQues = true;
+        // mainQue.subQuestion[24].isShowSubQues = true;
+        // mainQue.subQuestion[26].isShowSubQues = true;
+        // mainQue.subQuestion[28].isShowSubQues = true;
+        // mainQue.subQuestion[30].isShowSubQues = true;
       }
-        // mainQue.subQuestion[2].subcheckbox = true;
-        // mainQue.subQuestion[4].subcheckbox = true;
-        // mainQue.subQuestion[6].subcheckbox = true;
-        // mainQue.subQuestion[8].subcheckbox = true;
-        // mainQue.subQuestion[10].subcheckbox = true;
-        // mainQue.subQuestion[12].subcheckbox = true;
-        // mainQue.subQuestion[14].subcheckbox = true;
-        // mainQue.subQuestion[16].subcheckbox = true;
-        // mainQue.subQuestion[18].subcheckbox = true;
-        // mainQue.subQuestion[20].subcheckbox = true;
-        // mainQue.subQuestion[22].subcheckbox = true;
-        // mainQue.subQuestion[24].subcheckbox = true;
-        // mainQue.subQuestion[26].subcheckbox = true;
-        // mainQue.subQuestion[28].subcheckbox = true;
-        // mainQue.subQuestion[30].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q259') {
-      
+    } else if (subQue.qid === 'Q259') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[3].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[3].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q261') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[5].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[5].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q263') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[7].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[7].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q265') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[9].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[9].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q267') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[11].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[11].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q269') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[13].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[13].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q271') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[15].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[15].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q273') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[17].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[17].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q275') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[19].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[19].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q277') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[21].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[21].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q279') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[23].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[23].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q281') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[25].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[25].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q283') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[27].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[27].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q285') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[29].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[29].subcheckbox = true;
-      }
-    }else if (subQue.qid === 'Q287') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[31].subcheckbox = false;
-      } else {   
-        mainQue.subQuestion[31].subcheckbox = true;
-      }
-    }
-     else if (subQue.qid === 'Q290') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[2].subcheckbox = false;
-        mainQue.subQuestion[4].subcheckbox = false;
+        mainQue.subQuestion[3].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[2].subcheckbox = true;
-        mainQue.subQuestion[4].subcheckbox = true;
+        mainQue.subQuestion[3].isShowSubQues = true;
       }
-    }else if (subQue.qid === 'Q291') {
+    } else if (subQue.qid === 'Q261') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[3].subcheckbox = false;
+        mainQue.subQuestion[5].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[3].subcheckbox = true;
+        mainQue.subQuestion[5].isShowSubQues = true;
       }
-    }else if (subQue.qid === 'Q293') {
+    } else if (subQue.qid === 'Q263') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[5].subcheckbox = false;
+        mainQue.subQuestion[7].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[5].subcheckbox = true;
+        mainQue.subQuestion[7].isShowSubQues = true;
       }
-    }
-    
-    else if (subQue.qid === 'Q296') {
+    } else if (subQue.qid === 'Q265') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[9].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[9].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q267') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[11].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[11].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q269') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[13].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[13].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q271') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[15].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[15].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q273') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[17].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[17].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q275') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[19].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[19].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q277') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[21].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[21].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q279') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[23].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[23].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q281') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[25].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[25].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q283') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[27].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[27].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q285') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[29].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[29].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q287') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[31].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[31].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q290') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[2].isShowSubQues = false;
+        mainQue.subQuestion[4].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[2].isShowSubQues = true;
+        mainQue.subQuestion[4].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q291') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[3].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[3].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q293') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[5].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[5].isShowSubQues = true;
+      }
+    } else if (subQue.qid === 'Q296') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].isShowSubQues = false;
+      } else {
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
     } else if (subQue.qid === 'Q299') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[1].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
     } else if (subQue.qid === 'Q302') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
+        mainQue.subQuestion[1].isShowSubQues = false;
       } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
     } else if (subQue.qid === 'Q305') {
       if (value === questionValue.YES) {
         // for (let i = 1; i <= 4; i++) {
-        //   mainQue.subQuestion[i].subcheckbox = true;
+        //   mainQue.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = false;
-        ques.question[5].showMainQuestion = false;
-        ques.question[6].showMainQuestion = false;
-        ques.question[7].showMainQuestion = false;
-        ques.question[9].showMainQuestion = false;
+        ques.question[4].isShowMainQues = false;
+        ques.question[5].isShowMainQues = false;
+        ques.question[6].isShowMainQues = false;
+        ques.question[7].isShowMainQues = false;
+        ques.question[9].isShowMainQues = false;
       } else {
         // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].subcheckbox = true;
+        //   main.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = true;
-        ques.question[5].showMainQuestion = true;
-        ques.question[6].showMainQuestion = true;
-        ques.question[7].showMainQuestion = true;
-        ques.question[9].showMainQuestion = true;
+        ques.question[4].isShowMainQues = true;
+        ques.question[5].isShowMainQues = true;
+        ques.question[6].isShowMainQues = true;
+        ques.question[7].isShowMainQues = true;
+        ques.question[9].isShowMainQues = true;
       }
     } else if (subQue.qid === 'Q307') {
       if (value === questionValue.YES) {
         // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].subcheckbox = true;
+        //   main.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = false;
-        ques.question[5].showMainQuestion = false;
-        ques.question[6].showMainQuestion = false;
-        ques.question[7].showMainQuestion = false;
-        ques.question[9].showMainQuestion = false;
+        ques.question[4].isShowMainQues = false;
+        ques.question[5].isShowMainQues = false;
+        ques.question[6].isShowMainQues = false;
+        ques.question[7].isShowMainQues = false;
+        ques.question[9].isShowMainQues = false;
       } else {
         // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].subcheckbox = true;
+        //   main.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = true;
-        ques.question[5].showMainQuestion = true;
-        ques.question[6].showMainQuestion = true;
-        ques.question[7].showMainQuestion = true;
-        ques.question[9].showMainQuestion = true;
+        ques.question[4].isShowMainQues = true;
+        ques.question[5].isShowMainQues = true;
+        ques.question[6].isShowMainQues = true;
+        ques.question[7].isShowMainQues = true;
+        ques.question[9].isShowMainQues = true;
       }
     } else if (subQue.qid === 'Q309') {
       if (value === questionValue.YES) {
         // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].subcheckbox = true;
+        //   main.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = false;
-        ques.question[5].showMainQuestion = false;
-        ques.question[6].showMainQuestion = false;
-        ques.question[7].showMainQuestion = false;
-        ques.question[9].showMainQuestion = false;
+        ques.question[4].isShowMainQues = false;
+        ques.question[5].isShowMainQues = false;
+        ques.question[6].isShowMainQues = false;
+        ques.question[7].isShowMainQues = false;
+        ques.question[9].isShowMainQues = false;
       } else {
         // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].subcheckbox = true;
+        //   main.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = true;
-        ques.question[5].showMainQuestion = true;
-        ques.question[6].showMainQuestion = true;
-        ques.question[7].showMainQuestion = true;
-        ques.question[9].showMainQuestion = true;
+        ques.question[4].isShowMainQues = true;
+        ques.question[5].isShowMainQues = true;
+        ques.question[6].isShowMainQues = true;
+        ques.question[7].isShowMainQues = true;
+        ques.question[9].isShowMainQues = true;
       }
     } else if (subQue.qid === 'Q311') {
       if (value === questionValue.YES) {
         // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].subcheckbox = true;
+        //   main.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = false;
-        ques.question[5].showMainQuestion = false;
-        ques.question[6].showMainQuestion = false;
-        ques.question[7].showMainQuestion = false;
-        ques.question[9].showMainQuestion = false;
+        ques.question[4].isShowMainQues = false;
+        ques.question[5].isShowMainQues = false;
+        ques.question[6].isShowMainQues = false;
+        ques.question[7].isShowMainQues = false;
+        ques.question[9].isShowMainQues = false;
       } else {
         // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].subcheckbox = true;
+        //   main.subQuestion[i].isShowSubQues = true;
         // }
-        ques.question[4].showMainQuestion = true;
-        ques.question[5].showMainQuestion = true;
-        ques.question[6].showMainQuestion = true;
-        ques.question[7].showMainQuestion = true;
-        ques.question[9].showMainQuestion = true;
+        ques.question[4].isShowMainQues = true;
+        ques.question[5].isShowMainQues = true;
+        ques.question[6].isShowMainQues = true;
+        ques.question[7].isShowMainQues = true;
+        ques.question[9].isShowMainQues = true;
       }
     }
 
@@ -2034,6 +2040,14 @@ export class PiqReportComponent implements OnInit {
         const modifiedStr = str[0].replace(/\.\w*$/, '');
         questionId = modifiedStr;
       }
+    }
+
+    if (
+      questionId === '2.3.3.1' ||
+      questionId === '2.3.3.2' ||
+      questionId === '2.3.3.3'
+    ) {
+      this.getPMSDetail(questionId, ques, mainQue, subQue, 'select');
     }
     if (questionId === '2.8.2') {
       this.getPscDetail(questionId, ques, mainQue, subQue);
@@ -2080,6 +2094,41 @@ export class PiqReportComponent implements OnInit {
     this.dynamicForms.controls[subQue.qid].setValue(value);
     this.chapterGrid();
   }
+
+  quesShowHideValidationIndex1(question: any, index: number, value: boolean) {
+    question[index].isShowSubQues = value;
+  }
+
+  quesShowHideValidationIndex4(question: any, value: boolean) {
+    for (let i = 1; i <= 4; i++) {
+      question[i].isShowSubQues = value;
+    }
+  }
+
+  quesShowHideValidationIndex6(question: any, value: boolean) {
+    for (let i = 1; i <= 6; i++) {
+      question[i].isShowSubQues = value;
+    }
+  }
+
+  quesShowHideValidationIndex8(question: any, value: boolean) {
+    for (let i = 1; i <= 8; i++) {
+      question[i].isShowSubQues = value;
+    }
+  }
+
+  answerRemoveValidationIndex1(question: any, index: number) {
+    question[index].answer = '';
+  }
+
+
+  answerRemoveValidationIndex(question: any, nValue: number) {
+    for (let i = 1; i <= nValue; i++) {
+      question[i].answer = '';
+    }
+  }
+
+
 
   getMocDetail(subQues: any, mquest: any, subq: any) {
     let hasMocData = false;
@@ -2191,8 +2240,11 @@ export class PiqReportComponent implements OnInit {
         if (getAllValue && getAllValue.values) {
           getAllValue.values.forEach((value: any) => {
             value.question.forEach((subHeader: any) => {
+              // isShowMainQues
               filterResponse = subHeader.subQuestion.filter((a: any) => {
                 return (
+                  !subHeader.isShowMainQues &&
+                  !a.isShowSubQues &&
                   a.answer != '' &&
                   a.answer != undefined &&
                   a.answer != null &&
@@ -2201,10 +2253,12 @@ export class PiqReportComponent implements OnInit {
               });
               filterPendingResponse = subHeader.subQuestion.filter((a: any) => {
                 return (
-                  a.answer === '' ||
-                  a.answer === undefined ||
-                  a.answer === null ||
-                  a.answer === '[]'
+                  !subHeader.isShowMainQues &&
+                  !a.isShowSubQues &&
+                  (a.answer === '' ||
+                    a.answer === undefined ||
+                    a.answer === null ||
+                    a.answer === '[]')
                 );
               });
               filterPendingQuestion += filterPendingResponse.length;
@@ -2232,7 +2286,10 @@ export class PiqReportComponent implements OnInit {
             value.question.forEach((subHeader: any) => {
               subHeader.subQuestion.forEach((subQues: any) => {
                 if (
-                  (subQues && subQues.answer === '') ||
+                  (subQues &&
+                    !subHeader.isShowMainQues &&
+                    !subQues.isShowSubQues &&
+                    subQues.answer === '') ||
                   subQues.answer === undefined ||
                   subQues.answer === null ||
                   subQues.answer === '[]'
@@ -2264,13 +2321,14 @@ export class PiqReportComponent implements OnInit {
   }
 
   piqPendingCount() {
-    var booleanCount: any = [];
+    let booleanCount: any = [];
     this.getMainQuestCounts.forEach((element: any) => {
-      booleanCount.push(element.selected);
+      if (element && !element.isShowMainQues && !element.selected) {
+        booleanCount.push(element.selected);
+      }
     });
-    this.pendingCount = booleanCount.filter(
-      (value: any) => value === false
-    ).length;
+    this.pendingCount =
+      booleanCount && booleanCount.length > 0 ? booleanCount.length : 0;
   }
   exception(ques: any, mainQue: any, subQue: any, id: any, payLoad?: any) {
     const sqid = subQue.sid;
@@ -2306,11 +2364,12 @@ export class PiqReportComponent implements OnInit {
               mainQuestion: mainQue.mainQuestion,
               subName: splitValue.join('.') + ' ' + subQue.subName,
               presetValue: subQue.presetvalue,
-              savedAnswer:
-                subQue.entryorgin === 'Auto or Preset' ||
-                subQue.entryorgin === 'Preset'
-                  ? ''
-                  : subQue.savedAnswer,
+              // savedAnswer:
+              //   subQue.entryorgin === 'Auto or Preset' ||
+              //   subQue.entryorgin === 'Preset'
+              //     ? ''
+              //     : subQue.savedAnswer,
+              savedAnswer: subQue.savedAnswer,
               answer: subQue.answer,
               remark: result,
             };
@@ -2327,11 +2386,12 @@ export class PiqReportComponent implements OnInit {
               mainQuestion: mainQue.mainQuestion,
               subName: splitValue.join('.') + ' ' + subQue.subName,
               presetValue: subQue.presetvalue,
-              savedAnswer:
-                subQue.entryorgin === 'Auto or Preset' ||
-                subQue.entryorgin === 'Preset'
-                  ? ''
-                  : subQue.savedAnswer,
+              // savedAnswer:
+              //   subQue.entryorgin === 'Auto or Preset' ||
+              //   subQue.entryorgin === 'Preset'
+              //     ? ''
+              //     : subQue.savedAnswer,
+              savedAnswer: subQue.savedAnswer,
               answer: subQue.answer,
               remark: '',
             };
@@ -2351,11 +2411,12 @@ export class PiqReportComponent implements OnInit {
           mainQuestion: mainQue.mainQuestion,
           subName: splitValue.join('.') + ' ' + subQue.subName,
           presetValue: subQue.presetvalue,
-          savedAnswer:
-            subQue.entryorgin === 'Auto or Preset' ||
-            subQue.entryorgin === 'Preset'
-              ? ''
-              : subQue.savedAnswer,
+          // savedAnswer:
+          //   subQue.entryorgin === 'Auto or Preset' ||
+          //   subQue.entryorgin === 'Preset'
+          //     ? ''
+          //     : subQue.savedAnswer,
+          savedAnswer: subQue.savedAnswer,
           answer: subQue.answer,
           remark: '',
         };
@@ -2382,11 +2443,12 @@ export class PiqReportComponent implements OnInit {
         mainQuestion: mainQue.mainQuestion,
         subName: splitValue.join('.') + ' ' + subQue.subName,
         presetValue: subQue.presetvalue,
-        savedAnswer:
-          subQue.entryorgin === 'Auto or Preset' ||
-          subQue.entryorgin === 'Preset'
-            ? ''
-            : subQue.savedAnswer,
+        // savedAnswer:
+        //   subQue.entryorgin === 'Auto or Preset' ||
+        //   subQue.entryorgin === 'Preset'
+        //     ? ''
+        //     : subQue.savedAnswer,
+        savedAnswer: subQue.savedAnswer,
         answer: subQue.answer,
         remark: '',
       };
@@ -2474,6 +2536,12 @@ export class PiqReportComponent implements OnInit {
     }
     if (questionId === '2.2.1' || questionId === '2.2.2') {
       this.getLookUpVisit(questionId, quest, mquest, subq);
+    } else if (
+      questionId === '2.3.3.1' ||
+      questionId === '2.3.3.2' ||
+      questionId === '2.3.3.3'
+    ) {
+      this.getPMSDetail(questionId, quest, mquest, subq, 'date');
     } else if (questionId === '2.8.2') {
       this.getPscDetail(questionId, quest, mquest, subq);
     } else if (
@@ -2557,7 +2625,7 @@ export class PiqReportComponent implements OnInit {
         mainQuest.qid === 'MQ29' ||
         mainQuest.qid === 'MQ32')
     ) {
-      this.pmsLookup(mainQuest);
+      this.pmsLookup(mainQuest, questionId, mainQuest.qid);
     } else if (quest && quest.subheadid === 'SH32') {
       this.pscLookUp(quest, mainQuest, questionId, mainQuest.qid);
     } else if (
@@ -2764,8 +2832,8 @@ export class PiqReportComponent implements OnInit {
     });
   }
 
-  pmsLookup(mainQuest: any) {
-    this.dialog.open(PmsLookupComponent, {
+  pmsLookup(mainQuest: any, questionId: any, mainQueId?: any) {
+    const dialogRef = this.dialog.open(PmsLookupComponent, {
       panelClass: 'pmsLookUp-dialog-container',
       data: {
         moduleName:
@@ -2775,7 +2843,105 @@ export class PiqReportComponent implements OnInit {
             ? 'Ballast Tanks'
             : 'Void Spaces',
         referenceId: this.referenceNumber,
+        questionId: questionId,
       },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result && result !== 'Reset') {
+        this.lookupResetBtn(
+          questionId,
+          result.jobid,
+          '',
+          '2.3.Structural Assessment',
+          mainQueId
+        );
+        if (
+          mainQuest &&
+          (mainQuest.qid === 'MQ26' ||
+            mainQuest.qid === 'MQ29' ||
+            mainQuest.qid === 'MQ32')
+        ) {
+          mainQuest.subQuestion.forEach((subQuest: any) => {
+            this.restoreLookUp(subQuest);
+          });
+          if (mainQuest && mainQuest.qid === 'MQ26') {
+            this.dynamicForms.patchValue({
+              Q27: result.convertedFrequencyType,
+              Q28: result && result.dueDate ? new Date(result.dueDate) : '',
+            });
+          } else if (mainQuest && mainQuest.qid === 'MQ29') {
+            this.dynamicForms.patchValue({
+              Q30: result.convertedFrequencyType,
+              Q31: result && result.dueDate ? new Date(result.dueDate) : '',
+            });
+          } else if (mainQuest && mainQuest.qid === 'MQ32') {
+            this.dynamicForms.patchValue({
+              Q33: result.convertedFrequencyType,
+              Q34: result && result.dueDate ? new Date(result.dueDate) : '',
+            });
+          }
+
+          if (
+            mainQuest &&
+            (mainQuest.qid === 'MQ26' ||
+              mainQuest.qid === 'MQ29' ||
+              mainQuest.qid === 'MQ32')
+          ) {
+            mainQuest.subQuestion.forEach((response: any) => {
+              if (response && response.qid === 'Q27') {
+                response.answer = result.convertedFrequencyType;
+              } else if (response && response.qid === 'Q28') {
+                response.answer = result.dueDate;
+              } else if (response && response.qid === 'Q30') {
+                response.answer = result.convertedFrequencyType;
+              } else if (response && response.qid === 'Q31') {
+                response.answer = result.dueDate;
+              } else if (response && response.qid === 'Q33') {
+                response.answer = result.convertedFrequencyType;
+              } else if (response && response.qid === 'Q34') {
+                response.answer = result.dueDate;
+              }
+              this.countDetails();
+            });
+          }
+        }
+      } else if (result === 'Reset') {
+        if (
+          mainQuest &&
+          (mainQuest.qid === 'MQ26' ||
+            mainQuest.qid === 'MQ29' ||
+            mainQuest.qid === 'MQ32')
+        ) {
+          mainQuest.subQuestion.forEach((subQuest: any) => {
+            this.restoreLookUp(subQuest);
+          });
+
+          if (mainQuest && mainQuest.qid === 'MQ26') {
+            this.formResetMQ26();
+          } else if (mainQuest && mainQuest.qid === 'MQ29') {
+            this.formResetMQ29();
+          } else if (mainQuest && mainQuest.qid === 'MQ34') {
+            this.formResetMQ34();
+          }
+        }
+        const exceptioDetails = [...this.exceptionList];
+        const filterMquest = exceptioDetails.filter((exc) => {
+          return (
+            mainQuest.qid === exc.mainQueId &&
+            exc.mainQuestion.includes(questionId)
+          );
+        });
+        filterMquest.forEach((data) => {
+          this.exceptionList.forEach((filter: any, index: number) => {
+            if (filter.guid.value === data.guid.value) {
+              this.exceptionList.splice(index, 1);
+            }
+          });
+        });
+        this.updateExceptionList();
+        this.lookupResetBtn(questionId, 'Reset', '');
+      }
     });
   }
   pscLookUp(quest: any, mainQuest: any, questionId: any, mainQueId?: any) {
@@ -3482,6 +3648,12 @@ export class PiqReportComponent implements OnInit {
     subq.answer = this.datePipe.transform(event.value, this.dateFormat);
     if (questionId === '2.2.1' || questionId === '2.2.2') {
       this.getLookUpVisit(questionId, subQues, mquest, subq);
+    } else if (
+      questionId === '2.3.3.1' ||
+      questionId === '2.3.3.2' ||
+      questionId === '2.3.3.3'
+    ) {
+      this.getPMSDetail(questionId, subQues, mquest, subq, 'date');
     } else if (questionId === '2.8.2') {
       this.getPscDetail(questionId, subQues, mquest, subq);
     } else if (
@@ -3754,7 +3926,7 @@ export class PiqReportComponent implements OnInit {
       response: 'Auto',
       qid: 'Q10',
       controlname: 'automatic4',
-      subcheckbox: false,
+      isShowSubQues: false,
       inprogress: false,
       isshipvisit: false,
       isinternal: false,
@@ -3781,7 +3953,7 @@ export class PiqReportComponent implements OnInit {
       response: 'Auto',
       qid: 'Q24',
       controlname: 'automatic4',
-      subcheckbox: false,
+      isShowSubQues: false,
       inprogress: false,
       isshipvisit: false,
       isinternal: false,
@@ -3808,7 +3980,7 @@ export class PiqReportComponent implements OnInit {
       response: 'Auto',
       qid: 'Q103',
       controlname: 'automatic4',
-      subcheckbox: false,
+      isShowSubQues: false,
       inprogress: false,
       isshipvisit: false,
       isinternal: false,
@@ -3834,7 +4006,7 @@ export class PiqReportComponent implements OnInit {
       response: 'Auto',
       qid: 'Q109',
       controlname: 'automatic4',
-      subcheckbox: false,
+      isShowSubQues: false,
       inprogress: false,
       isshipvisit: false,
       isinternal: false,
@@ -3969,6 +4141,167 @@ export class PiqReportComponent implements OnInit {
             if (fromDate && lookUpFromDate && toDate && lookUpToDate) {
               if (!(fromDate === lookUpFromDate && toDate === lookUpToDate)) {
                 this.exceptionDateFn(subQues, mquest, subq);
+              }
+            }
+          }
+        }
+      });
+  }
+
+  getPMSDetail(
+    questionId: any,
+    subQues: any,
+    mquest: any,
+    subq: any,
+    type: any
+  ) {
+    const companycode = this.userDetails.companyCode;
+    const vesselCode = localStorage.getItem('masterVesselCode');
+    this.appServices
+      .getPMSLookupVisitData(
+        companycode,
+        vesselCode,
+        this.referenceNumber,
+        questionId
+      )
+      .subscribe((data) => {
+        if (questionId === '2.3.3.1') {
+          let lookUpPMSData: any;
+          if (data && data.Response) {
+            lookUpPMSData = data.Response[0].jobList.find(
+              (x: any) => x.highlight
+            );
+          }
+
+          if (lookUpPMSData) {
+            lookUpPMSData.convertedFrequencyType =
+              lookUpPMSData && lookUpPMSData.frequencytype === 'Month'
+                ? lookUpPMSData.frequency + ' months'
+                : '';
+          }
+
+          if (lookUpPMSData) {
+            let lookUpDate: any;
+            let lookUpMonthSelect: any;
+            const monthSelect = this.dynamicForms.value.Q27
+              ? this.dynamicForms.value.Q27
+              : '';
+            const date = this.dynamicForms.value.Q28
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q28),
+                  this.dateFormat
+                )
+              : '';
+
+            if (lookUpPMSData) {
+              lookUpDate = lookUpPMSData.dueDate
+                ? this.datePipe.transform(
+                    new Date(lookUpPMSData.dueDate),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpMonthSelect =
+                lookUpPMSData && lookUpPMSData.convertedFrequencyType
+                  ? lookUpPMSData.convertedFrequencyType
+                  : '';
+            }
+
+            if (type === 'date') {
+              if (!(date === lookUpDate)) {
+                this.exceptionDateFn(subQues, mquest, subq);
+              }
+            }
+            if (type === 'select') {
+              if (!(monthSelect === lookUpMonthSelect)) {
+                this.exceptionFn(subQues, mquest, subq);
+              }
+            }
+          }
+        } else if (questionId === '2.3.3.2') {
+          let lookUpPMSData: any;
+          if (data && data.Response) {
+            lookUpPMSData = data.Response[1].jobList.find(
+              (x: any) => x.highlight
+            );
+          }
+
+          if (lookUpPMSData) {
+            let lookUpDate: any;
+            let lookUpMonthSelect: any;
+            const monthSelect = this.dynamicForms.value.Q30
+              ? this.dynamicForms.value.Q30
+              : '';
+            const date = this.dynamicForms.value.Q31
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q31),
+                  this.dateFormat
+                )
+              : '';
+
+            if (lookUpPMSData) {
+              lookUpDate = lookUpPMSData.dueDate
+                ? this.datePipe.transform(
+                    new Date(lookUpPMSData.dueDate),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpMonthSelect =
+                lookUpPMSData && lookUpPMSData.convertedFrequencyType
+                  ? lookUpPMSData.convertedFrequencyType
+                  : '';
+            }
+            if (type === 'date') {
+              if (!(date === lookUpDate)) {
+                this.exceptionDateFn(subQues, mquest, subq);
+              }
+            }
+            if (type === 'select') {
+              if (!(monthSelect === lookUpMonthSelect)) {
+                this.exceptionFn(subQues, mquest, subq);
+              }
+            }
+          }
+        } else if (questionId === '2.3.3.3') {
+          let lookUpPMSData: any;
+          if (data && data.Response) {
+            lookUpPMSData = data.Response[2].jobList.find(
+              (x: any) => x.highlight
+            );
+          }
+
+          if (lookUpPMSData) {
+            let lookUpDate: any;
+            let lookUpMonthSelect: any;
+            const monthSelect = this.dynamicForms.value.Q33
+              ? this.dynamicForms.value.Q33
+              : '';
+            const date = this.dynamicForms.value.Q34
+              ? this.datePipe.transform(
+                  new Date(this.dynamicForms.value.Q34),
+                  this.dateFormat
+                )
+              : '';
+
+            if (lookUpPMSData) {
+              lookUpDate = lookUpPMSData.dueDate
+                ? this.datePipe.transform(
+                    new Date(lookUpPMSData.dueDate),
+                    this.dateFormat
+                  )
+                : '';
+              lookUpMonthSelect =
+                lookUpPMSData && lookUpPMSData.convertedFrequencyType
+                  ? lookUpPMSData.convertedFrequencyType
+                  : '';
+            }
+            if (type === 'date') {
+              if (!(date === lookUpDate)) {
+                this.exceptionDateFn(subQues, mquest, subq);
+              }
+            }
+            if (type === 'select') {
+              if (!(monthSelect === lookUpMonthSelect)) {
+                this.exceptionFn(subQues, mquest, subq);
               }
             }
           }
@@ -4439,6 +4772,15 @@ export class PiqReportComponent implements OnInit {
       } else if (quest.subheadid === 'SH29') {
         this.formResetSH29();
         this.lookupResetBtn('2.5.', 'Reset', '');
+      } else if (mquest && mquest.qid === 'MQ26') {
+        this.formResetMQ26();
+        this.lookupResetBtn(questionId, 'Reset', '');
+      } else if (mquest && mquest.qid === 'MQ29') {
+        this.formResetMQ29();
+        this.lookupResetBtn(questionId, 'Reset', '');
+      } else if (mquest && mquest.qid === 'MQ34') {
+        this.formResetMQ34();
+        this.lookupResetBtn(questionId, 'Reset', '');
       }
       const exceptioDetails = [...this.exceptionList];
       const filterMquest = exceptioDetails.filter((exc) => {
@@ -4837,5 +5179,28 @@ export class PiqReportComponent implements OnInit {
       Q142: '',
       Q145: '',
     });
+  }
+
+  formResetMQ26() {
+    this.dynamicForms.patchValue({
+      Q27: '',
+      Q28: '',
+    });
+  }
+  formResetMQ29() {
+    this.dynamicForms.patchValue({
+      Q30: '',
+      Q31: '',
+    });
+  }
+  formResetMQ34() {
+    this.dynamicForms.patchValue({
+      Q33: '',
+      Q34: '',
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.referenceNumber = null;
   }
 }

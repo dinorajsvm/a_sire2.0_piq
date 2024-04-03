@@ -23,6 +23,7 @@ const routes: Routes = [
 
       { path: 'piq-report/:id', component: PiqReportComponent },
       { path: 'piq-report/:id/:type', component: PiqReportComponent },
+      { path: 'piq-report/:id/:type/:loadType', component: PiqReportComponent },
       {
         path: '',
         redirectTo: 'piq-landing',

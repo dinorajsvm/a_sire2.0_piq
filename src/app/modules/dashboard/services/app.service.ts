@@ -314,10 +314,11 @@ export class AppService {
   getPMSLookupVisitData(
     companycode: any,
     vesselCode: any,
-    instanceId: any
+    instanceId: any,
+    questionId: any
   ) {
     return this.client.get<any>(
-      `${this.globalUrl}/PIQ/event/getpmslookup?companycode=${companycode}&vesselcode=${vesselCode}&instanceid=${instanceId}`
+      `${this.globalUrl}/PIQ/event/getpmslookup?companycode=${companycode}&vesselcode=${vesselCode}&instanceid=${instanceId}&questionid=${questionId}`
     );
   }
 

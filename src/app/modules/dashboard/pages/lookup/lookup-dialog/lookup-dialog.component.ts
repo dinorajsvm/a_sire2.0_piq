@@ -43,7 +43,7 @@ export class LookupDialogComponent implements OnInit {
   referenceId: any = '';
   columnDefs: ColDef[] = [
     {
-      headerName: 'Auto Sync',
+      headerName: 'Action',
       sortable: false,
       filter: false,
       hide: this.hideReqBtns,
@@ -135,7 +135,7 @@ export class LookupDialogComponent implements OnInit {
 
   internalColumnDefs: ColDef[] = [
     {
-      headerName: 'Auto Sync',
+      headerName: 'Action',
       flex: 1,
       sortable: false,
       hide: this.hideReqBtns,
