@@ -1282,6 +1282,7 @@ export class PiqReportComponent implements OnInit {
     type?: any,
     id?: number
   ): void {
+    debugger;
     if (type === 'initial') {
       const currentVesselType = localStorage.getItem('currentVesselType');
       if (currentVesselType) {
@@ -1442,7 +1443,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q344') {
+    } else if (subQue.qid === 'Q344') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1452,7 +1453,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q350') {
+    } else if (subQue.qid === 'Q350') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1462,7 +1463,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q356') {
+    } else if (subQue.qid === 'Q356') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1472,7 +1473,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q362') {
+    } else if (subQue.qid === 'Q362') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1482,7 +1483,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q368') {
+    } else if (subQue.qid === 'Q368') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1492,7 +1493,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q374') {
+    } else if (subQue.qid === 'Q374') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1502,7 +1503,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q380') {
+    } else if (subQue.qid === 'Q380') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1512,7 +1513,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q386') {
+    } else if (subQue.qid === 'Q386') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1522,7 +1523,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q386') {
+    } else if (subQue.qid === 'Q386') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1532,7 +1533,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q392') {
+    } else if (subQue.qid === 'Q392') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1542,7 +1543,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q398') {
+    } else if (subQue.qid === 'Q398') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1552,7 +1553,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q404') {
+    } else if (subQue.qid === 'Q404') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1562,7 +1563,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q410') {
+    } else if (subQue.qid === 'Q410') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1572,7 +1573,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q416') {
+    } else if (subQue.qid === 'Q416') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1582,7 +1583,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q422') {
+    } else if (subQue.qid === 'Q422') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1592,7 +1593,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q428') {
+    } else if (subQue.qid === 'Q428') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1602,7 +1603,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q434') {
+    } else if (subQue.qid === 'Q434') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1612,7 +1613,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q440') {
+    } else if (subQue.qid === 'Q440') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1622,7 +1623,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q446') {
+    } else if (subQue.qid === 'Q446') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1632,7 +1633,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q452') {
+    } else if (subQue.qid === 'Q452') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1642,7 +1643,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q458') {
+    } else if (subQue.qid === 'Q458') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1652,7 +1653,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q464') {
+    } else if (subQue.qid === 'Q464') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1662,7 +1663,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q470') {
+    } else if (subQue.qid === 'Q470') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1672,7 +1673,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q476') {
+    } else if (subQue.qid === 'Q476') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1682,7 +1683,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q482') {
+    } else if (subQue.qid === 'Q482') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1692,7 +1693,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q488') {
+    } else if (subQue.qid === 'Q488') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1702,7 +1703,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q494') {
+    } else if (subQue.qid === 'Q494') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1712,7 +1713,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q500') {
+    } else if (subQue.qid === 'Q500') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1722,7 +1723,7 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q506') {
+    } else if (subQue.qid === 'Q506') {
       if (value === questionValue.YES) {
         for (let i = 1; i <= 4; i++) {
           mainQue.subQuestion[i].subcheckbox = false;
@@ -1732,146 +1733,280 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
-    }else if (subQue.qid === 'Q226') {
+    } else if (subQue.qid === 'Q226') {
       if (value === questionValue.YES) {
         ques.question[1].showMainQuestion = false;
       } else {
         ques.question[1].showMainQuestion = true;
       }
-    }else if (subQue.qid === 'Q252') {
-      if (value === questionValue.YES) {
-        ques.question[1].showMainQuestion = false;
-      } else {
-        ques.question[1].showMainQuestion = true;
-      }
-    }else if (subQue.qid === 'Q255') {
+    } else if (subQue.qid === 'Q252') {
       if (value === questionValue.YES) {
         mainQue.subQuestion[1].subcheckbox = false;
       } else {
         mainQue.subQuestion[1].subcheckbox = true;
       }
-    }else if (subQue.qid === 'Q258') {
+    } else if (subQue.qid === 'Q255') {
       if (value === questionValue.YES) {
-        for (let i = 2; i <= 31; i++) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q258') {
+      if (value === questionValue.YES) {
+        for (let i = 2; i <= 30; i += 2) {
           mainQue.subQuestion[i].subcheckbox = false;
-        }
-      } else {
-        for (let i = 2; i <= 31; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
-        }
       }
-    }else if (subQue.qid === 'Q290') {
-      if (value === questionValue.YES) {
-        for (let i = 2; i <= 5; i++) {
+        // mainQue.subQuestion[2].subcheckbox = false;
+        // mainQue.subQuestion[4].subcheckbox = false;
+        // mainQue.subQuestion[6].subcheckbox = false;
+        // mainQue.subQuestion[8].subcheckbox = false;
+        // mainQue.subQuestion[10].subcheckbox = false;
+        // mainQue.subQuestion[12].subcheckbox = false;
+        // mainQue.subQuestion[14].subcheckbox = false;
+        // mainQue.subQuestion[16].subcheckbox = false;
+        // mainQue.subQuestion[18].subcheckbox = false;
+        // mainQue.subQuestion[20].subcheckbox = false;
+        // mainQue.subQuestion[22].subcheckbox = false;
+        // mainQue.subQuestion[24].subcheckbox = false;
+        // mainQue.subQuestion[26].subcheckbox = false;
+        // mainQue.subQuestion[28].subcheckbox = false;
+        // mainQue.subQuestion[30].subcheckbox = false;
+        // for (let i = 2; i <= 31; i++) {
+        //   mainQue.subQuestion[i].subcheckbox = false;
+        // }
+      } else {
+        for (let i = 2; i <= 30; i += 2) {
           mainQue.subQuestion[i].subcheckbox = false;
-        }
-      } else {
-        for (let i = 2; i <= 5; i++) {
-          mainQue.subQuestion[i].subcheckbox = true;
-        }
       }
-    }else if (subQue.qid === 'Q296') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        // mainQue.subQuestion[2].subcheckbox = true;
+        // mainQue.subQuestion[4].subcheckbox = true;
+        // mainQue.subQuestion[6].subcheckbox = true;
+        // mainQue.subQuestion[8].subcheckbox = true;
+        // mainQue.subQuestion[10].subcheckbox = true;
+        // mainQue.subQuestion[12].subcheckbox = true;
+        // mainQue.subQuestion[14].subcheckbox = true;
+        // mainQue.subQuestion[16].subcheckbox = true;
+        // mainQue.subQuestion[18].subcheckbox = true;
+        // mainQue.subQuestion[20].subcheckbox = true;
+        // mainQue.subQuestion[22].subcheckbox = true;
+        // mainQue.subQuestion[24].subcheckbox = true;
+        // mainQue.subQuestion[26].subcheckbox = true;
+        // mainQue.subQuestion[28].subcheckbox = true;
+        // mainQue.subQuestion[30].subcheckbox = true;
       }
-    }else if (subQue.qid === 'Q299') {
+    }else if (subQue.qid === 'Q259') {
+      
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[3].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[3].subcheckbox = true;
       }
-    }else if (subQue.qid === 'Q302') {
+    }else if (subQue.qid === 'Q261') {
       if (value === questionValue.YES) {
-        mainQue.subQuestion[1].subcheckbox = false;
-      } else {
-        mainQue.subQuestion[1].subcheckbox = true;
+        mainQue.subQuestion[5].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[5].subcheckbox = true;
       }
-    }else if (subQue.qid === 'Q305') {
+    }else if (subQue.qid === 'Q263') {
       if (value === questionValue.YES) {
-         // for (let i = 1; i <= 4; i++) {
-      //   mainQue.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = false;
-      ques.question[5].showMainQuestion = false;
-      ques.question[6].showMainQuestion = false;
-      ques.question[7].showMainQuestion = false;
-      ques.question[9].showMainQuestion = false;
-      } else {
-         // for (let i = 1; i <= 4; i++) {
-      //   main.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = true;
-      ques.question[5].showMainQuestion = true;
-      ques.question[6].showMainQuestion = true;
-      ques.question[7].showMainQuestion = true;
-      ques.question[9].showMainQuestion = true;
+        mainQue.subQuestion[7].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[7].subcheckbox = true;
       }
-    }else if (subQue.qid === 'Q307') {
+    }else if (subQue.qid === 'Q265') {
       if (value === questionValue.YES) {
-         // for (let i = 1; i <= 4; i++) {
-      //   main.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = false;
-      ques.question[5].showMainQuestion = false;
-      ques.question[6].showMainQuestion = false;
-      ques.question[7].showMainQuestion = false;
-      ques.question[9].showMainQuestion = false;
-      } else {
-         // for (let i = 1; i <= 4; i++) {
-      //   main.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = true;
-      ques.question[5].showMainQuestion = true;
-      ques.question[6].showMainQuestion = true;
-      ques.question[7].showMainQuestion = true;
-      ques.question[9].showMainQuestion = true;
+        mainQue.subQuestion[9].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[9].subcheckbox = true;
       }
-    }else if (subQue.qid === 'Q309') {
+    }else if (subQue.qid === 'Q267') {
       if (value === questionValue.YES) {
-         // for (let i = 1; i <= 4; i++) {
-      //   main.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = false;
-      ques.question[5].showMainQuestion = false;
-      ques.question[6].showMainQuestion = false;
-      ques.question[7].showMainQuestion = false;
-      ques.question[9].showMainQuestion = false;
-      } else {
-         // for (let i = 1; i <= 4; i++) {
-      //   main.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = true;
-      ques.question[5].showMainQuestion = true;
-      ques.question[6].showMainQuestion = true;
-      ques.question[7].showMainQuestion = true;
-      ques.question[9].showMainQuestion = true;
+        mainQue.subQuestion[11].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[11].subcheckbox = true;
       }
-    }else if (subQue.qid === 'Q311') {
+    }else if (subQue.qid === 'Q269') {
       if (value === questionValue.YES) {
-         // for (let i = 1; i <= 4; i++) {
-      //   main.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = false;
-      ques.question[5].showMainQuestion = false;
-      ques.question[6].showMainQuestion = false;
-      ques.question[7].showMainQuestion = false;
-      ques.question[9].showMainQuestion = false;
-      } else {
-         // for (let i = 1; i <= 4; i++) {
-      //   main.subQuestion[i].subcheckbox = true;
-      // }
-      ques.question[4].showMainQuestion = true;
-      ques.question[5].showMainQuestion = true;
-      ques.question[6].showMainQuestion = true;
-      ques.question[7].showMainQuestion = true;
-      ques.question[9].showMainQuestion = true;
+        mainQue.subQuestion[13].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[13].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q271') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[15].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[15].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q273') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[17].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[17].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q275') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[19].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[19].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q277') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[21].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[21].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q279') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[23].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[23].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q281') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[25].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[25].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q283') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[27].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[27].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q285') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[29].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[29].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q287') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[31].subcheckbox = false;
+      } else {   
+        mainQue.subQuestion[31].subcheckbox = true;
       }
     }
-
-
-
+     else if (subQue.qid === 'Q290') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[2].subcheckbox = false;
+        mainQue.subQuestion[4].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[2].subcheckbox = true;
+        mainQue.subQuestion[4].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q291') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[3].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[3].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q293') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[5].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[5].subcheckbox = true;
+      }
+    }
+    
+    else if (subQue.qid === 'Q296') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q299') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q302') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    } else if (subQue.qid === 'Q305') {
+      if (value === questionValue.YES) {
+        // for (let i = 1; i <= 4; i++) {
+        //   mainQue.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = false;
+        ques.question[5].showMainQuestion = false;
+        ques.question[6].showMainQuestion = false;
+        ques.question[7].showMainQuestion = false;
+        ques.question[9].showMainQuestion = false;
+      } else {
+        // for (let i = 1; i <= 4; i++) {
+        //   main.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = true;
+        ques.question[5].showMainQuestion = true;
+        ques.question[6].showMainQuestion = true;
+        ques.question[7].showMainQuestion = true;
+        ques.question[9].showMainQuestion = true;
+      }
+    } else if (subQue.qid === 'Q307') {
+      if (value === questionValue.YES) {
+        // for (let i = 1; i <= 4; i++) {
+        //   main.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = false;
+        ques.question[5].showMainQuestion = false;
+        ques.question[6].showMainQuestion = false;
+        ques.question[7].showMainQuestion = false;
+        ques.question[9].showMainQuestion = false;
+      } else {
+        // for (let i = 1; i <= 4; i++) {
+        //   main.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = true;
+        ques.question[5].showMainQuestion = true;
+        ques.question[6].showMainQuestion = true;
+        ques.question[7].showMainQuestion = true;
+        ques.question[9].showMainQuestion = true;
+      }
+    } else if (subQue.qid === 'Q309') {
+      if (value === questionValue.YES) {
+        // for (let i = 1; i <= 4; i++) {
+        //   main.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = false;
+        ques.question[5].showMainQuestion = false;
+        ques.question[6].showMainQuestion = false;
+        ques.question[7].showMainQuestion = false;
+        ques.question[9].showMainQuestion = false;
+      } else {
+        // for (let i = 1; i <= 4; i++) {
+        //   main.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = true;
+        ques.question[5].showMainQuestion = true;
+        ques.question[6].showMainQuestion = true;
+        ques.question[7].showMainQuestion = true;
+        ques.question[9].showMainQuestion = true;
+      }
+    } else if (subQue.qid === 'Q311') {
+      if (value === questionValue.YES) {
+        // for (let i = 1; i <= 4; i++) {
+        //   main.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = false;
+        ques.question[5].showMainQuestion = false;
+        ques.question[6].showMainQuestion = false;
+        ques.question[7].showMainQuestion = false;
+        ques.question[9].showMainQuestion = false;
+      } else {
+        // for (let i = 1; i <= 4; i++) {
+        //   main.subQuestion[i].subcheckbox = true;
+        // }
+        ques.question[4].showMainQuestion = true;
+        ques.question[5].showMainQuestion = true;
+        ques.question[6].showMainQuestion = true;
+        ques.question[7].showMainQuestion = true;
+        ques.question[9].showMainQuestion = true;
+      }
+    }
 
     if (type === '' && subQue.qid === 'Q133') {
       this.getvesseltype();
