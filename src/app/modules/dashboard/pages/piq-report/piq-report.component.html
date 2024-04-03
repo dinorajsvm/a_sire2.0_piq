@@ -515,7 +515,7 @@
                           >
                             <mat-accordion
                               class="card_container"
-                              [hidden]="Mquest.showMainQuestion"
+                              [hidden]="Mquest.isShowMainQues"
                               [id]="Mquest.qid"
                               *ngIf="
                                 searchText === '' ||
@@ -1124,7 +1124,7 @@
                                 >
                                   <div
                                     class="col-sm-6 shoreQuest"
-                                    [hidden]="subq.subcheckbox"
+                                    [hidden]="subq.isShowSubQues"
                                     [id]="subq.qid"
                                     *ngFor="let subq of Mquest.subQuestion"
                                     [class.shoreQuest]="
@@ -2232,7 +2232,7 @@
                                   >
                                     <div
                                       class="col-sm-6 shoreQuest"
-                                      [hidden]="subq.subcheckbox"
+                                      [hidden]="subq.isShowSubQues"
                                       *ngFor="
                                         let subq of allQuestValues.subQuestion
                                       "
