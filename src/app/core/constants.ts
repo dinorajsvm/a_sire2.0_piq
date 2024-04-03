@@ -273,4 +273,5 @@ export const safetyRowData = [
 export const questionValue = {
   OTHER: 'Other',
   YES: 'Yes',
+  NO:'No'
 };

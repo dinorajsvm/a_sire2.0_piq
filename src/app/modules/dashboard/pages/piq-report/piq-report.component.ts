@@ -593,21 +593,21 @@ export class PiqReportComponent implements OnInit, OnDestroy {
               main.subQuestion[2].isShowSubQues = true;
             } else if (
               sub.qid === 'Q7' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q21' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q36' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 8; i++) {
                 main.subQuestion[i].isShowSubQues = true;
@@ -622,353 +622,368 @@ export class PiqReportComponent implements OnInit, OnDestroy {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q136' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q139' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q141' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q142' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q145' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q155' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 6; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
+              sub.qid === 'Q71' &&
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+            ) {
+              for (let i = 1; i <= 4; i++) {
+                main.subQuestion[i].isShowSubQues = true;
+              }
+            } else if (
               sub.qid === 'Q77' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q83' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q89' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 5; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q212' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               ques.question[1].isShowMainQues = true;
             } else if (
               sub.qid === 'Q338' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q344' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q350' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q356' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q362' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q368' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q374' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q380' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q386' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q392' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q398' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q404' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q410' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q416' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q422' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q428' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q434' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q440' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q446' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q452' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q458' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q464' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q470' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q476' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q482' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q488' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q494' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q500' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q506' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 1; i <= 4; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q226' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               ques.question[1].isShowMainQues = true;
             } else if (
               sub.qid === 'Q252' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q255' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q258' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 2; i <= 31; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q290' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               for (let i = 2; i <= 5; i++) {
                 main.subQuestion[i].isShowSubQues = true;
               }
             } else if (
               sub.qid === 'Q296' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q299' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q302' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
               main.subQuestion[1].isShowSubQues = true;
             } else if (
               sub.qid === 'Q305' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
-              // for (let i = 1; i <= 4; i++) {
-              //   main.subQuestion[i].isShowSubQues = true;
-              // }
-              ques.question[4].isShowMainQues = true;
-              ques.question[5].isShowMainQues = true;
-              ques.question[6].isShowMainQues = true;
-              ques.question[7].isShowMainQues = true;
-              ques.question[9].isShowMainQues = true;
+              for (let i = 5; i <= 9; i++) {
+                ques.question[i].isShowMainQues = true;
+              }
             } else if (
               sub.qid === 'Q307' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
-              ques.question[4].isShowMainQues = true;
-              ques.question[5].isShowMainQues = true;
-              ques.question[6].isShowMainQues = true;
-              ques.question[7].isShowMainQues = true;
-              ques.question[9].isShowMainQues = true;
+              for (let i = 5; i <= 9; i++) {
+                ques.question[i].isShowMainQues = true;
+              }
             } else if (
               sub.qid === 'Q309' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
-              ques.question[4].isShowMainQues = true;
-              ques.question[5].isShowMainQues = true;
-              ques.question[6].isShowMainQues = true;
-              ques.question[7].isShowMainQues = true;
-              ques.question[9].isShowMainQues = true;
+              for (let i = 5; i <= 9; i++) {
+                ques.question[i].isShowMainQues = true;
+              }
             } else if (
               sub.qid === 'Q311' &&
-              (sub.answer === undefined || sub.answer === '')
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
             ) {
-              ques.question[4].isShowMainQues = true;
-              ques.question[5].isShowMainQues = true;
-              ques.question[6].isShowMainQues = true;
-              ques.question[7].isShowMainQues = true;
-              ques.question[9].isShowMainQues = true;
+              for (let i = 5; i <= 9; i++) {
+                ques.question[i].isShowMainQues = true;
+              }
+            } else if (
+              sub.qid === 'Q313' &&
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+            ) {
+              main.subQuestion[1].isShowSubQues = true;
+            } else if (
+              sub.qid === 'Q321' &&
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+            ) {
+              main.subQuestion[1].isShowSubQues = true;
+            } else if (
+              sub.qid === 'Q324' &&
+              (sub.answer === undefined || sub.answer === '' || sub.answer === questionValue.NO)
+            ) {
+              for (let i = 1; i <= 4; i++) {
+                main.subQuestion[i].isShowSubQues = true;
+              }
             }
           });
         });
       });
     });
+    console.log('sasad', this.getAllDatas);
+
     this.countDetails();
   }
 
@@ -1311,8 +1326,18 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       );
       return;
     }
+    if (type === '' && subQue.qid === 'Q133') {
+      this.getvesseltype();
+      this.switchVesselType();
+    } else {
+      this.appServices.setVesselTypeData(this.vesselSelection);
+    }
+
+    this.appServices.setUnSaveAction(true);
+    subQue.answer = subQue.answer !== value ? value : subQue.answer;
+    value = subQue.answer === '' ? '' : subQue.answer;
     if (subQue.qid === 'Q4') {
-      const flag = value === questionValue.YES ? false : true;
+      const flag = value === questionValue.OTHER ? false : true;
       this.quesShowHideValidationIndex1(mainQue.subQuestion, 2, flag);
       this.answerRemoveValidationIndex1(mainQue.subQuestion, 2);
       this.dynamicForms.patchValue({
@@ -1367,6 +1392,16 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       } else {
         mainQue.subQuestion[1].isShowSubQues = true;
       }
+    } else if (subQue.qid === 'Q71') {
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex4(mainQue.subQuestion, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 4);
+      this.dynamicForms.patchValue({
+        Q72: '',
+        Q73: '',
+        Q74: '',
+        Q75: '',
+      });
     } else if (subQue.qid === 'Q136') {
       const flag = value === questionValue.YES ? false : true;
       this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
@@ -1766,43 +1801,10 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         for (let i = 2; i <= 30; i += 2) {
           mainQue.subQuestion[i].isShowSubQues = false;
         }
-        // mainQue.subQuestion[2].isShowSubQues = false;
-        // mainQue.subQuestion[4].isShowSubQues = false;
-        // mainQue.subQuestion[6].isShowSubQues = false;
-        // mainQue.subQuestion[8].isShowSubQues = false;
-        // mainQue.subQuestion[10].isShowSubQues = false;
-        // mainQue.subQuestion[12].isShowSubQues = false;
-        // mainQue.subQuestion[14].isShowSubQues = false;
-        // mainQue.subQuestion[16].isShowSubQues = false;
-        // mainQue.subQuestion[18].isShowSubQues = false;
-        // mainQue.subQuestion[20].isShowSubQues = false;
-        // mainQue.subQuestion[22].isShowSubQues = false;
-        // mainQue.subQuestion[24].isShowSubQues = false;
-        // mainQue.subQuestion[26].isShowSubQues = false;
-        // mainQue.subQuestion[28].isShowSubQues = false;
-        // mainQue.subQuestion[30].isShowSubQues = false;
-        // for (let i = 2; i <= 31; i++) {
-        //   mainQue.subQuestion[i].isShowSubQues = false;
-        // }
       } else {
         for (let i = 2; i <= 30; i += 2) {
           mainQue.subQuestion[i].isShowSubQues = false;
         }
-        // mainQue.subQuestion[2].isShowSubQues = true;
-        // mainQue.subQuestion[4].isShowSubQues = true;
-        // mainQue.subQuestion[6].isShowSubQues = true;
-        // mainQue.subQuestion[8].isShowSubQues = true;
-        // mainQue.subQuestion[10].isShowSubQues = true;
-        // mainQue.subQuestion[12].isShowSubQues = true;
-        // mainQue.subQuestion[14].isShowSubQues = true;
-        // mainQue.subQuestion[16].isShowSubQues = true;
-        // mainQue.subQuestion[18].isShowSubQues = true;
-        // mainQue.subQuestion[20].isShowSubQues = true;
-        // mainQue.subQuestion[22].isShowSubQues = true;
-        // mainQue.subQuestion[24].isShowSubQues = true;
-        // mainQue.subQuestion[26].isShowSubQues = true;
-        // mainQue.subQuestion[28].isShowSubQues = true;
-        // mainQue.subQuestion[30].isShowSubQues = true;
       }
     } else if (subQue.qid === 'Q259') {
       if (value === questionValue.YES) {
@@ -1932,99 +1934,63 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       } else {
         mainQue.subQuestion[1].isShowSubQues = true;
       }
-    } else if (subQue.qid === 'Q305') {
+    } else if (
+      subQue.qid === 'Q305' ||
+      subQue.qid === 'Q307' ||
+      subQue.qid === 'Q309' ||
+      subQue.qid === 'Q311'
+    ) {
       if (value === questionValue.YES) {
-        // for (let i = 1; i <= 4; i++) {
-        //   mainQue.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = false;
-        ques.question[5].isShowMainQues = false;
-        ques.question[6].isShowMainQues = false;
-        ques.question[7].isShowMainQues = false;
-        ques.question[9].isShowMainQues = false;
+        if (
+          ques.question[0].subQuestion[0].answer === questionValue.YES ||
+          ques.question[2].subQuestion[0].answer === questionValue.YES ||
+          ques.question[3].subQuestion[0].answer === questionValue.YES ||
+          ques.question[4].subQuestion[0].answer === questionValue.YES
+        ){
+          for (let i = 5; i <= 9; i++) {
+            ques.question[i].isShowMainQues = false;
+          }
+        }
+          
       } else {
-        // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = true;
-        ques.question[5].isShowMainQues = true;
-        ques.question[6].isShowMainQues = true;
-        ques.question[7].isShowMainQues = true;
-        ques.question[9].isShowMainQues = true;
+        if (
+          ques.question[0].subQuestion[0].answer === questionValue.YES ||
+          ques.question[2].subQuestion[0].answer === questionValue.YES ||
+          ques.question[3].subQuestion[0].answer === questionValue.YES ||
+          ques.question[4].subQuestion[0].answer === questionValue.YES
+        ){
+          for (let i = 5; i <= 9; i++) {
+            ques.question[i].isShowMainQues = false;
+          }
+        }else{
+          for (let i = 5; i <= 9; i++) {
+            ques.question[i].isShowMainQues = true;
+          }
+        }
       }
-    } else if (subQue.qid === 'Q307') {
+    } else if (subQue.qid === 'Q313') {
       if (value === questionValue.YES) {
-        // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = false;
-        ques.question[5].isShowMainQues = false;
-        ques.question[6].isShowMainQues = false;
-        ques.question[7].isShowMainQues = false;
-        ques.question[9].isShowMainQues = false;
+        mainQue.subQuestion[1].isShowSubQues = false;
       } else {
-        // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = true;
-        ques.question[5].isShowMainQues = true;
-        ques.question[6].isShowMainQues = true;
-        ques.question[7].isShowMainQues = true;
-        ques.question[9].isShowMainQues = true;
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
-    } else if (subQue.qid === 'Q309') {
+    } else if (subQue.qid === 'Q321') {
       if (value === questionValue.YES) {
-        // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = false;
-        ques.question[5].isShowMainQues = false;
-        ques.question[6].isShowMainQues = false;
-        ques.question[7].isShowMainQues = false;
-        ques.question[9].isShowMainQues = false;
+        mainQue.subQuestion[1].isShowSubQues = false;
       } else {
-        // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = true;
-        ques.question[5].isShowMainQues = true;
-        ques.question[6].isShowMainQues = true;
-        ques.question[7].isShowMainQues = true;
-        ques.question[9].isShowMainQues = true;
+        mainQue.subQuestion[1].isShowSubQues = true;
       }
-    } else if (subQue.qid === 'Q311') {
+    } else if (subQue.qid === 'Q324') {
       if (value === questionValue.YES) {
-        // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = false;
-        ques.question[5].isShowMainQues = false;
-        ques.question[6].isShowMainQues = false;
-        ques.question[7].isShowMainQues = false;
-        ques.question[9].isShowMainQues = false;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].isShowSubQues = false;
+        }
       } else {
-        // for (let i = 1; i <= 4; i++) {
-        //   main.subQuestion[i].isShowSubQues = true;
-        // }
-        ques.question[4].isShowMainQues = true;
-        ques.question[5].isShowMainQues = true;
-        ques.question[6].isShowMainQues = true;
-        ques.question[7].isShowMainQues = true;
-        ques.question[9].isShowMainQues = true;
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].isShowSubQues = true;
+        }
       }
     }
-
-    if (type === '' && subQue.qid === 'Q133') {
-      this.getvesseltype();
-      this.switchVesselType();
-    } else {
-      this.appServices.setVesselTypeData(this.vesselSelection);
-    }
-
-    this.appServices.setUnSaveAction(true);
-    subQue.answer = subQue.answer !== value ? value : subQue.answer;
-    value = subQue.answer === '' ? '' : subQue.answer;
-
     const mQuestion = mainQue.mainQuestion;
     const str = mQuestion.split(' ');
     let questionId = '';
@@ -2121,14 +2087,11 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     question[index].answer = '';
   }
 
-
   answerRemoveValidationIndex(question: any, nValue: number) {
     for (let i = 1; i <= nValue; i++) {
       question[i].answer = '';
     }
   }
-
-
 
   getMocDetail(subQues: any, mquest: any, subq: any) {
     let hasMocData = false;
