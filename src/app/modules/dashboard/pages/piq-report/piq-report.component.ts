@@ -1406,7 +1406,472 @@ export class PiqReportComponent implements OnInit {
           mainQue.subQuestion[i].subcheckbox = true;
         }
       }
+    } else if (subQue.qid === 'Q83') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    } else if (subQue.qid === 'Q89') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 5; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 5; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    } else if (subQue.qid === 'Q212') {
+      if (value === questionValue.YES) {
+        ques.question[1].showMainQuestion = false;
+      } else {
+        ques.question[1].showMainQuestion = true;
+      }
+    } else if (subQue.qid === 'Q338') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q344') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q350') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q356') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q362') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q368') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q374') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q380') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q386') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q386') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q392') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q398') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q404') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q410') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q416') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q422') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q428') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q434') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q440') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q446') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q452') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q458') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q464') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q470') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q476') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q482') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q488') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q494') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q500') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q506') {
+      if (value === questionValue.YES) {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q226') {
+      if (value === questionValue.YES) {
+        ques.question[1].showMainQuestion = false;
+      } else {
+        ques.question[1].showMainQuestion = true;
+      }
+    }else if (subQue.qid === 'Q252') {
+      if (value === questionValue.YES) {
+        ques.question[1].showMainQuestion = false;
+      } else {
+        ques.question[1].showMainQuestion = true;
+      }
+    }else if (subQue.qid === 'Q255') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q258') {
+      if (value === questionValue.YES) {
+        for (let i = 2; i <= 31; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 2; i <= 31; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q290') {
+      if (value === questionValue.YES) {
+        for (let i = 2; i <= 5; i++) {
+          mainQue.subQuestion[i].subcheckbox = false;
+        }
+      } else {
+        for (let i = 2; i <= 5; i++) {
+          mainQue.subQuestion[i].subcheckbox = true;
+        }
+      }
+    }else if (subQue.qid === 'Q296') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q299') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q302') {
+      if (value === questionValue.YES) {
+        mainQue.subQuestion[1].subcheckbox = false;
+      } else {
+        mainQue.subQuestion[1].subcheckbox = true;
+      }
+    }else if (subQue.qid === 'Q305') {
+      if (value === questionValue.YES) {
+         // for (let i = 1; i <= 4; i++) {
+      //   mainQue.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = false;
+      ques.question[5].showMainQuestion = false;
+      ques.question[6].showMainQuestion = false;
+      ques.question[7].showMainQuestion = false;
+      ques.question[9].showMainQuestion = false;
+      } else {
+         // for (let i = 1; i <= 4; i++) {
+      //   main.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = true;
+      ques.question[5].showMainQuestion = true;
+      ques.question[6].showMainQuestion = true;
+      ques.question[7].showMainQuestion = true;
+      ques.question[9].showMainQuestion = true;
+      }
+    }else if (subQue.qid === 'Q307') {
+      if (value === questionValue.YES) {
+         // for (let i = 1; i <= 4; i++) {
+      //   main.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = false;
+      ques.question[5].showMainQuestion = false;
+      ques.question[6].showMainQuestion = false;
+      ques.question[7].showMainQuestion = false;
+      ques.question[9].showMainQuestion = false;
+      } else {
+         // for (let i = 1; i <= 4; i++) {
+      //   main.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = true;
+      ques.question[5].showMainQuestion = true;
+      ques.question[6].showMainQuestion = true;
+      ques.question[7].showMainQuestion = true;
+      ques.question[9].showMainQuestion = true;
+      }
+    }else if (subQue.qid === 'Q309') {
+      if (value === questionValue.YES) {
+         // for (let i = 1; i <= 4; i++) {
+      //   main.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = false;
+      ques.question[5].showMainQuestion = false;
+      ques.question[6].showMainQuestion = false;
+      ques.question[7].showMainQuestion = false;
+      ques.question[9].showMainQuestion = false;
+      } else {
+         // for (let i = 1; i <= 4; i++) {
+      //   main.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = true;
+      ques.question[5].showMainQuestion = true;
+      ques.question[6].showMainQuestion = true;
+      ques.question[7].showMainQuestion = true;
+      ques.question[9].showMainQuestion = true;
+      }
+    }else if (subQue.qid === 'Q311') {
+      if (value === questionValue.YES) {
+         // for (let i = 1; i <= 4; i++) {
+      //   main.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = false;
+      ques.question[5].showMainQuestion = false;
+      ques.question[6].showMainQuestion = false;
+      ques.question[7].showMainQuestion = false;
+      ques.question[9].showMainQuestion = false;
+      } else {
+         // for (let i = 1; i <= 4; i++) {
+      //   main.subQuestion[i].subcheckbox = true;
+      // }
+      ques.question[4].showMainQuestion = true;
+      ques.question[5].showMainQuestion = true;
+      ques.question[6].showMainQuestion = true;
+      ques.question[7].showMainQuestion = true;
+      ques.question[9].showMainQuestion = true;
+      }
     }
+
+
+
 
     if (type === '' && subQue.qid === 'Q133') {
       this.getvesseltype();
