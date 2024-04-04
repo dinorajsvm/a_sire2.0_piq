@@ -809,6 +809,14 @@
   border-radius: 5px;
 }
 
+.multiSelect{
+  border: 1px solid green;
+  color: green;
+  border-radius: 50%;
+  padding: 1px 3px;
+  font-weight: 500;
+}
+
 ::ng-deep .datePicker .mat-datepicker-toggle-default-icon {
   width: 15px;
   height: 15px;
