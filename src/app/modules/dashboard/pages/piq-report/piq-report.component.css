@@ -796,10 +796,17 @@
   font-weight: 500;
   margin: 0 5px;
   display: flex;
+  padding: 0 3px;
   /* color: #0000ee; */
   color: white;
   text-decoration: underline;
   cursor: pointer !important;
+}
+
+.enableHighlight {
+  background: white;
+  color: black;
+  border-radius: 5px;
 }
 
 ::ng-deep .datePicker .mat-datepicker-toggle-default-icon {

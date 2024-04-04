@@ -153,12 +153,10 @@
               <span class="counts charCount"
                 >Total Questions: {{ mainQuestCounts }}</span
               >
-              <span class="counts charCount" (click)="showpendQues()"
-                >Pending Questions: {{ pendingCount }}</span
-              >
-              <span class="counts charCount" (click)="ShowAllQuest()"
-                >Show All Questions</span
-              >
+              <span class="counts charCount" [ngClass]="{'enableHighlight':showPendingQuest}" 
+              (click)="showpendQues()">Pending Questions: {{ pendingCount }}</span>
+              <span class="counts charCount" [hidden]="!showPendingQuest" 
+              (click)="ShowAllQuest()">Show All Questions</span>
             </div>
 
             <div
