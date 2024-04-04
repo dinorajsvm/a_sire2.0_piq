@@ -1,5 +1,6 @@
 import {
   Component,
+  DebugElement,
   ElementRef,
   OnDestroy,
   OnInit,
@@ -418,9 +419,11 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         this.appServices.setGuidelineData(guidance);
       }
       object.forEach((getAllValue: any) => {
+        getAllValue['isShowHeader']=false;
         getAllValue.filledCount = 0;
         // if (getAllValue && getAllValue.values && getAllValue.values.length > 0) {
         getAllValue.values.forEach((value: any) => {
+          value['isShowSubHeader']=false;
           value.question.forEach((subHeader: any) => {
             if (subHeader && subHeader.qid) {
               formGroupFields[subHeader.qid] = new FormControl(
@@ -508,9 +511,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         // }
       });
       this.getAllDatas = object;
-      if (this.getAllDatas && this.getAllDatas.length > 0) {
-        this.setVisibleQuestions();
-      }
+      
       if (
         vesselCode !== '' &&
         vesselCode !== undefined &&
@@ -573,6 +574,10 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       this.mainQuestCounts = this.getMainQuestCounts.filter(
         (value: any) => !value.isShowMainQues
       ).length;
+
+      if (this.getAllDatas && this.getAllDatas.length > 0) {
+        this.setVisibleQuestions();
+      }
       this.expandMethod();
       this.getTopBarDatas();
     });
@@ -695,11 +700,6 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                   );
                 }
                 break;
-              case 'Q305':
-
-               case 'Q307':
-              case 'Q309':
-              case 'Q311':
               case 'Q212':
               case 'Q226':
                 if (isEmptyAnswer || isNoAnswer) {
@@ -747,11 +747,20 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                   this.quesShowHideValidationIndex1(main.subQuestion, 1, true);
                 }
                 break;
+              case 'Q523':
+              if (isEmptyAnswer || isNoAnswer) {
+                for (let i = 1; i <= 9; i++) {
+                  ques.question[i].isShowMainQues = true;
+                }
+                this.getAllDatas[9].values[1].isShowSubHeader=true
+              }
+              break;
             }
           });
         });
       });
     });
+    console.log("asdads",this.getAllDatas)
     this.countDetails();
   }
 
@@ -1104,6 +1113,23 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     this.appServices.setUnSaveAction(true);
     subQue.answer = subQue.answer !== value ? value : subQue.answer;
     value = subQue.answer === '' ? '' : subQue.answer;
+
+    const mQuestion = mainQue.mainQuestion;
+    const str = mQuestion.split(' ');
+    let questionId = '';
+    if (str && str.length > 0) {
+      if (str[0].endsWith('.')) {
+        const stringWithoutLastDot = str[0].slice(0, -1);
+        str[0] = stringWithoutLastDot;
+      }
+      const matchResult = str[0].match(/\d+\.\d+\.\d+(\.\d+)?/);
+      if (matchResult) {
+        questionId = matchResult[0];
+      } else {
+        const modifiedStr = str[0].replace(/\.\w*$/, '');
+        questionId = modifiedStr;
+      }
+    }
 
     if (subQue.qid === 'Q133') {
       if (
@@ -1766,71 +1792,73 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     ) {
       if (value === questionValue.YES) {
         if (
-          ques.question[0].subQuestion[0].answer === questionValue.YES ||
+          ques.question[1].subQuestion[0].answer === questionValue.YES ||
           ques.question[2].subQuestion[0].answer === questionValue.YES ||
           ques.question[3].subQuestion[0].answer === questionValue.YES ||
           ques.question[4].subQuestion[0].answer === questionValue.YES
         ) {
-          for (let i = 5; i <= 9; i++) {
-            ques.question[i].isShowMainQues = false;
-          }
+          // for (let i = 5; i <= 9; i++) {
+          //   ques.question[i].isShowMainQues = false;
+          // }
+          this.mainQuesShowHideValidationIndex2(ques.question, 5, 9, false);
         }
       } else {
         if (
-          ques.question[0].subQuestion[0].answer === questionValue.YES ||
+          ques.question[1].subQuestion[0].answer === questionValue.YES ||
           ques.question[2].subQuestion[0].answer === questionValue.YES ||
           ques.question[3].subQuestion[0].answer === questionValue.YES ||
           ques.question[4].subQuestion[0].answer === questionValue.YES
         ) {
-          for (let i = 5; i <= 9; i++) {
-            ques.question[i].isShowMainQues = false;
-          }
+          // for (let i = 5; i <= 9; i++) {
+          //   ques.question[i].isShowMainQues = false;
+          // }
+          this.mainQuesShowHideValidationIndex2(ques.question, 5, 9, false);
         } else {
-          for (let i = 5; i <= 9; i++) {
-            ques.question[i].isShowMainQues = true;
-          }
+          // for (let i = 5; i <= 9; i++) {
+          //   ques.question[i].isShowMainQues = true;
+          // }
+          this.mainQuesShowHideValidationIndex2(ques.question, 5, 9, true);
         }
       }
     } else if (subQue.qid === 'Q313') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].isShowSubQues = false;
-      } else {
-        mainQue.subQuestion[1].isShowSubQues = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q314: '',
+      });
     } else if (subQue.qid === 'Q321') {
-      if (value === questionValue.YES) {
-        mainQue.subQuestion[1].isShowSubQues = false;
-      } else {
-        mainQue.subQuestion[1].isShowSubQues = true;
-      }
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q322: '',
+      });
     } else if (subQue.qid === 'Q324') {
+      const flag = value === questionValue.YES ? false : true;
+      this.quesShowHideValidationIndex(mainQue.subQuestion, 1, 4, flag);
+      this.answerRemoveValidationIndex(mainQue.subQuestion, 1, 4);
+      this.dynamicForms.patchValue({
+        Q325: '',
+        Q326: '',
+        Q327: '',
+        Q328: '',
+      });
+    } else if (subQue.qid === 'Q523') {
       if (value === questionValue.YES) {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = false;
-        }
+        // for (let i = 1; i <= 4; i++) {
+        //   ques.question[i].isShowMainQues = false;
+        // }
+        this.mainQuesShowHideValidationIndex2(ques.question, 1, 4, false);
+        this.getAllDatas[9].values[1].isShowSubHeader=false;
       } else {
-        for (let i = 1; i <= 4; i++) {
-          mainQue.subQuestion[i].isShowSubQues = true;
-        }
+        // for (let i = 1; i <= 9; i++) {
+        //   ques.question[i].isShowMainQues = true;
+        // }
+        this.mainQuesShowHideValidationIndex2(ques.question, 1, 4, true);
+        this.getAllDatas[9].values[1].isShowSubHeader=true;
       }
     }
-    const mQuestion = mainQue.mainQuestion;
-    const str = mQuestion.split(' ');
-    let questionId = '';
-    if (str && str.length > 0) {
-      if (str[0].endsWith('.')) {
-        const stringWithoutLastDot = str[0].slice(0, -1);
-        str[0] = stringWithoutLastDot;
-      }
-      const matchResult = str[0].match(/\d+\.\d+\.\d+(\.\d+)?/);
-      if (matchResult) {
-        questionId = matchResult[0];
-      } else {
-        const modifiedStr = str[0].replace(/\.\w*$/, '');
-        questionId = modifiedStr;
-      }
-    }
-
     if (
       questionId === '2.3.3.1' ||
       questionId === '2.3.3.2' ||
@@ -1890,6 +1918,16 @@ export class PiqReportComponent implements OnInit, OnDestroy {
     value: boolean
   ) {
     question[index].isShowMainQues = value;
+  }
+  mainQuesShowHideValidationIndex2(
+    question: any,
+    initialIndex: number,
+    nValue: number,
+    value: boolean
+  ) {
+    for (initialIndex; initialIndex <= nValue; initialIndex++) {
+      question[initialIndex].isShowMainQues = value;
+    }
   }
 
   quesShowHideValidationIndex(
