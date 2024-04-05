@@ -419,11 +419,11 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         this.appServices.setGuidelineData(guidance);
       }
       object.forEach((getAllValue: any) => {
-        getAllValue['isShowHeader']=false;
+        getAllValue['isShowHeader'] = false;
         getAllValue.filledCount = 0;
         // if (getAllValue && getAllValue.values && getAllValue.values.length > 0) {
         getAllValue.values.forEach((value: any) => {
-          value['isShowSubHeader']=false;
+          value['isShowSubHeader'] = false;
           value.question.forEach((subHeader: any) => {
             if (subHeader && subHeader.qid) {
               formGroupFields[subHeader.qid] = new FormControl(
@@ -511,7 +511,7 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         // }
       });
       this.getAllDatas = object;
-      
+
       if (
         vesselCode !== '' &&
         vesselCode !== undefined &&
@@ -607,6 +607,36 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                   this.getAllDatas[4].values[1].question[1].isShowMainQues =
                     true;
                 }
+
+                if (
+                  main.subQuestion[0].answer === 'LPG Type 1G' ||
+                  main.subQuestion[0].answer === 'LPG Type 2PG' ||
+                  main.subQuestion[0].answer === 'LPG Type 3G' ||
+                  main.subQuestion[0].answer === 'LNG SPB / Moss Type' ||
+                  main.subQuestion[0].answer === 'LNG Type C' ||
+                  main.subQuestion[0].answer === 'LNG Membrane'
+                ) {
+                  this.getAllDatas[7].values[0].isShowSubHeader =
+                    true;
+                  this.getAllDatas[7].values[1].isShowSubHeader =
+                    false;
+                } else {
+                  this.getAllDatas[7].values[0].isShowSubHeader =
+                    false;
+                  this.getAllDatas[7].values[1].isShowSubHeader =
+                    true;
+                }
+
+                if (
+                  main.subQuestion[0].answer === 'DP Shuttle(bow loading)' ||
+                  main.subQuestion[0].answer === 'Shuttle (bow loading)'
+                ) {
+                  this.getAllDatas[7].values[2].isShowSubHeader =
+                    false;
+                } else {
+                  this.getAllDatas[7].values[2].isShowSubHeader =
+                    true;
+                }
                 break;
 
               case 'Q4':
@@ -700,6 +730,11 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                   );
                 }
                 break;
+                case 'Q232':
+                if (isEmptyAnswer) {
+                  this.quesShowHideValidationIndex1(main.subQuestion, 1, true);
+                }
+                break;
               case 'Q212':
               case 'Q226':
                 if (isEmptyAnswer || isNoAnswer) {
@@ -748,19 +783,19 @@ export class PiqReportComponent implements OnInit, OnDestroy {
                 }
                 break;
               case 'Q523':
-              if (isEmptyAnswer || isNoAnswer) {
-                for (let i = 1; i <= 9; i++) {
-                  ques.question[i].isShowMainQues = true;
+                if (isEmptyAnswer || isNoAnswer) {
+                  for (let i = 1; i <= 9; i++) {
+                    ques.question[i].isShowMainQues = true;
+                  }
+                  this.getAllDatas[9].values[1].isShowSubHeader = true;
                 }
-                this.getAllDatas[9].values[1].isShowSubHeader=true
-              }
-              break;
+                break;
             }
           });
         });
       });
     });
-    console.log("asdads",this.getAllDatas)
+    console.log('asdads', this.getAllDatas);
     this.countDetails();
   }
 
@@ -1110,6 +1145,9 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       this.appServices.setVesselTypeData(this.vesselSelection);
     }
 
+
+
+
     this.appServices.setUnSaveAction(true);
     subQue.answer = subQue.answer !== value ? value : subQue.answer;
     value = subQue.answer === '' ? '' : subQue.answer;
@@ -1140,6 +1178,34 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         this.getAllDatas[4].values[1].question[1].isShowMainQues = false;
       } else {
         this.getAllDatas[4].values[1].question[1].isShowMainQues = true;
+      }
+      if (
+        value === 'LPG Type 1G' ||
+        value === 'LPG Type 2PG' ||
+        value === 'LPG Type 3G' ||
+        value === 'LNG SPB / Moss Type' ||
+        value === 'LNG Type C' ||
+        value === 'LNG Membrane'
+      ) {
+        this.getAllDatas[7].values[0].isShowSubHeader =
+          true;
+        this.getAllDatas[7].values[1].isShowSubHeader =
+          false;
+      } else {
+        this.getAllDatas[7].values[0].isShowSubHeader =
+          false;
+        this.getAllDatas[7].values[1].isShowSubHeader =
+          true;
+      }
+      if (
+        value === 'DP Shuttle(bow loading)' ||
+        value === 'Shuttle (bow loading)'
+      ) {
+        this.getAllDatas[7].values[2].isShowSubHeader =
+          false;
+      } else {
+        this.getAllDatas[7].values[2].isShowSubHeader =
+          true;
       }
     } else if (subQue.qid === 'Q4') {
       const flag = value === questionValue.OTHER ? false : true;
@@ -1589,6 +1655,13 @@ export class PiqReportComponent implements OnInit, OnDestroy {
       this.dynamicForms.patchValue({
         Q256: '',
       });
+    }else if (subQue.qid === 'Q232') {
+      const flag = value === questionValue.OTHER ? false : true;
+      this.quesShowHideValidationIndex1(mainQue.subQuestion, 1, flag);
+      this.answerRemoveValidationIndex1(mainQue.subQuestion, 1);
+      this.dynamicForms.patchValue({
+        Q511: '',
+      });
     } else if (subQue.qid === 'Q258') {
       if (value === questionValue.YES) {
         for (let i = 2; i <= 31; i += 2) {
@@ -1850,13 +1923,13 @@ export class PiqReportComponent implements OnInit, OnDestroy {
         //   ques.question[i].isShowMainQues = false;
         // }
         this.mainQuesShowHideValidationIndex2(ques.question, 1, 4, false);
-        this.getAllDatas[9].values[1].isShowSubHeader=false;
+        this.getAllDatas[9].values[1].isShowSubHeader = false;
       } else {
         // for (let i = 1; i <= 9; i++) {
         //   ques.question[i].isShowMainQues = true;
         // }
         this.mainQuesShowHideValidationIndex2(ques.question, 1, 4, true);
-        this.getAllDatas[9].values[1].isShowSubHeader=true;
+        this.getAllDatas[9].values[1].isShowSubHeader = true;
       }
     }
     if (
